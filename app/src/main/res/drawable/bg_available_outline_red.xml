@@ -10,6 +10,6 @@
         android:right="@dimen/ten">
     </padding>
     <stroke
-        android:width="0.3dp"
+        android:width="0.5dp"
         android:color="@color/clr_bgred" />
 </shape>

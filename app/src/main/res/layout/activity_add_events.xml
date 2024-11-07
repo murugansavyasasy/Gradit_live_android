@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -96,6 +95,7 @@
             app:layout_constraintBottom_toTopOf="@+id/layoutButton"
             app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -115,14 +115,14 @@
 
 
                 <EditText
-                    android:id="@+id/edImgTitle"
+                    android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/ten"
                     android:background="@android:color/transparent"
-
                     android:hint="Enter the title"
                     android:inputType="textAutoComplete"
+                    android:maxLength="80"
                     android:paddingStart="@dimen/two"
                     android:paddingTop="@dimen/eight"
                     android:paddingRight="@dimen/ten"
@@ -139,7 +139,7 @@
                     android:layout_height="1dp"
                     android:layout_margin="@dimen/ten"
                     android:background="@color/transparent"
-                    app:layout_constraintTop_toBottomOf="@+id/edImgTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
                 <TextView
                     android:id="@+id/lblImgPdfDescription"
@@ -155,7 +155,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/viewtitle" />
 
                 <EditText
-                    android:id="@+id/txt_imgpdfdescription"
+                    android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_margin="@dimen/ten"
@@ -163,6 +163,7 @@
                     android:gravity="top|left"
                     android:hint="Enter the Description"
                     android:inputType="textMultiLine"
+                    android:maxLength="500"
                     android:paddingStart="@dimen/two"
                     android:paddingLeft="@dimen/five"
                     android:paddingTop="@dimen/eight"
@@ -172,7 +173,49 @@
                     android:textColorHint="@color/transparent"
                     android:textSize="@dimen/twelve"
                     app:layout_constraintStart_toStartOf="@id/lblImgPdfDescription"
-                    app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription" />
+                    app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription">
+
+
+                </EditText>
+
+                <TextView
+                    android:id="@+id/lblWordCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginRight="@dimen/ten"
+                    android:text="0/500"
+                    android:textSize="@dimen/twelve"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/lbl_venue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:layout_marginTop="@dimen/five"
+                    android:text="Venue"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/edt_venue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/ten"
+                    android:layout_marginRight="@dimen/ten"
+                    android:hint="Enter Venue"
+                    android:textSize="@dimen/twelve"
+                    app:layout_constraintTop_toBottomOf="@+id/lbl_venue"
+
+                    ></EditText>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/LayoutDateTime"
@@ -182,7 +225,7 @@
                     android:layout_marginTop="@dimen/eight"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_imgpdfdescription"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_venue"
                     app:layout_constraintWidth_default="percent">
 
                     <RelativeLayout
@@ -220,8 +263,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/ten"
+                                android:hint="Select Date"
                                 android:padding="@dimen/ten"
-                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/thirteen"
                                 android:textStyle="bold" />
@@ -267,15 +310,16 @@
                             android:background="@drawable/bg_edittextbox_grey"
                             android:orientation="horizontal">
 
+
                             <TextView
                                 android:id="@+id/lblEventTime"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/ten"
+                                android:hint="Select Time"
                                 android:padding="@dimen/ten"
-                                android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/thirteen"
+                                android:textSize="@dimen/fifteen"
                                 android:textStyle="bold" />
 
                             <ImageView
@@ -293,39 +337,6 @@
                     </RelativeLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten"
-                    app:layout_constraintTop_toBottomOf="@+id/LayoutDateTime">
-
-                    <TextView
-                        android:id="@+id/lblAdRecipient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
-                        android:layout_marginTop="@dimen/ten"
-                        android:text="@string/txt_Recepients"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/thirteen"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/Recipients"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/ten"
-                        android:background="@drawable/bg_black_white_box"
-                        android:padding="@dimen/twelve"
-                        android:text="Add Recipients"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/transparent"
-                        android:textSize="@dimen/twelve"
-                        app:layout_constraintStart_toStartOf="@id/lblAdRecipient"
-                        app:layout_constraintTop_toBottomOf="@id/lblAdRecipient" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -335,22 +346,21 @@
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/twenty"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_width="@dimen/hundred"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/twenty"
-                android:layout_marginTop="@dimen/ten"
                 android:layout_marginBottom="@dimen/ten"
                 android:background="@drawable/bg_btn_grey"
                 android:gravity="center"
                 android:text="@string/txt_cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -358,16 +368,14 @@
 
             <Button
                 android:id="@+id/btnConfirm"
-                android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_width="@dimen/hundred"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/ten"
                 android:layout_marginEnd="@dimen/ten"
                 android:layout_marginBottom="@dimen/ten"
                 android:background="@drawable/bg_btn_green"
                 android:gravity="center"
-                android:padding="@dimen/two"
-                android:text="@string/txt_confirm"
+                android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textStyle="bold"

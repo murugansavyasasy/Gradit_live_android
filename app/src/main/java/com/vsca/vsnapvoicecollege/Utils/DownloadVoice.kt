@@ -6,8 +6,6 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Environment
 import android.util.Log
-import android.view.View
-import com.vsca.vsnapvoicecollege.Adapters.CommunicationAdapter
 import com.vsca.vsnapvoicecollege.Adapters.DashboardChild
 import com.vsca.vsnapvoicecollege.Repository.RestClient
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.CommunicationisExpandAdapter
@@ -15,14 +13,16 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.sql.DriverManager
-
 
 object DownloadVoice {
     var mProgressDialog: ProgressDialog? = null
     lateinit var client_app: RestClient
-
 
     fun downloadSampleFile(
         activity: Context?,
@@ -30,9 +30,8 @@ object DownloadVoice {
         folder: String?,
         fileName: String,
         holder: DashboardChild.ViewHolder,
-        type:Boolean
-
-        ) {
+        type: Boolean
+    ) {
         mProgressDialog = ProgressDialog(activity)
         mProgressDialog!!.isIndeterminate = true
         mProgressDialog!!.setMessage("Please wait...")
@@ -40,8 +39,8 @@ object DownloadVoice {
         mProgressDialog!!.show()
         Log.d("File URL", urldata)
 
-        val call: Call<ResponseBody?>? = RestClient.apiInterfaces.downloadFileWithDynamicUrlAsync(urldata)
-
+        val call: Call<ResponseBody?>? =
+            RestClient.apiInterfaces.downloadFileWithDynamicUrlAsync(urldata)
 
         call!!.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
@@ -71,13 +70,7 @@ object DownloadVoice {
                             if (status) {
                                 Log.d("DownloadSucces", status.toString())
                                 CommunicationisExpandAdapter = true
-                                if(type){
-                                    holder.rytSeekbarlayout.visibility= View.VISIBLE
-
-                                }else{
-                                    holder.recentSeekbarlayout.visibility = View.VISIBLE
-
-                                }
+                                CommonUtil.DownloadingFileDashboard = 1
 
                             } else {
                                 Log.d("DownloadFailure", status.toString())
@@ -86,7 +79,7 @@ object DownloadVoice {
                             }
                         }
 
-                        override fun doInBackground(vararg params: Void?): Boolean? {
+                        override fun doInBackground(vararg params: Void?): Boolean {
                             val writtenToDisk =
                                 writeResponseBodyToDisk(
                                     activity!!,
@@ -105,13 +98,6 @@ object DownloadVoice {
                 } else {
                     mProgressDialog!!.dismiss()
                     CommunicationisExpandAdapter = false
-
-//                    AlertDownload(
-//                        activity,
-//                        "Exists",
-//                        "This Voice is Already exists in your Folder: $folder/$fileName",
-//                        refreshlistener
-//                    )
 
                     Log.d("DOWNLOADING...", "server contact failed")
                 }
@@ -135,16 +121,14 @@ object DownloadVoice {
         fileName: String?
     ): Boolean {
         return try {
-            // val filepath = Environment.getExternalStorageDirectory().path
             val filepath: String
 
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                filepath = activity.getApplicationContext()
-                    .getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.getPath()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                filepath = activity.applicationContext
+                    .getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
             } else {
-                filepath = Environment.getExternalStorageDirectory().getPath()
+                filepath = Environment.getExternalStorageDirectory().path
             }
-
 
             val file = File(filepath, folder)
             val dir = File(file.absolutePath)
@@ -188,26 +172,5 @@ object DownloadVoice {
             false
         }
     }
-
-//    fun AlertDownload(
-//        activity: Context?,
-//        title: String?,
-//        msg: String?,
-//        refreshlistener: VoiceMessagesClickListener
-//    ) {
-//        val alertDialog = AlertDialog.Builder(activity)
-//        alertDialog.setCancelable(false)
-//        alertDialog.setTitle(title)
-//        alertDialog.setMessage(msg)
-//        alertDialog.setPositiveButton(
-//            R.string.teacher_btn_ok,
-//            DialogInterface.OnClickListener { dialog,
-//                                              which ->
-//                dialog.cancel()
-//
-//            })
-//        alertDialog.show()
-//    }
-
 
 }

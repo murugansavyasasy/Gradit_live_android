@@ -13,5 +13,5 @@ class SemesterAndSectionListResposne {
     var message: String? = null
 
     @SerializedName("data")
-    var data: List<SemesterSectionListDetails>? = null
+    var data: ArrayList<SemesterSectionListDetails>? = null
 }

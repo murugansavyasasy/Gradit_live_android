@@ -10,32 +10,24 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.vsca.vsnapvoicecollege.R;
 
 
 public class HelperVideoActivity extends AppCompatActivity {
+    private final int maxLines = 4;
+    private final String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     protected View view;
 
-    private final int maxLines = 4;
-    private final String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
-
     protected void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            permissionGranted();
+        permissionGranted();
 
-        } else {
-            ActivityCompat.requestPermissions(this, permissions, ConstantsVideo.PERMISSION_REQUEST_CODE);
-        }
     }
 
     private void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             showRequestPermissionRationale();
-
         } else {
             showAppPermissionSettings();
         }
@@ -43,16 +35,16 @@ public class HelperVideoActivity extends AppCompatActivity {
 
     private void showRequestPermissionRationale() {
         Snackbar snackbar = Snackbar.make(
-                view,
-                getString(R.string.permission_info),
-                Snackbar.LENGTH_INDEFINITE)
+                        view,
+                        getString(R.string.permission_info),
+                        Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(R.string.permission_ok), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ActivityCompat.requestPermissions(
                                 HelperVideoActivity.this,
                                 permissions,
-                               ConstantsVideo.PERMISSION_REQUEST_CODE);
+                                ConstantsVideo.PERMISSION_REQUEST_CODE);
                     }
                 });
 
@@ -63,9 +55,9 @@ public class HelperVideoActivity extends AppCompatActivity {
 
     private void showAppPermissionSettings() {
         Snackbar snackbar = Snackbar.make(
-                view,
-                getString(R.string.permission_force),
-                Snackbar.LENGTH_INDEFINITE)
+                        view,
+                        getString(R.string.permission_force),
+                        Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(R.string.permission_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -100,14 +92,17 @@ public class HelperVideoActivity extends AppCompatActivity {
         }
     }
 
-    protected void permissionGranted() {}
+    protected void permissionGranted() {
+
+    }
 
     private void permissionDenied() {
         hideViews();
         requestPermission();
     }
 
-    protected void hideViews() {}
+    protected void hideViews() {
+    }
 
     protected void setView(View view) {
         this.view = view;

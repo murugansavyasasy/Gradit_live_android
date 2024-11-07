@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/idTVCategory"
@@ -47,31 +47,32 @@
             android:id="@+id/lblNoRecords"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/thirteen"
-            android:layout_marginBottom="@dimen/five"
-            android:layout_marginTop="@dimen/fifteen"
-            android:text="No data found"
             android:layout_below="@+id/lblViewAll"
             android:layout_alignParentLeft="true"
+            android:layout_marginStart="@dimen/thirteen"
+            android:layout_marginTop="@dimen/twenty"
+            android:layout_marginBottom="@dimen/five"
+            android:text="No records found"
             android:textColor="@color/black"
             android:textSize="@dimen/twelve"
             android:textStyle="normal" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/idCVCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lblViewAll"
             android:layout_marginStart="@dimen/ten"
-            android:layout_marginEnd="@dimen/ten"
             android:layout_marginTop="@dimen/eight"
-            android:visibility="visible"
+            android:layout_marginEnd="@dimen/ten"
             android:elevation="0dp"
+            android:visibility="visible"
             app:cardElevation="0dp">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerDashboardTitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

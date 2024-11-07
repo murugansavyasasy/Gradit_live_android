@@ -1,34 +1,38 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.content.Intent
-import butterknife.BindView
-import com.vsca.vsnapvoicecollege.R
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.RecyclerView
-import com.vsca.vsnapvoicecollege.ViewModel.App
 import android.os.Bundle
-import butterknife.ButterKnife
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import butterknife.OnClick
-import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
-import com.vsca.vsnapvoicecollege.Adapters.CircularAdapter
-import com.vsca.vsnapvoicecollege.Model.GetCircularListDetails
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import butterknife.ButterKnife
+import butterknife.OnClick
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.ActivitySender.ImageOrPdf
-
-import java.util.ArrayList
+import com.vsca.vsnapvoicecollege.Adapters.CircularAdapter
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
+import com.vsca.vsnapvoicecollege.Model.GetCircularListDetails
+import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.SharedPreference
+import com.vsca.vsnapvoicecollege.ViewModel.App
+import java.util.Locale
 
 class Circular : BaseActivity() {
+
     var circularadapter: CircularAdapter? = null
     override var appViewModel: App? = null
 
@@ -65,12 +69,22 @@ class Circular : BaseActivity() {
     var lblNoRecordsFound: TextView? = null
 
 
+    @JvmField
+    @BindView(R.id.txt_NoticeLable)
+    var txt_NoticeLable: TextView? = null
+
+
     var CircularType = true
     var GetCircularData: List<GetCircularListDetails> = ArrayList()
     var departmentSize = 0
     var TotalSize = ""
     var DepartmentCount: String? = null
     var CollegeCount: String? = null
+    var AdBackgroundImage: String? = null
+    var AdSmallImage: String? = null
+    var AdWebURl: String? = null
+    var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
+    var PreviousAddId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
 
@@ -80,42 +94,97 @@ class Circular : BaseActivity() {
         ButterKnife.bind(this)
         ActionBarMethod(this)
         MenuBottomType()
-
-        OverAllMenuCountRequest(this, CommonUtil.MenuIDCircular!!)
         CommonUtil.OnMenuClicks("Circular")
-
         TabDepartmentColor()
 
-        Glide.with(this)
-            .load(CommonUtil.CommonAdvertisement)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imgAdvertisement!!)
-        Glide.with(this)
-            .load(CommonUtil.CommonAdImageSmall)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imgthumb!!)
+        SearchList!!.visibility = View.VISIBLE
+
+        SearchList!!.setOnClickListener {
+
+            Search!!.visibility = View.VISIBLE
+
+        }
+
+        if (CommonUtil.menu_readCircular.equals("1")) {
+            CircularRequest(CircularType)
+        }
+
+        idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+
+            }
+
+            override fun onQueryTextChange(msg: String): Boolean {
+
+                filter(msg)
+                return false
+            }
+        })
+
+        txt_Cancel!!.setOnClickListener {
+
+            Search!!.visibility = View.GONE
+
+        }
+
+
+        if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
+                "p2"
+            ) || CommonUtil.Priority.equals(
+                "p3"
+            )
+        ) {
+            txt_NoticeLable!!.visibility = View.VISIBLE
+        } else {
+            txt_NoticeLable!!.visibility = View.GONE
+        }
+
+
+
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
+            Observer<GetAdvertisementResponse?> { response ->
+                if (response != null) {
+                    val status = response.status
+                    val message = response.message
+                    if (status == 1) {
+                        GetAdForCollegeData = response.data!!
+                        for (j in GetAdForCollegeData.indices) {
+                            AdSmallImage = GetAdForCollegeData[j].add_image
+                            AdBackgroundImage = GetAdForCollegeData[0].background_image!!
+                            AdWebURl = GetAdForCollegeData[0].add_url.toString()
+                        }
+                        Glide.with(this)
+                            .load(AdBackgroundImage)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(imgAdvertisement!!)
+                        Glide.with(this)
+                            .load(AdSmallImage)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(imgthumb!!)
+                    }
+                }
+            })
 
         appViewModel!!.OverAllMenuResponseLiveData!!.observe(this) { response ->
             if (response != null) {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
+                    AdForCollegeApi()
+
                     if (response.data.isNullOrEmpty()) {
-                        CircularRequest(CircularType)
                         OverAllMenuCountData = emptyList()
                     } else {
                         OverAllMenuCountData = response.data!!
                         DepartmentCount = OverAllMenuCountData[0].departmentcircular
                         CollegeCount = OverAllMenuCountData[0].collegecircular
-                        CircularRequest(CircularType)
                         CountValueSet()
                     }
                 } else {
-                    CircularRequest(CircularType)
                     OverAllMenuCountData = emptyList()
                 }
-            } else {
-                CircularRequest(CircularType)
             }
         }
 
@@ -125,6 +194,11 @@ class Circular : BaseActivity() {
                 val message = response.message
                 UserMenuRequest(this)
                 if (status == 1) {
+                    if (CommonUtil.menu_readCircular.equals("1")) {
+                        OverAllMenuCountRequest(this, CommonUtil.MenuIDCircular!!)
+                    }
+                    UserMenuRequest(this)
+
                     if (CircularType) {
                         GetCircularData = response.data!!
                         val size = GetCircularData.size
@@ -169,7 +243,6 @@ class Circular : BaseActivity() {
                     }
                 }
             } else {
-                BaseActivity.Companion.UserMenuRequest(this)
                 NoDataFound()
             }
         }
@@ -177,14 +250,73 @@ class Circular : BaseActivity() {
         imgRefresh!!.setOnClickListener(View.OnClickListener {
             if (CircularType) {
                 CircularType = true
-                CircularRequest(CircularType)
+
+                if (CommonUtil.menu_readCircular.equals("1")) {
+                    CircularRequest(CircularType)
+                }
             } else {
                 CircularType = false
-                CircularRequest(CircularType)
+                if (CommonUtil.menu_readCircular.equals("1")) {
+                    CircularRequest(CircularType)
+                }
             }
         })
-
         lblMenuTitle!!.setText(R.string.txt_img_pdf)
+    }
+
+
+    private fun filter(text: String) {
+
+
+        val filteredlist: java.util.ArrayList<GetCircularListDetails> = java.util.ArrayList()
+
+        for (item in GetCircularData) {
+            if (item.title!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))
+            ) {
+
+                filteredlist.add(item)
+
+            }
+        }
+        if (filteredlist.isEmpty()) {
+
+            Toast.makeText(this, CommonUtil.No_Data_Found, Toast.LENGTH_SHORT).show()
+        } else {
+            circularadapter!!.filterList(filteredlist)
+
+        }
+
+    }
+
+
+    private fun AdForCollegeApi() {
+
+        var mobilenumber = SharedPreference.getSH_MobileNumber(this)
+        var devicetoken = SharedPreference.getSH_DeviceToken(this)
+        val jsonObject = JsonObject()
+        jsonObject.addProperty(ApiRequestNames.Req_ad_device_token, devicetoken)
+        jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_mobileno, mobilenumber)
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
+        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        Log.d("AdForCollege:", jsonObject.toString())
+
+        PreviousAddId = PreviousAddId + 1
+        Log.d("PreviousAddId", PreviousAddId.toString())
+    }
+
+    @OnClick(R.id.LayoutAdvertisement)
+    fun adclick() {
+        LoadWebViewContext(this, AdWebURl)
+    }
+
+    override fun onResume() {
+        var AddId: Int = 1
+        PreviousAddId = PreviousAddId + 1
+        super.onResume()
     }
 
     private fun NoDataFound() {
@@ -219,17 +351,6 @@ class Circular : BaseActivity() {
         }
     }
 
-//    override fun onResume() {
-//        CircularRequest(CircularType)
-//        super.onResume()
-//    }
-
-    @OnClick(R.id.LayoutAdvertisement)
-    fun adclick() {
-        LoadWebViewContext(this, CommonUtil.AdWebURl)
-
-    }
-
     override val layoutResourceId: Int
         protected get() = R.layout.activity_noticeboard
 
@@ -237,11 +358,7 @@ class Circular : BaseActivity() {
         val jsonObject = JsonObject()
         run {
             jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-            if (CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, 0)
-            } else {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.ReceiverAppId)
-            }
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
             if (type) {
                 jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.DepartmentCircular)
@@ -257,8 +374,9 @@ class Circular : BaseActivity() {
     fun departmentClick() {
         bottomsheetStateCollpased()
         CircularType = true
-        CircularRequest(CircularType)
-
+        if (CommonUtil.menu_readCircular.equals("1")) {
+            CircularRequest(CircularType)
+        }
         TabDepartmentColor()
     }
 
@@ -266,8 +384,9 @@ class Circular : BaseActivity() {
     fun collegeClick() {
         bottomsheetStateCollpased()
         CircularType = false
-        CircularRequest(CircularType)
-
+        if (CommonUtil.menu_readCircular.equals("1")) {
+            CircularRequest(CircularType)
+        }
         TabCollegeColor()
 
     }

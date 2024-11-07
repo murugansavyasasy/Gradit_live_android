@@ -14,5 +14,5 @@ class SemesterSectionListDetails {
     var semestername: String? = null
 
     @SerializedName("sectiondetails")
-    var data: List<SectionListDetails>? = null
+    var data: ArrayList<SectionListDetails>? = null
 }

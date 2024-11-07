@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LayoutNoticeboard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,7 +11,8 @@
         android:id="@+id/ScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingClass">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -77,8 +79,8 @@
 
                 <TextView
                     android:id="@+id/lbltotalsize"
-                    android:layout_width="@dimen/thirty"
-                    android:layout_height="@dimen/thirty"
+                    android:layout_width="@dimen/fourty"
+                    android:layout_height="@dimen/fourty"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="right"
                     android:background="@drawable/bg_circle_unread"
@@ -121,7 +123,7 @@
                         android:padding="@dimen/ten"
                         android:text=""
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/thirteen"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -130,8 +132,8 @@
 
                     <TextView
                         android:id="@+id/lblAttendanceCount"
-                        android:layout_width="@dimen/thirty"
-                        android:layout_height="@dimen/thirty"
+                        android:layout_width="@dimen/thirty_five"
+                        android:layout_height="@dimen/thirty_five"
                         android:layout_marginEnd="@dimen/ten"
                         android:background="@drawable/bg_circle_unread"
                         android:gravity="center"
@@ -163,7 +165,7 @@
                         android:padding="@dimen/ten"
                         android:text=""
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/thirteen"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -172,14 +174,14 @@
 
                     <TextView
                         android:id="@+id/lblLeaveHistoryCount"
-                        android:layout_width="@dimen/thirty"
-                        android:layout_height="@dimen/thirty"
+                        android:layout_width="@dimen/thirty_five"
+                        android:layout_height="@dimen/thirty_five"
                         android:layout_alignParentTop="true"
                         android:background="@drawable/bg_circle_unread"
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/clr_white"
-                        android:textSize="@dimen/twelve"
+                        android:textSize="@dimen/ten"
                         android:textStyle="bold"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -191,9 +193,41 @@
             <LinearLayout
                 android:id="@+id/lnrCalendar"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/layoutTab">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/layoutTab"
+                tools:ignore="MissingClass">
+
+                <!--                                <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar-->
+                <!--                                    android:id="@+id/calendarView"-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    app:buttonLeft_drawableTintColor="@android:color/black"-->
+                <!--                                    app:buttonRight_drawableTintColor="@android:color/black"-->
+                <!--                                    app:expandIconColor="@android:color/white"-->
+                <!--                                    app:primaryColor="@color/clr_emergency_red"-->
+                <!--                                    app:selectedItem_background="@drawable/circle_black_solid_background"-->
+                <!--                                    app:selectedItem_textColor="@color/clr_txt_red"-->
+                <!--                                    app:textColor="@android:color/white"-->
+                <!--                                    app:todayItem_background="@drawable/circle_white_stroke_background"-->
+                <!--                                    app:todayItem_textColor="@android:color/white"-->
+                <!--                                    tools:ignore="MissingConstraints"></com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>-->
+
+                <!--                                <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar-->
+                <!--                                    android:id="@+id/collapsibleCalendar"-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    app:buttonLeft_drawableTintColor="@android:color/black"-->
+                <!--                                    app:buttonRight_drawableTintColor="@android:color/black"-->
+                <!--                                    app:expandIconColor="@android:color/black"-->
+                <!--                                    app:primaryColor="@color/clr_gray"-->
+                <!--                                    app:selectedItem_background="@drawable/circle_white_solid_background"-->
+                <!--                                    app:selectedItem_textColor="@color/clr_emergency_red"-->
+                <!--                                    app:textColor="@android:color/black"-->
+                <!--                                    app:todayItem_background="@drawable/circle_white_stroke_background"-->
+                <!--                                    app:todayItem_textColor="@android:color/white"></com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>-->
+
 
                 <CalendarView
                     android:id="@+id/CalendarView"
@@ -204,7 +238,10 @@
                     android:theme="@style/CalenderViewCustom"
                     android:visibility="visible"
                     android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+
+
             </LinearLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/LayoutNoAttendanceData"
                 android:layout_width="match_parent"
@@ -249,7 +286,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerAttendance"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/lnrCalendar" />
@@ -257,7 +294,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerLeaveHistory"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/lnrCalendar" />
@@ -270,16 +307,15 @@
                 android:layout_marginTop="@dimen/sixty"
                 android:text="@string/txt_no_data_found"
                 android:textAllCaps="false"
-                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lnrCalendar">
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/lnrCalendar"></TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

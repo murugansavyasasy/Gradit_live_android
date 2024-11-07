@@ -1,9 +1,9 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.vsca.vsnapvoicecollege.R
-import android.os.Bundle
 
 class ParentFaculty : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

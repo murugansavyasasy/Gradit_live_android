@@ -20,28 +20,22 @@ public class CustomAlbumVideoSelectVideoAdapter extends CustomGenericVideoAdapte
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
 
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.grid_video_album_select, null);
-
             viewHolder = new ViewHolder();
 
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_view_album_image);
-            viewHolder.textView = (TextView) convertView.findViewById(R.id.text_view_album_name);
-            viewHolder.textView1 = (TextView) convertView.findViewById(R.id.gallery_count);
-
-
-
+            viewHolder.imageView = convertView.findViewById(R.id.image_view_album_image);
+            viewHolder.textView = convertView.findViewById(R.id.text_view_album_name);
+            viewHolder.textView1 = convertView.findViewById(R.id.gallery_count);
             convertView.setTag(viewHolder);
-
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         viewHolder.imageView.getLayoutParams().width = size;
         viewHolder.imageView.getLayoutParams().height = size;
-
         viewHolder.textView.setText(arrayList.get(position).name);
         viewHolder.textView1.setText(arrayList.get(position).count);
 

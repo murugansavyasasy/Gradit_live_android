@@ -26,8 +26,8 @@
                 android:scaleType="centerCrop"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </ImageView>
+                app:layout_constraintTop_toTopOf="parent"></ImageView>
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgthumb"
                 android:layout_width="@dimen/fifty_five"
@@ -196,8 +196,8 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </Button>
+                app:layout_constraintTop_toTopOf="parent"></Button>
+
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="@dimen/one_twenty"
@@ -213,8 +213,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </Button>
+                app:layout_constraintTop_toTopOf="parent"></Button>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

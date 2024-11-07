@@ -21,14 +21,14 @@ class CategoryCreditWiseAdapter constructor(
     var context: Context
     var Position: Int = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView: View = LayoutInflater.from(parent.getContext())
+        val itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_table_layout_credits, parent, false)
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data: GetCategoryWiseCreditDetails = categorycreditList.get(position)
-        Position = holder.getAbsoluteAdapterPosition()
+        Position = holder.absoluteAdapterPosition
 
         holder.layoutCategorytable!!.visibility = View.VISIBLE
 

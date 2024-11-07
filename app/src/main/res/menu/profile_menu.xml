@@ -6,37 +6,37 @@
     <item
         android:id="@+id/changeroles"
         android:icon="@drawable/ic_user_black"
-        android:title="Change Roles"/>
+        android:title="Change Roles" />
 
     <item
         android:id="@+id/profile"
-        android:title="Profile"/>
+        android:title="Profile" />
 
     <item
         android:id="@+id/faq"
-        android:title="FAQ"/>
+        android:title="FAQ" />
 
     <item
         android:id="@+id/help"
-        android:title="Help"/>
+        android:title="Help" />
     <item
         android:id="@+id/privacypolicy"
-        android:title="Privacy Policy"/>
+        android:title="Privacy Policy" />
 
     <item
         android:id="@+id/termsncondition"
-        android:title="Terms &amp; Conditions"/>
+        android:title="Terms &amp; Conditions" />
 
     <item
         android:id="@+id/changepassword"
-        android:title="Change Password"/>
+        android:title="Change Password" />
 
 
     <item
         android:id="@+id/cache_clear"
-        android:title="Clear App Cache"/>
+        android:title="Clear App Cache" />
 
     <item
         android:id="@+id/logout"
-        android:title="Logout"/>
+        android:title="Logout" />
 </menu>

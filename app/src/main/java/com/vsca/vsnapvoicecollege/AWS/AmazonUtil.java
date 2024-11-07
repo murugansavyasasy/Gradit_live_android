@@ -49,38 +49,4 @@ public class AmazonUtil {
         return sTransferUtility;
     }
 
-    public static String getBytesString(long bytes) {
-        String[] quantifiers = new String[]{
-                "KB", "MB", "GB", "TB"
-        };
-        double speedNum = bytes;
-        for (int i = 0; ; i++) {
-            if (i >= quantifiers.length) {
-                return "";
-            }
-            speedNum /= 1024;
-            if (speedNum < 512) {
-                return String.format("%.2f", speedNum) + " " + quantifiers[i];
-            }
-        }
-    }
-
-    public static File copyContentUriToFile(Context context, Uri uri) throws IOException {
-        InputStream is = context.getContentResolver().openInputStream(uri);
-        File copiedData = new File(context.getDir("SampleImagesDir", Context.MODE_PRIVATE), UUID
-                .randomUUID().toString());
-        copiedData.createNewFile();
-        FileOutputStream fos = new FileOutputStream(copiedData);
-        byte[] buf = new byte[2046];
-        int read = -1;
-        while ((read = is.read(buf)) != -1) {
-            fos.write(buf, 0, read);
-        }
-
-        fos.flush();
-        fos.close();
-
-        return copiedData;
-    }
-
 }

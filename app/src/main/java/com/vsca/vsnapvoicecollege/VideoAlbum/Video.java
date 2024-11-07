@@ -5,6 +5,17 @@ import android.os.Parcelable;
 
 
 public class Video implements Parcelable {
+    public static final Creator<Video> CREATOR = new Creator<Video>() {
+        @Override
+        public Video createFromParcel(Parcel source) {
+            return new Video(source);
+        }
+
+        @Override
+        public Video[] newArray(int size) {
+            return new Video[size];
+        }
+    };
     public long id;
     public String name;
     public String path;
@@ -17,6 +28,12 @@ public class Video implements Parcelable {
         this.isSelected = isSelected;
     }
 
+    private Video(Parcel in) {
+//        id = in.readLong();
+//        name = in.readString();
+        path = in.readString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -27,23 +44,5 @@ public class Video implements Parcelable {
 //        dest.writeLong(id);
 //        dest.writeString(name);
         dest.writeString(path);
-    }
-
-    public static final Creator<Video> CREATOR = new Creator<Video>() {
-        @Override
-        public Video createFromParcel(Parcel source) {
-            return new Video(source);
-        }
-
-        @Override
-        public Video[] newArray(int size) {
-            return new Video[size];
-        }
-    };
-
-    private Video(Parcel in) {
-//        id = in.readLong();
-//        name = in.readString();
-        path = in.readString();
     }
 }

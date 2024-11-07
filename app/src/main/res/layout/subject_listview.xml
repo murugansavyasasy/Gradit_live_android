@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/LayoutBottomMenus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include
+            android:id="@+id/CommonLayout"
+            layout="@layout/activity_subject_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/one_twenty" />
+
+        <include
+            layout="@layout/bottom_menu_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="120dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"></include>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

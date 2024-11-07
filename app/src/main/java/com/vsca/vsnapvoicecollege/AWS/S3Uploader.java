@@ -13,15 +13,16 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public
 class S3Uploader {
 
     private static final String TAG = "S3Uploader";
-
-    private Context context;
-    private TransferUtility transferUtility;
     public S3UploadInterface s3UploadInterface;
+    private final Context context;
+    private final TransferUtility transferUtility;
 
     public S3Uploader(Context context) {
         this.context = context;
@@ -29,38 +30,29 @@ class S3Uploader {
 
     }
 
-    public void initUpload(String filePath, String contenttype,String collegeid,String fileNameDateTime) {
-        File file = new File(filePath);
-        Log.d("fileinitupload", String.valueOf(file));
+    public void initUpload(String filePath, String contenttype, String collegeid, String fileNameDateTime) {
 
+        File file = new File(filePath);
         Log.d("contenttype", contenttype);
         ObjectMetadata myObjectMetadata = new ObjectMetadata();
         myObjectMetadata.setContentType(contenttype);
         String mediaUrl = file.getName();
-        Log.d("mediaUrl",mediaUrl);
-        File collegefile=new File(collegeid);
-        Log.d("datefile", String.valueOf(collegefile));
-        if (collegefile.exists()) {
-            Log.d("newcreation", String.valueOf(collegefile.exists()));
+        Log.d("mediaUrl", mediaUrl);
 
-            String  filedate = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
-            File Datefolder=new File(filedate);
-            Log.d("datefilenew", String.valueOf(Datefolder));
-            TransferObserver observer = transferUtility.upload(AWSKeys.BUCKET_NAME, collegefile+"/"+Datefolder+"/"+fileNameDateTime+"_"+mediaUrl, file, CannedAccessControlList.PublicRead);
-            observer.setTransferListener(new UploadListener());
-        }
-        else {
-            File newid=new File(collegeid);
-            Log.d("newid",collegeid);
-            if(!newid.exists()){
-                Log.d("test",collegeid);
-                String filedate = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
-                File Datefolder=new File(filedate);
-                Log.d("datefileexist", String.valueOf(Datefolder));
-                TransferObserver observer = transferUtility.upload(AWSKeys.BUCKET_NAME, newid+"/"+Datefolder+"/"+fileNameDateTime+"_"+mediaUrl, file, CannedAccessControlList.PublicRead);
-                observer.setTransferListener(new UploadListener());
-            }
-        }
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        TransferObserver observer = transferUtility.upload(AWSKeys.BUCKET_NAME, collegeid + "/" + currentDate + "/" + fileNameDateTime + "_" + mediaUrl, file, CannedAccessControlList.PublicRead);
+        observer.setTransferListener(new UploadListener());
+
+    }
+
+    public void setOns3UploadDone(S3UploadInterface s3UploadInterface) {
+        this.s3UploadInterface = s3UploadInterface;
+    }
+
+    public interface S3UploadInterface {
+        void onUploadSuccess(String response);
+
+        void onUploadError(String response);
     }
 
     private class UploadListener implements TransferListener {
@@ -87,16 +79,5 @@ class S3Uploader {
                 s3UploadInterface.onUploadSuccess("Success");
             }
         }
-    }
-
-    public void setOns3UploadDone(S3UploadInterface s3UploadInterface) {
-        this.s3UploadInterface = s3UploadInterface;
-    }
-
-    public interface S3UploadInterface {
-        void onUploadSuccess(String response);
-
-        void onUploadError(String response);
-
     }
 }

@@ -4,25 +4,28 @@
     android:id="@+id/OverallLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:background="@color/clr_white">
+    android:background="@color/clr_white"
+    android:clickable="true">
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/LayoutBottomMenus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/clr_white"
         app:layout_constraintBottom_toBottomOf="parent">
-            <LinearLayout
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/idRVCategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/idRVCategories"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/one_twenty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/hundred"
+                android:orientation="vertical" />
+        </LinearLayout>
 
         <include
             layout="@layout/bottom_menu_layout"

@@ -10,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.vsca.vsnapvoicecollege.Interfaces.ExamMarkViewClickListener
 import com.vsca.vsnapvoicecollege.Model.ExamMarkListDetails
 import com.vsca.vsnapvoicecollege.R
 
@@ -36,7 +35,7 @@ class ExamMarkAdapter(
 
 
         init {
-            ButterKnife.bind(this, (itemView)!!)
+            ButterKnife.bind(this, (itemView))
         }
     }
 
@@ -49,19 +48,16 @@ class ExamMarkAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = marklist[position]
 
-        holder.lblName!!.setText(data.subjectname)
-        holder.lblMarks!!.setText(data.marks)
+        holder.lblName!!.text = data.subjectname
+        holder.lblMarks!!.text = data.marks
         if (position % 2 == 0) {
             holder.LayoutNames!!.setBackgroundColor(Color.parseColor("#FFFFFF"))
         } else {
             holder.LayoutNames!!.setBackgroundColor(Color.parseColor("#DFDFD6"))
         }
-
-
     }
 
     override fun getItemCount(): Int {
         return marklist.size
-
     }
 }

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/examlist_constrine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty"
+        android:layout_marginTop="@dimen/twenty"
+        android:layout_marginRight="@dimen/twenty"
+        android:background="@drawable/bg_shadow_white"
+        android:padding="@dimen/ten"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txt_financeandaccounding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/five"
+            android:text="BE.cse"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fifteen"
+            app:layout_constraintLeft_toRightOf="@+id/img_book"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+
+        <ImageView
+            android:id="@+id/img_book"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:src="@drawable/book"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/txt_bcom_Accounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="B.Com Accounts"
+            app:layout_constraintLeft_toRightOf="@+id/img_book"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></TextView>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="@dimen/five"
+            android:layout_marginTop="@dimen/five"
+            android:background="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/txt_bcom_Accounts"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></View>
+
+        <TextView
+            android:id="@+id/txt_year1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="Year 1"
+            app:layout_constraintLeft_toRightOf="@+id/view2"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></TextView>
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="@dimen/eight"
+            android:layout_marginTop="@dimen/five"
+            android:background="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/txt_year1"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></View>
+
+        <TextView
+            android:id="@+id/txt_semester1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="Semester 1"
+            app:layout_constraintLeft_toRightOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></TextView>
+
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="200dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/five"
+            android:background="@color/whitegrey"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_semester1"></View>
+
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="I want the editText firstname and the email field editText to be filled in correctly. The validation button which is disabled initially should become enabled (especially for the email address in"
+            android:textColor="@color/clr_sky_blue"
+            app:layout_constraintLeft_toRightOf="@+id/img_book"
+            app:layout_constraintTop_toBottomOf="@+id/view4"></TextView>
+
+        <TextView
+            android:id="@+id/btn_attendanceedit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginRight="@dimen/twenty_five"
+            android:background="@drawable/btn_red_backround"
+            android:padding="@dimen/five"
+            android:text="Edit Attendance"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintRight_toLeftOf="@+id/lbl_takeattendance"
+            app:layout_constraintTop_toBottomOf="@+id/txt_date">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lbl_takeattendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginRight="@dimen/ten"
+            android:background="@drawable/btn_enable_greenn"
+            android:padding="@dimen/five"
+            android:text="Take Attendance"
+            android:textColor="@color/white"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_date">
+
+        </TextView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/LayoutEventPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/two"
+        android:layout_marginBottom="@dimen/ten"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            android:src="@drawable/pdf_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="@dimen/five" />
+
+        <ProgressBar
+            android:id="@+id/progress1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="@dimen/fourty_five"
+            >
+
+        </ProgressBar>
+
+
+        <TextView
+            android:id="@+id/imgCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty"
+            android:text="+23"
+            android:visibility="gone"
+            android:textSize="@dimen/thirty_five"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+
+        <ImageView
+            android:id="@+id/lmgPdf"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pdf_icon"
+            app:layout_constraintLeft_toRightOf="@+id/imgGrid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="@dimen/five"></ImageView>
+
+        <TextView
+            android:id="@+id/pdfCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty"
+            android:text="+23"
+            android:textSize="@dimen/thirty_five"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/imgGrid"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

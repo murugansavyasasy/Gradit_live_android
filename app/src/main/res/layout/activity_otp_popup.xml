@@ -1,46 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
+
     <TextView
+        android:id="@+id/lblclose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_close"
-        android:textColor="@color/clr_txt_red"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="@dimen/twenty"
-        android:layout_marginEnd="@dimen/twenty"
         android:layout_marginTop="@dimen/twenty"
-        android:id="@+id/lblclose"
-        >
-    </TextView>
+        android:layout_marginEnd="@dimen/twenty"
+        android:text="Close And Go Create new password"
+        android:textColor="@color/clr_txt_red"
+        android:textSize="@dimen/fifteen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/eighteen"
-        android:textColor="@color/black"
-        android:text=""
-        android:layout_margin="@dimen/twenty"
         android:id="@+id/lblcontent"
-        app:layout_constraintTop_toBottomOf="@id/lblclose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/twenty_five"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/fifteen"
+        android:layout_marginEnd="@dimen/ten"
+        android:layout_marginStart="@dimen/ten"
+        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/lblclose"
-        >
-    </TextView>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblclose"></TextView>
+
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btndial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_marginStart="@dimen/seventy"
+        android:layout_marginTop="@dimen/thirty"
         android:layout_marginEnd="@dimen/seventy"
-        android:textColor="@color/white"
         android:background="@color/clr_dark_blue"
-        app:layout_constraintTop_toBottomOf="@id/lblcontent"
+        android:text="04471168965"
+        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="@id/lblcontent"
         app:layout_constraintRight_toRightOf="@id/lblcontent"
-        android:layout_marginTop="@dimen/seventy"
-        android:id="@+id/btndial">
+        app:layout_constraintTop_toBottomOf="@id/lblcontent">
+
     </androidx.appcompat.widget.AppCompatButton>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDialSecond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/seventy"
+        android:layout_marginTop="@dimen/thirty"
+        android:layout_marginEnd="@dimen/seventy"
+        android:background="@color/clr_dark_blue"
+        android:text="04471168965"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@id/lblcontent"
+        app:layout_constraintRight_toRightOf="@id/lblcontent"
+        app:layout_constraintTop_toBottomOf="@id/btndial"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDialThird"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/seventy"
+        android:layout_marginTop="@dimen/thirty"
+        android:layout_marginEnd="@dimen/seventy"
+        android:background="@color/clr_dark_blue"
+        android:text="04471168965"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@id/lblcontent"
+        app:layout_constraintRight_toRightOf="@id/lblcontent"
+        app:layout_constraintTop_toBottomOf="@id/btnDialSecond">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

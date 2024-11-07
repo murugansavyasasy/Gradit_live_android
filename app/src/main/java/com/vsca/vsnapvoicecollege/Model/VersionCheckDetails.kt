@@ -1,10 +1,11 @@
 package com.vsca.vsnapvoicecollege.Model
 
-import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 
 class VersionCheckDetails {
+
     @SerializedName("isversionupdateavailable")
     @Expose
     var versionUpdate = 0

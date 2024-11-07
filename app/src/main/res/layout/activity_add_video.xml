@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -112,6 +111,7 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <EditText
                     android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
@@ -120,6 +120,7 @@
                     android:background="@android:color/transparent"
                     android:hint="Enter the title"
                     android:inputType="textAutoComplete"
+                    android:maxLength="80"
                     android:paddingStart="@dimen/two"
                     android:paddingTop="@dimen/eight"
                     android:paddingRight="@dimen/ten"
@@ -160,6 +161,7 @@
                     android:gravity="top|left"
                     android:hint="Enter the Description"
                     android:inputType="textMultiLine"
+                    android:maxLength="500"
                     android:paddingStart="@dimen/two"
                     android:paddingLeft="@dimen/five"
                     android:paddingTop="@dimen/eight"
@@ -176,8 +178,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/fifteen"
-                    android:padding="@dimen/ten"
                     android:background="@drawable/bg_dotted_lines"
+                    android:padding="@dimen/ten"
                     app:layout_constraintTop_toBottomOf="@+id/txtDescription">
 
                     <ImageView
@@ -199,8 +201,8 @@
                         android:id="@+id/lblUploadFiles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/five"
                         android:layout_marginStart="@dimen/ten"
+                        android:padding="@dimen/five"
                         android:text="@string/txt_upload_Video"
                         android:textAllCaps="false"
                         android:textColor="@color/transparent"
@@ -212,6 +214,19 @@
 
                     </TextView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/txt_Selected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="Video is Selected"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/LayoutUploadVideo">
+
+                </TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -219,13 +234,12 @@
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/twenty"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/twenty"
                 android:layout_marginTop="@dimen/ten"
@@ -233,6 +247,7 @@
                 android:background="@drawable/bg_btn_grey"
                 android:gravity="center"
                 android:text="@string/txt_cancel"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
@@ -243,7 +258,7 @@
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/ten"
                 android:layout_marginEnd="@dimen/ten"

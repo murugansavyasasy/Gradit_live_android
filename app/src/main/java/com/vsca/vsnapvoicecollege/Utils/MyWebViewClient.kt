@@ -3,10 +3,10 @@ package com.vsca.vsnapvoicecollege.Utils
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.webkit.WebViewClient
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.webkit.WebView
+import android.webkit.WebViewClient
 
 class MyWebViewClient(var context: Activity) : WebViewClient() {
     override fun onReceivedError(

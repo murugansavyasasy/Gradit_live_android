@@ -10,6 +10,22 @@ class GetStaffDetailsData : Serializable {
     @Expose
     var subjectid: String? = null
 
+    @SerializedName("coursename")
+    @Expose
+    var coursename: String? = null
+
+    @SerializedName("yearname")
+    @Expose
+    var yearname: String? = null
+
+    @SerializedName("semestername")
+    @Expose
+    var semestername: String? = null
+
+    @SerializedName("sectionname")
+    @Expose
+    var sectionname: String? = null
+
     @SerializedName("subjectname")
     @Expose
     var subjectname: String? = null

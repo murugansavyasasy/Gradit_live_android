@@ -7,45 +7,48 @@
     android:layout_marginTop="@dimen/five"
     android:layout_marginEnd="@dimen/ten">
 
+
     <ProgressBar
         android:id="@+id/voiceProgressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/twenty"
+        android:layout_marginTop="@dimen/fifteen"
+        android:indeterminateTint="@color/clr_txt_grey_light"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:indeterminateTint="@color/clr_txt_grey_light"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/lnrRecentNotifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/ten"
         android:background="@drawable/bg_shadow_white"
         android:orientation="vertical"
-        android:layout_margin="@dimen/ten"
-        android:padding="@dimen/three"
+        android:padding="@dimen/seven"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <TextView
             android:id="@+id/lblNew"
             android:layout_width="@dimen/twelve"
             android:layout_height="@dimen/twelve"
-            android:layout_gravity="end"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:elevation="@dimen/two"
+            android:layout_gravity="end"
             android:background="@drawable/bg_read_status"
+            android:elevation="@dimen/two"
             android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/rytRecentNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/three">
+            android:padding="@dimen/five">
+
             <TextView
                 android:id="@+id/lblRecentDate"
                 android:layout_width="wrap_content"
@@ -65,12 +68,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblRecentDate"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/twelve"
+                android:layout_marginRight="@dimen/ten"
                 android:gravity="right"
+                android:padding="@dimen/three"
                 android:text="dfs"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve"
                 android:visibility="visible" />
+
             <ImageView
                 android:id="@+id/imgArrowdown"
                 android:layout_width="wrap_content"
@@ -78,56 +83,58 @@
                 android:layout_below="@+id/lblRecentTime"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/eight"
-                android:layout_marginRight="@dimen/twelve"
                 android:layout_marginTop="@dimen/three"
+                android:layout_marginRight="@dimen/twelve"
                 android:src="@drawable/ic_arrow_down_blue" />
+
             <ImageView
                 android:id="@+id/imgRecentType"
                 android:layout_width="@dimen/thirty"
                 android:layout_height="@dimen/thirty"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/eight"
                 android:layout_marginTop="@dimen/three"
                 android:alpha="0.7"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
                 android:src="@drawable/dashboard_text" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginRight="@dimen/ten"
                 android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/ten"
                 android:layout_toLeftOf="@+id/lblRecentDate"
-                android:layout_toRightOf="@id/imgRecentType">
+                android:layout_toRightOf="@id/imgRecentType"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/lblRecenttitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten"
                     android:layout_marginLeft="@dimen/three"
                     android:layout_marginRight="@dimen/two"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:padding="@dimen/two"
                     android:ellipsize="end"
-
-                    android:layout_marginStart="@dimen/ten"
+                    android:padding="@dimen/two"
                     android:text="Emeregency Voice Message"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:id="@+id/lnrplayvoice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lblRecenttitle"
-                    android:layout_marginTop="@dimen/five"
                     android:layout_marginStart="@dimen/twelve"
+                    android:layout_marginTop="@dimen/five"
                     android:layout_marginBottom="@dimen/eight"
                     android:background="@drawable/bg_black_white_box"
                     android:padding="@dimen/two"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblRecenttitle">
 
                     <ImageView
                         android:id="@+id/imgright"
@@ -148,7 +155,6 @@
                         android:textStyle="normal" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </RelativeLayout>
 
@@ -238,6 +244,7 @@
                         android:textSize="10dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -251,6 +258,8 @@
                     android:layout_marginStart="@dimen/ten"
                     android:layout_marginTop="@dimen/ten"
                     android:text="Sent by : "
+                    android:padding="@dimen/five"
+                    android:visibility="gone"
                     android:textColor="@color/clr_black"
                     android:textSize="@dimen/twelve"
                     android:textStyle="normal" />
@@ -259,11 +268,12 @@
                     android:id="@+id/lblRecentPostedby"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/five"
                     android:layout_marginTop="@dimen/ten"
+                    android:padding="@dimen/five"
                     android:layout_toRightOf="@+id/lblSentBy1"
                     android:text=""
-                    android:textColor="@color/clr_emergency_red"
+                    android:background="@drawable/sendby_backrounddrawable"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/twelve"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -278,20 +288,21 @@
         android:layout_marginRight="@dimen/two"
         android:background="@drawable/bg_shadow_white"
         android:orientation="vertical"
-        android:padding="@dimen/three"
+        android:padding="@dimen/ten"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <TextView
             android:id="@+id/lblNewCircle"
             android:layout_width="@dimen/twelve"
             android:layout_height="@dimen/twelve"
-            android:layout_gravity="end"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:elevation="@dimen/two"
+            android:layout_gravity="end"
             android:background="@drawable/bg_read_status"
-            android:visibility="gone"/>
+            android:elevation="@dimen/two"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/rytVideoExpand"
@@ -351,24 +362,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/three"
-                android:layout_marginTop="@dimen/three"
                 android:layout_toLeftOf="@+id/lblVideoDate"
                 android:layout_toRightOf="@id/Viewlineone"
                 android:padding="@dimen/two"
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
+                android:textSize="@dimen/fifteen"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/lnrplayvideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/Viewlineone"
+                android:layout_below="@id/lblVideoTitle"
                 android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/ten"
+                android:layout_marginTop="@dimen/fifteen"
                 android:background="@drawable/bg_black_white_box"
-                android:padding="@dimen/two"
+                android:padding="@dimen/five"
                 android:visibility="visible">
 
                 <ImageView
@@ -415,11 +425,12 @@
                 android:textColor="@color/clr_black"
                 android:textSize="@dimen/thirteen"
                 android:textStyle="normal" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten"
                 android:layout_marginTop="@dimen/two"
+                android:layout_marginBottom="@dimen/ten"
                 android:padding="@dimen/two">
 
                 <TextView
@@ -460,8 +471,8 @@
                     android:id="@+id/imgright2"
                     android:layout_width="@dimen/eighteen"
                     android:layout_height="@dimen/eighteen"
-                    android:layout_marginStart="@dimen/three"
                     android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/three"
                     android:src="@drawable/ic_right_arrow" />
 
                 <TextView

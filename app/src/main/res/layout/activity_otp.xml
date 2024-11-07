@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.Otp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/fifty"
+        android:layout_weight="3"
+        android:background="@drawable/ic_rectangle"
+        android:orientation="vertical">
+
+
+        <soup.neumorphism.NeumorphTextView
+            android:id="@+id/txt_numberlable"
+            style="@style/Widget.Neumorph.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="We have sent a 4-digit verification code to +91*******132"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/linear_edt_otp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_numberlable"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/txt_otp_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_otp_bg"
+                android:gravity="center"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/txt_otp_2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_otp_bg"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1" />
+
+            <EditText
+                android:id="@+id/txt_otp_3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_otp_bg"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1" />
+
+            <EditText
+                android:id="@+id/txt_otp_4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_otp_bg"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_edt_otp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/lblDontRecieve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_dont_receive_code"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal"></TextView>
+
+            <TextView
+                android:id="@+id/lblResendCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/five"
+                android:text="@string/txt_resend_code_again"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen"
+                android:textStyle="bold"
+                android:visibility="visible"
+
+                ></TextView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_otp_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_edt_otp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="-1.5dp"
+            android:contentDescription="todo"
+            android:src="@drawable/mobile_otp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_otp_verification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Otp verification"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/lnr_dialhelpline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/baseline_phone_forwarded_24">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/txt_helpline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Help line...!"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

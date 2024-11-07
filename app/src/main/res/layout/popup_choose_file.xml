@@ -28,6 +28,7 @@
             android:layout_marginBottom="@dimen/sixty"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent">
+
             <TextView
                 android:id="@+id/lblDocumentFile"
                 android:layout_width="wrap_content"
@@ -73,6 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fifteen"
             app:layout_constraintBottom_toTopOf="@+id/LayoutCamera">
+
             <TextView
                 android:id="@+id/lblChooseImageGallery"
                 android:layout_width="wrap_content"
@@ -88,6 +90,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ImageView
             android:id="@+id/popClose"
             android:layout_width="@dimen/thirty"

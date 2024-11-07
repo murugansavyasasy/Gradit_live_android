@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgMember"
             android:layout_width="@dimen/fourty"
@@ -44,6 +45,7 @@
             android:background="@drawable/bg_chat_receiver"
             app:layout_constraintLeft_toRightOf="@+id/imgMember"
             app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:id="@+id/lblstudentname"
                 android:layout_width="300dp"
@@ -60,6 +62,7 @@
                 android:text="me"
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/lblReciver"
                 android:layout_width="300dp"
@@ -90,6 +93,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblReciver" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ImageView
             android:id="@+id/menu"
             android:layout_width="@dimen/sixteen"
@@ -111,6 +115,7 @@
         android:background="@drawable/bg_chat_sender"
         app:layout_constraintRight_toLeftOf="@+id/imgheadset"
         app:layout_constraintTop_toBottomOf="@id/conQuestion">
+
         <TextView
             android:id="@+id/lblstaffname"
             android:layout_width="300dp"
@@ -127,6 +132,7 @@
             android:text="me"
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/txtMyMessage"
             android:layout_width="300dp"
@@ -143,6 +149,7 @@
             android:text="Hi, Welcome to voicesnap for working"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/lblstaffname" />
+
         <TextView
             android:id="@+id/txtMyMessageTime"
             android:layout_width="wrap_content"
@@ -178,6 +185,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/conAns"
         android:orientation="vertical">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgParentMember"
             android:layout_width="@dimen/fourty"
@@ -206,6 +214,7 @@
             android:background="@drawable/bg_chat_receiver"
             app:layout_constraintLeft_toRightOf="@+id/imgParentMember"
             app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:id="@+id/lblstaffAnsname"
                 android:layout_width="300dp"
@@ -222,6 +231,7 @@
                 android:text="me"
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/lblParentReciver"
                 android:layout_width="300dp"

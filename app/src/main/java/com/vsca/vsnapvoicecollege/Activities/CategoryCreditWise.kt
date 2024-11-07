@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,15 +15,14 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.CategoryCreditWiseAdapter
-import com.vsca.vsnapvoicecollege.Adapters.CourseDetailsAdapter
 import com.vsca.vsnapvoicecollege.Model.*
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import java.util.ArrayList
 
 class CategoryCreditWise : BaseActivity() {
+
     @JvmField
     @BindView(R.id.idRVCategories)
     var ryclerCourse: RecyclerView? = null
@@ -83,11 +81,12 @@ class CategoryCreditWise : BaseActivity() {
         ButterKnife.bind(this)
 
         MenuBottomType()
-
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        categeroyType()
+        if (CommonUtil.menu_readCategoryCreditPoints.equals("1")) {
+            categeroyType()
+        }
 
         CommonUtil.OnMenuClicks("CategoryCredit")
 
@@ -97,47 +96,48 @@ class CategoryCreditWise : BaseActivity() {
         LayoutTable!!.visibility = View.GONE
 
         appViewModel!!.CategoryWiseCreditLiveData?.observe(this) { response ->
-                if (response != null) {
-                    val status = response.status
-                    val message = response.message
-                    GetCategoryCreditData.clear()
+            if (response != null) {
+                val status = response.status
+                val message = response.message
+                GetCategoryCreditData.clear()
 
-                    if (status == 1) {
-                        BaseActivity.Companion.UserMenuRequest(this)
-                        GetCategoryCreditData = response.data!!
+                if (status == 1) {
+                    UserMenuRequest(this)
+                    GetCategoryCreditData = response.data!!
 
-                       var listSize = GetCategoryCreditData.size
-                        if (listSize > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            ryclerCourse!!.visibility = View.VISIBLE
-                            LayoutTable!!.visibility = View.VISIBLE
+                    var listSize = GetCategoryCreditData.size
+                    if (listSize > 0) {
+                        lblNoRecordsFound!!.visibility = View.GONE
+                        ryclerCourse!!.visibility = View.VISIBLE
+                        LayoutTable!!.visibility = View.VISIBLE
 
-                            categorycreditAdapter =
-                                CategoryCreditWiseAdapter(GetCategoryCreditData,this)
-                            val mLayoutManager: RecyclerView.LayoutManager =
-                                LinearLayoutManager(this)
-                            ryclerCourse!!.layoutManager = mLayoutManager
-                            ryclerCourse!!.itemAnimator = DefaultItemAnimator()
-                            ryclerCourse!!.adapter = categorycreditAdapter
-                            ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
-                            categorycreditAdapter!!.notifyDataSetChanged()
-                        } else {
-                            lblNoRecordsFound!!.visibility = View.VISIBLE
-                            ryclerCourse!!.visibility = View.GONE
-                            LayoutTable!!.visibility = View.GONE
-
-                        }
+                        categorycreditAdapter =
+                            CategoryCreditWiseAdapter(GetCategoryCreditData, this)
+                        val mLayoutManager: RecyclerView.LayoutManager =
+                            LinearLayoutManager(this)
+                        ryclerCourse!!.layoutManager = mLayoutManager
+                        ryclerCourse!!.itemAnimator = DefaultItemAnimator()
+                        ryclerCourse!!.adapter = categorycreditAdapter
+                        ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        categorycreditAdapter!!.notifyDataSetChanged()
                     } else {
                         lblNoRecordsFound!!.visibility = View.VISIBLE
                         ryclerCourse!!.visibility = View.GONE
                         LayoutTable!!.visibility = View.GONE
+
                     }
-                }else{
+                } else {
                     lblNoRecordsFound!!.visibility = View.VISIBLE
                     ryclerCourse!!.visibility = View.GONE
                     LayoutTable!!.visibility = View.GONE
                 }
+            } else {
+                lblNoRecordsFound!!.visibility = View.VISIBLE
+                ryclerCourse!!.visibility = View.GONE
+                LayoutTable!!.visibility = View.GONE
             }
+        }
+
         appViewModel!!.CategoryTypeLiveData?.observe(this) { response ->
             if (response != null) {
                 val status = response.status
@@ -148,6 +148,7 @@ class CategoryCreditWise : BaseActivity() {
                     SetSpinnerValue()
 
                 } else {
+
                     lblNoRecordsFound!!.visibility = View.VISIBLE
                     ryclerCourse!!.visibility = View.GONE
                     LayoutTable!!.visibility = View.GONE
@@ -193,14 +194,12 @@ class CategoryCreditWise : BaseActivity() {
             rb.layoutDirection = View.LAYOUT_DIRECTION_LTR
             rb.id = i
             selectedradioValue = rb.text.toString()
-            //            if (rb.getId() == 0) {
-//                rb.setChecked(true);
-//            }
+
             val params = android.widget.RadioGroup.LayoutParams(
                 android.widget.RadioGroup.LayoutParams.MATCH_PARENT,
                 android.widget.RadioGroup.LayoutParams.WRAP_CONTENT
             )
-            params.setMargins(15, 15, 10, 15);
+            params.setMargins(15, 15, 10, 15)
 
             RadioGroup!!.addView(rb, params)
 
@@ -221,7 +220,7 @@ class CategoryCreditWise : BaseActivity() {
         }
     }
 
-    private fun CategoryWiseRequest(categoryID:String) {
+    private fun CategoryWiseRequest(categoryID: String) {
         val jsonObject = JsonObject()
 
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
@@ -239,7 +238,7 @@ class CategoryCreditWise : BaseActivity() {
     }
 
     override fun onBackPressed() {
-       CommonUtil.OnBackSetBottomMenuClickTrue()
+        CommonUtil.OnBackSetBottomMenuClickTrue()
         super.onBackPressed()
     }
 
@@ -253,13 +252,6 @@ class CategoryCreditWise : BaseActivity() {
         appViewModel!!.getCategoryType(jsonObject, this)
         Log.d("CategroyType:", jsonObject.toString())
     }
-
-//    override fun onResume() {
-//        GetCategoryCreditData.clear()
-//        categeroyType()
-//        super.onResume()
-//    }
-
 }
 
 

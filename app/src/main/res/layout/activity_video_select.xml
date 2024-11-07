@@ -9,8 +9,7 @@
         android:id="@+id/text_view_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        />
+        android:layout_centerInParent="true" />
 
     <GridView
         android:id="@+id/grid_view_image_select"
@@ -20,5 +19,5 @@
         android:paddingBottom="1dp"
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
-        android:stretchMode="columnWidth"/>
+        android:stretchMode="columnWidth" />
 </RelativeLayout>

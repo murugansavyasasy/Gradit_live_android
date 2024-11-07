@@ -17,15 +17,14 @@
             android:paddingBottom="1dp"
             android:paddingLeft="4dp"
             android:paddingRight="6dp"
-            android:src="@drawable/gradit_logo"/>
+            android:src="@drawable/gradit_logo" />
 
         <ImageView
             android:id="@+id/small_icon"
             android:layout_width="18.2dp"
             android:layout_height="18.2dp"
             android:layout_alignBottom="@id/big_icon"
-            android:layout_alignRight="@id/big_icon"
-          />
+            android:layout_alignRight="@id/big_icon" />
 
     </RelativeLayout>
 
@@ -44,14 +43,13 @@
             android:id="@+id/content_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""/>
+            android:text="" />
 
         <TextView
             android:id="@+id/content_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            />
+            android:text="" />
     </LinearLayout>
 
     <TextView
@@ -62,7 +60,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:paddingRight="7dp"
-        android:paddingTop="8dp"
-       />
+        android:paddingTop="8dp" />
 
 </RelativeLayout>

@@ -1,22 +1,11 @@
 package com.vsca.vsnapvoicecollege.Utils
 
-import android.content.SharedPreferences
-import com.vsca.vsnapvoicecollege.Utils.SharedPreference
+
 import android.app.Activity
 import android.content.Context
-import android.webkit.WebViewClient
-import com.vsca.vsnapvoicecollege.Utils.MyWebViewClient
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import android.view.WindowManager
-import android.graphics.drawable.ColorDrawable
-import com.vsca.vsnapvoicecollege.R
-import com.vsca.vsnapvoicecollege.Model.LoginDetails
-import android.view.GestureDetector.SimpleOnGestureListener
-import android.view.MotionEvent
-import com.vsca.vsnapvoicecollege.Utils.CustomGestureDetector
 
 object SharedPreference {
+
     const val SH_PREF = "Mypref"
     const val SH_TermsConditionsPref = "TermsConditions"
     const val SH_Agreed = "Agreed"
@@ -44,22 +33,6 @@ object SharedPreference {
     const val SH_Videosizealert = "videosizealert"
     const val SH_EmergencyDuration = "emergencyduration"
     const val SH_NonEmergencyDuration = "nonemergencyduration"
-
-
-    const val SH_UnreadCount = "Unread"
-    const val SH_ReadCount = "read"
-    const val SH_ExamUpcomingCount = "examupcoming"
-    const val SH_ExamPastCount = "exampast"
-    const val SH_UpcomingAssignmentCount = "UpomingAssignment"
-    const val SH_PastAssignmentCount = "pastassignment"
-    const val SH_DepartmentCircularCount = "departmentcircular"
-    const val SH_CollegeCircularCount = "collegecircular"
-    const val SH_NoticeboardDepartmentCount = "noticeboarddepartment"
-    const val SH_NoticeboardCollegeCount = "noticeboardcollege"
-    const val SH_UpcomingEventCount = "upcomingEvent"
-    const val SH_PastEventCount = "pastevent"
-    const val SH_VideoCount = "video"
-
 
     fun putagreed(activity: Context, agreed: Boolean) {
         val sharepref = activity.getSharedPreferences(SH_TermsConditionsPref, Context.MODE_PRIVATE)
@@ -138,8 +111,44 @@ object SharedPreference {
         return
     }
 
+    @JvmStatic
+    fun putBiometricEnabled(activity: Activity, autoupdate: Boolean?) {
+        val prefs = activity.getSharedPreferences("BIO_METRIC", Context.MODE_PRIVATE)
+        val ed = prefs.edit()
+        ed.putBoolean("enable_biometric", autoupdate!!)
+        ed.commit()
+    }
+
+    @JvmStatic
+    fun getBiometricEnabled(activity: Activity): Boolean {
+        return activity.getSharedPreferences("BIO_METRIC", Context.MODE_PRIVATE)
+            .getBoolean("enable_biometric", false)
+    }
+
+    @JvmStatic
+    fun putBiometricSkip(activity: Activity, autoupdate: Boolean?) {
+        val prefs = activity.getSharedPreferences("BIO_METRIC_SKIP", Context.MODE_PRIVATE)
+        val ed = prefs.edit()
+        ed.putBoolean("enable_biometric_skip", autoupdate!!)
+        ed.commit()
+    }
+
+    @JvmStatic
+    fun getBiometricSkip(activity: Activity): Boolean {
+        return activity.getSharedPreferences("BIO_METRIC_SKIP", Context.MODE_PRIVATE)
+            .getBoolean("enable_biometric_skip", false)
+    }
+
     fun getSH_Faq(activity: Activity): String? {
         return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE).getString(SH_Faq, "")
+    }
+    fun getVideo_Json(activity: Activity): String? {
+        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE).getString(SH_VideoJson, "")
+    }
+
+    fun getSH_MobileNumber(activity: Activity): String? {
+        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
+            .getString(SH_MobileNumber, "")
     }
 
     fun getSH_Help(activity: Activity): String? {
@@ -177,115 +186,10 @@ object SharedPreference {
             .getString(SH_Countryid, "")
     }
 
-    fun getSH_MobileNumber(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_MobileNumber, "")
-    }
 
     fun getSH_Password(activity: Activity): String? {
         return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
             .getString(SH_Password, "")
-    }
-
-
-    fun putMenuCountDetails(
-        activity: Activity,
-        Unread: String?,
-        read: String?,
-        examupcoming: String?,
-        exampast: String?,
-        UpomingAssignment: String?,
-        pastassignment: String?,
-        departmentcircular: String?,
-        collegecircular: String?,
-        noticeboarddepartment: String?,
-        noticeboardcollege: String?,
-        upcomingEvent: String?,
-        pastevent: String?,
-        video: String?
-    ) {
-        val sharepref = activity.getSharedPreferences(SH_PREF, 0)
-        val ed = sharepref.edit()
-        ed.putString(SH_UnreadCount, Unread)
-        ed.putString(SH_ReadCount, read)
-        ed.putString(SH_ExamUpcomingCount, examupcoming)
-        ed.putString(SH_ExamPastCount, exampast)
-        ed.putString(SH_UpcomingAssignmentCount, UpomingAssignment)
-        ed.putString(SH_PastAssignmentCount, pastassignment)
-        ed.putString(SH_DepartmentCircularCount, departmentcircular)
-        ed.putString(SH_CollegeCircularCount, collegecircular)
-        ed.putString(SH_NoticeboardDepartmentCount, noticeboarddepartment)
-        ed.putString(SH_NoticeboardCollegeCount, noticeboardcollege)
-        ed.putString(SH_UpcomingEventCount, upcomingEvent)
-        ed.putString(SH_PastEventCount, pastevent)
-        ed.putString(SH_VideoCount, video)
-        ed.apply()
-        ed.commit()
-        return
-    }
-
-
-    fun getSH_UnreadCount(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_UnreadCount, "")
-    }
-
-    fun getSH_ReadCount(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_ReadCount, "")
-    }
-
-    fun getSH_ExamUpcoming(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_ExamUpcomingCount, "")
-    }
-
-    fun getSH_ExamPast(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_ExamPastCount, "")
-    }
-
-    fun getSH_AssignmentUpcoming(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_UpcomingAssignmentCount, "")
-    }
-
-    fun getSH_AssignmentPast(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_PastAssignmentCount, "")
-    }
-    fun getSh_CircularDepartment(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_DepartmentCircularCount, "")
-    }
-
-    fun getSH_CircularCollege(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_CollegeCircularCount, "")
-    }
-    fun getSH_EventUpcoming(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_UpcomingEventCount, "")
-    }
-
-    fun getSH_EventPast(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_PastEventCount, "")
-    }
-
-    fun getSH_Video(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_VideoCount, "")
-    }
-
-    fun getSH_DepartmentNoticeboard(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_NoticeboardDepartmentCount, "")
-    }
-
-    fun getSH_CollegeNoticeboard(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            .getString(SH_NoticeboardDepartmentCount, "")
     }
 
     fun clearShLogin(activity: Activity) {
@@ -297,14 +201,13 @@ object SharedPreference {
         return
     }
 
-
-        fun putDeviceToken(activity: Context, fcmdevicetoken: String) {
-            val sharepref = activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
-            val ed = sharepref.edit()
-            ed.putString(SH_DeviceToken, fcmdevicetoken)
-            ed.apply()
-            ed.commit()
-            return
+    fun putDeviceToken(activity: Context, fcmdevicetoken: String) {
+        val sharepref = activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
+        val ed = sharepref.edit()
+        ed.putString(SH_DeviceToken, fcmdevicetoken)
+        ed.apply()
+        ed.commit()
+        return
     }
 
     fun getSH_DeviceToken(activity: Activity): String? {

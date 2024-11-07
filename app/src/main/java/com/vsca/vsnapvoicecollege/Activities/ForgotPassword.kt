@@ -1,56 +1,77 @@
 package com.vsca.vsnapvoicecollege.Activities
 
-import androidx.appcompat.app.AppCompatActivity
-import butterknife.BindView
-import com.vsca.vsnapvoicecollege.R
 import android.os.Bundle
-import butterknife.ButterKnife
-import android.content.Intent
-import android.app.AlertDialog
-import android.net.Uri
+import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.ViewModel.App
 
 class ForgotPassword : AppCompatActivity() {
+
+
     @JvmField
-    @BindView(R.id.btnOtp)
-    var Btnotp: Button? = null
+    @BindView(R.id.edMobilenumber)
+    var edMobilenumber: EditText? = null
+
+    @JvmField
+    @BindView(R.id.txt_next)
+    var txt_next: TextView? = null
+
     var lblclose: TextView? = null
+    var lblcontent: TextView? = null
     var Btndial: Button? = null
+    var btnDialSecond: Button? = null
+    var btnDialThird: Button? = null
+
+    var mobilenumber: String? = null
+    var appViewModel: App? = null
+    var status: Int = 0
+    var message: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
         ButterKnife.bind(this)
-        Btnotp!!.setOnClickListener {
-            val builder = AlertDialog.Builder(this@ForgotPassword)
-            val layoutInflater = LayoutInflater.from(this@ForgotPassword)
-            val customView = layoutInflater.inflate(R.layout.activity_otp_popup, null)
-            lblclose = customView.findViewById(R.id.lblclose)
-            Btndial = customView.findViewById(R.id.btndial)
-            builder.setView(customView)
-            val alert = builder.create()
-            alert.window!!.requestFeature(Window.FEATURE_NO_TITLE)
-            alert.setCanceledOnTouchOutside(true)
-            alert.show()
-            val lp = WindowManager.LayoutParams()
-            val window = alert.window
-            window!!.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
-            window.setGravity(Gravity.CENTER)
-            window.setBackgroundDrawableResource(R.drawable.bg_rectangle_white)
-            lp.copyFrom(window.attributes)
-            lp.width = WindowManager.LayoutParams.WRAP_CONTENT
-            lp.height = 800
-            window.attributes = lp
-//            lblclose!!setOnClickListener(View.OnClickListener { alert.dismiss() })
-//            Btndial!!.setOnClickListener(View.OnClickListener {
-//                val intent = Intent(Intent.ACTION_DIAL)
-//                intent.data = Uri.parse("tel:04471168965")
-//                startActivity(intent)
-//                val intents = Intent(this@ForgotPassword, EnterOtp::class.java)
-//                this@ForgotPassword.startActivity(intents)
-//                setResult(RESULT_OK, intents)
-//                startActivityForResult(intent, 1)
-//            })
+        appViewModel = ViewModelProvider(this).get(App::class.java)
+        appViewModel!!.init()
+
+        appViewModel!!.GetOtpNew!!.observe(this) { response ->
+            if (response != null) {
+                status = response.Status
+                message = response.Message
+                if (status == 1) {
+                    CommonUtil.ivrnumbers = response.data.get(0).ivrnumbers
+                    Log.d("ivrNumbers", CommonUtil.ivrnumbers.toString())
+                    lblcontent!!.text = message
+
+                } else {
+                    CommonUtil.ApiAlert(this, message)
+                }
+
+            } else {
+                CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
+            }
         }
+
+
+        txt_next!!.setOnClickListener {
+            GetOtp()
+        }
+    }
+    fun GetOtp() {
+
+        val jsonObject = JsonObject()
+        jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobilenumber)
+        appViewModel!!.GetOtp(jsonObject, this)
+        Log.d("AdForCollege:", jsonObject.toString())
+
     }
 }

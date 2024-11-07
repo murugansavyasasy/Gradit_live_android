@@ -14,7 +14,7 @@
         android:layout_marginRight="@dimen/two"
         android:background="@drawable/bg_shadow_white"
         android:orientation="vertical"
-        android:padding="@dimen/eight"
+        android:padding="@dimen/fifteen"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -42,8 +42,7 @@
                 android:layout_height="@dimen/fifteen"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/five"
-                android:background="@color/clr_dark_blue">
-            </View>
+                android:background="@color/clr_dark_blue"></View>
 
             <LinearLayout
                 android:id="@+id/lnrAboveAttachment"
@@ -103,6 +102,7 @@
                 android:layout_below="@+id/lblNoticetime"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/eight"
+                android:layout_marginTop="@dimen/five"
                 android:layout_marginRight="@dimen/twelve"
                 android:src="@drawable/ic_arrow_down_blue" />
 
@@ -111,12 +111,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/ten"
+                android:layout_marginRight="@dimen/fifteen"
                 android:gravity="right"
                 android:padding="@dimen/three"
                 android:text="date"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve" />
+
+            <TextView
+                android:id="@+id/lbl_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/three"
+                android:gravity="center"
+                android:padding="@dimen/two"
+                android:text="AN"
+                android:textColor="@color/black"
+                android:textSize="@dimen/ten">
+
+            </TextView>
 
             <TextView
                 android:id="@+id/lblNoticetime"
@@ -139,15 +153,17 @@
             android:layout_marginRight="@dimen/three"
             android:visibility="gone">
 
+
             <LinearLayout
                 android:id="@+id/lnrRecentPostedby"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:paddingStart="@dimen/five"
                 android:layout_marginRight="@dimen/ten"
                 android:layout_marginBottom="@dimen/five"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingStart="@dimen/five">
+
 
                 <TextView
                     android:id="@+id/lblNoticeboardDescription"
@@ -173,7 +189,7 @@
 
                     <TextView
                         android:id="@+id/venue"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/txt_exam_venue"
                         android:textColor="@color/black"
@@ -226,7 +242,7 @@
 
                     <TextView
                         android:id="@+id/Syllabus"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/txt_exam_syllabus"
                         android:textColor="@color/black"
@@ -266,6 +282,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <RelativeLayout
+                    android:id="@+id/relativeseendby"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -365,35 +382,105 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
+
                 <LinearLayout
-                    android:id="@+id/lnrEventsView"
+                    android:id="@+id/liner_deleteandview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginTop="@dimen/five"
-                    android:background="@drawable/bg_submit_outer_green"
-                    android:padding="@dimen/five"
+                    android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <ImageView
-                        android:id="@+id/imgright"
-                        android:layout_width="@dimen/eighteen"
-                        android:layout_height="@dimen/eighteen"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/three"
-                        android:src="@drawable/ic_eye" />
-
-                    <TextView
-                        android:id="@+id/lblRecentdescription"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/img_Edit"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/three"
-                        android:text="@string/txt_view"
-                        android:textColor="@color/clr_green_submit"
-                        android:textSize="@dimen/twelve"
-                        android:textStyle="normal" />
+                        android:layout_marginRight="@dimen/five"
+                        android:orientation="horizontal"
+                        android:background="@drawable/blueoutline"
+                        android:padding="3dp">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginRight="@dimen/five"
+                            android:text="Edit"
+                            android:textSize="@dimen/fifteen">
+
+                        </TextView>
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:visibility="gone"
+                            android:src="@drawable/edit_pencile">
+
+                        </ImageView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/liner_Delete"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five"
+                        android:background="@drawable/redcoloue_outline"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/five">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginRight="@dimen/two"
+                            android:text="Delete"
+                            android:textSize="@dimen/twelve">
+
+                        </TextView>
+
+                        <ImageView
+                            android:id="@+id/img_delete"
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:visibility="gone"
+                            android:src="@drawable/delete">
+
+                        </ImageView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lnrEventsView"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:background="@drawable/bg_submit_outer_green"
+
+                        >
+
+                        <ImageView
+                            android:id="@+id/imgright"
+                            android:layout_width="@dimen/eighteen"
+                            android:layout_height="@dimen/eighteen"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/three"
+                            android:src="@drawable/ic_eye" />
+
+                        <TextView
+                            android:id="@+id/lblRecentdescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/three"
+                            android:text="@string/txt_view"
+                            android:textColor="@color/clr_green_submit"
+                            android:textSize="@dimen/twelve"
+                            android:textStyle="normal" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -438,7 +525,7 @@
                     android:padding="@dimen/two"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
+                    android:textSize="@dimen/fifteen"
                     android:textStyle="bold" />
 
                 <View
@@ -537,6 +624,36 @@
                     android:textColor="@color/clr_course_green"
                     android:textSize="@dimen/twelve"
                     android:textStyle="normal" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblSentBy"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/redcoloue_outline"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/five">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/two"
+                        android:text="Delete"
+                        android:textSize="@dimen/twelve">
+
+                    </TextView>
+
+                    <ImageView
+                        android:id="@+id/delete"
+                        android:layout_width="15dp"
+                        android:layout_height="17dp"
+                        android:layout_below="@+id/lblSentBy"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/delete">
+
+                    </ImageView>
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/imgArrowdown1"

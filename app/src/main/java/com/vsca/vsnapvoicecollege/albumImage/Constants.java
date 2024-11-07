@@ -25,21 +25,20 @@ public class Constants {
     public static final int DEFAULT_LIMIT = 4;
     public static int limit;
 
-    public static String getCount(Context c, String album_name)
-    {
+    public static String getCount(Context c, String album_name) {
         Uri uriExternal = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         Uri uriInternal = MediaStore.Images.Media.INTERNAL_CONTENT_URI;
 
-        String[] projection = { MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED };
+        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED};
 
 
 //        Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
 //        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
 
         Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, MediaStore.Images.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
-        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, MediaStore.Images.Media.BUCKET_ID + "=?",new String[]{String.valueOf(album_name)}, null);
-        Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal,cursorInternal});
-        Log.d("albumname",album_name);
-        return cursor.getCount()+" Photos";
+        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, MediaStore.Images.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
+        Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal, cursorInternal});
+        Log.d("albumname", album_name);
+        return cursor.getCount() + " Photos";
     }
 }

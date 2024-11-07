@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LayoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixty"
+        android:layout_height="wrap_content"
         android:background="@color/black"
+        android:paddingVertical="5dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,19 +35,50 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/lblSubjectName"
+            android:id="@+id/lblyear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
+            android:layout_marginLeft="@dimen/five"
             android:layout_marginTop="@dimen/ten"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:layout_marginRight="@dimen/twenty"
             android:text="@string/txt_title"
             android:textColor="@color/btn_clr_blue"
             android:textSize="@dimen/twelve"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@+id/imgStaffPic"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblsemester"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/txt_title"
+            android:textColor="@color/btn_clr_blue"
+            android:textSize="@dimen/twelve"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/lblyear"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblsection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            android:ellipsize="end"
+            android:text="@string/txt_title"
+            android:textColor="@color/btn_clr_blue"
+            android:textSize="@dimen/twelve"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/lblsemester"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <View
             android:id="@+id/ViewOne"
@@ -57,22 +88,37 @@
             android:layout_marginTop="@dimen/two"
             android:background="@color/clr_txt_grey_light"
             app:layout_constraintLeft_toRightOf="@+id/imgStaffPic"
-            app:layout_constraintTop_toBottomOf="@+id/lblSubjectName">
-        </View>
+            app:layout_constraintTop_toBottomOf="@+id/lblyear"></View>
+
         <TextView
-            android:id="@+id/lblStaffName"
-            android:layout_width="wrap_content"
+            android:id="@+id/lblcourse"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
+            android:layout_marginStart="85dp"
             android:layout_marginTop="@dimen/five"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:text="@string/txt_title"
             android:textColor="@color/white"
             android:textSize="@dimen/twelve"
             android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@+id/imgStaffPic"
             app:layout_constraintTop_toBottomOf="@+id/ViewOne" />
+
+
+        <TextView
+            android:id="@+id/lblsubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85dp"
+            android:layout_marginTop="@dimen/five"
+            android:layout_marginEnd="@dimen/five"
+            android:text="@string/txt_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/twelve"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/imgStaffPic"
+            app:layout_constraintTop_toBottomOf="@+id/lblcourse" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -80,69 +126,191 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/fifteen"
+        android:layout_marginTop="@dimen/twenty"
         android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Chat is not Stated yet!"
+        android:text="You don't have any questions asked in this window."
         android:textColor="@color/black"
         android:textSize="@dimen/fourteen"
         android:textStyle="bold"
         android:visibility="gone"
-        android:layout_marginTop="@dimen/twenty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LayoutHeader" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerChat"
+
+    <TextView
+        android:id="@+id/txt_swipe_Lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_Lable_Swipe_down"
+        android:textColor="@color/clr_parent"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LayoutHeader"
+
+        >
+
+    </TextView>
+
+
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/swipyrefreshlayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/fifteen"
-        android:scrollbars="none"
+        android:layout_margin="@dimen/five"
+        app:layout_constraintBottom_toTopOf="@+id/txt_onandoff"
+        app:layout_constraintTop_toBottomOf="@+id/txt_swipe_Lable">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerChat"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@+id/txt_onandoff"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutHeader" />
+
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/txt_onandoff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/whitegrey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/txt_replayConstrine">
+
+        <Switch
+            android:id="@+id/switchonAndoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:checked="false"
+            android:text="PUBLIC/PRIVATE"
+            android:textOff="OFF"
+            android:textOn="ON"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lbl_switchLable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="If you enable the Button, the text will send to all the students"
+            android:textSize="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchonAndoff">
+
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/txt_replayConstrine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_rect"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/layoutSend"
-        app:layout_constraintTop_toBottomOf="@+id/LayoutHeader"
-        tools:layout_editor_absoluteX="15dp" />
+        app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:layout_width="3dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/five"
+                android:background="@color/clr_bgred"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </View>
+
+
+            <TextView
+                android:id="@+id/lblname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/eighteen"
+                android:layout_marginTop="@dimen/five"
+                android:layout_marginRight="@dimen/fifty"
+                android:text="4ht4twh4aq4tw6haet4"
+                android:textColor="@color/clr_sky_blue"
+                android:textSize="@dimen/twelve"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
+
+            <TextView
+                android:id="@+id/txt_replay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginRight="@dimen/fifty"
+                android:padding="@dimen/ten"
+                android:maxLines="10"
+                android:text="replay"
+                app:layout_constraintTop_toBottomOf="@+id/lblname">
+
+            </TextView>
+
+            <ImageView
+                android:id="@+id/img_delete"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="@dimen/fifteen"
+                android:src="@drawable/blackstudentimage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.core.widget.NestedScrollView>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey_screen_clr"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
             android:id="@+id/lblContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ten"
-            android:layout_marginBottom="@dimen/twenty"
-            android:background="@drawable/bg_rectangle_white"
-            android:hint="Enter a message"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginRight="@dimen/thirty_five"
+            android:layout_marginBottom="@dimen/ten"
+            android:hint="Enter a message..."
             android:inputType="textMultiLine"
             android:maxLines="15"
-            android:minLines="1"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="horizontal"
             android:padding="@dimen/thirteen"
             android:text=""
             android:textColor="@color/clr_black"
             android:textSize="@dimen/fourteen"
             android:textStyle="normal"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </EditText>
+            app:layout_constraintTop_toTopOf="parent"></EditText>
 
         <ImageView
             android:id="@+id/imgSend"
             android:layout_width="@dimen/twenty"
             android:layout_height="@dimen/twenty"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginEnd="@dimen/ten"
-            android:layout_marginBottom="@dimen/ten"
+            android:layout_marginEnd="@dimen/five"
             android:src="@drawable/ic_send"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
             />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

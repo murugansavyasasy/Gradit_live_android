@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -16,18 +15,6 @@
         app:srcCompat="@drawable/img_parent_bottom_card"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/lblSwipedown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/five"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="@dimen/fifteen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <ImageView
             android:id="@+id/img_swipe"
@@ -40,6 +27,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/lblSwipedown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="swipe"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:layout_marginStart="@dimen/eight"
+            android:layout_marginTop="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclermenusbottom"

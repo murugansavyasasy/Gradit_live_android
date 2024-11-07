@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Gradit</string>
 
     <string name="loginPage"><u>Login Page</u>
@@ -6,10 +6,10 @@
     <string name="forgotpassword"><u>Forgot Password?</u>
     </string>
     <string name="txt_devicetype">Android</string>
-    <string name="txt_version_code">Version 2.3</string>
+    <string name="txt_version_code">Version 4.0</string>
     <string name="txt_network">Not Connected to Network</string>
-    <string name="txt_error_msg">Error Message...</string>
-    <string name="txt_Ok">Ok</string>
+    <string name="txt_error_msg">Error Message…</string>
+    <string name="txt_Ok">OK</string>
     <string name="txt_enter_otp">Enter otp</string>
 
     <string name="txt_success">Success</string>
@@ -34,16 +34,20 @@
     <string name="txt_get_otp">GET OTP</string>
     <string name="txt_enter_password">Enter password</string>
     <string name="txt_close">close</string>
-    <string name="txt_choose_your_login_type">Login As</string>
+    <!--    <string name="txt_choose_your_login_type">Login As</string>-->
+    <string name="txt_choose_your_login_type">Choose your login type :</string>
     <string name="txt_logout">Log out</string>
+
+
+    <!--    color-->
 
     <string name="txt_color_prinicpal">#902476</string>
     <string name="txt_clr_staff">#006a88</string>
-
     <string name="clr_student_selectedTab">#254b7a</string>
     <string name="clr_student_unselectedTab">#748dab</string>
-
     <string name="clr_prinicpal_selected">#a15492</string>
+    <string name="clr_unselected">#F1EFEF</string>
+    <string name="clr_selected">#B4B4B3</string>
     <string name="clr_principal_unselected">#d69acb</string>
     <string name="clr_teachingstaff_selected">#006a88</string>
     <string name="clr_teachingstaff_unselected">#FF71B2C5</string>
@@ -52,6 +56,13 @@
     <string name="txt_color_receiver">#0f2239</string>
     <string name="txt_color_parent">#2F4C93</string>
     <string name="txt_color_white">#FFFFFFFF</string>
+    <string name="txt_color_lightorang">#B87677</string>
+    <string name="lbl_clr_red">#FF7575</string>
+    <string name="lbl_clr_white">#FFFFFF</string>
+
+
+    <string name="txt_submissionon">Submission On</string>
+    <string name="txt_assignmenttype">Assignment Type</string>
     <string name="txt_student">Student</string>
     <string name="txt_parent">Parent</string>
     <string name="txt_emergency_notification">Emergency Notification</string>
@@ -64,6 +75,7 @@
     <string name="txt_read">Read</string>
     <string name="txt_past">Past</string>
     <string name="txt_communication">Communication</string>
+    <string name="txt_message">Message</string>
     <string name="txt_Video">Video</string>
     <string name="txt_recent_notification">Recent Notification</string>
     <string name="txt_advertisement">Advertisement</string>
@@ -86,9 +98,19 @@
     <string name="txt_voice_message">Voice Message</string>
     <string name="txt_view_all">View all</string>
     <string name="txt_subject_name">Subject Name</string>
+    <string name="txt_Department_name">Department Name</string>
+    <string name="txt_Course_name">Course</string>
+
     <string name="txt_subject_type">Type</string>
+    <string name="txt_Year_type">Year / Semester</string>
+
     <string name="txt_subject_category">Category</string>
+    <string name="txt_Semester_category">Semester</string>
+
     <string name="txt_subject_credits">Credits</string>
+    <string name="txt_Section_credits">Section</string>
+
+
     <string name="txt_subject_code">Code</string>
     <string name="txt_subject_requirement">Requirement</string>
     <string name="txt_semester">Semester</string>
@@ -100,13 +122,24 @@
     <string name="txt_college">College</string>
     <string name="txt_no_data_found">No Data Found</string>
     <string name="txt_submit">Submit</string>
-    <string name="txt_prev_submission">Prev Submission</string>
+    <string name="txt_submition">Submission</string>
+    <string name="txt_prev_submission">View your submission</string>
     <string name="txt_play_voice">Play</string>
     <string name="txt_view">View</string>
-    <string name="txt_event_details">Event Details</string>
-    <string name="txt_voie_communication">Communication</string>
+    <string name="txt_event_details">Event Details</string>\
+    <string name="txt_finan_accound">Finance and Accounding</string>
+    <string name="txt_Testing_exam_creation">Testing exam creation</string>
+    <string name="txt_voie_communication">New Communication</string>
     <string name="txt_new_img_pdf">New Image/Pdf</string>
     <string name="txt_new_text">New Text</string>
+    <string name="txt_assignmentfile">Assignment File</string>
+    <string name="txt_Create_examination">Create Examination</string>
+    <string name="txt_exam_list">Exam List</string>
+    <string name="txt_Confirm">Confirm</string>
+    <string name="txt_testing_exam_creating">Testing exam creation</string>
+    <string name="txt_Exam_name">Exam Name</string>
+    <string name="txt_Enter_the_exam_name">Enter the exam name</string>
+    <string name="txt_get_section_subject">Get Section / Subject</string>
     <string name="txt_new_video">New Video</string>
     <string name="txt_new_assignment">New Assignment</string>
     <string name="txt_new_noticeboard">New Noticeboard</string>
@@ -116,11 +149,18 @@
     <string name="txt_upload_Video">Upload Video</string>
     <string name="txt_Name">Name</string>
     <string name="txt_Marks">Marks</string>
-    <string name="txt_play_video">Play</string>
+    <string name="txt_play_video">Play Video</string>
     <string name="txt_no_images_uploaded_for_this_event">No Images Uploaded for this Event</string>
     <string name="txt_title">Title</string>
+    <string name="txt_enter_the_title">Enter the title</string>
     <string name="txt_description">Description</string>
+    <string name="txt_please_note_this_voice">Please note that this message will be delivered to App</string>
+    <string name="txt_enter_the_voice_title">Enter the voice title</string>
     <string name="txt_selected_category">-- Selected Category --</string>
+    <string name="txt_selected_semester">-- Selected Semester --</string>
+
+    <string name="txt_selected_section">-- Selected Section --</string>
+
     <string name="txt_category_credit_points">Category Credit Points</string>
     <string name="txt_semester_credit_points">Semester Credit Points</string>
     <string name="txt_category">Category</string>
@@ -128,12 +168,19 @@
     <string name="txt_to_be_obtained">To be Obtained</string>
     <string name="txt_total_credits">Total Credits</string>
     <string name="txt_select_semester">-- Select Semester --</string>
+    <string name="txt_select_semesternow">Select Semester</string>
     <string name="txt_attachment">Attachment</string>
     <string name="txt_attanace_no_data">Today\'s attendance is not yet available</string>
     <string name="txt_select_country">-- Select Country --</string>
     <string name="txt_no_of_days">No.of days : </string>
+    <string name="txt_seleted_division">Select Division</string>
+    <string name="txt_seletedtype">Selected Type</string>
+    <string name="txt_selete_department">Selete Department</string>
+    <string name="txt_selete_course">Selete Course</string>
     <string name="txt_from">From</string>
     <string name="txt_to">To</string>
+    <string name="date">dd/mm/yyyy</string>
+    <string name="txt_select_year">Select Year</string>
     <string name="txt_edit">Edit</string>
     <string name="txt_Delete">Delete</string>
     <string name="txt_no_attendance_available">Still Attendance not taken for this date</string>
@@ -154,9 +201,10 @@
     <string name="txt_select_date">Select Date</string>
     <string name="txt_event_date">Event Date</string>
 
-
     <string name="selected">selected</string>
     <string name="album_view">Select photo album</string>
+    <string name="txt_Lable_Swipe_down">Swipe down to load previous messages</string>
+    <string name="Attendance_Lable">Marked Students will be considered as PRESENT</string>
     <string name="image_view">Tap to select images</string>
     <string name="add">ADD</string>
 
@@ -183,13 +231,31 @@
     <string name="txt_add_Recepients"> Add Recipients</string>
     <string name="txt_select_type">Select Type</string>
     <string name="txt_event_time">Event Time</string>
+    <string name="txt_swipe_up">swipe up</string>
+    <string name="txt_swipe_down">swipe down</string>
+
+
+    <string name="LABLE">Below messages are sent from the management. Messages that you send to students will not appear here.</string>
+
+    <!--    Recipients Strings-->
+
+
+    <string name="txt_New_Assignment">New Assignment</string>
+    <string name="txt_Forward_Assignment">Forward Assignment</string>
+    <string name="txt_Remove_All">Remove All</string>
+    <string name="txt_Select_All">Select All</string>
     <string name="txt_division">Division</string>
     <string name="txt_department">Department</string>
     <string name="txt_your_classes">Your Classes</string>
     <string name="txt_Course">Course</string>
     <string name="txt_Groups">Groups</string>
-    <string name="lbl_clr_red">#FF7575</string>
-    <string name="lbl_clr_white">#FFFFFF</string>
     <string name="txt_target">Target</string>
+
+
+    <string name="location_add_instructions_attendance">Accurate location settings are crucial for ensuring that attendance is only marked when users are within the designated area of the institute. Please double-check the location before submitting.\n\nOnce saved, this location will be used to verify the proximity of users when they mark their attendance. Ensure that the location is correct as it will directly impact attendance functionality.</string>
+    <string name="outside_of_the_location">Note : You are outside the institutes boundary. you will not be able to mark your attendance.\n\nPlease try again when you are within the designated area.</string>
+    <string name="mark_attendance_instruction">Tap on the <b>\"Punch\"</b> button to record your attendance for the day. A confirmation message will appear once your attendance is successfully marked.</string>
+
+
 
 </resources>

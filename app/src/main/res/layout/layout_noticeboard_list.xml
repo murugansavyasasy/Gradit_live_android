@@ -53,8 +53,7 @@
                             android:scaleType="fitXY"
                             android:visibility="visible"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-                        </ImageView>
+                            app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/imgthumb"
@@ -129,7 +128,7 @@
                             android:text="@string/txt_notice_board"
                             android:textAllCaps="false"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/thirteen"
+                            android:textSize="@dimen/fifteen"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -138,8 +137,8 @@
 
                         <TextView
                             android:id="@+id/lbltotalsize"
-                            android:layout_width="@dimen/thirty"
-                            android:layout_height="@dimen/thirty"
+                            android:layout_width="@dimen/fourty"
+                            android:layout_height="@dimen/fourty"
                             android:layout_alignParentTop="true"
                             android:layout_gravity="right"
                             android:background="@drawable/bg_circle_unread"
@@ -152,6 +151,21 @@
                             app:layout_constraintLeft_toRightOf="@+id/lblMenuTitle"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <TextView
+                        android:id="@+id/txt_NoticeLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:text="@string/LABLE"
+                        android:textColor="@color/black"
+                        android:visibility="gone">
+
+                    </TextView>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutTab"
@@ -167,7 +181,7 @@
                             android:id="@+id/LayoutDepartment"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:background="@color/clr_selectedtab"
+                            android:background="@color/clr_selected"
                             android:padding="@dimen/three"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -182,7 +196,7 @@
                                 android:padding="@dimen/ten"
                                 android:text="@string/txt_department"
                                 android:textAlignment="center"
-                                android:textColor="@color/clr_white"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/thirteen"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -191,8 +205,8 @@
 
                             <TextView
                                 android:id="@+id/lblDepartmentSize"
-                                android:layout_width="@dimen/thirty"
-                                android:layout_height="@dimen/thirty"
+                                android:layout_width="@dimen/thirty_five"
+                                android:layout_height="@dimen/thirty_five"
                                 android:layout_marginEnd="@dimen/ten"
                                 android:background="@drawable/bg_circle_unread"
                                 android:gravity="center"
@@ -210,7 +224,7 @@
                             android:id="@+id/LayoutCollege"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:background="@color/clr_unselectedtab"
+                            android:background="@color/clr_unselected"
                             android:padding="@dimen/three"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toRightOf="@+id/LayoutDepartment"
@@ -224,7 +238,7 @@
                                 android:padding="@dimen/ten"
                                 android:text="@string/txt_college"
                                 android:textAlignment="center"
-                                android:textColor="@color/clr_white"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/thirteen"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -233,8 +247,8 @@
 
                             <TextView
                                 android:id="@+id/lblCollegeSize"
-                                android:layout_width="@dimen/thirty"
-                                android:layout_height="@dimen/thirty"
+                                android:layout_width="@dimen/thirty_five"
+                                android:layout_height="@dimen/thirty_five"
                                 android:layout_alignParentTop="true"
                                 android:background="@drawable/bg_circle_unread"
                                 android:gravity="center"
@@ -275,29 +289,29 @@
                 android:id="@+id/imgRecordVoice"
                 android:layout_width="@dimen/fifty"
                 android:layout_height="@dimen/fifty"
-                android:layout_above="@+id/imgAddPlus"
-                android:layout_gravity="right"
-                android:layout_marginEnd="@dimen/twenty"
-                android:layout_marginBottom="15dp"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/mic_voice"
+                android:layout_marginEnd="@dimen/twenty"
+                android:layout_marginBottom="13dp"
+                android:background="@drawable/bg_circle_green"
+                android:padding="@dimen/fifteen"
+                android:src="@drawable/voice_message_microphone_button"
                 android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/imgAddPlus"
                 android:layout_width="@dimen/fifty"
                 android:layout_height="@dimen/fifty"
-                android:layout_gravity="end|bottom"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/plus_circle_bg"
-                android:backgroundTint="@color/icon_color"
-                android:padding="12dp"
-                android:src="@drawable/ic_add_black"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:visibility="gone" />
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="19dp"
+                android:background="@drawable/bg_circle_green"
+                android:padding="15dp"
+                android:layout_marginBottom="@dimen/fifty"
+                android:src="@drawable/ic_add"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </RelativeLayout>
     </FrameLayout>

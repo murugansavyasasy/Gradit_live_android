@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:elevation="@dimen/twenty_five"
+            android:src="@drawable/hallticketclip"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+        <soup.neumorphism.NeumorphCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_five"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="@dimen/twenty_five"
+            android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/clgname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/thirty_five"
+                    android:gravity="center"
+                    android:text="Karpagam University"
+                    android:textSize="@dimen/twenty"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
+
+                <TextView
+                    android:id="@+id/clgcity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Kodaikanal"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clgname"></TextView>
+
+                <ImageView
+                    android:id="@+id/img_studentpic"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="@dimen/twenty"
+                    android:src="@drawable/user_icon"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clgcity"></ImageView>
+
+                <LinearLayout
+                    android:id="@+id/lnr_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/twenty_five"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/img_studentpic">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Student name"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_studentname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="Sathish"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_registerno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_name">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Register Number"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_rollnumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="18BECSE047"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/lnr_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_registerno">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Date of birth"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="01/04/2001"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/lnr_Coursename"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_depart">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Course name"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_coursename"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="BE CSE"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_Coursecode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:visibility="gone"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_Coursename">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.9"
+                        android:text="Course code"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_coursecode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="CSE 123"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/lnr_depart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_dob">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Department"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_department"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="Computer science and engineering"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_semester"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_Coursename">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Semester"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_semester"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="3 semester"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_sub_sem_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:visibility="gone"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_semester">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.9"
+                        android:text="Subject semester number"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_subsemnamesemnumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="13356579"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_sub_sem_num">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Subject"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_subject"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="Computer science"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_subjectcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_subject">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Subject code"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_subjectcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="CS 3"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_subjectcode">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Exam date"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="12/12/2006"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_date">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Exam time"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="10 AM"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_arrear_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_time">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Arrear regular"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_arrear_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="Regular"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_overall_semester_attendance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_arrear_regular">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Overall semester attendance"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_overallsemattendance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="80%"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_course_wise_attendance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_overall_semester_attendance">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Course wise attendance"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_coursewiseattendance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="90%"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_condonation_paid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/ten"
+                    android:paddingBottom="@dimen/ten"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/lnr_course_wise_attendance">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.8"
+                        android:text="Condonation paid"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=" : "
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txt_condonation_paid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/five"
+                        android:layout_weight="1.2"
+                        android:text="YES"
+                        android:textSize="@dimen/fifteen">
+
+                    </TextView>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </soup.neumorphism.NeumorphCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

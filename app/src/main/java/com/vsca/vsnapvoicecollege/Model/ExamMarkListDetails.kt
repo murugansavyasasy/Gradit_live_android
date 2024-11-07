@@ -7,7 +7,7 @@ class ExamMarkListDetails {
 
     @SerializedName("subjectname")
     @Expose
-    var subjectname : String? = null
+    var subjectname: String? = null
 
     @SerializedName("marks")
     @Expose

@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 
 /**
+ *
  */
 public abstract class CustomGenericAdapter<T> extends BaseAdapter {
     protected ArrayList<T> arrayList;

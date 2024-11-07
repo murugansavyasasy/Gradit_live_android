@@ -9,6 +9,10 @@ class LeaveHistoryData {
     @Expose
     var createdon: String? = null
 
+    @SerializedName("studentname")
+    @Expose
+    var studentname: String? = null
+
     @SerializedName("applicationid")
     @Expose
     var applicationid: String? = null
@@ -40,7 +44,6 @@ class LeaveHistoryData {
     @SerializedName("leavestatusid")
     @Expose
     var leavestatusid: String? = null
-
 
 
 }

@@ -27,9 +27,9 @@ public class CustomAlbumSelectAdapter extends CustomGenericAdapter<Album> {
 
             viewHolder = new ViewHolder();
 
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_view_album_image);
-            viewHolder.textView = (TextView) convertView.findViewById(R.id.text_view_album_name);
-            viewHolder.textView1 = (TextView) convertView.findViewById(R.id.gallery_count);
+            viewHolder.imageView = convertView.findViewById(R.id.image_view_album_image);
+            viewHolder.textView = convertView.findViewById(R.id.text_view_album_name);
+            viewHolder.textView1 = convertView.findViewById(R.id.gallery_count);
 
             convertView.setTag(viewHolder);
 
@@ -47,8 +47,6 @@ public class CustomAlbumSelectAdapter extends CustomGenericAdapter<Album> {
                 .load(arrayList.get(position).cover)
                 .placeholder(R.drawable.image_placeholder)
                 .centerCrop().into(viewHolder.imageView);
-
-
 
         return convertView;
     }

@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutAdvertisement"
@@ -88,226 +90,236 @@
             </TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/Nestedchildlayout"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="@dimen/five"
-            app:layout_constraintBottom_toTopOf="@+id/layoutButton"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty"
+                app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/LayoutDateType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/three"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_default="percent">
-
-                    <RelativeLayout
-                        android:id="@+id/lnrDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent=".5">
-
-                        <TextView
-                            android:id="@+id/SelectDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:text="@string/txt_select_date"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/fourteen"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/lblAssignmnetDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/SelectDate"
-                            android:layout_marginTop="@dimen/ten"
-                            android:background="@drawable/bg_edittextbox_grey"
-                            android:padding="@dimen/ten"
-                            android:text="@string/lbl_description"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/thirteen"
-                            android:textStyle="bold" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/lnrDate"
-                        app:layout_constraintLeft_toRightOf="@+id/lnrDate"
-                        app:layout_constraintTop_toTopOf="@+id/lnrDate"
-                        app:layout_constraintWidth_percent=".5">
-
-                        <TextView
-                            android:id="@+id/selectype"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/txt_select_type"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/thirteen"
-                            android:textStyle="normal"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-
-                        <TextView
-                            android:id="@+id/lblSelect"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/txt_select_type"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/thirteen"
-                            android:textStyle="normal"
-                            android:layout_below="@+id/selectype"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </RelativeLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
-                    android:id="@+id/lblText"
+                    android:id="@+id/txt_submissionon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
-                    android:text="@string/lbl_title"
+                    android:layout_marginLeft="@dimen/thirty"
+                    android:text="@string/txt_submissionon"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
+                    android:textSize="@dimen/fifteen"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/LayoutDateType"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
 
-
-                <EditText
-                    android:id="@+id/edImgTitle"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_Assignmenttype"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@android:color/transparent"
-
-                    android:hint="Enter the title"
-                    android:inputType="textAutoComplete"
-                    android:paddingStart="@dimen/two"
-                    android:paddingTop="@dimen/eight"
-                    android:paddingRight="@dimen/ten"
-                    android:text=""
+                    android:text="@string/txt_assignmenttype"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/transparent"
-                    android:textSize="@dimen/twelve"
-                    app:layout_constraintStart_toStartOf="@id/lblphone"
-                    app:layout_constraintTop_toBottomOf="@id/lblphone" />
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/edt_devision"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+
+                <TextView
+                    android:id="@+id/start_date"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty"
+                    android:layout_marginTop="@dimen/ten"
+                    android:drawableRight="@drawable/ic_calendar"
+                    android:hint="@string/date"
+                    android:padding="@dimen/ten"
+                    android:textSize="@dimen/fifteen"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_submissionon" />
+
 
                 <View
-                    android:id="@+id/viewtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@color/transparent"
-                    app:layout_constraintTop_toBottomOf="@+id/edImgTitle" />
+                    android:id="@+id/view"
+                    android:layout_width="150dp"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/thirty"
+                    android:background="@color/grey_rect"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/start_date">
+
+                </View>
+
 
                 <TextView
-                    android:id="@+id/lblImgPdfDescription"
+                    android:id="@+id/edt_devision"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:layout_marginRight="@dimen/thirty"
+                    android:background="@drawable/bg_edittextbox_grey"
+                    android:drawableRight="@drawable/ic_arrow_down"
+                    android:hint="@string/txt_seletedtype"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_Assignmenttype"></TextView>
+
+                <TextView
+                    android:id="@+id/txt_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
-                    android:text="@string/lbl_description"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/twenty"
+                    android:text="@string/txt_title"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
+                    android:textSize="@dimen/twenty"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewtitle" />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_devision">
+
+                </TextView>
 
                 <EditText
-                    android:id="@+id/txt_imgpdfdescription"
+                    android:id="@+id/edt_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/ten"
+                    android:maxLength="80"
+                    android:layout_marginRight="@dimen/twenty"
+                    android:hint="@string/txt_enter_the_title"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_title"></EditText>
+
+                <TextView
+                    android:id="@+id/txt_decription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/txt_description"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_title">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@drawable/bg_edittextbox_grey"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/ten"
+                    android:layout_marginRight="@dimen/twenty"
+                    android:maxLength="500"
+                    android:background="@drawable/backround_lightblack_line"
                     android:gravity="top|left"
-                    android:hint="Enter the Description"
+                    android:hint="Description"
                     android:inputType="textMultiLine"
-                    android:paddingStart="@dimen/two"
-                    android:paddingLeft="@dimen/five"
-                    android:paddingTop="@dimen/eight"
-                    android:paddingRight="@dimen/ten"
+                    android:padding="@dimen/five"
                     android:text=""
                     android:textColor="@color/black"
                     android:textColorHint="@color/transparent"
-                    android:textSize="@dimen/twelve"
-                    app:layout_constraintStart_toStartOf="@id/lblImgPdfDescription"
-                    app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription" />
+                    android:textSize="@dimen/ten"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_decription" />
+
+
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/500"
+                    android:layout_marginRight="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
+
+
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/LayoutUploadVideo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_imgpdfdescription">
+                    android:layout_margin="@dimen/fifteen"
+                    android:background="@drawable/bg_dotted_lines"
+                    android:padding="@dimen/ten"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_count">
+
+                    <ImageView
+                        android:id="@+id/imgUpload"
+                        android:layout_width="@dimen/thirty"
+                        android:layout_height="@dimen/thirty"
+                        android:layout_marginStart="@dimen/ten"
+                        android:layout_marginEnd="@dimen/ten"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/upload_icon"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </ImageView>
+
                     <TextView
-                        android:id="@+id/lblAdRecipient"
+                        android:id="@+id/lblUploadFiles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/ten"
-                        android:layout_marginTop="@dimen/ten"
-                        android:text="@string/txt_Recepients"
-                        android:textColor="@color/black"
+                        android:padding="@dimen/five"
+                        android:text="Upload file"
+                        android:textAllCaps="false"
+                        android:textColor="@color/transparent"
                         android:textSize="@dimen/thirteen"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/imgUpload"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/Recipients"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/ten"
-                        android:text="Add Recipients"
-                        android:background="@drawable/bg_black_white_box"
-                        android:padding="@dimen/twelve"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/transparent"
-                        android:textSize="@dimen/twelve"
-                        app:layout_constraintStart_toStartOf="@id/lblAdRecipient"
-                        app:layout_constraintTop_toBottomOf="@id/lblAdRecipient" />
+                    </TextView>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/lbl_fileselectedstate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/five"
+                    android:text="Number of Image Selected"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/LayoutUploadVideo">
 
-        </androidx.core.widget.NestedScrollView>
+                </TextView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/twenty"
+            android:padding="@dimen/five"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="@dimen/fourty"
                 android:layout_marginStart="@dimen/twenty"
                 android:layout_marginTop="@dimen/ten"
-                android:layout_marginBottom="@dimen/ten"
+                android:layout_marginBottom="@dimen/fifteen"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@drawable/bg_btn_grey"
-                android:gravity="center"
                 android:text="@string/txt_cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -319,15 +331,14 @@
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/ten"
                 android:layout_marginEnd="@dimen/ten"
                 android:layout_marginBottom="@dimen/ten"
                 android:background="@drawable/bg_btn_green"
-                android:gravity="center"
                 android:padding="@dimen/two"
-                android:text="@string/txt_confirm"
+                android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -336,7 +347,6 @@
 
             </Button>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

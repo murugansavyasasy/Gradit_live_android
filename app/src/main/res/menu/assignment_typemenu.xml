@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/text"
+        android:title="TEXT" />
+    <item
+        android:id="@+id/IMAGE"
+        android:title="IMAGE" />
+
+<!--    <item-->
+<!--        android:id="@+id/VIDEO"-->
+<!--        android:title="VIDEO" />-->
+
+    <item
+        android:id="@+id/PDF"
+        android:title="PDF" />
+
+</menu>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/lnrRecentNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/ten"
+        android:background="@drawable/bg_shadow_white"
+        android:orientation="vertical"
+        android:padding="@dimen/seven"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/rytRecentNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/five">
+
+            <TextView
+                android:id="@+id/lblRecentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/five"
+                android:layout_marginRight="@dimen/ten"
+                android:gravity="right"
+                android:padding="@dimen/three"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve" />
+
+            <TextView
+                android:id="@+id/lblRecentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblRecentDate"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/twelve"
+                android:gravity="right"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve"
+                android:visibility="visible" />
+
+
+            <ImageView
+                android:id="@+id/imgRecentType"
+                android:layout_width="@dimen/thirty"
+                android:layout_height="@dimen/thirty"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/eight"
+                android:layout_marginTop="@dimen/three"
+                android:alpha="0.7"
+                android:src="@drawable/dashboard_text" />
+
+            <TextView
+                android:id="@+id/lblRecenttitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginLeft="@dimen/three"
+                android:layout_marginRight="@dimen/two"
+                android:layout_toLeftOf="@+id/lblRecentDate"
+                android:layout_toRightOf="@+id/imgRecentType"
+                android:ellipsize="end"
+                android:padding="@dimen/two"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblRecenttitle"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_toLeftOf="@+id/txt_sendhistory"
+                android:layout_toRightOf="@+id/imgRecentType"
+                android:ellipsize="end"
+                android:text=""
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_sendhistory"
+                android:layout_width="@dimen/fifty"
+                android:layout_height="@dimen/thirty"
+                android:layout_below="@+id/lblRecentTime"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/ten"
+                android:background="@drawable/bg_btn_green"
+                android:gravity="center"
+                android:text="send"
+                android:textColor="@color/white"></TextView>
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

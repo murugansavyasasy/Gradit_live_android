@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ActivitySender.HeaderRecipient">
+
+    <SearchView
+        android:id="@+id/idSV"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirty"
+        android:layout_margin="8dp"
+        android:background="@color/cardview_light_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Department"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/layoutReceipienTypeTwo"
+        tools:ignore="MissingConstraints" />
+
+    <Spinner
+        android:id="@+id/spinnerDropdownCollege"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty"
+        android:layout_marginTop="@dimen/twenty_five"
+        android:layout_marginEnd="@dimen/twenty"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/idSV" />
+
+    <Spinner
+        android:id="@+id/spinnerDropdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty"
+        android:layout_marginTop="@dimen/twenty_five"
+        android:layout_marginEnd="@dimen/twenty"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/testViewCollegespinner" />
+
+    <Spinner
+        android:id="@+id/spinnerDropdowncourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty"
+        android:layout_marginTop="@dimen/fifteen"
+        android:layout_marginEnd="@dimen/twenty"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDropdown" />
+
+    <TextView
+        android:id="@+id/txt_checkBoxtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/five"
+        android:layout_marginTop="@dimen/fifteen"
+        android:text="@string/txt_Select_All"
+        app:layout_constraintLeft_toRightOf="@+id/ch_header"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDropdowncourse">
+
+    </TextView>
+
+    <CheckBox
+
+        android:id="@+id/ch_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/thirty"
+        android:layout_marginTop="@dimen/ten"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDropdowncourse">
+
+    </CheckBox>
+
+    <TextView
+        android:id="@+id/testViewCollegespinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="@dimen/twenty"
+        android:background="@android:drawable/editbox_background"
+        android:drawableEnd="@drawable/ic_arrow_down"
+        android:gravity="center_vertical"
+        android:hint="Select College"
+        android:padding="12dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/layoutReceipienTypeTwo" />
+
+    <Spinner
+        android:id="@+id/Spinning_yourclasses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="@dimen/twenty"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutReceipienTypeTwo">
+
+    </Spinner>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_marginBottom="@dimen/ten"
+        android:background="@color/clr_white"
+        app:layout_constraintBottom_toTopOf="@+id/ViewlineTwo"
+        app:layout_constraintTop_toBottomOf="@+id/ch_header">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcy_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/thirty"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginRight="@dimen/fifty"
+            android:paddingBottom="@dimen/ten"></androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/txt_onandoff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/ten"
+        android:layout_marginTop="@dimen/twenty"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/switchonAndoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:checked="false"
+            android:textOff="OFF"
+            android:textOn="ON"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lbl_switchLable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable to send this message as Call"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/five"
+            android:textSize="12dp"
+            android:layout_toRightOf="@+id/switchonAndoff"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutReceipienTypeOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_onandoff"
+        app:layout_constraintWidth_default="percent">
+
+
+        <TextView
+            android:id="@+id/lblEntireDepartmentlable"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twenty"
+            android:layout_marginTop="@dimen/ten"
+            android:background="@drawable/bg_available_selected_green"
+            android:text="College List"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/twelve"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+        <TextView
+            android:id="@+id/lblDivision"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:background="@drawable/bg_available_outline_red"
+            android:text="@string/txt_division"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/clr_bgred"
+            android:textSize="@dimen/twelve"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/lblEntireDepartmentlable"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+        <TextView
+            android:id="@+id/lblDepartment"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginRight="@dimen/twenty"
+            android:background="@drawable/bg_available_outline_red"
+            android:clickable="false"
+            android:text="@string/txt_department"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/clr_bgred"
+            android:textSize="@dimen/twelve"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/lblDivision"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutReceipienTypeTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintTop_toBottomOf="@+id/layoutReceipienTypeOne"
+        app:layout_constraintWidth_default="percent">
+
+        <TextView
+            android:id="@+id/lblCourse"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginEnd="@dimen/two_hunderd"
+            android:background="@drawable/bg_available_outline_red"
+            android:clickable="false"
+            android:text="Course"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/clr_bgred"
+            android:textSize="@dimen/twelve"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+        <TextView
+            android:id="@+id/lblYourClasses"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:background="@drawable/bg_available_outline_red"
+            android:clickable="false"
+            android:text="@string/txt_your_classes"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/clr_bgred"
+            android:textSize="@dimen/twelve"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+        <TextView
+            android:id="@+id/lblGroups"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/two_hunderd"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginRight="@dimen/twenty"
+            android:background="@drawable/bg_available_outline_red"
+            android:clickable="false"
+            android:text="@string/txt_Groups"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/clr_bgred"
+            android:textSize="@dimen/twelve"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/ViewlineTwo"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/twelve"
+        android:layout_marginBottom="@dimen/ten"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/txtTarget"
+        app:layout_constraintStart_toStartOf="parent"></View>
+
+    <TextView
+        android:id="@+id/txtTarget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty"
+        android:layout_marginTop="@dimen/eight"
+        android:text="@string/txt_target"
+        android:textColor="@color/clr_black"
+        android:textSize="@dimen/fourteen"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/lnrTarget"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/lnrTarget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtTarget"
+        android:layout_marginBottom="@dimen/five"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/layoutButton">
+
+
+        <LinearLayout
+            android:id="@+id/lnrTargetAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifteen"
+            android:gravity="left"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/chboxAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/clr_principal" />
+
+            <TextView
+                android:id="@+id/lblAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrTargetStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifteen"
+            android:gravity="left">
+
+            <CheckBox
+                android:id="@+id/chboxStudent"
+                android:layout_width="wrap_content"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/clr_principal" />
+
+            <TextView
+                android:id="@+id/lblStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Students"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrTargetParent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/chboxParents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/clr_principal" />
+
+            <TextView
+                android:id="@+id/lblParents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parents"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrStaff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/chboxStaff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/clr_principal" />
+
+            <TextView
+                android:id="@+id/lblStaff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Staff"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fifteen"
+        android:padding="@dimen/five"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btnRecipientCancel"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="@dimen/fourty_five"
+            android:layout_marginStart="@dimen/twenty"
+            android:background="@drawable/bg_btn_grey"
+            android:text="@string/txt_cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="@dimen/fourty_five"
+            android:layout_marginEnd="@dimen/ten"
+            android:background="@drawable/bg_btn_green"
+            android:text="@string/txt_Send"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></Button>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

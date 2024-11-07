@@ -5,6 +5,9 @@ import com.vsca.vsnapvoicecollege.Model.GetCommunicationDetails
 
 interface communicationListener {
 
-    fun oncommunicationClick(holder: CommunicationAdapter.MyViewHolder, item: GetCommunicationDetails)
+    fun oncommunicationClick(
+        holder: CommunicationAdapter.MyViewHolder,
+        item: GetCommunicationDetails
+    )
 
 }

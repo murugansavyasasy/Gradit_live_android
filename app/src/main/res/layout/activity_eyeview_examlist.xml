@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySender.Eyeview_Examlist">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrine_examlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LayoutAdvertisement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgAdvertisement"
+                android:layout_width="406dp"
+                android:layout_height="@dimen/hundred"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgthumb"
+                android:layout_width="@dimen/fifty_five"
+                android:layout_height="@dimen/fifty_five"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/fifteen"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCorner"
+                app:strokeColor="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lbl_Examination"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_five"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutAdvertisement">
+
+            <ImageView
+                android:id="@+id/imgback"
+                android:layout_width="@dimen/thirty"
+                android:layout_height="@dimen/thirty"
+                android:layout_marginStart="@dimen/ten"
+                android:src="@drawable/ic_arrow_back_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/lbl_addexamination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/eight"
+                android:padding="5dp"
+                android:text="@string/txt_exam_list"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/imgback"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
+            <TextView
+                android:id="@+id/lblDepartmentSize"
+                android:layout_width="@dimen/thirty_five"
+                android:layout_height="@dimen/thirty_five"
+                android:layout_marginEnd="@dimen/ten"
+                android:background="@drawable/bg_circle_unread"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/clr_white"
+                android:textSize="@dimen/twelve"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/lbl_addexamination"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/ten"
+        android:paddingBottom="@dimen/two"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constrine_examlist">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/create_exam_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/constrine_examlist">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
+
+
+    <ImageView
+        android:id="@+id/img_examaddnew"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="70dp"
+        android:src="@drawable/sender_add_plus"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+    </ImageView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

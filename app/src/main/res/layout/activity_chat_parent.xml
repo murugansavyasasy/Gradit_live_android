@@ -9,25 +9,36 @@
 
     <RelativeLayout
         android:id="@+id/LayoutStaff"
-        android:layout_width="130dp"
-        android:layout_height="140dp"
-        android:layout_margin="5dp"
+        android:layout_width="170dp"
+        android:padding="5dp"
+        android:layout_height="250dp"
         android:background="@drawable/bg_shadow_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/imgStaffProfile"
-            android:layout_width="@dimen/fourty"
-            android:layout_height="@dimen/fourty"
+            android:layout_width="@dimen/seventy"
+            android:layout_height="@dimen/seventy"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_user_grey"
-            CircleImageView:civ_border_color="#FF000000"
-            CircleImageView:civ_border_width="5dp"
+            android:src="@drawable/chat_user_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:id="@+id/imgStaffProfile"-->
+<!--            android:layout_width="@dimen/fourty"-->
+<!--            android:layout_height="@dimen/fourty"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/faculty_image"-->
+<!--            CircleImageView:civ_border_color="#FF000000"-->
+<!--            CircleImageView:civ_border_width="5dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/lblSubjectName"
@@ -36,7 +47,8 @@
             android:layout_below="@+id/imgStaffProfile"
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/five"
-            android:text="Home"
+            android:paddingHorizontal="5dp"
+            android:text="Test"
             android:textAlignment="center"
             android:textColor="@color/clr_selectedtab"
             android:textSize="@dimen/twelve"
@@ -49,8 +61,67 @@
             android:layout_below="@+id/lblSubjectName"
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/five"
+            android:text="Teaching staff"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twelve"
+            android:textStyle="bold" />
 
-            android:text="Teacjing staff"
+        <RelativeLayout
+            android:id="@+id/rytSem"
+            android:layout_below="@+id/lblStaffName"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblyear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five"
+            android:text="Year"
+            android:paddingLeft="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twelve"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/lblview"
+            android:layout_width="7dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="@dimen/two"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/lblyear"
+            android:src="@drawable/starimage" />
+
+        <TextView
+            android:id="@+id/lblSemester"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/three"
+            android:layout_marginTop="@dimen/five"
+            android:layout_toRightOf="@+id/lblview"
+            android:text="Semester"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twelve"
+            android:textStyle="bold" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/lblSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rytSem"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/two"
+            android:layout_marginTop="2dp"
+            android:paddingRight="5dp"
+            android:text="Section"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="@dimen/twelve"
@@ -60,12 +131,11 @@
             android:id="@+id/lblInteract"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lblStaffName"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/ten"
             android:background="@drawable/bg_submit_outer_green"
             android:padding="@dimen/five"
-            android:layout_centerInParent="true"
             android:text="Interact"
             android:textAlignment="center"
             android:textColor="@color/clr_green_submit"

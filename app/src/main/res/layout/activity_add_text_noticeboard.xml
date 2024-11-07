@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -23,7 +22,8 @@
                 android:id="@+id/imgAdvertisement"
                 android:layout_width="406dp"
                 android:layout_height="@dimen/hundred"
-                android:scaleType="centerCrop"
+                android:layout_marginEnd="@dimen/ten"
+                android:scaleType="fitXY"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -50,42 +50,97 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutHeaderImagePdf"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_five"
+            android:layout_height="wrap_content"
             android:background="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LayoutAdvertisement">
 
-            <ImageView
-                android:id="@+id/imgTextback"
-                android:layout_width="@dimen/thirty"
-                android:layout_height="@dimen/thirty"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginEnd="@dimen/ten"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_back_white"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/radio_B_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/btn_clr_green"
+                    android:checked="true"
+                    android:text=" Create New Message"
+                    android:textColor="@color/white" />
+
+                <RadioButton
+                    android:id="@+id/radio_B_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/clr_green"
+                    android:text="Send from message history"
+                    android:textColor="@color/white" />
+            </RadioGroup>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/LayoutHeadernoticeboard"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fifty_five"
+                android:background="@color/black"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </ImageView>
+                <ImageView
+                    android:id="@+id/imgTextback"
+                    android:layout_width="@dimen/thirty"
+                    android:layout_height="@dimen/thirty"
+                    android:layout_marginStart="@dimen/ten"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_arrow_back_white"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/lblMenuTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:padding="@dimen/five"
-                android:text="@string/txt_new_text"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/imgTextback"
-                app:layout_constraintTop_toTopOf="parent">
+                </ImageView>
 
-            </TextView>
+                <TextView
+                    android:id="@+id/lblMenuTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:padding="@dimen/five"
+                    android:text="@string/txt_new_text"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/thirteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/imgTextback"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/NestedchildlayoutRecy"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/layoutButton"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcy_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -93,8 +148,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="@dimen/five"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/layoutButton"
             app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -120,9 +177,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/ten"
                     android:background="@android:color/transparent"
-
                     android:hint="Enter the title"
                     android:inputType="textAutoComplete"
+                    android:maxLength="80"
                     android:paddingStart="@dimen/two"
                     android:paddingTop="@dimen/eight"
                     android:paddingRight="@dimen/ten"
@@ -138,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="@dimen/ten"
-                    android:background="@color/transparent"
+                    android:background="@color/grey_rect"
                     app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
                 <TextView
@@ -163,20 +220,37 @@
                     android:gravity="top|left"
                     android:hint="Enter the Description"
                     android:inputType="textMultiLine"
+                    android:maxLength="500"
+                    android:overScrollMode="always"
                     android:paddingStart="@dimen/two"
                     android:paddingLeft="@dimen/five"
                     android:paddingTop="@dimen/eight"
                     android:paddingRight="@dimen/ten"
+                    android:scrollbarStyle="insideInset"
+
+                    android:scrollbars="vertical"
+                    android:singleLine="false"
                     android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/black"
                     android:textColorHint="@color/transparent"
                     android:textSize="@dimen/twelve"
                     app:layout_constraintStart_toStartOf="@id/lblImgPdfDescription"
                     app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription" />
+
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/500"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+
                     <TextView
                         android:id="@+id/lblAdRecipient"
                         android:layout_width="wrap_content"
@@ -189,50 +263,103 @@
                         android:textStyle="bold"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                  />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/Recipients"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/ten"
-                        android:text="Add Recipients"
-                        android:visibility="gone"
                         android:background="@drawable/bg_black_white_box"
                         android:padding="@dimen/twelve"
+                        android:text="Add Recipients"
                         android:textColor="@color/black"
                         android:textColorHint="@color/transparent"
                         android:textSize="@dimen/twelve"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="@id/lblAdRecipient"
                         app:layout_constraintTop_toBottomOf="@id/lblAdRecipient" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LayoutUploadImagePdf"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginRight="@dimen/twenty"
+            android:layout_marginBottom="@dimen/fifty"
+            android:background="@drawable/bg_dotted_lines"
+            android:padding="@dimen/eight"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/layoutButton">
+
+            <ImageView
+                android:id="@+id/imgUpload"
+                android:layout_width="@dimen/thirty"
+                android:layout_height="@dimen/thirty"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginEnd="@dimen/ten"
+                android:scaleType="fitXY"
+                android:src="@drawable/upload_icon"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/lblUploadFiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:text="@string/txt_upload_files"
+                android:textAllCaps="false"
+                android:textColor="@color/transparent"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/imgUpload"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/lbltotalfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:text="Number of files"
+                android:visibility="gone"
+                app:layout_constraintLeft_toRightOf="@+id/imgUpload"
+                app:layout_constraintTop_toBottomOf="@+id/lblUploadFiles">
+
+            </TextView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/twenty"
-            android:paddingBottom="@dimen/ten"
+            android:padding="@dimen/ten"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_width="@dimen/hundred"
+                android:layout_height="@dimen/thirty_five"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/twenty"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_marginBottom="@dimen/ten"
                 android:background="@drawable/bg_btn_grey"
                 android:gravity="center"
                 android:text="@string/txt_cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -240,19 +367,18 @@
 
             <Button
                 android:id="@+id/btnConfirm"
-                android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_width="@dimen/hundred"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/ten"
                 android:layout_marginEnd="@dimen/ten"
                 android:layout_marginBottom="@dimen/ten"
                 android:background="@drawable/bg_btn_green"
                 android:gravity="center"
-                android:padding="@dimen/two"
                 android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/examlist_constrine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty"
+        android:layout_marginTop="@dimen/twenty"
+        android:layout_marginRight="@dimen/twenty"
+        android:background="@drawable/bg_shadow_white"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txt_financeandaccounding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/five"
+            android:text="@string/txt_finan_accound"
+            android:textColor="@color/clr_sky_blue"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="170dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/five"
+            android:background="@color/whitegrey"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding">
+
+        </View>
+
+        <View
+            android:id="@+id/blue_view"
+            android:layout_width="3dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            android:background="@color/clr_sky_blue"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+        </View>
+
+        <TextView
+            android:id="@+id/txt_testing_creating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            android:text="@string/txt_testing_exam_creating"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen"
+            app:layout_constraintLeft_toRightOf="@+id/blue_view"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+        </TextView>
+
+
+        <ImageView
+            android:id="@+id/img_book"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/five"
+            android:src="@drawable/book"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/blue_view">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/img_star"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:src="@drawable/star"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_book">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/txt_bcom_Accounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="B.Com Accounts"
+            app:layout_constraintLeft_toRightOf="@+id/img_book"
+            app:layout_constraintTop_toBottomOf="@+id/txt_testing_creating"></TextView>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="@dimen/five"
+            android:layout_marginTop="@dimen/five"
+            android:background="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/txt_bcom_Accounts"
+            app:layout_constraintTop_toBottomOf="@+id/txt_testing_creating"></View>
+
+        <TextView
+            android:id="@+id/txt_year1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="Year 1"
+            app:layout_constraintLeft_toRightOf="@+id/view2"
+            app:layout_constraintTop_toBottomOf="@+id/txt_testing_creating"></TextView>
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="@dimen/eight"
+            android:layout_marginTop="@dimen/five"
+            android:background="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/txt_year1"
+            app:layout_constraintTop_toBottomOf="@+id/txt_testing_creating"></View>
+
+        <TextView
+            android:id="@+id/txt_semester1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="Semester 1"
+            app:layout_constraintLeft_toRightOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/txt_testing_creating"></TextView>
+
+        <TextView
+            android:id="@+id/txt_b_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="4dp"
+            android:text="b Section"
+            app:layout_constraintLeft_toRightOf="@+id/img_book"
+            app:layout_constraintTop_toBottomOf="@+id/txt_bcom_Accounts"></TextView>
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="200dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/five"
+            android:background="@color/whitegrey"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_b_section"></View>
+
+        <ImageView
+            android:id="@+id/img_calender"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4"></ImageView>
+
+
+        <TextView
+            android:id="@+id/txt_startdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="08/05/3099"
+            android:textColor="@color/clr_sky_blue"
+            app:layout_constraintLeft_toRightOf="@+id/img_book"
+            app:layout_constraintTop_toBottomOf="@+id/view4"></TextView>
+
+
+        <TextView
+            android:id="@+id/txt_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text=" to "
+            android:textColor="@color/clr_sky_blue"
+            app:layout_constraintLeft_toRightOf="@+id/txt_startdate"
+            app:layout_constraintTop_toBottomOf="@+id/view4"></TextView>
+
+
+        <TextView
+            android:id="@+id/txt_enddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:text="99/33/5678"
+            android:textColor="@color/clr_sky_blue"
+            app:layout_constraintLeft_toRightOf="@+id/txt_to"
+            app:layout_constraintTop_toBottomOf="@+id/view4"></TextView>
+
+        <TextView
+            android:id="@+id/txt_get_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/eight"
+            android:layout_marginRight="@dimen/ten"
+            android:background="@drawable/bg_btn_green2"
+            android:padding="@dimen/seven"
+            android:text="Get Subjects"
+            android:textColor="@color/white"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4"></TextView>
+
+        <LinearLayout
+            android:id="@+id/btn_editand_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_enddate">
+
+
+            <LinearLayout
+                android:id="@+id/txt_editbtn"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="@dimen/five"
+                android:background="@drawable/blueoutline"
+                android:padding="3dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/five"
+                    android:text="Edit"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/fifteen">
+
+                </TextView>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/edit_pencile">
+
+                </ImageView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/txt_deletebtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/five"
+                android:background="@drawable/redcoloue_outline"
+                android:orientation="horizontal"
+                android:padding="@dimen/five">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two"
+                    android:text="Delete"
+                    android:textSize="@dimen/twelve">
+
+                </TextView>
+
+                <ImageView
+                    android:id="@+id/img_delete"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/delete">
+
+                </ImageView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

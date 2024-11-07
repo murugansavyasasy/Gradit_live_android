@@ -7,16 +7,18 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Environment
 import android.util.Log
-import android.view.View
 import com.vsca.vsnapvoicecollege.Adapters.CommunicationAdapter
-import com.vsca.vsnapvoicecollege.Adapters.DashboardChild
 import com.vsca.vsnapvoicecollege.Repository.RestClient
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.CommunicationisExpandAdapter
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.sql.DriverManager
 
 
@@ -30,7 +32,7 @@ object CommunicationVoiceDownload {
         urldata: String,
         folder: String?,
         fileName: String,
-        holder:CommunicationAdapter.MyViewHolder
+        holder: CommunicationAdapter.MyViewHolder
 
     ) {
         mProgressDialog = ProgressDialog(activity)
@@ -40,7 +42,8 @@ object CommunicationVoiceDownload {
         mProgressDialog!!.show()
         Log.d("File URL", urldata)
 
-        val call: Call<ResponseBody?>? = RestClient.apiInterfaces.downloadFileWithDynamicUrlAsync(urldata)
+        val call: Call<ResponseBody?>? =
+            RestClient.apiInterfaces.downloadFileWithDynamicUrlAsync(urldata)
         call!!.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                 if (response.isSuccessful) {
@@ -56,10 +59,7 @@ object CommunicationVoiceDownload {
                                 folder,
                                 fileName
                             )
-                            Log.d(
-                                "DOWNLOADING...DOINBA",
-                                "file download was a success? $writtenToDisk"
-                            )
+                            Log.d("DOWNLOADING...DOINBA", writtenToDisk.toString())
 
                             return writtenToDisk
                         }
@@ -69,7 +69,8 @@ object CommunicationVoiceDownload {
                             if (status) {
                                 Log.d("DownloadSucces", status.toString())
                                 CommunicationisExpandAdapter = true
-                                holder.recentSeekbarlayout.visibility = View.VISIBLE
+                                CommonUtil.DownloadingFile = 1
+//                                holder.recentSeekbarlayout.visibility = View.VISIBLE
 
 
                             } else {
@@ -79,14 +80,13 @@ object CommunicationVoiceDownload {
                             }
                         }
 
-                        override fun doInBackground(vararg params: Void?): Boolean? {
-                            val writtenToDisk =
-                                writeResponseBodyToDisk(
-                                    activity!!,
-                                    response.body(),
-                                    folder,
-                                    fileName
-                                )
+                        override fun doInBackground(vararg params: Void?): Boolean {
+                            val writtenToDisk = writeResponseBodyToDisk(
+                                activity!!,
+                                response.body(),
+                                folder,
+                                fileName
+                            )
                             Log.d(
                                 "DOWNLOADING...doin",
                                 "file download was a success? $writtenToDisk"
@@ -98,13 +98,6 @@ object CommunicationVoiceDownload {
                 } else {
                     mProgressDialog!!.dismiss()
                     CommunicationisExpandAdapter = false
-
-//                    AlertDownload(
-//                        activity,
-//                        "Exists",
-//                        "This Voice is Already exists in your Folder: $folder/$fileName",
-//                        refreshlistener
-//                    )
 
                     Log.d("DOWNLOADING...", "server contact failed")
                 }
@@ -128,14 +121,13 @@ object CommunicationVoiceDownload {
         fileName: String?
     ): Boolean {
         return try {
-            // val filepath = Environment.getExternalStorageDirectory().path
             val filepath: String
 
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                filepath = activity.getApplicationContext()
-                    .getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.getPath()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                filepath =
+                    activity.applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
             } else {
-                filepath = Environment.getExternalStorageDirectory().getPath()
+                filepath = Environment.getExternalStorageDirectory().path
             }
 
 
@@ -181,26 +173,5 @@ object CommunicationVoiceDownload {
             false
         }
     }
-
-//    fun AlertDownload(
-//        activity: Context?,
-//        title: String?,
-//        msg: String?,
-//        refreshlistener: VoiceMessagesClickListener
-//    ) {
-//        val alertDialog = AlertDialog.Builder(activity)
-//        alertDialog.setCancelable(false)
-//        alertDialog.setTitle(title)
-//        alertDialog.setMessage(msg)
-//        alertDialog.setPositiveButton(
-//            R.string.teacher_btn_ok,
-//            DialogInterface.OnClickListener { dialog,
-//                                              which ->
-//                dialog.cancel()
-//
-//            })
-//        alertDialog.show()
-//    }
-
 
 }

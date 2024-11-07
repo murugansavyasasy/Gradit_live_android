@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySender.create_Examination">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LayoutAdvertisement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgAdvertisement"
+                android:layout_width="406dp"
+                android:layout_height="@dimen/hundred"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgthumb"
+                android:layout_width="@dimen/fifty_five"
+                android:layout_height="@dimen/fifty_five"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/fifteen"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCorner"
+                app:strokeColor="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lbl_Examination"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_five"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutAdvertisement">
+
+            <ImageView
+                android:id="@+id/imgback"
+                android:layout_width="@dimen/thirty"
+                android:layout_height="@dimen/thirty"
+                android:layout_marginStart="@dimen/ten"
+                android:src="@drawable/ic_arrow_back_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/lbl_addexamination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/eight"
+                android:padding="5dp"
+                android:text="@string/txt_Create_examination"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/imgback"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/ibi_norecordsfound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/thirty"
+            android:text="No Records Found"
+            android:textSize="@dimen/fifteen"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_Examination">
+
+        </TextView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/ten"
+            android:paddingBottom="@dimen/two"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_conform"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_Examination">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/create_exam_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_Examination"
+
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+        </ScrollView>
+        <Button
+            android:id="@+id/btn_conform"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fourty"
+            android:layout_marginStart="@dimen/twenty"
+            android:layout_marginEnd="@dimen/twenty"
+            android:layout_marginBottom="@dimen/ten"
+            android:background="@color/clr_principal"
+            android:text="@string/txt_Confirm"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+        </Button>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

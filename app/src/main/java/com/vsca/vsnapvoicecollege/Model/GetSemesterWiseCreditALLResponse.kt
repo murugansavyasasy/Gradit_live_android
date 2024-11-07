@@ -7,6 +7,7 @@ class GetSemesterWiseCreditALLResponse {
     @SerializedName("Status")
     @Expose
     var status = 0
+
     @SerializedName("Message")
     @Expose
     var message: String? = null

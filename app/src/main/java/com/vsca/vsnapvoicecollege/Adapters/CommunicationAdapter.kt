@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Build
@@ -16,28 +17,29 @@ import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Interfaces.communicationListener
 import com.vsca.vsnapvoicecollege.Model.GetCommunicationDetails
 import com.vsca.vsnapvoicecollege.R
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil.CommunicationisExpandAdapter
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommunicationVoiceDownload
-import com.vsca.vsnapvoicecollege.Utils.DownloadVoice
 import java.io.File
 
-public class CommunicationAdapter(
+
+class CommunicationAdapter(
     var eventlist: List<GetCommunicationDetails>,
-    private val context: Context?,
+    private var context: Context?, Type: String,
     val Listener: communicationListener
 ) : RecyclerView.Adapter<CommunicationAdapter.MyViewHolder>() {
-    public var mExpandedPosition = -1
-    var msgcontent: String? = null
+    var mExpandedPosition = -1
     var path: String? = null
     var PlayPath: String? = null
     var detailsid: String? = null
+    lateinit var contextThis: Context
+
     var mediaPlayer: MediaPlayer? = MediaPlayer()
-    var mediaPlayerTwo: MediaPlayer? = MediaPlayer()
-    var mediaFileLengthInMilliseconds = 0
     var handler = Handler()
     var iMediaDuration = 0
     var Type = ""
-    private val VOICE_FOLDER: String? = "Gradit/Voice/"
+    var mediaFileLengthInMilliseconds = 0
+    var ScreenType: String? = null
+    private val VOICE_FOLDER: String = "Gradit/Voice/"
 
     companion object {
         var communicationClick: communicationListener? = null
@@ -91,7 +93,9 @@ public class CommunicationAdapter(
         return MyViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: MyViewHolder, @SuppressLint("RecyclerView") position: Int
+    ) {
         val modal = eventlist[position]
         communicationClick = Listener
         communicationClick?.oncommunicationClick(holder, modal)
@@ -101,123 +105,153 @@ public class CommunicationAdapter(
         holder.lnrRecentNotifications.isActivated = isExpanded
         holder.lnrRecentNotifications.visibility = View.VISIBLE
 
-        if (modal.typename.equals("Voice Message")) {
-            holder.lnrplayvoice.visibility = View.VISIBLE
-            holder.imgRecentType.setImageResource(R.drawable.dashboard_recent_voice)
-            holder.imgRecentType.setAlpha(0.7f)
-            holder.lblRecenttitle.text = modal.description
-
-        }
-        if (modal.typename.equals("Emergencyvoice Message")) {
-
-            holder.lnrplayvoice.visibility = View.VISIBLE
-            holder.imgRecentType.setImageResource(R.drawable.emergency_voice)
-            holder.imgRecentType.setAlpha(0.8f)
-            holder.lblRecenttitle.text = modal.description
-
-        }
-        if (modal.typename.equals("Text Message")) {
+        Log.d("ScreenType", ScreenType.toString())
+        if (ScreenType.equals("Voice")) {
+            if (modal.isemergency.equals("false")) {
+                holder.lnrplayvoice.visibility = View.VISIBLE
+                holder.imgRecentType.setImageResource(R.drawable.dashboard_recent_voice)
+                holder.imgRecentType.alpha = 0.7f
+                holder.lblRecenttitle.text = modal.description
+                val voiceduration = modal.duration
+                val minutes = (Integer.parseInt(voiceduration!!) % 3600) / 60
+                val seconds = Integer.parseInt(voiceduration) % 60
+                val timeString = String.format("%02d:%02d", minutes, seconds)
+                holder.lblRecentTotalDuration.text = timeString
+                holder.lblRecentPostedby.text = modal.sentby
+            }
+            if (modal.isemergency.equals("true")) {
+                holder.lnrplayvoice.visibility = View.VISIBLE
+                holder.imgRecentType.setImageResource(R.drawable.emergency_voice)
+                holder.imgRecentType.alpha = 0.8f
+                holder.lblRecenttitle.text = modal.description
+                val voiceduration = modal.duration
+                val minutes = (Integer.parseInt(voiceduration!!) % 3600) / 60
+                val seconds = Integer.parseInt(voiceduration) % 60
+                val timeString = String.format("%02d:%02d", minutes, seconds)
+                holder.lblRecentTotalDuration.text = timeString
+                holder.lblRecentPostedby.text = modal.sentby
+            }
+        } else {
             holder.lnrplayvoice.visibility = View.GONE
             holder.imgRecentType.setImageResource(R.drawable.dashboard_text)
-            holder.imgRecentType.setAlpha(0.7f)
-            holder.lblRecenttitle.text = modal.msgcontent
-
-
+            holder.imgRecentType.alpha = 0.7f
+            holder.lblRecenttitle.text = modal.description
+            holder.lblRecentPostedby.text = modal.sentby
         }
-        val voiceduration = modal.duration
-        val minutes = (Integer.parseInt(voiceduration!!) % 3600) / 60
-        val seconds = Integer.parseInt(voiceduration!!) % 60
-        val timeString = String.format("%02d:%02d", minutes, seconds)
-        holder.lblRecentTotalDuration.text = timeString
-        holder.lblRecentPostedby.text = modal.sentby
-        val createdDateTime: String = modal.timing.toString()
 
+
+//        if (modal.typename.equals("Text Message")) {
+//            holder.lnrplayvoice.visibility = View.GONE
+//            holder.imgRecentType.setImageResource(R.drawable.dashboard_text)
+//            holder.imgRecentType.alpha = 0.7f
+//            holder.lblRecenttitle.text = modal.msgcontent
+//        }
+
+
+        val createdDateTime: String = modal.timing.toString()
         val firstvalue: Array<String> = createdDateTime.split("-".toRegex()).toTypedArray()
         val createddate: String = firstvalue.get(0)
-        holder.lblRecentDate!!.setText(createddate)
+        holder.lblRecentDate.text = createddate
         val createdTime: String = firstvalue.get(1)
-        holder.lblRecentTime!!.setText(createdTime)
+        holder.lblRecentTime.text = createdTime
 
         if (modal.isappread.equals("0")) {
-            holder.lblNew!!.visibility = View.VISIBLE
+            holder.lblNew.visibility = View.VISIBLE
         } else {
-            holder.lblNew!!.visibility = View.GONE
+            holder.lblNew.visibility = View.GONE
         }
-        if (isExpanded) {
-            holder.imgArrowdown!!.setImageResource(R.drawable.ic_arrow_up_blue)
-            if (!modal.typename.equals("Text Message")) {
-                holder.lnrplayvoice.visibility = View.GONE
-                holder.lblRecentDesciption.visibility = View.GONE
-            }
-            if (modal.typename.equals("Text Message")) {
-                Type = "Text"
-            } else if (modal.typename.equals("Emergencyvoice Message")) {
-                Type = "emergencyvoice"
-            } else {
-                Type = "voice"
 
+        if (isExpanded) {
+
+            holder.imgArrowdown.setImageResource(R.drawable.ic_arrow_up_blue)
+            if (ScreenType.equals("Text")) {
+                holder.lnrplayvoice.visibility = View.GONE
+                //  holder.lblRecentDesciption.visibility = View.GONE
+            }
+            if (ScreenType.equals("Text")) {
+                Type = "Text"
+            } else {
+                Type = if (modal.isemergency.equals("true")) {
+                    "voice"
+                } else if (modal.isemergency.equals("false")) {
+                    "voice"
+                } else {
+                    ""
+                }
             }
 
             if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
-                Log.d("expandeclose", isExpanded.toString())
                 mediaPlayer!!.stop()
                 holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
                 mediaPlayer!!.seekTo(0)
-            }
-            if (modal.isappread.equals("0")) {
-                Log.d("appread", modal.isappread!!)
-                BaseActivity.AppReadStatusContext(
-                    context,
-                    Type,
-                    modal.msgdetailsid!!
-                )
             }
 
         } else {
-            if (!modal.typename.equals("Text Message")) {
-                holder.lnrplayvoice.visibility = View.VISIBLE
-            }
-            holder.imgArrowdown!!.setImageResource(R.drawable.ic_arrow_down_blue)
-//            CommonUtil.CommunicationisExpandAdapter = false
+
+//            if(ScreenType.equals("Text")) {
+//                holder.lnrplayvoice.visibility = View.VISIBLE
+//            }
+            holder.imgArrowdown.setImageResource(R.drawable.ic_arrow_down_blue)
             if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
                 mediaPlayer!!.stop()
                 holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
                 mediaPlayer!!.seekTo(0)
             }
-
         }
 
         holder.rytRecentNotification.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 holder.lnrplayvoice.visibility = View.GONE
+                CommonUtil.DownloadingFile = 0
+
+//                Type = if (modal.isemergency.equals("true")) {
+//                    "emergency"
+//                } else if (modal.isemergency.equals("false")) {
+//                    "voice"
+//                } else {
+//                    ""
+//                }
+
+                if (ScreenType.equals("Text")) {
+                    Type = "Text"
+                } else {
+                    Type = if (modal.isemergency.equals("true")) {
+                        "voice"
+                    } else if (modal.isemergency.equals("false")) {
+                        "voice"
+                    } else {
+                        ""
+                    }
+                }
 
                 if (modal.isappread.equals("0")) {
-                    BaseActivity.AppReadStatusContext(
-                        context,
-                        Type,
-                        modal.msgdetailsid!!
-                    )
+                    BaseActivity.AppReadStatusContext(context, Type, modal.msgdetailsid!!)
+                    modal.isappread = "1"
+                    holder.lblNew.visibility = View.GONE
                 }
-                if (modal.typename!!.equals("Text Message")) {
+
+                if (ScreenType.equals("Text")) {
+
                     holder.lblRecentDesciption.visibility = View.VISIBLE
-                    holder.lblRecentDesciption.text = modal.msgcontent
+                    holder.lblRecentDesciption.text = modal.description
                     holder.recentSeekbarlayout.visibility = View.GONE
                     mExpandedPosition = if (isExpanded) -1 else position
                     notifyDataSetChanged()
                 } else {
                     holder.lblRecentDesciption.visibility = View.GONE
-
                     mExpandedPosition = if (isExpanded) -1 else position
                     notifyDataSetChanged()
 
                     if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
-                        Log.d("expandeopen", isExpanded.toString())
                         mediaPlayer!!.stop()
                         holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
                         mediaPlayer!!.seekTo(0)
                     }
-                    path = modal.msgcontent
-                    var filename: String = modal.msgdetailsid!! + "_" + "Gradit.mp3"
+
+                    path = modal.voicefile
+
+                    val filename: String = modal.msgdetailsid!! + "_" + "Gradit.mp3"
+
                     path = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         context!!.applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
                     } else {
@@ -225,24 +259,30 @@ public class CommunicationAdapter(
                     }
                     val dir = File(path, VOICE_FOLDER)
                     val file = File(dir, filename)
+
                     if (file.exists()) {
+
                         holder.recentSeekbarlayout.visibility = View.VISIBLE
+                        Log.d("FileExits", "NoFileExits")
 
                         SetUpAudioPlayer(holder)
                         fetchPathUrl(modal)
 
-                        Log.d("FileExist", "exist")
-
                         holder.imgRecentEmgplaypause.setOnClickListener(object :
                             View.OnClickListener {
                             override fun onClick(view: View) {
-                                mediaFileLengthInMilliseconds =
-                                    mediaPlayer!!.duration // gets the song length in milliseconds from URL
+
+                                mediaFileLengthInMilliseconds = mediaPlayer!!.duration
+
                                 if (!mediaPlayer!!.isPlaying) {
+                                    Log.d("AgainStart", "AgainStart")
                                     mediaPlayer!!.start()
                                     holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_pause)
+
                                 } else {
+
                                     mediaPlayer!!.pause()
+                                    holder.imgRecentEmgplaypause.isClickable = true
                                     holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
                                 }
                                 primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
@@ -250,17 +290,16 @@ public class CommunicationAdapter(
 
                             private fun primarySeekBarProgressUpdater(fileLength: Int) {
                                 val iProgress =
-                                    ((mediaPlayer!!.currentPosition.toFloat() / fileLength) * 100).toInt()
-                                holder.recentseekbar.progress = iProgress
+                                    (mediaPlayer!!.currentPosition.toFloat() / fileLength * 100).toInt()
+                                holder.recentseekbar.setProgress(iProgress) // This math construction give a percentage of "was playing"/"song length"
                                 if (mediaPlayer!!.isPlaying) {
-                                    val notification: Runnable = object : Runnable {
-                                        override fun run() {
-                                            holder.lblEmgRecentduration.text =
-                                                milliSecondsToTimer(
-                                                    mediaPlayer!!.currentPosition.toLong()
-                                                )
-                                            primarySeekBarProgressUpdater(fileLength)
-                                        }
+                                    val notification = Runnable {
+                                        holder.lblEmgRecentduration.setText(
+                                            milliSecondsToTimer(
+                                                mediaPlayer!!.currentPosition.toLong()
+                                            )
+                                        )
+                                        primarySeekBarProgressUpdater(fileLength)
                                     }
                                     handler.postDelayed(notification, 1000)
                                 }
@@ -272,51 +311,69 @@ public class CommunicationAdapter(
                             override fun onStopTrackingTouch(seekBar: SeekBar) {}
                             override fun onStartTrackingTouch(seekBar: SeekBar) {}
                             override fun onProgressChanged(
-                                seekBar: SeekBar,
-                                progress: Int,
-                                fromUser: Boolean
+                                seekBar: SeekBar, progress: Int, fromUser: Boolean
                             ) {
-                                if (mediaPlayer != null && fromUser) {
-                                    val playPositionInMillisecconds =
-                                        (mediaFileLengthInMilliseconds / 100) * holder.recentseekbar.progress
-                                    mediaPlayer!!.seekTo(playPositionInMillisecconds)
+
+                                if (holder.lblRecentTotalDuration.text.toString() == holder.lblEmgRecentduration.text.toString()) {
+                                    mediaPlayer!!.stop()
+                                    seekBar.progress = 0
+                                    mediaPlayer!!.seekTo(0)
+                                    holder.lblEmgRecentduration.text = "00:00"
+                                    mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
+                                    holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
+
                                 }
                             }
                         })
+                        mediaPlayer!!.setOnCompletionListener {
+                            holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
+                            mediaPlayer!!.seekTo(0)
+                        }
 
                     } else {
-                        CommunicationVoiceDownload.downloadSampleFile(
-                            context, modal.msgcontent!!,
-                            VOICE_FOLDER,
-                            filename, holder
-                        )
-                        
+
+                        Log.d("FileExits", "FileExits")
+
+                        holder.recentSeekbarlayout.visibility = View.VISIBLE
+
                         holder.imgRecentEmgplaypause.setOnClickListener(object :
                             View.OnClickListener {
                             override fun onClick(view: View) {
-                                SetUpAudioPlayerDownloaded(holder)
-                                fetchDownloaded(modal)
-                                mediaPlayer!!.setOnCompletionListener(MediaPlayer.OnCompletionListener {
-                                    holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
-                                    Log.d("SeekCompleteion", "stop")
-                                    mediaPlayer!!.seekTo(0)
-                                })
-                                if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
-                                    mediaPlayer!!.stop()
-                                    holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
-                                    mediaPlayer!!.seekTo(0)
-                                }
 
-                                mediaFileLengthInMilliseconds =
-                                    mediaPlayer!!.duration // gets the song length in milliseconds from URL
-                                if (!mediaPlayer!!.isPlaying) {
-                                    mediaPlayer!!.start()
-                                    holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_pause)
+                                if (CommonUtil.DownloadingFile!! == 0) {
+                                    Log.d("Voicefilepath", VOICE_FOLDER)
+                                    Log.d("modal.msgcontent!!", modal.voicefile!!)
+                                    Log.d("filename", filename)
+
+                                    CommunicationVoiceDownload.downloadSampleFile(
+                                        context, modal.voicefile!!, VOICE_FOLDER, filename, holder
+                                    )
+
+                                    Log.d("ContantId", modal.msgdetailsid.toString())
+
                                 } else {
-                                    mediaPlayer!!.pause()
-                                    holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
+
+                                    SetUpAudioPlayerDownloaded(holder)
+                                    fetchDownloaded(modal)
+
+                                    mediaFileLengthInMilliseconds = mediaPlayer!!.duration
+
+
+                                    if (!mediaPlayer!!.isPlaying) {
+                                        mediaPlayer!!.start()
+                                        holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_pause)
+
+                                    } else {
+
+                                        mediaPlayer!!.pause()
+                                        holder.imgRecentEmgplaypause.isClickable = true
+                                        holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
+
+                                    }
+
+                                    primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
+
                                 }
-                                primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
                             }
 
                             private fun primarySeekBarProgressUpdater(fileLength: Int) {
@@ -327,9 +384,7 @@ public class CommunicationAdapter(
                                     val notification: Runnable = object : Runnable {
                                         override fun run() {
                                             holder.lblEmgRecentduration.text =
-                                                milliSecondsToTimer(
-                                                    mediaPlayer!!.currentPosition.toLong()
-                                                )
+                                                milliSecondsToTimer(mediaPlayer!!.currentPosition.toLong())
                                             primarySeekBarProgressUpdater(fileLength)
                                         }
                                     }
@@ -344,26 +399,34 @@ public class CommunicationAdapter(
                             override fun onStopTrackingTouch(seekBar: SeekBar) {}
                             override fun onStartTrackingTouch(seekBar: SeekBar) {}
                             override fun onProgressChanged(
-                                seekBar: SeekBar,
-                                progress: Int,
-                                fromUser: Boolean
+                                seekBar: SeekBar, progress: Int, fromUser: Boolean
                             ) {
-                                if (mediaPlayer != null && fromUser) {
-                                    val playPositionInMillisecconds =
-                                        (mediaFileLengthInMilliseconds / 100) * holder.recentseekbar.progress
-                                    mediaPlayer!!.seekTo(playPositionInMillisecconds)
+
+                                if (holder.lblRecentTotalDuration.text.toString() == holder.lblEmgRecentduration.text.toString()) {
+                                    mediaPlayer!!.stop()
+                                    seekBar.progress = 0
+                                    mediaPlayer!!.seekTo(0)
+                                    holder.lblEmgRecentduration.text = "00:00"
+                                    mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
+                                    holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
+
                                 }
                             }
                         })
 
-//                        }
+                        mediaPlayer!!.setOnCompletionListener {
+                            holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
+                            mediaPlayer!!.seekTo(0)
+                        }
                     }
                 }
-
             }
         })
+    }
 
-
+    init {
+        ScreenType = Type
+        this.contextThis = context!!
     }
 
     private fun fetchPathUrl(modal: GetCommunicationDetails) {
@@ -372,10 +435,12 @@ public class CommunicationAdapter(
             var filename: String = modal.msgdetailsid!! + "_" + "Gradit.mp3"
             val path: String
             path = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                context!!.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.getPath()
+                context!!.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
             } else {
                 Environment.getExternalStorageDirectory().path
             }
+
+            Log.d("Path", path)
 
             val dir = File(path, VOICE_FOLDER)
             val file = File(dir, filename)
@@ -392,10 +457,7 @@ public class CommunicationAdapter(
     }
 
     private fun SetUpAudioPlayer(holder: MyViewHolder) {
-        mediaPlayer!!.setOnCompletionListener(MediaPlayer.OnCompletionListener {
-            holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
-            mediaPlayer!!.seekTo(0)
-        })
+
         holder.recentseekbar.max = 99
         holder.recentseekbar.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -403,7 +465,7 @@ public class CommunicationAdapter(
                     run {
                         val sb: SeekBar = v as SeekBar
                         val playPositionInMillisecconds: Int =
-                            (mediaFileLengthInMilliseconds / 100) * sb.getProgress()
+                            (mediaFileLengthInMilliseconds / 100) * sb.progress
                         mediaPlayer!!.seekTo(playPositionInMillisecconds)
                     }
                 }
@@ -415,23 +477,27 @@ public class CommunicationAdapter(
     private fun fetchDownloaded(modal: GetCommunicationDetails) {
         Log.d("PlayStart", "Start***************************************")
         try {
-            var filename: String = modal.msgdetailsid!! + "_" + "Gradit.mp3"
+            val filename: String = modal.msgdetailsid!! + "_" + "Gradit.mp3"
+            Log.d("filename", filename)
             val path: String
             path = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                context!!.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.getPath()
+                context!!.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
             } else {
                 Environment.getExternalStorageDirectory().path
             }
             Log.d("localpath", path)
 
             val dir = File(path, VOICE_FOLDER)
+            Log.d("__dir", dir.toString())
+
             val file = File(dir, filename)
+            Log.d("__file", file.toString())
+
             PlayPath = file.path
             Log.d("testFetchpath", PlayPath!!)
-            mediaPlayer = MediaPlayer()
-            mediaPlayer!!.reset()
             mediaPlayer!!.setDataSource(PlayPath)
             mediaPlayer!!.prepare()
+
             iMediaDuration = (mediaPlayer!!.duration / 1000.0).toInt()
         } catch (e: Exception) {
             Log.d("ExceptionWhilePlaying", e.toString())
@@ -440,10 +506,6 @@ public class CommunicationAdapter(
     }
 
     private fun SetUpAudioPlayerDownloaded(holder: MyViewHolder) {
-        mediaPlayer!!.setOnCompletionListener(MediaPlayer.OnCompletionListener {
-            holder.imgRecentEmgplaypause.setImageResource(R.drawable.ic_play)
-            mediaPlayer!!.seekTo(0)
-        })
         holder.recentseekbar.max = 99
         holder.recentseekbar.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -451,7 +513,7 @@ public class CommunicationAdapter(
                     run {
                         val sb: SeekBar = v as SeekBar
                         val playPositionInMillisecconds: Int =
-                            (mediaFileLengthInMilliseconds / 100) * sb.getProgress()
+                            (mediaFileLengthInMilliseconds / 100) * sb.progress
                         mediaPlayer!!.seekTo(playPositionInMillisecconds)
                     }
                 }
@@ -493,12 +555,16 @@ public class CommunicationAdapter(
         return finalTimerString
     }
 
-
     override fun getItemCount(): Int {
         return eventlist.size
-
     }
 
+    fun filterList(filterlist: java.util.ArrayList<GetCommunicationDetails>) {
+
+        eventlist = filterlist
+
+        notifyDataSetChanged()
+    }
 }
 
 

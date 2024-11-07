@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/examlist_constrine"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/ten"
+        android:layout_weight="0.5"
+        android:background="@drawable/bg_shadow_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/blue_view"
+            android:layout_width="3dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/three"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </View>
+
+        <TextView
+            android:id="@+id/txt_financeandaccounding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="2dp"
+            android:text="Name"
+            android:textColor="@color/btn_clr_blue"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/blue_view"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/img_dotthree"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginRight="@dimen/ten"
+            android:src="@drawable/threedot_image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="170dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/fifteen"
+            android:layout_marginTop="@dimen/two"
+            android:background="@color/whitegrey"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding">
+
+        </View>
+
+
+        <TextView
+            android:id="@+id/txt_testing_creating"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/two"
+            android:text="@string/txt_testing_exam_creating"
+            android:textColor="@color/black"
+            android:textSize="11dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/txt_date"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/two"
+            android:layout_marginRight="@dimen/five"
+            android:layout_marginBottom="@dimen/five"
+            android:gravity="right"
+            android:padding="@dimen/two"
+            android:text=" date"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_testing_creating"></TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/examlist_constrineans"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fifteen"
+        android:background="@drawable/bg_shadow_white"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/examlist_constrine">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrion_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/clr_bg_grey"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/blue_viewans"
+                android:layout_width="3dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/two"
+                android:background="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </View>
+
+            <TextView
+                android:id="@+id/txt_financeandaccoundingans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/two"
+                android:text="Name"
+                android:textColor="@color/btn_clr_blue"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/blue_viewans"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_question"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/two"
+                android:padding="@dimen/two"
+                android:text="answer"
+                android:textSize="12dp"
+                app:layout_constraintLeft_toRightOf="@+id/blue_viewans"
+                app:layout_constraintTop_toBottomOf="@+id/blue_viewans">
+
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constrion_question">
+
+            <TextView
+                android:id="@+id/txt_testing_creatingans"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:padding="@dimen/two"
+                android:text="@string/txt_testing_exam_creating"
+                android:textColor="@color/black"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_dateans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/two"
+                android:layout_marginRight="@dimen/five"
+                android:layout_marginBottom="@dimen/five"
+                android:gravity="right"
+                android:padding="@dimen/two"
+                android:text=" date"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_testing_creatingans"></TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

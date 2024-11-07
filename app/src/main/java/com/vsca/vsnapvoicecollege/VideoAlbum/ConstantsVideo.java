@@ -32,23 +32,22 @@ public class ConstantsVideo {
     //Maximum number of images that can be selected at a time
     public static int limit;
 
-    public static String getCount(Context c, String album_name)
-    {
+    public static String getCount(Context c, String album_name) {
         Uri uriExternal = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         Uri uriInternal = MediaStore.Video.Media.INTERNAL_CONTENT_URI;
 
-        String[] projection = { MediaStore.MediaColumns.DATA,
-                MediaStore.Video.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED };
+        String[] projection = {MediaStore.MediaColumns.DATA,
+                MediaStore.Video.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED};
 
         Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, MediaStore.Video.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
-        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, MediaStore.Video.Media.BUCKET_ID + "=?",new String[]{String.valueOf(album_name)}, null);
+        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, MediaStore.Video.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
 //        Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
 //        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
 
-        Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal,cursorInternal});
+        Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal, cursorInternal});
 
 
-        return cursor.getCount()+" Videos";
+        return cursor.getCount() + " Videos";
 
 
     }

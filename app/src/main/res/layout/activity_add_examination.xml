@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySender.AddExamination">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LayoutAdvertisement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/imgAdvertisement"
+                android:layout_width="406dp"
+                android:layout_height="@dimen/hundred"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgthumb"
+                android:layout_width="@dimen/fifty_five"
+                android:layout_height="@dimen/fifty_five"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/fifteen"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCorner"
+                app:strokeColor="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lbl_Examination"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_five"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutAdvertisement">
+
+            <ImageView
+                android:id="@+id/imgback"
+                android:layout_width="@dimen/thirty"
+                android:layout_height="@dimen/thirty"
+                android:layout_marginStart="@dimen/ten"
+                android:src="@drawable/ic_arrow_back_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/lbl_addexamination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/eight"
+                android:padding="5dp"
+                android:text="@string/txt_Create_examination"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/imgback"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/ten"
+            android:paddingBottom="@dimen/two"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/examination_button"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_Examination">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/ten">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/lbl_Exam_edit_con"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/txt_examname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ten"
+                        android:layout_marginTop="@dimen/ten"
+                        android:text="@string/txt_Exam_name"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/thirteen"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <EditText
+                        android:id="@+id/txtTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/ten"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/txt_Enter_the_exam_name"
+                        android:inputType="textAutoComplete"
+                        android:paddingStart="@dimen/two"
+                        android:paddingTop="@dimen/eight"
+                        android:paddingRight="@dimen/ten"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/transparent"
+                        android:textSize="@dimen/twelve"
+                        app:layout_constraintStart_toStartOf="@id/txt_examname"
+                        app:layout_constraintTop_toBottomOf="@id/txt_examname" />
+
+                    <View
+                        android:id="@+id/viewtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="@dimen/ten"
+                        android:background="@color/grey_rect"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/con_date_oicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lbl_Exam_edit_con">
+
+                    <LinearLayout
+                        android:id="@+id/liner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/twenty"
+                        android:layout_marginTop="@dimen/ten"
+                        android:layout_marginEnd="@dimen/twenty"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/from"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.5"
+                            android:text="@string/txt_from"></TextView>
+
+                        <TextView
+                            android:id="@+id/to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.5"
+                            android:text="@string/txt_to"></TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linerdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/twenty"
+                        android:layout_marginTop="@dimen/five"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@+id/liner">
+
+                        <TextView
+                            android:id="@+id/start_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.49"
+                            android:background="@drawable/bg_edittextbox_grey"
+                            android:drawableRight="@drawable/ic_calendar"
+                            android:drawablePadding="8dp"
+                            android:hint="@string/date"
+                            android:padding="10dp"
+                            android:textSize="@dimen/fourteen"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/end_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/ten"
+                            android:layout_weight="0.49"
+                            android:background="@drawable/bg_edittextbox_grey"
+                            android:drawableRight="@drawable/ic_calendar"
+                            android:drawablePadding="8dp"
+                            android:hint="@string/date"
+                            android:padding="10dp"
+                            android:textSize="@dimen/fourteen"
+                            android:textStyle="bold"></TextView>
+
+                    </LinearLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constrin_selectdepaerment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/twenty"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/linerdate">
+
+                        <TextView
+                            android:id="@+id/spinning_department"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_edittextbox_grey"
+                            android:drawableRight="@drawable/ic_arrow_down"
+                            android:hint="@string/txt_seletedtype"
+                            android:padding="10dp"
+                            android:textSize="@dimen/fifteen"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcy_hod"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/ten"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toBottomOf="@+id/spinning_department"></androidx.recyclerview.widget.RecyclerView>
+
+                        <Spinner
+                            android:id="@+id/spnhod_division"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/fifteen"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/spinning_department"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/spnhodyear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/fifteen"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/spnhod_division"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/spnhodsemester"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/fifteen"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/spnhodyear"></Spinner>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcy_hodandstaff"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/ten"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/linerdate"></androidx.recyclerview.widget.RecyclerView>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/con_principlelayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/twenty"
+                        android:layout_marginTop="@dimen/ten"
+                        android:layout_marginEnd="@dimen/twenty"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linerdate">
+
+                        <Spinner
+                            android:id="@+id/spn_division"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toTopOf="parent"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/spn_department"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/spn_division"></Spinner>
+
+
+                        <Spinner
+                            android:id="@+id/spn_course"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/spn_department"></Spinner>
+
+
+                        <Spinner
+                            android:id="@+id/spn_year"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/spn_course"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/spn_semester"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ten"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/spn_year"></Spinner>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/examination_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/get_seletion_subject_button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fourty"
+                android:layout_marginStart="@dimen/thirty"
+                android:layout_marginEnd="@dimen/thirty"
+                android:layout_marginBottom="@dimen/thirty"
+                android:background="@color/clr_principal"
+                android:text="@string/txt_get_section_subject"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+            </Button>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

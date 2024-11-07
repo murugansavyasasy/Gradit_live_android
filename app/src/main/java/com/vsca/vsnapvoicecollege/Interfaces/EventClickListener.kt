@@ -5,5 +5,5 @@ import com.vsca.vsnapvoicecollege.Model.GetEventDetailsData
 
 
 interface EventClickListener {
-    fun oneventClick(holder: EventsAdapter.MyViewHolder,item: GetEventDetailsData)
+    fun oneventClick(holder: EventsAdapter.MyViewHolder, item: GetEventDetailsData)
 }

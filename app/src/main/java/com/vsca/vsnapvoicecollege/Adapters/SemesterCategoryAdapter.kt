@@ -22,7 +22,7 @@ class SemesterCategoryAdapter constructor(data: List<SemesterAllCategory>, conte
     var Type: Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView: View = LayoutInflater.from(parent.getContext())
+        val itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_table_layout_credits, parent, false)
         return MyViewHolder(itemView)
     }
@@ -30,7 +30,7 @@ class SemesterCategoryAdapter constructor(data: List<SemesterAllCategory>, conte
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val data: SemesterAllCategory = categorycreditList.get(position)
-        Position = holder.getAbsoluteAdapterPosition()
+        Position = holder.absoluteAdapterPosition
 
         if (position == 0) {
             holder.LayoutSemesterTable!!.setBackgroundColor(Color.parseColor("#CCE5F5"))

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -11,12 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <include
             android:id="@+id/CommonLayout"
             layout="@layout/attendance_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/one_twenty"/>
+            android:layout_marginBottom="@dimen/hundred" />
+
+        <ImageView
+            android:id="@+id/imgAddPlus"
+            android:layout_width="@dimen/fifty"
+            android:layout_height="@dimen/fifty"
+            android:layout_gravity="end|bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="150dp"
+            android:background="@drawable/bg_circle_green"
+            android:backgroundTint="@color/icon_color"
+            android:padding="12dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_add_black"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/imgApplyleave"
             android:layout_width="50dp"
@@ -26,10 +43,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="150dp"
-            android:background="@drawable/plus_circle_bg"
+            android:background="@drawable/bg_circle_green"
             android:padding="12dp"
             android:src="@drawable/ic_add"
             android:visibility="gone" />
+
         <include
             layout="@layout/bottom_menu_layout"
             android:layout_width="fill_parent"
@@ -38,18 +56,7 @@
             app:behavior_hideable="false"
             app:behavior_peekHeight="120dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            app:layout_constraintBottom_toBottomOf="parent">
-        </include>
-        <ImageView
-            android:id="@+id/imgAddPlus"
-            android:layout_width="@dimen/fifty"
-            android:layout_height="@dimen/fifty"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="right"
-            android:layout_marginEnd="@dimen/twenty"
-            android:scaleType="fitXY"
-            android:src="@drawable/sender_add_plus"
-            android:visibility="gone" />
+            app:layout_constraintBottom_toBottomOf="parent"></include>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

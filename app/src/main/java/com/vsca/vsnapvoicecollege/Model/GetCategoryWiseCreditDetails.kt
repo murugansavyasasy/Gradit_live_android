@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class GetCategoryWiseCreditDetails {
+
     @SerializedName("category_id")
     @Expose
     var category_id: String? = null

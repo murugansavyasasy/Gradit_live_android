@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LayoutNoticeboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/LayoutAdvertisement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imgAdvertisement"
+                        android:layout_width="400dp"
+                        android:layout_height="@dimen/hundred"
+                        android:layout_marginEnd="@dimen/ten"
+                        android:scaleType="fitXY"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imgthumb"
+                        android:layout_width="@dimen/fifty_five"
+                        android:layout_height="@dimen/fifty_five"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/fifteen"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/roundedCorner"
+                        app:strokeColor="@color/white" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/LayoutHeadernotice"
+                    app:layout_constraintWidth_default="percent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/LayoutHeaderImagePdf"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/fifty_five"
+                        android:background="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imgImagePdfback"
+                            android:layout_width="@dimen/thirty"
+                            android:layout_height="@dimen/thirty"
+                            android:layout_marginStart="@dimen/ten"
+                            android:layout_marginEnd="@dimen/ten"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_arrow_back_white"
+                            android:visibility="visible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/lblMenuTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/eight"
+                            android:padding="@dimen/five"
+                            android:text="Assignment Submission"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/thirteen"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/imgImagePdfback"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </TextView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TableLayout
+                    android:id="@+id/tblnotsubmitted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/fifty"
+                    android:stretchColumns="1"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/fifty">
+
+                        <TextView
+                            android:id="@+id/lblCategory"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/fifty"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_table_header"
+                            android:gravity="center"
+                            android:text="S/No"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/fourteen"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_percent=".5">
+
+                        </TextView>
+
+
+                        <TextView
+                            android:id="@+id/lblSemesterSem"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/fifty"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_table_header"
+                            android:gravity="center"
+                            android:text="Register Number"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/fourteen"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/lblObtainedsem"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/fifty"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_table_header"
+                            android:gravity="center"
+                            android:text="Student Name"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toRightOf="@+id/lblSemesterSem"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/lblTobeObtainedsem"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/fifty"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_table_header"
+                            android:gravity="center"
+                            android:text="Course"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/fourteen"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/lblObtainedsem"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_percent=".5" />
+
+                        <TextView
+                            android:id="@+id/lblTotalCreditsSem"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/fifty"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_table_header"
+                            android:gravity="center"
+                            android:text="Year"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/fourteen"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toRightOf="@+id/lblTobeObtainedsem"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </TableRow>
+                </TableLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycle_AssignmentSubmition"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/twenty_five"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/tblnotsubmitted" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lblNodatafound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="No data found"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:visibility="gone">
+
+            </TextView>
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

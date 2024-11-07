@@ -18,9 +18,9 @@
             layout="@layout/activity_exam_marks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/one_thirty"
-            android:visibility="visible"
-            />
+            android:layout_marginBottom="@dimen/hundred"
+            android:visibility="visible" />
+
         <include
             layout="@layout/bottom_menu_layout"
             android:layout_width="fill_parent"
@@ -29,7 +29,6 @@
             app:behavior_hideable="false"
             app:behavior_peekHeight="120dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            app:layout_constraintBottom_toBottomOf="parent">
-        </include>
+            app:layout_constraintBottom_toBottomOf="parent"></include>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,46 +13,56 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Model.DashboardSubItems
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil.Priority
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
+import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
 
 class Login : AppCompatActivity() {
+
     @JvmField
-    @BindView(R.id.lblforgotPassword)
+    @BindView(R.id.txt_forgetpassword)
     var lblforgotPassword: TextView? = null
 
     @JvmField
-    @BindView(R.id.edMobilenumber)
-    var txtMobilenumber: EditText? = null
+    @BindView(R.id.phone_number_edt)
+    var phone_number_edt: TextView? = null
 
     @JvmField
-    @BindView(R.id.edPassword)
-    var txtPassword: EditText? = null
+    @BindView(R.id.password_edt)
+    var password_edt: EditText? = null
 
     @JvmField
-    @BindView(R.id.btnLogin)
-    var btnlogin: Button? = null
+    @BindView(R.id.img_passwordopen)
+    var img_passwordopen: ImageView? = null
 
-    @JvmField
-    @BindView(R.id.imgpasswordlock)
-    var imgpasswordlock: ImageView? = null
+    var lblcontent: TextView? = null
     var MobileNumber: String? = null
     var Password: String? = null
     var authViewModel: Auth? = null
     var LoginData: List<LoginDetails> = ArrayList()
     private var passwordvisible = true
+    var appViewModel: App? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         ButterKnife.bind(this)
-        authViewModel = ViewModelProvider(this).get(Auth::class.java)
+        authViewModel = ViewModelProvider(this)[Auth::class.java]
         authViewModel!!.init()
+        CommonUtil.MenuListDashboard.clear()
+        appViewModel = ViewModelProvider(this)[App::class.java]
+        appViewModel!!.init()
+
+        lblforgotPassword!!.setOnClickListener {
+            GetOtp()
+        }
+
+        MobileNumber = intent.getStringExtra("MobileNumber")
+        phone_number_edt!!.text = MobileNumber
 
         authViewModel!!.loginResposneLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -61,11 +71,11 @@ class Login : AppCompatActivity() {
                 if (status == 1) {
                     LoginData = response.data!!
                     if (LoginData.size != 0) {
-                        CommonUtil.UserDataList = response.data
+                        CommonUtil.UserDataList = response.data as ArrayList<LoginDetails>?
                         SharedPreference.putLoginDetails(this@Login, MobileNumber, Password)
                         SetLoginData(LoginData)
 
-                        Log.d("LoginDataSize",LoginData.size.toString())
+                        Log.d("LoginDataSize", LoginData.size.toString())
                         if (LoginData.size > 1) {
                             val i = Intent(this@Login, LoginRoles::class.java)
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -86,16 +96,38 @@ class Login : AppCompatActivity() {
                     CommonUtil.ApiAlert(this@Login, message)
                 }
             } else {
-                CommonUtil.ApiAlert(this@Login, "Something went wrong")
+                CommonUtil.ApiAlert(this@Login, CommonUtil.Something_went_wrong)
+            }
+        }
 
+        appViewModel!!.GetOtpNew!!.observe(this) { response ->
+            if (response != null) {
+                val status = response.Status
+                val message = response.Message
+                if (status == 1) {
+
+                    CommonUtil.ivrnumbers = response.data.get(0).ivrnumbers
+                    Log.d("ivrNumbers", CommonUtil.ivrnumbers.toString())
+                    CommonUtil.OptMessege = response.Message
+
+                    val intents = Intent(this, Otp::class.java)
+                    intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intents)
+
+                } else {
+                    CommonUtil.ApiAlert(this, message)
+                }
+
+            } else {
+                CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
             }
         }
     }
 
-    @OnClick(R.id.btnLogin)
+    @OnClick(R.id.txt_next)
     fun LoginbtnClick(view: View?) {
-        MobileNumber = txtMobilenumber!!.text.toString()
-        Password = txtPassword!!.text.toString()
+        Password = password_edt!!.text.toString()
 
         Log.d("Mobilenumber", MobileNumber!!)
         if (MobileNumber != "" && Password != "") {
@@ -105,21 +137,21 @@ class Login : AppCompatActivity() {
             jsonObject.addProperty(ApiRequestNames.Req_password, Password)
             authViewModel!!.login(jsonObject, this@Login)
         } else {
-            CommonUtil.ApiAlert(this@Login, getString(R.string.txt_login_details))
+            CommonUtil.ApiAlert(this@Login, "Enter your password")
         }
     }
 
-    @OnClick(R.id.imgpasswordlock)
+    @OnClick(R.id.img_passwordopen)
     fun imgpasswordlockClick() {
         if (passwordvisible) {
-            txtPassword!!.transformationMethod = PasswordTransformationMethod.getInstance()
-            imgpasswordlock!!.setImageResource(R.drawable.ic_lock)
+            password_edt!!.transformationMethod = PasswordTransformationMethod.getInstance()
+            img_passwordopen!!.setImageResource(R.drawable.ic_lock)
             passwordvisible = false
         } else {
-            txtPassword!!.transformationMethod = null
+            password_edt!!.transformationMethod = null
             passwordvisible = true
-            txtPassword!!.setSelection(txtPassword!!.text.length)
-            imgpasswordlock!!.setImageResource(R.drawable.ic_lock_open)
+            password_edt!!.setSelection(password_edt!!.text.length)
+            img_passwordopen!!.setImageResource(R.drawable.ic_lock_open)
         }
     }
 
@@ -128,11 +160,21 @@ class Login : AppCompatActivity() {
         super.onBackPressed()
     }
 
+    fun GetOtp() {
+        val jsonObject = JsonObject()
+        jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, MobileNumber)
+        appViewModel!!.GetOtp(jsonObject, this)
+        Log.d("AdForCollege:", jsonObject.toString())
+
+    }
+
     private fun SetLoginData(data: List<LoginDetails>) {
 
         for (i in data.indices) {
+            CommonUtil.Collegename = data.get(i).colgname.toString()
             CommonUtil.Priority = data.get(i).priority!!
             CommonUtil.MemberId = data.get(i).memberid
+            CommonUtil.CollegeCity = data.get(i).colgcity.toString()
             CommonUtil.MemberName = data.get(i).membername!!
             CommonUtil.MemberType = data.get(i).loginas!!
             CommonUtil.CollegeId = data.get(i).colgid
@@ -140,10 +182,12 @@ class Login : AppCompatActivity() {
             CommonUtil.Courseid = data.get(i).courseid!!
             CommonUtil.DepartmentId = data.get(i).deptid!!
             CommonUtil.YearId = data.get(i).yearid!!
+            CommonUtil.isAllowtomakecall = data[i].is_allow_to_make_call
             CommonUtil.SemesterId = data.get(i).semesterid!!
             CommonUtil.SectionId = data.get(i).sectionid!!
             CommonUtil.isParentEnable = data.get(i).is_parent_target_enabled!!
             CommonUtil.CollegeLogo = data.get(i).colglogo!!
+
         }
     }
 }

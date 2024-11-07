@@ -109,17 +109,18 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@id/viewLine"
             app:layout_constraintTop_toBottomOf="@id/viewLine">
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five"
-                app:layout_constraintTop_toTopOf="parent"
-                >
-            <RadioGroup
-                android:id="@+id/RadioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/three" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioGroup
+                    android:id="@+id/RadioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/three" />
             </ScrollView>
 
         </LinearLayout>
@@ -142,7 +143,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="@dimen/twenty">
-    </androidx.appcompat.widget.AppCompatButton>
+        android:textSize="@dimen/twenty"></androidx.appcompat.widget.AppCompatButton>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,63 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/grey_screen_clr"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_screen_clr">
 
     <ImageView
         android:id="@+id/imgClose"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="@dimen/thirty"
+        android:layout_height="@dimen/thirty"
         android:layout_margin="10dp"
         android:src="@drawable/ic_close_white"
-        android:layout_width="@dimen/thirty"
         android:visibility="visible"
-        android:layout_height="@dimen/thirty" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgFile1"
-        app:layout_constraintTop_toBottomOf="@+id/imgClose"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgClose"
 
         />
+
     <ImageView
         android:id="@+id/Fabdownload"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginTop="@dimen/five"
         android:layout_marginEnd="@dimen/eight"
         android:src="@drawable/download"
-        android:layout_marginTop="@dimen/five"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lnrImageView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/twenty_five"
+        android:layout_marginTop="@dimen/hundred"
+        android:layout_marginRight="@dimen/twenty_five"
+        android:layout_marginBottom="@dimen/hundred"
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgClose"
         app:layout_constraintStart_toStartOf="parent"
-    >
+        app:layout_constraintTop_toBottomOf="@+id/imgClose">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
             <ImageView
                 android:id="@+id/imgFile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.9"
-                android:scaleType="fitXY">
-            </ImageView>
+                android:adjustViewBounds="true"></ImageView>
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
@@ -68,5 +72,26 @@
 
 
         </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lnrImageView"
+
+        >
+
+        <ZoomControls
+            android:id="@+id/zoom_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

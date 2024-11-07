@@ -1,4 +1,5 @@
 package com.vsca.vsnapvoicecollege.Interfaces
+
 import com.vsca.vsnapvoicecollege.Adapters.LoginChooseRoles
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 

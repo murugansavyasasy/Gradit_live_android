@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
+
     <FrameLayout
         android:id="@+id/frameLayoutVideo"
         android:layout_width="match_parent"
@@ -12,6 +13,7 @@
         android:layout_marginRight="@dimen/twenty"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,6 +23,7 @@
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="visible">
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,13 +35,14 @@
                 app:strokeWidth="@dimen/ten"
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/gradit_logo"
-                app:shapeAppearanceOverlay="@style/roundedCorner">
-            </com.google.android.material.imageview.ShapeableImageView>
+                app:shapeAppearanceOverlay="@style/roundedCorner"></com.google.android.material.imageview.ShapeableImageView>
+
             <VideoView
                 android:id="@+id/videoview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/imgplay"
                 android:layout_width="@dimen/thirty"
@@ -46,7 +50,7 @@
                 android:src="@drawable/ic_play_white"
                 android:layout_centerInParent="true"
                 android:visibility="visible"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
         </RelativeLayout>
 
     </FrameLayout>

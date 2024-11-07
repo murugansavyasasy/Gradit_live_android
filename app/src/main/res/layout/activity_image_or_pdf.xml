@@ -164,6 +164,7 @@
                     android:hint="Enter the Description"
                     android:inputType="textMultiLine"
                     android:paddingStart="@dimen/two"
+                    android:maxLength="500"
                     android:paddingLeft="@dimen/five"
                     android:paddingTop="@dimen/eight"
                     android:paddingRight="@dimen/ten"
@@ -174,14 +175,23 @@
                     app:layout_constraintStart_toStartOf="@id/lblImgPdfDescription"
                     app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription" />
 
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/500"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_imgpdfdescription"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/LayoutUploadImagePdf"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_margin="@dimen/fifteen"
-                    android:padding="@dimen/ten"
+                    android:padding="@dimen/eight"
                     android:background="@drawable/bg_dotted_lines"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_imgpdfdescription">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_count">
 
                     <ImageView
                         android:id="@+id/imgUpload"
@@ -202,19 +212,48 @@
                         android:id="@+id/lblUploadFiles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/five"
                         android:layout_marginStart="@dimen/ten"
                         android:text="@string/txt_upload_files"
                         android:textAllCaps="false"
                         android:textColor="@color/transparent"
-                        android:textSize="@dimen/thirteen"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/imgUpload"
                         app:layout_constraintTop_toTopOf="parent">
 
                     </TextView>
+
+                    <TextView
+                        android:id="@+id/lbltotalfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Number of files"
+                        app:layout_constraintLeft_toRightOf="@+id/imgUpload"
+                        app:layout_constraintTop_toBottomOf="@+id/lblUploadFiles"
+                        android:visibility="gone"
+                        android:layout_marginLeft="@dimen/ten"
+                        >
+
+                    </TextView>
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/iblfileseletedotnot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="File is Selected"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/LayoutUploadImagePdf">
+
+                </TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -222,13 +261,12 @@
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/twenty"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/twenty"
                 android:layout_marginTop="@dimen/ten"
@@ -236,6 +274,7 @@
                 android:background="@drawable/bg_btn_grey"
                 android:gravity="center"
                 android:text="@string/txt_cancel"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
@@ -246,7 +285,7 @@
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="@dimen/one_twenty"
-                android:layout_height="@dimen/fifty"
+                android:layout_height="@dimen/fourty"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/ten"
                 android:layout_marginEnd="@dimen/ten"
@@ -254,9 +293,10 @@
                 android:background="@drawable/bg_btn_green"
                 android:gravity="center"
                 android:padding="@dimen/two"
-                android:text="@string/txt_confirm"
+                android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

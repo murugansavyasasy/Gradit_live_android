@@ -14,11 +14,12 @@
             android:id="@+id/big_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:paddingBottom="1dp"
             android:paddingLeft="4dp"
             android:paddingRight="6dp"
-            android:src="@drawable/gradit_logo"/>
+            android:paddingBottom="1dp"
+            android:src="@drawable/gradit_logo" />
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/notification_main"
         android:layout_width="wrap_content"
@@ -34,27 +35,27 @@
             android:id="@+id/content_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:text="Notification Sample App"
             android:textColor="@color/black"
-            android:text="Notification Sample App" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/content_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/clr_txt_grey_light"
-            android:text="Expand me to see a detailed message!"/>
+            android:text="Expand me to see a detailed message!"
+            android:textColor="@color/clr_txt_grey_light" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:paddingRight="10dp"
+        android:layout_alignParentRight="true"
         android:paddingTop="8dp"
+        android:paddingRight="10dp"
         android:text=""
-
-        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Time"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Time" />
 
 </RelativeLayout>

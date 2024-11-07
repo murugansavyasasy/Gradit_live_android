@@ -3,9 +3,7 @@ package com.vsca.vsnapvoicecollege.SenderModel
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class GetCourseDepartmentResposne
-
-{
+class GetCourseDepartmentResposne {
     @SerializedName("Status")
     @Expose
     var status = 0

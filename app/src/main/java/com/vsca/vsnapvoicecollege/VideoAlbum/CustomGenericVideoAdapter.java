@@ -10,7 +10,6 @@ public abstract class CustomGenericVideoAdapter<T> extends BaseAdapter {
     protected ArrayList<T> arrayList;
     protected Context context;
     protected LayoutInflater layoutInflater;
-
     protected int size;
 
     public CustomGenericVideoAdapter(Context context, ArrayList<T> arrayList) {

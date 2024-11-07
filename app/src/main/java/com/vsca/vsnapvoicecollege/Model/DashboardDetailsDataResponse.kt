@@ -1,7 +1,7 @@
 package com.vsca.vsnapvoicecollege.Model
 
-import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 
 class DashboardDetailsDataResponse {
@@ -69,7 +69,6 @@ class DashboardDetailsDataResponse {
     @Expose
     var filepaths: List<String>? = null
 
-
     @SerializedName("createddate")
     @Expose
     var createddate: String? = null
@@ -129,5 +128,108 @@ class DashboardDetailsDataResponse {
     @SerializedName("attendancedate")
     @Expose
     var attendancedate: String? = null
+
+
+    @SerializedName("eventtopic")
+    @Expose
+    var eventtopic: String? = null
+
+    @SerializedName("eventdate")
+    @Expose
+    var eventdate: String? = null
+
+    @SerializedName("eventtime")
+    @Expose
+    var eventtime: String? = null
+
+    @SerializedName("ideventdetails")
+    @Expose
+    var ideventdetails: String? = null
+
+
+    @SerializedName("idassignmentdetails")
+    @Expose
+    var idassignmentdetails: String? = null
+
+    @SerializedName("assignmenttopic")
+    @Expose
+    var assignmenttopic: String? = null
+
+    @SerializedName("assignmentdescription")
+    @Expose
+    var assignmentdescription: String? = null
+
+    @SerializedName("submissiondate")
+    @Expose
+    var submissiondate: String? = null
+
+//    @SerializedName("filepaths")
+//    @Expose
+//    var filepathsAssignment:List<String>?=null
+
+
+    @SerializedName("coursename")
+    @Expose
+    var coursename: String? = null
+
+    @SerializedName("departmentname")
+    @Expose
+    var departmentname: String? = null
+
+    @SerializedName("yearname")
+    @Expose
+    var yearname: String? = null
+
+
+    @SerializedName("sectionname")
+    @Expose
+    var sectionname: String? = null
+
+    @SerializedName("studentname")
+    @Expose
+    var studentname: String? = null
+
+    @SerializedName("question")
+    @Expose
+    var question: String? = null
+
+
+    //Leave Request
+
+    @SerializedName("leaveapplicationid")
+    @Expose
+    var leaveapplicationid: String? = null
+
+    @SerializedName("studentid")
+    @Expose
+    var studentid: String? = null
+
+    @SerializedName("reason")
+    @Expose
+    var reason: String? = null
+
+    @SerializedName("fromdate")
+    @Expose
+    var fromdate: String? = null
+
+    @SerializedName("todate")
+    @Expose
+    var todate: String? = null
+
+    @SerializedName("leavestatus")
+    @Expose
+    var leavestatus: String? = null
+
+    @SerializedName("noofdays")
+    @Expose
+    var noofdays: String? = null
+
+    @SerializedName("appliedon")
+    @Expose
+    var appliedon: String? = null
+
+    @SerializedName("file_type")
+    @Expose
+    var file_type: String? = null
 
 }

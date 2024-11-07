@@ -1,10 +1,10 @@
 package com.vsca.vsnapvoicecollege.Utils
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 
@@ -17,6 +17,7 @@ class MyWebViewClientContext(var context: Context) : WebViewClient() {
         failingUrl: String
     ) {
         if (errorCode == ERROR_TIMEOUT) {
+            Log.d("============", "======ERROR======")
             view.stopLoading()
         }
         view.loadData(

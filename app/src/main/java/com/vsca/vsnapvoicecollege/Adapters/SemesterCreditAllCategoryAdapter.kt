@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.vsca.vsnapvoicecollege.Model.SemesterAllCategory
-import com.vsca.vsnapvoicecollege.Model.SemesterAllCategoryCredits
 import com.vsca.vsnapvoicecollege.R
 
-class SemesterCreditAllCategoryAdapter constructor(data: List<SemesterAllCategory>, context: Context) :
+class SemesterCreditAllCategoryAdapter constructor(
+    data: List<SemesterAllCategory>,
+    context: Context
+) :
     RecyclerView.Adapter<SemesterCreditAllCategoryAdapter.MyViewHolder>() {
     var categorycreditList: List<SemesterAllCategory> = ArrayList()
     var context: Context
@@ -22,29 +23,18 @@ class SemesterCreditAllCategoryAdapter constructor(data: List<SemesterAllCategor
     var Type: Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView: View = LayoutInflater.from(parent.getContext())
+        val itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_table_layout_credits, parent, false)
         return MyViewHolder(itemView)
     }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val data: SemesterAllCategory = categorycreditList.get(position)
-        Position = holder.getAbsoluteAdapterPosition()
+        Position = holder.absoluteAdapterPosition
 
-//        if(position == 0){
-//            holder.LayoutSemesterTable!!.setBackgroundColor(Color.parseColor("#CCE5F5"))
-//        }
-
-//        if(position==4){
-//            holder.lblCategory!!.text = data.category_name
-//        }
-//
-//        if(position==13){
-//            holder.lblCategory!!.text = data.category_name
-//        }
-
-        holder.LayoutSemesterTable!!.visibility=View.VISIBLE
-        holder.layoutCategorytable!!.visibility=View.GONE
+        holder.LayoutSemesterTable!!.visibility = View.VISIBLE
+        holder.layoutCategorytable!!.visibility = View.GONE
 
         holder.lblTobeObtainedsem!!.text = data.to_be_obtained
         holder.lblSemesterSem!!.text = data.semester_name
@@ -53,6 +43,7 @@ class SemesterCreditAllCategoryAdapter constructor(data: List<SemesterAllCategor
         holder.lblTotalCreditsSem!!.text = data.total_credits
 
     }
+
     override fun getItemCount(): Int {
         return categorycreditList.size
     }
@@ -110,7 +101,5 @@ class SemesterCreditAllCategoryAdapter constructor(data: List<SemesterAllCategor
     init {
         categorycreditList = data
         this.context = context
-
-
     }
 }

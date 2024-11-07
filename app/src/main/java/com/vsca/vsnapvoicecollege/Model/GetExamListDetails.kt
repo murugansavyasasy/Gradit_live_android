@@ -28,6 +28,18 @@ class GetExamListDetails {
     @Expose
     var session: String? = null
 
+    @SerializedName("startdate")
+    @Expose
+    var startdate: String? = null
+
+    @SerializedName("enddate")
+    @Expose
+    var enddate: String? = null
+
+    @SerializedName("createdon")
+    @Expose
+    var createdon: String? = null
+
     @SerializedName("syllabus")
     @Expose
     var syllabus: String? = null

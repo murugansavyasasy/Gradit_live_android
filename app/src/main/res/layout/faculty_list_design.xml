@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:CircleImageView="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,31 +9,44 @@
         android:id="@+id/rytOverAll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_shadow_white"
-        android:padding="@dimen/ten"
-        android:layout_marginEnd="@dimen/three"
-        android:layout_marginStart="@dimen/three"
         android:layout_marginTop="@dimen/ten"
+        android:background="@drawable/bg_shadow_white"
+        android:padding="@dimen/eight"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/imgFaclutyPhoto"
-            android:layout_width="@dimen/sixty"
-            android:layout_height="@dimen/sixty_five"
-            android:layout_centerInParent="true"
+            android:layout_width="@dimen/eighty"
+            android:layout_height="@dimen/eighty"
             android:layout_alignParentLeft="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_user_grey"
-            CircleImageView:civ_border_color="#FF000000"
+            android:layout_centerInParent="true"
+            android:src="@drawable/faculty_image"
             CircleImageView:civ_border_width="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/btn_intreact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/btn_enable_greenn"
+            android:padding="@dimen/five"
+            android:text="Interact"
+            android:textColor="@color/white"
+            android:textStyle="bold">
+
+        </TextView>
+
         <RelativeLayout
+            android:id="@+id/Relative_facultydetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five"
+            android:layout_toLeftOf="@+id/btn_intreact"
             android:layout_toRightOf="@+id/imgFaclutyPhoto">
 
 
@@ -45,13 +56,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/two"
                 android:layout_marginTop="@dimen/ten"
+                android:layout_marginEnd="@dimen/five"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintWidth_default="percent">
 
                 <TextView
                     android:id="@+id/lblmeetingtopic"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/hundred"
                     android:layout_height="wrap_content"
                     android:text="@string/txt_faculty"
                     android:textColor="@color/black"
@@ -64,9 +76,8 @@
 
                 <TextView
                     android:id="@+id/lblcolon2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/eight"
                     android:text=":"
                     android:textColor="@color/black"
                     android:textSize="@dimen/twelve"
@@ -77,9 +88,8 @@
 
                 <TextView
                     android:id="@+id/lblStaffName"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
                     android:textColor="@color/btn_clr_green"
                     android:textSize="@dimen/thirteen"
                     android:textStyle="bold"
@@ -88,72 +98,68 @@
                     app:layout_constraintWidth_percent=".7" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/layoutSubjecthandled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layoutStaffType"
                 android:layout_marginStart="@dimen/two"
                 android:layout_marginTop="@dimen/ten"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintWidth_default="percent">
+                android:layout_marginEnd="@dimen/five"
+                android:layout_marginBottom="@dimen/five"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/lblSubjectName1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/hundred"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="@string/txt_subject_handled"
                     android:textColor="@color/black"
                     android:textSize="@dimen/thirteen"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".2" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/lblcolon3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five"
-                    android:layout_marginStart="@dimen/eight"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/five"
+                    android:layout_toRightOf="@+id/lblSubjectName1"
+                    android:gravity="center"
                     android:text=":"
                     android:textColor="@color/black"
                     android:textSize="@dimen/twelve"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@+id/lblSubjectName1"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".05" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/lblSubjectName"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/five"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/five"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/thirteen"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@+id/lblcolon3"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".7" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutStaffType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutFacultyName"
                 android:layout_marginStart="@dimen/two"
                 android:layout_marginTop="@dimen/ten"
-                android:layout_below="@+id/layoutFacultyName"
+                android:layout_marginEnd="@dimen/five"
+                android:padding="@dimen/two"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintWidth_default="percent">
 
                 <TextView
                     android:id="@+id/lblStaffType1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/hundred"
                     android:layout_height="wrap_content"
                     android:text="@string/txt_staff_type"
                     android:textColor="@color/black"
@@ -166,9 +172,8 @@
 
                 <TextView
                     android:id="@+id/lblcolon4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/eight"
                     android:text=":"
                     android:textColor="@color/black"
                     android:textSize="@dimen/twelve"
@@ -179,20 +184,16 @@
 
                 <TextView
                     android:id="@+id/lblStaffType"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
                     android:textColor="@color/black"
                     android:textSize="@dimen/thirteen"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@+id/lblcolon4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent=".7" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </RelativeLayout>
-
     </RelativeLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

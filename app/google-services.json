@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "565722863794",
-    "firebase_url": "https://voicemessengercollege.firebaseio.com",
-    "project_id": "voicemessengercollege",
-    "storage_bucket": "voicemessengercollege.appspot.com"
+    "project_number": "21504181603",
+    "project_id": "graditnew-78f66",
+    "storage_bucket": "graditnew-78f66.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:565722863794:android:148501ed7cf45917a551ab",
+        "mobilesdk_app_id": "1:21504181603:android:64f2b7ae4428d4edb4bf56",
         "android_client_info": {
           "package_name": "com.vsca.vsnapvoicecollege"
         }
       },
       "oauth_client": [
         {
-          "client_id": "565722863794-54an1hjt2p1jlfbvrm230relnvnjf83n.apps.googleusercontent.com",
+          "client_id": "21504181603-eso8p3lcl9cmick53pdf3vqpj620tnca.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCj7T7lj7TGGRIbJ_a5HXWXOCQSUAFABDs"
+          "current_key": "AIzaSyDex2GYKI7lj2fmmVl2MST6Hm1YTzWpZG4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "565722863794-54an1hjt2p1jlfbvrm230relnvnjf83n.apps.googleusercontent.com",
+              "client_id": "21504181603-eso8p3lcl9cmick53pdf3vqpj620tnca.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -35,6 +35,21 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/three">
 
+            <TextView
+                android:id="@+id/lblsubmittioncount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblNoticeboardTitle"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginTop="@dimen/ten"
+                android:text="Submission = "
+                android:textColor="@color/clr_emergency_red"
+                android:textStyle="bold"
+
+                >
+
+            </TextView>
+
             <View
                 android:id="@+id/Viewlineone"
                 android:layout_width="@dimen/two"
@@ -47,7 +62,7 @@
                 android:id="@+id/lnrAboveAttachment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNoticeboardTitle"
+                android:layout_below="@+id/lblsubmittioncount"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/ten"
                 android:background="@drawable/bg_circular_attachment"
@@ -107,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/ten"
+                android:layout_marginRight="@dimen/eight"
                 android:gravity="right"
                 android:padding="@dimen/three"
                 android:text="date"
@@ -120,8 +135,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblNoticeboardDate"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/twelve"
+                android:layout_marginRight="@dimen/ten"
                 android:gravity="right"
+                android:padding="@dimen/three"
                 android:text="time"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve"
@@ -159,8 +175,8 @@
                         android:id="@+id/lblNoticeboardDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/three"
                         android:layout_marginStart="@dimen/ten"
+                        android:layout_marginTop="@dimen/three"
                         android:text="fdddddddd"
                         android:textColor="@color/clr_black"
                         android:textSize="@dimen/twelve"
@@ -168,8 +184,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                       >
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/lblSentBy1"
@@ -195,20 +210,20 @@
                             android:textStyle="bold" />
 
 
+                        <ImageView
+                            android:id="@+id/imgArrowUp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:layout_marginLeft="@dimen/eight"
+                            android:layout_marginTop="@dimen/eight"
+                            android:layout_marginRight="@dimen/twelve"
+                            android:src="@drawable/ic_arrow_up_blue"
+                            android:visibility="visible" />
+
                     </RelativeLayout>
 
-                    <!--                    <TextView-->
-                    <!--                        android:id="@+id/lblNoticePostedby"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="@dimen/ten"-->
-                    <!--                        android:layout_marginTop="@dimen/ten"-->
-                    <!--                        android:background="@drawable/bg_rectangle_white"-->
-                    <!--                        android:backgroundTint="@color/clr_bg_sentby"-->
-                    <!--                        android:padding="@dimen/five"-->
-                    <!--                        android:text="Sample Prnicipal"-->
-                    <!--                        android:textColor="@color/black"-->
-                    <!--                        android:textSize="@dimen/twelve" />-->
                     <RelativeLayout
                         android:id="@+id/rytAssignmentFiles"
                         android:layout_width="wrap_content"
@@ -308,34 +323,91 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lnrsentbyDescription"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/thirty_five"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
                 <TextView
                     android:id="@+id/lblPreviousSubmission"
-                    android:layout_width="@dimen/ninety"
+                    android:layout_width="@dimen/eighty"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
                     android:layout_marginTop="@dimen/three"
                     android:background="@drawable/bg_previous_submission"
                     android:padding="@dimen/seven"
                     android:text="@string/txt_prev_submission"
                     android:textAlignment="center"
                     android:textColor="@color/clr_previous_submsion"
-                    android:textSize="@dimen/twelve" />
+                    android:textSize="@dimen/twelve"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten"
+                    android:layout_marginTop="@dimen/three"
+                    android:background="@drawable/bg_submit_outer_green">
+
+                    <TextView
+                        android:id="@+id/lblAssingmentSubmition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/seven"
+                        android:text="@string/txt_submition"
+                        android:textAlignment="center"
+                        android:textColor="@color/clr_green_submit"
+                        android:textSize="@dimen/twelve"
+                        android:visibility="gone" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="@color/black"
+                        android:visibility="gone">
+
+                    </View>
+
+
+                    <TextView
+                        android:id="@+id/lblNotAssingmentSubmition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/lblAssingmentSubmition"
+                        android:gravity="center"
+                        android:padding="@dimen/seven"
+                        android:text="Not submitted"
+                        android:textAlignment="center"
+                        android:textColor="@color/clr_emergency_red"
+                        android:textSize="@dimen/twelve"
+                        android:visibility="gone" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/lblAssingmentSubmit"
                     android:layout_width="@dimen/sixty"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
                     android:layout_marginTop="@dimen/three"
                     android:background="@drawable/bg_submit_outer_green"
                     android:padding="@dimen/seven"
                     android:text="@string/txt_submit"
                     android:textAlignment="center"
                     android:textColor="@color/clr_green_submit"
-                    android:textSize="@dimen/twelve" />
+                    android:textSize="@dimen/twelve"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/img_AssignmentDelete"
+                    android:layout_width="22dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="@dimen/seven"
+                    android:layout_marginRight="@dimen/twenty"
+                    android:src="@drawable/delete"
+                    android:visibility="gone">
+
+                </ImageView>
+
             </LinearLayout>
 
             <LinearLayout
@@ -344,7 +416,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lnrsentbyDescription"
                 android:layout_alignParentRight="true"
-                android:layout_marginEnd="@dimen/ten"
+                android:layout_marginTop="@dimen/five"
+                android:layout_toLeftOf="@+id/LayoutSubmissions"
                 android:background="@drawable/bg_previous_submission"
                 android:padding="@dimen/eight"
                 android:visibility="gone">
@@ -358,6 +431,4 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
-
 </RelativeLayout>

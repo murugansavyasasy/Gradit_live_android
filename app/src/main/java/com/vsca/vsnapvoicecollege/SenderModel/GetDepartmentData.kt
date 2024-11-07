@@ -17,4 +17,13 @@ class GetDepartmentData {
     @Expose
     var department_id: String? = null
 
+    @SerializedName("division_id")
+    @Expose
+    var division_id: String? = null
+
+    @SerializedName("division_name")
+    @Expose
+    var division_name: String? = null
+
+
 }

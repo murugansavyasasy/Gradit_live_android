@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.Spectfice_TakeAttendance">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lbl_Classdetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LayoutMeetingName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginTop="@dimen/three"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent">
+
+            <TextView
+                android:id="@+id/lblTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_Course_name"
+                android:textColor="@color/btn_clr_blue"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".35" />
+
+            <TextView
+                android:id="@+id/lblcolon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/lblTitle"
+                app:layout_constraintLeft_toRightOf="@+id/lblTitle"
+                app:layout_constraintTop_toTopOf="@+id/lblTitle"
+                app:layout_constraintWidth_percent=".05" />
+
+            <TextView
+                android:id="@+id/lblSubjectName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/lblcolon1"
+                app:layout_constraintLeft_toRightOf="@+id/lblcolon1"
+                app:layout_constraintTop_toTopOf="@+id/lblcolon1"
+                app:layout_constraintWidth_percent=".6" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSubjectType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutMeetingName"
+            app:layout_constraintWidth_default="percent">
+
+            <TextView
+                android:id="@+id/lblmeetingtopic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_Year_type"
+                android:textColor="@color/btn_clr_blue"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".35" />
+
+            <TextView
+                android:id="@+id/lblcolon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/eight"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/lblmeetingtopic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".05" />
+
+            <TextView
+                android:id="@+id/lblSubjectType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal"
+                app:layout_constraintLeft_toRightOf="@+id/lblcolon2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".6" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSubjectCredits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectType"
+            app:layout_constraintWidth_default="percent">
+
+            <TextView
+                android:id="@+id/lblmeetingtypecontent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_Section_credits"
+                android:textColor="@color/btn_clr_blue"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".35" />
+
+            <TextView
+                android:id="@+id/lblcolon4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/lblmeetingtypecontent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".05" />
+
+            <TextView
+                android:id="@+id/lblSubjectCredits"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="normal"
+                app:layout_constraintLeft_toRightOf="@+id/lblcolon4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".6" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layouthours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectCredits"
+            app:layout_constraintWidth_default="percent">
+
+            <TextView
+                android:id="@+id/lblhours"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Mark attendance for"
+                android:textColor="@color/btn_clr_blue"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/lblcolon5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/lblhours"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/con_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/lblcolon5"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Spinner
+                    android:id="@+id/edt_hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RadioGroup
+        android:id="@+id/rdoGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_Classdetails"
+        android:layout_marginTop="@dimen/ten"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rdobtnGeneral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginRight="@dimen/ten"
+            android:checked="true"
+            android:text="General"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fifteen"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/rdobtnTheory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/ten"
+            android:text="Theory"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fifteen"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/rdobtnPractical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:text="Practical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fifteen"></RadioButton>
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/edtTopic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rdoGroup"
+        android:layout_marginLeft="@dimen/ten"
+        android:layout_marginRight="@dimen/ten"
+        android:gravity="center"
+        android:hint="Enter the topic">
+
+    </EditText>
+
+    <SearchView
+        android:id="@+id/idSV"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirty"
+        android:layout_below="@+id/edtTopic"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/cardview_light_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Student name"
+        android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:id="@+id/check_Relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idSV"
+        android:layout_gravity="center"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/ch_all4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_five"
+            android:buttonTint="@color/clr_principal"
+
+            ></CheckBox>
+
+        <TextView
+            android:id="@+id/ALL4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five"
+            android:layout_toRightOf="@+id/ch_all4"
+            android:text=""
+            android:textSize="@dimen/fifteen"
+
+            >
+
+        </TextView>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relative_Recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/check_Relative"
+        android:layout_marginBottom="70dp">
+
+        <TextView
+            android:id="@+id/lbl_selectattendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Choose hour to edit"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twenty"
+            android:textStyle="bold"
+            android:visibility="gone"></TextView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_specificstudentAttendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_five"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_marginRight="@dimen/twenty_five"
+            android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/ten">
+
+        <Button
+            android:id="@+id/btn_takeattendance"
+            android:layout_width="@dimen/hundred"
+            android:layout_height="@dimen/fifty"
+            android:layout_marginEnd="@dimen/ten"
+            android:background="@drawable/bg_btn_green"
+            android:text="Mark Attendance"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+        </Button>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

@@ -1,167 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:CircleImageView="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/two"
     android:layout_marginTop="@dimen/one"
     android:layout_marginRight="@dimen/two"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rytOverAll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_shadow_white"
-        android:padding="@dimen/eight"
         android:layout_margin="@dimen/five"
+        android:padding="@dimen/fifteen"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/lblCollegeName"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/five"
-            android:text="Collegename"
-            android:textColor="@color/clr_txt_header"
-            android:textSize="@dimen/fifteen"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/seven"
-            android:layout_below="@+id/lblCollegeName">
-
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/imgCollegeLogo"
-                android:layout_width="@dimen/sixty"
-                android:layout_height="@dimen/sixty"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
+                android:layout_width="@dimen/eighty"
+                android:layout_height="@dimen/eighty"
                 android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_user_grey"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/roundedCorner"
-                app:strokeColor="@color/white" />
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginTop="@dimen/eight"
+                android:src="@drawable/college_logo" />
+
 
             <RelativeLayout
-                android:id="@+id/rytUserDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/seven"
-                android:layout_marginEnd="@dimen/eight"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/twenty_five"
                 android:layout_toRightOf="@+id/imgCollegeLogo">
 
                 <TextView
                     android:id="@+id/lblMemberName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
                     android:layout_marginLeft="@dimen/five"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="App principal"
-                    android:textColor="@color/clr_light_black"
-                    android:textSize="@dimen/fifteen"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twenty"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:visibility="invisible"
-                    android:id="@+id/lnrYearSem"
+                <TextView
+                    android:id="@+id/lblCollegeName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/lblMemberName"
+                    android:layout_below="@+id/lblMemberName"
                     android:layout_marginLeft="@dimen/five"
-                    android:layout_marginTop="@dimen/five"
-                    android:orientation="horizontal"
-                    >
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen" />
 
-                    <TextView
-                        android:id="@+id/lblYearName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Year 1 "
-                        android:textColor="@color/transparent"
-                        android:textSize="@dimen/thirteen"
-                        android:textStyle="normal" />
-
-                    <TextView
-                        android:id="@+id/viewline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/five"
-                        android:layout_toRightOf="@+id/lblYearName"
-                        android:textSize="@dimen/thirteen"
-                        android:text="-"
-                        android:textStyle="normal" />
-
-                    <TextView
-                        android:id="@+id/lblSemesterName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/five"
-                        android:text="Semester 1"
-                        android:textColor="@color/transparent"
-                        android:textSize="@dimen/thirteen"
-                        android:textStyle="normal" />
-                </LinearLayout>
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/rytRole"
-                android:layout_width="98dp"
-                android:layout_height="28dp"
-                android:layout_marginLeft="@dimen/five"
-                android:layout_marginTop="@dimen/five"
-                android:layout_toRightOf="@+id/imgCollegeLogo"
-                android:layout_below="@+id/rytUserDetails"
-                android:background="@drawable/bg_role">
-
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/lbl_Deptname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:padding="@dimen/two">
+                    android:layout_below="@+id/lblCollegeName"
+                    android:layout_marginLeft="@dimen/five"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen" />
 
-                    <TextView
-                        android:id="@+id/lblRoleType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerHorizontal="true"
-                        android:maxLines="1"
-                        android:layout_marginTop="@dimen/three"
-                        android:layout_marginStart="@dimen/eight"
-                        android:text="Prinicpal"
-                        android:textAlignment="center"
-                        android:textColor="@color/clr_dark_blue"
-                        android:textSize="@dimen/thirteen"
-                        android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/lblCoursenname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_Deptname"
+                    android:layout_marginLeft="@dimen/five"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen" />
 
-                    <ImageView
-                        android:id="@+id/imgdummy"
-                        android:layout_width="@dimen/twenty"
-                        android:layout_height="@dimen/twenty"
-                        android:layout_toRightOf="@+id/lblRoleType"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="@dimen/five"
-                        android:padding="@dimen/three"
-                        android:src="@drawable/ic_arrow_next_blue" />
-                </RelativeLayout>
+                <TextView
+                    android:id="@+id/lblYearName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblCoursenname"
+                    android:layout_marginLeft="@dimen/five"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/thirteen"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/viewline1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblCoursenname"
+                    android:layout_marginLeft="@dimen/five"
+                    android:layout_toRightOf="@+id/lblYearName"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/thirteen"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/semname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblCoursenname"
+                    android:layout_marginLeft="@dimen/five"
+                    android:layout_toRightOf="@+id/viewline1"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/thirteen"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/lblSectionname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/semname"
+                    android:layout_marginLeft="@dimen/five"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen" />
+
             </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

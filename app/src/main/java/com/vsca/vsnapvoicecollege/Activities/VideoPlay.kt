@@ -1,6 +1,5 @@
 package com.vsca.vsnapvoicecollege.Activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -8,7 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.webkit.*
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -35,6 +34,11 @@ class VideoPlay : AppCompatActivity() {
 
 
         val VideoID = intent.getStringExtra("iframe")
+
+        if (VideoID != null) {
+            Log.d("videoid", VideoID)
+        }
+
         val title = intent.getStringExtra("title")
         val description = intent.getStringExtra("description")
         val appread = intent.getStringExtra("appread")
@@ -43,55 +47,50 @@ class VideoPlay : AppCompatActivity() {
         lblVideoTitle!!.text = title
         lblVideoDescription!!.text = description
         if (appread.equals("0")) {
-
             BaseActivity.AppReadStatus(
-                this,
-                "video",
-                detailid!!
+                this, "video", detailid!!
             )
         }
-
-
         LoadVideo(VideoID!!)
-
     }
 
     @OnClick(R.id.imgheaderBack)
     fun imgbackClick() {
-        onBackPressed();
+        super.onBackPressed()
     }
 
     private fun LoadVideo(VideoID: String) {
-        Log.d("testvideo", "video")
+
+        Log.d("testvideo", VideoID)
+
         mywebview!!.setBackgroundColor(resources.getColor(R.color.clr_black))
-        mywebview!!.getSettings().setJavaScriptEnabled(true)
-        mywebview!!.getSettings().setAppCacheEnabled(true)
-        mywebview!!.getSettings().setDomStorageEnabled(true)
-        mywebview!!.getSettings().setSupportZoom(false)
-        mywebview!!.getSettings().setBuiltInZoomControls(false)
-        mywebview!!.getSettings().setDisplayZoomControls(false)
-        mywebview!!.setScrollContainer(false)
-        mywebview!!.setHorizontalScrollBarEnabled(false)
-        mywebview!!.setVerticalScrollBarEnabled(false)
+        mywebview!!.settings.javaScriptEnabled = true
+        mywebview!!.settings.domStorageEnabled = true
+        mywebview!!.settings.setSupportZoom(false)
+        mywebview!!.settings.builtInZoomControls = false
+        mywebview!!.settings.displayZoomControls = false
+        mywebview!!.isScrollContainer = false
+        mywebview!!.isHorizontalScrollBarEnabled = false
+        mywebview!!.isVerticalScrollBarEnabled = false
 
         mywebview!!.setOnTouchListener(View.OnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE })
-        mywebview!!.setWebViewClient(object : WebViewClient() {
+        mywebview!!.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
                 webView: WebView,
                 request: WebResourceRequest
             ): Boolean {
-
                 return true
             }
-        })
-        mywebview!!.setWebChromeClient(object : WebChromeClient() {
+        }
+        mywebview!!.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
                 setProgress(progress * 100)
                 if (progress == 100) {
+
                 }
             }
-        })
-        mywebview!!.getSettings().setPluginState(WebSettings.PluginState.ON)
+        }
+        mywebview!!.settings.pluginState = WebSettings.PluginState.ON
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
@@ -109,9 +108,14 @@ class VideoPlay : AppCompatActivity() {
                 " </div>" +
                 " </body>" +
                 " </html> "
-        Log.d("datahtmlweb", data_html)
 
+        Log.d("datahtmlweb", data_html)
         mywebview!!.loadData(data_html, "text/html", "UTF-8")
-        Log.d("load", data_html)
+
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

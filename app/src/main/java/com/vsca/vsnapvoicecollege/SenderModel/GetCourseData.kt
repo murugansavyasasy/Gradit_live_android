@@ -17,4 +17,25 @@ class GetCourseData {
     @Expose
     var course_id: String? = null
 
+
+
+
+
+    @SerializedName("division_id")
+    @Expose
+    var division_id: String? = null
+
+    @SerializedName("division_name")
+    @Expose
+    var division_name: String? = null
+
+    @SerializedName("department_id")
+    @Expose
+    var department_id: String? = null
+
+    @SerializedName("department_name")
+    @Expose
+    var department_name: String? = null
+
+
 }

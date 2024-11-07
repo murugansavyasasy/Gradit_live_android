@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySender.AttendanceDetailsfromstudent">
+
+    <RelativeLayout
+        android:id="@+id/rlatopbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/ten"
+            android:src="@drawable/ic_arrow_back"></ImageView>
+
+        <TextView
+            android:id="@+id/lblatten_staffname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginTop="@dimen/ten"
+            android:textStyle="bold"
+            android:textSize="@dimen/fifteen"
+            android:textColor="@color/clr_principal"
+            android:layout_toRightOf="@+id/img_back"
+            android:text="">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblatten_sunjectname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty"
+            android:textSize="@dimen/twelve"
+            android:layout_marginTop="@dimen/ten"
+            android:textColor="@color/black"
+            android:layout_below="@+id/lblatten_staffname"
+            android:layout_toRightOf="@+id/img_back"
+            android:text="">
+
+        </TextView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutTablesCatSem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/fifteen"
+        android:layout_below="@+id/rlatopbar"
+        >
+
+        <TableLayout
+            android:id="@+id/LayoutSemesterTable"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/fifty"
+            android:stretchColumns="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/fifty">
+
+                <TextView
+                    android:id="@+id/lblCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fifty"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_table_header"
+                    android:gravity="center"
+                    android:text="S/NO"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".5">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/lblSemesterSem"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fifty"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_table_header"
+                    android:gravity="center"
+                    android:text="Date"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/lblCategory"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/lblObtainedsem"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fifty"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_table_header"
+                    android:gravity="center"
+                    android:text="Hours attended"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/lblSemesterSem"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/lblTobeObtainedsem"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fifty"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_table_header"
+                    android:gravity="center"
+                    android:text="Hours absent"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/lblObtainedsem"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".5" />
+            </TableRow>
+        </TableLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcyAttendanceDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/rlatopbar"></androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</RelativeLayout>

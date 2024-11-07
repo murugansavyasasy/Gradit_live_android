@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/lb_please_allow_gallery_permission"/>
+        android:text="@string/lb_please_allow_gallery_permission" />
+
     <GridView
         android:id="@+id/grid_view_album_select"
         android:layout_width="match_parent"
@@ -23,6 +24,5 @@
         android:verticalSpacing="@dimen/five"
         android:gravity="center"
         android:stretchMode="columnWidth"
-        android:background="#ffffff">
-    </GridView>
+        android:background="#ffffff"></GridView>
 </RelativeLayout>

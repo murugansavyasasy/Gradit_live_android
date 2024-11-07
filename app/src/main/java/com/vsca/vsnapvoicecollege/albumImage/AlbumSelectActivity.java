@@ -32,9 +32,13 @@ import java.util.HashSet;
  * Created by Darshan on 4/14/2015.
  */
 public class AlbumSelectActivity extends HelperActivity {
+    private final String[] projection = new String[]{
+            MediaStore.Images.Media.BUCKET_ID,
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+            MediaStore.Images.Media.DATA};
+    String screen, events, Homework, Assignment, Circulars;
     private ArrayList<Album> albums;
     private TextView errorDisplay;
-    String screen,events,Homework,Assignment,Circulars;
     private GridView gridView;
     private CustomAlbumSelectAdapter adapter;
     private ActionBar actionBar;
@@ -42,33 +46,20 @@ public class AlbumSelectActivity extends HelperActivity {
     private Handler handler;
     private Thread thread;
 
-    private final String[] projection = new String[]{
-            MediaStore.Images.Media.BUCKET_ID,
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.Media.DATA };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_select);
-//        BaseActivity activity = new BaseActivity();
-//
-//
-//        activity.initializeActionBar();
-//        activity.setTitle(getString(R.string.title_album_gallery));
-//        activity.enableSearch(false);
-//        BaseActivity activity
-//        ((BaseActivity)ge).startChronometer();
-       // actionBar = getSupportActionBar();
+
         Intent intent = getIntent();
         if (intent == null) {
             finish();
         }
         Constants.limit = intent.getIntExtra(Constants.INTENT_EXTRA_LIMIT, Constants.DEFAULT_LIMIT);
 
-        errorDisplay = (TextView) findViewById(R.id.text_view_error);
+        errorDisplay = findViewById(R.id.text_view_error);
         errorDisplay.setVisibility(View.INVISIBLE);
-        gridView = (GridView) findViewById(R.id.grid_view_album_select);
+        gridView = findViewById(R.id.grid_view_album_select);
         screen = getIntent().getStringExtra("Gallery");
         events = getIntent().getStringExtra("Events");
         Homework = getIntent().getStringExtra("Homework");
@@ -80,11 +71,11 @@ public class AlbumSelectActivity extends HelperActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ImageSelectActivity.class);
-                intent.putExtra("Gallery","Images");
-                intent.putExtra("Events","Images");
-                intent.putExtra("Homework","Images");
-                intent.putExtra("Assignment","Images");
-                intent.putExtra("Circulars","Images");
+                intent.putExtra("Gallery", "Images");
+                intent.putExtra("Events", "Images");
+                intent.putExtra("Homework", "Images");
+                intent.putExtra("Assignment", "Images");
+                intent.putExtra("Circulars", "Images");
 
                 intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).name);
                 startActivityForResult(intent, Constants.REQUEST_CODE);
@@ -115,7 +106,6 @@ public class AlbumSelectActivity extends HelperActivity {
                         if (adapter == null) {
                             adapter = new CustomAlbumSelectAdapter(getApplicationContext(), albums);
                             gridView.setAdapter(adapter);
-
 
                             gridView.setVisibility(View.VISIBLE);
                             orientationBasedUI(getResources().getConfiguration().orientation);
@@ -217,88 +207,15 @@ public class AlbumSelectActivity extends HelperActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-
-            default: {
-                return false;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
+        return false;
     }
 
     private void loadAlbums() {
         startThread(new AlbumLoaderRunnable());
-    }
-
-    private class AlbumLoaderRunnable implements Runnable {
-        @Override
-        public void run() {
-            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-
-            if (adapter == null) {
-                sendMessage(Constants.FETCH_STARTED);
-            }
-
-            Cursor cursor = getApplicationContext().getContentResolver()
-                    .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
-                            null, null, MediaStore.Images.Media.DATE_ADDED);
-            if (cursor == null) {
-                sendMessage(Constants.ERROR);
-                return;
-            }
-            Log.d("Count", String.valueOf(cursor.getCount()));
-            ArrayList<Album> temp = new ArrayList<>(cursor.getCount());
-            HashSet<Long> albumSet = new HashSet<>();
-            File file;
-
-            if (cursor.moveToLast()) {
-                do {
-                    if (Thread.interrupted()) {
-                        return;
-                    }
-
-                    long albumId = cursor.getLong(cursor.getColumnIndex(projection[0]));
-                    String album = cursor.getString(cursor.getColumnIndex(projection[1]));
-                    String image = cursor.getString(cursor.getColumnIndex(projection[2]));
-//                    String image = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
-
-
-                    if (!albumSet.contains(albumId)) {
-                        String count = Constants.getCount(getApplicationContext(), String.valueOf(albumId));
-
-                        /*
-                        It may happen that some image file paths are still present in cache,
-                        though image file does not exist. These last as long as media
-                        scanner is not run again. To avoid get such image file paths, check
-                        if image file exists.
-                         */
-                        file = new File(image);
-                        if (file.exists()) {
-                            Log.d("image", String.valueOf(image));
-                            temp.add(new Album(album, image,count));
-//                            temp.add(image);
-                            albumSet.add(albumId);
-                        }
-
-                    }
-
-                } while (cursor.moveToPrevious());
-                cursor.close();
-            }
-//            cursor.close();
-
-            if (albums == null) {
-                albums = new ArrayList<>();
-            }
-            albums.clear();
-            albums.addAll(temp);
-            Log.d("albums", String.valueOf(albums.size()));
-            sendMessage(Constants.FETCH_COMPLETED);
-        }
-
     }
 
     private void startThread(Runnable runnable) {
@@ -339,10 +256,69 @@ public class AlbumSelectActivity extends HelperActivity {
 
     @Override
     protected void hideViews() {
-
         gridView.setVisibility(View.INVISIBLE);
     }
 
+    private class AlbumLoaderRunnable implements Runnable {
+        @Override
+        public void run() {
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+            if (adapter == null) {
+                sendMessage(Constants.FETCH_STARTED);
+            }
+
+            Cursor cursor = getApplicationContext().getContentResolver()
+                    .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
+                            null, null, MediaStore.Images.Media.DATE_ADDED);
+            if (cursor == null) {
+                sendMessage(Constants.ERROR);
+                return;
+            }
+            Log.d("Count", String.valueOf(cursor.getCount()));
+            ArrayList<Album> temp = new ArrayList<>(cursor.getCount());
+            HashSet<Long> albumSet = new HashSet<>();
+            File file;
+
+            if (cursor.moveToLast()) {
+                do {
+                    if (Thread.interrupted()) {
+                        return;
+                    }
+
+                    long albumId = cursor.getLong(cursor.getColumnIndex(projection[0]));
+                    String album = cursor.getString(cursor.getColumnIndex(projection[1]));
+                    String image = cursor.getString(cursor.getColumnIndex(projection[2]));
 
 
+                    if (!albumSet.contains(albumId)) {
+                        String count = Constants.getCount(getApplicationContext(), String.valueOf(albumId));
+
+                        /*
+                        It may happen that some image file paths are still present in cache,
+                        though image file does not exist. These last as long as media
+                        scanner is not run again. To avoid get such image file paths, check
+                        if image file exists.
+                         */
+                        file = new File(image);
+                        if (file.exists()) {
+                            Log.d("image", image);
+                            temp.add(new Album(album, image, count));
+                            albumSet.add(albumId);
+                        }
+                    }
+
+                } while (cursor.moveToPrevious());
+                cursor.close();
+            }
+
+            if (albums == null) {
+                albums = new ArrayList<>();
+            }
+            albums.clear();
+            albums.addAll(temp);
+            Log.d("albums", String.valueOf(albums.size()));
+            sendMessage(Constants.FETCH_COMPLETED);
+        }
+    }
 }

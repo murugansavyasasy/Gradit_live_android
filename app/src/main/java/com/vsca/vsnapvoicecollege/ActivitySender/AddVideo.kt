@@ -8,46 +8,42 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.ParcelFileDescriptor
-import android.os.SystemClock
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.PopupWindow
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
-import com.vsca.vsnapvoicecollege.Activities.ChatCommunication
-import com.vsca.vsnapvoicecollege.Activities.ChatParent
-import com.vsca.vsnapvoicecollege.Adapters.ChatStaffAdapter
-import com.vsca.vsnapvoicecollege.Adapters.VideoAdapter
 import com.vsca.vsnapvoicecollege.Adapters.VideoContentAdapter
 import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
-import com.vsca.vsnapvoicecollege.Interfaces.ChatListener
-import com.vsca.vsnapvoicecollege.Model.GetStaffDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
 import com.vsca.vsnapvoicecollege.Model.VideoRestrictionData
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.VideoAlbum.AlbumVideoSelectVideoActivity
-import com.vsca.vsnapvoicecollege.VideoAlbum.Video
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
-import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -62,8 +58,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
 import java.util.concurrent.TimeUnit
 
+class AddVideo : ActionBarActivity() {
 
-class AddVideo : AppCompatActivity() {
     @JvmField
     @BindView(R.id.LayoutUploadVideo)
     var LayoutUploadVideo: ConstraintLayout? = null
@@ -73,27 +69,79 @@ class AddVideo : AppCompatActivity() {
     var txtTitle: EditText? = null
 
     @JvmField
+    @BindView(R.id.txt_Selected)
+    var txt_Selected: TextView? = null
+
+    @JvmField
     @BindView(R.id.txtDescription)
     var txtDescription: EditText? = null
 
+    @JvmField
+    @BindView(R.id.imgAdvertisement)
+    var imgAdvertisement: ImageView? = null
+
+    @JvmField
+    @BindView(R.id.imgthumb)
+    var imgthumb: ImageView? = null
+
+
     private val REQUEST = 1
     private val SELECT_VIDEO = 2
+    var uri: Uri? = null
 
-    var appViewmodel: App? = null
+    var videofile: String? = null
+
+    var appViewModel: App? = null
+    var AdWebURl: String? = null
+    var PreviousAddId: Int = 0
+    var AdBackgroundImage: String? = null
+    var AdSmallImage: String? = null
+    var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
+    var selectedPaths = mutableListOf<String>()
     var GetContentData: ArrayList<VideoRestrictionData>? = null
     var videoAdapter: VideoContentAdapter? = null
     var videoContentlist = ArrayList<String>()
+    var ScreenName: String? = null
+    var VideoTitle: String? = null
+    var VideoDescription: String? = null
+    var Videofile: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_video)
+        appViewModel = ViewModelProvider(this).get(App::class.java)
+        appViewModel!!.init()
         ButterKnife.bind(this)
+        ActionbarWithoutBottom(this)
 
-        appViewmodel = ViewModelProvider(this).get(App::class.java)
-        appViewmodel!!.init()
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
+            Observer<GetAdvertisementResponse?> { response ->
+                if (response != null) {
+                    val status = response.status
+                    val message = response.message
+                    if (status == 1) {
+                        GetAdForCollegeData = response.data!!
+                        for (j in GetAdForCollegeData.indices) {
+                            AdSmallImage = GetAdForCollegeData[j].add_image
+                            AdBackgroundImage = GetAdForCollegeData[0].background_image!!
+                            AdWebURl = GetAdForCollegeData[0].add_url.toString()
+                        }
+                        Glide.with(this)
+                            .load(AdBackgroundImage)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(imgAdvertisement!!)
+                        Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
-        appViewmodel!!.VideoRestrictContentMutableLiveData!!.observe(this) { response ->
+                        Glide.with(this)
+                            .load(AdSmallImage)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(imgthumb!!)
+                    }
+                }
+            })
+
+        appViewModel!!.VideoRestrictContentMutableLiveData!!.observe(this) { response ->
             if (response != null) {
                 val status = response.status
                 val message = response.message
@@ -101,18 +149,37 @@ class AddVideo : AppCompatActivity() {
                 if (status == 1) {
                     GetContentData = response.data!!
                     for (i in GetContentData!!.indices) {
-                        var content = GetContentData!!.get(i).content
+                        val content = GetContentData!!.get(i).content
                         videoContentlist.add(content!!)
                     }
                     ShowVideoRestrictionPopUp()
                 } else {
-                    CommonUtil.ApiAlert(this,message)
+                    CommonUtil.ApiAlert(this, message)
                 }
             } else {
-                CommonUtil.ApiAlert(this,"Something Went Wrong")
+                CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
             }
         }
     }
+
+    private fun AdForCollegeApi() {
+
+        var mobilenumber = SharedPreference.getSH_MobileNumber(this)
+        var devicetoken = SharedPreference.getSH_DeviceToken(this)
+        val jsonObject = JsonObject()
+        jsonObject.addProperty(ApiRequestNames.Req_ad_device_token, devicetoken)
+        jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_mobileno, mobilenumber)
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
+        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        Log.d("AdForCollege:", jsonObject.toString())
+
+        PreviousAddId = PreviousAddId + 1
+        Log.d("PreviousAddId", PreviousAddId.toString())
+    }
+
 
     private fun ShowVideoRestrictionPopUp() {
 
@@ -133,20 +200,94 @@ class AddVideo : AppCompatActivity() {
         ryccontent.itemAnimator = DefaultItemAnimator()
         videoAdapter = VideoContentAdapter(videoContentlist, this)
         ryccontent.adapter = videoAdapter
-        //        lblContent.setText(content);
         btnAgree.setOnClickListener {
             popupWindow.dismiss()
-
             val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
-            intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            startActivityForResult(intent1, SELECT_VIDEO)        }
+            intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+            startActivityForResult(intent1, SELECT_VIDEO)
+        }
     }
+
+
+    override val layoutResourceId: Int
+        get() = R.layout.activity_add_video
 
     @OnClick(R.id.LayoutUploadVideo)
     fun OpenGallery() {
-        appViewmodel!!.VideoRestrictionContent(this)
 
+        VideoTitle = txtTitle!!.text.toString()
+        VideoDescription = txtDescription!!.text.toString()
 
+        if (!VideoTitle.isNullOrEmpty() && !VideoDescription.isNullOrEmpty()) {
+
+            appViewModel!!.VideoRestrictionContent(this)
+
+        } else {
+            Toast.makeText(this, CommonUtil.Fill_Title_and_Description, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @OnClick(R.id.btnCancel)
+    fun imgBackClick() {
+        super.onBackPressed()
+    }
+
+    @OnClick(R.id.imgImagePdfback)
+    fun imgImagePdfback() {
+        super.onBackPressed()
+    }
+
+    @OnClick(R.id.btnConfirm)
+    fun Click() {
+
+        if (!txtDescription!!.text.isNullOrEmpty() && !txtTitle!!.text.isNullOrEmpty() && txt_Selected!!.getVisibility() == View.VISIBLE) {
+
+            ScreenName = "New Video"
+            CommonUtil.title = txtTitle!!.text.toString()
+            CommonUtil.Description = txtDescription!!.text.toString()
+            if (CommonUtil.Priority == "p7") {
+
+                val i: Intent = Intent(this, HeaderRecipient::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.putExtra("ScreenName", ScreenName)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(i)
+
+            } else {
+
+                if (CommonUtil.Priority == "p1") {
+
+                    val i: Intent = Intent(this, PrincipalRecipient::class.java)
+                    i.putExtra("ScreenName", ScreenName)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(i)
+
+                } else {
+
+                    val i: Intent = Intent(this, AddRecipients::class.java)
+                    i.putExtra("ScreenName", ScreenName)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(i)
+                }
+            }
+
+        } else {
+            Toast.makeText(this, "Video file is Empty", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @OnClick(R.id.LayoutAdvertisement)
+    fun adclick() {
+        BaseActivity.LoadWebViewContext(this, AdWebURl)
+    }
+
+    override fun onResume() {
+        var AddId: Int = 1
+        PreviousAddId = PreviousAddId + 1
+        AdForCollegeApi()
+        super.onResume()
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -156,8 +297,12 @@ class AddVideo : AppCompatActivity() {
         if (resultCode != RESULT_CANCELED) {
             if (requestCode == SELECT_VIDEO) {
                 if (data != null) {
-                    var SelcetedFileList = data.getStringArrayListExtra("images")!!
-                    var VideoFilePath = SelcetedFileList.get(0)
+                    val SelcetedFileList = data.getStringArrayListExtra("images")!!
+                    val VideoFilePath = SelcetedFileList.get(0)
+                    Log.d("filepath", VideoFilePath)
+                    CommonUtil.videofile = VideoFilePath
+                    txt_Selected!!.visibility = View.VISIBLE
+                    Log.d("video file", CommonUtil.videofile.toString())
                     Log.d("VideoFilePath", VideoFilePath)
 
                 }
@@ -165,27 +310,19 @@ class AddVideo : AppCompatActivity() {
         }
     }
 
-
-    fun VimeoVideoUpload(activity: Activity, file: File) {
-        val strsize = file.length()
+    fun VimeoVideoUpload(activity: Activity, file: String) {
+        val strsize = file.length
         Log.d("size", strsize.toString())
         val clientinterceptor = OkHttpClient.Builder()
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         clientinterceptor.interceptors().add(interceptor)
         val client1: OkHttpClient
-        client1 = OkHttpClient.Builder()
-            .connectTimeout(300, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.MINUTES)
-            .writeTimeout(5, TimeUnit.MINUTES)
-            .build()
-        val retrofit = Retrofit.Builder()
-            .client(client1)
-            .baseUrl("https://api.vimeo.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service: ApiInterfaces =
-            retrofit.create(ApiInterfaces::class.java)
+        client1 = OkHttpClient.Builder().connectTimeout(300, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.MINUTES).writeTimeout(5, TimeUnit.MINUTES).build()
+        val retrofit = Retrofit.Builder().client(client1).baseUrl("https://api.vimeo.com/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
         val mProgressDialog = ProgressDialog(activity)
         mProgressDialog.isIndeterminate = true
         mProgressDialog.setMessage("Connecting...")
@@ -202,42 +339,46 @@ class AddVideo : AppCompatActivity() {
         val jsonembed = JsonObject()
         jsonembed.add("buttons", jsonshare)
 
-
         `object`.add("upload", jsonObjectclasssec)
         `object`.addProperty("name", txtTitle!!.text.toString())
         `object`.addProperty("description", txtDescription!!.text.toString())
         `object`.add("privacy", jsonprivacy)
         `object`.add("embed", jsonembed)
-        val head =
-            "Bearer " + "8d74d8bf6b5742d39971cc7d3ffbb51a"
+        val head = "Bearer " + "8d74d8bf6b5742d39971cc7d3ffbb51a"
         Log.d("header", head)
         val call: Call<JsonObject> = service.VideoUpload(`object`, head)
         Log.d("jsonOBJECT", `object`.toString())
         call.enqueue(object : Callback<JsonObject> {
-            override fun onResponse(
-                call: Call<JsonObject>,
-                response: Response<JsonObject>
-            ) {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (mProgressDialog.isShowing) mProgressDialog.dismiss()
                 val res = response.code()
-                Log.d("RESPONSE", res.toString())
+                Log.d("RESPONSE", response.toString())
                 if (response.isSuccessful) {
                     try {
                         Log.d("try", "testtry")
                         val object1 = JSONObject(response.body().toString())
+                        Log.d("responsevimeo", object1.toString())
                         Log.d("Response sucess", "response entered success")
                         val obj = object1.getJSONObject("upload")
                         val obj1 = object1.getJSONObject("embed")
                         val upload_link = obj.getString("upload_link")
+                        Log.d("uploadlind", upload_link)
                         val link = object1.getString("link")
                         val iframe = obj1.getString("html")
                         Log.d("c", upload_link)
                         Log.d("iframe", iframe)
-//
-//                        UtilConstants.VimeoIframe = iframe
-//                        UtilConstants.VimeoVideoUrl = link
+
+
+                        // this  below two line is Get Video url and iframe
+                        CommonUtil.VimeoIframe = iframe
+                        CommonUtil.VimeoVideoUrl = link
+                        Log.d("VimeoVideoUrl", CommonUtil.VimeoVideoUrl.toString())
+
                         try {
+                            Videofile = false
                             VIDEOUPLOAD(upload_link, file, activity)
+                            Videofile = true
+
                         } catch (e: Exception) {
                             Log.e("VIMEO Exception", e.message!!)
                             CommonUtil.Toast(activity, "Video sending failed.Retry")
@@ -247,14 +388,12 @@ class AddVideo : AppCompatActivity() {
                         CommonUtil.Toast(activity, e.message)
                     }
                 } else {
-                    Log.d("Response fail", "fail")
                     CommonUtil.Toast(activity, "Video sending failed.Retry")
                 }
             }
 
             override fun onFailure(
-                call: Call<JsonObject>,
-                t: Throwable
+                call: Call<JsonObject>, t: Throwable
             ) {
                 if (mProgressDialog.isShowing) mProgressDialog.dismiss()
                 Log.e("Response Failure", t.message!!)
@@ -263,18 +402,16 @@ class AddVideo : AppCompatActivity() {
         })
     }
 
-
     private fun VIDEOUPLOAD(
-        upload_link: String,
-        file: File,
-        activity: Activity
+        upload_link: String, file: String, activity: Activity
     ) {
-        val separated =
-            upload_link.split("?").toTypedArray()
+        Log.d("uploadlink", upload_link)
+        val separated = upload_link.split("?").toTypedArray()
 
         val name = separated[0] //"/"
         val FileName = separated[1]
         val upload = name.replace("upload", "")
+        Log.d("uploadbaseurl", upload)
         val id = FileName.split("&").toTypedArray()
         val ticket_id = id[0]
         val video_file_id = id[1]
@@ -296,35 +433,36 @@ class AddVideo : AppCompatActivity() {
         val sucess: Array<String> = redirect_url.split("=").toTypedArray()
         val urlRIDERCT = sucess[0] //"/"
         val redirect_url123 = sucess[1]
+        Log.d("redirecturl", redirect_url)
         val client1: OkHttpClient
-        client1 = OkHttpClient.Builder()
-            .connectTimeout(600, TimeUnit.SECONDS)
-            .readTimeout(40, TimeUnit.MINUTES)
-            .writeTimeout(40, TimeUnit.MINUTES)
-            .build()
-        val retrofit = Retrofit.Builder()
-            .client(client1)
-            .baseUrl(upload)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        client1 = OkHttpClient.Builder().connectTimeout(600, TimeUnit.SECONDS)
+            .readTimeout(40, TimeUnit.MINUTES).writeTimeout(40, TimeUnit.MINUTES).build()
+        val retrofit = Retrofit.Builder().client(client1).baseUrl(upload)
+            .addConverterFactory(GsonConverterFactory.create()).build()
         val mProgressDialog = ProgressDialog(activity)
         mProgressDialog.isIndeterminate = true
         mProgressDialog.setMessage("Uploading...")
         mProgressDialog.setCancelable(false)
         mProgressDialog.show()
-        val service: ApiInterfaces =
-            retrofit.create(ApiInterfaces::class.java)
+        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
         var requestFile: RequestBody? = null
         try {
-            val filepath = file.toString()
-            Log.d("filepath", filepath)
+            val filepath = file
+            Log.d(
+                "filepath",
+                filepath
+            )
             val `in`: InputStream = FileInputStream(filepath)
+            Log.d("infile", `in`.toString())
             val buf: ByteArray
             buf = ByteArray(`in`.available())
             while (`in`.read(buf) != -1);
-            requestFile = RequestBody.create(
-                "application/offset+octet-stream".toMediaTypeOrNull(),
-                buf
+            Log.d("buf", buf.toString())
+            requestFile =
+                RequestBody.create("application/offset+octet-stream".toMediaTypeOrNull(), buf)
+            Log.d(
+                "requestfile",
+                requestFile.toString()
             )
         } catch (e: IOException) {
             e.printStackTrace()
@@ -340,15 +478,18 @@ class AddVideo : AppCompatActivity() {
         )
         call.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(
-                call: Call<ResponseBody?>,
-                response: Response<ResponseBody?>
+                call: Call<ResponseBody?>, response: Response<ResponseBody?>
             ) {
                 if (mProgressDialog.isShowing) mProgressDialog.dismiss()
                 try {
                     if (response.isSuccessful) {
-
+                        Videofile = true
+                        selectedPaths.add(response.code().toString())
+                        Log.d("SeletedFilevideo", selectedPaths.toString())
+                        CommonUtil.Toast(activity, "Successfull Uploaded")
 
                     } else {
+
                         CommonUtil.Toast(activity, "Video sending failed.Retry")
                     }
                 } catch (e: Exception) {
@@ -356,14 +497,10 @@ class AddVideo : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(
-                call: Call<ResponseBody?>,
-                t: Throwable
-            ) {
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                 if (mProgressDialog.isShowing) mProgressDialog.dismiss()
                 CommonUtil.Toast(activity, "Video sending failed.Retry")
             }
         })
     }
-
 }

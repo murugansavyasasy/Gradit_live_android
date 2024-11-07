@@ -1,41 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutEntireCollege"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ten"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
+
         <CheckBox
             android:id="@+id/chbox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/clr_principal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".08"
-            android:buttonTint="@color/clr_principal">
-        </CheckBox>
+            app:layout_constraintWidth_percent=".08"></CheckBox>
+
         <TextView
             android:id="@+id/lblRecipientData"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Entire College"
-            android:gravity="left"
-            android:textSize="@dimen/twelve"
-            android:layout_marginStart="@dimen/ten"
+            android:layout_marginStart="@dimen/twenty"
             android:layout_marginEnd="@dimen/twenty"
+            android:gravity="left"
+            android:text="Entire College"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twelve"
             android:textStyle="normal"
-            app:layout_constraintWidth_percent=".9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/chbox"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".9" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <RelativeLayout
+        android:id="@+id/con_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/lbl_studentname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="StudentName"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fifteen"
+            android:textStyle="bold"></TextView>
+
+        <ImageView
+            android:id="@+id/img_mark_attendance"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/present"></ImageView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/img_mark_attendance"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/five"
+            android:layout_marginRight="@dimen/twenty_five"
+            android:background="@color/clr_black">
+
+        </View>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

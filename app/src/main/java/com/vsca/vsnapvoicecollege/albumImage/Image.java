@@ -8,6 +8,17 @@ import android.os.Parcelable;
  * Created by Darshan on 4/18/2015.
  */
 public class Image implements Parcelable {
+    public static final Creator<Image> CREATOR = new Creator<Image>() {
+        @Override
+        public Image createFromParcel(Parcel source) {
+            return new Image(source);
+        }
+
+        @Override
+        public Image[] newArray(int size) {
+            return new Image[size];
+        }
+    };
     public long id;
     public String name;
     public String path;
@@ -20,6 +31,10 @@ public class Image implements Parcelable {
         this.isSelected = isSelected;
     }
 
+    private Image(Parcel in) {
+        path = in.readString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -27,26 +42,6 @@ public class Image implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeLong(id);
-//        dest.writeString(name);
         dest.writeString(path);
-    }
-
-    public static final Creator<Image> CREATOR = new Creator<Image>() {
-        @Override
-        public Image createFromParcel(Parcel source) {
-            return new Image(source);
-        }
-
-        @Override
-        public Image[] newArray(int size) {
-            return new Image[size];
-        }
-    };
-
-    private Image(Parcel in) {
-//        id = in.readLong();
-//        name = in.readString();
-        path = in.readString();
     }
 }

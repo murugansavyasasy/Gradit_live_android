@@ -9,7 +9,6 @@ class SemesterAllCategory {
     var obtained: String? = null
     var to_be_obtained: String? = null
 
-
     constructor(
         CategoryId: String?,
         Categoryname: String?,

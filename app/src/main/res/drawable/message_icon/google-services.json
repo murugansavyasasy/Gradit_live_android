@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "847184779443",
+    "project_id": "sathish-b8674",
+    "storage_bucket": "sathish-b8674.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847184779443:android:7aeb03ae1dd487ba51f8c6",
+        "android_client_info": {
+          "package_name": "com.example.sathishtesting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847184779443-aosqokj9nm0hfjln8ue9nnftige535el.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP77-1ovsGJYBXkOyfNLOKkkYKDmfl6hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847184779443-aosqokj9nm0hfjln8ue9nnftige535el.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

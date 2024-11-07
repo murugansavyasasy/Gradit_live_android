@@ -29,24 +29,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
-    private ArrayList<AlbumVideo> albumVideos;
-
-    private TextView errorDisplay;
-
-
-    private GridView gridView;
-    private CustomAlbumVideoSelectVideoAdapter adapter;
-
-    private ActionBar actionBar;
-
-    private ContentObserver observer;
-    private Handler handler;
-    private Thread thread;
-
     private final String[] projection = new String[]{
             MediaStore.Video.Media.BUCKET_ID,
             MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Video.Media.DATA };
+            MediaStore.Video.Media.DATA};
+    private ArrayList<AlbumVideo> albumVideos;
+    private TextView errorDisplay;
+    private GridView gridView;
+    private CustomAlbumVideoSelectVideoAdapter adapter;
+    private ActionBar actionBar;
+    private ContentObserver observer;
+    private Handler handler;
+    private Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +63,14 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
         if (intent == null) {
             finish();
         }
-        String count= "1";
-        Log.d("count_sh",count);
+        String count = "1";
+        Log.d("count_sh", count);
         ConstantsVideo.limit = intent.getIntExtra(ConstantsVideo.INTENT_EXTRA_LIMIT, Integer.parseInt(count));
 
-        errorDisplay = (TextView) findViewById(R.id.text_view_error);
+        errorDisplay = findViewById(R.id.text_view_error);
         errorDisplay.setVisibility(View.INVISIBLE);
 
-        gridView = (GridView) findViewById(R.id.grid_view_album_select);
+        gridView = findViewById(R.id.grid_view_album_select);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -212,85 +206,15 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-
-            default: {
-                return false;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
+        return false;
     }
 
     private void loadAlbums() {
         startThread(new AlbumLoaderRunnable());
-    }
-
-    private class AlbumLoaderRunnable implements Runnable {
-        @Override
-        public void run() {
-            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-
-            if (adapter == null) {
-                sendMessage(ConstantsVideo.FETCH_STARTED);
-            }
-
-            Cursor cursor = getApplicationContext().getContentResolver()
-                    .query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection,
-                            null, null, MediaStore.Video.Media.DATE_ADDED);
-            if (cursor == null) {
-                sendMessage(ConstantsVideo.ERROR);
-                return;
-            }
-
-            ArrayList<AlbumVideo> temp = new ArrayList<>(cursor.getCount());
-            HashSet<Long> albumSet = new HashSet<>();
-            File file;
-
-            if (cursor.moveToLast()) {
-                do {
-                    if (Thread.interrupted()) {
-                        return;
-                    }
-
-                    long albumId = cursor.getLong(cursor.getColumnIndex(projection[0]));
-                    String album = cursor.getString(cursor.getColumnIndex(projection[1]));
-                    String image = cursor.getString(cursor.getColumnIndex(projection[2]));
-
-
-                    if (!albumSet.contains(albumId)) {
-                        String count = ConstantsVideo.getCount(getApplicationContext(), String.valueOf(albumId));
-
-                       // String count = ConstantsVideo.getCount(getApplicationContext(), album);
-                        /*
-                        It may happen that some image file paths are still present in cache,
-                        though image file does not exist. These last as long as media
-                        scanner is not run again. To avoid get such image file paths, check
-                        if image file exists.
-                         */
-                        file = new File(image);
-                        if (file.exists()) {
-                            temp.add(new AlbumVideo(album, image,count));
-                            albumSet.add(albumId);
-                        }
-                    }
-
-                } while (cursor.moveToPrevious());
-                cursor.close();
-            }
-//            cursor.close();
-
-            if (albumVideos == null) {
-                albumVideos = new ArrayList<>();
-            }
-            albumVideos.clear();
-            albumVideos.addAll(temp);
-
-            sendMessage(ConstantsVideo.FETCH_COMPLETED);
-        }
-
     }
 
     private void startThread(Runnable runnable) {
@@ -331,8 +255,72 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
 
     @Override
     protected void hideViews() {
-
         gridView.setVisibility(View.INVISIBLE);
+    }
+
+    private class AlbumLoaderRunnable implements Runnable {
+        @Override
+        public void run() {
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+            if (adapter == null) {
+                sendMessage(ConstantsVideo.FETCH_STARTED);
+            }
+
+            Cursor cursor = getApplicationContext().getContentResolver()
+                    .query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection,
+                            null, null, MediaStore.Video.Media.DATE_ADDED);
+            if (cursor == null) {
+                sendMessage(ConstantsVideo.ERROR);
+                return;
+            }
+
+            ArrayList<AlbumVideo> temp = new ArrayList<>(cursor.getCount());
+            HashSet<Long> albumSet = new HashSet<>();
+            File file;
+
+            if (cursor.moveToLast()) {
+                do {
+                    if (Thread.interrupted()) {
+                        return;
+                    }
+
+                    long albumId = cursor.getLong(cursor.getColumnIndex(projection[0]));
+                    String album = cursor.getString(cursor.getColumnIndex(projection[1]));
+                    String image = cursor.getString(cursor.getColumnIndex(projection[2]));
+
+
+                    if (!albumSet.contains(albumId)) {
+                        String count = ConstantsVideo.getCount(getApplicationContext(), String.valueOf(albumId));
+
+                        // String count = ConstantsVideo.getCount(getApplicationContext(), album);
+                        /*
+                        It may happen that some image file paths are still present in cache,
+                        though image file does not exist. These last as long as media
+                        scanner is not run again. To avoid get such image file paths, check
+                        if image file exists.
+                         */
+                        file = new File(image);
+                        if (file.exists()) {
+                            temp.add(new AlbumVideo(album, image, count));
+                            albumSet.add(albumId);
+                        }
+                    }
+
+                } while (cursor.moveToPrevious());
+                cursor.close();
+            }
+//            cursor.close();
+
+            if (albumVideos == null) {
+                albumVideos = new ArrayList<>();
+            }
+            albumVideos.clear();
+            albumVideos.addAll(temp);
+
+            sendMessage(ConstantsVideo.FETCH_COMPLETED);
+        }
+
     }
 }
 

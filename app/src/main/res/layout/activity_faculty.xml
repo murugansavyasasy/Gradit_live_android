@@ -4,8 +4,7 @@
     android:id="@+id/LayoutFacultyOne"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/clr_bg_grey_light"
-    >
+    android:background="@color/clr_bg_grey_light">
 
     <ScrollView
         android:id="@+id/ScrollView"
@@ -68,13 +67,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/eight"
                     android:padding="@dimen/five"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:text="@string/txt_faculty"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/thirteen"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"></TextView>
 
@@ -98,13 +97,13 @@
                 </Spinner>
 
                 <Spinner
-                    android:id="@+id/SpinnerSections"
+                    android:id="@+id/SpinnerSections1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/thirty"
+                    android:layout_margin="@dimen/ten"
+                    android:layout_marginTop="@dimen/ten"
                     android:background="@drawable/bg_black_white_box"
-                    android:visibility="invisible"
-                    app:layout_constraintTop_toTopOf="parent"></Spinner>
+                    app:layout_constraintTop_toBottomOf="@+id/SpinnerSemester"></Spinner>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -121,103 +120,33 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/layoutSpinner" />
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerCommon"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/two"
+                android:layout_marginTop="@dimen/twenty"
                 android:orientation="vertical"
-                android:layout_margin="@dimen/ten"
                 app:layout_constraintTop_toBottomOf="@+id/layoutSpinner" />
 
-            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                android:id="@+id/LayoutCountry"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginStart="@dimen/fifteen"-->
-            <!--                android:layout_marginTop="@dimen/fourty"-->
-            <!--                android:layout_marginEnd="@dimen/fifteen"-->
-            <!--                android:layout_marginBottom="@dimen/ten"-->
-            <!--                android:background="@drawable/bg_black_white_box"-->
-            <!--                android:paddingStart="@dimen/three"-->
-            <!--                android:paddingTop="@dimen/three"-->
-            <!--                android:paddingEnd="@dimen/three"-->
-            <!--                android:paddingBottom="@dimen/three"-->
-            <!--                app:layout_constraintLeft_toLeftOf="@id/LayoutFaculty"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/LayoutFaculty">-->
-
-            <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                    android:id="@+id/layoutDropdown"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:padding="@dimen/three"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent">-->
-
-            <!--                    <TextView-->
-            <!--                        android:id="@+id/lblCountryName"-->
-            <!--                        android:layout_width="wrap_content"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:gravity="left|center"-->
-            <!--                        android:padding="@dimen/eight"-->
-            <!--                        android:text=" Select Semester"-->
-            <!--                        android:textAlignment="center"-->
-            <!--                        android:textColor="@color/black"-->
-            <!--                        android:textSize="@dimen/fourteen"-->
-            <!--                        android:textStyle="normal"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/imgDropdown"-->
-            <!--                        android:layout_width="@dimen/twenty_three"-->
-            <!--                        android:layout_height="@dimen/twenty_three"-->
-            <!--                        android:layout_marginEnd="@dimen/twenty"-->
-            <!--                        android:src="@drawable/ic_arrow_down"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                        app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                        app:layout_constraintTop_toTopOf="parent" />-->
-            <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-            <!--                <View-->
-            <!--                    android:id="@+id/viewLine"-->
-            <!--                    android:layout_width="fill_parent"-->
-            <!--                    android:layout_height="@dimen/one"-->
-            <!--                    android:background="@color/clr_light_black"-->
-            <!--                    android:visibility="v"-->
-            <!--                    app:layout_constraintLeft_toLeftOf="@id/layoutDropdown"-->
-            <!--                    app:layout_constraintTop_toBottomOf="@id/layoutDropdown" />-->
-
-            <!--                <LinearLayout-->
-            <!--                    android:id="@+id/lnrRadioGroup"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginBottom="@dimen/two"-->
-            <!--                    android:orientation="vertical"-->
-
-            <!--                    android:visibility="v"-->
-            <!--                    app:layout_constraintLeft_toLeftOf="@id/viewLine"-->
-            <!--                    app:layout_constraintTop_toBottomOf="@id/viewLine">-->
-            <!--                    <ScrollView-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_marginBottom="@dimen/five"-->
-            <!--                        android:paddingBottom="@dimen/two"-->
-            <!--                        app:layout_constraintTop_toTopOf="parent"-->
-            <!--                        >-->
-            <!--                        <RadioGroup-->
-            <!--                            android:id="@+id/RadioGroup"-->
-            <!--                            android:padding="@dimen/three"-->
-            <!--                            android:layout_width="wrap_content"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:layout_margin="@dimen/eight" />-->
-            <!--                    </ScrollView>-->
-
-            <!--                </LinearLayout>-->
-            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCommon1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/two"
+                android:layout_marginTop="@dimen/twenty"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/layoutSpinner" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+

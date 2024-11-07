@@ -17,11 +17,13 @@
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <RelativeLayout
             android:id="@+id/rytLeaveHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/three">
+
             <LinearLayout
                 android:id="@+id/lnrCreatedDate"
                 android:layout_width="match_parent"
@@ -29,6 +31,7 @@
                 android:layout_marginStart="@dimen/five"
                 android:layout_alignParentTop="true"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/imgCalender"
                     android:layout_width="@dimen/twenty_three"
@@ -36,6 +39,7 @@
                     android:layout_gravity="left"
                     android:layout_marginRight="@dimen/five"
                     android:src="@drawable/ic_calendar" />
+
                 <TextView
                     android:id="@+id/lblLeaveCreatedDate"
                     android:layout_width="wrap_content"
@@ -49,6 +53,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/thirteen"
                     android:textStyle="normal" />
+
                 <TextView
                     android:id="@+id/lblleaveStatus"
                     android:layout_width="match_parent"
@@ -68,8 +73,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/five"
-                android:background="@color/grey_screen_clr">
-            </View>
+                android:background="@color/grey_screen_clr"></View>
 
             <View
                 android:id="@+id/Viewlineone"
@@ -78,8 +82,7 @@
                 android:layout_below="@+id/ViewlineTwo"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@color/clr_dark_blue">
-            </View>
+                android:background="@color/clr_dark_blue"></View>
 
             <TextView
                 android:id="@+id/lblLeaveType"
@@ -95,6 +98,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/thirteen"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:id="@+id/lnrNo_of_Days"
                 android:layout_width="wrap_content"
@@ -193,6 +197,7 @@
                     android:textSize="@dimen/twelve" />
             </LinearLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/rytLeaveDescription"
             android:layout_width="match_parent"
@@ -201,6 +206,7 @@
             android:layout_marginBottom="@dimen/ten"
             android:orientation="vertical"
             android:visibility="gone">
+
             <LinearLayout
                 android:id="@+id/lnrRecentPostedby"
                 android:layout_width="match_parent"
@@ -209,6 +215,7 @@
                 android:layout_marginBottom="@dimen/ten"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/lblLeaveReason"
                     android:layout_width="wrap_content"
@@ -225,6 +232,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lnrRecentPostedby"
                 android:layout_alignParentRight="true">
+
                 <TextView
                     android:id="@+id/lblEditleave"
                     android:layout_width="70dp"
@@ -237,6 +245,7 @@
                     android:text="@string/txt_edit"
                     android:textColor="@color/clr_sky_blue"
                     android:textSize="@dimen/twelve" />
+
                 <TextView
                     android:id="@+id/lblDelete"
                     android:layout_width="75dp"

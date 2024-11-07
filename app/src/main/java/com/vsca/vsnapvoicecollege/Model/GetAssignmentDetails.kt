@@ -1,7 +1,7 @@
 package com.vsca.vsnapvoicecollege.Model
 
-import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 class GetAssignmentDetails {
     @SerializedName("assignmentid")
@@ -48,13 +48,18 @@ class GetAssignmentDetails {
     @Expose
     var submittedcount: String? = null
 
+//    @SerializedName("notsubmittedcount")
+//    @Expose
+//    var notsubmittedcount: String? = "1"
+
+
     @SerializedName("file_path")
     @Expose
     var file_path: String? = null
 
     @SerializedName("newfilepath")
     @Expose
-    var newfilepath: List<String>? = null
+    var newfilepath: ArrayList<String>? = null
 
     @SerializedName("userfilename")
     @Expose

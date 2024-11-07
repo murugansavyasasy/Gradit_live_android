@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/cardimage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/ten"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="@dimen/ten"
+        android:background="@color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conlbls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/lnrSubmittedassign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Register Number : "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold"
+
+                        >
+
+                    </TextView>
+
+
+                    <TextView
+                        android:id="@+id/lblregisternumberSub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fifteen"></TextView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/lnrSubmittedassign1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    app:layout_constraintTop_toBottomOf="@+id/lnrSubmittedassign">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Student Name      : "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fifteen"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/lblnameofStudent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fifteen"></TextView>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rcyimage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/fifty"
+                app:layout_constraintTop_toBottomOf="@+id/conlbls">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcyAssignSubmitted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/ten"
+                    android:paddingTop="@dimen/ten"
+                    android:paddingRight="@dimen/ten"
+                    app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rlaEntermark"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rcyimage">
+
+                <TextView
+                    android:id="@+id/lblmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/ten"
+                    android:paddingBottom="@dimen/ten"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold"
+                    android:visibility="gone">
+
+                </TextView>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outline_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="@dimen/twenty"
+                    android:hint="Enter the mark"
+                    app:hintTextColor="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/TextInputEditText"
+                        android:layout_width="135dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:padding="@dimen/seven"
+                        android:textColor="@color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/imgEntermark"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_send">
+
+                </ImageView>
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </soup.neumorphism.NeumorphCardView>
+
+    <TableLayout
+        android:id="@+id/tblview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:shrinkColumns="*"
+        android:stretchColumns="1"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/fourty_five"
+            android:background="#F0F7F7"
+            android:padding="@dimen/five">
+
+            <TextView
+                android:id="@+id/lblsnumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".5">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/lblregisterno"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/lblCategory"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/lblstudentname"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+                app:layout_constraintLeft_toRightOf="@+id/lblSemesterSem"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/lblcourse"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/lblObtainedsem"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".5" />
+
+            <TextView
+                android:id="@+id/lblyear"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+                app:layout_constraintLeft_toRightOf="@+id/lblTobeObtainedsem"
+                app:layout_constraintTop_toTopOf="parent" />
+        </TableRow>
+    </TableLayout>
+
+    <!--Not submitted student list-->
+
+
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/lnrsection"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:weightSum="1"-->
+    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--            app:layout_constraintRight_toRightOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/lnrSubmittedassign">-->
+
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="@dimen/ten"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:layout_weight="0.5"-->
+    <!--                android:background="@drawable/border"-->
+    <!--                android:gravity="center"-->
+    <!--                android:orientation="horizontal"-->
+    <!--                android:padding="10dp">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="3'rd semester"-->
+    <!--                    android:textSize="@dimen/fifteen"-->
+    <!--                    android:textStyle="bold"></TextView>-->
+
+
+    <!--            </LinearLayout>-->
+
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="@dimen/ten"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:layout_weight="0.5"-->
+    <!--                android:background="@drawable/border"-->
+    <!--                android:gravity="center"-->
+    <!--                android:orientation="horizontal"-->
+    <!--                android:padding="10dp">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="A Section"-->
+    <!--                    android:textSize="@dimen/fifteen"-->
+    <!--                    android:textStyle="bold"></TextView>-->
+
+
+    <!--            </LinearLayout>-->
+    <!--        </LinearLayout>-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginRight="@dimen/twenty_five"-->
+    <!--            android:background="#ffffff"-->
+    <!--            android:paddingLeft="@dimen/two"-->
+    <!--            android:paddingRight="@dimen/two"-->
+    <!--            android:text="Section"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            android:textSize="13sp"-->
+    <!--            app:layout_constraintRight_toRightOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/lnrSubmittedassign" />-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginLeft="30dp"-->
+    <!--            android:background="#ffffff"-->
+    <!--            android:paddingLeft="@dimen/two"-->
+    <!--            android:paddingRight="@dimen/two"-->
+    <!--            android:text="Semester"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            android:textSize="13sp"-->
+    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/lnrSubmittedassign" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_rect"
+    tools:context=".ActivitySender.Hall_Ticket">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/LayoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty"
+        android:background="@color/white"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgheaderBack"
+            android:layout_width="@dimen/twenty_three"
+            android:layout_height="@dimen/twenty_three"
+            android:layout_marginStart="@dimen/eight"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblMenuHeaderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fifteen"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Hall ticket"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sixteen"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/imgheaderBack"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/Viewlineone"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/LayoutHeader"></View>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/LayoutBottomMenus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/fifty"
+        >
+
+        <ScrollView
+            android:id="@+id/scrolling"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcy_hallticket"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/twenty_five"
+                android:orientation="horizontal"></androidx.recyclerview.widget.RecyclerView>
+
+        </ScrollView>
+
+        <com.arindicatorview.ARIndicatorView
+            android:id="@+id/ar_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:animate_indicator_scrubbing="true"
+            app:indicator_animation="@anim/zoom_in"
+            app:indicator_color="@color/colorAccent"
+            app:indicator_scrubbing="true"
+            app:indicator_size="15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:number_of_indicators="3"
+            app:selected_color="@color/colorPrimary" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

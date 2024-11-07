@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="@dimen/one_twenty"
+            android:layout_marginBottom="@dimen/hundred"
             app:layout_constraintTop_toBottomOf="@+id/layoutChangeRole">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/idRVCategories"

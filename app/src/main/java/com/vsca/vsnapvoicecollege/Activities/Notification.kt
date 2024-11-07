@@ -1,19 +1,18 @@
 package com.vsca.vsnapvoicecollege.Activities
 
-import butterknife.BindView
-import com.vsca.vsnapvoicecollege.R
 import android.os.Bundle
-import butterknife.ButterKnife
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.NotificationAdapter
 import com.vsca.vsnapvoicecollege.Model.GetNotificationDetails
-import android.util.Log
-import java.util.ArrayList
+import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
 class Notification : BaseActivity() {
     var notificationadapter: NotificationAdapter? = null
@@ -22,6 +21,7 @@ class Notification : BaseActivity() {
     @BindView(R.id.idRVCategories)
     var rvNotification: RecyclerView? = null
     var GetNotificationData: List<GetNotificationDetails> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
@@ -34,6 +34,7 @@ class Notification : BaseActivity() {
             imgNotification!!.isEnabled = false
             imgNotification!!.isClickable = false
         }
+
         dashboardViewModel!!.notificationData!!.observe(this) { response ->
             if (response != null) {
                 val status = response.status
@@ -41,6 +42,8 @@ class Notification : BaseActivity() {
                 if (status == 1) {
                     UserMenuRequest(this@Notification)
                     GetNotificationData = response.data!!
+
+
                     notificationadapter =
                         NotificationAdapter(GetNotificationData, this@Notification)
                     val mLayoutManager: RecyclerView.LayoutManager =
@@ -54,6 +57,9 @@ class Notification : BaseActivity() {
                     CommonUtil.ApiAlert(this@Notification, message)
                 }
             }
+        }
+        imgRefresh!!.setOnClickListener {
+            NotificatonRequest()
         }
     }
 

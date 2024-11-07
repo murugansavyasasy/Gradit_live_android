@@ -1,35 +1,30 @@
 package com.vsca.vsnapvoicecollege.Activities
 
-import butterknife.BindView
-import com.vsca.vsnapvoicecollege.R
-
-import androidx.recyclerview.widget.RecyclerView
-import com.vsca.vsnapvoicecollege.ViewModel.App
-import android.os.Bundle
-import butterknife.ButterKnife
-import androidx.lifecycle.ViewModelProvider
-
-import androidx.recyclerview.widget.DefaultItemAnimator
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import butterknife.OnClick
-import android.widget.TextView
 import android.graphics.Color
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
-import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import butterknife.ButterKnife
+import butterknife.OnClick
+import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.CourseDetailsAdapter
 import com.vsca.vsnapvoicecollege.Model.GetCourseDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetExamApplicationDetails
 import com.vsca.vsnapvoicecollege.Model.GetProfileDetails
-
-import java.util.ArrayList
+import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.ViewModel.App
 
 class CourseDetails : BaseActivity() {
+
     @JvmField
     @BindView(R.id.idRVCategories)
     var ryclerCourse: RecyclerView? = null
@@ -53,6 +48,7 @@ class CourseDetails : BaseActivity() {
     var GetProfileData: List<GetProfileDetails> = ArrayList()
     var examlistSize = 0
     var CourseListSize = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ButterKnife.bind(this)
@@ -61,34 +57,32 @@ class CourseDetails : BaseActivity() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         if (CommonUtil.parentMenuCourseExam == 1) {
-            //ExamAppDetails
             ryclerCourse!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
             lblMenuHeaderName!!.setText(R.string.txt_exam_app_details)
             CommonUtil.OnMenuClicks("ExamApp")
-            ExamApplicationDetails()
+
+            if (CommonUtil.menu_readExamApplicationDetails.equals("1")) {
+                ExamApplicationDetails()
+            }
 
             appViewModel!!.examApplicationResponseLiveData?.observe(this) { response ->
                 if (response != null) {
                     val status = response.status
                     val message = response.message
                     if (status == 1) {
-                        BaseActivity.Companion.UserMenuRequest(this@CourseDetails)
+                        UserMenuRequest(this@CourseDetails)
                         GetExamAppiccationData = response.data!!
 
                         examlistSize = GetExamAppiccationData.size
 
-                        Log.d("testExamSize",examlistSize.toString())
-                        Log.d("GetExamAppiccationData",GetExamAppiccationData.size.toString())
+                        Log.d("testExamSize", examlistSize.toString())
+                        Log.d("GetExamAppiccationData", GetExamAppiccationData.size.toString())
                         if (examlistSize > 0) {
                             lblNoRecordsFound!!.visibility = View.GONE
                             ryclerCourse!!.visibility = View.VISIBLE
 
                             courseadapter =
-                                CourseDetailsAdapter(
-                                    GetExamAppiccationData,
-                                    this@CourseDetails,
-                                    1
-                                )
+                                CourseDetailsAdapter(GetExamAppiccationData, this@CourseDetails, 1)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@CourseDetails)
                             ryclerCourse!!.layoutManager = mLayoutManager
@@ -102,31 +96,30 @@ class CourseDetails : BaseActivity() {
 
                         }
                     } else {
-                        Log.d("testNoreocrds123", "test")
                         lblNoRecordsFound!!.visibility = View.VISIBLE
                         ryclerCourse!!.visibility = View.GONE
                     }
                 } else {
-                    Log.d("testNoreocrds12", "test12")
                     lblNoRecordsFound!!.visibility = View.VISIBLE
                     ryclerCourse!!.visibility = View.GONE
                 }
             }
         }
         if (CommonUtil.parentMenuCourseExam == 0) {
-            //CourseDetails
             ryclerCourse!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
 
             lblMenuHeaderName!!.setText(R.string.txt_course_details)
             CommonUtil.OnMenuClicks("CourseDetails")
 
-            CourseDetailsRequest()
+            if (CommonUtil.menu_readCourseDetails.equals("1")) {
+                CourseDetailsRequest()
+            }
             appViewModel!!.courseDetailsResposneLiveData!!.observe(this) { response ->
                 if (response != null) {
                     val status = response.status
                     val message = response.message
                     if (status == 1) {
-                        BaseActivity.Companion.UserMenuRequest(this@CourseDetails)
+                        UserMenuRequest(this@CourseDetails)
                         GetCourseDetailsData = response.data!!
                         CourseListSize = GetCourseDetailsData.size
 
@@ -151,12 +144,12 @@ class CourseDetails : BaseActivity() {
                         ryclerCourse!!.visibility = View.GONE
                     }
                 } else {
-                    Log.d("testNoreocrds", "test")
                     lblNoRecordsFound!!.visibility = View.VISIBLE
                     ryclerCourse!!.visibility = View.GONE
                 }
             }
         }
+
         if (CommonUtil.parentMenuCourseExam == 2) {
             ryclerCourse!!.setBackgroundResource(R.drawable.bg_rectangle_white)
 
@@ -191,7 +184,6 @@ class CourseDetails : BaseActivity() {
                         ryclerCourse!!.visibility = View.GONE
                     }
                 } else {
-                    Log.d("testNoreocrds", "test")
                     lblNoRecordsFound!!.visibility = View.VISIBLE
                     ryclerCourse!!.visibility = View.GONE
                 }
@@ -206,7 +198,6 @@ class CourseDetails : BaseActivity() {
 
     override fun onBackPressed() {
         CommonUtil.OnBackSetBottomMenuClickTrue()
-
         super.onBackPressed()
     }
 

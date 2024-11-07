@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -12,23 +11,21 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+
         <include
             android:id="@+id/CommonLayout"
             layout="@layout/layout_noticeboard_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/one_twenty">
-        </include>
+            android:layout_marginBottom="@dimen/hundred"></include>
+
         <include
             android:id="@+id/ImagePlus"
             layout="@layout/add_image_new"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:layout_marginBottom="@dimen/one_twenty">
-        </include>
-
-
+            android:layout_marginBottom="@dimen/one_twenty"
+            android:visibility="gone"></include>
 
         <ImageView
             android:id="@+id/imgAddPlus1"
@@ -49,7 +46,6 @@
             android:visibility="visible"
             app:behavior_hideable="false"
             app:behavior_peekHeight="120dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-        </include>
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"></include>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

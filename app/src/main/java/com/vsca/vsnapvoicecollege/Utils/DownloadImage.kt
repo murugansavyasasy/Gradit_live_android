@@ -27,7 +27,8 @@ object DownloadImage {
         mProgressDialog!!.setCancelable(false)
         if (!activity.isFinishing) mProgressDialog!!.show()
 
-        val call: Call<ResponseBody?>? = RestClient.apiInterfaces.downloadFileWithDynamicUrlAsync(imageurl)
+        val call: Call<ResponseBody?>? =
+            RestClient.apiInterfaces.downloadFileWithDynamicUrlAsync(imageurl)
         call!!.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                 if (response.isSuccessful) {
@@ -45,7 +46,7 @@ object DownloadImage {
                         override fun doInBackground(vararg params: Void?): Boolean {
 
                             val writtenToDisk =
-                                writeResponseBodyToDisk(response.body(), folder, fileName,activity)
+                                writeResponseBodyToDisk(response.body(), folder, fileName, activity)
                             Log.d(
                                 "DOWNLOADING...", "file download was a success? $writtenToDisk"
                             )
@@ -65,19 +66,23 @@ object DownloadImage {
         })
     }
 
-    fun writeResponseBodyToDisk(body: ResponseBody?, folder: String?, fileName: String?,activity:Activity): Boolean {
+    fun writeResponseBodyToDisk(
+        body: ResponseBody?,
+        folder: String?,
+        fileName: String?,
+        activity: Activity
+    ): Boolean {
         return try {
 
 
             val filepath: String
 
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                filepath= activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.getPath()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                filepath = activity.applicationContext
+                    .getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
             } else {
-                filepath = Environment.getExternalStorageDirectory().getPath()
+                filepath = Environment.getExternalStorageDirectory().path
             }
-
-//            val filepath = Environment.getExternalStorageDirectory().path
             val file = File(filepath, folder)
             val dir = File(file.absolutePath)
 
@@ -123,7 +128,6 @@ object DownloadImage {
         alertDialog.setIcon(R.drawable.ic_file_icon)
         alertDialog.setPositiveButton("OK") { dialog, which ->
 
-          //  ImagePopupWindow!!.dismiss()
         }
         alertDialog.show()
     }

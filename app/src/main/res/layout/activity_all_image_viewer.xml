@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySender.AllImageViewer">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/lmgback"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_arrow_back"></ImageView>
+
+
+        <ImageView
+            android:id="@+id/imgNxtright"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/baseline_chevron_right_24">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/imgNxtleft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/baseline_keyboard_arrow_left_24">
+
+        </ImageView>
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lmgback"
+            android:layout_marginLeft="@dimen/fifty"
+            android:layout_marginRight="@dimen/fifty"
+            android:layout_marginBottom="@dimen/thirty"
+            android:visibility="gone"></WebView>
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/imgView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_below="@+id/lmgback"-->
+        <!--            android:layout_marginLeft="@dimen/fifty"-->
+        <!--            android:layout_marginRight="@dimen/fifty"-->
+        <!--            android:layout_marginBottom="@dimen/thirty"-->
+        <!--            android:visibility="gone"></ImageView>-->
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/imgView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/fifty"
+            android:layout_marginRight="@dimen/fifty"
+            android:layout_marginBottom="@dimen/thirty"
+            android:visibility="gone" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:visibility="gone" />
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/rcyImgview"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_below="@+id/lmgback"-->
+        <!--            android:padding="@dimen/five">-->
+
+        <!--        </androidx.recyclerview.widget.RecyclerView>-->
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

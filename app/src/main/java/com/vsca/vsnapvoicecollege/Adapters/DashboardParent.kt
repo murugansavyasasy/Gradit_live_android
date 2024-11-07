@@ -3,142 +3,215 @@ package com.vsca.vsnapvoicecollege.Adapters
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
 import android.view.LayoutInflater
-import com.vsca.vsnapvoicecollege.R
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
-import com.vsca.vsnapvoicecollege.Model.DashboardOverall
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.View
-import androidx.cardview.widget.CardView
-import com.vsca.vsnapvoicecollege.Activities.*
+import androidx.recyclerview.widget.RecyclerView
+import com.vsca.vsnapvoicecollege.Activities.Assignment
+import com.vsca.vsnapvoicecollege.Activities.Attendance
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
+import com.vsca.vsnapvoicecollege.Activities.ChatParent
+import com.vsca.vsnapvoicecollege.Activities.Circular
+import com.vsca.vsnapvoicecollege.Activities.Communication
+import com.vsca.vsnapvoicecollege.Activities.Events
+import com.vsca.vsnapvoicecollege.Activities.Noticeboard
+import com.vsca.vsnapvoicecollege.Model.DashboardOverall
+import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-
-import java.util.ArrayList
 
 class DashboardParent constructor(
     private val categoriesModalArrayList: ArrayList<DashboardOverall>,
     private val context: Context
 ) : RecyclerView.Adapter<DashboardParent.ViewHolder>() {
-    public override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(
-                context
-            ).inflate(R.layout.dashboard_parent_design, parent, false)
+            LayoutInflater.from(context).inflate(R.layout.dashboard_parent_design, parent, false)
         )
     }
 
-    public override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+
         val modal: DashboardOverall = categoriesModalArrayList.get(position)
+        Log.d("menutype", modal.menuHeadings)
+
         if ((modal.menuHeadings == "Ad")) {
             holder.category.setText(R.string.txt_advertisement)
-            holder.lblViewAll.visibility=View.INVISIBLE
+            holder.lblViewAll.visibility = View.INVISIBLE
         } else if (modal.menuHeadings == "Circular") {
-            holder.category.setText(context.getString(R.string.txt_img_pdf))
-            holder.lblViewAll.visibility=View.VISIBLE
-        }else{
-            holder.category.setText(modal.menuHeadings)
-            holder.lblViewAll.visibility=View.VISIBLE
+            holder.category.text = context.getString(R.string.txt_img_pdf)
+            holder.lblViewAll.visibility = View.VISIBLE
+        } else {
+            holder.category.text = modal.menuHeadings
+            holder.lblViewAll.visibility = View.VISIBLE
         }
+
+        if (modal.menuHeadings == "Attendance") {
+            holder.lblNoRecords.text = "Today's attendance is not yet available"
+        }
+
         if ((modal.menuHeadings == "Notice Board")) {
             val adapter: DashboardChild =
                 DashboardChild(modal.menusubitemlist, context, "Notice Board")
-            holder.recyclerDashboardTitle.setItemAnimator(DefaultItemAnimator())
-            holder.recyclerDashboardTitle.setLayoutManager(
-                LinearLayoutManager(
-                    context,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-                )
-            )
-            holder.recyclerDashboardTitle.setAdapter(adapter)
+            holder.recyclerDashboardTitle.itemAnimator = DefaultItemAnimator()
+            holder.recyclerDashboardTitle.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            holder.recyclerDashboardTitle.adapter = adapter
             adapter.notifyDataSetChanged()
-            var menuid = BaseActivity.NoticeboardMenuID
-            Log.d("MenuID",menuid)
+            val menuid = BaseActivity.NoticeboardMenuID
+            Log.d("MenuID", menuid)
             CommonUtil.MenuIDNoticeboard = menuid
-            holder.lblViewAll.setOnClickListener({
+            holder.lblViewAll.setOnClickListener {
                 val i: Intent = Intent(context, Noticeboard::class.java)
                 context.startActivity(i)
-            })
+            }
+
+        } else if ((modal.menuHeadings == "Leave Request")) {
+            val adapter: DashboardChild =
+                DashboardChild(modal.menusubitemlist, context, "Leave Request")
+            val linearLayoutManager: LinearLayoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
+            adapter.notifyDataSetChanged()
+
+            holder.lblViewAll.setOnClickListener {
+                val menuid = BaseActivity.AttendanceMeuID
+                CommonUtil.MenuIdAttendance = menuid
+                val i: Intent = Intent(context, Attendance::class.java)
+                context.startActivity(i)
+            }
 
         } else if ((modal.menuHeadings == "Circular")) {
             val adapter: DashboardChild = DashboardChild(modal.menusubitemlist, context, "Circular")
             val linearLayoutManager: LinearLayoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            holder.recyclerDashboardTitle.setLayoutManager(linearLayoutManager)
-            holder.recyclerDashboardTitle.setAdapter(adapter)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
             adapter.notifyDataSetChanged()
 
-            var menuid = BaseActivity.CircularMenuID
-            Log.d("CircularMenuID",menuid)
+            val menuid = BaseActivity.CircularMenuID
+            Log.d("CircularMenuID", menuid)
             CommonUtil.MenuIDCircular = menuid
-            holder.lblViewAll.setOnClickListener({
+            holder.lblViewAll.setOnClickListener {
 
                 val i: Intent = Intent(context, Circular::class.java)
                 context.startActivity(i)
-            })
+            }
+        } else if ((modal.menuHeadings == "Chat")) {
+
+            val adapter: DashboardChild = DashboardChild(modal.menusubitemlist, context, "Chat")
+            val linearLayoutManager: LinearLayoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
+            adapter.notifyDataSetChanged()
+
+            val menuid = BaseActivity.ChatMenuID
+            Log.d("ChatMenuID", menuid)
+            CommonUtil.MenuIDChat = menuid
+            holder.lblViewAll.setOnClickListener {
+
+                val i: Intent = Intent(context, ChatParent::class.java)
+                context.startActivity(i)
+            }
+
+        } else if ((modal.menuHeadings == "Upcoming Events")) {
+            val adapter: DashboardChild =
+                DashboardChild(modal.menusubitemlist, context, "Upcoming Events")
+            val linearLayoutManager: LinearLayoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
+            adapter.notifyDataSetChanged()
+
+            val menuid = BaseActivity.EventsMenuID
+            Log.d("EventsMenuID", menuid)
+            CommonUtil.MenuIDEvents = menuid
+            holder.lblViewAll.setOnClickListener {
+
+                val i: Intent = Intent(context, Events::class.java)
+                context.startActivity(i)
+            }
+        } else if ((modal.menuHeadings == "Assignments")) {
+            val adapter: DashboardChild =
+                DashboardChild(modal.menusubitemlist, context, "Assignments")
+            val linearLayoutManager: LinearLayoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
+            adapter.notifyDataSetChanged()
+
+            val menuid = BaseActivity.AssignmentMenuID
+            Log.d("AssignmentMenuID", menuid)
+            CommonUtil.MenuIDAssignment = menuid
+
+            holder.lblViewAll.setOnClickListener {
+
+                val i: Intent = Intent(context, Assignment::class.java)
+                context.startActivity(i)
+
+            }
+
         } else if ((modal.menuHeadings == "Emergency Notification")) {
             val adapter: DashboardChild =
                 DashboardChild(modal.menusubitemlist, context, "Emergency Notification")
             val linearLayoutManager: LinearLayoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            holder.recyclerDashboardTitle.setLayoutManager(linearLayoutManager)
-            holder.recyclerDashboardTitle.setAdapter(adapter)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
             adapter.notifyDataSetChanged()
 
-            holder.lblViewAll.setOnClickListener({
-
-                var menuid = BaseActivity.CommunicationMenuID
+            holder.lblViewAll.setOnClickListener {
+                val menuid = BaseActivity.CommunicationMenuID
                 CommonUtil.MenuIDCommunication = menuid
                 val i: Intent = Intent(context, Communication::class.java)
                 context.startActivity(i)
-            })
+            }
 
         } else if ((modal.menuHeadings == "Ad")) {
             val adapter: DashboardChild = DashboardChild(modal.menusubitemlist, context, "Ad")
             val linearLayoutManager: LinearLayoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            holder.recyclerDashboardTitle.setLayoutManager(linearLayoutManager)
-            holder.recyclerDashboardTitle.setAdapter(adapter)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
             adapter.notifyDataSetChanged()
-        }
-        else if ((modal.menuHeadings == "Recent Notifications")) {
+
+        } else if ((modal.menuHeadings == "Recent Notifications")) {
             val adapter: DashboardChild =
                 DashboardChild(modal.menusubitemlist, context, "Recent Notifications")
             val linearLayoutManager: LinearLayoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            holder.recyclerDashboardTitle.setLayoutManager(linearLayoutManager)
-            holder.recyclerDashboardTitle.setAdapter(adapter)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
             adapter.notifyDataSetChanged()
 
-
-            holder.lblViewAll.setOnClickListener({
+            holder.lblViewAll.setOnClickListener {
                 var menuid = BaseActivity.CommunicationMenuID
                 CommonUtil.MenuIDCommunication = menuid
                 val i: Intent = Intent(context, Communication::class.java)
                 context.startActivity(i)
-            })
+            }
+
+        } else if ((modal.menuHeadings == "Attendance")) {
+
+            val adapter: DashboardChild =
+                DashboardChild(modal.menusubitemlist, context, "Attendance")
+            val linearLayoutManager: LinearLayoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            holder.recyclerDashboardTitle.layoutManager = linearLayoutManager
+            holder.recyclerDashboardTitle.adapter = adapter
+            adapter.notifyDataSetChanged()
 
         }
-        else if ((modal.menuHeadings == "Attendance")) {
-            if(modal.menusubitemlist.size == 0){
-                holder.lblViewAll.visibility=View.INVISIBLE
-                holder.recyclerDashboardTitle.visibility=View.GONE
-                holder.idCVCategory.visibility=View.GONE
-                holder.lblNoRecords.text = context.getString(R.string.txt_attanace_no_data)
-            }else{
-                val adapter: DashboardChild = DashboardChild(modal.menusubitemlist, context, "Attendance")
-                val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                holder.recyclerDashboardTitle.setLayoutManager(linearLayoutManager)
-                holder.recyclerDashboardTitle.setAdapter(adapter)
-                adapter.notifyDataSetChanged()
-            }
-        }
+        Log.d("totalmenuHeadings", modal.menuHeadings)
     }
 
-    public override fun getItemCount(): Int {
+    override fun getItemCount(): Int {
         return categoriesModalArrayList.size
     }
 

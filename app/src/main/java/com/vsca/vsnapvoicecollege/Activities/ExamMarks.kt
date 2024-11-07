@@ -1,13 +1,10 @@
 package com.vsca.vsnapvoicecollege.Activities
 
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -25,9 +22,9 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import java.util.ArrayList
 
 class ExamMarks : BaseActivity() {
+
     var examAdapter: ExamMarkAdapter? = null
     override var appViewModel: App? = null
 
@@ -88,21 +85,20 @@ class ExamMarks : BaseActivity() {
     var GetStudentExamMarks: List<ExamMarkListDetails> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-      CommonUtil.SetTheme(this)
+        CommonUtil.SetTheme(this)
 
         super.onCreate(savedInstanceState)
-        Log.d("onCreate","lifecycle")
+        Log.d("onCreate", "lifecycle")
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ButterKnife.bind(this)
         ActionBarMethod(this)
         MenuBottomType()
 
-
         ExamHeaderID = intent.getStringExtra("ExamHeaderID")
         ExamName = intent.getStringExtra("Examname")
 
-        lblExamTitle!!.setText(ExamName)
+        lblExamTitle!!.text = ExamName
 
         CommonUtil.MenuExamination = false
         CommonUtil.MenuAssignment = true
@@ -153,27 +149,23 @@ class ExamMarks : BaseActivity() {
                         recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         examAdapter!!.notifyDataSetChanged()
                     } else {
-
                         lblNoRecordsFound!!.visibility = View.VISIBLE
                         recyclerNoticeboard!!.visibility = View.GONE
-
                     }
-
                 } else {
-
                     lblNoRecordsFound!!.visibility = View.VISIBLE
                     recyclerNoticeboard!!.visibility = View.GONE
-
-
                 }
             } else {
                 UserMenuRequest(this)
                 lblNoRecordsFound!!.visibility = View.VISIBLE
                 recyclerNoticeboard!!.visibility = View.GONE
-
-
             }
         }
+
+        imgRefresh!!.setOnClickListener(View.OnClickListener {
+            ExamMarkListRequest()
+        })
 
     }
 
@@ -182,9 +174,7 @@ class ExamMarks : BaseActivity() {
 
     override fun onResume() {
         ExamMarkListRequest()
-//        CommonUtil.MenuExamination = false
-        Log.d("onResume","lifecycle")
-
+        Log.d("onResume", "lifecycle")
         super.onResume()
     }
 
@@ -201,16 +191,12 @@ class ExamMarks : BaseActivity() {
     }
 
     @OnClick(R.id.imgback)
-    fun imgbackClikc(){
+    fun imgbackClikc() {
         onBackPressed()
     }
 
-
     override fun onBackPressed() {
         CommonUtil.OnBackSetBottomMenuClickTrue()
-
         super.onBackPressed()
     }
-
-
 }

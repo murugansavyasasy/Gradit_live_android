@@ -1,10 +1,11 @@
 package com.vsca.vsnapvoicecollege.Model
 
-import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 
 class DashboardTypeResponse {
+
     @SerializedName("type")
     @Expose
     var type: String? = null
@@ -15,4 +16,5 @@ class DashboardTypeResponse {
 
     @SerializedName("data")
     var data: List<DashboardDetailsDataResponse>? = null
+
 }

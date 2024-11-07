@@ -2,50 +2,280 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/ten">
+    android:layout_height="wrap_content">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/crd_attendance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/ten"
+        android:background="@color/white"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/lblAttendanceType"
-            android:layout_width="@dimen/fourty"
-            android:layout_height="@dimen/fourty"
-            android:text=""
-            android:background="@drawable/bg_read_status"
-            android:visibility="visible"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/sixteen"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/lblAttendanceSubject"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/crdattendance"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:visibility="visible"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:layout_marginStart="@dimen/fifteen"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textSize="@dimen/sixteen"
-            app:layout_constraintLeft_toRightOf="@+id/lblAttendanceType"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/lblsubjectname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginTop="@dimen/eight"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/ten"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txtnamesubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.8"
+                    android:text="Subject name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=" : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/txtSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/five"
+                    android:layout_weight="1.2"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lblstaffname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblsubjectname"
+                android:layout_marginLeft="@dimen/twenty"
+                android:paddingBottom="@dimen/ten"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_staffname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.8"
+                    android:text="Staff name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=" : "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/lblstaffName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/five"
+                    android:layout_weight="1.2"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fifteen">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lne_attenpercentage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblstaffname"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/fifteen"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/lbl24hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/txt24hours"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="gbawhtrayh"
+                            android:textColor="@color/clr_green"
+                            android:textSize="@dimen/fifteen"></TextView>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/lbl12hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/txt12hours"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="wrgaehgwargbrag"
+                            android:textColor="@color/clr_emergency_red"
+                            android:textSize="@dimen/fifteen"></TextView>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifSuccess"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="@dimen/fifteen"
+                    android:src="@drawable/rightarrow"
+                     />
+
+            </LinearLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.mackhartley.roundedprogressbar.RoundedProgressBar
+                android:id="@+id/customProgress"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/lne_attenpercentage"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginRight="@dimen/ten"
+                android:layout_marginBottom="@dimen/ten"
+                app:rpbProgressColor="@color/clr_parent"
+                app:rpbTextColor="@color/white" />
 
+            <TextView
+                android:id="@+id/lblatten_presentage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/customProgress"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginRight="@dimen/ten"
+                android:layout_marginBottom="@dimen/fifteen"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen"></TextView>
 
+        </RelativeLayout>
+    </soup.neumorphism.NeumorphCardView>
+
+    <TableLayout
+        android:id="@+id/tblattendance"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fourty_five"
+        android:background="@color/white"
+        android:stretchColumns="1"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fourty_five"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblsnumber"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/fourty_five"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+                app:layout_constraintWidth_percent=".5">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/lbldate"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/fourty_five"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+                app:layout_constraintWidth_percent=".5">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/lblattendhours"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/fourty_five"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal"
+
+                app:layout_constraintWidth_percent=".5" />
+
+            <TextView
+                android:id="@+id/lblabsenthours"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/fourty_five"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/fourteen"
+                android:textStyle="normal" />
+        </TableRow>
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

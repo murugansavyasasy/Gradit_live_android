@@ -1,7 +1,7 @@
 package com.vsca.vsnapvoicecollege.Model
 
-import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 class LoginDetails {
     @SerializedName("colgid")
@@ -39,6 +39,10 @@ class LoginDetails {
     @SerializedName("divname")
     @Expose
     var divisionName: String? = null
+
+    @SerializedName("is_allow_to_make_call")
+    @Expose
+    var is_allow_to_make_call: Int? = null
 
     @SerializedName("courseid")
     @Expose

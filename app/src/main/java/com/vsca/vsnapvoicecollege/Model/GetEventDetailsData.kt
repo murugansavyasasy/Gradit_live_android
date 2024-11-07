@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class GetEventDetailsData : Serializable{
+class GetEventDetailsData : Serializable {
     @SerializedName("eventid")
     @Expose
     var eventid: String? = null
@@ -52,7 +52,6 @@ class GetEventDetailsData : Serializable{
     @SerializedName("newfilepath")
     @Expose
     var newfilepath: List<String>? = null
-
 
 
 }

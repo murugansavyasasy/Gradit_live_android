@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.VideoPlay
 import com.vsca.vsnapvoicecollege.Interfaces.VideoListener
 import com.vsca.vsnapvoicecollege.Model.GetVideoListDetails
@@ -19,6 +21,7 @@ class VideoAdapter(
     val Listener: VideoListener
 ) : RecyclerView.Adapter<VideoAdapter.MyViewHolder>() {
     private var mExpandedPosition = -1
+    var Type = ""
 
     companion object {
         var videoClick: VideoListener? = null
@@ -63,7 +66,10 @@ class VideoAdapter(
         return MyViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: MyViewHolder,
+        @SuppressLint("RecyclerView") position: Int
+    ) {
         val modal = eventlist[position]
         videoClick = Listener
         videoClick?.onVideoClick(holder, modal)
@@ -78,50 +84,72 @@ class VideoAdapter(
         holder.lnrVideo.visibility = View.VISIBLE
 
 
-        var videoDate = modal.createdon
-        val splitDate = videoDate!!.split("\\s+".toRegex()).toTypedArray()
-        val Date = splitDate[0]
-        val Month = splitDate[1]
-        val Year = splitDate[2]
-        val Date_2 = splitDate[3]
-        val Month_2 = splitDate[4]
+        try {
+            val videoDate = modal.createdon
+            val splitDate = videoDate!!.split("\\s+".toRegex()).toTypedArray()
+            val Date = splitDate[0]
+            val Month = splitDate[1]
+            val Year = splitDate[2]
+            val Date_2 = splitDate[3]
+            val Month_2 = splitDate[4]
 
-        holder.lblVideoTitle.text = modal.title
-        holder.lblVideoDescription.text = modal.description
-        holder.lblPostedBy.text = modal.createdby
-        holder.lblVideoDate.text = Date + " " + Month + " " + Year
-        holder.lblVideoTime.text = Date_2 + " " + Month_2
+            holder.lblVideoTitle.text = modal.title
+            holder.lblVideoDescription.text = modal.description
+            holder.lblPostedBy.text = modal.createdby
+            holder.lblVideoDate.text = Date + " " + Month + " " + Year
+            holder.lblVideoTime.text = Date_2 + " " + Month_2
 
-        if(modal.isappviewed.equals("0")){
-            holder.lblNewCircle!!.visibility =View.VISIBLE
-        }else{
-            holder.lblNewCircle!!.visibility =View.GONE
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
-        if (isExpanded) {
-            holder.imgArrowdown!!.visibility = View.GONE
-            holder.lnrplayvideo!!.visibility = View.GONE
+        Type = "video"
+
+        if (modal.isappviewed.equals("0")) {
+            holder.lblNewCircle.visibility = View.VISIBLE
 
         } else {
-            holder.imgArrowdown!!.visibility = View.VISIBLE
-            holder.lnrplayvideo!!.visibility = View.VISIBLE
+            holder.lblNewCircle.visibility = View.GONE
+        }
+
+
+        if (isExpanded) {
+            holder.imgArrowdown.visibility = View.GONE
+            holder.lnrplayvideo.visibility = View.GONE
+
+        } else {
+
+            holder.imgArrowdown.visibility = View.VISIBLE
+            holder.lnrplayvideo.visibility = View.VISIBLE
 
         }
 
-        holder.lnrVideo!!.setOnClickListener(object : View.OnClickListener {
-             override fun onClick(view: View) {
-                 holder.imgArrowdown!!.visibility = View.GONE
+        holder.lnrVideo.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View) {
 
-                 holder.lnrplayvideo1.setOnClickListener({
-                     val i: Intent = Intent(context, VideoPlay::class.java)
-                     i.putExtra("iframe", modal.iframe)
-                     i.putExtra("title", modal.title)
-                     i.putExtra("description", modal.description)
-                     i.putExtra("appread", modal.isappviewed)
-                     i.putExtra("detailid", modal.detailid)
+                Type = "video"
+                holder.imgArrowdown.visibility = View.GONE
+                holder.lblNewCircle.visibility = View.GONE
 
-                     context!!.startActivity(i)
-                 })
+                if (modal.isappviewed.equals("0")) {
+
+                    holder.lblNewCircle.visibility = View.GONE
+                    modal.isappviewed = "1"
+                    BaseActivity.AppReadStatusContext(context, Type, modal.detailid!!)
+
+                }
+
+                holder.lnrplayvideo1.setOnClickListener {
+
+                    val i: Intent = Intent(context, VideoPlay::class.java)
+                    i.putExtra("iframe", modal.iframe)
+                    i.putExtra("title", modal.title)
+                    i.putExtra("description", modal.description)
+                    i.putExtra("appread", modal.isappviewed)
+                    i.putExtra("detailid", modal.detailid)
+                    context!!.startActivity(i)
+
+                }
                 mExpandedPosition = if (isExpanded) -1 else position
                 notifyDataSetChanged()
             }
@@ -133,6 +161,12 @@ class VideoAdapter(
 
     }
 
+    fun filterList(filterlist: java.util.ArrayList<GetVideoListDetails>) {
+
+        eventlist = filterlist
+
+        notifyDataSetChanged()
+    }
 }
 
 

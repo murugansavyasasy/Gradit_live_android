@@ -2,7 +2,6 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.graphics.Color
 import android.os.Bundle
-import android.text.method.TextKeyListener.clear
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -22,9 +21,9 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import java.util.ArrayList
 
 class SemesterCreditCategoryWise : BaseActivity() {
+
     @JvmField
     @BindView(R.id.idRVCategories)
     var ryclerCourse: RecyclerView? = null
@@ -102,9 +101,11 @@ class SemesterCreditCategoryWise : BaseActivity() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        SemesterType()
+        if (CommonUtil.menu_readSemCreditPoints.equals("1")) {
+            SemesterType()
+        }
 
-       CommonUtil.OnMenuClicks("SemCredit")
+        CommonUtil.OnMenuClicks("SemCredit")
 
         ryclerCourse!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
 
@@ -151,7 +152,12 @@ class SemesterCreditCategoryWise : BaseActivity() {
                                 )
                             }
 
-                            SemesterCategoeryCreditsAllList.add(SemesterAllCategoryCredits(categoryNamehead!!, SemAllCreditList))
+                            SemesterCategoeryCreditsAllList.add(
+                                SemesterAllCategoryCredits(
+                                    categoryNamehead!!,
+                                    SemAllCreditList
+                                )
+                            )
 
                             semesterAllCreditsAdapter =
                                 SemesterCreditAllCategoryAdapter(SemAllCreditList, this)
@@ -188,7 +194,7 @@ class SemesterCreditCategoryWise : BaseActivity() {
                 GetSemesterCreditWiseData.clear()
 
                 if (status == 1) {
-                    BaseActivity.Companion.UserMenuRequest(this)
+                    UserMenuRequest(this)
                     GetSemesterCreditWiseData = response.data!!
 
                     var listSize = GetSemesterCreditWiseData.size
@@ -207,19 +213,23 @@ class SemesterCreditCategoryWise : BaseActivity() {
                         ryclerCourse!!.adapter = semesterCreditsAdapter
                         ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         semesterCreditsAdapter!!.notifyDataSetChanged()
+
                     } else {
                         lblNoRecordsFound!!.visibility = View.VISIBLE
                         ryclerCourse!!.visibility = View.GONE
                     }
+
                 } else {
                     lblNoRecordsFound!!.visibility = View.VISIBLE
                     ryclerCourse!!.visibility = View.GONE
                 }
+
             } else {
                 lblNoRecordsFound!!.visibility = View.VISIBLE
                 ryclerCourse!!.visibility = View.GONE
             }
         }
+
         appViewModel!!.SemesterTypeLiveData?.observe(this) { response ->
             if (response != null) {
                 val status = response.status
@@ -238,11 +248,10 @@ class SemesterCreditCategoryWise : BaseActivity() {
                 ryclerCourse!!.visibility = View.GONE
             }
         }
-
     }
 
     override val layoutResourceId: Int
-        protected get() = R.layout.activity_semester_credit_table
+        get() = R.layout.activity_semester_credit_table
 
     private fun SetSpinnerValue() {
         layoutDropdown!!.setOnClickListener {
@@ -253,14 +262,14 @@ class SemesterCreditCategoryWise : BaseActivity() {
                 countryOpen = true
                 Layoutoverall!!.visibility = View.GONE
 
-                Log.d("Open",countryOpen.toString())
+                Log.d("Open", countryOpen.toString())
             } else {
                 lnrRadioGroup!!.visibility = View.GONE
                 viewLine!!.visibility = View.GONE
                 imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
                 countryOpen = false
                 Layoutoverall!!.visibility = View.GONE
-                Log.d("Close",countryOpen.toString())
+                Log.d("Close", countryOpen.toString())
 
             }
         }
@@ -280,7 +289,7 @@ class SemesterCreditCategoryWise : BaseActivity() {
                 android.widget.RadioGroup.LayoutParams.MATCH_PARENT,
                 android.widget.RadioGroup.LayoutParams.WRAP_CONTENT
             )
-            params.setMargins(15, 15, 10, 15);
+            params.setMargins(15, 15, 10, 15)
 
             RadioGroup!!.addView(rb, params)
             rb.setOnClickListener {
@@ -293,7 +302,6 @@ class SemesterCreditCategoryWise : BaseActivity() {
                 imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
                 Layoutoverall!!.visibility = View.VISIBLE
                 countryOpen = false
-
                 SemesterWiseRequest(selectedCategoryID!!)
 
             }
@@ -311,7 +319,6 @@ class SemesterCreditCategoryWise : BaseActivity() {
         } else {
             appViewModel!!.getSemesterWiseCredit(jsonObject, this)
         }
-
     }
 
     @OnClick(R.id.imgheaderBack)

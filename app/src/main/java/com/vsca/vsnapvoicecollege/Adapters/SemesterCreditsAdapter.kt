@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,24 +12,28 @@ import butterknife.ButterKnife
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditDetails
 import com.vsca.vsnapvoicecollege.R
 
-class SemesterCreditsAdapter constructor(data: List<GetSemesterWiseCreditDetails>, context: Context) :
+class SemesterCreditsAdapter constructor(
+    data: List<GetSemesterWiseCreditDetails>,
+    context: Context
+) :
     RecyclerView.Adapter<SemesterCreditsAdapter.MyViewHolder>() {
     var categorycreditList: List<GetSemesterWiseCreditDetails> = ArrayList()
     var context: Context
     var Position: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView: View = LayoutInflater.from(parent.getContext())
+        val itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_table_layout_credits, parent, false)
         return MyViewHolder(itemView)
     }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val data: GetSemesterWiseCreditDetails = categorycreditList.get(position)
-        Position = holder.getAbsoluteAdapterPosition()
+        Position = holder.absoluteAdapterPosition
 
-        holder.LayoutSemesterTable!!.visibility=View.VISIBLE
-        holder.layoutCategorytable!!.visibility=View.GONE
+        holder.LayoutSemesterTable!!.visibility = View.VISIBLE
+        holder.layoutCategorytable!!.visibility = View.GONE
 
         holder.lblTobeObtainedsem!!.text = data.to_be_obtained
         holder.lblSemesterSem!!.text = data.semester_name
@@ -39,6 +42,7 @@ class SemesterCreditsAdapter constructor(data: List<GetSemesterWiseCreditDetails
         holder.lblTotalCreditsSem!!.text = data.total_credits
 
     }
+
     override fun getItemCount(): Int {
         return categorycreditList.size
     }

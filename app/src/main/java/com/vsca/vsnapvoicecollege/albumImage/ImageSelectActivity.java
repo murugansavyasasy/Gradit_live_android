@@ -38,8 +38,10 @@ import java.util.HashSet;
  * Created by Darshan on 4/18/2015.
  */
 public class ImageSelectActivity extends HelperActivity {
+    private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
+    int limit = 5;
     private ArrayList<Image> images = new ArrayList<>();
-    private String album,screen,Events,Homework,Assignment,Circulars;
+    private String album, screen, Events, Homework, Assignment, Circulars;
     private TextView errorDisplay;
     private GridView gridView;
     private CustomImageSelectAdapter adapter;
@@ -49,41 +51,67 @@ public class ImageSelectActivity extends HelperActivity {
     private ContentObserver observer;
     private Handler handler;
     private Thread thread;
+    private final ActionMode.Callback callback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater menuInflater = mode.getMenuInflater();
+            menuInflater.inflate(R.menu.menu_contexual_action_bar, menu);
 
 
-    int limit = 0;
-    private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
+            actionMode = mode;
+            countSelected = 0;
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int i = item.getItemId();
+            Log.d("ClickedAction", String.valueOf(item));
+            if (i == R.id.menu_item_add_image) {
+
+                Log.d("ClickedActionid", String.valueOf(item));
+
+                sendIntent();
+
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            if (countSelected > 0) {
+                deselectAll();
+            }
+            actionMode = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_select);
-      //  actionBar = getSupportActionBar();
+        //  actionBar = getSupportActionBar();
 
-        limit = 2;
+        limit = 5;
 
         Intent intent = getIntent();
         if (intent == null) {
             finish();
         }
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
-
-//        activity.initializeActionBar();
-//        activity.setTitle(album);
-//        activity.enableSearch(false);
-
         screen = getIntent().getStringExtra("Gallery");
-//        Events = getIntent().getStringExtra("Events");
-//        Homework = getIntent().getStringExtra("Homework");
-//        Assignment = getIntent().getStringExtra("Assignment");
-//        Circulars = getIntent().getStringExtra("Circulars");
-
-
-        errorDisplay = (TextView) findViewById(R.id.text_view_error);
+        errorDisplay = findViewById(R.id.text_view_error);
         errorDisplay.setVisibility(View.INVISIBLE);
 
 
-        gridView = (GridView) findViewById(R.id.grid_view_image_select);
+        gridView = findViewById(R.id.grid_view_image_select);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -221,66 +249,19 @@ public class ImageSelectActivity extends HelperActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-
-            default: {
-                return false;
-            }
-        }
-    }
-
-    private ActionMode.Callback callback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater menuInflater = mode.getMenuInflater();
-            menuInflater.inflate(R.menu.menu_contexual_action_bar, menu);
-
-
-            actionMode = mode;
-            countSelected = 0;
-
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
             return true;
         }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            int i = item.getItemId();
-            Log.d("ClickedAction", String.valueOf(item));
-            if (i == R.id.menu_item_add_image) {
-
-                Log.d("ClickedActionid", String.valueOf(item));
-
-                sendIntent();
-
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            if (countSelected > 0) {
-                deselectAll();
-            }
-            actionMode = null;
-        }
-    };
+        return false;
+    }
 
     private void toggleSelection(int position) {
         if (!images.get(position).isSelected && countSelected >= limit) {
             Toast.makeText(
-                    getApplicationContext(),
-                    String.format(getString(R.string.limit_exceeded), limit),
-                    Toast.LENGTH_SHORT)
+                            getApplicationContext(),
+                            String.format(getString(R.string.limit_exceeded), limit),
+                            Toast.LENGTH_SHORT)
                     .show();
             return;
 
@@ -320,25 +301,63 @@ public class ImageSelectActivity extends HelperActivity {
 
         Log.d("screen", screen);
 
-        if(screen.equals("Images")) {
+        if (screen.equals("Images")) {
 
-            Log.d("screentype",screen);
+            Log.d("screentype", screen);
             Intent intent = new Intent(ImageSelectActivity.this, ImageOrPdf.class);
             intent.putStringArrayListExtra("images", getSelected());
             setResult(RESULT_OK, intent);
             finish();
         }
-//
-//        else if(Events.equals("Events")){
-////            Intent intent = new Intent(ImageSelectActivity.this, xdxz.class);
-////            intent.putStringArrayListExtra("images", getSelected());
-////            setResult(RESULT_OK, intent);
-////            finish();
-////        }
     }
 
     private void loadImages() {
         startThread(new ImageLoaderRunnable());
+    }
+
+    private void startThread(Runnable runnable) {
+        stopThread();
+        thread = new Thread(runnable);
+        thread.start();
+    }
+
+    private void stopThread() {
+        if (thread == null || !thread.isAlive()) {
+            return;
+        }
+
+        thread.interrupt();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessage(int what) {
+        sendMessage(what, 0);
+    }
+
+    private void sendMessage(int what, int arg1) {
+        if (handler == null) {
+            return;
+        }
+
+        Message message = handler.obtainMessage();
+        message.what = what;
+        message.arg1 = arg1;
+        message.sendToTarget();
+    }
+
+    @Override
+    protected void permissionGranted() {
+        sendMessage(Constants.PERMISSION_GRANTED);
+    }
+
+    @Override
+    protected void hideViews() {
+
+        gridView.setVisibility(View.INVISIBLE);
     }
 
     private class ImageLoaderRunnable implements Runnable {
@@ -415,54 +434,6 @@ public class ImageSelectActivity extends HelperActivity {
             sendMessage(Constants.FETCH_COMPLETED, tempCountSelected);
         }
     }
-
-    private void startThread(Runnable runnable) {
-        stopThread();
-        thread = new Thread(runnable);
-        thread.start();
-    }
-
-    private void stopThread() {
-        if (thread == null || !thread.isAlive()) {
-            return;
-        }
-
-        thread.interrupt();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendMessage(int what) {
-        sendMessage(what, 0);
-    }
-
-    private void sendMessage(int what, int arg1) {
-        if (handler == null) {
-            return;
-        }
-
-        Message message = handler.obtainMessage();
-        message.what = what;
-        message.arg1 = arg1;
-        message.sendToTarget();
-    }
-
-    @Override
-    protected void permissionGranted() {
-        sendMessage(Constants.PERMISSION_GRANTED);
-    }
-
-    @Override
-    protected void hideViews() {
-
-        gridView.setVisibility(View.INVISIBLE);
-    }
-
-
-
 }
 
 

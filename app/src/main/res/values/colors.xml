@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FF926FE8</color>
 
+    <color name="purple_200">#FF926FE8</color>
     <color name="purple_500">#71B2C5</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="clr_parent">#2F4C93</color>
@@ -42,14 +42,17 @@
     <color name="clr_course_green">#5daf98</color>
     <color name="clr_bg_grey_light">#f2f2f2</color>
     <color name="clr_bg_sentby">#B1CFFC</color>
+    <color name="clr_gray">#ABB2B9</color>
     <color name="clr_unselectedtab">#748dab</color>
+    <color name="cle_lightorang">#B87677</color>
+    <color name="clr_unselected">#F1EFEF</color>
+    <color name="clr_selected">#B4B4B3</color>
     <color name="clr_selectedtab">#254b7a</color>
     <color name="clr_bg_grey">#e6eaeb</color>
     <color name="clr_green_submit">#278731</color>
     <color name="clr_previous_submsion">#3163f0</color>
     <color name="clr_table_header">#c2e2ff</color>
     <color name="clr_txt_header">#FFB65F44</color>
-
     <color name="clr_sender_selected">#cc74bc</color>
     <color name="clr_sender_unselected">#e6c1df</color>
     <color name="clr_staff_unselected">#FF71B2C5</color>
@@ -58,8 +61,23 @@
     <color name="icon_color">#fca4e7</color>
     <color name="clr_parent_selected">#3C61E6</color>
     <color name="clr_parent_unselected">#99acf0</color>
-
+    <color name="clr_chatdashbd">#FBEAEA</color>
     <color name="clr_green">#5daf98</color>
     <color name="clr_available">#72ad9a</color>
+
+    <color name="clr_blue_bg">#FFACDEF7</color>
+    <color name="clr_logo_instant">#E34568</color>
+
+    <color name="clr_month_blue">#32ADE6</color>
+    <color name="clr_day_blue">#D7EAE8</color>
+    <color name="light_shadow_yellow">#EFE7CE</color>
+    <color name="exm_clr">#dedede</color>
+    <color name="clr_window_bg">#F4F4F4</color>
+    <color name="clr_orange">#FD5F37</color>
+
+
+
+
+
 
 </resources>

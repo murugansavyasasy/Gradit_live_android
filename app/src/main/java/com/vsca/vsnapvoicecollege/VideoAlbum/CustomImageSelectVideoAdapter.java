@@ -27,7 +27,7 @@ public class CustomImageSelectVideoAdapter extends CustomGenericVideoAdapter<Vid
             convertView = layoutInflater.inflate(R.layout.grid_video_item_select, null);
 
             viewHolder = new ViewHolder();
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_view_image_select);
+            viewHolder.imageView = convertView.findViewById(R.id.image_view_image_select);
             viewHolder.view = convertView.findViewById(R.id.view_alpha);
 
             convertView.setTag(viewHolder);
@@ -42,18 +42,16 @@ public class CustomImageSelectVideoAdapter extends CustomGenericVideoAdapter<Vid
         viewHolder.view.getLayoutParams().width = size;
         viewHolder.view.getLayoutParams().height = size;
 
-        if (arrayList.get(position).isSelected ) {
+        if (arrayList.get(position).isSelected) {
 
             Log.d("seladpt", String.valueOf(arrayList.get(position).isSelected));
             viewHolder.view.setAlpha(0.5f);
-            ((FrameLayout) convertView).setForeground(context.getResources().getDrawable(R.drawable.ic_action_done));
+            convertView.setForeground(context.getResources().getDrawable(R.drawable.ic_action_done));
 
 
-        }
-
-        else {
+        } else {
             viewHolder.view.setAlpha(0.0f);
-            ((FrameLayout) convertView).setForeground(null);
+            convertView.setForeground(null);
         }
         Glide.with(context)
                 .load(arrayList.get(position).path)

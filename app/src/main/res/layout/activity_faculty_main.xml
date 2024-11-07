@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/clr_bg_grey_light"
-
     tools:context=".Activities.Noticeboard">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -13,12 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <include
             android:id="@+id/Facultylayout"
             layout="@layout/activity_faculty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/one_thirty"/>
+            android:layout_marginBottom="@dimen/hundred" />
 
         <include
             layout="@layout/bottom_menu_layout"
@@ -28,7 +28,6 @@
             app:behavior_hideable="false"
             app:behavior_peekHeight="120dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            app:layout_constraintBottom_toBottomOf="parent">
-        </include>
+            app:layout_constraintBottom_toBottomOf="parent"></include>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

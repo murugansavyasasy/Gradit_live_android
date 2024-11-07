@@ -35,23 +35,54 @@ import java.util.HashSet;
 
 
 public class ImageSelectVideoActivity extends HelperVideoActivity {
-    private ArrayList<Video> videos =new ArrayList<>();
+    private final String[] projection = new String[]{MediaStore.Video.Media._ID, MediaStore.Video.Media.DISPLAY_NAME, MediaStore.Video.Media.DATA};
+    private ArrayList<Video> videos = new ArrayList<>();
     private String album;
     private TextView errorDisplay;
     private GridView gridView;
     private CustomImageSelectVideoAdapter adapter;
-
-
     private ActionBar actionBar;
-
     private ActionMode actionMode;
     private int countSelected;
-
     private ContentObserver observer;
     private Handler handler;
     private Thread thread;
+    private final ActionMode.Callback callback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater menuInflater = mode.getMenuInflater();
+            menuInflater.inflate(R.menu.menu_contexual_action_bar, menu);
 
-    private final String[] projection = new String[]{MediaStore.Video.Media._ID, MediaStore.Video.Media.DISPLAY_NAME, MediaStore.Video.Media.DATA};
+
+            actionMode = mode;
+            countSelected = 0;
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int i = item.getItemId();
+            if (i == R.id.menu_item_add_image) {
+                sendIntent();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            if (countSelected > 0) {
+                deselectAll();
+            }
+            actionMode = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +107,11 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
         album = intent.getStringExtra(ConstantsVideo.INTENT_EXTRA_ALBUM);
         setTitle(album);
 
-        errorDisplay = (TextView) findViewById(R.id.text_view_error);
+        errorDisplay = findViewById(R.id.text_view_error);
         errorDisplay.setVisibility(View.INVISIBLE);
 
 
-        gridView = (GridView) findViewById(R.id.grid_view_image_select);
+        gridView = findViewById(R.id.grid_view_image_select);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -218,62 +249,20 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-
-            default: {
-                return false;
-            }
-        }
-    }
-
-    private ActionMode.Callback callback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater menuInflater = mode.getMenuInflater();
-            menuInflater.inflate(R.menu.menu_contexual_action_bar, menu);
-
-
-            actionMode = mode;
-            countSelected = 0;
-
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
             return true;
         }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            int i = item.getItemId();
-            if (i == R.id.menu_item_add_image) {
-                sendIntent();
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            if (countSelected > 0) {
-                deselectAll();
-            }
-            actionMode = null;
-        }
-    };
+        return false;
+    }
 
     @SuppressLint("StringFormatInvalid")
     private void toggleSelection(int position) {
         if (!videos.get(position).isSelected && countSelected >= ConstantsVideo.limit) {
             Toast.makeText(
-                    getApplicationContext(),
-                    String.format(getString(R.string.limit_exceeded), ConstantsVideo.limit),
-                    Toast.LENGTH_SHORT)
+                            getApplicationContext(),
+                            String.format(getString(R.string.limit_exceeded), ConstantsVideo.limit),
+                            Toast.LENGTH_SHORT)
                     .show();
             return;
 
@@ -298,6 +287,7 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
         countSelected = 0;
         adapter.notifyDataSetChanged();
     }
+
     private ArrayList<String> getSelected() {
         ArrayList<String> selectedImages = new ArrayList<>();
         for (int i = 0; i < videos.size(); i++) {
@@ -319,7 +309,7 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
 
         Intent intent = new Intent(ImageSelectVideoActivity.this, CommunicationVoice.class);
 //        intent.putExtra("images", getSelected());
-        intent.putStringArrayListExtra("images",getSelected());
+        intent.putStringArrayListExtra("images", getSelected());
         Log.d("selected", String.valueOf(getSelected()));
         setResult(RESULT_OK, intent);
         finish();
@@ -327,6 +317,51 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
 
     private void loadImages() {
         startThread(new ImageLoaderRunnable());
+    }
+
+    private void startThread(Runnable runnable) {
+        stopThread();
+        thread = new Thread(runnable);
+        thread.start();
+    }
+
+    private void stopThread() {
+        if (thread == null || !thread.isAlive()) {
+            return;
+        }
+
+        thread.interrupt();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessage(int what) {
+        sendMessage(what, 0);
+    }
+
+    private void sendMessage(int what, int arg1) {
+        if (handler == null) {
+            return;
+        }
+
+        Message message = handler.obtainMessage();
+        message.what = what;
+        message.arg1 = arg1;
+        message.sendToTarget();
+    }
+
+    @Override
+    protected void permissionGranted() {
+        sendMessage(ConstantsVideo.PERMISSION_GRANTED);
+    }
+
+    @Override
+    protected void hideViews() {
+
+        gridView.setVisibility(View.INVISIBLE);
     }
 
     private class ImageLoaderRunnable implements Runnable {
@@ -402,51 +437,6 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
 
             sendMessage(ConstantsVideo.FETCH_COMPLETED, tempCountSelected);
         }
-    }
-
-    private void startThread(Runnable runnable) {
-        stopThread();
-        thread = new Thread(runnable);
-        thread.start();
-    }
-
-    private void stopThread() {
-        if (thread == null || !thread.isAlive()) {
-            return;
-        }
-
-        thread.interrupt();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendMessage(int what) {
-        sendMessage(what, 0);
-    }
-
-    private void sendMessage(int what, int arg1) {
-        if (handler == null) {
-            return;
-        }
-
-        Message message = handler.obtainMessage();
-        message.what = what;
-        message.arg1 = arg1;
-        message.sendToTarget();
-    }
-
-    @Override
-    protected void permissionGranted() {
-        sendMessage(ConstantsVideo.PERMISSION_GRANTED);
-    }
-
-    @Override
-    protected void hideViews() {
-
-        gridView.setVisibility(View.INVISIBLE);
     }
 
 }

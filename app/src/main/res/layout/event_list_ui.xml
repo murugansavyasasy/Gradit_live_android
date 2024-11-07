@@ -29,6 +29,7 @@
             android:background="@drawable/bg_read_status"
             android:elevation="@dimen/three"
             android:visibility="gone" />
+
         <ImageView
             android:id="@+id/imgArrowdown"
             android:layout_width="wrap_content"
@@ -44,14 +45,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/five">
+
             <View
                 android:id="@+id/Viewlineone"
                 android:layout_width="@dimen/two"
                 android:layout_height="@dimen/fifteen"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/five"
-                android:background="@color/clr_dark_blue">
-            </View>
+                android:background="@color/clr_dark_blue"></View>
+
             <TextView
                 android:id="@+id/lblNoticeboardTitle"
                 android:layout_width="match_parent"
@@ -73,7 +75,7 @@
                 android:id="@+id/lblNoticeboardDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Viewlineone"
+                android:layout_below="@+id/lblNoticeboardTitle"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/twelve"
                 android:layout_marginRight="@dimen/ten"
@@ -86,7 +88,7 @@
                 android:id="@+id/lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Viewlineone"
+                android:layout_below="@+id/lblNoticeboardTitle"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/twelve"
                 android:layout_marginRight="@dimen/ten"
@@ -99,7 +101,7 @@
                 android:id="@+id/lblNoticetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Viewlineone"
+                android:layout_below="@+id/lblNoticeboardTitle"
                 android:layout_marginStart="@dimen/ten"
                 android:layout_marginTop="@dimen/twelve"
                 android:layout_marginRight="@dimen/ten"
@@ -107,7 +109,7 @@
                 android:text="time"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twelve"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -138,7 +140,6 @@
                     android:textSize="@dimen/twelve"
                     android:textStyle="bold" />
             </RelativeLayout>
-
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -39,7 +39,6 @@
             android:textSize="@dimen/twelve"
             android:textStyle="normal"
             android:text="@string/txt_exam_venue"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/lblName"
             app:layout_constraintWidth_percent=".5" />

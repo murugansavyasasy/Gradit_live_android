@@ -14,21 +14,18 @@ import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.*
-import androidx.annotation.Nullable
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Model.GetOverAllCountDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
-import com.vsca.vsnapvoicecollege.SenderModel.GetDivisionData
+import com.vsca.vsnapvoicecollege.SenderModel.Attendance_Edit_Selected
 import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
@@ -41,14 +38,15 @@ import java.io.File
 abstract class ActionBarActivity : AppCompatActivity() {
 
     var SelectedRecipientlist: ArrayList<RecipientSelected> = ArrayList()
-
+    var SelectedRecipientlistAttendanceEdit: ArrayList<Attendance_Edit_Selected> = ArrayList()
     var Title: String? = null
     var Description: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layoutResourceId)
         ButterKnife.bind(this)
+
+
         appviewModelbase = ViewModelProvider(this).get(
             App::class.java
         )
@@ -59,8 +57,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
                 val message = response.message
                 if (status == 1) {
                     Log.d("AppReadMessageAction", message!!)
-
-                } else {
                 }
             }
         }
@@ -98,15 +94,25 @@ abstract class ActionBarActivity : AppCompatActivity() {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(i)
         }
+
         imgMan.setOnClickListener { ProfilePopUp(activity) }
         imgCollegeLogo.setOnClickListener { IntentToChangeRole(activity) }
         layoutUserDetails.setOnClickListener { IntentToChangeRole(activity) }
+
         if (CommonUtil.Priority == "p1") {
             constAction.setBackgroundColor(Color.parseColor(getString(R.string.txt_color_white)))
             lblRole.setTextColor(Color.parseColor(getString(R.string.txt_color_prinicpal)))
             lblMemberName.text = CommonUtil.MemberName
             lblRole.text = CommonUtil.MemberType
         }
+
+        if (CommonUtil.Priority == "p7") {
+            constAction.setBackgroundColor(Color.parseColor(getString(R.string.txt_color_white)))
+            lblRole.setTextColor(Color.parseColor(getString(R.string.txt_color_lightorang)))
+            lblMemberName.text = CommonUtil.MemberName
+            lblRole.text = CommonUtil.MemberType
+        }
+
         if (CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
             constAction.setBackgroundColor(Color.parseColor(getString(R.string.txt_color_white)))
             lblRole.setTextColor(Color.parseColor(getString(R.string.txt_clr_staff)))
@@ -147,9 +153,11 @@ abstract class ActionBarActivity : AppCompatActivity() {
             builder.setTitle(title)
             builder.setCancelable(false)
             builder.setPositiveButton("Yes") { dialog, which ->
+
                 if (value == 1) {
                     profilePopup!!.dismiss()
                 }
+
                 SharedPreference.clearShLogin(activity)
                 CommonUtil.Priority = ""
                 CommonUtil.MemberId = 0
@@ -177,10 +185,12 @@ abstract class ActionBarActivity : AppCompatActivity() {
         fun deleteDirUtil(dir: File?): Boolean {
             return if (dir != null && dir.isDirectory) {
                 val children = dir.list()
-                for (i in children.indices) {
-                    val success = deleteDirUtil(File(dir, children[i]))
-                    if (!success) {
-                        return false
+                if (children != null) {
+                    for (i in children.indices) {
+                        val success = deleteDirUtil(File(dir, children[i]))
+                        if (!success) {
+                            return false
+                        }
                     }
                 }
                 dir.delete()
@@ -190,8 +200,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
                 false
             }
         }
-
-
     }
 
     private fun IntentToChangeRole(activity: Activity) {
@@ -245,13 +253,8 @@ abstract class ActionBarActivity : AppCompatActivity() {
             LoadWebView(activity, termsCondition, 3)
         }
         logout.setOnClickListener {
-            LogoutAlert(
-                getString(R.string.txt_alert_logout),
-                1,
-                activity
-            )
+            LogoutAlert(getString(R.string.txt_alert_logout), 1, activity)
         }
-
 
         layoutChangeRoles.setOnClickListener { IntentToChangeRole(activity) }
         layoutClearCache.setOnClickListener { ClearCache(activity) }
@@ -266,7 +269,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(title)
         builder.setCancelable(false)
-        builder.setPositiveButton("Yes") { dialog, which ->
+        builder.setPositiveButton(CommonUtil.Yes) { dialog, which ->
             if (value == 1) {
                 BaseActivity.profilePopup!!.dismiss()
             }
@@ -290,7 +293,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
             activity.startActivity(i)
             activity.finish()
         }
-        builder.setNegativeButton("No") { dialog, which -> builder.setCancelable(false) }
+        builder.setNegativeButton(CommonUtil.No) { dialog, which -> builder.setCancelable(false) }
         builder.create().show()
     }
 
@@ -298,9 +301,9 @@ abstract class ActionBarActivity : AppCompatActivity() {
         try {
             val dir = activity.cacheDir
             if (deleteDirUtil(dir)) {
-                AlertOk(activity, "Cache cleared", true)
+                AlertOk(activity, CommonUtil.Cache_cleared, true)
             } else {
-                AlertOk(activity, "Cache not cleared", true)
+                AlertOk(activity, CommonUtil.Cache_not_cleared, true)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -309,10 +312,10 @@ abstract class ActionBarActivity : AppCompatActivity() {
 
     private fun AlertOk(activity: Activity, Msg: String, value: Boolean) {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Info")
+        builder.setTitle(CommonUtil.Info)
         builder.setMessage(Msg)
         builder.setCancelable(false)
-        builder.setPositiveButton("OK") { dialog, which ->
+        builder.setPositiveButton(CommonUtil.OK) { dialog, which ->
             if (value) {
                 profilePopup!!.dismiss()
             }
@@ -322,7 +325,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         CommonUtil.OnBackSetBottomMenuClickTrue()
-
         super.onBackPressed()
     }
 
@@ -346,14 +348,22 @@ abstract class ActionBarActivity : AppCompatActivity() {
         btnTerms.visibility = View.GONE
         LayoutHeader.visibility = View.VISIBLE
         viewLine.visibility = View.VISIBLE
-        if (Type == 0) {
-            lblMenuHeaderName.setText(R.string.txt_faq)
-        } else if (Type == 1) {
-            lblMenuHeaderName.setText(R.string.txt_help)
-        } else if (Type == 2) {
-            lblMenuHeaderName.setText(R.string.txt_privacy_policy)
-        } else if (Type == 3) {
-            lblMenuHeaderName.setText(R.string.txt_terms_amp_condition)
+        when (Type) {
+            0 -> {
+                lblMenuHeaderName.setText(R.string.txt_faq)
+            }
+
+            1 -> {
+                lblMenuHeaderName.setText(R.string.txt_help)
+            }
+
+            2 -> {
+                lblMenuHeaderName.setText(R.string.txt_privacy_policy)
+            }
+
+            3 -> {
+                lblMenuHeaderName.setText(R.string.txt_terms_amp_condition)
+            }
         }
         imgBack.setOnClickListener { popupWebview!!.dismiss() }
         val progressDialog = CustomLoading.createProgressDialog(activity)
@@ -386,6 +396,10 @@ abstract class ActionBarActivity : AppCompatActivity() {
         Log.d("AppReadStatus", jsonObject.toString())
     }
 
+    fun setMaxDate(MinimumDate: Long) {
+
+    }
+
     class GridSpacingItemDecoration(private val spanCount: Int, includeEdge: Boolean) :
         RecyclerView.ItemDecoration() {
         private var spacing = 4
@@ -415,7 +429,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
         }
 
         init {
-            spacing = spacing
             this.includeEdge = includeEdge
         }
     }

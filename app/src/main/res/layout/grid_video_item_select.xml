@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:foregroundGravity="center"
     android:padding="1dp">
 
@@ -8,18 +9,19 @@
         android:id="@+id/image_view_image_select"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <View
         android:id="@+id/view_alpha"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_receiver"/>
+        android:background="@color/clr_receiver" />
+
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/video_icon_white"
         android:layout_gravity="right|bottom"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 </FrameLayout>

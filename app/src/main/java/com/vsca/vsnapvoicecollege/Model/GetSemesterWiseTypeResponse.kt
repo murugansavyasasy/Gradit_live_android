@@ -7,9 +7,11 @@ class GetSemesterWiseTypeResponse {
     @SerializedName("Status")
     @Expose
     var status = 0
+
     @SerializedName("Message")
     @Expose
     var message: String? = null
+
     @SerializedName("data")
     var data: ArrayList<GetSemesterWiseDetails>? = null
 }

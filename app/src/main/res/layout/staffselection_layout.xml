@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:id="@+id/linersubject_tutor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/check_sections"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="45dp"></CheckBox>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/examlist_constrine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginRight="@dimen/five"
+            android:background="@drawable/bg_shadow_white"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/txt_financeandaccounding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/five"
+                android:text="BE.cse"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen"
+                app:layout_constraintLeft_toRightOf="@+id/img_book"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+
+            <ImageView
+                android:id="@+id/img_book"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="@dimen/ten"
+                android:src="@drawable/book"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/txt_bcom_Accounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/eight"
+                android:text="B.Com Accounts"
+                app:layout_constraintLeft_toRightOf="@+id/img_book"
+                app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></TextView>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="@dimen/five"
+                android:layout_marginTop="@dimen/five"
+                android:background="@color/black"
+                app:layout_constraintLeft_toRightOf="@+id/txt_bcom_Accounts"
+                app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></View>
+
+            <TextView
+                android:id="@+id/txt_year1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/eight"
+                android:text="Year 1"
+                app:layout_constraintLeft_toRightOf="@+id/view2"
+                app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></TextView>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="@dimen/eight"
+                android:layout_marginTop="@dimen/five"
+                android:background="@color/black"
+                app:layout_constraintLeft_toRightOf="@+id/txt_year1"
+                app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></View>
+
+            <TextView
+                android:id="@+id/txt_semester1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/eight"
+                android:text="Semester 1"
+                app:layout_constraintLeft_toRightOf="@+id/view3"
+                app:layout_constraintTop_toBottomOf="@+id/txt_financeandaccounding"></TextView>
+
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="200dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginTop="@dimen/five"
+                android:background="@color/whitegrey"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_semester1"></View>
+
+
+            <TextView
+                android:id="@+id/txt_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/five"
+                android:layout_marginTop="@dimen/eight"
+                android:text="Sample Sublectf;hrvjlfvbKE vbjkdbsdjvbvjb;kjvbs;vbskjvbskvjbjdsvbslkvbsjkvbskvjbskjvskvjdbsjvbskjfvbskjdvbskjvbskjvbskj 4dfsjkkkkkkkkkdsfjkffffffffffffffjksdfffjkdjgk"
+                android:textColor="@color/clr_sky_blue"
+                app:layout_constraintLeft_toRightOf="@+id/img_book"
+                app:layout_constraintTop_toBottomOf="@+id/view4"></TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
