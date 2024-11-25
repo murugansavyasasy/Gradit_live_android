@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Intent
@@ -22,8 +23,10 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -630,17 +633,6 @@ class DashBoard : BaseActivity() {
     }
 
     override fun onResume() {
-//        dashboardCircularlist.clear()
-//        dashboardEventlist.clear()
-//        dashboardRecentVoicelist.clear()
-//        dashboardChatlist.clear()
-//        dashboardNoticeboardlist.clear()
-//        dashboardAttendancetlist.clear()
-//        dashboardLeaveRequestlist.clear()
-//        dashboardAttendanceList!!.clear()
-//        dashboardAssignmentList.clear()
-//        dashboardEmergencyVoicelist.clear()
-
         MenuBottomType()
         DashBoardRequest()
         super.onResume()
@@ -655,6 +647,7 @@ class DashBoard : BaseActivity() {
         val projection = arrayOf(ContactsContract.PhoneLookup._ID)
         val selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?"
         val selectionArguments = arrayOf<String>(contact_display_name)
+        Log.d("contact_display_name", contact_display_name.toString())
         val cursor = contentResolver.query(uri, projection, selection, selectionArguments, null)
         exist_Count = cursor!!.count
         if (cursor != null) {
@@ -711,7 +704,6 @@ class DashBoard : BaseActivity() {
         p.dimAmount = 0.5f
         wm.updateViewLayout(container, p)
 
-
         val btnSaveContact = popupView.findViewById<View>(R.id.btnSaveContact) as TextView
         val imgClose = popupView.findViewById<View>(R.id.imgClose) as ImageView
         val lblHeader = popupView.findViewById<View>(R.id.lblHeader) as TextView
@@ -723,6 +715,7 @@ class DashBoard : BaseActivity() {
             try {
                 popupWindow.dismiss()
                 saveContacts()
+
             } catch (e: Exception) {
                 Log.d("failure_popup_error", e.toString())
             }
@@ -730,35 +723,104 @@ class DashBoard : BaseActivity() {
         imgClose.setOnClickListener { popupWindow.dismiss() }
     }
 
+
     private fun saveContacts() {
-        val b = BitmapFactory.decodeResource(resources, R.drawable.gradit_logo)
-        val stream = ByteArrayOutputStream()
-        b.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        val byteArray = stream.toByteArray()
-        val data = java.util.ArrayList<ContentValues>()
-        val intent = Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI)
-        val row = ContentValues()
-        row.put(
-            ContactsContract.Contacts.Data.MIMETYPE,
-            ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
-        )
-        row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray)
-        data.add(row)
-        for (i in contacts.indices) {
-            val row_Number = ContentValues()
-            row_Number.put(
-                ContactsContract.RawContacts.Data.MIMETYPE,
-                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
-            )
-            row_Number.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i])
-            row_Number.put(
-                ContactsContract.CommonDataKinds.Phone.TYPE,
-                ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
-            )
-            data.add(row_Number)
+        try {
+            // Check if WRITE_CONTACTS permission is granted
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.WRITE_CONTACTS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_CONTACTS),
+                    101 // Request code
+                )
+                return
+            }
+
+            // Prepare the contact photo as a byte array
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.gradit_logo)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+            val photoByteArray = byteArrayOutputStream.toByteArray()
+
+            // Create a list of ContentValues for the contact data
+            val data = ArrayList<ContentValues>()
+
+            // Add photo to the contact
+            val photoRow = ContentValues().apply {
+                put(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
+                )
+                put(ContactsContract.CommonDataKinds.Photo.PHOTO, photoByteArray)
+            }
+            data.add(photoRow)
+
+            // Add phone numbers to the contact
+            for (contact in contacts) { // Assuming `contacts` is a list of phone numbers
+                val phoneRow = ContentValues().apply {
+                    put(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                    )
+                    put(ContactsContract.CommonDataKinds.Phone.NUMBER, contact)
+                    put(
+                        ContactsContract.CommonDataKinds.Phone.TYPE,
+                        ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
+                    )
+                }
+                data.add(phoneRow)
+            }
+
+            // Create an intent to insert the contact
+            val intent = Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI).apply {
+                putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name) // Contact name
+                putParcelableArrayListExtra(
+                    ContactsContract.Intents.Insert.DATA,
+                    data
+                )
+            }
+            startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("SaveContactsError", "Error saving contacts: ${e.message}")
         }
-        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name)
-        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data)
-        startActivityForResult(intent, 100)
     }
+
+
+//    private fun saveContacts() {
+//
+//        val b = BitmapFactory.decodeResource(resources, R.drawable.gradit_logo)
+//        val stream = ByteArrayOutputStream()
+//        b.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//        val byteArray = stream.toByteArray()
+//        val data = java.util.ArrayList<ContentValues>()
+//        val intent = Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI)
+//        val row = ContentValues()
+//        row.put(
+//            ContactsContract.Contacts.Data.MIMETYPE,
+//            ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
+//        )
+//        row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray)
+//        data.add(row)
+//        for (i in contacts.indices) {
+//            val row_Number = ContentValues()
+//            row_Number.put(
+//                ContactsContract.RawContacts.Data.MIMETYPE,
+//                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+//            )
+//            row_Number.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i])
+//            row_Number.put(
+//                ContactsContract.CommonDataKinds.Phone.TYPE,
+//                ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
+//            )
+//            data.add(row_Number)
+//        }
+//        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name)
+//        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data)
+//        startActivityForResult(intent, 100)
+//
+//    }
 }

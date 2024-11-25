@@ -49,6 +49,12 @@ android {
         coreLibraryDesugaringEnabled true
     }
 
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs += [
+                '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED'
+        ]
+    }
+
     viewBinding {
         enabled = true
     }
@@ -134,9 +140,5 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.1.0'
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.compilerArgs += [
-            '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED'
-    ]
-}
+
 apply plugin: 'com.google.gms.google-services'

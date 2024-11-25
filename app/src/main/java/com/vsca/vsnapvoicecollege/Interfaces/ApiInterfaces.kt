@@ -528,43 +528,43 @@ interface ApiInterfaces {
     fun SendVoiceEntireFromHistory(@Body jsonObject: JsonObject?): Call<SenderStatusMessageData?>?
 
 
-    @GET("biometric-principal-attendance-report")
+    @GET("api/AppDetailsBal/biometric-principal-attendance-report")
     fun getStaffWiseBiometricAttendanceReport(
         @Query("userId") userID: String?,
         @Query("attendance_month") monthID: String?,
         @Query("CollegeId") institiuteId: String?
     ): Call<StaffAttendanceBiometricReportRes?>?
 
-    @GET("biometric-principal-attendance-report")
+    @GET("api/AppDetailsBal/biometric-principal-attendance-report")
     fun getDayWiseBiometricAttendanceReport(
         @Query("attendance_dt") et: String?,
         @Query("CollegeId") institiuteId: String?
     ): Call<StaffAttendanceBiometricReportRes?>?
 
 //    @POST("remove-biometric-location")
-    @POST("/RemoveBiometricLocation")
+@POST("api/AppDetailsBal/RemoveBiometricLocation")
     fun removeLocation(@Body jsonObject: JsonObject?): Call<JsonObject?>?
 
 //    @POST("set-biometric-location")
-    @POST("/SetBiometricLocation")
+@POST("api/AppDetailsBal/SetBiometricLocation")
     fun addBiometricLocation(@Body jsonObject: JsonObject?): Call<JsonObject?>?
 
 //    @GET("get-biometric-location-history")
-    @GET("/GetBiometricLocationHistory")
+@GET("api/AppDetailsBal/GetBiometricLocationHistory")
     fun getExistingViewLocations(@Query("CollegeId") userID: String?): Call<StaffBiometricLocationRes?>?
 
 
 //    @POST("update-biometric-location")
-    @POST("/UpdateBiometricLocation")
+@POST("api/AppDetailsBal/UpdateBiometricLocation")
     fun updateLocation(@Body jsonObject: JsonObject?): Call<JsonObject?>?
 
 //    @GET("staff-list")
-    @GET("/GetStaffListforBiometric")
+@GET("api/AppDetailsBal/GetStaffListforBiometric")
     fun getStaffList(@Query("CollegeId") id: String?): Call<StaffListRes?>?
 
 
 //    @GET("biometric-punch-history")
-    @GET("/GetBiometricPunchHistory")
+@GET("api/AppDetailsBal/GetBiometricPunchHistory")
     fun viewPunchHistory(
         @Query("CollegeId") instituteId: String?,
         @Query("userId") userId: String?,
@@ -574,7 +574,7 @@ interface ApiInterfaces {
 
 
 //    @GET("get-staff-biometric-location")
-    @GET("/GetStaffLocationDetails")
+@GET("api/AppDetailsBal/GetStaffLocationDetails")
     fun getStaffBiometricLocations(
         @Query("userId") userID: String?,
         @Query("CollegeId") schoolID: String?
@@ -582,7 +582,7 @@ interface ApiInterfaces {
 
 
 //    @GET("biometric-staff-attendance-report")
-    @GET("/GetBiometricStaffAttendance")
+@GET("api/AppDetailsBal/GetBiometricStaffAttendance")
     fun getStaffBiometricAttendanceReport(
         @Query("userId") userID: String?,
         @Query("attendance_dt") monthID: String?,
@@ -591,7 +591,7 @@ interface ApiInterfaces {
 
 
 //    @POST("biometric/biometric-entry-using-app")
-    @POST("/BiometricEntryusingApp")
+@POST("api/AppDetailsBal/BiometricEntryusingApp")
     fun BiometricEntryforAttendance(@Body jsonObject: JsonObject?): Call<JsonObject?>?
 
 }

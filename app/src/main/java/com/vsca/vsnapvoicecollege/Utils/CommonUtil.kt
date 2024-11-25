@@ -3,15 +3,23 @@ package com.vsca.vsnapvoicecollege.Utils
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.DexterError
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.vsca.vsnapvoicecollege.Model.AttendanceHour
@@ -27,6 +35,7 @@ import com.vsca.vsnapvoicecollege.Model.SubjectdetailX
 import com.vsca.vsnapvoicecollege.Model.Subjectdetail_ExamCreation
 import com.vsca.vsnapvoicecollege.R
 import java.io.File
+import javax.xml.transform.ErrorListener
 
 
 object CommonUtil {
@@ -511,33 +520,38 @@ object CommonUtil {
         return cm.activeNetworkInfo != null
     }
 
-    fun RequestPermission(activity: Activity?) {
 
-        if (Priority.equals("p4") || Priority.equals("p5") || Priority.equals("p6")) {
+    fun RequestPermission(activity: Activity?) {
+        val permissions: List<String> = if (Priority.equals("p4") || Priority.equals("p5") || Priority.equals("p6")) {
             Log.d("testPriority", Priority)
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-
-                Dexter.withActivity(activity).withPermissions(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                listOf(
                     Manifest.permission.READ_MEDIA_IMAGES,
                     Manifest.permission.READ_MEDIA_VIDEO,
                     Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.INTERNET,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    Manifest.permission.POST_NOTIFICATIONS,
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS,
+                    Manifest.permission.INTERNET
                 )
             } else {
-                Dexter.withActivity(activity).withPermissions(
+                listOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.INTERNET
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS,
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO
                 )
             }
         } else {
-            Log.d("testPriorutyelse", Priority)
+            Log.d("testPriorityElse", Priority)
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                Dexter.withActivity(activity).withPermissions(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                listOf(
                     Manifest.permission.CAMERA,
                     Manifest.permission.READ_MEDIA_IMAGES,
                     Manifest.permission.READ_MEDIA_VIDEO,
@@ -548,7 +562,7 @@ object CommonUtil {
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             } else {
-                Dexter.withActivity(activity).withPermissions(
+                listOf(
                     Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -557,23 +571,89 @@ object CommonUtil {
                     Manifest.permission.INTERNET
                 )
             }
-        }.withListener(object : MultiplePermissionsListener {
-            override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                if (report.areAllPermissionsGranted()) {
-                    Log.d("permission", "granted")
-                } else {
-                    Log.d("permission", "failed")
-                    activity!!.finishAffinity()
-                }
-            }
+        }
 
-            override fun onPermissionRationaleShouldBeShown(
-                permissions: List<PermissionRequest>, token: PermissionToken
-            ) {
-                token.continuePermissionRequest()
+        // Check for missing permissions
+        val permissionsToRequest = mutableListOf<String>()
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(activity!!, permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(permission)
             }
-        }).withErrorListener { }.onSameThread().check()
+        }
+
+        // Request missing permissions
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(activity!!, permissionsToRequest.toTypedArray(), 101)
+        } else {
+            Log.d("Permission_isContact", "All permissions granted")
+            // Proceed with app functionality here
+        }
     }
+
+
+//    fun RequestPermission(activity: Activity?) {
+//
+//        if (Priority.equals("p4") || Priority.equals("p5") || Priority.equals("p6")) {
+//            Log.d("testPriority", Priority)
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+//
+//                Dexter.withActivity(activity).withPermissions(
+//                    Manifest.permission.READ_MEDIA_IMAGES,
+//                    Manifest.permission.READ_MEDIA_VIDEO,
+//                    Manifest.permission.READ_MEDIA_AUDIO,
+//                    Manifest.permission.INTERNET,
+//                    Manifest.permission.POST_NOTIFICATIONS
+//                )
+//            } else {
+//                Dexter.withActivity(activity).withPermissions(
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.ACCESS_NETWORK_STATE,
+//                    Manifest.permission.INTERNET
+//                )
+//            }
+//        } else {
+//            Log.d("testPriorutyelse", Priority)
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+//                Dexter.withActivity(activity).withPermissions(
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.READ_MEDIA_IMAGES,
+//                    Manifest.permission.READ_MEDIA_VIDEO,
+//                    Manifest.permission.READ_MEDIA_AUDIO,
+//                    Manifest.permission.RECORD_AUDIO,
+//                    Manifest.permission.ACCESS_NETWORK_STATE,
+//                    Manifest.permission.INTERNET,
+//                    Manifest.permission.POST_NOTIFICATIONS
+//                )
+//            } else {
+//                Dexter.withActivity(activity).withPermissions(
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.RECORD_AUDIO,
+//                    Manifest.permission.ACCESS_NETWORK_STATE,
+//                    Manifest.permission.INTERNET
+//                )
+//            }
+//        }.withListener(object : MultiplePermissionsListener {
+//            override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+//                if (report.areAllPermissionsGranted()) {
+//                    Log.d("permission", "granted")
+//                } else {
+//                    Log.d("permission", "failed")
+//                    activity!!.finishAffinity()
+//                }
+//            }
+//
+//            override fun onPermissionRationaleShouldBeShown(
+//                permissions: List<PermissionRequest>, token: PermissionToken
+//            ) {
+//                token.continuePermissionRequest()
+//            }
+//        }).withErrorListener { }.onSameThread().check()
+//    }
 
     fun RequestCameraPermission(activity: Activity?) {
         Dexter.withActivity(activity).withPermissions(

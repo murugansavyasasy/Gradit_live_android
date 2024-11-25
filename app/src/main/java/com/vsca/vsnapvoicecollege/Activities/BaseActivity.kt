@@ -128,42 +128,42 @@ abstract class BaseActivity : AppCompatActivity() {
 
                         // If you want to add the menu for testing use below code. And don't delete it.
 
-//                        if (CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals("p2")) {
-//                            val newElements = listOf(
-//                                MenuDetailsResponse(
-//                                    21,
-//                                    "Mark Your Attendance",
-//                                    "mark_your_attendance",
-//                                    1,
-//                                    1,
-//                                    21,
-//                                    2
-//                                ),
-//                                MenuDetailsResponse(
-//                                    22,
-//                                    "Attendance Report",
-//                                    "attendance_report",
-//                                    1,
-//                                    1,
-//                                    22,
-//                                    2
-//                                )
-//                            )
-//                            UserMenuData.addAll(newElements)
-//                        } else if (CommonUtil.Priority.equals("p3")) {
-//                            val newElements = listOf(
-//                                MenuDetailsResponse(
-//                                    22,
-//                                    "Attendance Report",
-//                                    "attendance_report",
-//                                    0,
-//                                    0,
-//                                    22,
-//                                    2
-//                                )
-//                            )
-//                            UserMenuData.addAll(newElements)
-//                        }
+                        if (CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals("p2")) {
+                            val newElements = listOf(
+                                MenuDetailsResponse(
+                                    21,
+                                    "Mark Your Attendance",
+                                    "mark_your_attendance",
+                                    1,
+                                    1,
+                                    21,
+                                    2
+                                ),
+                                MenuDetailsResponse(
+                                    22,
+                                    "Attendance Report",
+                                    "attendance_report",
+                                    1,
+                                    1,
+                                    22,
+                                    2
+                                )
+                            )
+                            UserMenuData.addAll(newElements)
+                        } else if (CommonUtil.Priority.equals("p3")) {
+                            val newElements = listOf(
+                                MenuDetailsResponse(
+                                    22,
+                                    "Attendance Report",
+                                    "attendance_report",
+                                    0,
+                                    0,
+                                    22,
+                                    2
+                                )
+                            )
+                            UserMenuData.addAll(newElements)
+                        }
                         //
 
                         for (j in UserMenuData.indices) {
