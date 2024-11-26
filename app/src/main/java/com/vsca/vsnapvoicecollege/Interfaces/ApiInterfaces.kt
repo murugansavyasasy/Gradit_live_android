@@ -569,12 +569,13 @@ interface ApiInterfaces {
     @POST("api/AppDetailsBal/GetStaffLocationDetails")
     fun getStaffBiometricLocations(@Body jsonObject: JsonObject?): Call<StaffBiometricLocationRes?>?
 
-    @GET("api/AppDetailsBal/GetBiometricStaffAttendance")
-    fun getStaffBiometricAttendanceReport(
-        @Query("userId") userID: String?,
-        @Query("attendance_dt") monthID: String?,
-        @Query("CollegeId") institiuteId: String?
-    ): Call<StaffAttendanceBiometricReportRes?>?
+    @POST("api/AppDetailsBal/GetBiometricStaffAttendance")
+    fun getStaffBiometricAttendanceReport(@Body jsonObject: JsonObject?): Call<StaffAttendanceBiometricReportRes?>?
+//    fun getStaffBiometricAttendanceReport(
+//        @Query("userId") userID: String?,
+//        @Query("attendance_dt") monthID: String?,
+//        @Query("CollegeId") institiuteId: String?
+//    ): Call<StaffAttendanceBiometricReportRes?>?
 
     @POST("api/AppDetailsBal/BiometricEntryusingApp")
     fun BiometricEntryforAttendance(@Body jsonObject: JsonObject?): Call<JsonArray?>?

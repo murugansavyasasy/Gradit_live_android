@@ -523,8 +523,22 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(String.valueOf(CommonUtil.INSTANCE.getMemberId()), monthID, String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
+
+
+        JsonObject jsonObjectSchool = new JsonObject();
+        jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
+        jsonObjectSchool.addProperty("attendance_date", "2024-11");
+
+        Log.d("biometric_request", jsonObjectSchool.toString());
+
+        Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(jsonObjectSchool);
         call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
+
+//        Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(String.valueOf(CommonUtil.INSTANCE.getMemberId()), monthID, String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
+//        call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
+
+
             @Override
             public void onResponse(Call<StaffAttendanceBiometricReportRes> call, Response<StaffAttendanceBiometricReportRes> response) {
                 try {
