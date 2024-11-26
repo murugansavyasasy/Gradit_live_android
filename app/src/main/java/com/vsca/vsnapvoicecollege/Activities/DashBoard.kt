@@ -2,7 +2,6 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Intent
@@ -23,7 +22,6 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
@@ -715,7 +713,6 @@ class DashBoard : BaseActivity() {
             try {
                 popupWindow.dismiss()
                 saveContacts()
-
             } catch (e: Exception) {
                 Log.d("failure_popup_error", e.toString())
             }

@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vsca.vsnapvoicecollege.Adapters.AttendanceReportsAdapter;
 import com.vsca.vsnapvoicecollege.Adapters.PunchHistoryAdapter;
@@ -58,7 +59,7 @@ import com.vsca.vsnapvoicecollege.Utils.LocationDistanceCalculator;
 import com.vsca.vsnapvoicecollege.Utils.LocationHelper;
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference;
 
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DateFormatSymbols;
@@ -451,14 +452,20 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        Call<StaffBiometricLocationRes> call = RestClient.apiInterfaces.getStaffBiometricLocations(String.valueOf(CommonUtil.INSTANCE.getMemberId()), String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
+
+        JsonObject jsonObjectSchool = new JsonObject();
+        jsonObjectSchool.addProperty("userId", CommonUtil.INSTANCE.getMemberId());
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
+
+        Log.d("biometric_request", jsonObjectSchool.toString());
+        Call<StaffBiometricLocationRes> call = RestClient.apiInterfaces.getStaffBiometricLocations(jsonObjectSchool);
         call.enqueue(new Callback<StaffBiometricLocationRes>() {
             @Override
             public void onResponse(Call<StaffBiometricLocationRes> call, Response<StaffBiometricLocationRes> response) {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("locations:code-res", response.code() + " - " + response.toString());
+                    Log.d("locations:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();
@@ -468,27 +475,25 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         if (response.body().getStatus() == 1) {
                             locationsList = response.body().getData();
                             Boolean locationIsNearBy = false;
-                            for (int i = 0 ; i < locationsList.size();i++){
+                            for (int i = 0; i < locationsList.size(); i++) {
                                 Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
                                 Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
-                                int distance =Integer.parseInt(locationsList.get(i).getDistance());
+                                int distance = Integer.parseInt(locationsList.get(i).getDistance());
                                 float resultsof = LocationDistanceCalculator.calculateDistance(current_latitude, current_longitude, staff_lat, staff_long);
                                 Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
-                                if (resultsof <= (float)distance) {
+                                if (resultsof <= (float) distance) {
                                     locationIsNearBy = true;
                                     break;
                                 }
                             }
-                            if(locationIsNearBy){
+                            if (locationIsNearBy) {
                                 lblErrorMessage.setVisibility(View.GONE);
                                 rytPresentlayout.setVisibility(View.VISIBLE);
-                            }
-                            else {
+                            } else {
                                 rytPresentlayout.setVisibility(View.GONE);
                                 lblErrorMessage.setVisibility(View.VISIBLE);
                             }
-                        }
-                        else {
+                        } else {
                             showAlertMessage(response.body().getMessage());
                         }
                     } else {
@@ -679,36 +684,35 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("fullDeviceInfo",fullDeviceInfo);
 
         int punch_type = 0;
-        if(isFingerprint){
+        if (isFingerprint) {
             punch_type = 2;
-        }
-        else {
+        } else {
             punch_type = 1;
         }
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("user_id", String.valueOf(CommonUtil.INSTANCE.getMemberId()));
+        jsonObjectSchool.addProperty("UserId", String.valueOf(CommonUtil.INSTANCE.getMemberId()));
         jsonObjectSchool.addProperty("staff_or_student", "staff");
-        jsonObjectSchool.addProperty("institute_id", String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
-        jsonObjectSchool.addProperty("device_id", deviceId);
+        jsonObjectSchool.addProperty("CollegeId", String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
+        jsonObjectSchool.addProperty("deviceId", deviceId);
         jsonObjectSchool.addProperty("punch_type", punch_type);
         jsonObjectSchool.addProperty("device_model", fullDeviceInfo);
         Log.d("biometric_request", jsonObjectSchool.toString());
-        Call<JsonObject> call = RestClient.apiInterfaces.BiometricEntryforAttendance(jsonObjectSchool);
-        call.enqueue(new Callback<JsonObject>() {
+        Call<JsonArray> call = RestClient.apiInterfaces.BiometricEntryforAttendance(jsonObjectSchool);
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                 Log.d("Biometric:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Biometric:Res", response.body().toString());
+
                     try {
-                        JSONObject jsonObject = new JSONObject(response.body().toString());
-                        int status = jsonObject.getInt("status");
-                        String message = jsonObject.getString("message");
-                        if (status == 1) {
-                            showAlertMessage(message);
-                        } else {
+                        JSONArray jsonArray = new JSONArray(response.body().toString());
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int status = jsonObject.getInt("status");
+                            String message = jsonObject.getString("message");
                             showAlertMessage(message);
                         }
                     } catch (Exception e) {
@@ -718,8 +722,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                     }
                 }
             }
+
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
             }

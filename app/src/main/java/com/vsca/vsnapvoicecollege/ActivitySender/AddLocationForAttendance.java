@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -30,14 +29,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vsca.vsnapvoicecollege.Adapters.LocationsHistoryAdapter;
-import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces;
 import com.vsca.vsnapvoicecollege.Interfaces.GPSStatusListener;
 import com.vsca.vsnapvoicecollege.Interfaces.LocationLatLongListener;
 import com.vsca.vsnapvoicecollege.Model.StaffBiometricLocationRes;
@@ -47,7 +45,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil;
 import com.vsca.vsnapvoicecollege.Utils.GPSStatusReceiver;
 import com.vsca.vsnapvoicecollege.Utils.LocationHelper;
 
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -94,18 +92,6 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_location_for_attendance);
-
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-//
-//        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Add Institute Location");
-//        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
-//        ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
 
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
@@ -248,24 +234,28 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         jsonObjectSchool.addProperty("longitude", current_longitude);
         jsonObjectSchool.addProperty("distance", distance);
         Log.d("location_add_request", jsonObjectSchool.toString());
-        Call<JsonObject> call =  RestClient.apiInterfaces.addBiometricLocation(jsonObjectSchool);
-        call.enqueue(new Callback<JsonObject>() {
+        Call<JsonArray> call = RestClient.apiInterfaces.addBiometricLocation(jsonObjectSchool);
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
                 Log.d("Biometric:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Location:Res", response.body().toString());
+
                     try {
-                        JSONObject jsonObject = new JSONObject(response.body().toString());
-                        int status = jsonObject.getInt("status");
-                        String message = jsonObject.getString("message");
-                        if (status == 1) {
-                            Toast.makeText(AddLocationForAttendance.this, message, Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(AddLocationForAttendance.this, message, Toast.LENGTH_SHORT).show();
+                        JSONArray jsonArray = new JSONArray(response.body().toString());
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int status = jsonObject.getInt("status");
+                            String message = jsonObject.getString("message");
+                            if (status == 1) {
+                                Toast.makeText(AddLocationForAttendance.this, message, Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(AddLocationForAttendance.this, message, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } catch (Exception e) {
                         if (mProgressDialog.isShowing())
@@ -276,7 +266,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
             }
         });
@@ -432,6 +422,5 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
             btnPickLocation.setVisibility(View.VISIBLE);
             Toast.makeText(AddLocationForAttendance.this, "Unable to fetch location. Try again.", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

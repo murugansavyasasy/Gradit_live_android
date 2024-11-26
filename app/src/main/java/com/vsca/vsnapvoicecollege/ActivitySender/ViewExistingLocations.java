@@ -16,7 +16,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -25,14 +24,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vsca.vsnapvoicecollege.Adapters.LocationsHistoryAdapter;
 import com.vsca.vsnapvoicecollege.Interfaces.LocationClick;
 import com.vsca.vsnapvoicecollege.Model.StaffBiometricLocationRes;
 import com.vsca.vsnapvoicecollege.R;
 import com.vsca.vsnapvoicecollege.Repository.RestClient;
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil;
 
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -57,17 +58,7 @@ public class ViewExistingLocations extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locations_history_popup);
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-//
-//        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Locations");
-//        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
-//        ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
+
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
 
@@ -92,7 +83,12 @@ public class ViewExistingLocations extends AppCompatActivity {
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        Call<StaffBiometricLocationRes> call = RestClient.apiInterfaces.getExistingViewLocations(SchoolID);
+
+        JsonObject jsonObjectSchool = new JsonObject();
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
+
+        Log.d("biometric_request", jsonObjectSchool.toString());
+        Call<StaffBiometricLocationRes> call = RestClient.apiInterfaces.getExistingViewLocations(jsonObjectSchool);
         call.enqueue(new Callback<StaffBiometricLocationRes>() {
             @Override
             public void onResponse(Call<StaffBiometricLocationRes> call, Response<StaffBiometricLocationRes> response) {
@@ -206,30 +202,33 @@ public class ViewExistingLocations extends AppCompatActivity {
         if (!ViewExistingLocations.this.isFinishing()) mProgressDialog.show();
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("id", id);
+        jsonObjectSchool.addProperty("biometric_location_id", id);
         jsonObjectSchool.addProperty("location", locationName);
         jsonObjectSchool.addProperty("distance", distance);
         jsonObjectSchool.addProperty("userId", StaffID);
         Log.d("location_update_request", jsonObjectSchool.toString());
-        Call<JsonObject> call = RestClient.apiInterfaces.updateLocation(jsonObjectSchool);
-        call.enqueue(new Callback<JsonObject>() {
+        Call<JsonArray> call = RestClient.apiInterfaces.updateLocation(jsonObjectSchool);
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
                 Log.d("Biometric:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Location:Res", response.body().toString());
+
                     try {
-                        JSONObject jsonObject = new JSONObject(response.body().toString());
-                        int status = jsonObject.getInt("status");
-                        String message = jsonObject.getString("message");
-                        if (status == 1) {
-                            getExistingViewLocations();
-                            Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
+                        JSONArray jsonArray = new JSONArray(response.body().toString());
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int status = jsonObject.getInt("status");
+                            String message = jsonObject.getString("message");
+                            if (status == 1) {
+                                Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } catch (Exception e) {
                         if (mProgressDialog.isShowing())
@@ -240,7 +239,7 @@ public class ViewExistingLocations extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
             }
         });
@@ -276,31 +275,34 @@ public class ViewExistingLocations extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-
         if (!ViewExistingLocations.this.isFinishing()) mProgressDialog.show();
 
         JsonObject jsonObjectSchool = new JsonObject();
         jsonObjectSchool.addProperty("CollegeId", SchoolID);
         jsonObjectSchool.addProperty("locationId", item.getId());
         Log.d("location_remove_request", jsonObjectSchool.toString());
-        Call<JsonObject> call = RestClient.apiInterfaces.removeLocation(jsonObjectSchool);
-        call.enqueue(new Callback<JsonObject>() {
+        Call<JsonArray> call = RestClient.apiInterfaces.removeLocation(jsonObjectSchool);
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
                 Log.d("Biometric:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Location:Res", response.body().toString());
+
                     try {
-                        JSONObject jsonObject = new JSONObject(response.body().toString());
-                        int status = jsonObject.getInt("status");
-                        String message = jsonObject.getString("message");
-                        if (status == 1) {
-                            getExistingViewLocations();
-                            Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
+                        JSONArray jsonArray = new JSONArray(response.body().toString());
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int status = jsonObject.getInt("status");
+                            String message = jsonObject.getString("message");
+                            if (status == 1) {
+                                Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } catch (Exception e) {
                         if (mProgressDialog.isShowing())
@@ -311,7 +313,7 @@ public class ViewExistingLocations extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
             }
         });
