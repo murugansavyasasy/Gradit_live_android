@@ -528,17 +528,13 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         JsonObject jsonObjectSchool = new JsonObject();
         jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
         jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
-        jsonObjectSchool.addProperty("attendance_date", "2024-11");
+        jsonObjectSchool.addProperty("attendance_month", monthID);
+        jsonObjectSchool.addProperty("attendance_dt", "");
 
         Log.d("biometric_request", jsonObjectSchool.toString());
 
         Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(jsonObjectSchool);
         call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
-
-//        Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(String.valueOf(CommonUtil.INSTANCE.getMemberId()), monthID, String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
-//        call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
-
-
             @Override
             public void onResponse(Call<StaffAttendanceBiometricReportRes> call, Response<StaffAttendanceBiometricReportRes> response) {
                 try {
@@ -602,8 +598,18 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        Call<PunchHistoryRes> call = RestClient.apiInterfaces.viewPunchHistory(String.valueOf(CommonUtil.INSTANCE.getCollegeId()),String.valueOf(CommonUtil.INSTANCE.getMemberId()),item.getDate(),item.getDate());
+
+        JsonObject jsonObjectSchool = new JsonObject();
+        jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
+        jsonObjectSchool.addProperty("fromdate", item.getDate());
+        jsonObjectSchool.addProperty("todate", item.getDate());
+
+        Log.d("biometric_request", jsonObjectSchool.toString());
+        Call<PunchHistoryRes> call = RestClient.apiInterfaces.viewPunchHistory(jsonObjectSchool);
         call.enqueue(new Callback<PunchHistoryRes>() {
+
+
             @Override
             public void onResponse(Call<PunchHistoryRes> call, Response<PunchHistoryRes> response) {
                 try {

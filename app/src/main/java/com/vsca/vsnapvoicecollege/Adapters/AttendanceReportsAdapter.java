@@ -132,10 +132,10 @@ public class AttendanceReportsAdapter extends RecyclerView.Adapter<AttendanceRep
 
     public void extractDateComponents(String inputDate, TextView lblMonth, TextView lblDate, TextView lblDay) {
         // Define the date format
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 
         try {
-            // Parse the date string into a Date object
+//             Parse the date string into a Date object
             Date date = dateFormat.parse(inputDate);
 
             // Create a Calendar object to extract the day, month, and year

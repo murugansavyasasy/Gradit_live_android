@@ -57,42 +57,42 @@ public class PunchHistoryRes {
 
         public class PunchHistoryTimings {
 
-            private String r_time;
-            private String r_device_id;
+            private String time;
+            private String device_id;
 
-            private String r_device_model;
-            private PunchType r_punch_type;
+            private String device_model;
+            private PunchType punch_type;
 
             public void setTime(String id) {
-                this.r_time = id;
+                this.time = id;
             }
 
             public String getTime() {
-                return r_time;
+                return time;
             }
 
             public void setDeviceId(String id) {
-                this.r_device_id = id;
+                this.device_id = id;
             }
 
             public String getDeviceId() {
-                return r_device_id;
+                return device_id;
             }
 
             public void setDeviceModel(String id) {
-                this.r_device_model = id;
+                this.device_model = id;
             }
 
             public String getDeviceModel() {
-                return r_device_model;
+                return device_model;
             }
 
             public void setPunchType(PunchType id) {
-                this.r_punch_type = id;
+                this.punch_type = id;
             }
 
             public PunchType getPunchType() {
-                return r_punch_type;
+                return punch_type;
             }
 
             public class PunchType {

@@ -53,7 +53,6 @@ public class ViewExistingLocations extends AppCompatActivity {
     ConstraintLayout constParent;
     TextView lblNoRecords;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -133,20 +133,19 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_toLeftOf="@+id/imgStaffDropDown"
                 android:background="@android:color/transparent"
                 android:gravity="left"
                 android:paddingLeft="10dp"
                 android:spinnerMode="dropdown" />
 
-            <ImageView
-                android:id="@+id/imgStaffDropDown"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_drop_down" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imgStaffDropDown"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:src="@drawable/ic_drop_down" />-->
 
         </RelativeLayout>
 

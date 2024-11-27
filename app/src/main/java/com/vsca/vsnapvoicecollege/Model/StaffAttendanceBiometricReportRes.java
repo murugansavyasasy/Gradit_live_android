@@ -38,7 +38,7 @@ public class StaffAttendanceBiometricReportRes {
         private String staffName;
         private String staffId;
 
-        private String date;
+        private String attendance_dt;
 
         private String leave_type;
 
@@ -65,11 +65,11 @@ public class StaffAttendanceBiometricReportRes {
             return staffId;
         }
         public void setDate(String id) {
-            this.date = id;
+            this.attendance_dt = id;
         }
 
         public String getDate() {
-            return date;
+            return attendance_dt;
         }
 
         public void setLeave_type(String id) {

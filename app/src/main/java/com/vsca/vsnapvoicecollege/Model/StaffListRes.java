@@ -37,24 +37,24 @@ public class StaffListRes{
 
     public class StaffListData {
 
-        private int staffId;
+        private int staff_id;
 
-        private String staffName;
+        private String staff_name;
 
         public void setStaffId(int id) {
-            this.staffId = id;
+            this.staff_id = id;
         }
 
         public int getStaffId() {
-            return staffId;
+            return staff_id;
         }
 
         public void setStaffName(String id) {
-            this.staffName = id;
+            this.staff_name = id;
         }
 
         public String getStaffName() {
-            return staffName;
+            return staff_name;
         }
 
 

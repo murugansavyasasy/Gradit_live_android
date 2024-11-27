@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.vsca.vsnapvoicecollege.Adapters.AttendanceReportsAdapter;
 import com.vsca.vsnapvoicecollege.Adapters.PunchHistoryAdapter;
 import com.vsca.vsnapvoicecollege.Interfaces.ViewPunchHistoryListener;
@@ -141,21 +142,21 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
     }
 
     private void filterlist(String s) {
-        List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> temp = new ArrayList();
-        for (StaffAttendanceBiometricReportRes.BiometriStaffReportData d : attendanceReportsList) {
+        if (attendanceReportsList.size() > 0) {
+            List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> temp = new ArrayList();
+            for (StaffAttendanceBiometricReportRes.BiometriStaffReportData d : attendanceReportsList) {
 
-            if (d.getStaffName().toLowerCase().contains(s.toLowerCase())) {
-                temp.add(d);
+                if (d.getStaffName().toLowerCase().contains(s.toLowerCase())) {
+                    temp.add(d);
+                }
             }
-
-        }
-        if (temp.size()>0) {
-            mAdapter.updateList(temp);
+            if (temp.size() > 0) {
+                mAdapter.updateList(temp);
+            }
         }
     }
 
     private void getStaffsList() {
-
 
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -164,8 +165,11 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        Call<StaffListRes> call = RestClient.apiInterfaces.getStaffList(String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
+        JsonObject jsonObjectSchool = new JsonObject();
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
+        Call<StaffListRes> call = RestClient.apiInterfaces.getStaffList(jsonObjectSchool);
         call.enqueue(new Callback<StaffListRes>() {
+
             @Override
             public void onResponse(Call<StaffListRes> call, retrofit2.Response<StaffListRes> response) {
                 try {
@@ -246,14 +250,23 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        Call<StaffAttendanceBiometricReportRes> call;
-        if(cardType.equals("DayWise")){
-            call = RestClient.apiInterfaces.getDayWiseBiometricAttendanceReport(formattedDate, String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
-        }
-        else {
-            call = RestClient.apiInterfaces.getStaffWiseBiometricAttendanceReport(String.valueOf(selectedStaffID),monthID , String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
-        }
 
+        JsonObject jsonObjectSchool = new JsonObject();
+        if (cardType.equals("DayWise")) {
+            jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
+            jsonObjectSchool.addProperty("attendance_month", "");
+            jsonObjectSchool.addProperty("attendance_dt", formattedDate);
+        } else {
+            jsonObjectSchool.addProperty("UserId", selectedStaffID);
+            jsonObjectSchool.addProperty("attendance_month", monthID);
+            jsonObjectSchool.addProperty("attendance_dt", "");
+
+        }
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
+
+        Log.d("biometric_request", jsonObjectSchool.toString());
+
+        Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(jsonObjectSchool);
         call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
             @Override
             public void onResponse(Call<StaffAttendanceBiometricReportRes> call, retrofit2.Response<StaffAttendanceBiometricReportRes> response) {
@@ -285,8 +298,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                             recycleReports.setAdapter(mAdapter);
                             recycleReports.getRecycledViewPool().setMaxRecycledViews(0, 80);
                             mAdapter.notifyDataSetChanged();
-                        }
-                        else {
+                        } else {
                             txtSearch.setEnabled(false);
                             recycleReports.setVisibility(View.GONE);
                             lblNoRecords.setVisibility(View.VISIBLE);
@@ -295,6 +307,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
                         }
                     } else {
+                        recycleReports.setVisibility(View.GONE);
 //                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -309,6 +322,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
+                recycleReports.setVisibility(View.GONE);
 
             }
         });
@@ -347,8 +361,17 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        Call<PunchHistoryRes> call = RestClient.apiInterfaces.viewPunchHistory(String.valueOf(CommonUtil.INSTANCE.getCollegeId()),item.getStaffId(),item.getDate(),item.getDate());
+
+        JsonObject jsonObjectSchool = new JsonObject();
+        jsonObjectSchool.addProperty("userId", CommonUtil.INSTANCE.getMemberId());
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
+        jsonObjectSchool.addProperty("fromdate", item.getDate());
+        jsonObjectSchool.addProperty("todate", item.getDate());
+
+        Log.d("biometric_request", jsonObjectSchool.toString());
+        Call<PunchHistoryRes> call = RestClient.apiInterfaces.viewPunchHistory(jsonObjectSchool);
         call.enqueue(new Callback<PunchHistoryRes>() {
+
             @Override
             public void onResponse(Call<PunchHistoryRes> call, retrofit2.Response<PunchHistoryRes> response) {
                 try {
@@ -361,8 +384,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                         Log.d("punchHistoryReport", data);
                         Log.d("punchHistoryReport", response.body().toString());
                         punchTimingList.clear();
-                        if (response.body().getStatus() == 1)
-                        {
+                        if (response.body().getStatus() == 1) {
                             recycleHistory.setVisibility(View.VISIBLE);
                             lblNoRecords.setVisibility(View.GONE);
                             punchTimingList = response.body().getData();
@@ -373,16 +395,13 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                             recycleHistory.setAdapter(punchHistoryAdapter);
                             recycleHistory.getRecycledViewPool().setMaxRecycledViews(0, 80);
                             punchHistoryAdapter.notifyDataSetChanged();
-                        }
-                        else
-                        {
+                        } else {
                             recycleHistory.setVisibility(View.GONE);
                             lblNoRecords.setVisibility(View.VISIBLE);
                             lblNoRecords.setText(response.body().getMessage());
                         }
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
                     Log.e("Response Exception", e.getMessage());
@@ -481,6 +500,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         switch (v.getId()) {
             case R.id.btnTodaysReport:
                 cardType = "DayWise";
+                attendanceReportsList.clear();
                 rytStaffSpinner.setVisibility(View.GONE);
                 lnrDatesSpinners.setVisibility(View.GONE);
                 txtSearch.setVisibility(View.VISIBLE);
@@ -497,7 +517,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
             case R.id.btnMonthWiseReports:
                 cardType = "MonthWise";
-
+                attendanceReportsList.clear();
                 rytStaffSpinner.setVisibility(View.VISIBLE);
                 lnrDatesSpinners.setVisibility(View.VISIBLE);
                 txtSearch.setVisibility(View.GONE);

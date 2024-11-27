@@ -555,27 +555,29 @@ interface ApiInterfaces {
     @POST("api/AppDetailsBal/UpdateBiometricLocation")
     fun updateLocation(@Body jsonObject: JsonObject?): Call<JsonArray?>?
 
-    @GET("api/AppDetailsBal/GetStaffListforBiometric")
-    fun getStaffList(@Query("CollegeId") id: String?): Call<StaffListRes?>?
+    @POST("api/AppDetailsBal/GetStaffListforBiometric")
+    fun getStaffList(@Body jsonObject: JsonObject?): Call<StaffListRes?>?
 
-    @GET("api/AppDetailsBal/GetBiometricPunchHistory")
-    fun viewPunchHistory(
-        @Query("CollegeId") instituteId: String?,
-        @Query("userId") userId: String?,
-        @Query("from_date") from_date: String?,
-        @Query("to_date") to_date: String?
-    ): Call<PunchHistoryRes?>?
+
+    @POST("api/AppDetailsBal/GetBiometricPunchHistory")
+    fun viewPunchHistory(@Body jsonObject: JsonObject?): Call<PunchHistoryRes?>?
+
+
+//    fun viewPunchHistory(
+//        @Query("CollegeId") instituteId: String?,
+//        @Query("userId") userId: String?,
+//        @Query("from_date") from_date: String?,
+//        @Query("to_date") to_date: String?
+//    ): Call<PunchHistoryRes?>?
 
     @POST("api/AppDetailsBal/GetStaffLocationDetails")
     fun getStaffBiometricLocations(@Body jsonObject: JsonObject?): Call<StaffBiometricLocationRes?>?
 
-    @POST("api/AppDetailsBal/GetBiometricStaffAttendance")
+//    @POST("api/AppDetailsBal/GetBiometricStaffAttendance")
+//    fun getStaffBiometricAttendanceReport(@Body jsonObject: JsonObject?): Call<StaffAttendanceBiometricReportRes?>?
+
+    @POST("api/AppDetailsBal/GetBiometricPrincipalAttendance")
     fun getStaffBiometricAttendanceReport(@Body jsonObject: JsonObject?): Call<StaffAttendanceBiometricReportRes?>?
-//    fun getStaffBiometricAttendanceReport(
-//        @Query("userId") userID: String?,
-//        @Query("attendance_dt") monthID: String?,
-//        @Query("CollegeId") institiuteId: String?
-//    ): Call<StaffAttendanceBiometricReportRes?>?
 
     @POST("api/AppDetailsBal/BiometricEntryusingApp")
     fun BiometricEntryforAttendance(@Body jsonObject: JsonObject?): Call<JsonArray?>?
