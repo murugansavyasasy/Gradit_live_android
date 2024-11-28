@@ -367,7 +367,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
     @SuppressLint("MissingPermission")
     private void getCurentLocation() {
-        LocationHelper call = new LocationHelper(AddLocationForAttendance.this,this);
+        LocationHelper call = new LocationHelper(AddLocationForAttendance.this,this,"new");
         call.getFreshLocation(AddLocationForAttendance.this);
         rytProgressBar.setVisibility(View.VISIBLE);
     }
@@ -392,29 +392,29 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     }
 
     @Override
-    public void onLocationReturn(double latitude, double longitude) {
+    public void onLocationReturn(double latitude, double longitude, String type) {
 
-        Log.d("lat_long",latitude + "_"+ longitude);
+        Log.d("lat_long", latitude + "_" + longitude);
         rytProgressBar.setVisibility(View.GONE);
 
         if (!Double.isNaN(latitude) && !Double.isNaN(longitude)) {
 
-                Log.d("latitude", String.valueOf(latitude));
-                Log.d("longitude", String.valueOf(longitude));
+            Log.d("latitude", String.valueOf(latitude));
+            Log.d("longitude", String.valueOf(longitude));
 
-                current_latitude = latitude;
-                current_longitude = longitude;
+            current_latitude = latitude;
+            current_longitude = longitude;
 
-                lbllatLong.setText(String.valueOf(latitude) + " - " + String.valueOf(longitude));
-                String address = getAddressFromLatLng(latitude, longitude);
-                Address = address;
-                lblAddress.setText(address);
+            lbllatLong.setText(latitude + " - " + longitude);
+            String address = getAddressFromLatLng(latitude, longitude);
+            Address = address;
+            lblAddress.setText(address);
 
-                lnrAddressLayout.setVisibility(View.VISIBLE);
-                btnAddLocation.setVisibility(View.VISIBLE);
-                btnPickLocation.setVisibility(View.GONE);
+            lnrAddressLayout.setVisibility(View.VISIBLE);
+            btnAddLocation.setVisibility(View.VISIBLE);
+            btnPickLocation.setVisibility(View.GONE);
 
-                Log.d("Address:", address);
+            Log.d("Address:", address);
 
         } else {
             lnrAddressLayout.setVisibility(View.GONE);
@@ -422,5 +422,6 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
             btnPickLocation.setVisibility(View.VISIBLE);
             Toast.makeText(AddLocationForAttendance.this, "Unable to fetch location. Try again.", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

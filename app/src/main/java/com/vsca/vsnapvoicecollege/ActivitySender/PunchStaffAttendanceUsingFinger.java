@@ -74,6 +74,7 @@ import retrofit2.Response;
 
 
 public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implements GPSStatusListener, LocationLatLongListener, View.OnClickListener {
+
     private int locationRequestCode = 1000;
     private GPSStatusReceiver gpsStatusReceiver;
     RelativeLayout rytGPSRedirect, rytParent, rytPresentlayout, rytAddLocation, rytMarkAttendanceSceen, rytAttendanceHistorySceen, rytProgressBar, rytEnableFingerPrint;
@@ -92,7 +93,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     int currentYear = 0;
     String[] Years = new String[20];
-
+    Boolean isFingerPrint = false;
     Boolean isMarkAttendnaceScreen = true;
     String latitudeToStopCalling = "";
     String langitudeToStopCalling = "";
@@ -371,7 +372,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         } else {
             if (CommonUtil.isGPSEnabled(this)) {
                 rytGPSRedirect.setVisibility(View.GONE);
-                getCurentLocation();
+                getCurentLocation("new");
             } else {
                 rytGPSRedirect.setVisibility(View.VISIBLE);
                 lblErrorMessage.setVisibility(View.GONE);
@@ -408,9 +409,6 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
 
-//               if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
-//                }
-
                 if (ifBiometricAvailable) {
                     if (authenticatealertpopupWindow != null) {
                         if (authenticatealertpopupWindow.isShowing()) {
@@ -444,7 +442,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
 
-    private void getStaffLocations(double current_latitude, double current_longitude) {
+    private void getStaffLocations() {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -466,6 +464,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
                     Log.d("locations:code-res", response.code() + " - " + response);
+
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();
@@ -474,30 +473,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         locationsList.clear();
                         if (response.body().getStatus() == 1) {
                             locationsList = response.body().getData();
-                            Boolean locationIsNearBy = false;
-                            for (int i = 0; i < locationsList.size(); i++) {
-                                Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
-                                Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
-                                int distance = Integer.parseInt(locationsList.get(i).getDistance());
-                                float resultsof = LocationDistanceCalculator.calculateDistance(current_latitude, current_longitude, staff_lat, staff_long);
-                                Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
-                                if (resultsof <= (float) distance) {
-                                    locationIsNearBy = true;
-                                    break;
-                                }
-                            }
-                            if (locationIsNearBy) {
-                                lblErrorMessage.setVisibility(View.GONE);
-                                rytPresentlayout.setVisibility(View.VISIBLE);
-                            } else {
-                                rytPresentlayout.setVisibility(View.GONE);
-                                lblErrorMessage.setVisibility(View.VISIBLE);
-                            }
                         } else {
                             showAlertMessage(response.body().getMessage());
                         }
-                    } else {
-//                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -535,6 +513,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
         Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(jsonObjectSchool);
         call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
+
             @Override
             public void onResponse(Call<StaffAttendanceBiometricReportRes> call, Response<StaffAttendanceBiometricReportRes> response) {
                 try {
@@ -573,7 +552,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
                         }
                     } else {
-//                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Check internet.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     if (mProgressDialog.isShowing())
@@ -677,7 +656,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         lblTitle.setTypeface(null, Typeface.BOLD);
         lblNoRecords.setTypeface(null, Typeface.BOLD);
 
-        viewPunchHistory(item,recycleHistory,lblNoRecords);
+        viewPunchHistory(item, recycleHistory, lblNoRecords);
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -687,6 +666,14 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     private void putAttendanceDataAPI(Boolean isFingerprint) {
+        isFingerPrint = isFingerprint;
+        latitudeToStopCalling = "";
+        langitudeToStopCalling = "";
+        Log.d("isFingerPrint", String.valueOf(isFingerPrint));
+        getCurentLocation("punch");
+    }
+
+    private void confirmPutAttendance() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
@@ -704,7 +691,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("fullDeviceInfo",fullDeviceInfo);
 
         int punch_type = 0;
-        if (isFingerprint) {
+        if (isFingerPrint) {
             punch_type = 2;
         } else {
             punch_type = 1;
@@ -795,20 +782,10 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     @SuppressLint("MissingPermission")
-    private void getCurentLocation() {
-        LocationHelper call = new LocationHelper(PunchStaffAttendanceUsingFinger.this,this);
-        call.getFreshLocation(PunchStaffAttendanceUsingFinger.this);
+    private void getCurentLocation(String type) {
         rytProgressBar.setVisibility(View.VISIBLE);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        gpsStatusReceiver = new GPSStatusReceiver(this);
-        registerReceiver(gpsStatusReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
-        Log.d("onResume", "onResume");
-        getLocationPermissions();
+        LocationHelper call = new LocationHelper(PunchStaffAttendanceUsingFinger.this, this, type);
+        call.getFreshLocation(PunchStaffAttendanceUsingFinger.this);
     }
 
     @Override
@@ -834,7 +811,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (CommonUtil.isGPSEnabled(this)) {
                         rytGPSRedirect.setVisibility(View.GONE);
-                        getCurentLocation();
+                        getCurentLocation("new");
                     }
                     else {
                         rytGPSRedirect.setVisibility(View.VISIBLE);
@@ -917,15 +894,53 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     @Override
-    public void onLocationReturn(double latitude, double longitude) {
-        Log.d("lat_long",latitude + "_"+ longitude);
+    protected void onResume() {
+        super.onResume();
+        gpsStatusReceiver = new GPSStatusReceiver(this);
+        registerReceiver(gpsStatusReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+        Log.d("onResume", "onResume");
+        getStaffLocations();
+        getLocationPermissions();
+    }
+
+    @Override
+    public void onLocationReturn(double latitude, double longitude, String type) {
+        Log.d("lat_long", latitude + "_" + longitude);
+        Log.d("type_l", type);
         rytProgressBar.setVisibility(View.GONE);
-        if(isMarkAttendnaceScreen) {
-            if(latitudeToStopCalling.equals("null") || langitudeToStopCalling.equals("null") || latitudeToStopCalling.equals("") || langitudeToStopCalling.equals("")) {
+        if (isMarkAttendnaceScreen) {
+            if (latitudeToStopCalling.equals("null") || langitudeToStopCalling.equals("null") || latitudeToStopCalling.equals("") || langitudeToStopCalling.equals("")) {
                 latitudeToStopCalling = String.valueOf(latitude);
                 langitudeToStopCalling = String.valueOf(longitude);
-                getStaffLocations(latitude, longitude);
+                punchHiddenShow(latitude, longitude, type);
             }
+        }
+    }
+
+    private void punchHiddenShow(double latitude, double longitude, String type) {
+
+        Log.d("locationsLists", String.valueOf(locationsList.size()));
+        Boolean locationIsNearBy = false;
+        for (int i = 0; i < locationsList.size(); i++) {
+            Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
+            Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
+            int distance = Integer.parseInt(locationsList.get(i).getDistance());
+            float resultsof = LocationDistanceCalculator.calculateDistance(latitude, longitude, staff_lat, staff_long);
+            Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
+            if (resultsof <= (float) distance) {
+                locationIsNearBy = true;
+                break;
+            }
+        }
+        if (locationIsNearBy) {
+            lblErrorMessage.setVisibility(View.GONE);
+            rytPresentlayout.setVisibility(View.VISIBLE);
+            if (type.equals("punch")) {
+                confirmPutAttendance();
+            }
+        } else {
+            rytPresentlayout.setVisibility(View.GONE);
+            lblErrorMessage.setVisibility(View.VISIBLE);
         }
     }
 }
