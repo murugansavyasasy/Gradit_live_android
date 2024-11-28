@@ -473,6 +473,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         locationsList.clear();
                         if (response.body().getStatus() == 1) {
                             locationsList = response.body().getData();
+                            lblErrorMessage.setVisibility(View.GONE);
+                            rytPresentlayout.setVisibility(View.VISIBLE);
+
                         } else {
                             showAlertMessage(response.body().getMessage());
                         }
@@ -933,12 +936,15 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             }
         }
         if (locationIsNearBy) {
+            Log.d("locationNearBy", "locationNearBy");
             lblErrorMessage.setVisibility(View.GONE);
+            rytProgressBar.setVisibility(View.GONE);
             rytPresentlayout.setVisibility(View.VISIBLE);
             if (type.equals("punch")) {
                 confirmPutAttendance();
             }
         } else {
+            Log.d("isComing", "isComing");
             rytPresentlayout.setVisibility(View.GONE);
             lblErrorMessage.setVisibility(View.VISIBLE);
         }

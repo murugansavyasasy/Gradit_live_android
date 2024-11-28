@@ -126,9 +126,8 @@ abstract class BaseActivity : AppCompatActivity() {
                     if (status == 1) {
                         UserMenuData = response.data!!
 
-                //   /**
+                  /**
                         // If you want to add the menu for testing use below code. And don't delete it.
-
                         if (CommonUtil.Priority.equals("p1")) {
                             val newElements = listOf(
                                 MenuDetailsResponse(
@@ -151,25 +150,8 @@ abstract class BaseActivity : AppCompatActivity() {
                                 )
                             )
                             UserMenuData.addAll(newElements)
-                        } else if (CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals("p3") || CommonUtil.Priority.equals(
-                                "p6"
-                            )
-                        ) {
-                            val newElements = listOf(
-                                MenuDetailsResponse(
-                                    21,
-                                    "Mark Your Attendance",
-                                    "mark_your_attendance",
-                                    0,
-                                    0,
-                                    21,
-                                    2
-                                )
-                            )
-                            UserMenuData.addAll(newElements)
                         }
-
-                        //   */
+                   */
 
 
                         for (j in UserMenuData.indices) {

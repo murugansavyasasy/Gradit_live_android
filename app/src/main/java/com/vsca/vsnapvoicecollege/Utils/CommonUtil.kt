@@ -3,11 +3,14 @@ package com.vsca.vsnapvoicecollege.Utils
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +19,7 @@ import androidx.core.content.ContextCompat
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.DexterError
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.vsca.vsnapvoicecollege.Model.AttendanceHour
@@ -31,6 +35,7 @@ import com.vsca.vsnapvoicecollege.Model.SubjectdetailX
 import com.vsca.vsnapvoicecollege.Model.Subjectdetail_ExamCreation
 import com.vsca.vsnapvoicecollege.R
 import java.io.File
+import javax.xml.transform.ErrorListener
 
 
 object CommonUtil {
@@ -54,7 +59,7 @@ object CommonUtil {
     var Appid = 1
 
     @JvmField
-    var VersionId = 33
+    var VersionId = 34
 
     // MENU NAME
 
@@ -509,6 +514,7 @@ object CommonUtil {
         }
     }
 
+
     fun isNetworkConnected(activity: Activity): Boolean {
         val cm = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null
@@ -579,7 +585,7 @@ object CommonUtil {
         if (permissionsToRequest.isNotEmpty()) {
             ActivityCompat.requestPermissions(activity!!, permissionsToRequest.toTypedArray(), 101)
         } else {
-            Log.d("Permission_isContact", "All permissions granted")
+            Log.d("PermissionisContact", "All permissions granted")
             // Proceed with app functionality here
         }
     }
