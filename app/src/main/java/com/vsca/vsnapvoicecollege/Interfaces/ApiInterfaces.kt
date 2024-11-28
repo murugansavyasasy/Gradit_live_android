@@ -558,23 +558,11 @@ interface ApiInterfaces {
     @POST("api/AppDetailsBal/GetStaffListforBiometric")
     fun getStaffList(@Body jsonObject: JsonObject?): Call<StaffListRes?>?
 
-
     @POST("api/AppDetailsBal/GetBiometricPunchHistory")
     fun viewPunchHistory(@Body jsonObject: JsonObject?): Call<PunchHistoryRes?>?
 
-
-//    fun viewPunchHistory(
-//        @Query("CollegeId") instituteId: String?,
-//        @Query("userId") userId: String?,
-//        @Query("from_date") from_date: String?,
-//        @Query("to_date") to_date: String?
-//    ): Call<PunchHistoryRes?>?
-
     @POST("api/AppDetailsBal/GetStaffLocationDetails")
     fun getStaffBiometricLocations(@Body jsonObject: JsonObject?): Call<StaffBiometricLocationRes?>?
-
-//    @POST("api/AppDetailsBal/GetBiometricStaffAttendance")
-//    fun getStaffBiometricAttendanceReport(@Body jsonObject: JsonObject?): Call<StaffAttendanceBiometricReportRes?>?
 
     @POST("api/AppDetailsBal/GetBiometricPrincipalAttendance")
     fun getStaffBiometricAttendanceReport(@Body jsonObject: JsonObject?): Call<StaffAttendanceBiometricReportRes?>?

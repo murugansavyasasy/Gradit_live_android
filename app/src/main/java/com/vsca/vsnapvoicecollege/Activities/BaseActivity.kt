@@ -153,12 +153,12 @@ abstract class BaseActivity : AppCompatActivity() {
                         } else if (CommonUtil.Priority.equals("p3")) {
                             val newElements = listOf(
                                 MenuDetailsResponse(
-                                    22,
-                                    "Attendance Report",
-                                    "attendance_report",
+                                    21,
+                                    "Mark Your Attendance",
+                                    "mark_your_attendance",
                                     0,
                                     0,
-                                    22,
+                                    21,
                                     2
                                 )
                             )

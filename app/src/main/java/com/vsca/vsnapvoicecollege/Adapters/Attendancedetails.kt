@@ -19,7 +19,8 @@ class Attendancedetails(
 ) : RecyclerView.Adapter<Attendancedetails.MyViewHolder>() {
 
     var isPosition: Int = 0
-    var sNumber: Int = 1
+    private var sNumber: Int = 1
+    private var isCount = true
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -66,10 +67,8 @@ class Attendancedetails(
         holder.lbldate!!.text = data.attended_date
         holder.lblattendhours!!.text = data.attended_hour_no.toString()
         holder.lblabsenthours!!.text = data.absent_hour_no.toString()
-        if (attendacelist.size >= sNumber) {
-            holder.lblsnumber!!.text = sNumber.toString()
-            sNumber++
-        }
+        holder.lblsnumber!!.text = (position + 1).toString()
+
     }
 
     override fun getItemCount(): Int {

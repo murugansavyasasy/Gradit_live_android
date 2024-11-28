@@ -90,7 +90,7 @@
                 <TextView
                     android:id="@+id/lblSemesterSem"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/fifty"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_table_header"
                     android:gravity="center"
@@ -108,7 +108,7 @@
                 <TextView
                     android:id="@+id/lblObtainedsem"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/fifty"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_table_header"
                     android:gravity="center"
@@ -124,7 +124,7 @@
                 <TextView
                     android:id="@+id/lblTobeObtainedsem"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/fifty"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_table_header"

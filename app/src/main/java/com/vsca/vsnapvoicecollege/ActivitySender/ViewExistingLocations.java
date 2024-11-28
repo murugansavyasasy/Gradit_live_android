@@ -223,8 +223,9 @@ public class ViewExistingLocations extends AppCompatActivity {
                             int status = jsonObject.getInt("status");
                             String message = jsonObject.getString("message");
                             if (status == 1) {
+                                getExistingViewLocations();
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
-                                finish();
+                              //  finish();
                             } else {
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
                             }
@@ -297,8 +298,9 @@ public class ViewExistingLocations extends AppCompatActivity {
                             int status = jsonObject.getInt("status");
                             String message = jsonObject.getString("message");
                             if (status == 1) {
+                                getExistingViewLocations();
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
-                                finish();
+                               // finish();
                             } else {
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
                             }
