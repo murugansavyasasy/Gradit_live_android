@@ -16,9 +16,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -33,13 +30,15 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityAddEventsBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddEvents : ActionBarActivity() {
+class AddEvents: ActionBarActivity() {
 
     var appViewModel: App? = null
     var AdWebURl: String? = null
@@ -59,57 +58,16 @@ class AddEvents : ActionBarActivity() {
     var formatdate = ""
     var EditEvent: Boolean = false
 
-    @JvmField
-    @BindView(R.id.rytEventDate)
-    var rytEventDate: RelativeLayout? = null
+    private lateinit var binding: ActivityAddEventsBinding
 
-    @JvmField
-    @BindView(R.id.rytEventTime)
-    var rytEventTime: RelativeLayout? = null
-
-    @JvmField
-    @BindView(R.id.lblEventDate)
-    var lblEventDate: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblEventTime)
-    var lblEventTime: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblWordCount)
-    var lblWordCount: TextView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.txtTitle)
-    var txtTitle: EditText? = null
-
-    @JvmField
-    @BindView(R.id.edt_venue)
-    var edt_venue: EditText? = null
-
-    @JvmField
-    @BindView(R.id.btnConfirm)
-    var btnConfirm: Button? = null
-
-
-    @JvmField
-    @BindView(R.id.txtDescription)
-    var txtDescription: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityAddEventsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionbarWithoutBottom(this)
         imgRefresh!!.visibility = View.GONE
 
@@ -120,16 +78,23 @@ class AddEvents : ActionBarActivity() {
         ScreenNameEvent = "ScreenNameEvent"
         if (EventEdit.equals("EventEdit")) {
 
-            btnConfirm!!.text = "Send"
+            binding.btnConfirm!!.text = "Send"
             CommonUtil.EventsendType = "Edit"
-            lblEventDate!!.text = eventsdata!!.event_date
-            lblEventTime!!.text = eventsdata!!.event_time
-            txtTitle!!.setText(eventsdata!!.topic)
-            txtDescription!!.setText(eventsdata!!.body)
-            edt_venue!!.setText(eventsdata!!.venue)
+            binding.lblEventDate!!.text = eventsdata!!.event_date
+            binding.lblEventTime!!.text = eventsdata!!.event_time
+            binding.txtTitle!!.setText(eventsdata!!.topic)
+            binding.txtDescription!!.setText(eventsdata!!.body)
+            binding.edtVenue!!.setText(eventsdata!!.venue)
             ScreenNameEvent = "Event_Edit"
 
         }
+
+
+        binding.btnConfirm.setOnClickListener { btnNextClick() }
+        binding.rytEventDate.setOnClickListener { eventdateClick() }
+        binding.imgImagePdfback.setOnClickListener { onBackPressed() }
+        binding.btnCancel.setOnClickListener { onBackPressed() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.Eventsenddata!!.observe(this) { response ->
             if (response != null) {
@@ -158,17 +123,18 @@ class AddEvents : ActionBarActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
 
 
-        rytEventTime!!.setOnClickListener {
+        binding.rytEventTime!!.setOnClickListener {
 
             val timePicker: TimePickerDialog = TimePickerDialog(
                 // pass the Context
@@ -193,7 +159,7 @@ class AddEvents : ActionBarActivity() {
 
         }
 
-        txtDescription!!.addTextChangedListener(mTextEditorWatcher)
+        binding.txtDescription!!.addTextChangedListener(mTextEditorWatcher)
 
 
     }
@@ -223,7 +189,7 @@ class AddEvents : ActionBarActivity() {
     private val mTextEditorWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            lblWordCount!!.text = s.length.toString() + "/500"
+            binding.lblWordCount!!.text = s.length.toString() + "/500"
         }
 
         override fun afterTextChanged(s: Editable) {}
@@ -269,7 +235,7 @@ class AddEvents : ActionBarActivity() {
                 }
 
 
-                lblEventTime!!.text = formattedTime
+                binding.lblEventTime!!.text = formattedTime
 
                 Time = timeCoversion12to24(formattedTime)
             }
@@ -313,16 +279,14 @@ class AddEvents : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_add_events
 
-    @SuppressLint("NewApi")
-    @OnClick(R.id.btnConfirm)
     fun btnNextClick() {
 
-        Date = lblEventDate!!.text.toString()
+        Date = binding.lblEventDate!!.text.toString()
         Log.d("date_picker", Date.toString())
-        MenuTitle = txtTitle!!.text.toString()
-        MenuDescription = txtDescription!!.text.toString()
-        Venue = edt_venue!!.text.toString()
-        Time = lblEventTime!!.text.toString()
+        MenuTitle = binding.txtTitle!!.text.toString()
+        MenuDescription = binding.txtDescription!!.text.toString()
+        Venue = binding.edtVenue!!.text.toString()
+        Time = binding.lblEventTime!!.text.toString()
 
         if (EventEdit.equals("EventEdit")) {
 
@@ -441,9 +405,7 @@ class AddEvents : ActionBarActivity() {
     }
 
 
-    @OnClick(R.id.rytEventDate)
     fun eventdateClick() {
-        //  CommonUtil.DatepickerHidePriviousdate(this, lblEventDate!!)
 
         val c = Calendar.getInstance()
         val dialog = DatePickerDialog(
@@ -455,24 +417,13 @@ class AddEvents : ActionBarActivity() {
                 val _pickedDate = "$_date/$_month/$_year"
                 EditEvent = true
                 Log.e("PickedDate: ", "Date: $_pickedDate") //2019-02-12
-                lblEventDate!!.text = _pickedDate
+                binding.lblEventDate!!.text = _pickedDate
             }, c[Calendar.YEAR], c[Calendar.MONTH], c[Calendar.MONTH]
         )
         dialog.datePicker.minDate = System.currentTimeMillis() - 1000
         dialog.show()
     }
 
-    @OnClick(R.id.imgImagePdfback)
-    fun imgImagePdfback() {
-        super.onBackPressed()
-    }
-
-    @OnClick(R.id.btnCancel)
-    fun btnCancelClick() {
-        super.onBackPressed()
-    }
-
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
@@ -484,17 +435,3 @@ class AddEvents : ActionBarActivity() {
         super.onResume()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

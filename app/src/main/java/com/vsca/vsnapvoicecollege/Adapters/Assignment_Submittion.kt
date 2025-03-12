@@ -16,8 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.JsonObject
@@ -55,36 +54,36 @@ class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: C
 
         if (CommonUtil.isSubmitted.equals("submitted")) {
 
-            holder.tblview!!.visibility = View.GONE
-            holder.cardimage!!.visibility = View.VISIBLE
+            holder.tblView!!.visibility = View.GONE
+            holder.cardImage!!.visibility = View.VISIBLE
 
             if (CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals(
                     "p3"
                 )
             ) {
                 if (data.obtainedmark != "") {
-                    holder.TextInputEditText!!.setText(data.obtainedmark)
+                    holder.textInputEditText!!.setText(data.obtainedmark)
                 }
-                holder.conlbls!!.visibility = View.VISIBLE
-                holder.imgEntermark!!.visibility = View.VISIBLE
-                holder.outline_edit_text!!.visibility = View.VISIBLE
-                holder.lblmark!!.visibility = View.GONE
-                holder.lblregisternumberSub!!.text = data.register_number
-                holder.lblnameofStudent!!.text = data.studentname
+                holder.conLbls!!.visibility = View.VISIBLE
+                holder.imgEnterMark!!.visibility = View.VISIBLE
+                holder.outlineEditText!!.visibility = View.VISIBLE
+                holder.lblMark!!.visibility = View.GONE
+                holder.lblRegisterNumberSub!!.text = data.register_number
+                holder.lblNameOfStudent!!.text = data.studentname
             } else {
-                holder.conlbls!!.visibility = View.GONE
-                holder.imgEntermark!!.visibility = View.GONE
-                holder.outline_edit_text!!.visibility = View.GONE
-                holder.lblmark!!.visibility = View.VISIBLE
+                holder.conLbls!!.visibility = View.GONE
+                holder.imgEnterMark!!.visibility = View.GONE
+                holder.outlineEditText!!.visibility = View.GONE
+                holder.lblMark!!.visibility = View.VISIBLE
                 if (data.obtainedmark != "") {
-                    holder.lblmark!!.text = "Your mark : " + data.obtainedmark
+                    holder.lblMark!!.text = "Your mark : " + data.obtainedmark
                 } else {
-                    holder.lblmark!!.text = "Not evaluated yet!"
+                    holder.lblMark!!.text = "Not evaluated yet!"
                 }
             }
 
-            holder.imgEntermark!!.setOnClickListener {
-                if (holder.TextInputEditText!!.text.toString() != "") {
+            holder.imgEnterMark!!.setOnClickListener {
+                if (holder.textInputEditText!!.text.toString() != "") {
                     giveAssignmentMark(holder, subjectdata[position])
                 } else {
                     CommonUtil.Toast(context, "Enter the mark")
@@ -115,32 +114,15 @@ class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: C
             holder.rcyAssignSubmitted!!.itemAnimator = DefaultItemAnimator()
             holder.rcyAssignSubmitted!!.adapter = imagepreviewadapter
 
-            // Child  View scrolling function
-//            val mScrollChangeListener = object : RecyclerView.OnItemTouchListener {
-//                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
-//
-//                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-//                    when (e.action) {
-//                        MotionEvent.ACTION_MOVE -> {
-//                            rv.parent.requestDisallowInterceptTouchEvent(true)
-//                            Log.d("OnItemTouchListener", "OnItemTouchListener");
-//                        }
-//                    }
-//                    return false
-//                }
-//                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
-//            }
-//            holder.rcyAssignSubmitted!!.addOnItemTouchListener(mScrollChangeListener)
-
 
         } else if (CommonUtil.isSubmitted == "notsubmitted") {
-            holder.cardimage!!.visibility = View.GONE
-            holder.tblview!!.visibility = View.VISIBLE
-            holder.lblregisterno!!.text = data.register_number
-            holder.lblstudentname!!.text = data.studentname
-            holder.lblcourse!!.text = data.course
-            holder.lblyear!!.text = data.year
-            holder.lblsnumber!!.text = isSetionNumber.toString()
+            holder.cardImage!!.visibility = View.GONE
+            holder.tblView!!.visibility = View.VISIBLE
+            holder.lblRegisterNo!!.text = data.register_number
+            holder.lblStudentName!!.text = data.studentname
+            holder.lblCourse!!.text = data.course
+            holder.lblYear!!.text = data.year
+            holder.lblSNumber!!.text = isSetionNumber.toString()
             isSetionNumber++
         }
     }
@@ -153,7 +135,7 @@ class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: C
         jsonObject.addProperty("processby", CommonUtil.MemberId)
         jsonObject.addProperty("studentid", subjectdata.studentid)
         jsonObject.addProperty("assignmentdetailsid", subjectdata.assignmentdetailsid)
-        jsonObject.addProperty("marks", holder.TextInputEditText!!.text.toString())
+        jsonObject.addProperty("marks", holder.textInputEditText!!.text.toString())
         Log.d("jsonoblect", jsonObject.toString())
 
         RestClient.apiInterfaces.AssignmentMark(jsonObject)
@@ -205,101 +187,30 @@ class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: C
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.txt_financeandaccounding)
-        var txt_financeandaccounding: TextView? = null
 
-        @JvmField
-        @BindView(R.id.imgEntermark)
-        var imgEntermark: ImageView? = null
+        val txtFinanceAndAccounting: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)
+        val imgEnterMark: ImageView = itemView!!.findViewById(R.id.imgEntermark)
+        val textInputEditText: TextInputEditText = itemView!!.findViewById(R.id.TextInputEditText)
+        val outlineEditText: TextInputLayout = itemView!!.findViewById(R.id.outline_edit_text)
+        val rcyAssignSubmitted: RecyclerView = itemView!!.findViewById(R.id.rcyAssignSubmitted)
+        val cardImage: NeumorphCardView = itemView!!.findViewById(R.id.cardimage)
+        val tblView: TableLayout = itemView!!.findViewById(R.id.tblview)
+        val txtStudent: TextView = itemView!!.findViewById(R.id.txt_student)
+        val lblRegisterNumberSub: TextView = itemView!!.findViewById(R.id.lblregisternumberSub)
+        val lblNameOfStudent: TextView = itemView!!.findViewById(R.id.lblnameofStudent)
+        val lblMark: TextView = itemView!!.findViewById(R.id.lblmark)
+        val txtBcomAccounts: TextView = itemView!!.findViewById(R.id.txt_bcom_Accounts)
+        val rlaEnterMark: RelativeLayout = itemView!!.findViewById(R.id.rlaEntermark)
+        val imgBook: ImageView = itemView!!.findViewById(R.id.img_book)
+        val txtSemester1: TextView = itemView!!.findViewById(R.id.txt_semester1)
+        val lnrAttachment: LinearLayout = itemView!!.findViewById(R.id.lnrAttachment)
+        val lblSNumber: TextView = itemView!!.findViewById(R.id.lblsnumber)
+        val lblRegisterNo: TextView = itemView!!.findViewById(R.id.lblregisterno)
+        val lblStudentName: TextView = itemView!!.findViewById(R.id.lblstudentname)
+        val conLbls: ConstraintLayout = itemView!!.findViewById(R.id.conlbls)
+        val lblCourse: TextView = itemView!!.findViewById(R.id.lblcourse)
+        val lblYear: TextView = itemView!!.findViewById(R.id.lblyear)
 
-        @JvmField
-        @BindView(R.id.TextInputEditText)
-        var TextInputEditText: TextInputEditText? = null
-
-        @JvmField
-        @BindView(R.id.outline_edit_text)
-        var outline_edit_text: TextInputLayout? = null
-
-        @JvmField
-        @BindView(R.id.rcyAssignSubmitted)
-        var rcyAssignSubmitted: RecyclerView? = null
-
-
-        @JvmField
-        @BindView(R.id.cardimage)
-        var cardimage: NeumorphCardView? = null
-
-        @JvmField
-        @BindView(R.id.tblview)
-        var tblview: TableLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_student)
-        var txt_student: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblregisternumberSub)
-        var lblregisternumberSub: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblnameofStudent)
-        var lblnameofStudent: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.lblmark)
-        var lblmark: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_bcom_Accounts)
-        var txt_bcom_Accounts: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rlaEntermark)
-        var rlaEntermark: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.img_book)
-        var img_book: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.txt_semester1)
-        var txt_semester1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrAttachment)
-        var lnrAttachment: LinearLayout? = null
-
-
-        @JvmField
-        @BindView(R.id.lblsnumber)
-        var lblsnumber: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblregisterno)
-        var lblregisterno: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblstudentname)
-        var lblstudentname: TextView? = null
-
-        @JvmField
-        @BindView(R.id.conlbls)
-        var conlbls: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblcourse)
-        var lblcourse: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblyear)
-        var lblyear: TextView? = null
-
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

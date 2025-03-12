@@ -11,8 +11,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.Spectfice_TakeAttendance
 import com.vsca.vsnapvoicecollege.Model.*
@@ -123,44 +121,17 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
         (itemView)!!
     ) {
 
-        @JvmField
-        @BindView(R.id.txt_financeandaccounding)
-        var txt_financeandaccounding: TextView? = null
+        val txt_financeandaccounding: TextView =
+            itemView!!.findViewById(R.id.txt_financeandaccounding)
+        val txt_bcom_Accounts: TextView = itemView!!.findViewById(R.id.txt_bcom_Accounts)
+        val txt_year1: TextView = itemView!!.findViewById(R.id.txt_year1)
+        val txt_semester1: TextView = itemView!!.findViewById(R.id.txt_semester1)
+        val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
 
-        @JvmField
-        @BindView(R.id.txt_bcom_Accounts)
-        var txt_bcom_Accounts: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_year1)
-        var txt_year1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_semester1)
-        var txt_semester1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_date)
-        var txt_date: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_selectspecfic)
-        var txt_selectspecfic: TextView? = null
-
-        @JvmField
-        @BindView(R.id.examlist_constrine)
-        var examlist_constrine: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.lbl_takeattendance)
-        var lbl_takeattendance: TextView? = null
-
-        @JvmField
-        @BindView(R.id.btn_attendanceedit)
-        var btn_attendanceedit: TextView? = null
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
+        //        val txt_selectspecfic: TextView = itemView!!.findViewById(R.id.txt_selectspecfic)
+        val examlist_constrine: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrine)
+        val lbl_takeattendance: TextView = itemView!!.findViewById(R.id.lbl_takeattendance)
+        val btn_attendanceedit: TextView = itemView!!.findViewById(R.id.btn_attendanceedit)
     }
 
     init {
@@ -180,8 +151,7 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
         RestClient.apiInterfaces.Attendancecheck(jsonObject)
             ?.enqueue(object : Callback<Attendance_Checking?> {
                 override fun onResponse(
-                    call: Call<Attendance_Checking?>,
-                    response: Response<Attendance_Checking?>
+                    call: Call<Attendance_Checking?>, response: Response<Attendance_Checking?>
                 ) {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
@@ -191,7 +161,8 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
                                 val dlg = context.let { AlertDialog.Builder(it) }
                                 dlg.setTitle("Info")
                                 dlg.setMessage(response)
-                                dlg.setPositiveButton("OK",
+                                dlg.setPositiveButton(
+                                    "OK",
                                     DialogInterface.OnClickListener { dialog, which ->
                                         CommonUtil.isAttendanceType = "Edit"
 
@@ -205,11 +176,11 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
                                         context.startActivity(i)
 
                                     })
-                                dlg.setNegativeButton("CANCEL",
+                                dlg.setNegativeButton(
+                                    "CANCEL",
                                     DialogInterface.OnClickListener { dialog, which ->
 
                                     })
-
                                 dlg.setCancelable(false)
                                 dlg.create()
                                 dlg.show()
@@ -234,7 +205,6 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
                 override fun onFailure(call: Call<Attendance_Checking?>, t: Throwable) {
 
                 }
-
             })
     }
 }

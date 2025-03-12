@@ -20,9 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -37,6 +35,8 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityCommunicationVoiceBinding
 import java.io.File
 import java.io.IOException
 
@@ -64,109 +64,38 @@ class CommunicationVoice : ActionBarActivity() {
     var ScreenName: String? = null
     private var VoicehistoryAdapter: VoicehistoryAdapter? = null
 
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
+    private lateinit var binding: ActivityCommunicationVoiceBinding
 
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgrecord)
-    var imgrecord: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.switchonAndoff)
-    var switchonAndoff: Switch? = null
-
-    @JvmField
-    @BindView(R.id.lbl_switchLable)
-    var lbl_switchLable: TextView? = null
-
-    @JvmField
-    @BindView(R.id.rcy_history)
-    var rcy_history: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgPlayPasue)
-    var imgPlayPasue: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.radio_group)
-    var radio_group: RadioGroup? = null
-
-    @JvmField
-    @BindView(R.id.conHistory)
-    var conHistory: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.Nestedchildlayout)
-    var Nestedchildlayout: NestedScrollView? = null
-
-    @JvmField
-    @BindView(R.id.lblRecordTime)
-    var lblRecordTime: TextView? = null
-
-    @JvmField
-    @BindView(R.id.voice_title)
-    var voice_title: TextView? = null
-
-    @JvmField
-    @BindView(R.id.seekbarplayvoice)
-    var seekbarplayvoice: SeekBar? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalduration)
-    var lbltotalduration: TextView? = null
-
-    @JvmField
-    @BindView(R.id.rytLayoutSeekPlay)
-    var rytLayoutSeekPlay: RelativeLayout? = null
-
-    @JvmField
-    @BindView(R.id.txt_onandoff)
-    var txt_onandoff: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.btnConfirm)
-    var btnConfirm: Button? = null
-
-    @JvmField
-    @BindView(R.id.btn_Clear_r)
-    var btn_Clear_r: Button? = null
-
-    @JvmField
-    @BindView(R.id.lblText)
-    var lblText: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.edt_voicename)
-    var edt_voicename: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CommonUtil.SetTheme(this)
+        binding = ActivityCommunicationVoiceBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setContentView(R.layout.activity_communication_voice)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        setupAudioPlayer()
+         setupAudioPlayer()
         ActionbarWithoutBottom(this)
         CommonUtil.VoiceType = "0"
         CommonUtil.seleteddataArraySection.clear()
         imgRefresh!!.visibility = View.GONE
-        voice_title!!.visibility = View.VISIBLE
+        binding.voiceTitle!!.visibility = View.VISIBLE
 
         Log.d("isAllowtomakecall", CommonUtil.isAllowtomakecall.toString())
         if (CommonUtil.isAllowtomakecall == 1) {
-            txt_onandoff!!.visibility = View.VISIBLE
+            binding.txtOnandoff!!.visibility = View.VISIBLE
         } else {
-            txt_onandoff!!.visibility = View.GONE
+            binding.txtOnandoff!!.visibility = View.GONE
         }
-        btnConfirm!!.visibility = View.VISIBLE
+        binding.btnConfirm!!.visibility = View.VISIBLE
+        
+        binding.btnConfirm.setOnClickListener { addreception() }
+        binding.imgrecord.setOnClickListener { imgvoicerecordClick() }
+        binding.btnCancel.setOnClickListener { onBackPressed() }
+        binding.imgPlayPasue.setOnClickListener { recplaypause() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
@@ -184,13 +113,13 @@ class CommunicationVoice : ActionBarActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
@@ -204,40 +133,40 @@ class CommunicationVoice : ActionBarActivity() {
         Log.d("screentype", ScreenType.toString())
 
 
-        switchonAndoff!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+        binding.switchonAndoff!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 CommonUtil.VoiceType = "1"
-                voice_title!!.visibility = View.GONE
+                binding.voiceTitle!!.visibility = View.GONE
             } else {
                 CommonUtil.VoiceType = "0"
-                voice_title!!.visibility = View.VISIBLE
+                binding.voiceTitle!!.visibility = View.VISIBLE
             }
         })
 
-        radio_group!!.setOnCheckedChangeListener { _, checkedId ->
+        binding.radioGroup!!.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radio_B_msg -> {
-                    conHistory!!.visibility = View.GONE
-                    Nestedchildlayout!!.visibility = View.VISIBLE
-                    btnConfirm!!.visibility = View.VISIBLE
+                    binding.conHistory!!.visibility = View.GONE
+                    binding.Nestedchildlayout!!.visibility = View.VISIBLE
+                    binding.btnConfirm!!.visibility = View.VISIBLE
                 }
 
                 R.id.radio_B_history -> {
-                    btnConfirm!!.visibility = View.GONE
-                    conHistory!!.visibility = View.VISIBLE
-                    Nestedchildlayout!!.visibility = View.GONE
+                    binding.btnConfirm!!.visibility = View.GONE
+                    binding.conHistory!!.visibility = View.VISIBLE
+                    binding.Nestedchildlayout!!.visibility = View.GONE
                     historyOfVoice()
                 }
             }
         }
 
 
-        btn_Clear_r!!.setOnClickListener {
+        binding.btnClearR!!.setOnClickListener {
 
-            btn_Clear_r!!.visibility = View.GONE
-            rytLayoutSeekPlay!!.visibility = View.GONE
-            lblRecordTime!!.text = "00:00"
-            edt_voicename!!.setText("")
+            binding.btnClearR!!.visibility = View.GONE
+            binding.rytLayoutSeekPlay!!.visibility = View.GONE
+            binding.lblRecordTime!!.text = "00:00"
+            binding.edtVoicename!!.setText("")
 
         }
 
@@ -251,10 +180,10 @@ class CommunicationVoice : ActionBarActivity() {
                     if (size > 0) {
                         VoicehistoryAdapter = VoicehistoryAdapter(Voicedata, this)
                         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                        rcy_history!!.layoutManager = mLayoutManager
-                        rcy_history!!.itemAnimator = DefaultItemAnimator()
-                        rcy_history!!.adapter = VoicehistoryAdapter
-                        rcy_history!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.rcyHistory!!.layoutManager = mLayoutManager
+                        binding.rcyHistory!!.itemAnimator = DefaultItemAnimator()
+                        binding.rcyHistory!!.adapter = VoicehistoryAdapter
+                        binding.rcyHistory!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         VoicehistoryAdapter!!.notifyDataSetChanged()
                     }
                 } else {
@@ -295,12 +224,11 @@ class CommunicationVoice : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_communication_voice
 
-    @OnClick(R.id.btnConfirm)
-    fun addreception() {
+     fun addreception() {
 
-        CommonUtil.voicetitle = edt_voicename!!.text.toString()
+        CommonUtil.voicetitle = binding.edtVoicename!!.text.toString()
 
-        if (!CommonUtil.voicetitle!!.isEmpty() && lblRecordTime!!.text.toString() != "00:00") {
+        if (!CommonUtil.voicetitle!!.isEmpty() && binding.lblRecordTime!!.text.toString() != "00:00") {
 
             if (CommonUtil.Priority.equals("p7")) {
                 val i: Intent = Intent(this, HeaderRecipient::class.java)
@@ -357,48 +285,31 @@ class CommunicationVoice : ActionBarActivity() {
         Log.d("PreviousAddId", PreviousAddId.toString())
     }
 
-    @OnClick(R.id.imgrecord)
-    fun imgvoicerecordClick() {
+     fun imgvoicerecordClick() {
         if (bIsRecording) {
             stop_RECORD()
 
         } else {
-            lblText!!.visibility = View.GONE
+            binding.lblText!!.visibility = View.GONE
             start_RECORD()
         }
     }
 
-//    @OnClick(R.id.imgEventback)
-//    fun imgEventback() {
-//        onBackPressed()
-//    }
-
-    @OnClick(R.id.btnCancel)
-    fun btncancleclick() {
-        onBackPressed()
-    }
-
-    @OnClick(R.id.imgPlayPasue)
-    fun playvoiceatseekbar() {
-        recplaypause()
-    }
-
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
 
     fun start_RECORD() {
 
-        btn_Clear_r!!.visibility = View.GONE
+        binding.btnClearR!!.visibility = View.GONE
 
 
         if (mediaPlayer!!.isPlaying) {
             mediaPlayer!!.stop()
         }
-        imgrecord!!.setImageResource(R.drawable.voice_stop)
-        imgrecord!!.isClickable = true
-        rytLayoutSeekPlay!!.visibility = View.GONE
+        binding.imgrecord!!.setImageResource(R.drawable.voice_stop)
+        binding.imgrecord!!.isClickable = true
+        binding.rytLayoutSeekPlay!!.visibility = View.GONE
 
         try {
             recorder = MediaRecorder()
@@ -422,15 +333,15 @@ class CommunicationVoice : ActionBarActivity() {
 
     fun stop_RECORD() {
 
-        btn_Clear_r!!.visibility = View.VISIBLE
+        binding.btnClearR!!.visibility = View.VISIBLE
         recTimerHandler.removeCallbacks(runson)
         bIsRecording = false
-        imgrecord!!.setImageResource(R.drawable.voice_record)
+        binding.imgrecord!!.setImageResource(R.drawable.voice_record)
 
-        if (lblRecordTime!!.text.toString() == "00:00") {
-            rytLayoutSeekPlay!!.visibility = View.GONE
+        if (binding.lblRecordTime!!.text.toString() == "00:00") {
+            binding.rytLayoutSeekPlay!!.visibility = View.GONE
         } else {
-            rytLayoutSeekPlay!!.visibility = View.VISIBLE
+            binding.rytLayoutSeekPlay!!.visibility = View.VISIBLE
         }
 
 
@@ -447,7 +358,7 @@ class CommunicationVoice : ActionBarActivity() {
     fun setupAudioPlayer() {
         mediaPlayer = MediaPlayer()
         mediaPlayer!!.setOnCompletionListener {
-            imgPlayPasue!!.setImageResource(R.drawable.ic_play)
+            binding.imgPlayPasue!!.setImageResource(R.drawable.ic_play)
             mediaPlayer!!.seekTo(0)
         }
     }
@@ -457,12 +368,12 @@ class CommunicationVoice : ActionBarActivity() {
 
         if (!mediaPlayer!!.isPlaying) {
             mediaPlayer!!.start()
-            imgPlayPasue!!.setImageResource(R.drawable.ic_pause)
+            binding.imgPlayPasue!!.setImageResource(R.drawable.ic_pause)
 
         } else {
             mediaPlayer!!.pause()
-            imgPlayPasue!!.isClickable = true
-            imgPlayPasue!!.setImageResource(R.drawable.ic_play)
+            binding.imgPlayPasue!!.isClickable = true
+            binding.imgPlayPasue!!.setImageResource(R.drawable.ic_play)
         }
         primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
     }
@@ -470,11 +381,11 @@ class CommunicationVoice : ActionBarActivity() {
     private fun primarySeekBarProgressUpdater(fileLength: Int) {
         val iProgress =
             ((mediaPlayer!!.currentPosition.toFloat() / fileLength) * 100).toInt()
-        seekbarplayvoice!!.progress = iProgress
+        binding.seekbarplayvoice!!.progress = iProgress
         if (mediaPlayer!!.isPlaying) {
             val notification: Runnable = object : Runnable {
                 override fun run() {
-                    lbltotalduration!!.text =
+                    binding.lbltotalduration!!.text =
                         milliSecondsToTimer(mediaPlayer!!.currentPosition.toLong())
                     primarySeekBarProgressUpdater(fileLength)
                 }
@@ -515,12 +426,12 @@ class CommunicationVoice : ActionBarActivity() {
 
     val runson: Runnable = object : Runnable {
         override fun run() {
-            lblRecordTime!!.text = milliSecondsToTimer(recTime * 1000.toLong())
-            lbltotalduration!!.text = milliSecondsToTimer(recTime * 1000.toLong())
+            binding.lblRecordTime!!.text = milliSecondsToTimer(recTime * 1000.toLong())
+            binding.lbltotalduration!!.text = milliSecondsToTimer(recTime * 1000.toLong())
 
-            val timing: String = lblRecordTime!!.text.toString()
-            if (lblRecordTime!!.text.toString() != "00:00") {
-                imgrecord!!.isEnabled = true
+            val timing: String = binding.lblRecordTime!!.text.toString()
+            if (binding.lblRecordTime!!.text.toString() != "00:00") {
+                binding.imgrecord!!.isEnabled = true
             }
             recTime = recTime + 1
             if (recTime != iMaxRecDur) {
@@ -529,7 +440,7 @@ class CommunicationVoice : ActionBarActivity() {
                 stop_RECORD()
             }
 
-            if (lblRecordTime!!.text.equals("03:00")) {
+            if (binding.lblRecordTime!!.text.equals("03:00")) {
                 stop_RECORD()
             }
         }
@@ -613,11 +524,11 @@ class CommunicationVoice : ActionBarActivity() {
     override fun onPause() {
         super.onPause()
         if (mediaPlayer!!.isPlaying) {
-            imgrecord!!.isClickable = false
+            binding.imgrecord!!.isClickable = false
             mediaPlayer!!.pause()
-            imgPlayPasue!!.setImageResource(R.drawable.ic_play)
+            binding.imgPlayPasue!!.setImageResource(R.drawable.ic_play)
         }
-        if (bIsRecording) imgrecord!!.isClickable = true
+        if (bIsRecording) binding.imgrecord!!.isClickable = true
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }

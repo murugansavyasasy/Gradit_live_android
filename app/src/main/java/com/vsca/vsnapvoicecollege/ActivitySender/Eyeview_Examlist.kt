@@ -5,17 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
@@ -29,24 +25,9 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ExamviewActivityBinding
 
-class Eyeview_Examlist : BaseActivity() {
-
-    @JvmField
-    @BindView(R.id.create_exam_recycle)
-    var create_exam_recycle: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
+class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
 
 
     var examviewlist: List<examlist> = ArrayList()
@@ -59,19 +40,44 @@ class Eyeview_Examlist : BaseActivity() {
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var Subjectcount: String? = null
 
+    override fun inflateBinding(): ExamviewActivityBinding {
+        return ExamviewActivityBinding.inflate(layoutInflater)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
 
         super.onCreate(savedInstanceState)
+        binding = ExamviewActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        ActionBarMethod(this)
+         ActionBarMethod(this)
+
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
         MenuBottomType()
+
 
         CommonUtil.ExamcreationEdit.clear()
         CommonUtil.SubjectExamcreationEDIT.clear()
+
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.CommonLayout.imgback.setOnClickListener { imgback() }
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+
+
+
 
         appViewModel!!.AdvertisementLiveData?.observe(this,
             Observer<GetAdvertisementResponse?> { response ->
@@ -87,12 +93,13 @@ class Eyeview_Examlist : BaseActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -112,10 +119,10 @@ class Eyeview_Examlist : BaseActivity() {
 
                     if (examviewlist.size > 0) {
                         Subjectcount = SubjectCount.toString()
-                        lblDepartmentSize!!.text = Subjectcount
-                        lblDepartmentSize!!.visibility = View.VISIBLE
+                        binding.CommonLayout.lblDepartmentSize!!.text = Subjectcount
+                        binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
                     } else {
-                        lblDepartmentSize!!.visibility = View.GONE
+                        binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
                     }
 
                     Examlist_viewAdapter =
@@ -128,10 +135,13 @@ class Eyeview_Examlist : BaseActivity() {
                         })
 
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    create_exam_recycle!!.layoutManager = mLayoutManager
-                    create_exam_recycle!!.itemAnimator = DefaultItemAnimator()
-                    create_exam_recycle!!.adapter = Examlist_viewAdapter
-                    create_exam_recycle!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.createExamRecycle!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.createExamRecycle!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.createExamRecycle!!.adapter = Examlist_viewAdapter
+                    binding.CommonLayout.createExamRecycle!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     Examlist_viewAdapter!!.notifyDataSetChanged()
                 }
             }
@@ -179,10 +189,10 @@ class Eyeview_Examlist : BaseActivity() {
 
                     if (examviewlist.size > 0) {
                         Subjectcount = SubjectCount.toString()
-                        lblDepartmentSize!!.text = Subjectcount
-                        lblDepartmentSize!!.visibility = View.VISIBLE
+                        binding.CommonLayout.lblDepartmentSize!!.text = Subjectcount
+                        binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
                     } else {
-                        lblDepartmentSize!!.visibility = View.GONE
+                        binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
                     }
 
 
@@ -264,10 +274,13 @@ class Eyeview_Examlist : BaseActivity() {
                         })
 
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    create_exam_recycle!!.layoutManager = mLayoutManager
-                    create_exam_recycle!!.itemAnimator = DefaultItemAnimator()
-                    create_exam_recycle!!.adapter = Examlist_viewAdapter
-                    create_exam_recycle!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.createExamRecycle!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.createExamRecycle!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.createExamRecycle!!.adapter = Examlist_viewAdapter
+                    binding.CommonLayout.createExamRecycle!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     Examlist_viewAdapter!!.notifyDataSetChanged()
                 }
             }
@@ -341,8 +354,7 @@ class Eyeview_Examlist : BaseActivity() {
     override val layoutResourceId: Int
         get() = R.layout.examview_activity
 
-    @OnClick(R.id.LayoutAdvertisement)
-    fun adclick() {
+     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
 
@@ -360,8 +372,7 @@ class Eyeview_Examlist : BaseActivity() {
         }
     }
 
-    @OnClick(R.id.imgback)
-    fun imgback() {
+     fun imgback() {
         CommonUtil.EditButtonclick = ""
         onBackPressed()
     }

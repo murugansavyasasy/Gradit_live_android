@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.vsca.vsnapvoicecollege.Model.GetCategoryWiseCreditDetails
 import com.vsca.vsnapvoicecollege.R
 
@@ -44,29 +42,14 @@ class CategoryCreditWiseAdapter constructor(
     }
 
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder((itemView)!!) {
-        @JvmField
-        @BindView(R.id.lblTobeObtained)
-        var lblTobeObtained: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblSemester)
-        var lblSemester: TextView? = null
+        val lblTobeObtained: TextView = itemView!!.findViewById(R.id.lblTobeObtained)
+        val lblSemester: TextView = itemView!!.findViewById(R.id.lblSemester)
+        val lblObtained: TextView = itemView!!.findViewById(R.id.lblObtained)
+        val lblTotalCredits: TextView = itemView!!.findViewById(R.id.lblTotalCredits)
+        val layoutCategorytable: TableLayout = itemView!!.findViewById(R.id.layoutCategorytable)
 
-        @JvmField
-        @BindView(R.id.lblObtained)
-        var lblObtained: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblTotalCredits)
-        var lblTotalCredits: TextView? = null
-
-        @JvmField
-        @BindView(R.id.layoutCategorytable)
-        var layoutCategorytable: TableLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

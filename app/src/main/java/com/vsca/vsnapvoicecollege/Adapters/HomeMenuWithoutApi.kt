@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.HomeMenuClickListenerWithoutApi
 import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
 import com.vsca.vsnapvoicecollege.R
@@ -107,21 +106,11 @@ class HomeMenuWithoutApi constructor(
     }
 
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder((itemView)!!) {
-        @JvmField
-        @BindView(R.id.lblMenuName)
-        var lblMenuName: TextView? = null
 
-        @JvmField
-        @BindView(R.id.imgMenu)
-        var imgMenu: CircleImageView? = null
+        val lblMenuName: TextView = itemView!!.findViewById(R.id.lblMenuName)!!
+        val imgMenu: CircleImageView = itemView!!.findViewById(R.id.imgMenu)!!
+        val LayoutHome: RelativeLayout = itemView!!.findViewById(R.id.LayoutHome)!!
 
-        @JvmField
-        @BindView(R.id.LayoutHome)
-        var LayoutHome: RelativeLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

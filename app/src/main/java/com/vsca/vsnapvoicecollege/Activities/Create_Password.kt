@@ -10,52 +10,33 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityCreatePasswordBinding
 
 class Create_Password : AppCompatActivity() {
-
-    @JvmField
-    @BindView(R.id.phone_number_edt)
-    var phone_number_edt: EditText? = null
-
-    @JvmField
-    @BindView(R.id.password_edt)
-    var password_edt: EditText? = null
-
-    @JvmField
-    @BindView(R.id.txt_next)
-    var txt_next: TextView? = null
-
-    @JvmField
-    @BindView(R.id.img_confirmpassword)
-    var img_confirmpassword: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.img_passwordopen)
-    var img_passwordopen: ImageView? = null
-
 
     var Newpassword: String? = null
     var ConfirmNewpassword: String? = null
     var appViewModel: App? = null
     private var passwordvisible = true
+    private lateinit var binding: ActivityCreatePasswordBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_password)
-        ButterKnife.bind(this)
+        binding = ActivityCreatePasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
+        binding.linearMobileNoLayout.setOnClickListener { imgpasswordlockClick() }
+        binding.linearPasswordNoLayout.setOnClickListener { imgpasswordconfirmlockClick() }
 
         appViewModel!!.CrearePassword!!.observe(this) { response ->
             if (response != null) {
@@ -85,10 +66,10 @@ class Create_Password : AppCompatActivity() {
             }
         }
 
-        txt_next!!.setOnClickListener {
+        binding.txtNext!!.setOnClickListener {
 
-            Newpassword = phone_number_edt!!.text.toString()
-            ConfirmNewpassword = password_edt!!.text.toString()
+            Newpassword = binding.phoneNumberEdt!!.text.toString()
+            ConfirmNewpassword = binding.passwordEdt!!.text.toString()
             if (Newpassword.equals("")) {
                 CommonUtil.ApiAlert(this, CommonUtil.Enter_the_Newpassword)
             } else {
@@ -108,31 +89,29 @@ class Create_Password : AppCompatActivity() {
         }
     }
 
-    @OnClick(R.id.linear_mobile_no_layout)
     fun imgpasswordlockClick() {
         if (passwordvisible) {
-            phone_number_edt!!.transformationMethod = PasswordTransformationMethod.getInstance()
-            img_passwordopen!!.setImageResource(R.drawable.ic_lock)
+            binding.phoneNumberEdt!!.transformationMethod = PasswordTransformationMethod.getInstance()
+            binding.imgPasswordopen!!.setImageResource(R.drawable.ic_lock)
             passwordvisible = false
         } else {
-            phone_number_edt!!.transformationMethod = null
+            binding.phoneNumberEdt!!.transformationMethod = null
             passwordvisible = true
-            phone_number_edt!!.setSelection(phone_number_edt!!.text.length)
-            img_passwordopen!!.setImageResource(R.drawable.ic_lock_open)
+            binding.phoneNumberEdt!!.setSelection(binding.phoneNumberEdt!!.text.length)
+            binding.imgPasswordopen!!.setImageResource(R.drawable.ic_lock_open)
         }
     }
 
-    @OnClick(R.id.img_confirmpassword)
     fun imgpasswordconfirmlockClick() {
         if (passwordvisible) {
-            password_edt!!.transformationMethod = PasswordTransformationMethod.getInstance()
-            img_confirmpassword!!.setImageResource(R.drawable.ic_lock)
+            binding.passwordEdt!!.transformationMethod = PasswordTransformationMethod.getInstance()
+            binding.imgPasswordopen!!!!.setImageResource(R.drawable.ic_lock)
             passwordvisible = false
         } else {
-            password_edt!!.transformationMethod = null
+            binding.passwordEdt!!.transformationMethod = null
             passwordvisible = true
-            password_edt!!.setSelection(password_edt!!.text.length)
-            img_confirmpassword!!.setImageResource(R.drawable.ic_lock_open)
+            binding.passwordEdt!!.setSelection(binding.passwordEdt!!.text.length)
+            binding.imgPasswordopen!!!!.setImageResource(R.drawable.ic_lock_open)
         }
     }
 

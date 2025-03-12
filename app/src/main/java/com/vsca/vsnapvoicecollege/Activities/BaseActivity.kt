@@ -16,7 +16,6 @@ import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.*
-import androidx.annotation.Nullable
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,10 +24,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
-import butterknife.Optional
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -48,51 +44,16 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
 import java.io.File
 
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
-abstract class BaseActivity : AppCompatActivity() {
+    protected lateinit var binding: VB
+
+    protected abstract fun inflateBinding(): VB
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
-    @JvmField
-    @BindView(R.id.img_swipe)
-    var img_swipe: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.btnContinue)
-    var btnContinue: Button? = null
-
-    @JvmField
-    @Nullable
-    @BindView(R.id.layoutbottomCurve)
-    var layoutbottomCurve: ConstraintLayout? = null
-
-    @JvmField
-    @Nullable
-    @BindView(R.id.recyclermenusbottom)
-    var recyclermenusbottom: RecyclerView? = null
-
-    @JvmField
-    @Nullable
-    @BindView(R.id.swipeUpMenus)
-    var llBottomSheet: LinearLayout? = null
-
-    @JvmField
-    @Nullable
-    @BindView(R.id.LayoutDepartment)
-    var LayoutDepartment: ConstraintLayout? = null
-
-    @JvmField
-    @Nullable
-    @BindView(R.id.LayoutCollege)
-    var LayoutCollege: ConstraintLayout? = null
-
-    @JvmField
-    @Nullable
-    @BindView(R.id.imgAddPlus)
-    var imgAddPlus: ImageView? = null
-
     open var appViewModel: App? = null
-    open var menuadapter: HomeMenus? = null
+    var menuadapter: HomeMenus? = null
     var UserMenuData: ArrayList<MenuDetailsResponse> = ArrayList()
     var MenuList: ArrayList<MenuDetailsResponse> = ArrayList()
     var OverAllMenuCountData: List<GetOverAllCountDetails> = ArrayList()
@@ -100,19 +61,20 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutResourceId)
-        ButterKnife.bind(this)
+        binding = inflateBinding()
+        setContentView(binding.root)
 
-        recyclermenusbottom!!.visibility = View.VISIBLE
         appviewModelbase = ViewModelProvider(this)[App::class.java]
         appviewModelbase!!.init()
 
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
-        layoutbottomCurve!!.visibility = View.INVISIBLE
+//        CommonUtil.layoutBottomCurve!!.visibility = View.INVISIBLE
         dashboardViewModel = ViewModelProvider(this)[Dashboards::class.java]
         dashboardViewModel!!.init()
+
+//        btnContinue!!.setOnClickListener { check() }
 
         if (CommonUtil.MenuListDashboard.isEmpty()) {
 
@@ -126,32 +88,32 @@ abstract class BaseActivity : AppCompatActivity() {
                     if (status == 1) {
                         UserMenuData = response.data!!
 
-                  /**
+                        /**
                         // If you want to add the menu for testing use below code. And don't delete it.
                         if (CommonUtil.Priority.equals("p1")) {
-                            val newElements = listOf(
-                                MenuDetailsResponse(
-                                    21,
-                                    "Mark Your Attendance",
-                                    "mark_your_attendance",
-                                    1,
-                                    1,
-                                    21,
-                                    2
-                                ),
-                                MenuDetailsResponse(
-                                    22,
-                                    "Attendance Report",
-                                    "attendance_report",
-                                    1,
-                                    1,
-                                    22,
-                                    2
-                                )
-                            )
-                            UserMenuData.addAll(newElements)
+                        val newElements = listOf(
+                        MenuDetailsResponse(
+                        21,
+                        "Mark Your Attendance",
+                        "mark_your_attendance",
+                        1,
+                        1,
+                        21,
+                        2
+                        ),
+                        MenuDetailsResponse(
+                        22,
+                        "Attendance Report",
+                        "attendance_report",
+                        1,
+                        1,
+                        22,
+                        2
+                        )
+                        )
+                        UserMenuData.addAll(newElements)
                         }
-                   */
+                         */
 
 
                         for (j in UserMenuData.indices) {
@@ -188,7 +150,7 @@ abstract class BaseActivity : AppCompatActivity() {
                             )
                         }
 
-                        layoutbottomCurve!!.visibility = View.VISIBLE
+                        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
                         for (k in MenuList.indices) {
 
                             CommonUtil.UserMenuListId.add(MenuList.get(k).id)
@@ -258,7 +220,7 @@ abstract class BaseActivity : AppCompatActivity() {
                                 override fun onMenuClick(
                                     holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
                                 ) {
-                                    holder.LayoutHome!!.setOnClickListener {
+                                    holder.LayoutHome.setOnClickListener {
                                         ParticularMenuClick(
                                             data
                                         )
@@ -268,11 +230,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
                         val mLayoutManager: RecyclerView.LayoutManager =
                             GridLayoutManager(applicationContext, 4)
-                        recyclermenusbottom!!.layoutManager = mLayoutManager
-                        recyclermenusbottom!!.isNestedScrollingEnabled = false
-                        recyclermenusbottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-                        recyclermenusbottom!!.itemAnimator = DefaultItemAnimator()
-                        recyclermenusbottom!!.adapter = menuadapter
+                        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+                        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+                        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+                        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+                        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
                     } else {
                         CommonUtil.ApiAlertContext(applicationContext, message)
                     }
@@ -281,9 +243,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
         } else {
 
-
-            Log.d("MenuArrayList", "isnotEmpty")
-            layoutbottomCurve!!.visibility = View.VISIBLE
+            Log.d("MenuArrayList", "isNotEmpty")
+            CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
 
             for (k in CommonUtil.MenuListDashboard.indices) {
 
@@ -362,11 +323,11 @@ abstract class BaseActivity : AppCompatActivity() {
                 })
             val mLayoutManager: RecyclerView.LayoutManager =
                 GridLayoutManager(applicationContext, 4)
-            recyclermenusbottom!!.layoutManager = mLayoutManager
-            recyclermenusbottom!!.isNestedScrollingEnabled = false
-            recyclermenusbottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-            recyclermenusbottom!!.itemAnimator = DefaultItemAnimator()
-            recyclermenusbottom!!.adapter = menuadapter
+            CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+            CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+            CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+            CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
 
         }
 
@@ -399,6 +360,30 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
     }
+
+    protected fun <T : ViewBinding> accessBottomViewIcons(
+        binding: T,
+        imgSwipeId: Int,
+        layoutBottomCurveId: Int,
+        recyclerMenusBottomId: Int,
+        llBottomSheetId: Int,
+        layoutDepartmentId: Int,
+        layoutCollegeId: Int,
+        imgAddPlusId: Int
+    ) {
+        CommonUtil.imgSwipe = binding.root.findViewById(imgSwipeId)
+        CommonUtil.layoutBottomCurve = binding.root.findViewById(layoutBottomCurveId)
+        CommonUtil.recyclerMenusBottom = binding.root.findViewById(recyclerMenusBottomId)
+        CommonUtil.llBottomSheet = binding.root.findViewById(llBottomSheetId)
+        CommonUtil.layoutDepartment = binding.root.findViewById(layoutDepartmentId)
+        CommonUtil.layoutCollege = binding.root.findViewById(layoutCollegeId)
+        CommonUtil.imgAddPlus = binding.root.findViewById(imgAddPlusId)
+
+        CommonUtil.recyclerMenusBottom!!.visibility = View.VISIBLE
+//        CommonUtil.layoutBottomCurve!!.visibility = View.INVISIBLE
+
+    }
+
 
     fun ApiAlertOk(activity: Activity?, msg: String?, value: Boolean) {
         if (activity != null) {
@@ -661,8 +646,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    @Optional
-    @OnClick(R.id.btnContinue)
     fun check() {
         val intents = Intent(this@BaseActivity, DashBoard::class.java)
         startActivity(intents)
@@ -820,18 +803,18 @@ abstract class BaseActivity : AppCompatActivity() {
         val imgconfirmpassword = view.findViewById<View>(R.id.imgconfirmpassword) as ImageView
         val btnSubmit = view.findViewById<View>(R.id.btnSubmit) as Button
         val imgClose = view.findViewById<View>(R.id.imgClose) as ImageView
-        imgClose.setOnClickListener({
+        imgClose.setOnClickListener {
             changePassword!!.dismiss()
-        })
-        imgconfirmpassword.setOnClickListener({
+        }
+        imgconfirmpassword.setOnClickListener {
             passwordHideandShow(txtConfirmPassword, imgconfirmpassword)
-        })
-        imgNewPassword.setOnClickListener({
+        }
+        imgNewPassword.setOnClickListener {
             passwordHideandShow(txtNewPassword, imgNewPassword)
-        })
-        imgOldPassword.setOnClickListener({
+        }
+        imgOldPassword.setOnClickListener {
             passwordHideandShow(txtOldPassword, imgOldPassword)
-        })
+        }
 
         btnSubmit.setOnClickListener(View.OnClickListener {
             OldPassword = txtOldPassword.text.toString()
@@ -891,39 +874,39 @@ abstract class BaseActivity : AppCompatActivity() {
         Log.d("BottomMenu", "BottomMenu")
         when (CommonUtil.Priority) {
             "p1" -> {
-                layoutbottomCurve!!.setBackgroundResource(R.drawable.img_prinicipal_bottom_card)
+                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_prinicipal_bottom_card)
             }
 
             "p2", "p3" -> {
-                layoutbottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
+                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
             }
 
             "p4" -> {
-                layoutbottomCurve!!.setBackgroundResource(R.drawable.img_student_bottom_card)
+                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_student_bottom_card)
             }
 
             "p5" -> {
-                layoutbottomCurve!!.setBackgroundResource(R.drawable.img_parent_bottom_card)
+                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_parent_bottom_card)
             }
 
             "p6" -> {
-                layoutbottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
+                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
             }
 
             "p7" -> {
-                layoutbottomCurve!!.setBackgroundResource(R.drawable.img_header_bottom_card)
+                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_header_bottom_card)
             }
         }
 
-        bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet!!)
+        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
 
                 if (newState == 3) {
-                    img_swipe!!.setImageResource(R.drawable.ic_arrowdown_white)
+                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowdown_white)
 
                 } else if (newState == 4) {
-                    img_swipe!!.setImageResource(R.drawable.ic_arrowup_white)
+                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowup_white)
                 }
             }
 
@@ -1128,7 +1111,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 activity.startActivity(i)
                 activity.finish()
             }
-            builder.setNegativeButton(CommonUtil.No) { dialog, which ->
+            builder.setNegativeButton(CommonUtil.No) { _, _ ->
                 builder.setCancelable(false)
             }
             builder.create().show()
@@ -1200,18 +1183,16 @@ abstract class BaseActivity : AppCompatActivity() {
             Log.d("ChangePasswordRequest", jsonObject.toString())
         }
 
-        fun UserMenuRequest(activity: Activity?) {
-
-            if (CommonUtil.MenuListDashboard.isEmpty()) {
-                val jsonObject = JsonObject()
-                jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
-                jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-                jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
-                dashboardViewModel!!.getUsermenus(jsonObject, activity)
-                Log.d("UserMenus_Request", jsonObject.toString())
-
-            }
-        }
+//        fun UserMenuRequest(activity: Activity?) {
+//            if (CommonUtil.MenuListDashboard.isEmpty()) {
+//                val jsonObject = JsonObject()
+//                jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+//                jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+//                jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
+//                dashboardViewModel!!.getUsermenus(jsonObject, activity)
+//                Log.d("UserMenus_Request", jsonObject.toString())
+//            }
+//        }
 
         fun AppReadStatus(activity: Activity?, msgtype: String, detailsId: String) {
             val jsonObject = JsonObject()
@@ -1240,14 +1221,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
             if (menuid == "8") {
                 jsonObject.addProperty(ApiRequestNames.Req_menuid, "9")
-
             } else {
                 jsonObject.addProperty(ApiRequestNames.Req_menuid, menuid)
-
             }
 
             jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-            if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3" || CommonUtil.Priority.equals(
+            if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3" || CommonUtil.Priority.equals(
                     "p6"
                 )
             ) {
@@ -1267,83 +1246,181 @@ abstract class BaseActivity : AppCompatActivity() {
     fun TabCollegeColor() {
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1") {
 
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-            imgAddPlus!!.visibility = View.VISIBLE
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.imgAddPlus!!.visibility = View.VISIBLE
 
         } else if ((CommonUtil.Priority == "p2") || CommonUtil.Priority.equals("p3")) {
 
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-            imgAddPlus!!.visibility = View.VISIBLE
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.imgAddPlus!!.visibility = View.VISIBLE
 
         } else if ((CommonUtil.Priority == "p4")) {
 
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-            imgAddPlus!!.visibility = View.GONE
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.imgAddPlus!!.visibility = View.GONE
 
         } else if ((CommonUtil.Priority == "p5")) {
 
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-            imgAddPlus!!.visibility = View.GONE
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.imgAddPlus!!.visibility = View.GONE
 
         } else if (CommonUtil.Priority == "p6") {
 
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
         }
     }
 
     fun TabDepartmentColor() {
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1") {
 
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
             if (CommonUtil.menu_writeExamination.equals("1") || CommonUtil.menu_writeAssignment.equals(
                     "1"
                 ) || CommonUtil.menu_writeCircular.equals("1") || CommonUtil.menu_writeNoticeBoard.equals(
                     "1"
                 ) || CommonUtil.menu_writeEvent.equals("1") || CommonUtil.menu_writeVideo.equals("1")
             ) {
-                imgAddPlus!!.visibility = View.VISIBLE
+                CommonUtil.imgAddPlus!!.visibility = View.VISIBLE
             }
 
         } else if ((CommonUtil.Priority == "p2") || CommonUtil.Priority.equals("p3")) {
 
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-            if (CommonUtil.menu_writeExamination.equals("1") || CommonUtil.menu_writeAssignment.equals(
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            if (CommonUtil.menu_writeExamination == "1" || CommonUtil.menu_writeAssignment == "1" || CommonUtil.menu_writeCircular == "1" || CommonUtil.menu_writeNoticeBoard.equals(
                     "1"
-                ) || CommonUtil.menu_writeCircular.equals("1") || CommonUtil.menu_writeNoticeBoard.equals(
-                    "1"
-                ) || CommonUtil.menu_writeEvent.equals("1") || CommonUtil.menu_writeVideo.equals("1")
+                ) || CommonUtil.menu_writeEvent == "1" || CommonUtil.menu_writeVideo == "1"
             ) {
-                imgAddPlus!!.visibility = View.VISIBLE
+                CommonUtil.imgAddPlus!!.visibility = View.VISIBLE
             }
 
         } else if ((CommonUtil.Priority == "p4")) {
 
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-            imgAddPlus!!.visibility = View.GONE
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.imgAddPlus!!.visibility = View.GONE
 
-        } else if ((CommonUtil.Priority.equals("p5"))) {
+        } else if ((CommonUtil.Priority == "p5")) {
 
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-            imgAddPlus!!.visibility = View.GONE
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
+            CommonUtil.imgAddPlus!!.visibility = View.GONE
 
         } else if (CommonUtil.Priority == "p6") {
 
-            if (CommonUtil.menu_writeExamination.equals("1")) {
-                imgAddPlus!!.visibility = View.VISIBLE
+            if (CommonUtil.menu_writeExamination == "1") {
+                CommonUtil.imgAddPlus!!.visibility = View.VISIBLE
             }
-            LayoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
-            LayoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
-
+            CommonUtil.layoutDepartment!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_selected)))
+            CommonUtil.layoutCollege!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_unselected)))
         }
     }
 
+    fun UserMenuRequest(activity: Activity?) {
+        if (CommonUtil.MenuListDashboard.isEmpty()) {
+            val jsonObject = JsonObject()
+            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+            jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
+            dashboardViewModel!!.getUsermenus(jsonObject, activity)
+            Log.d("UserMenus_Request", jsonObject.toString())
+        }else{
+            isMenuUpdate()
+        }
+    }
+
+    private fun isMenuUpdate(){
+
+        Log.d("MenuArrayList", "isNotEmpty")
+        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
+
+        for (k in CommonUtil.MenuListDashboard.indices) {
+
+            CommonUtil.UserMenuListId.add(CommonUtil.MenuListDashboard.get(k).id)
+
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Home)) {
+                DashboardHomeMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+                Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
+            }
+
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Chat)) {
+                ChatMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+                Log.d("Chat", ChatMenuID)
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Communication)) {
+                CommunicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+                Log.d("communicationmenu", CommunicationMenuID)
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Examination)) {
+                ExamMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+                Log.d("ExamMenuID", ExamMenuID)
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Attendance)) {
+                AttendanceMeuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+                Log.d("AttendanceMeuID", AttendanceMeuID)
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Assignment)) {
+                AssignmentMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Circular)) {
+                CircularMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
+                NoticeboardMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard.get(k).menu_slug.equals(CommonUtil.Events)) {
+                EventsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Faculty)) {
+                FacultyMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Video)) {
+                VideoMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Course_Details)) {
+                CourseDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Category_Credit_Points)) {
+                CategoryDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
+                SemesterCreditMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Exam_Application_Details)) {
+                ExamApplicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Hall_Ticket)) {
+                Hall_TicketId = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.FeeDetails)) {
+                isFeeDetails = CommonUtil.MenuListDashboard.get(k).id.toString()
+            }
+        }
+
+        menuadapter = HomeMenus(
+            applicationContext,
+            CommonUtil.MenuListDashboard,
+            object : HomeMenuClickListener {
+                override fun onMenuClick(
+                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
+                ) {
+                    holder.LayoutHome!!.setOnClickListener {
+                        ParticularMenuClick(data)
+                    }
+                }
+            })
+        val mLayoutManager: RecyclerView.LayoutManager =
+            GridLayoutManager(applicationContext, 4)
+        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
+    }
 }

@@ -14,9 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -31,62 +28,15 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
 
-class Communication : BaseActivity(), MenuCountResponseCallback {
+class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountResponseCallback {
+
 
     private var communicationAdapter: CommunicationAdapter? = null
     override var appViewModel: App? = null
-
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_NoticeLable)
-    var txt_NoticeLable: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollege)
-    var lblCollege: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollegeSize)
-    var lblCollegeSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.imgRecordVoice)
-    var imgRecordVoice: ImageView? = null
-
-    var VoiceButton: String? = null
 
     var TextButton: String? = null
     var CommunicationType = true
@@ -102,35 +52,59 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
     private var isreadText = ""
     private var isreadVoice = ""
 
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
+
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
-        TabDepartmentColor()
-        MenuBottomType()
-        CommonUtil.OnMenuClicks("Voice")
 
-        lblMenuTitle!!.setText(R.string.txt_communication)
-        lblDepartment!!.setText(R.string.txt_unread)
-        lblCollege!!.setText(R.string.txt_read)
+
+        CommonUtil.OnMenuClicks("Voice")
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve,
+            R.id.recyclermenusbottom,
+            R.id.swipeUpMenus,
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
+        )
+        MenuBottomType()
+        TabDepartmentColor()
+        UserMenuRequest(this)
+
+        binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_communication)
+        binding.CommonLayout.lblDepartment!!.setText(R.string.txt_unread)
+        binding.CommonLayout.lblCollege!!.setText(R.string.txt_read)
         SearchList!!.visibility = View.VISIBLE
         SearchList!!.setOnClickListener {
             Search!!.visibility = View.VISIBLE
         }
+        binding.CommonLayout.imgAddPlus.setOnClickListener { plusClick() }
+
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.CommonLayout.imgRecordVoice.setOnClickListener { RecordVoice() }
+        binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
+        binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
 
         if (CommonUtil.menu_writeCommunication == "1") {
             if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5" || CommonUtil.Priority == "p6") {
-                imgRecordVoice!!.visibility = View.GONE
+                binding.CommonLayout.imgRecordVoice!!.visibility = View.GONE
             } else {
-                imgRecordVoice!!.visibility = View.VISIBLE
+                binding.CommonLayout.imgRecordVoice!!.visibility = View.VISIBLE
             }
         } else {
-            imgRecordVoice!!.visibility = View.GONE
+            binding.CommonLayout.imgRecordVoice!!.visibility = View.GONE
         }
 
         idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -154,9 +128,9 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
                 "p3"
             )
         ) {
-            txt_NoticeLable!!.visibility = View.VISIBLE
+            binding.CommonLayout.txtNoticeLable!!.visibility = View.VISIBLE
         } else {
-            txt_NoticeLable!!.visibility = View.GONE
+            binding.CommonLayout.txtNoticeLable!!.visibility = View.GONE
         }
         appViewModel!!.AdvertisementLiveData?.observe(this,
             Observer<GetAdvertisementResponse?> { response ->
@@ -173,11 +147,12 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
                         }
 
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -203,45 +178,6 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
             }
         }
 
-
-//        appviewModelbase!!.communicationNew_Button!!.observe(this) { response ->
-//
-//            if (response != null) {
-//                val status = response.Status
-//                val message = response.Message
-//
-//                if (status == 1) {
-//
-//                    Communication_NewButtonResponse = response.data
-//                    VoiceButton = Communication_NewButtonResponse[0].is_write_enabled
-//                    isreadText = Communication_NewButtonResponse[0].is_read_enabled
-//                    isreadVoice = Communication_NewButtonResponse[1].is_read_enabled
-//
-//                    if (Communication_NewButtonResponse.size == 3) {
-//                        CommonUtil.menuslug = Communication_NewButtonResponse[2].menu_slug
-//                    }
-//                    if (CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals(
-//                            "p3"
-//                        ) || CommonUtil.Priority.equals("p7")
-//                    ) {
-//                        if (VoiceButton.equals("1")) {
-//                            imgRecordVoice!!.visibility = View.VISIBLE
-//                        } else {
-//                            imgRecordVoice!!.visibility = View.GONE
-//                        }
-//
-//                        if (isreadVoice == "1") {
-//                            CommunicationRequest(CommunicationType)
-//                        }
-//                    } else {
-//                        if (isreadVoice == "1") {
-//                            CommunicationRequest(CommunicationType)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
         appViewModel!!.communicationLiveData!!.observe(this) { response ->
             if (response != null) {
                 val status = response.status
@@ -256,8 +192,8 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
                         GetCommunicationdata = response.data!!
                         val size = GetCommunicationdata.size
                         if (size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
 
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
@@ -279,10 +215,14 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = communicationAdapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = communicationAdapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             communicationAdapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -292,8 +232,8 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
                         val size = GetCommunicationdata.size
                         if (size > 0) {
 
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
 
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
@@ -312,10 +252,14 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
                                 })
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = communicationAdapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = communicationAdapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             communicationAdapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -372,33 +316,33 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
     }
 
     fun NoDataFound() {
-        lblNoRecordsFound!!.visibility = View.VISIBLE
-        recyclerNoticeboard!!.visibility = View.GONE
+        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
     }
 
     private fun CountValueSet() {
         if (!unreadcount.equals("0") && !unreadcount.equals("")) {
-            lblDepartmentSize!!.visibility = View.VISIBLE
-            lblDepartmentSize!!.text = unreadcount
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblDepartmentSize!!.text = unreadcount
         } else {
-            lblDepartmentSize!!.visibility = View.GONE
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
             unreadcount = "0"
         }
         if (!readcount.equals("0") && !readcount.equals("")) {
-            lblCollegeSize!!.visibility = View.VISIBLE
-            lblCollegeSize!!.text = readcount
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblCollegeSize!!.text = readcount
         } else {
-            lblCollegeSize!!.visibility = View.GONE
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.GONE
             readcount = "0"
         }
         var intdepartment = Integer.parseInt(unreadcount!!)
         var intCollegecount = Integer.parseInt(readcount!!)
         var TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
-            lbltotalsize!!.visibility = View.VISIBLE
-            lbltotalsize!!.text = TotalSizeCount.toString()
+            binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
         } else {
-            lbltotalsize!!.visibility = View.GONE
+            binding.CommonLayout.lbltotalsize!!.visibility = View.GONE
         }
     }
 
@@ -462,7 +406,6 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
         }
     }
 
-    @OnClick(R.id.LayoutDepartment)
     fun departmentClick() {
         bottomsheetStateCollpased()
         TabDepartmentColor()
@@ -474,23 +417,22 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
                 "p5"
             )
         ) {
-            imgRecordVoice!!.visibility = View.GONE
+            binding.CommonLayout.imgRecordVoice!!.visibility = View.GONE
         } else {
             if (CommonUtil.menu_writeCommunication.equals("1")) {
-                imgRecordVoice!!.visibility = View.VISIBLE
+                binding.CommonLayout.imgRecordVoice!!.visibility = View.VISIBLE
             } else {
-                imgRecordVoice!!.visibility = View.GONE
+                binding.CommonLayout.imgRecordVoice!!.visibility = View.GONE
             }
         }
         if (CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals(
                 "p3"
             ) || CommonUtil.Priority.equals("p7")
         ) {
-            imgAddPlus!!.visibility = View.GONE
+            binding.CommonLayout.imgAddPlus!!.visibility = View.GONE
         }
     }
 
-    @OnClick(R.id.LayoutCollege)
     fun collegeClick() {
         //   imgAddPlus!!.visibility = View.GONE
         bottomsheetStateCollpased()
@@ -503,7 +445,7 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
                 "p3"
             ) || CommonUtil.Priority.equals("p7")
         ) {
-            imgAddPlus!!.visibility = View.GONE
+            binding.CommonLayout.imgAddPlus!!.visibility = View.GONE
         }
     }
 
@@ -513,7 +455,6 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
         CommonUtil.mediaPlayer!!.stop()
     }
 
-    @OnClick(R.id.imgRecordVoice)
     fun RecordVoice() {
 
         CommonUtil.mediaPlayer!!.stop()
@@ -524,7 +465,6 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
         startActivity(i)
     }
 
-    @OnClick(R.id.imgAddPlus)
     fun plusClick() {
 
         CommonUtil.mediaPlayer!!.stop()
@@ -535,7 +475,6 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
         startActivity(i)
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
@@ -552,6 +491,6 @@ class Communication : BaseActivity(), MenuCountResponseCallback {
         var AddId: Int = 1
         PreviousAddId = PreviousAddId + 1
         super.onResume()
-        imgAddPlus!!.visibility = View.GONE
+        binding.CommonLayout.imgAddPlus!!.visibility = View.GONE
     }
 }

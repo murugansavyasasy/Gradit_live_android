@@ -5,21 +5,16 @@ import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.R
 
 
 class Test_Myself : AppCompatActivity() {
 
-//    @JvmField
-//    @BindView(R.id.btnUpload)
-//    var btnUpload: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_myself)
-        ButterKnife.bind(this)
 
 
 //        btnUpload!!.setOnClickListener {

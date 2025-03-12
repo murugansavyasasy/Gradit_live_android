@@ -85,7 +85,7 @@
             android:name=".Activities.Create_Password"
             android:exported="false" />
         <activity
-            android:name=".Activities.CaleanderView"
+            android:name=".Activities.CalenderView"
             android:exported="false" />
         <activity
             android:name=".albumImage.PDF_Reader"

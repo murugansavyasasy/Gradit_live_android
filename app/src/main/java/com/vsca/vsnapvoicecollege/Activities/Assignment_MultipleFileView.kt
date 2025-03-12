@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -29,8 +26,11 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
+import com.vsca.vsnapvoicecollege.databinding.MultiplefileviewLayoutBinding
 
-class Assignment_MultipleFileView : BaseActivity() {
+class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>() {
 
     override var appViewModel: App? = null
     var AdWebURl: String? = null
@@ -45,50 +45,35 @@ class Assignment_MultipleFileView : BaseActivity() {
     var Assignment_ContentViewAdapter: Assignment_ContentViewAdapter? = null
     var filename: List<String>? = null
 
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.recyclerMultipleAssignment)
-    var recyclerMultipleAssignment: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lbl_image)
-    var lbl_image: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lbl_pdf)
-    var lbl_pdf: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.liner_filetype)
-    var liner_filetype: LinearLayout? = null
+    override fun inflateBinding(): MultiplefileviewLayoutBinding {
+        return MultiplefileviewLayoutBinding.inflate(layoutInflater)
+    }
 
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
-        CommonUtil.SetTheme(this)
-
         super.onCreate(savedInstanceState)
+        CommonUtil.SetTheme(this)
+        binding = MultiplefileviewLayoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
-        MenuBottomType()
+
 
         Assignmnetview = intent.getStringExtra("Assignment")
 
+        binding.CommonLayout.imgImagePdfback.setOnClickListener {
+            imgBackClick()
+        }
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        MenuBottomType()
 
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
@@ -106,55 +91,82 @@ class Assignment_MultipleFileView : BaseActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
 
         MultipleAssignmentfile = MultipleAssignmentfile(CommonUtil.Multipleiamge, this)
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        recyclerMultipleAssignment!!.layoutManager = mLayoutManager
-        recyclerMultipleAssignment!!.itemAnimator = DefaultItemAnimator()
-        recyclerMultipleAssignment!!.recycledViewPool.setMaxRecycledViews(0, 80)
-        recyclerMultipleAssignment!!.adapter = MultipleAssignmentfile
+        binding.CommonLayout.recyclerMultipleAssignment!!.layoutManager = mLayoutManager
+        binding.CommonLayout.recyclerMultipleAssignment!!.itemAnimator = DefaultItemAnimator()
+        binding.CommonLayout.recyclerMultipleAssignment!!.recycledViewPool.setMaxRecycledViews(
+            0,
+            80
+        )
+        binding.CommonLayout.recyclerMultipleAssignment!!.adapter = MultipleAssignmentfile
         MultipleAssignmentfile!!.notifyDataSetChanged()
 
 
         if (Assignmnetview.equals("AssignmentData")) {
-            liner_filetype!!.visibility = View.VISIBLE
+            binding.CommonLayout.linerFiletype!!.visibility = View.VISIBLE
             AssignmentContentView("image")
 
-            lbl_image!!.setOnClickListener {
+            binding.CommonLayout.lblImage!!.setOnClickListener {
                 AssignmentContentView("image")
                 type = "image"
-                lbl_pdf!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.txt_color_white)))
-                lbl_image!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_parent_selected)))
-                lbl_image!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_white)))
-                lbl_pdf!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_receiver)))
+                binding.CommonLayout.lblPdf!!.setBackgroundColor(
+                    Color.parseColor(
+                        resources.getString(
+                            R.string.txt_color_white
+                        )
+                    )
+                )
+                binding.CommonLayout.lblImage!!.setBackgroundColor(
+                    Color.parseColor(
+                        resources.getString(
+                            R.string.clr_parent_selected
+                        )
+                    )
+                )
+                binding.CommonLayout.lblImage!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_white)))
+                binding.CommonLayout.lblPdf!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_receiver)))
 
             }
 
-            lbl_pdf!!.setOnClickListener {
+            binding.CommonLayout.lblPdf!!.setOnClickListener {
                 AssignmentContentView("pdf")
                 type = "pdf"
 
-                lbl_pdf!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.clr_parent_selected)))
-                lbl_image!!.setBackgroundColor(Color.parseColor(resources.getString(R.string.txt_color_white)))
+                binding.CommonLayout.lblImage!!.setBackgroundColor(
+                    Color.parseColor(
+                        resources.getString(
+                            R.string.clr_parent_selected
+                        )
+                    )
+                )
+                binding.CommonLayout.lblImage!!.setBackgroundColor(
+                    Color.parseColor(
+                        resources.getString(
+                            R.string.txt_color_white
+                        )
+                    )
+                )
 
-                lbl_image!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_receiver)))
-                lbl_pdf!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_white)))
+                binding.CommonLayout.lblImage!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_receiver)))
+                binding.CommonLayout.lblPdf!!.setTextColor(Color.parseColor(resources.getString(R.string.txt_color_white)))
             }
 
 
         } else if (Assignmnetview.equals("Circuler")) {
-            liner_filetype!!.visibility = View.GONE
-            lblMenuTitle!!.text = "Image/PdF files"
+            binding.CommonLayout.linerFiletype!!.visibility = View.GONE
+            binding.CommonLayout.lblMenuTitle!!.text = "Image/PdF files"
         }
 
         appViewModel!!.Assignmentview!!.observe(this) { response ->
@@ -166,23 +178,28 @@ class Assignment_MultipleFileView : BaseActivity() {
                     AdForCollegeApi()
 
                     AssignmentContent_ViewData = response.data
-                    recyclerMultipleAssignment!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerMultipleAssignment!!.visibility = View.VISIBLE
 
                     Assignment_ContentViewAdapter =
                         Assignment_ContentViewAdapter(AssignmentContent_ViewData, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    recyclerMultipleAssignment!!.layoutManager = mLayoutManager
-                    recyclerMultipleAssignment!!.itemAnimator = DefaultItemAnimator()
-                    recyclerMultipleAssignment!!.adapter = Assignment_ContentViewAdapter
-                    recyclerMultipleAssignment!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.recyclerMultipleAssignment!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.recyclerMultipleAssignment!!.itemAnimator =
+                        DefaultItemAnimator()
+                    binding.CommonLayout.recyclerMultipleAssignment!!.adapter =
+                        Assignment_ContentViewAdapter
+                    binding.CommonLayout.recyclerMultipleAssignment!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     Assignment_ContentViewAdapter!!.notifyDataSetChanged()
                 } else {
                     CommonUtil.ApiAlert(this, CommonUtil.No_Data_Found)
-                    recyclerMultipleAssignment!!.visibility = View.GONE
+                    binding.CommonLayout.recyclerMultipleAssignment!!.visibility = View.GONE
                 }
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.No_Data_Found)
-                recyclerMultipleAssignment!!.visibility = View.GONE
+                binding.CommonLayout.recyclerMultipleAssignment!!.visibility = View.GONE
 
             }
         }
@@ -193,7 +210,7 @@ class Assignment_MultipleFileView : BaseActivity() {
             AdForCollegeApi()
 
             if (Assignmnetview.equals("AssignmentData")) {
-                liner_filetype!!.visibility = View.VISIBLE
+                binding.CommonLayout.linerFiletype!!.visibility = View.VISIBLE
                 type.let { it1 -> AssignmentContentView(it1) }
 
             }
@@ -232,13 +249,11 @@ class Assignment_MultipleFileView : BaseActivity() {
     override val layoutResourceId: Int
         get() = R.layout.multiplefileview_layout
 
-    @OnClick(R.id.imgImagePdfback)
     fun imgBackClick() {
         super.onBackPressed()
         CommonUtil.Multipleiamge.clear()
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }

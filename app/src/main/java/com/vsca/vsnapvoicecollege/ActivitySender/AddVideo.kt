@@ -25,9 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -44,6 +42,8 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.VideoAlbum.AlbumVideoSelectVideoActivity
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityAddVideoBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -60,29 +60,6 @@ import java.util.concurrent.TimeUnit
 
 class AddVideo : ActionBarActivity() {
 
-    @JvmField
-    @BindView(R.id.LayoutUploadVideo)
-    var LayoutUploadVideo: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.txtTitle)
-    var txtTitle: EditText? = null
-
-    @JvmField
-    @BindView(R.id.txt_Selected)
-    var txt_Selected: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txtDescription)
-    var txtDescription: EditText? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
 
 
     private val REQUEST = 1
@@ -105,14 +82,23 @@ class AddVideo : ActionBarActivity() {
     var VideoTitle: String? = null
     var VideoDescription: String? = null
     var Videofile: Boolean? = null
+    private lateinit var binding: ActivityAddVideoBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityAddVideoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+         ActionbarWithoutBottom(this)
+
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.btnConfirm.setOnClickListener { btnConfirm() }
+        binding.btnCancel.setOnClickListener { super.onBackPressed() }
+        binding.imgImagePdfback.setOnClickListener { super.onBackPressed() }
+        binding.LayoutUploadVideo.setOnClickListener { OpenGallery() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
@@ -130,13 +116,13 @@ class AddVideo : ActionBarActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
@@ -145,7 +131,7 @@ class AddVideo : ActionBarActivity() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                BaseActivity.UserMenuRequest(this)
+//                BaseActivity.UserMenuRequest(this)
                 if (status == 1) {
                     GetContentData = response.data!!
                     for (i in GetContentData!!.indices) {
@@ -212,11 +198,10 @@ class AddVideo : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_add_video
 
-    @OnClick(R.id.LayoutUploadVideo)
-    fun OpenGallery() {
+     fun OpenGallery() {
 
-        VideoTitle = txtTitle!!.text.toString()
-        VideoDescription = txtDescription!!.text.toString()
+        VideoTitle = binding.txtTitle!!.text.toString()
+        VideoDescription = binding.txtDescription!!.text.toString()
 
         if (!VideoTitle.isNullOrEmpty() && !VideoDescription.isNullOrEmpty()) {
 
@@ -227,24 +212,14 @@ class AddVideo : ActionBarActivity() {
         }
     }
 
-    @OnClick(R.id.btnCancel)
-    fun imgBackClick() {
-        super.onBackPressed()
-    }
 
-    @OnClick(R.id.imgImagePdfback)
-    fun imgImagePdfback() {
-        super.onBackPressed()
-    }
+    fun btnConfirm() {
 
-    @OnClick(R.id.btnConfirm)
-    fun Click() {
-
-        if (!txtDescription!!.text.isNullOrEmpty() && !txtTitle!!.text.isNullOrEmpty() && txt_Selected!!.getVisibility() == View.VISIBLE) {
+        if (!binding.txtDescription!!.text.isNullOrEmpty() && !binding.txtTitle!!.text.isNullOrEmpty() && binding.txtSelected!!.getVisibility() == View.VISIBLE) {
 
             ScreenName = "New Video"
-            CommonUtil.title = txtTitle!!.text.toString()
-            CommonUtil.Description = txtDescription!!.text.toString()
+            CommonUtil.title = binding.txtTitle!!.text.toString()
+            CommonUtil.Description = binding.txtDescription!!.text.toString()
             if (CommonUtil.Priority == "p7") {
 
                 val i: Intent = Intent(this, HeaderRecipient::class.java)
@@ -278,8 +253,7 @@ class AddVideo : ActionBarActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
-    fun adclick() {
+     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
 
@@ -301,206 +275,12 @@ class AddVideo : ActionBarActivity() {
                     val VideoFilePath = SelcetedFileList.get(0)
                     Log.d("filepath", VideoFilePath)
                     CommonUtil.videofile = VideoFilePath
-                    txt_Selected!!.visibility = View.VISIBLE
+                    binding.txtSelected!!.visibility = View.VISIBLE
                     Log.d("video file", CommonUtil.videofile.toString())
                     Log.d("VideoFilePath", VideoFilePath)
 
                 }
             }
         }
-    }
-
-    fun VimeoVideoUpload(activity: Activity, file: String) {
-        val strsize = file.length
-        Log.d("size", strsize.toString())
-        val clientinterceptor = OkHttpClient.Builder()
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        clientinterceptor.interceptors().add(interceptor)
-        val client1: OkHttpClient
-        client1 = OkHttpClient.Builder().connectTimeout(300, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.MINUTES).writeTimeout(5, TimeUnit.MINUTES).build()
-        val retrofit = Retrofit.Builder().client(client1).baseUrl("https://api.vimeo.com/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
-        val mProgressDialog = ProgressDialog(activity)
-        mProgressDialog.isIndeterminate = true
-        mProgressDialog.setMessage("Connecting...")
-        mProgressDialog.setCancelable(false)
-        mProgressDialog.show()
-        val `object` = JsonObject()
-        val jsonObjectclasssec = JsonObject()
-        jsonObjectclasssec.addProperty("approach", "post")
-        jsonObjectclasssec.addProperty("size", strsize.toString())
-        val jsonprivacy = JsonObject()
-        jsonprivacy.addProperty("view", "unlisted")
-        val jsonshare = JsonObject()
-        jsonshare.addProperty("share", "false")
-        val jsonembed = JsonObject()
-        jsonembed.add("buttons", jsonshare)
-
-        `object`.add("upload", jsonObjectclasssec)
-        `object`.addProperty("name", txtTitle!!.text.toString())
-        `object`.addProperty("description", txtDescription!!.text.toString())
-        `object`.add("privacy", jsonprivacy)
-        `object`.add("embed", jsonembed)
-        val head = "Bearer " + "8d74d8bf6b5742d39971cc7d3ffbb51a"
-        Log.d("header", head)
-        val call: Call<JsonObject> = service.VideoUpload(`object`, head)
-        Log.d("jsonOBJECT", `object`.toString())
-        call.enqueue(object : Callback<JsonObject> {
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                val res = response.code()
-                Log.d("RESPONSE", response.toString())
-                if (response.isSuccessful) {
-                    try {
-                        Log.d("try", "testtry")
-                        val object1 = JSONObject(response.body().toString())
-                        Log.d("responsevimeo", object1.toString())
-                        Log.d("Response sucess", "response entered success")
-                        val obj = object1.getJSONObject("upload")
-                        val obj1 = object1.getJSONObject("embed")
-                        val upload_link = obj.getString("upload_link")
-                        Log.d("uploadlind", upload_link)
-                        val link = object1.getString("link")
-                        val iframe = obj1.getString("html")
-                        Log.d("c", upload_link)
-                        Log.d("iframe", iframe)
-
-
-                        // this  below two line is Get Video url and iframe
-                        CommonUtil.VimeoIframe = iframe
-                        CommonUtil.VimeoVideoUrl = link
-                        Log.d("VimeoVideoUrl", CommonUtil.VimeoVideoUrl.toString())
-
-                        try {
-                            Videofile = false
-                            VIDEOUPLOAD(upload_link, file, activity)
-                            Videofile = true
-
-                        } catch (e: Exception) {
-                            Log.e("VIMEO Exception", e.message!!)
-                            CommonUtil.Toast(activity, "Video sending failed.Retry")
-                        }
-                    } catch (e: Exception) {
-                        Log.e("VIMEO Exception", e.message!!)
-                        CommonUtil.Toast(activity, e.message)
-                    }
-                } else {
-                    CommonUtil.Toast(activity, "Video sending failed.Retry")
-                }
-            }
-
-            override fun onFailure(
-                call: Call<JsonObject>, t: Throwable
-            ) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                Log.e("Response Failure", t.message!!)
-                CommonUtil.Toast(activity, "Video sending failed.Retry")
-            }
-        })
-    }
-
-    private fun VIDEOUPLOAD(
-        upload_link: String, file: String, activity: Activity
-    ) {
-        Log.d("uploadlink", upload_link)
-        val separated = upload_link.split("?").toTypedArray()
-
-        val name = separated[0] //"/"
-        val FileName = separated[1]
-        val upload = name.replace("upload", "")
-        Log.d("uploadbaseurl", upload)
-        val id = FileName.split("&").toTypedArray()
-        val ticket_id = id[0]
-        val video_file_id = id[1]
-        val signature = id[2]
-        val v6 = id[3]
-        val redirect_url = id[4]
-        val seperate1: Array<String> = ticket_id.split("=").toTypedArray()
-        val ticket = seperate1[0] //"/"
-        val ticket2 = seperate1[1]
-        val seperate2: Array<String> = video_file_id.split("=").toTypedArray()
-        val ticket1 = seperate2[0] //"/"
-        val ticket3 = seperate2[1]
-        val seper: Array<String> = signature.split("=").toTypedArray()
-        val ticke = seper[0] //"/"
-        val tick = seper[1]
-        val sepera: Array<String> = v6.split("=").toTypedArray()
-        val str = sepera[0] //"/"
-        val str1 = sepera[1]
-        val sucess: Array<String> = redirect_url.split("=").toTypedArray()
-        val urlRIDERCT = sucess[0] //"/"
-        val redirect_url123 = sucess[1]
-        Log.d("redirecturl", redirect_url)
-        val client1: OkHttpClient
-        client1 = OkHttpClient.Builder().connectTimeout(600, TimeUnit.SECONDS)
-            .readTimeout(40, TimeUnit.MINUTES).writeTimeout(40, TimeUnit.MINUTES).build()
-        val retrofit = Retrofit.Builder().client(client1).baseUrl(upload)
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val mProgressDialog = ProgressDialog(activity)
-        mProgressDialog.isIndeterminate = true
-        mProgressDialog.setMessage("Uploading...")
-        mProgressDialog.setCancelable(false)
-        mProgressDialog.show()
-        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
-        var requestFile: RequestBody? = null
-        try {
-            val filepath = file
-            Log.d(
-                "filepath",
-                filepath
-            )
-            val `in`: InputStream = FileInputStream(filepath)
-            Log.d("infile", `in`.toString())
-            val buf: ByteArray
-            buf = ByteArray(`in`.available())
-            while (`in`.read(buf) != -1);
-            Log.d("buf", buf.toString())
-            requestFile =
-                RequestBody.create("application/offset+octet-stream".toMediaTypeOrNull(), buf)
-            Log.d(
-                "requestfile",
-                requestFile.toString()
-            )
-        } catch (e: IOException) {
-            e.printStackTrace()
-            CommonUtil.Toast(activity, e.message)
-        }
-        val call: Call<ResponseBody> = service.patchVimeoVideoMetaData(
-            ticket2,
-            ticket3,
-            tick,
-            str1,
-            redirect_url123 + "www.voicesnapforschools.com",
-            requestFile
-        )
-        call.enqueue(object : Callback<ResponseBody?> {
-            override fun onResponse(
-                call: Call<ResponseBody?>, response: Response<ResponseBody?>
-            ) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                try {
-                    if (response.isSuccessful) {
-                        Videofile = true
-                        selectedPaths.add(response.code().toString())
-                        Log.d("SeletedFilevideo", selectedPaths.toString())
-                        CommonUtil.Toast(activity, "Successfull Uploaded")
-
-                    } else {
-
-                        CommonUtil.Toast(activity, "Video sending failed.Retry")
-                    }
-                } catch (e: Exception) {
-                    CommonUtil.Toast(activity, e.message)
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                CommonUtil.Toast(activity, "Video sending failed.Retry")
-            }
-        })
     }
 }

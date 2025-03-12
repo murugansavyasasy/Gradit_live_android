@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.vsca.vsnapvoicecollege.Model.attendance
 import com.vsca.vsnapvoicecollege.R
 import soup.neumorphism.NeumorphCardView
@@ -24,33 +22,14 @@ class Attendancedetails(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.lblsnumber)
-        var lblsnumber: TextView? = null
+        val lblsnumber: TextView = itemView!!.findViewById(R.id.lblsnumber)
+        val lbldate: TextView = itemView!!.findViewById(R.id.lbldate)
+        val lblattendhours: TextView = itemView!!.findViewById(R.id.lblattendhours)
+        val lblabsenthours: TextView = itemView!!.findViewById(R.id.lblabsenthours)
+        val tblattendance: TableLayout = itemView!!.findViewById(R.id.tblattendance)
+        val crd_attendance: NeumorphCardView = itemView!!.findViewById(R.id.crd_attendance)
 
-        @JvmField
-        @BindView(R.id.lbldate)
-        var lbldate: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblattendhours)
-        var lblattendhours: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblabsenthours)
-        var lblabsenthours: TextView? = null
-
-        @JvmField
-        @BindView(R.id.tblattendance)
-        var tblattendance: TableLayout? = null
-
-        @JvmField
-        @BindView(R.id.crd_attendance)
-        var crd_attendance: NeumorphCardView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

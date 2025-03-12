@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.LoginRolesListener
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.R
@@ -118,55 +117,20 @@ class LoginChooseRoles(
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblMemberName)
-        var lblMemberName: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblCollegeName)
-        var lblCollegeName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.viewline1)
-        var viewline1: View? = null
-
-
-        @JvmField
-        @BindView(R.id.lblYearName)
-        var lblYearName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSemesterName)
-        var lblSemesterName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.imgCollegeLogo)
-        var imgCollegeLogo: ImageView? = null
+        val lblMemberName: TextView = itemView!!.findViewById(R.id.lblMemberName)!!
+        val lblCollegeName: TextView = itemView!!.findViewById(R.id.lblCollegeName)!!
+        val viewline1: View = itemView!!.findViewById(R.id.viewline1)!!
+        val lblYearName: TextView = itemView!!.findViewById(R.id.lblYearName)!!
+//        val lblSemesterName: TextView = itemView!!.findViewById(R.id.lblSemesterName)!!
+//        val imgCollegeLogo: ImageView = itemView!!.findViewById(R.id.imgCollegeLogo)!!
+        val semname: TextView = itemView!!.findViewById(R.id.semname)!!
+        val lblSectionname: TextView = itemView!!.findViewById(R.id.lblSectionname)!!
+        val lbl_Deptname: TextView = itemView!!.findViewById(R.id.lbl_Deptname)!!
+        val lblCoursenname: TextView = itemView!!.findViewById(R.id.lblCoursenname)!!
+        val rytOverAll: RelativeLayout = itemView!!.findViewById(R.id.rytOverAll)!!
 
 
-        @JvmField
-        @BindView(R.id.semname)
-        var semname: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSectionname)
-        var lblSectionname: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lbl_Deptname)
-        var lbl_Deptname: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblCoursenname)
-        var lblCoursenname: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytOverAll)
-        var rytOverAll: RelativeLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

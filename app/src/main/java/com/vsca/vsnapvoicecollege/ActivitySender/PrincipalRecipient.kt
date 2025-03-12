@@ -12,27 +12,18 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.ScrollView
 import android.widget.SearchView
-import android.widget.Spinner
-import android.widget.Switch
-import android.widget.TextView
+//import android.widget.binding.idSV
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.AWS.S3Uploader
-import com.vsca.vsnapvoicecollege.AWS.S3Utils
+import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
+import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Activities.Assignment
 import com.vsca.vsnapvoicecollege.Activities.Circular
@@ -60,6 +51,7 @@ import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.Utils.VimeoUploader
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityPrincipalRecipientBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -108,7 +100,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     var GetCourseData: java.util.ArrayList<GetCourseData>? = null
     var SelectedcourseAdapter: SelectedRecipientAdapter? = null
     var SpinningText: String? = null
-    var AWSUploadedFilesList = java.util.ArrayList<AWSUploadedFiles>()
+
+    //    var AWSUploadedFilesList = java.util.ArrayList<AWSUploadedFiles>()
+    var AWSUploadedFilesList = java.util.ArrayList<String>()
     var Awsuploadedfile = java.util.ArrayList<String>()
     var pathIndex = 0
     var uploadFilePath: String? = null
@@ -129,150 +123,21 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     var SearchType = ""
     var isVideoToken = ""
 
-    @JvmField
-    @BindView(R.id.lnrTargetAll)
-    var lnrTargetAll: LinearLayout? = null
+    private lateinit var binding: ActivityPrincipalRecipientBinding
+    var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
 
-    @JvmField
-    @BindView(R.id.ch_BoxAll)
-    var ch_BoxAll: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.scrooling)
-    var scrooling: ScrollView? = null
-
-
-    @JvmField
-    @BindView(R.id.idSV)
-    var SearchView: SearchView? = null
-
-    @JvmField
-    @BindView(R.id.txt_ch_BoxAll)
-    var txt_ch_BoxAll: TextView? = null
-
-    @JvmField
-    @BindView(R.id.ch_allDepartment)
-    var ch_allDepartment: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.LayoutRecipient)
-    var LayoutRecipient: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.txtTarget)
-    var txtTarget: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lnrTarget)
-    var lnrTarget: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.txt_chcourse)
-    var txt_chcourse: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_selectspecficStudent)
-    var txt_selectspecficStudent: TextView? = null
-
-    @JvmField
-    @BindView(R.id.ch_allcourse)
-    var ch_allcourse: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.spinnerDropdowncourse)
-    var spinnerDropdowncourse: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.txt_chDepartment)
-    var txt_chDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lnrTargetParent)
-    var lnrTargetParent: LinearLayout? = null
-
-
-    @JvmField
-    @BindView(R.id.chboxAll)
-    var chboxAll: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.chboxStudent)
-    var chboxStudent: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.chboxParents)
-    var chboxParents: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.chboxStaff)
-    var chboxStaff: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.lblDivision)
-    var lblDivision: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCourse)
-    var lblCourse: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblYourClasses)
-    var lblYourClasses: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblGroups)
-    var lblGroups: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblEntireDepartmentlable)
-    var lblEntireDepartmentlable: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_assignmentsent)
-    var txt_assignmentsent: TextView? = null
-
-    @JvmField
-    @BindView(R.id.recycleRecipientcourse)
-    var recycleRecipientcourse: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.recycleRecipients)
-    var recycleRecipients: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.recycleRecipientYourclasses)
-    var recycleRecipientYourclasses: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.Spinning_yourclasses)
-    var Spinning_yourclasses: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.lnrStaff)
-    var lnrStaff: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.txt_onandoff)
-    var txt_onandoff: RelativeLayout? = null
-
-    @JvmField
-    @BindView(R.id.switchonAndoff)
-    var switchonAndoff: Switch? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+        binding = ActivityPrincipalRecipientBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+         ActionbarWithoutBottom(this)
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-
+        isAwsUploadingPreSigned = AwsUploadingPreSigned()
         ScreenName = intent.getStringExtra("ScreenName")
         CommonUtil.ScreenType = ScreenName.toString()
         FileType = intent.getStringExtra("FileType")
@@ -287,8 +152,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         isVideoToken = VideoToken
         Log.d("isVideoToken", VideoToken)
 
-        switchonAndoff!!.setOnClickListener {
-            if (switchonAndoff!!.isChecked) {
+        binding.switchonAndoff!!.setOnClickListener {
+            if (binding.switchonAndoff!!.isChecked) {
                 CommonUtil.CallEnable = "1"
             } else {
                 CommonUtil.CallEnable = "0"
@@ -297,83 +162,83 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
         if (CommonUtil.isAllowtomakecall == 1) {
             when (ScreenName) {
-                CommonUtil.Text -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.TextHistory -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.Communication -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.CommunicationVoice -> txt_onandoff!!.visibility = View.VISIBLE
-                CommonUtil.New_Video -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.Noticeboard -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.ScreenNameEvent -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.Image_Pdf -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.New_Assignment -> txt_onandoff!!.visibility = View.GONE
-                CommonUtil.Forward_Assignment -> txt_onandoff!!.visibility = View.GONE
+                CommonUtil.Text -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.TextHistory -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.Communication -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.CommunicationVoice -> binding.txtOnandoff!!.visibility = View.VISIBLE
+                CommonUtil.New_Video -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.Noticeboard -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.ScreenNameEvent -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.Image_Pdf -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.New_Assignment -> binding.txtOnandoff!!.visibility = View.GONE
+                CommonUtil.Forward_Assignment -> binding.txtOnandoff!!.visibility = View.GONE
             }
         }
 
         if (ScreenName!! == CommonUtil.New_Assignment || ScreenName.equals(CommonUtil.Forward_Assignment)) {
             CommonUtil.receiverid = ""
-            LayoutRecipient!!.visibility = View.GONE
-            lnrTarget!!.visibility = View.GONE
-            txtTarget!!.visibility = View.GONE
-            txt_assignmentsent!!.visibility = View.VISIBLE
+            binding.LayoutRecipient!!.visibility = View.GONE
+            binding.lnrTarget!!.visibility = View.GONE
+            binding.txtTarget!!.visibility = View.GONE
+            binding.txtAssignmentsent!!.visibility = View.VISIBLE
             GetSubjectprinciple()
         } else {
-            txt_assignmentsent!!.visibility = View.GONE
+            binding.txtAssignmentsent!!.visibility = View.GONE
         }
 
         if (CommonUtil.isParentEnable.equals("1")) {
-            lnrTargetParent!!.visibility = View.VISIBLE
+            binding.lnrTargetParent!!.visibility = View.VISIBLE
         } else {
-            lnrTargetParent!!.visibility = View.GONE
+            binding.lnrTargetParent!!.visibility = View.GONE
             isParent = false
         }
 
-        ch_BoxAll!!.setOnClickListener {
+        binding.chBoxAll!!.setOnClickListener {
 
             if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-                if (ch_BoxAll!!.isChecked()) {
+                if (binding.chBoxAll!!.isChecked()) {
                     groupAdapter!!.selectAll()
-                    txt_ch_BoxAll!!.text = CommonUtil.Remove_All
+                    binding.txtChBoxAll!!.text = CommonUtil.Remove_All
                 } else {
                     groupAdapter!!.unselectall()
-                    txt_ch_BoxAll!!.text = CommonUtil.Select_All
+                    binding.txtChBoxAll!!.text = CommonUtil.Select_All
                     CommonUtil.seleteddataArrayCheckbox.clear()
                     CommonUtil.receiverid = ""
                     CommonUtil.SeletedStringdataReplace = ""
                 }
             } else {
-                if (ch_BoxAll!!.isChecked()) {
+                if (binding.chBoxAll!!.isChecked()) {
                     divisionadapter!!.selectAll()
-                    txt_ch_BoxAll!!.setText(CommonUtil.Remove_All)
+                    binding.txtChBoxAll!!.setText(CommonUtil.Remove_All)
                 } else {
                     divisionadapter!!.unselectall()
-                    txt_ch_BoxAll!!.setText(CommonUtil.Select_All)
+                    binding.txtChBoxAll!!.setText(CommonUtil.Select_All)
                 }
             }
         }
 
-        ch_allDepartment!!.setOnClickListener {
+        binding.chAllDepartment!!.setOnClickListener {
 
-            if (ch_allDepartment!!.isChecked()) {
+            if (binding.chAllDepartment!!.isChecked()) {
                 departmentAdapter!!.selectAll()
-                txt_chDepartment!!.text = CommonUtil.Remove_All
+                binding.txtChDepartment!!.text = CommonUtil.Remove_All
             } else {
                 departmentAdapter!!.unselectall()
-                txt_chDepartment!!.text = CommonUtil.Select_All
+                binding.txtChDepartment!!.text = CommonUtil.Select_All
                 CommonUtil.seleteddataArrayCheckbox.clear()
                 CommonUtil.receiverid = ""
                 CommonUtil.SeletedStringdataReplace = ""
             }
         }
 
-        ch_allcourse!!.setOnClickListener {
+        binding.chAllcourse!!.setOnClickListener {
 
-            if (ch_allcourse!!.isChecked()) {
+            if (binding.chAllcourse!!.isChecked()) {
                 SelectedcourseAdapter!!.selectAll()
-                txt_chcourse!!.setText(CommonUtil.Remove_All)
+                binding.txtChcourse!!.setText(CommonUtil.Remove_All)
             } else {
                 SelectedcourseAdapter!!.unselectall()
-                txt_chcourse!!.setText(CommonUtil.Select_All)
+                binding.txtChcourse!!.setText(CommonUtil.Select_All)
                 CommonUtil.seleteddataArrayCheckbox.clear()
                 CommonUtil.receiverid = ""
                 CommonUtil.SeletedStringdataReplace = ""
@@ -384,9 +249,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         isStudent = true
         isStaff = false
 
-        chboxAll!!.setOnClickListener {
+        binding.chboxAll!!.setOnClickListener {
 
-            if (chboxAll!!.isChecked) {
+            if (binding.chboxAll!!.isChecked) {
 
                 if (CommonUtil.isParentEnable.equals("1")) {
 
@@ -401,9 +266,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         isParent = true
                         isStaff = false
 
-                        chboxStudent!!.isChecked = true
-                        chboxParents!!.isChecked = true
-                        chboxStaff!!.isChecked = false
+                        binding.chboxStudent!!.isChecked = true
+                        binding.chboxParents!!.isChecked = true
+                        binding.chboxStaff!!.isChecked = false
 
                     } else {
 
@@ -411,9 +276,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         isStaff = true
                         isParent = true
 
-                        chboxStudent!!.isChecked = true
-                        chboxParents!!.isChecked = true
-                        chboxStaff!!.isChecked = true
+                        binding.chboxStudent!!.isChecked = true
+                        binding.chboxParents!!.isChecked = true
+                        binding.chboxStaff!!.isChecked = true
 
                     }
 
@@ -430,9 +295,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         isStaff = true
                         isParent = false
 
-                        chboxStudent!!.isChecked = true
-                        chboxParents!!.isChecked = false
-                        chboxStaff!!.isChecked = true
+                        binding.chboxStudent!!.isChecked = true
+                        binding.chboxParents!!.isChecked = false
+                        binding.chboxStaff!!.isChecked = true
 
                     } else {
 
@@ -440,9 +305,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         isStaff = true
                         isParent = false
 
-                        chboxStudent!!.isChecked = true
-                        chboxParents!!.isChecked = false
-                        chboxStaff!!.isChecked = true
+                        binding.chboxStudent!!.isChecked = true
+                        binding.chboxParents!!.isChecked = false
+                        binding.chboxStaff!!.isChecked = true
                     }
                 }
             } else {
@@ -451,16 +316,16 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 isStudent = false
                 isStaff = false
 
-                chboxStudent!!.isChecked = false
-                chboxParents!!.isChecked = false
-                chboxStaff!!.isChecked = false
+                binding.chboxStudent!!.isChecked = false
+                binding.chboxParents!!.isChecked = false
+                binding.chboxStaff!!.isChecked = false
 
             }
         }
 
-        chboxParents!!.setOnClickListener {
+        binding.chboxParents!!.setOnClickListener {
 
-            if (chboxParents!!.isChecked) {
+            if (binding.chboxParents!!.isChecked) {
                 isParent = true
                 if (Card_name.equals(CommonUtil.Course) || Card_name.equals(CommonUtil.Your_Classes) || Card_name.equals(
                         CommonUtil.Groups
@@ -469,18 +334,18 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     )
                 ) {
                     if (isParent!! && isStudent!! || isStaff!!) {
-                        chboxAll!!.isChecked = true
+                        binding.chboxAll!!.isChecked = true
 
                     } else {
-                        chboxAll!!.isChecked = false
+                        binding.chboxAll!!.isChecked = false
                     }
 
                 } else {
                     if (isParent!! && isStudent!! && isStaff!!) {
-                        chboxAll!!.isChecked = true
+                        binding.chboxAll!!.isChecked = true
 
                     } else {
-                        chboxAll!!.isChecked = false
+                        binding.chboxAll!!.isChecked = false
                     }
 
                 }
@@ -488,16 +353,16 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             } else {
                 isParent = false
 
-                chboxAll!!.isChecked = false
+                binding.chboxAll!!.isChecked = false
             }
 
         }
 
-        chboxStaff!!.setOnClickListener {
+        binding.chboxStaff!!.setOnClickListener {
 
             if (CommonUtil.isParentEnable.equals("1")) {
 
-                if (chboxStaff!!.isChecked) {
+                if (binding.chboxStaff!!.isChecked) {
                     isStaff = true
 
 
@@ -508,23 +373,23 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         )
                     ) {
                         if (isParent!! && isStudent!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     } else {
                         if (isParent!! && isStudent!! && isStaff!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     }
                 } else {
                     isStaff = false
-                    chboxAll!!.isChecked = false
+                    binding.chboxAll!!.isChecked = false
                 }
             } else {
-                if (chboxStaff!!.isChecked) {
+                if (binding.chboxStaff!!.isChecked) {
                     isStaff = true
                     if (Card_name.equals(CommonUtil.Course) || Card_name.equals(CommonUtil.Your_Classes) || Card_name.equals(
                             CommonUtil.Groups
@@ -533,27 +398,27 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         )
                     ) {
                         if (isStudent!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     } else {
                         if (isStudent!! && isStaff!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     }
                 } else {
                     isStaff = false
-                    chboxAll!!.isChecked = false
+                    binding.chboxAll!!.isChecked = false
                 }
             }
         }
 
-        chboxStudent!!.setOnClickListener {
+        binding.chboxStudent!!.setOnClickListener {
             if (CommonUtil.isParentEnable.equals("1")) {
-                if (chboxStudent!!.isChecked) {
+                if (binding.chboxStudent!!.isChecked) {
                     isStudent = true
                     if (Card_name.equals(CommonUtil.Course) || Card_name.equals(CommonUtil.Your_Classes) || Card_name.equals(
                             CommonUtil.Groups
@@ -562,23 +427,23 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         )
                     ) {
                         if (isParent!! && isStudent!! || isStaff!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     } else {
                         if (isParent!! && isStudent!! && isStaff!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     }
                 } else {
                     isStudent = false
-                    chboxAll!!.isChecked = false
+                    binding.chboxAll!!.isChecked = false
                 }
             } else {
-                if (chboxStudent!!.isChecked) {
+                if (binding.chboxStudent!!.isChecked) {
                     isStudent = true
                     if (Card_name.equals(CommonUtil.Course) || Card_name.equals(CommonUtil.Your_Classes) || Card_name.equals(
                             CommonUtil.Groups
@@ -587,25 +452,25 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         )
                     ) {
                         if (isStudent!! && isStaff!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     } else {
                         if (isStudent!! && isStaff!!) {
-                            chboxAll!!.isChecked = true
+                            binding.chboxAll!!.isChecked = true
                         } else {
-                            chboxAll!!.isChecked = false
+                            binding.chboxAll!!.isChecked = false
                         }
                     }
                 } else {
                     isStudent = false
-                    chboxAll!!.isChecked = false
+                    binding.chboxAll!!.isChecked = false
                 }
             }
         }
 
-        txt_selectspecficStudent!!.setOnClickListener {
+        binding.txtSelectspecficStudent!!.setOnClickListener {
             if (!CommonUtil.receiverid.isEmpty()) {
                 if (CommonUtil.seleteddataArraySection.size == 1) {
                     for (i in CommonUtil.seleteddataArraySection.indices) {
@@ -750,7 +615,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Division)) {
 
-                            recycleRecipients!!.visibility = View.VISIBLE
+                            binding.recycleRecipients!!.visibility = View.VISIBLE
                             divisionadapter = SelectedRecipientAdapter(SelectedRecipientlist,
                                 this,
                                 object : RecipientCheckListener {
@@ -758,28 +623,28 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         var divisionId = data!!.SelectedId
 
                                         if (SelectedRecipientlist.size == CommonUtil.seleteddataArrayCheckbox.size + 1) {
-                                            ch_BoxAll!!.isChecked = true
-                                            txt_ch_BoxAll!!.setText(CommonUtil.Remove_All)
+                                            binding.chBoxAll!!.isChecked = true
+                                            binding.txtChBoxAll!!.setText(CommonUtil.Remove_All)
                                         } else {
-                                            ch_BoxAll!!.isChecked = false
-                                            txt_ch_BoxAll!!.setText(CommonUtil.Select_All)
+                                            binding.chBoxAll!!.isChecked = false
+                                            binding.txtChBoxAll!!.setText(CommonUtil.Select_All)
                                         }
                                     }
 
                                     override fun remove(data: RecipientSelected?) {
                                         var divisionId = data!!.SelectedId
-                                        ch_BoxAll!!.isChecked = false
-                                        txt_ch_BoxAll!!.setText(CommonUtil.Select_All)
+                                        binding.chBoxAll!!.isChecked = false
+                                        binding.txtChBoxAll!!.setText(CommonUtil.Select_All)
 
                                     }
                                 })
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recycleRecipients!!.layoutManager = mLayoutManager
-                            recycleRecipients!!.itemAnimator = DefaultItemAnimator()
-                            recycleRecipients!!.adapter = divisionadapter
-                            recycleRecipients!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.recycleRecipients!!.layoutManager = mLayoutManager
+                            binding.recycleRecipients!!.itemAnimator = DefaultItemAnimator()
+                            binding.recycleRecipients!!.adapter = divisionadapter
+                            binding.recycleRecipients!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             divisionadapter!!.notifyDataSetChanged()
 
                         }
@@ -826,20 +691,20 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
 
                                             if (CommonUtil.seleteddataArrayCheckbox.size == 0) {
-                                                ch_BoxAll!!.isChecked = false
-                                                txt_ch_BoxAll!!.setText(CommonUtil.Select_All)
+                                                binding.chBoxAll!!.isChecked = false
+                                                binding.txtChBoxAll!!.setText(CommonUtil.Select_All)
 
                                             } else {
-                                                ch_BoxAll!!.isChecked = true
-                                                txt_ch_BoxAll!!.setText(CommonUtil.Remove_All)
+                                                binding.chBoxAll!!.isChecked = true
+                                                binding.txtChBoxAll!!.setText(CommonUtil.Remove_All)
 
 
                                             }
 
                                         } else {
 
-                                            ch_BoxAll!!.isChecked = false
-                                            txt_ch_BoxAll!!.setText(CommonUtil.Select_All)
+                                            binding.chBoxAll!!.isChecked = false
+                                            binding.txtChBoxAll!!.setText(CommonUtil.Select_All)
 
 
                                         }
@@ -849,8 +714,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     override fun remove(data: RecipientSelected?) {
                                         var groupid = data!!.SelectedId
 
-                                        ch_BoxAll!!.isChecked = false
-                                        txt_ch_BoxAll!!.setText(CommonUtil.Select_All)
+                                        binding.chBoxAll!!.isChecked = false
+                                        binding.txtChBoxAll!!.setText(CommonUtil.Select_All)
 
 
                                     }
@@ -859,10 +724,10 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recycleRecipients!!.layoutManager = mLayoutManager
-                            recycleRecipients!!.itemAnimator = DefaultItemAnimator()
-                            recycleRecipients!!.adapter = groupAdapter
-                            recycleRecipients!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.recycleRecipients!!.layoutManager = mLayoutManager
+                            binding.recycleRecipients!!.itemAnimator = DefaultItemAnimator()
+                            binding.recycleRecipients!!.adapter = groupAdapter
+                            binding.recycleRecipients!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             groupAdapter!!.notifyDataSetChanged()
 
                         }
@@ -981,13 +846,13 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     if (GetCourseData!!.size > 0) {
                         SelectedRecipientlist.clear()
                         LoadDivisionSpinner()
-                        Spinning_yourclasses!!.visibility = View.VISIBLE
-                        spinnerDropdowncourse!!.visibility = View.VISIBLE
-                        recycleRecipientcourse!!.visibility = View.VISIBLE
-                        ch_allcourse!!.visibility = View.VISIBLE
-                        txt_chcourse!!.visibility = View.VISIBLE
-                        SearchView!!.visibility = View.VISIBLE
-                        SearchView!!.queryHint = "Search Course"
+                        binding.SpinningYourclasses!!.visibility = View.VISIBLE
+                        binding.spinnerDropdowncourse!!.visibility = View.VISIBLE
+                        binding.recycleRecipientcourse!!.visibility = View.VISIBLE
+                        binding.chAllcourse!!.visibility = View.VISIBLE
+                        binding.txtChcourse!!.visibility = View.VISIBLE
+                        binding.idSV!!.visibility = View.VISIBLE
+                        binding.idSV!!.queryHint = "Search Course"
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.No_Data_Found)
@@ -1318,30 +1183,33 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    txt_selectspecficStudent!!.visibility = View.VISIBLE
-                    scrooling!!.visibility = View.VISIBLE
-                    recycleRecipientYourclasses!!.visibility = View.VISIBLE
+                    binding.txtSelectspecficStudent!!.visibility = View.VISIBLE
+                    binding.scrooling!!.visibility = View.VISIBLE
+                    binding.recycleRecipientYourclasses!!.visibility = View.VISIBLE
                     getsubjectlist = response.data!!
                     subjectadapter = Subject_Adapter(getsubjectlist, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    recycleRecipientYourclasses!!.layoutManager = mLayoutManager
-                    recycleRecipientYourclasses!!.itemAnimator = DefaultItemAnimator()
-                    recycleRecipientYourclasses!!.adapter = subjectadapter
-                    recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.recycleRecipientYourclasses!!.layoutManager = mLayoutManager
+                    binding.recycleRecipientYourclasses!!.itemAnimator = DefaultItemAnimator()
+                    binding.recycleRecipientYourclasses!!.adapter = subjectadapter
+                    binding.recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     subjectadapter!!.notifyDataSetChanged()
                 } else {
                     CommonUtil.ApiAlert(
                         this, message
                     )
-                    recycleRecipientYourclasses!!.visibility = View.GONE
-                    scrooling!!.visibility = View.GONE
+                    binding.recycleRecipientYourclasses!!.visibility = View.GONE
+                    binding.scrooling!!.visibility = View.GONE
                 }
             } else {
                 CommonUtil.ApiAlert(
                     this, "Subject or Section Not allocated / Students not allocated to the section"
                 )
-                recycleRecipientYourclasses!!.visibility = View.GONE
-                scrooling!!.visibility = View.GONE
+                binding.recycleRecipientYourclasses!!.visibility = View.GONE
+                binding.scrooling!!.visibility = View.GONE
             }
         }
 
@@ -1352,31 +1220,34 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    scrooling!!.visibility = View.VISIBLE
-                    recycleRecipientYourclasses!!.visibility = View.VISIBLE
-                    txt_selectspecficStudent!!.visibility = View.VISIBLE
+                    binding.scrooling!!.visibility = View.VISIBLE
+                    binding.recycleRecipientYourclasses!!.visibility = View.VISIBLE
+                    binding.txtSelectspecficStudent!!.visibility = View.VISIBLE
 
                     getsubjectlist = response.data!!
                     subjectadapter = Subject_Adapter(getsubjectlist, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    recycleRecipientYourclasses!!.layoutManager = mLayoutManager
-                    recycleRecipientYourclasses!!.itemAnimator = DefaultItemAnimator()
-                    recycleRecipientYourclasses!!.adapter = subjectadapter
-                    recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.recycleRecipientYourclasses!!.layoutManager = mLayoutManager
+                    binding.recycleRecipientYourclasses!!.itemAnimator = DefaultItemAnimator()
+                    binding.recycleRecipientYourclasses!!.adapter = subjectadapter
+                    binding.recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     subjectadapter!!.notifyDataSetChanged()
                 } else {
                     CommonUtil.ApiAlert(
                         this, message
                     )
-                    recycleRecipientYourclasses!!.visibility = View.GONE
-                    scrooling!!.visibility = View.GONE
+                    binding.recycleRecipientYourclasses!!.visibility = View.GONE
+                    binding.scrooling!!.visibility = View.GONE
                 }
             } else {
                 CommonUtil.ApiAlert(
                     this, "Subject or Section Not allocated / Students not allocated to the section"
                 )
-                recycleRecipientYourclasses!!.visibility = View.GONE
-                scrooling!!.visibility = View.GONE
+                binding.recycleRecipientYourclasses!!.visibility = View.GONE
+                binding.scrooling!!.visibility = View.GONE
             }
         }
 
@@ -1523,7 +1394,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             }
         }
 
-        SearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
@@ -1599,6 +1470,15 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 SelectedcourseAdapter!!.filterList(filteredlist, false)
             }
         }
+
+        binding.lblDivision.setOnClickListener { divisionClick() }
+        binding.lblDepartment.setOnClickListener { departmentClick() }
+        binding.lblCourse.setOnClickListener { CourseClick() }
+        binding.lblYourClasses.setOnClickListener { YourClassesClick() }
+        binding.lblGroups.setOnClickListener { GroupsClick() }
+        binding.lblEntireDepartmentlable.setOnClickListener { EntireClick() }
+        binding.btnConfirm.setOnClickListener { SendButtonAPi() }
+        binding.btnRecipientCancel.setOnClickListener { cancelClick() }
     }
 
     private fun LoadDepartmentSpinner() {
@@ -1622,8 +1502,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
         val adapter = ArrayAdapter(this, R.layout.spinner_rextview_course, SpinningCoursedata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_course_layout)
-        spinnerDropdowncourse!!.adapter = adapter
-        spinnerDropdowncourse!!.onItemSelectedListener =
+        binding.spinnerDropdowncourse!!.adapter = adapter
+        binding.spinnerDropdowncourse!!.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>, view: View, position: Int, id: Long
@@ -1633,10 +1513,10 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     FilterCourse.clear()
                     if (position != 0) {
                         courseSelectAllDepartment = false
-                        ch_allcourse!!.visibility = View.GONE
-                        txt_chcourse!!.visibility = View.GONE
+                        binding.chAllcourse!!.visibility = View.GONE
+                        binding.txtChcourse!!.visibility = View.GONE
 
-                        val name: String = spinnerDropdowncourse!!.selectedItem.toString()
+                        val name: String = binding.spinnerDropdowncourse!!.selectedItem.toString()
 
                         for (i in DepartmentChooseName.indices) {
                             if (name == DepartmentChooseName[i].department_name) {
@@ -1652,9 +1532,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     }
                                 }
 
-                                recycleRecipientcourse!!.visibility = View.VISIBLE
-                                SearchView!!.visibility = View.VISIBLE
-                                SearchView!!.queryHint = "Search Department"
+                                binding.recycleRecipientcourse!!.visibility = View.VISIBLE
+                                binding.idSV!!.visibility = View.VISIBLE
+                                binding.idSV!!.queryHint = "Search Department"
                                 SearchType = "DepartmentCourse"
                                 SelectedcourseAdapter = SelectedRecipientAdapter(FilterCourse,
                                     this@PrincipalRecipient,
@@ -1663,31 +1543,37 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                             var depaetmentid = data!!.SelectedId
                                             if (FilterCourse.size == CommonUtil.seleteddataArrayCheckbox.size + 1) {
                                                 if (CommonUtil.seleteddataArrayCheckbox.size == 0) {
-                                                    ch_allcourse!!.isChecked = false
-                                                    txt_chcourse!!.text = CommonUtil.Select_All
+                                                    binding.chAllcourse!!.isChecked = false
+                                                    binding.txtChcourse!!.text =
+                                                        CommonUtil.Select_All
                                                 } else {
-                                                    ch_allcourse!!.isChecked = true
-                                                    txt_chcourse!!.text = CommonUtil.Remove_All
+                                                    binding.chAllcourse!!.isChecked = true
+                                                    binding.txtChcourse!!.text =
+                                                        CommonUtil.Remove_All
                                                 }
                                             } else {
-                                                ch_allcourse!!.isChecked = false
-                                                txt_chcourse!!.text = CommonUtil.Select_All
+                                                binding.chAllcourse!!.isChecked = false
+                                                binding.txtChcourse!!.text = CommonUtil.Select_All
                                             }
                                         }
 
                                         override fun remove(data: RecipientSelected?) {
                                             var departmentid = data!!.SelectedId
 
-                                            ch_allcourse!!.isChecked = false
-                                            txt_chcourse!!.text = CommonUtil.Select_All
+                                            binding.chAllcourse!!.isChecked = false
+                                            binding.txtChcourse!!.text = CommonUtil.Select_All
                                         }
                                     })
                                 val mLayoutManager: RecyclerView.LayoutManager =
                                     LinearLayoutManager(this@PrincipalRecipient)
-                                recycleRecipientcourse!!.layoutManager = mLayoutManager
-                                recycleRecipientcourse!!.itemAnimator = DefaultItemAnimator()
-                                recycleRecipientcourse!!.adapter = SelectedcourseAdapter
-                                recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                                binding.recycleRecipientcourse!!.layoutManager = mLayoutManager
+                                binding.recycleRecipientcourse!!.itemAnimator =
+                                    DefaultItemAnimator()
+                                binding.recycleRecipientcourse!!.adapter = SelectedcourseAdapter
+                                binding.recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(
+                                    0,
+                                    80
+                                )
                                 SelectedcourseAdapter!!.notifyDataSetChanged()
                             }
                         }
@@ -1702,15 +1588,15 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         GetCourseData!![i].course_id, GetCourseData!![i].course_name
                                     )
                                     FilterCourse.add(department)
-                                    recycleRecipientcourse!!.visibility = View.VISIBLE
+                                    binding.recycleRecipientcourse!!.visibility = View.VISIBLE
 
                                     if (courseSelectAllDivision && courseSelectAllDepartment) {
-                                        ch_allcourse!!.visibility = View.VISIBLE
-                                        txt_chcourse!!.visibility = View.VISIBLE
+                                        binding.chAllcourse!!.visibility = View.VISIBLE
+                                        binding.txtChcourse!!.visibility = View.VISIBLE
                                     }
 
-                                    SearchView!!.visibility = View.VISIBLE
-                                    SearchView!!.queryHint = "Search Department"
+                                    binding.idSV!!.visibility = View.VISIBLE
+                                    binding.idSV!!.queryHint = "Search Department"
                                     SearchType = "ParticularDepartment"
                                     SelectedcourseAdapter = SelectedRecipientAdapter(FilterCourse,
                                         this@PrincipalRecipient,
@@ -1719,15 +1605,18 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                                 var depaetmentid = data!!.SelectedId
                                                 if (FilterCourse.size == CommonUtil.seleteddataArrayCheckbox.size + 1) {
                                                     if (CommonUtil.seleteddataArrayCheckbox.size == 0) {
-                                                        ch_allcourse!!.isChecked = false
-                                                        txt_chcourse!!.text = CommonUtil.Select_All
+                                                        binding.chAllcourse!!.isChecked = false
+                                                        binding.txtChcourse!!.text =
+                                                            CommonUtil.Select_All
                                                     } else {
-                                                        ch_allcourse!!.isChecked = true
-                                                        txt_chcourse!!.text = CommonUtil.Remove_All
+                                                        binding.chAllcourse!!.isChecked = true
+                                                        binding.txtChcourse!!.text =
+                                                            CommonUtil.Remove_All
                                                     }
                                                 } else {
-                                                    ch_allcourse!!.isChecked = false
-                                                    txt_chcourse!!.text = CommonUtil.Select_All
+                                                    binding.chAllcourse!!.isChecked = false
+                                                    binding.txtChcourse!!.text =
+                                                        CommonUtil.Select_All
 
                                                 }
                                             }
@@ -1735,16 +1624,17 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                             override fun remove(data: RecipientSelected?) {
                                                 var departmentid = data!!.SelectedId
 
-                                                ch_allcourse!!.isChecked = false
-                                                txt_chcourse!!.text = CommonUtil.Select_All
+                                                binding.chAllcourse!!.isChecked = false
+                                                binding.txtChcourse!!.text = CommonUtil.Select_All
                                             }
                                         })
                                     val mLayoutManager: RecyclerView.LayoutManager =
                                         LinearLayoutManager(this@PrincipalRecipient)
-                                    recycleRecipientcourse!!.layoutManager = mLayoutManager
-                                    recycleRecipientcourse!!.itemAnimator = DefaultItemAnimator()
-                                    recycleRecipientcourse!!.adapter = SelectedcourseAdapter
-                                    recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(
+                                    binding.recycleRecipientcourse!!.layoutManager = mLayoutManager
+                                    binding.recycleRecipientcourse!!.itemAnimator =
+                                        DefaultItemAnimator()
+                                    binding.recycleRecipientcourse!!.adapter = SelectedcourseAdapter
+                                    binding.recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(
                                         0, 80
                                     )
                                     SelectedcourseAdapter!!.notifyDataSetChanged()
@@ -1769,11 +1659,11 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             DivisionName.forEach {
                 SpinnerDataDivision.add(it.division_name!!)
             }
-            Spinning_yourclasses!!.visibility = View.VISIBLE
+            binding.SpinningYourclasses!!.visibility = View.VISIBLE
             val adapter = ArrayAdapter(this, R.layout.spinner_textview, SpinnerDataDivision)
             adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-            Spinning_yourclasses!!.adapter = adapter
-            Spinning_yourclasses!!.onItemSelectedListener =
+            binding.SpinningYourclasses!!.adapter = adapter
+            binding.SpinningYourclasses!!.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
                         parent: AdapterView<*>, view: View, position: Int, id: Long
@@ -1786,8 +1676,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             SearchType = "DivisionPositionnotZero"
                             SelectedSpinnerID = DivisionName.get(position - 1).division_id
                             DivisionName[position - 1].division_name?.let {}
-                            ch_allDepartment!!.visibility = View.GONE
-                            txt_chDepartment!!.visibility = View.GONE
+                            binding.chAllDepartment!!.visibility = View.GONE
+                            binding.txtChDepartment!!.visibility = View.GONE
                             courseSelectAllDivision = false
 
                             for (i in GetDepartmentData!!.indices) {
@@ -1797,8 +1687,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         GetDepartmentData!![i].department_name
                                     )
                                     FilterDepartment.add(department)
-                                    recycleRecipientYourclasses!!.visibility = View.VISIBLE
-                                    scrooling!!.visibility = View.VISIBLE
+                                    binding.recycleRecipientYourclasses!!.visibility = View.VISIBLE
+                                    binding.scrooling!!.visibility = View.VISIBLE
                                     departmentAdapter = SelectedRecipientAdapter(FilterDepartment,
                                         this@PrincipalRecipient,
                                         object : RecipientCheckListener {
@@ -1808,18 +1698,20 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                                             override fun remove(data: RecipientSelected?) {
                                                 var divisionId = data!!.SelectedId
-                                                ch_allDepartment!!.isChecked = false
-                                                txt_chDepartment!!.setText(CommonUtil.Select_All)
+                                                binding.chAllDepartment!!.isChecked = false
+                                                binding.txtChDepartment!!.setText(CommonUtil.Select_All)
                                             }
                                         })
 
                                     val mLayoutManager: RecyclerView.LayoutManager =
                                         LinearLayoutManager(this@PrincipalRecipient)
-                                    recycleRecipientYourclasses!!.layoutManager = mLayoutManager
-                                    recycleRecipientYourclasses!!.itemAnimator =
+                                    binding.recycleRecipientYourclasses!!.layoutManager =
+                                        mLayoutManager
+                                    binding.recycleRecipientYourclasses!!.itemAnimator =
                                         DefaultItemAnimator()
-                                    recycleRecipientYourclasses!!.adapter = departmentAdapter
-                                    recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(
+                                    binding.recycleRecipientYourclasses!!.adapter =
+                                        departmentAdapter
+                                    binding.recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(
                                         0, 80
                                     )
                                     departmentAdapter!!.notifyDataSetChanged()
@@ -1834,16 +1726,16 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     RecipientSelected(it.department_id, it.department_name)
                                 SelectedRecipientlist.add(divisions)
                             }
-                            ch_allDepartment!!.visibility = View.VISIBLE
-                            txt_chDepartment!!.visibility = View.VISIBLE
-                            recycleRecipientYourclasses!!.visibility = View.VISIBLE
-                            scrooling!!.visibility = View.VISIBLE
+                            binding.chAllDepartment!!.visibility = View.VISIBLE
+                            binding.txtChDepartment!!.visibility = View.VISIBLE
+                            binding.recycleRecipientYourclasses!!.visibility = View.VISIBLE
+                            binding.scrooling!!.visibility = View.VISIBLE
                             if (SelectedRecipientlist.size == CommonUtil.seleteddataArrayCheckbox.size) {
-                                ch_allDepartment!!.isChecked = true
-                                txt_chDepartment!!.text = CommonUtil.Remove_All
+                                binding.chAllDepartment!!.isChecked = true
+                                binding.txtChDepartment!!.text = CommonUtil.Remove_All
                             } else {
-                                ch_allDepartment!!.isChecked = false
-                                txt_chDepartment!!.text = CommonUtil.Select_All
+                                binding.chAllDepartment!!.isChecked = false
+                                binding.txtChDepartment!!.text = CommonUtil.Select_All
                             }
                             departmentAdapter = SelectedRecipientAdapter(SelectedRecipientlist,
                                 this@PrincipalRecipient,
@@ -1851,26 +1743,27 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     override fun add(data: RecipientSelected?) {
                                         var divisionId = data!!.SelectedId
                                         if (SelectedRecipientlist.size == CommonUtil.seleteddataArrayCheckbox.size + 1) {
-                                            ch_allDepartment!!.isChecked = true
-                                            txt_chDepartment!!.text = CommonUtil.Remove_All
+                                            binding.chAllDepartment!!.isChecked = true
+                                            binding.txtChDepartment!!.text = CommonUtil.Remove_All
                                         } else {
-                                            ch_allDepartment!!.isChecked = false
-                                            txt_chDepartment!!.text = CommonUtil.Select_All
+                                            binding.chAllDepartment!!.isChecked = false
+                                            binding.txtChDepartment!!.text = CommonUtil.Select_All
                                         }
                                     }
 
                                     override fun remove(data: RecipientSelected?) {
                                         var divisionId = data!!.SelectedId
-                                        ch_allDepartment!!.isChecked = false
-                                        txt_chDepartment!!.setText(CommonUtil.Select_All)
+                                        binding.chAllDepartment!!.isChecked = false
+                                        binding.txtChDepartment!!.setText(CommonUtil.Select_All)
                                     }
                                 })
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@PrincipalRecipient)
-                            recycleRecipientYourclasses!!.layoutManager = mLayoutManager
-                            recycleRecipientYourclasses!!.itemAnimator = DefaultItemAnimator()
-                            recycleRecipientYourclasses!!.adapter = departmentAdapter
-                            recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(
+                            binding.recycleRecipientYourclasses!!.layoutManager = mLayoutManager
+                            binding.recycleRecipientYourclasses!!.itemAnimator =
+                                DefaultItemAnimator()
+                            binding.recycleRecipientYourclasses!!.adapter = departmentAdapter
+                            binding.recycleRecipientYourclasses!!.recycledViewPool.setMaxRecycledViews(
                                 0, 80
                             )
                             departmentAdapter!!.notifyDataSetChanged()
@@ -1891,8 +1784,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             }
             val adapter = ArrayAdapter(this, R.layout.spinner_textview, SpinnerDataDivision)
             adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-            Spinning_yourclasses!!.adapter = adapter
-            Spinning_yourclasses!!.onItemSelectedListener =
+            binding.SpinningYourclasses!!.adapter = adapter
+            binding.SpinningYourclasses!!.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
                         parent: AdapterView<*>, view: View, position: Int, id: Long
@@ -1901,10 +1794,10 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         CommonUtil.SeletedStringdataReplace = ""
                         FilterDepartment.clear()
                         SelectedRecipientlist.clear()
-                        ch_allDepartment!!.isChecked = false
-                        txt_chDepartment!!.text = CommonUtil.Select_All
+                        binding.chAllDepartment!!.isChecked = false
+                        binding.txtChDepartment!!.text = CommonUtil.Select_All
                         if (position != 0) {
-                            spinnerDropdowncourse!!.visibility = View.VISIBLE
+                            binding.spinnerDropdowncourse!!.visibility = View.VISIBLE
                             courseSelectAllDivision = false
                             DepartmentChoose = false
                             FirstTime = true
@@ -1918,14 +1811,14 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         GetCourseData!![i].course_id, GetCourseData!![i].course_name
                                     )
                                     FilterDepartment.add(department)
-                                    recycleRecipientcourse!!.visibility = View.VISIBLE
-                                    scrooling!!.visibility = View.GONE
-                                    ch_allcourse!!.visibility = View.GONE
-                                    txt_chcourse!!.visibility = View.GONE
-                                    SearchView!!.visibility = View.VISIBLE
-                                    SearchView!!.queryHint = "Search Course"
+                                    binding.recycleRecipientcourse!!.visibility = View.VISIBLE
+                                    binding.scrooling!!.visibility = View.GONE
+                                    binding.chAllcourse!!.visibility = View.GONE
+                                    binding.txtChcourse!!.visibility = View.GONE
+                                    binding.idSV!!.visibility = View.VISIBLE
+                                    binding.idSV!!.queryHint = "Search Course"
                                     SearchType = "CourseParticular"
-                                    Spinning_yourclasses!!.visibility = View.VISIBLE
+                                    binding.SpinningYourclasses!!.visibility = View.VISIBLE
                                     SelectedcourseAdapter = SelectedRecipientAdapter(
                                         FilterDepartment,
                                         this@PrincipalRecipient,
@@ -1933,26 +1826,27 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                             override fun add(data: RecipientSelected?) {
                                                 var depaetmentid = data!!.SelectedId
                                                 if (FilterDepartment.size == CommonUtil.seleteddataArrayCheckbox.size + 1) {
-                                                    ch_allcourse!!.isChecked = true
-                                                    txt_chcourse!!.setText(CommonUtil.Remove_All)
+                                                    binding.chAllcourse!!.isChecked = true
+                                                    binding.txtChcourse!!.setText(CommonUtil.Remove_All)
                                                 } else {
-                                                    ch_allcourse!!.isChecked = false
-                                                    txt_chcourse!!.setText(CommonUtil.Select_All)
+                                                    binding.chAllcourse!!.isChecked = false
+                                                    binding.txtChcourse!!.setText(CommonUtil.Select_All)
                                                 }
                                             }
 
                                             override fun remove(data: RecipientSelected?) {
                                                 var departmentid = data!!.SelectedId
-                                                ch_allcourse!!.isChecked = false
-                                                txt_chcourse!!.setText(CommonUtil.Select_All)
+                                                binding.chAllcourse!!.isChecked = false
+                                                binding.txtChcourse!!.setText(CommonUtil.Select_All)
                                             }
                                         })
                                     val mLayoutManager: RecyclerView.LayoutManager =
                                         LinearLayoutManager(this@PrincipalRecipient)
-                                    recycleRecipientcourse!!.layoutManager = mLayoutManager
-                                    recycleRecipientcourse!!.itemAnimator = DefaultItemAnimator()
-                                    recycleRecipientcourse!!.adapter = SelectedcourseAdapter
-                                    recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(
+                                    binding.recycleRecipientcourse!!.layoutManager = mLayoutManager
+                                    binding.recycleRecipientcourse!!.itemAnimator =
+                                        DefaultItemAnimator()
+                                    binding.recycleRecipientcourse!!.adapter = SelectedcourseAdapter
+                                    binding.recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(
                                         0, 80
                                     )
                                     SelectedcourseAdapter!!.notifyDataSetChanged()
@@ -1960,9 +1854,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             }
                             LoadDepartmentSpinner()
                         } else {
-                            spinnerDropdowncourse!!.visibility = View.GONE
+                            binding.spinnerDropdowncourse!!.visibility = View.GONE
                             FirstTime = false
-                            spinnerDropdowncourse!!.setSelection(0)
+                            binding.spinnerDropdowncourse!!.setSelection(0)
 
                             GetCourseData!!.forEach {
                                 it.course_id
@@ -1970,49 +1864,52 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 val department = RecipientSelected(it.course_id, it.course_name)
                                 SelectedRecipientlist.add(department)
                             }
-                            ch_allcourse!!.visibility = View.VISIBLE
-                            txt_chcourse!!.visibility = View.VISIBLE
+                            binding.chAllcourse!!.visibility = View.VISIBLE
+                            binding.txtChcourse!!.visibility = View.VISIBLE
                             if (CommonUtil.seleteddataArrayCheckbox.size > 0) {
                                 if (SelectedRecipientlist.size == CommonUtil.seleteddataArrayCheckbox.size) {
-                                    ch_allcourse!!.isChecked = true
-                                    txt_chcourse!!.setText(CommonUtil.Remove_All)
+                                    binding.chAllcourse!!.isChecked = true
+                                    binding.txtChcourse!!.setText(CommonUtil.Remove_All)
                                 } else {
-                                    ch_allcourse!!.isChecked = false
-                                    txt_chcourse!!.setText(CommonUtil.Select_All)
+                                    binding.chAllcourse!!.isChecked = false
+                                    binding.txtChcourse!!.setText(CommonUtil.Select_All)
                                 }
                             }
-                            recycleRecipientcourse!!.visibility = View.VISIBLE
+                            binding.recycleRecipientcourse!!.visibility = View.VISIBLE
                             courseSelectAllDivision = true
-                            SearchView!!.visibility = View.VISIBLE
-                            SearchView!!.queryHint = "Search Course"
+                            binding.idSV!!.visibility = View.VISIBLE
+                            binding.idSV!!.queryHint = "Search Course"
                             SearchType = "CourseAll"
-                            Spinning_yourclasses!!.visibility = View.VISIBLE
+                            binding.SpinningYourclasses!!.visibility = View.VISIBLE
                             SelectedcourseAdapter = SelectedRecipientAdapter(SelectedRecipientlist,
                                 this@PrincipalRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
                                         var depaetmentid = data!!.SelectedId
                                         if (SelectedRecipientlist.size == CommonUtil.seleteddataArrayCheckbox.size + 1) {
-                                            ch_allcourse!!.isChecked = true
-                                            txt_chcourse!!.setText(CommonUtil.Remove_All)
+                                            binding.chAllcourse!!.isChecked = true
+                                            binding.txtChcourse!!.setText(CommonUtil.Remove_All)
                                         } else {
-                                            ch_allcourse!!.isChecked = false
-                                            txt_chcourse!!.setText(CommonUtil.Select_All)
+                                            binding.chAllcourse!!.isChecked = false
+                                            binding.txtChcourse!!.setText(CommonUtil.Select_All)
                                         }
                                     }
 
                                     override fun remove(data: RecipientSelected?) {
                                         var departmentid = data!!.SelectedId
-                                        ch_allcourse!!.isChecked = false
-                                        txt_chcourse!!.setText(CommonUtil.Select_All)
+                                        binding.chAllcourse!!.isChecked = false
+                                        binding.txtChcourse!!.setText(CommonUtil.Select_All)
                                     }
                                 })
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@PrincipalRecipient)
-                            recycleRecipientcourse!!.layoutManager = mLayoutManager
-                            recycleRecipientcourse!!.itemAnimator = DefaultItemAnimator()
-                            recycleRecipientcourse!!.adapter = SelectedcourseAdapter
-                            recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.recycleRecipientcourse!!.layoutManager = mLayoutManager
+                            binding.recycleRecipientcourse!!.itemAnimator = DefaultItemAnimator()
+                            binding.recycleRecipientcourse!!.adapter = SelectedcourseAdapter
+                            binding.recycleRecipientcourse!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             SelectedcourseAdapter!!.notifyDataSetChanged()
                             SelectedSpinnerID = "0"
                             DepartmentChoose = true
@@ -2028,7 +1925,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
     private fun Yourclasses() {
 
-        Spinning_yourclasses!!.visibility = View.VISIBLE
+        binding.SpinningYourclasses!!.visibility = View.VISIBLE
         val YourClasses = java.util.ArrayList<String>()
         SpinningCoursedatahod.clear()
         YourClasses.add("Select Your Type")
@@ -2036,8 +1933,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         YourClasses.add(CommonUtil.Tutor)
         val adapter = ArrayAdapter(this, R.layout.spinner_rextview_course, YourClasses)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_course_layout)
-        Spinning_yourclasses!!.adapter = adapter
-        Spinning_yourclasses!!.onItemSelectedListener =
+        binding.SpinningYourclasses!!.adapter = adapter
+        binding.SpinningYourclasses!!.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>, view: View, position: Int, id: Long
@@ -2051,8 +1948,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             SpinningText = CommonUtil.Tutor
                         }
                     } else {
-                        recycleRecipientYourclasses!!.visibility = View.GONE
-                        scrooling!!.visibility = View.GONE
+                        binding.recycleRecipientYourclasses!!.visibility = View.GONE
+                        binding.scrooling!!.visibility = View.GONE
                     }
                 }
 
@@ -2205,7 +2102,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         if (!CommonUtil.urlFromS3.equals(null)) {
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
                 if (CommonUtil.urlFromS3!!.contains(".pdf")) {
                     FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
                 } else {
@@ -2267,7 +2164,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         if (!CommonUtil.urlFromS3.equals(null)) {
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
                 if (CommonUtil.urlFromS3!!.contains(".pdf")) {
                     FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
                 } else {
@@ -2306,7 +2203,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         for (i in AWSUploadedFilesList.indices) {
             val FileNameobject = JsonObject()
             FileNameobject.addProperty(
-                ApiRequestNames.Req_FileName, AWSUploadedFilesList[i].filepath
+                ApiRequestNames.Req_FileName, AWSUploadedFilesList[i]
             )
             FileNameArray.add(FileNameobject)
         }
@@ -2344,7 +2241,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
         for (i in AWSUploadedFilesList.indices) {
             val FileNameobject = JsonObject()
-            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
             FileNameArray.add(FileNameobject)
         }
         jsonObject.add("FileNameArray", FileNameArray)
@@ -2386,7 +2283,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
         for (i in AWSUploadedFilesList.indices) {
             val FileNameobject = JsonObject()
-            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
             FileNameArray.add(FileNameobject)
         }
         jsonObject.add("FileNameArray", FileNameArray)
@@ -2395,145 +2292,142 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         Log.d("SMSJsonObject", jsonObject.toString())
     }
 
-    @OnClick(R.id.lblEntireDepartmentlable)
-    fun EntireClick() {
+     fun EntireClick() {
 
         isParent = false
         //   isStudent = false
         isStaff = false
 
-        chboxAll!!.isChecked = false
-        //  chboxStudent!!.isChecked = false
-        chboxParents!!.isChecked = false
-        chboxStaff!!.isChecked = false
+        binding.chboxAll!!.isChecked = false
+        //  binding.chboxStudent!!.isChecked = false
+        binding.chboxParents!!.isChecked = false
+        binding.chboxStaff!!.isChecked = false
 
-        chboxStaff!!.visibility = View.VISIBLE
-//        lnrTargetAll!!.visibility = View.VISIBLE
+        binding.chboxStaff!!.visibility = View.VISIBLE
+//        binding.lnrTargetAll!!.visibility = View.VISIBLE
         CommonUtil.courseType = ""
-        txt_selectspecficStudent!!.visibility = View.GONE
+        binding.txtSelectspecficStudent!!.visibility = View.GONE
         CommonUtil.seleteddataArrayCheckbox.clear()
         CommonUtil.receiverid = ""
         CommonUtil.SeletedStringdataReplace = ""
-        lnrStaff!!.visibility = View.VISIBLE
-        SearchView!!.visibility = View.GONE
+        binding.lnrStaff!!.visibility = View.VISIBLE
+        binding.idSV!!.visibility = View.GONE
         CommonUtil.DepartmentChooseIds.clear()
-        ch_BoxAll!!.visibility = View.GONE
-        txt_ch_BoxAll!!.visibility = View.GONE
-        recycleRecipients!!.visibility = View.GONE
-        Spinning_yourclasses!!.visibility = View.GONE
-        recycleRecipientYourclasses!!.visibility = View.GONE
-        scrooling!!.visibility = View.GONE
+        binding.chBoxAll!!.visibility = View.GONE
+        binding.txtChBoxAll!!.visibility = View.GONE
+        binding.recycleRecipients!!.visibility = View.GONE
+        binding.SpinningYourclasses!!.visibility = View.GONE
+        binding.recycleRecipientYourclasses!!.visibility = View.GONE
+        binding.scrooling!!.visibility = View.GONE
         seletedIds = ""
-        ch_allDepartment!!.visibility = View.GONE
-        txt_chDepartment!!.visibility = View.GONE
+        binding.chAllDepartment!!.visibility = View.GONE
+        binding.txtChDepartment!!.visibility = View.GONE
 
-        recycleRecipientcourse!!.visibility = View.GONE
-        ch_allcourse!!.visibility = View.GONE
-        txt_chcourse!!.visibility = View.GONE
-        spinnerDropdowncourse!!.visibility = View.GONE
+        binding.recycleRecipientcourse!!.visibility = View.GONE
+        binding.chAllcourse!!.visibility = View.GONE
+        binding.txtChcourse!!.visibility = View.GONE
+        binding.spinnerDropdowncourse!!.visibility = View.GONE
 
-        lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_selected_green)
-        lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
+        binding.lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_selected_green)
+        binding.lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
 
-        lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
-        SelecteRecipientType = lblEntireDepartmentlable!!.text.toString()
+        binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        SelecteRecipientType = binding.lblEntireDepartmentlable!!.text.toString()
         CommonUtil.receivertype = CommonUtil.CollegeId.toString()
     }
 
 
-    @OnClick(R.id.lblDivision)
-    fun divisionClick() {
+     fun divisionClick() {
 
-//        lnrTargetAll!!.visibility = View.VISIBLE
+//        binding.lnrTargetAll!!.visibility = View.VISIBLE
         CommonUtil.receivertype = "8"
         isParent = false
         //   isStudent = false
         isStaff = false
-        chboxAll!!.isChecked = false
-        //    chboxStudent!!.isChecked = false
-        chboxParents!!.isChecked = false
-        chboxStaff!!.isChecked = false
-        chboxStaff!!.visibility = View.VISIBLE
+        binding.chboxAll!!.isChecked = false
+        //    binding.chboxStudent!!.isChecked = false
+        binding.chboxParents!!.isChecked = false
+        binding.chboxStaff!!.isChecked = false
+        binding.chboxStaff!!.visibility = View.VISIBLE
 
-        if (lblDivision!!.text.toString().equals(CommonUtil.Course)) {
+        if (binding.lblDivision!!.text.toString().equals(CommonUtil.Course)) {
             Card_name = CommonUtil.Course
         } else {
             Card_name = ""
         }
         CommonUtil.courseType = ""
         seletedIds = ""
-        lnrStaff!!.visibility = View.VISIBLE
-        txt_selectspecficStudent!!.visibility = View.GONE
-        SearchView!!.visibility = View.GONE
+        binding.lnrStaff!!.visibility = View.VISIBLE
+        binding.txtSelectspecficStudent!!.visibility = View.GONE
+        binding.idSV!!.visibility = View.GONE
         CommonUtil.DepartmentChooseIds.clear()
         CommonUtil.seleteddataArrayCheckbox.clear()
         CommonUtil.receiverid = ""
         CommonUtil.SeletedStringdataReplace = ""
-        ch_BoxAll!!.visibility = View.VISIBLE
-        txt_ch_BoxAll!!.visibility = View.VISIBLE
-        recycleRecipients!!.visibility = View.VISIBLE
-        Spinning_yourclasses!!.visibility = View.GONE
-        recycleRecipientYourclasses!!.visibility = View.GONE
-        scrooling!!.visibility = View.GONE
-        ch_BoxAll!!.isChecked = false
-        txt_chDepartment!!.text = CommonUtil.Select_All
-        ch_allDepartment!!.visibility = View.GONE
-        txt_chDepartment!!.visibility = View.GONE
-        recycleRecipientcourse!!.visibility = View.GONE
-        ch_allcourse!!.visibility = View.GONE
-        txt_chcourse!!.visibility = View.GONE
-        spinnerDropdowncourse!!.visibility = View.GONE
+        binding.chBoxAll!!.visibility = View.VISIBLE
+        binding.txtChBoxAll!!.visibility = View.VISIBLE
+        binding.recycleRecipients!!.visibility = View.VISIBLE
+        binding.SpinningYourclasses!!.visibility = View.GONE
+        binding.recycleRecipientYourclasses!!.visibility = View.GONE
+        binding.scrooling!!.visibility = View.GONE
+        binding.chBoxAll!!.isChecked = false
+        binding.txtChDepartment!!.text = CommonUtil.Select_All
+        binding.chAllDepartment!!.visibility = View.GONE
+        binding.txtChDepartment!!.visibility = View.GONE
+        binding.recycleRecipientcourse!!.visibility = View.GONE
+        binding.chAllcourse!!.visibility = View.GONE
+        binding.txtChcourse!!.visibility = View.GONE
+        binding.spinnerDropdowncourse!!.visibility = View.GONE
 
-        lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDivision!!.setBackgroundResource(R.drawable.bg_available_selected_green)
-        lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
+        binding.lblDivision!!.setBackgroundResource(R.drawable.bg_available_selected_green)
+        binding.lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
 
-        lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        SelecteRecipientType = lblDivision!!.text.toString()
+        SelecteRecipientType = binding.lblDivision!!.text.toString()
         GetDivisionRequest()
 
     }
 
-    @OnClick(R.id.lblDepartment)
-    fun departmentClick() {
+     fun departmentClick() {
 
         CommonUtil.receivertype = "3"
         isParent = false
         //    isStudent = false
         isStaff = false
-        chboxAll!!.isChecked = false
-        //     chboxStudent!!.isChecked = false
-        chboxParents!!.isChecked = false
-        chboxStaff!!.isChecked = false
-        chboxStaff!!.visibility = View.VISIBLE
-//        lnrTargetAll!!.visibility = View.VISIBLE
-        if (lblDepartment!!.text.toString().equals(CommonUtil.Year_Section)) {
+        binding.chboxAll!!.isChecked = false
+        //     binding.chboxStudent!!.isChecked = false
+        binding.chboxParents!!.isChecked = false
+        binding.chboxStaff!!.isChecked = false
+        binding.chboxStaff!!.visibility = View.VISIBLE
+//        binding.lnrTargetAll!!.visibility = View.VISIBLE
+        if (binding.lblDepartment!!.text.toString().equals(CommonUtil.Year_Section)) {
             Card_name = CommonUtil.Year_Section
         } else {
             Card_name = ""
@@ -2542,207 +2436,204 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
         Spinner = "Department"
         CommonUtil.courseType = "Department"
-        lnrStaff!!.visibility = View.VISIBLE
-        SearchView!!.visibility = View.VISIBLE
-        SearchView!!.queryHint = "Search Department"
-        txt_selectspecficStudent!!.visibility = View.GONE
+        binding.lnrStaff!!.visibility = View.VISIBLE
+        binding.idSV!!.visibility = View.VISIBLE
+        binding.idSV!!.queryHint = "Search Department"
+        binding.txtSelectspecficStudent!!.visibility = View.GONE
 
         CommonUtil.receiverid = ""
-        Spinning_yourclasses!!.visibility = View.VISIBLE
+        binding.SpinningYourclasses!!.visibility = View.VISIBLE
         SelectedSpinnerID = "0"
         GetDepartmentRequest()
         CommonUtil.DepartmentChooseIds.clear()
-        ch_BoxAll!!.isChecked = false
-        txt_chDepartment!!.text = CommonUtil.Select_All
+        binding.chBoxAll!!.isChecked = false
+        binding.txtChDepartment!!.text = CommonUtil.Select_All
 
-        ch_BoxAll!!.visibility = View.GONE
-        txt_ch_BoxAll!!.visibility = View.GONE
-        recycleRecipients!!.visibility = View.GONE
-        ch_allDepartment!!.visibility = View.VISIBLE
-        ch_allDepartment!!.isChecked = false
-        txt_chDepartment!!.visibility = View.VISIBLE
-        recycleRecipientYourclasses!!.visibility = View.GONE
-        scrooling!!.visibility = View.GONE
-        recycleRecipientcourse!!.visibility = View.GONE
-        ch_allcourse!!.visibility = View.GONE
-        txt_chcourse!!.visibility = View.GONE
-        spinnerDropdowncourse!!.visibility = View.GONE
+        binding.chBoxAll!!.visibility = View.GONE
+        binding.txtChBoxAll!!.visibility = View.GONE
+        binding.recycleRecipients!!.visibility = View.GONE
+        binding.chAllDepartment!!.visibility = View.VISIBLE
+        binding.chAllDepartment!!.isChecked = false
+        binding.txtChDepartment!!.visibility = View.VISIBLE
+        binding.recycleRecipientYourclasses!!.visibility = View.GONE
+        binding.scrooling!!.visibility = View.GONE
+        binding.recycleRecipientcourse!!.visibility = View.GONE
+        binding.chAllcourse!!.visibility = View.GONE
+        binding.txtChcourse!!.visibility = View.GONE
+        binding.spinnerDropdowncourse!!.visibility = View.GONE
         CommonUtil.seleteddataArrayCheckbox.clear()
 
 
-        lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDepartment!!.setBackgroundResource(R.drawable.bg_available_selected_green)
-        lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
+        binding.lblDepartment!!.setBackgroundResource(R.drawable.bg_available_selected_green)
+        binding.lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
 
-        lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
-        SelecteRecipientType = lblDepartment!!.text.toString()
+        binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        SelecteRecipientType = binding.lblDepartment!!.text.toString()
 
     }
 
-    @OnClick(R.id.lblCourse)
-    fun CourseClick() {
+     fun CourseClick() {
 
 //        if (CommonUtil.isParentEnable == "1") {
-//            lnrTargetAll!!.visibility = View.VISIBLE
+//            binding.lnrTargetAll!!.visibility = View.VISIBLE
 //        } else {
-//            lnrTargetAll!!.visibility = View.GONE
+//            binding.lnrTargetAll!!.visibility = View.GONE
 //        }
         CommonUtil.receivertype = "2"
         isParent = false
         //   isStudent = false
         isStaff = false
-        chboxAll!!.isChecked = false
-        //  chboxStudent!!.isChecked = false
-        chboxParents!!.isChecked = false
-        chboxStaff!!.isChecked = false
+        binding.chboxAll!!.isChecked = false
+        //  binding.chboxStudent!!.isChecked = false
+        binding.chboxParents!!.isChecked = false
+        binding.chboxStaff!!.isChecked = false
         CommonUtil.courseType = "Course"
-        chboxStaff!!.visibility = View.GONE
+        binding.chboxStaff!!.visibility = View.GONE
 
-        ch_allcourse!!.isChecked = false
-        txt_chcourse!!.setText(CommonUtil.Select_All)
-        if (lblCourse!!.text.toString().equals(CommonUtil.Course)) {
+        binding.chAllcourse!!.isChecked = false
+        binding.txtChcourse!!.setText(CommonUtil.Select_All)
+        if (binding.lblCourse!!.text.toString().equals(CommonUtil.Course)) {
             Card_name = CommonUtil.Course
         } else {
             Card_name = ""
         }
         Spinner = "Course"
         CommonUtil.DepartmentChooseIds.clear()
-        txt_selectspecficStudent!!.visibility = View.GONE
+        binding.txtSelectspecficStudent!!.visibility = View.GONE
         seletedIds = ""
-        lnrStaff!!.visibility = View.GONE
+        binding.lnrStaff!!.visibility = View.GONE
         CommonUtil.receiverid = ""
         SelectedSpinnerID = "0"
         GetCourseRequest()
-        ch_allDepartment!!.visibility = View.GONE
-        txt_chDepartment!!.visibility = View.GONE
-        ch_BoxAll!!.visibility = View.GONE
-        txt_ch_BoxAll!!.visibility = View.GONE
-        recycleRecipients!!.visibility = View.GONE
-        recycleRecipientYourclasses!!.visibility = View.GONE
-        scrooling!!.visibility = View.GONE
+        binding.chAllDepartment!!.visibility = View.GONE
+        binding.txtChDepartment!!.visibility = View.GONE
+        binding.chBoxAll!!.visibility = View.GONE
+        binding.txtChBoxAll!!.visibility = View.GONE
+        binding.recycleRecipients!!.visibility = View.GONE
+        binding.recycleRecipientYourclasses!!.visibility = View.GONE
+        binding.scrooling!!.visibility = View.GONE
         CommonUtil.seleteddataArrayCheckbox.clear()
-        SearchView!!.queryHint = "Search Course"
+        binding.idSV!!.queryHint = "Search Course"
 
-        lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblCourse!!.setBackgroundResource(R.drawable.bg_available_selected_green)
-        lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
+        binding.lblCourse!!.setBackgroundResource(R.drawable.bg_available_selected_green)
+        binding.lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
 
-        lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
-        SelecteRecipientType = lblCourse!!.text.toString()
+        binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        SelecteRecipientType = binding.lblCourse!!.text.toString()
 
 
     }
 
-    @OnClick(R.id.lblYourClasses)
-    fun YourClassesClick() {
+     fun YourClassesClick() {
 
 //        if (CommonUtil.isParentEnable == "1") {
-//            lnrTargetAll!!.visibility = View.VISIBLE
+//            binding.lnrTargetAll!!.visibility = View.VISIBLE
 //        } else {
-//            lnrTargetAll!!.visibility = View.GONE
+//            binding.lnrTargetAll!!.visibility = View.GONE
 //        }
         isParent = false
         //     isStudent = false
         isStaff = false
-        chboxAll!!.isChecked = false
-        //    chboxStudent!!.isChecked = false
-        chboxParents!!.isChecked = false
-        chboxStaff!!.isChecked = false
-        if (lblYourClasses!!.text.toString().equals(CommonUtil.Your_Classes)) {
+        binding.chboxAll!!.isChecked = false
+        //    binding.chboxStudent!!.isChecked = false
+        binding.chboxParents!!.isChecked = false
+        binding.chboxStaff!!.isChecked = false
+        if (binding.lblYourClasses!!.text.toString().equals(CommonUtil.Your_Classes)) {
             Card_name = CommonUtil.Your_Classes
         } else {
             Card_name = ""
         }
-        chboxStaff!!.visibility = View.GONE
+        binding.chboxStaff!!.visibility = View.GONE
 
-        SearchView!!.visibility = View.GONE
+        binding.idSV!!.visibility = View.GONE
         CommonUtil.courseType = ""
 
-        lnrStaff!!.visibility = View.GONE
+        binding.lnrStaff!!.visibility = View.GONE
         CommonUtil.receiverid = ""
         Yourclasses()
         CommonUtil.DepartmentChooseIds.clear()
-        Spinning_yourclasses!!.visibility = View.VISIBLE
-        recycleRecipientYourclasses!!.visibility = View.VISIBLE
-        scrooling!!.visibility = View.VISIBLE
+        binding.SpinningYourclasses!!.visibility = View.VISIBLE
+        binding.recycleRecipientYourclasses!!.visibility = View.VISIBLE
+        binding.scrooling!!.visibility = View.VISIBLE
         seletedIds = ""
 
-        ch_BoxAll!!.visibility = View.GONE
-        txt_ch_BoxAll!!.visibility = View.GONE
-        recycleRecipients!!.visibility = View.GONE
+        binding.chBoxAll!!.visibility = View.GONE
+        binding.txtChBoxAll!!.visibility = View.GONE
+        binding.recycleRecipients!!.visibility = View.GONE
 
-        ch_allDepartment!!.visibility = View.GONE
-        txt_chDepartment!!.visibility = View.GONE
+        binding.chAllDepartment!!.visibility = View.GONE
+        binding.txtChDepartment!!.visibility = View.GONE
 
-        spinnerDropdowncourse!!.visibility = View.GONE
-        recycleRecipientcourse!!.visibility = View.GONE
-        ch_allcourse!!.visibility = View.GONE
-        txt_chcourse!!.visibility = View.GONE
+        binding.spinnerDropdowncourse!!.visibility = View.GONE
+        binding.recycleRecipientcourse!!.visibility = View.GONE
+        binding.chAllcourse!!.visibility = View.GONE
+        binding.txtChcourse!!.visibility = View.GONE
         CommonUtil.seleteddataArrayCheckbox.clear()
 
-        lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_selected_green)
-        lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
+        binding.lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_selected_green)
+        binding.lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
 
-        lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
-        SelecteRecipientType = lblYourClasses!!.text.toString()
+        binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        SelecteRecipientType = binding.lblYourClasses!!.text.toString()
 
     }
 
-    @OnClick(R.id.lblGroups)
-    fun GroupsClick() {
+     fun GroupsClick() {
 
 //        if (CommonUtil.isParentEnable == "1") {
-//            lnrTargetAll!!.visibility = View.VISIBLE
+//            binding.lnrTargetAll!!.visibility = View.VISIBLE
 //        } else {
-//            lnrTargetAll!!.visibility = View.GONE
+//            binding.lnrTargetAll!!.visibility = View.GONE
 //        }
         CommonUtil.receivertype = "6"
         isParent = false
         //    isStudent = false
         isStaff = false
 
-        //  chboxStudent!!.isChecked = false
-        chboxParents!!.isChecked = false
-        chboxStaff!!.isChecked = false
-        chboxAll!!.isChecked = false
-        Card_name = if (lblGroups!!.text.toString().equals(CommonUtil.Groups)) {
+        //  binding.chboxStudent!!.isChecked = false
+        binding.chboxParents!!.isChecked = false
+        binding.chboxStaff!!.isChecked = false
+        binding.chboxAll!!.isChecked = false
+        Card_name = if (binding.lblGroups!!.text.toString().equals(CommonUtil.Groups)) {
             CommonUtil.Groups
         } else {
             ""
@@ -2751,46 +2642,46 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         seletedIds = ""
 
         CommonUtil.DepartmentChooseIds.clear()
-        txt_selectspecficStudent!!.visibility = View.GONE
-        SearchView!!.visibility = View.GONE
-        lnrStaff!!.visibility = View.GONE
+        binding.txtSelectspecficStudent!!.visibility = View.GONE
+        binding.idSV!!.visibility = View.GONE
+        binding.lnrStaff!!.visibility = View.GONE
         CommonUtil.receiverid = ""
         GetGroup()
-        ch_BoxAll!!.isChecked = false
-        txt_chDepartment!!.text = CommonUtil.Select_All
-        ch_BoxAll!!.visibility = View.VISIBLE
-        txt_ch_BoxAll!!.visibility = View.VISIBLE
-        recycleRecipients!!.visibility = View.VISIBLE
-        Spinning_yourclasses!!.visibility = View.GONE
-        recycleRecipientYourclasses!!.visibility = View.GONE
-        scrooling!!.visibility = View.GONE
-        ch_allDepartment!!.visibility = View.GONE
-        txt_chDepartment!!.visibility = View.GONE
-        recycleRecipientcourse!!.visibility = View.GONE
-        ch_allcourse!!.visibility = View.GONE
-        txt_chcourse!!.visibility = View.GONE
-        spinnerDropdowncourse!!.visibility = View.GONE
+        binding.chBoxAll!!.isChecked = false
+        binding.txtChDepartment!!.text = CommonUtil.Select_All
+        binding.chBoxAll!!.visibility = View.VISIBLE
+        binding.txtChBoxAll!!.visibility = View.VISIBLE
+        binding.recycleRecipients!!.visibility = View.VISIBLE
+        binding.SpinningYourclasses!!.visibility = View.GONE
+        binding.recycleRecipientYourclasses!!.visibility = View.GONE
+        binding.scrooling!!.visibility = View.GONE
+        binding.chAllDepartment!!.visibility = View.GONE
+        binding.txtChDepartment!!.visibility = View.GONE
+        binding.recycleRecipientcourse!!.visibility = View.GONE
+        binding.chAllcourse!!.visibility = View.GONE
+        binding.txtChcourse!!.visibility = View.GONE
+        binding.spinnerDropdowncourse!!.visibility = View.GONE
         CommonUtil.seleteddataArrayCheckbox.clear()
 
 
-        lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDivision!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDivision!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblDepartment!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblDepartment!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblCourse!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblCourse!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
-        lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
+        binding.lblYourClasses!!.setBackgroundResource(R.drawable.bg_available_outline_red)
+        binding.lblYourClasses!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
-        lblGroups!!.setBackgroundResource(R.drawable.bg_available_selected_green)
-        lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
-        SelecteRecipientType = lblGroups!!.text.toString()
+        binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_selected_green)
+        binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_white)))
+        SelecteRecipientType = binding.lblGroups!!.text.toString()
 
     }
 
@@ -2824,7 +2715,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
                 FileNameArray.add(FileNameobject)
             }
             jsonObject.add("FileNameArray", FileNameArray)
@@ -2835,7 +2726,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             val FileNameArray = JsonArray()
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
                 FileNameArray.add(FileNameobject)
             }
             jsonObject.add("FileNameArray", FileNameArray)
@@ -3428,400 +3319,144 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             })
     }
 
-    fun awsFileUpload(activity: Activity?, pathind: Int?) {
+//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
+//
+//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
+//        val s3Uploader1Obj: S3Uploader1
+//        s3Uploader1Obj = S3Uploader1(activity)
+//        pathIndex = pathind!!
+//
+//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
+//            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
+//            Log.d("uploadFilePath", uploadFilePath.toString())
+//            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
+//            if (extension == ".pdf") {
+//                contentType = ".pdf"
+//            } else {
+//                contentType = ".jpg"
+//            }
+//            break
+//        }
+//
+//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
+//            Log.d("test", uploadFilePath!!)
+//            if (uploadFilePath != null) {
+//                progressDialog = CustomLoading.createProgressDialog(this)
+//
+//                progressDialog!!.show()
+//                fileNameDateTime =
+//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
+//                fileNameDateTime = "File_" + fileNameDateTime
+//                Log.d("filenamedatetime", fileNameDateTime.toString())
+//                s3Uploader1Obj.initUpload(
+//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
+//                )
+//
+//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
+//                    override fun onUploadSuccess(response: String?) {
+//                        if (response!!.equals("Success")) {
+//
+//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
+//                                this@PrincipalRecipient,
+//                                CommonUtil.CollegeId.toString(),
+//                                uploadFilePath,
+//                                fileNameDateTime
+//                            )
+//
+//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
+//
+//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
+//
+//
+//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
+//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
+//
+//
+//                                fileName = File(uploadFilePath)
+//
+//                                filename = fileName!!.name
+//                                AWSUploadedFilesList.add(
+//                                    AWSUploadedFiles(
+//                                        CommonUtil.urlFromS3!!, filename, contentType
+//                                    )
+//                                )
+//
+//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
+//                                awsFileUpload(activity, pathIndex + 1)
+//
+//
+//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
+//                                    progressDialog!!.dismiss()
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onUploadError(response: String?) {
+//                        progressDialog!!.dismiss()
+//                    }
+//                })
+//            }
+//
+//        } else {
+//
+//            if (ScreenName.equals(CommonUtil.Image_Pdf)) {
+//                if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
+//                    ImageOrPdfsendentire()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
+//                    ImageOrPdfsendparticuler()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
+//                    ImageOrPdfsendparticuler()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+//                    ImageOrPdfsendparticuler()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
+//                    if (binding.txtSelectspecficStudent!!.visibility == View.VISIBLE) {
+//                        if (SpinningText.equals(CommonUtil.Subjects)) {
+//                            ImageOrPdfsendparticuler()
+//                        } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//                            ImageOrPdfsendparticulerTuter()
+//                        }
+//                    } else {
+//                        CommonUtil.receivertype = "7"
+//                        if (SpinningText.equals(CommonUtil.Subjects)) {
+//                            ImageOrPdfsendparticuler()
+//                        } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//                            ImageOrPdfsendparticulerTuter()
+//                        }
+//                    }
+//                } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
+//                    ImageOrPdfsendparticuler()
+//                }
+//            } else if (ScreenName.equals(CommonUtil.New_Assignment)) {
+//                CommonUtil.receivertype = "1"
+//                AssignmentsendEntireSection()
+//            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
+//                CommonUtil.receivertype = "1"
+//                Assignmentforward()
+//
+//
+//            } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
+//                if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
+//                    NoticeBoardSMSsending()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
+//                    NoticeBoardSMSsending()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
+//                    NoticeBoardSMSsending()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+//                    NoticeBoardSMSsending()
+//                } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
+//                    if (SpinningText.equals(CommonUtil.Subjects)) {
+//                        NoticeBoardSMSsending()
+//                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//                        NoticeBoardSMSsendingTuter()
+//                    }
+//                } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
+//                    NoticeBoardSMSsending()
+//                }
+//            }
+//        }
+//    }
 
-        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-        val s3uploaderObj: S3Uploader
-        s3uploaderObj = S3Uploader(activity)
-        pathIndex = pathind!!
-
-        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
-            Log.d("uploadFilePath", uploadFilePath.toString())
-            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-            if (extension == ".pdf") {
-                contentType = ".pdf"
-            } else {
-                contentType = ".jpg"
-            }
-            break
-        }
-
-        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-            Log.d("test", uploadFilePath!!)
-            if (uploadFilePath != null) {
-                progressDialog = CustomLoading.createProgressDialog(this)
-
-                progressDialog!!.show()
-                fileNameDateTime =
-                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
-                fileNameDateTime = "File_" + fileNameDateTime
-                Log.d("filenamedatetime", fileNameDateTime.toString())
-                s3uploaderObj.initUpload(
-                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-                )
-
-                s3uploaderObj.setOns3UploadDone(object : S3Uploader.S3UploadInterface {
-                    override fun onUploadSuccess(response: String?) {
-                        if (response!!.equals("Success")) {
-
-                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-                                this@PrincipalRecipient,
-                                CommonUtil.CollegeId.toString(),
-                                uploadFilePath,
-                                fileNameDateTime
-                            )
-
-                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-
-                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-
-
-                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-
-
-                                fileName = File(uploadFilePath)
-
-                                filename = fileName!!.name
-                                AWSUploadedFilesList.add(
-                                    AWSUploadedFiles(
-                                        CommonUtil.urlFromS3!!, filename, contentType
-                                    )
-                                )
-
-                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-                                awsFileUpload(activity, pathIndex + 1)
-
-                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-                                    progressDialog!!.dismiss()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onUploadError(response: String?) {
-                        progressDialog!!.dismiss()
-                    }
-                })
-            }
-
-        } else {
-
-            if (ScreenName.equals(CommonUtil.Image_Pdf)) {
-                if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-                    ImageOrPdfsendentire()
-                } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-                    ImageOrPdfsendparticuler()
-                } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-                    ImageOrPdfsendparticuler()
-                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-                    ImageOrPdfsendparticuler()
-                } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-                    if (txt_selectspecficStudent!!.visibility == View.VISIBLE) {
-                        if (SpinningText.equals(CommonUtil.Subjects)) {
-                            ImageOrPdfsendparticuler()
-                        } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                            ImageOrPdfsendparticulerTuter()
-                        }
-                    } else {
-                        CommonUtil.receivertype = "7"
-                        if (SpinningText.equals(CommonUtil.Subjects)) {
-                            ImageOrPdfsendparticuler()
-                        } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                            ImageOrPdfsendparticulerTuter()
-                        }
-                    }
-                } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-                    ImageOrPdfsendparticuler()
-                }
-            } else if (ScreenName.equals(CommonUtil.New_Assignment)) {
-                CommonUtil.receivertype = "1"
-                AssignmentsendEntireSection()
-            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
-                CommonUtil.receivertype = "1"
-                Assignmentforward()
-
-
-            } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
-                if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-                    NoticeBoardSMSsending()
-                } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-                    NoticeBoardSMSsending()
-                } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-                    NoticeBoardSMSsending()
-                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-                    NoticeBoardSMSsending()
-                } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-                    if (SpinningText.equals(CommonUtil.Subjects)) {
-                        NoticeBoardSMSsending()
-                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                        NoticeBoardSMSsendingTuter()
-                    }
-                } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-                    NoticeBoardSMSsending()
-                }
-            }
-        }
-    }
-
-
-    fun VimeoVideoUpload(activity: Activity, file: String) {
-
-        val strsize = file.length
-        Log.d("videosize", strsize.toString())
-        Log.d("File", file)
-        val clientinterceptor = OkHttpClient.Builder()
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        clientinterceptor.interceptors().add(interceptor)
-        val client1: OkHttpClient
-        client1 = OkHttpClient.Builder().connectTimeout(300, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.MINUTES).writeTimeout(5, TimeUnit.MINUTES).build()
-        val retrofit = Retrofit.Builder().client(client1).baseUrl("https://api.vimeo.com/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
-        val mProgressDialog = ProgressDialog(activity)
-        mProgressDialog.isIndeterminate = true
-        mProgressDialog.setMessage("Connecting...")
-        mProgressDialog.setCancelable(false)
-        mProgressDialog.show()
-        val `object` = JsonObject()
-        val jsonObjectclasssec = JsonObject()
-        jsonObjectclasssec.addProperty("approach", "post")
-        jsonObjectclasssec.addProperty("size", strsize.toString())
-        val jsonprivacy = JsonObject()
-        jsonprivacy.addProperty("view", "unlisted")
-        val jsonshare = JsonObject()
-        jsonshare.addProperty("share", "false")
-        val jsonembed = JsonObject()
-        jsonembed.add("buttons", jsonshare)
-
-        `object`.add("upload", jsonObjectclasssec)
-        `object`.addProperty("name", CommonUtil.title)
-        `object`.addProperty("description", CommonUtil.Description)
-        `object`.add("privacy", jsonprivacy)
-        `object`.add("embed", jsonembed)
-        val head = "Bearer " + "8d74d8bf6b5742d39971cc7d3ffbb51a"
-        Log.d("header", head)
-        Log.d("object", `object`.toString())
-
-        val call: Call<JsonObject> = service.VideoUpload(`object`, head)
-        Log.d("jsonOBJECT", `object`.toString())
-        call.enqueue(object : Callback<JsonObject> {
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                val res = response.code()
-                Log.d("responseCode", res.toString())
-                Log.d("RESPONSE", response.toString())
-                if (response.isSuccessful) {
-
-                    try {
-                        val object1 = JSONObject(response.body().toString())
-                        Log.d("responsevimeo", object1.toString())
-                        Log.d("Response sucess", "response entered success")
-
-                        val obj = object1.getJSONObject("upload")
-                        val obj1 = object1.getJSONObject("embed")
-                        val upload_link = obj.getString("upload_link")
-                        val link = object1.getString("link")
-                        val iframe = obj1.getString("html")
-
-                        Log.d("upload_link", upload_link)
-                        Log.d("iframe", iframe)
-                        Log.d("link", link)
-
-                        // this  below two line is my checking line
-
-                        CommonUtil.VimeoIframe = iframe
-                        CommonUtil.VimeoVideoUrl = link
-                        Log.d("VimeoVideoUrl", CommonUtil.VimeoVideoUrl.toString())
-
-                        try {
-                            CommonUtil.Videofile = false
-                            VIDEOUPLOAD(upload_link, file, activity)
-                            CommonUtil.Videofile = true
-
-                        } catch (e: Exception) {
-                            Log.e("VIMEO Exception", e.message!!)
-                            CommonUtil.Toast(activity, "Video sending failed.Retry")
-                        }
-                    } catch (e: Exception) {
-                        Log.e("VIMEO Exception", e.message!!)
-                        CommonUtil.Toast(activity, e.message)
-                    }
-                } else {
-                    CommonUtil.Toast(activity, "Video sending failed.Retry")
-                }
-            }
-
-            override fun onFailure(
-                call: Call<JsonObject>, t: Throwable
-            ) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                Log.e("Response Failure", t.message!!)
-                CommonUtil.Toast(activity, "Video sending failed.Retry")
-            }
-        })
-    }
-
-    @SuppressLint("LongLogTag")
-    private fun VIDEOUPLOAD(
-        upload_link: String, file: String, activity: Activity
-    ) {
-        Log.d("Upload_link", upload_link)
-        val separated = upload_link.split("?").toTypedArray()
-        val name = separated[0]
-        val FileName = separated[1]
-        val upload = name.replace("upload", "")
-        Log.d("Upload", upload)
-        val id = FileName.split("&").toTypedArray()
-        val ticket_id = id[0]
-        val video_file_id = id[1]
-        val signature = id[2]
-        val v6 = id[3]
-        val redirect_url = id[4]
-        val seperate1: Array<String> = ticket_id.split("=").toTypedArray()
-        val ticket = seperate1[0]
-        val ticket2 = seperate1[1]
-        val seperate2: Array<String> = video_file_id.split("=").toTypedArray()
-        val ticket1 = seperate2[0]
-        val ticket3 = seperate2[1]
-        val seper: Array<String> = signature.split("=").toTypedArray()
-        val ticke = seper[0]
-        val tick = seper[1]
-        val sepera: Array<String> = v6.split("=").toTypedArray()
-        val str = sepera[0]
-        val str1 = sepera[1]
-        val sucess: Array<String> = redirect_url.split("=").toTypedArray()
-        val urlRIDERCT = sucess[0]
-        val redirect_url123 = sucess[1]
-
-        val client1: OkHttpClient
-        client1 = OkHttpClient.Builder().connectTimeout(600, TimeUnit.SECONDS)
-            .readTimeout(40, TimeUnit.MINUTES).writeTimeout(40, TimeUnit.MINUTES).build()
-
-        val retrofit = Retrofit.Builder().client(client1).baseUrl(upload)
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        Log.d("Retro_Fit", retrofit.toString())
-
-        val mProgressDialog = ProgressDialog(activity)
-        mProgressDialog.isIndeterminate = true
-        mProgressDialog.setMessage("Uploading...")
-        mProgressDialog.setCancelable(false)
-        mProgressDialog.show()
-        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
-        var requestFile: RequestBody? = null
-
-        try {
-
-            val filepath = file
-            val `in`: InputStream = FileInputStream(filepath)
-            val buf: ByteArray
-            buf = ByteArray(`in`.available())
-            while (`in`.read(buf) != -1);
-
-            requestFile =
-                RequestBody.create("application/offset+octet-stream".toMediaTypeOrNull(), buf)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            CommonUtil.Toast(activity, e.message)
-        }
-
-        val call: Call<ResponseBody> = service.patchVimeoVideoMetaData(
-            ticket2,
-            ticket3,
-            tick,
-            str1,
-            redirect_url123 + CommonUtil.VideoSending_RedarectUrl,
-            requestFile
-        )
-
-        Log.d("Redirect_Url", redirect_url123 + CommonUtil.VideoSending_RedarectUrl)
-
-        call.enqueue(object : Callback<ResponseBody?> {
-            override fun onResponse(
-                call: Call<ResponseBody?>, response: Response<ResponseBody?>
-            ) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                try {
-                    if (response.isSuccessful) {
-
-                        CommonUtil.Videofile = true
-
-                        CommonUtil.selectedPaths.add(response.toString())
-                        Log.d("SeletedFile_Video", CommonUtil.selectedPaths.toString())
-                        CommonUtil.Toast(activity, "Successfull Uploaded")
-
-                        if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-
-                            VideosendEntire()
-
-                        } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-
-                            VideosendParticuler()
-
-
-                        } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-                            VideosendParticuler()
-
-                        } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-                            VideosendParticuler()
-
-
-                        } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-
-                            if (txt_selectspecficStudent!!.visibility == View.VISIBLE) {
-
-                                if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                    VideosendParticuler()
-
-                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                    VideosendParticulerTuter()
-
-                                }
-
-                            } else {
-
-                                CommonUtil.receivertype = "7"
-
-                                if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                    VideosendParticuler()
-
-                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                    VideosendParticulerTuter()
-                                }
-                            }
-
-                        } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-
-                            VideosendParticuler()
-
-                        }
-                    } else {
-                        Log.d("ErrorLog", "ErrorLog")
-                        CommonUtil.Toast(activity, "Video sending failed.Retry")
-
-                    }
-                } catch (e: Exception) {
-                    CommonUtil.Toast(activity, e.message)
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                CommonUtil.Toast(activity, "Video sending failed.Retry")
-            }
-        })
-    }
-
-
-    @SuppressLint("SuspiciousIndentation")
-    @OnClick(R.id.btnConfirm)
     fun SendButtonAPi() {
 
         Log.d("isStudent", isStudent.toString())
@@ -3848,7 +3483,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             if (ScreenName.equals(CommonUtil.Text)) {
                 if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
                     if (!CommonUtil.receivertype.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -3873,7 +3508,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -3897,7 +3532,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -3921,7 +3556,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -3946,7 +3581,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -3976,7 +3611,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4005,7 +3640,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             } else if (ScreenName.equals(CommonUtil.TextHistory)) {
                 if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
                     if (!CommonUtil.receivertype.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4030,7 +3665,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -4054,7 +3689,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -4078,7 +3713,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4103,7 +3738,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4133,7 +3768,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4162,7 +3797,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             } else if (ScreenName.equals(CommonUtil.Communication)) {
                 if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
                     if (!CommonUtil.receivertype.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4187,7 +3822,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4212,7 +3847,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4237,7 +3872,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4262,7 +3897,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4292,7 +3927,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4327,7 +3962,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             } else if (ScreenName.equals(CommonUtil.CommunicationVoice)) {
                 if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
                     if (!CommonUtil.receivertype.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4352,7 +3987,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4377,7 +4012,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4402,7 +4037,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4427,7 +4062,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4457,7 +4092,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4496,7 +4131,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receivertype.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4507,7 +4142,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             ) { _, _ ->
 
                                 //  NoticeBoardSMSsending()
-                                awsFileUpload(this, pathIndex)
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
 
                             }
                             alertDialog.setNegativeButton(
@@ -4529,7 +4165,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4540,8 +4176,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             ) { _, _ ->
 
                                 //   NoticeBoardSMSsending()
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
 
                             }
                             alertDialog.setNegativeButton(
@@ -4563,7 +4199,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4574,8 +4210,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             ) { _, _ ->
 
                                 //   NoticeBoardSMSsending()
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -4595,7 +4231,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4606,8 +4242,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             ) { _, _ ->
 
                                 //   NoticeBoardSMSsending()
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -4627,7 +4263,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4639,12 +4275,14 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
                                     //    NoticeBoardSMSsending()
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
 
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
                                     //  NoticeBoardSMSsendingTuter()
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
 
                                 }
                             }
@@ -4666,7 +4304,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4677,8 +4315,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             ) { _, _ ->
 
                                 //   NoticeBoardSMSsending()
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -4705,7 +4343,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receivertype.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4715,8 +4353,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -4737,7 +4375,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4747,8 +4385,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
 
                             }
                             alertDialog.setNegativeButton(
@@ -4770,7 +4408,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4780,8 +4418,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -4801,7 +4439,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4811,8 +4449,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -4832,7 +4470,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4843,11 +4481,13 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             ) { _, _ ->
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
 
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
 
                                 }
                             }
@@ -4869,7 +4509,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4879,7 +4519,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
 
                             }
                             alertDialog.setNegativeButton(
@@ -4917,7 +4558,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         CommonUtil.Yes
                     ) { _, _ ->
 
-                        awsFileUpload(this, pathIndex)
+//                        awsFileUpload(this, pathIndex)
+                        isUploadAWS()
 
                     }
                     alertDialog.setNegativeButton(
@@ -4933,7 +4575,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             } else if (ScreenName.equals(CommonUtil.ScreenNameEvent)) {
                 if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
                     if (!CommonUtil.receivertype.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4958,7 +4600,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -4984,7 +4626,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5009,7 +4651,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5034,7 +4676,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5064,7 +4706,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5094,7 +4736,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
                     if (!CommonUtil.receivertype.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5120,7 +4762,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
                     if (!CommonUtil.receiverid.equals("")) {
 
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5145,7 +4787,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5171,7 +4813,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
                 } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5196,7 +4838,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5205,7 +4847,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             alertDialog.setPositiveButton(
                                 CommonUtil.Yes
                             ) { _, _ ->
-                                if (txt_selectspecficStudent!!.visibility == View.VISIBLE) {
+                                if (binding.txtSelectspecficStudent!!.visibility == View.VISIBLE) {
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
                                         Eventsend("edit")
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
@@ -5234,7 +4876,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
@@ -5263,7 +4905,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             } else if (ScreenName.equals(CommonUtil.New_Video)) {
                 if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
                     if (!CommonUtil.receivertype.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -5295,7 +4937,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -5327,7 +4969,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -5359,7 +5001,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -5391,7 +5033,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -5435,7 +5077,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     }
                 } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
                     if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                             val alertDialog: AlertDialog.Builder =
                                 AlertDialog.Builder(this@PrincipalRecipient)
                             alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -5473,8 +5115,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         }
     }
 
-    @OnClick(R.id.btnRecipientCancel)
-    fun cancelClick() {
+     fun cancelClick() {
         onBackPressed()
         CommonUtil.DepartmentChooseIds.clear()
     }
@@ -5505,7 +5146,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
                 VideosendParticuler()
             } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-                if (txt_selectspecficStudent!!.visibility == View.VISIBLE) {
+                if (binding.txtSelectspecficStudent!!.visibility == View.VISIBLE) {
                     if (SpinningText.equals(CommonUtil.Subjects)) {
                         VideosendParticuler()
                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
@@ -5525,5 +5166,100 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         } else {
             CommonUtil.ApiAlertContext(this, "Video sending failed. Please try again.")
         }
+    }
+
+    private fun isUploadAWS() {
+        progressDialog = CustomLoading.createProgressDialog(this)
+        progressDialog!!.show()
+        Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
+        for (i in CommonUtil.SelcetedFileList.indices) {
+            AwsUploadingFile(
+                CommonUtil.SelcetedFileList.get(i)
+            )
+        }
+    }
+
+    private fun AwsUploadingFile(
+        isFilePath: String
+    ) {
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            isFilePath,
+            CommonUtil.Collage_ids,
+            object : UploadCallback {
+                override fun onUploadSuccess(response: String?, isAwsFile: String?) {
+                    Log.d("Upload Success", response!!)
+
+
+                    AWSUploadedFilesList.add(isAwsFile!!)
+                    Awsuploadedfile.add(isAwsFile!!.toString())
+                    Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
+                    if (CommonUtil.EventStatus.equals("Past")) {
+                        CommonUtil.EventStatus = "Past"
+                    } else {
+                        CommonUtil.EventStatus = "Upcoming"
+                    }
+                    if (AWSUploadedFilesList.size == CommonUtil.SelcetedFileList.size) {
+                        progressDialog!!.dismiss()
+                        if (ScreenName.equals(CommonUtil.Image_Pdf)) {
+                            if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
+                                ImageOrPdfsendentire()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
+                                ImageOrPdfsendparticuler()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
+                                ImageOrPdfsendparticuler()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+                                ImageOrPdfsendparticuler()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
+                                if (binding.txtSelectspecficStudent!!.visibility == View.VISIBLE) {
+                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+                                        ImageOrPdfsendparticuler()
+                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+                                        ImageOrPdfsendparticulerTuter()
+                                    }
+                                } else {
+                                    CommonUtil.receivertype = "7"
+                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+                                        ImageOrPdfsendparticuler()
+                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+                                        ImageOrPdfsendparticulerTuter()
+                                    }
+                                }
+                            } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
+                                ImageOrPdfsendparticuler()
+                            }
+                        } else if (ScreenName.equals(CommonUtil.New_Assignment)) {
+                            CommonUtil.receivertype = "1"
+                            AssignmentsendEntireSection()
+                        } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
+                            CommonUtil.receivertype = "1"
+                            Assignmentforward()
+
+
+                        } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
+                            if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
+                                NoticeBoardSMSsending()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
+                                NoticeBoardSMSsending()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
+                                NoticeBoardSMSsending()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+                                NoticeBoardSMSsending()
+                            } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
+                                if (SpinningText.equals(CommonUtil.Subjects)) {
+                                    NoticeBoardSMSsending()
+                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+                                    NoticeBoardSMSsendingTuter()
+                                }
+                            } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
+                                NoticeBoardSMSsending()
+                            }
+                        }
+                    }
+                }
+
+                override fun onUploadError(error: String?) {
+                    Log.e("Upload Error", error!!)
+                }
+            })
     }
 }

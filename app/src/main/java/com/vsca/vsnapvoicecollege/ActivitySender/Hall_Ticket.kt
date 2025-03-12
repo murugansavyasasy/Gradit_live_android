@@ -10,8 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.arindicatorview.ARIndicatorView
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.HallticketAdapter
@@ -20,6 +19,8 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityHallTicketBinding
 
 class Hall_Ticket : AppCompatActivity() {
 
@@ -27,27 +28,19 @@ class Hall_Ticket : AppCompatActivity() {
     private var hallTicketAdapter: HallticketAdapter? = null
     private var hallTicketResponse: List<HallticketResponse> = ArrayList()
 
-    @JvmField
-    @BindView(R.id.rcy_hallticket)
-    var rcy_hallticket: RecyclerView? = null
 
-    @JvmField
-    @BindView(R.id.imgheaderBack)
-    var imgheaderBack: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.scrolling)
-    var scrolling: ScrollView? = null
 
     private lateinit var arIndicatorView: ARIndicatorView
+    private lateinit var binding: ActivityHallTicketBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_hall_ticket)
+         binding = ActivityHallTicketBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        hallTicket()
+         hallTicket()
         CommonUtil.OnMenuClicks("Hallticket")
         arIndicatorView = findViewById(R.id.ar_indicator)
 
@@ -63,13 +56,13 @@ class Hall_Ticket : AppCompatActivity() {
                     val layoutManager =
                         LinearLayoutManager(this@Hall_Ticket, LinearLayoutManager.HORIZONTAL, false)
 
-                    rcy_hallticket!!.layoutManager = layoutManager
-                    rcy_hallticket!!.itemAnimator = DefaultItemAnimator()
-                    rcy_hallticket!!.recycledViewPool.setMaxRecycledViews(0, 80)
-                    rcy_hallticket!!.adapter = hallTicketAdapter
+                    binding.rcyHallticket!!.layoutManager = layoutManager
+                    binding.rcyHallticket!!.itemAnimator = DefaultItemAnimator()
+                    binding.rcyHallticket!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.rcyHallticket!!.adapter = hallTicketAdapter
                     hallTicketAdapter!!.notifyDataSetChanged()
 
-                    arIndicatorView.attachTo(rcy_hallticket!!, true)
+                    arIndicatorView.attachTo(binding.rcyHallticket!!, true)
                     arIndicatorView.indicatorSize = 50
                     arIndicatorView.indicatorShape = R.drawable.dot_indicatorshape
                     arIndicatorView.selectionColor =
@@ -86,7 +79,7 @@ class Hall_Ticket : AppCompatActivity() {
             }
         }
 
-        imgheaderBack!!.setOnClickListener {
+        binding.imgheaderBack!!.setOnClickListener {
             onBackPressed()
         }
     }

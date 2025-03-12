@@ -12,8 +12,7 @@ import android.widget.LinearLayout
 import android.widget.ListAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Activities.ViewFiles
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -103,22 +102,10 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
     }
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val filename: TextView = itemView!!.findViewById(R.id.filename)!!
+        val ibisubmissiontime: TextView = itemView!!.findViewById(R.id.ibisubmissiontime)!!
+        val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)!!
 
-        @JvmField
-        @BindView(R.id.filename)
-        var filename: TextView? = null
 
-        @JvmField
-        @BindView(R.id.ibisubmissiontime)
-        var ibisubmissiontime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-
-        }
     }
 }

@@ -16,13 +16,12 @@ import android.widget.Toast
 import android.widget.ZoomControls
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.DownloadImage
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityViewFilesBinding
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -36,15 +35,6 @@ import java.util.concurrent.Executors
 
 class ViewFiles : AppCompatActivity() {
 
-    @JvmField
-    @BindView(R.id.imgFile)
-    var imgFile: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.zoom_controls)
-    var zoom_controls: ZoomControls? = null
-
-
     private var imagePathList = ArrayList<String>()
     var Filepath: String? = ""
     var storagepath: String? = null
@@ -54,13 +44,22 @@ class ViewFiles : AppCompatActivity() {
     val myExecutor = Executors.newSingleThreadExecutor()
     val myHandler = Handler(Looper.getMainLooper())
     private val VOICE_FOLDER: String = "Gradit/Images/"
+    private lateinit var binding: ActivityViewFilesBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_files)
-        ButterKnife.bind(this)
-
+        binding = ActivityViewFilesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         Filepath = intent.getStringExtra("images")!!
+
+        binding.imgClose.setOnClickListener {
+            super.onBackPressed()
+        }
+
+        binding.Fabdownload.setOnClickListener {
+            isDownload()
+        }
 
         val circularProgressDrawable = CircularProgressDrawable(this)
         circularProgressDrawable.strokeWidth = 5f
@@ -70,61 +69,54 @@ class ViewFiles : AppCompatActivity() {
         Glide.with(this)
             .load(Filepath)
             .placeholder(circularProgressDrawable)
-            .into(imgFile!!)
+            .into(binding.imgFile!!)
 
-        imgFile!!.setOnTouchListener { v, m -> // Perform tasks here
-            zoom_controls!!.show()
+        binding.imgFile!!.setOnTouchListener { v, m -> // Perform tasks here
+            binding.zoomControls!!.show()
             false
         }
 
         // This function will be automatically called out,when
         // zoom in button is being pressed
-        zoom_controls!!.setOnZoomInClickListener(
+        binding.zoomControls!!.setOnZoomInClickListener(
             View.OnClickListener {
-                val x: Float = imgFile!!.scaleX
-                val y: Float = imgFile!!.scaleY
+                val x: Float = binding.imgFile!!.scaleX
+                val y: Float = binding.imgFile!!.scaleY
 
                 // setting the new scale
-                imgFile!!.scaleX = (x + 0.5f)
-                imgFile!!.scaleY = (y + 0.5f)
-                zoom_controls!!.hide()
+                binding.imgFile!!.scaleX = (x + 0.5f)
+                binding.imgFile!!.scaleY = (y + 0.5f)
+                binding.zoomControls!!.hide()
             }
         )
 
         // This function will be called when
         // zoom out button is pressed
-        zoom_controls!!.setOnZoomOutClickListener(
+        binding.zoomControls!!.setOnZoomOutClickListener(
             View.OnClickListener {
-                val x: Float = imgFile!!.scaleX
-                val y: Float = imgFile!!.scaleY
+                val x: Float = binding.imgFile!!.scaleX
+                val y: Float = binding.imgFile!!.scaleY
                 if (x == 1f && y == 1f) {
-                    imgFile!!.scaleX = x
-                    imgFile!!.scaleY = y
-                    zoom_controls!!.hide()
+                    binding.imgFile!!.scaleX = x
+                    binding.imgFile!!.scaleY = y
+                    binding.zoomControls!!.hide()
                 } else {
                     // setting the new scale
-                    imgFile!!.scaleX = (x - 0.5f)
-                    imgFile!!.scaleY = (y - 0.5f)
+                    binding.imgFile!!.scaleX = (x - 0.5f)
+                    binding.imgFile!!.scaleY = (y - 0.5f)
                     // hiding the zoom controls
-                    zoom_controls!!.hide()
+                    binding.zoomControls!!.hide()
                 }
             }
         )
     }
 
-
-    @OnClick(R.id.imgClose)
-    fun imgcloseClick() {
-        super.onBackPressed()
-    }
-
-    @OnClick(R.id.Fabdownload)
-    fun donloadClick() {
+    fun isDownload() {
 
         myExecutor.execute {
             mImage = mLoad(Filepath.toString())
             myHandler.post {
-                imgFile!!.setImageBitmap(mImage)
+                binding.imgFile!!.setImageBitmap(mImage)
                 if (mImage != null) {
                     mSaveMediaToStorage(mImage)
                 }

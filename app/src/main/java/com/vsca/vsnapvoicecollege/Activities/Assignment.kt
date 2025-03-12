@@ -14,9 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -33,52 +30,16 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.OnBackSetBottomMenuClickTrue
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.OnMenuClicks
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
+import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import java.util.Locale
 
-class Assignment : BaseActivity() {
+class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
 
     var assignmentadapter: AssignmentAdapter? = null
     override var appViewModel: App? = null
 
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollege)
-    var lblCollege: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollegeSize)
-    var lblCollegeSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
     var AssignmentType = true
     var GetAssignmentData: List<GetAssignmentDetails> = ArrayList()
 
@@ -91,13 +52,27 @@ class Assignment : BaseActivity() {
     var CountUpcoming: String? = null
     var Countpast: String? = null
     var OverAllMenuCountData1: List<GetOverAllCountDetails> = ArrayList()
+
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this@Assignment)
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+
 
         CommonUtil.RequestCameraPermission(this)
         MenuBottomType()
@@ -108,17 +83,31 @@ class Assignment : BaseActivity() {
         OnMenuClicks(CommonUtil._OnclickScreen)
         TabDepartmentColor()
         CommonUtil.pastExam = ""
-        lblMenuTitle!!.setText(R.string.txt_assignment)
-        lblDepartment!!.setText(R.string.txt_upcoming)
-        lblCollege!!.setText(R.string.txt_past)
+        binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_assignment)
+        binding.CommonLayout.lblDepartment!!.setText(R.string.txt_upcoming)
+        binding.CommonLayout.lblCollege!!.setText(R.string.txt_past)
 
         SearchList!!.visibility = View.VISIBLE
         SearchList!!.setOnClickListener {
             Search!!.visibility = View.VISIBLE
         }
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+
+
+        binding.CommonLayout.LayoutDepartment.setOnClickListener {
+            departmentClick()
+        }
+
+        binding.CommonLayout.LayoutCollege.setOnClickListener {
+            collegeClick()
+        }
 
         if (CommonUtil.menu_readAssignment == "1") {
             AssignmentRequest(AssignmentType)
+        }
+
+        binding.CommonLayout.imgAddPlus.setOnClickListener {
+            imgaddclick()
         }
 
         idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -154,9 +143,10 @@ class Assignment : BaseActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -193,53 +183,61 @@ class Assignment : BaseActivity() {
                         GetAssignmentData = response.data!!
                         val size = GetAssignmentData.size
                         if (size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
                             assignmentadapter =
                                 AssignmentAdapter(GetAssignmentData, this@Assignment)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@Assignment)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = assignmentadapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = assignmentadapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             assignmentadapter!!.notifyDataSetChanged()
                         } else {
-                            lblNoRecordsFound!!.visibility = View.VISIBLE
-                            recyclerNoticeboard!!.visibility = View.GONE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                         }
                     } else {
                         GetAssignmentData = response.data!!
                         val size = GetAssignmentData.size
                         if (size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
                             assignmentadapter =
                                 AssignmentAdapter(GetAssignmentData, this@Assignment)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@Assignment)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = assignmentadapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = assignmentadapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             assignmentadapter!!.notifyDataSetChanged()
                         } else {
-                            lblNoRecordsFound!!.visibility = View.VISIBLE
-                            recyclerNoticeboard!!.visibility = View.GONE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                         }
                     }
                 } else {
                     if (AssignmentType) {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     }
                 }
             } else {
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                recyclerNoticeboard!!.visibility = View.GONE
+                binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
             }
         }
 
@@ -303,17 +301,17 @@ class Assignment : BaseActivity() {
     private fun CountValueSet() {
 
         if (!CountUpcoming.equals("0") && !CountUpcoming.equals("")) {
-            lblDepartmentSize!!.visibility = View.VISIBLE
-            lblDepartmentSize!!.text = CountUpcoming
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblDepartmentSize!!.text = CountUpcoming
         } else {
-            lblDepartmentSize!!.visibility = View.GONE
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
             CountUpcoming = "0"
         }
         if (!Countpast.equals("0") && !Countpast.equals("")) {
-            lblCollegeSize!!.visibility = View.VISIBLE
-            lblCollegeSize!!.text = Countpast
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblCollegeSize!!.text = Countpast
         } else {
-            lblCollegeSize!!.visibility = View.GONE
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.GONE
             Countpast = "0"
         }
 
@@ -321,10 +319,10 @@ class Assignment : BaseActivity() {
         var intCollegecount = Integer.parseInt(Countpast!!)
         var TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
-            lbltotalsize!!.visibility = View.VISIBLE
-            lbltotalsize!!.text = TotalSizeCount.toString()
+            binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
         } else {
-            lbltotalsize!!.visibility = View.GONE
+            binding.CommonLayout.lbltotalsize!!.visibility = View.GONE
         }
     }
 
@@ -360,7 +358,6 @@ class Assignment : BaseActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutDepartment)
     fun departmentClick() {
         bottomsheetStateCollpased()
         AssignmentType = true
@@ -371,7 +368,6 @@ class Assignment : BaseActivity() {
         CommonUtil.pastExam = ""
     }
 
-    @OnClick(R.id.LayoutCollege)
     fun collegeClick() {
         bottomsheetStateCollpased()
         AssignmentType = false
@@ -384,7 +380,6 @@ class Assignment : BaseActivity() {
 
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
@@ -398,7 +393,6 @@ class Assignment : BaseActivity() {
         PreviousAddId += 1
     }
 
-    @OnClick(R.id.imgAddPlus)
     fun imgaddclick() {
         val i: Intent = Intent(this, AddAssignment::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

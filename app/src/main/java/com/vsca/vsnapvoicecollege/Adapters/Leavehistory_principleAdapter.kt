@@ -13,8 +13,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.Attendance
 import com.vsca.vsnapvoicecollege.Interfaces.LeaveHistoryPrincipleListener
@@ -47,83 +46,26 @@ class Leavehistory_principleAdapter(
 
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        @JvmField
-        @BindView(R.id.lblLeaveCreatedDate)
-        var lblLeaveCreatedDate: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblleaveStatus)
-        var lblleaveStatus: TextView? = null
+        val lblLeaveCreatedDate: TextView = itemView!!.findViewById(R.id.lblLeaveCreatedDate)!!
+        val lblleaveStatus: TextView = itemView!!.findViewById(R.id.lblleaveStatus)!!
+        val lblLeaveType: TextView = itemView!!.findViewById(R.id.lblLeaveType)!!
+        val lblLeaveNoOfDays: TextView = itemView!!.findViewById(R.id.lblLeaveNoOfDays)!!
+        val lblFromDate: TextView = itemView!!.findViewById(R.id.lblFromDate)!!
+        val lblToDate: TextView = itemView!!.findViewById(R.id.lblToDate)!!
+        val rytLeaveDescription: RelativeLayout = itemView!!.findViewById(R.id.rytLeaveDescription)!!
+        val lblLeaveReason: TextView = itemView!!.findViewById(R.id.lblLeaveReason)!!
+//        val lblEditleave: TextView = itemView!!.findViewById(R.id.lblEditleave)!!
+//        val lblDelete: TextView = itemView!!.findViewById(R.id.lblDelete)!!
+        val department: TextView = itemView!!.findViewById(R.id.department)!!
+        val year: TextView = itemView!!.findViewById(R.id.year)!!
+        val section: TextView = itemView!!.findViewById(R.id.section)!!
+        val lblApproval: TextView = itemView!!.findViewById(R.id.lblApproval)!!
+        val lblRejaect: TextView = itemView!!.findViewById(R.id.lblRejaect)!!
+        val lblname: TextView = itemView!!.findViewById(R.id.lblname)!!
+        val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)!!
+        val btn_rejectLiner: LinearLayout = itemView!!.findViewById(R.id.btn_rejectLiner)!!
 
-        @JvmField
-        @BindView(R.id.lblLeaveType)
-        var lblLeaveType: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblLeaveNoOfDays)
-        var lblLeaveNoOfDays: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblFromDate)
-        var lblFromDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblToDate)
-        var lblToDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytLeaveDescription)
-        var rytLeaveDescription: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblLeaveReason)
-        var lblLeaveReason: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblEditleave)
-        var lblEditleave: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblDelete)
-        var lblDelete: TextView? = null
-
-        @JvmField
-        @BindView(R.id.department)
-        var department: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.year)
-        var year: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.section)
-        var section: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblApproval)
-        var lblApproval: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblRejaect)
-        var lblRejaect: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblname)
-        var lblname: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.btn_rejectLiner)
-        var btn_rejectLiner: LinearLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

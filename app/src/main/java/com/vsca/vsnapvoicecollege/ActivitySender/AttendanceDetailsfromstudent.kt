@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Adapters.Attendancedetails
@@ -18,6 +17,8 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceDetailsfromstudentBinding
 
 class AttendanceDetailsfromstudent : ActionBarActivity() {
 
@@ -25,32 +26,20 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
     var appViewModel: App? = null
     var AttendanceDetails: List<attendance> = java.util.ArrayList()
 
-    @JvmField
-    @BindView(R.id.rcyAttendanceDetails)
-    var rcyAttendanceDetails: RecyclerView? = null
 
-    @JvmField
-    @BindView(R.id.img_back)
-    var img_back: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblatten_staffname)
-    var lblatten_staffname: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblatten_sunjectname)
-    var lblatten_sunjectname: TextView? = null
+    private lateinit var binding: ActivityAttendanceDetailsfromstudentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+        binding = ActivityAttendanceDetailsfromstudentBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+         ActionbarWithoutBottom(this)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
-        lblatten_sunjectname!!.text=CommonUtil.AttendanceSubjectname
-        lblatten_staffname!!.text=CommonUtil.AttendanceStaffname
+        binding.lblattenSunjectname!!.text=CommonUtil.AttendanceSubjectname
+        binding.lblattenStaffname!!.text=CommonUtil.AttendanceStaffname
 
 
         appViewModel!!.StudentAttendance!!.observe(this) { response ->
@@ -62,10 +51,10 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
                     AttendanceDetails = response.data
                     Attendancedetails = Attendancedetails(AttendanceDetails, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    rcyAttendanceDetails!!.layoutManager = mLayoutManager
-                    rcyAttendanceDetails!!.itemAnimator = DefaultItemAnimator()
-                    rcyAttendanceDetails!!.adapter = Attendancedetails
-                    rcyAttendanceDetails!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.rcyAttendanceDetails!!.layoutManager = mLayoutManager
+                    binding.rcyAttendanceDetails!!.itemAnimator = DefaultItemAnimator()
+                    binding.rcyAttendanceDetails!!.adapter = Attendancedetails
+                    binding.rcyAttendanceDetails!!.recycledViewPool.setMaxRecycledViews(0, 80)
                 }
             } else {
                 CommonUtil.ApiAlert(
@@ -73,7 +62,7 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
                 )
             }
         }
-        img_back!!.setOnClickListener {
+        binding.imgBack!!.setOnClickListener {
             onBackPressed()
         }
 

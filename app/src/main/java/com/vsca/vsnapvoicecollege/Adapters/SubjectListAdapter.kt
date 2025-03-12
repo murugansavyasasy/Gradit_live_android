@@ -8,8 +8,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.ExamSubjectSubList
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -68,51 +67,18 @@ class SubjectListAdapter(data: List<ExamSubjectSubList>, context: Context) :
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.txt_financeandaccounding)
-        var txt_financeandaccounding: TextView? = null
 
-        @JvmField
-        @BindView(R.id.examlist_constrine)
-        var examlist_constrine: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_date)
-        var txt_date: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.consrin2)
-        var consrin2: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_fn)
-        var txt_fn: TextView? = null
+        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)!!
+        val examlist_constrine: RelativeLayout = itemView!!.findViewById(R.id.examlist_constrine)!!
+        val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)!!
+        val consrin2: ConstraintLayout = itemView!!.findViewById(R.id.consrin2)!!
+        val txt_fn: TextView = itemView!!.findViewById(R.id.txt_fn)!!
+        val txt_testing_creating: TextView = itemView!!.findViewById(R.id.txt_testing_creating)!!
+        val txt_bcom_Accounts: TextView = itemView!!.findViewById(R.id.txt_bcom_Accounts)!!
+        val txt_Syllabus: TextView = itemView!!.findViewById(R.id.txt_Syllabus)!!
+        val txt_Syllabus1: TextView = itemView!!.findViewById(R.id.txt_Syllabus1)!!
 
 
-        @JvmField
-        @BindView(R.id.txt_testing_creating)
-        var txt_testing_creating: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.txt_bcom_Accounts)
-        var txt_bcom_Accounts: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.txt_Syllabus)
-        var txt_Syllabus: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.txt_Syllabus1)
-        var txt_Syllabus1: TextView? = null
-
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

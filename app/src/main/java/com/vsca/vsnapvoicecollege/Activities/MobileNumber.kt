@@ -10,9 +10,6 @@ import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumberResponse
 import com.vsca.vsnapvoicecollege.R
@@ -20,6 +17,8 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityMobileNumberBinding
 
 class MobileNumber : AppCompatActivity() {
 
@@ -28,18 +27,20 @@ class MobileNumber : AppCompatActivity() {
     private var validateMobileNumberResponse: List<ValidateMobileNumberResponse> = ArrayList()
     var appViewModel: App? = null
 
-    @JvmField
-    @BindView(R.id.phone_number_edt)
-    var phoneNumberEdt: EditText? = null
+private lateinit var binding: ActivityMobileNumberBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_number)
-        ButterKnife.bind(this)
+        binding = ActivityMobileNumberBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         authViewModel = ViewModelProvider(this).get(Auth::class.java)
         authViewModel!!.init()
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+
+        binding.txtNext.setOnClickListener { txt_next() }
 
         authViewModel!!.Mobilenumber!!.observe(this) { response ->
             if (response != null) {
@@ -75,7 +76,7 @@ class MobileNumber : AppCompatActivity() {
             }
         }
 
-        phoneNumberEdt!!.addTextChangedListener(object : TextWatcher {
+        binding.phoneNumberEdt!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -88,21 +89,21 @@ class MobileNumber : AppCompatActivity() {
 
                             12 -> {
                                 val isMobileNumber: String = s.drop(2).dropLast(0).toString()
-                                phoneNumberEdt!!.setText(isMobileNumber)
+                                binding.phoneNumberEdt!!.setText(isMobileNumber)
                             }
 
                             13 -> {
                                 val isMobileNumber: String = s.drop(3).dropLast(0).toString()
-                                phoneNumberEdt!!.setText(isMobileNumber)
+                                binding.phoneNumberEdt!!.setText(isMobileNumber)
                             }
 
                             14 -> {
                                 val isMobileNumber: String = s.drop(4).dropLast(0).toString()
-                                phoneNumberEdt!!.setText(isMobileNumber)
+                                binding.phoneNumberEdt!!.setText(isMobileNumber)
                             }
 
                             else -> {
-                                phoneNumberEdt!!.setText(s)
+                                binding.phoneNumberEdt!!.setText(s)
                             }
                         }
                     }
@@ -111,18 +112,17 @@ class MobileNumber : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 if (s!!.length == 10) {
-                    phoneNumberEdt!!.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
+                    binding.phoneNumberEdt!!.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
                 }
                 if (s.isEmpty()) {
-                    phoneNumberEdt!!.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(15))
+                    binding.phoneNumberEdt!!.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(15))
                 }
             }
         })
     }
 
-    @OnClick(R.id.txt_next)
-    fun txt_next(view: View?) {
-        mobileNumber = phoneNumberEdt!!.text.toString()
+    fun txt_next() {
+        mobileNumber = binding.phoneNumberEdt!!.text.toString()
         Log.d("mobileNumber", mobileNumber!!)
         if (mobileNumber != "") {
             CommonUtil.MobileNUmber = mobileNumber!!

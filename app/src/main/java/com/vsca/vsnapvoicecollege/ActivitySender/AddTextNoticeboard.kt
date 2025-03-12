@@ -34,9 +34,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -54,6 +52,8 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuTitle
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
+import com.vsca.vsnapvoicecollege.databinding.ActivityAddTextNoticeboardBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -62,7 +62,7 @@ import java.util.Date
 import java.util.Locale
 
 
-class AddTextNoticeboard : ActionBarActivity() {
+class AddTextNoticeboard: ActionBarActivity() {
     var ScreenType: Boolean? = null
     var appViewModel: App? = null
     var AdWebURl: String? = null
@@ -85,77 +85,30 @@ class AddTextNoticeboard : ActionBarActivity() {
     var uri: Uri? = null
     var Totalfile: String? = null
 
-    @JvmField
-    @BindView(R.id.lbltotalfile)
-    var lbltotalfile: TextView? = null
-
-    @JvmField
-    @BindView(R.id.tv_count)
-    var tv_count: TextView? = null
-
-    @JvmField
-    @BindView(R.id.NestedchildlayoutRecy)
-    var NestedchildlayoutRecy: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.Nestedchildlayout)
-    var Nestedchildlayout: NestedScrollView? = null
-
-    @JvmField
-    @BindView(R.id.LayoutHeadernoticeboard)
-    var LayoutHeadernoticeboard: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.LayoutHeaderImagePdf)
-    var LayoutHeaderImagePdf: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.LayoutUploadImagePdf)
-    var LayoutUploadImagePdf: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.btnConfirm)
-    var btnConfirm: Button? = null
-
-    @JvmField
-    @BindView(R.id.txtTitle)
-    var txtTitle: EditText? = null
-
-    @JvmField
-    @BindView(R.id.radio_group)
-    var radio_group: RadioGroup? = null
-
-    @JvmField
-    @BindView(R.id.rcy_history)
-    var rcy_history: RecyclerView? = null
-
-
-    @JvmField
-    @BindView(R.id.txtDescription)
-    var txtDescription: EditText? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
 
     var ScreenName: String? = null
+    private lateinit var binding: ActivityAddTextNoticeboardBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityAddTextNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+         ActionbarWithoutBottom(this)
         CommonUtil.seleteddataArraySection.clear()
         imgRefresh!!.visibility = View.GONE
-        Nestedchildlayout!!.visibility = View.VISIBLE
-        btnConfirm!!.visibility = View.VISIBLE
+        binding.Nestedchildlayout!!.visibility = View.VISIBLE
+        binding.btnConfirm!!.visibility = View.VISIBLE
         CommonUtil.SelcetedFileList.clear()
+
+        binding.btnCancel.setOnClickListener { onBackPressed() }
+        binding.imgTextback.setOnClickListener { onBackPressed() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.btnConfirm.setOnClickListener { btnNextClick() }
+        binding.LayoutUploadImagePdf.setOnClickListener { ChooseFile() }
 
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -173,43 +126,43 @@ class AddTextNoticeboard : ActionBarActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
 
-        txtDescription!!.addTextChangedListener(mTextEditorWatcher)
-        txtDescription!!.enableScrollText()
+        binding.txtDescription!!.addTextChangedListener(mTextEditorWatcher)
+        binding.txtDescription!!.enableScrollText()
 
         ScreenType = intent.getBooleanExtra("screentype", true)
         if (ScreenType!!) {
-               LayoutUploadImagePdf!!.visibility = View.VISIBLE
+               binding.LayoutUploadImagePdf!!.visibility = View.VISIBLE
             ScreenName = CommonUtil.Noticeboard
-            LayoutHeadernoticeboard!!.visibility = View.VISIBLE
-            radio_group!!.visibility = View.GONE
+            binding.LayoutHeadernoticeboard!!.visibility = View.VISIBLE
+            binding.radioGroup!!.visibility = View.GONE
         } else {
-            LayoutUploadImagePdf!!.visibility = View.GONE
+            binding.LayoutUploadImagePdf!!.visibility = View.GONE
             ScreenName = CommonUtil.Text
-            LayoutHeadernoticeboard!!.visibility = View.GONE
-            radio_group!!.visibility = View.VISIBLE
+            binding.LayoutHeadernoticeboard!!.visibility = View.GONE
+            binding.radioGroup!!.visibility = View.VISIBLE
         }
 
-        radio_group!!.setOnCheckedChangeListener { _, checkedId ->
+        binding.radioGroup!!.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radio_B_msg -> {
-                    NestedchildlayoutRecy!!.visibility = View.GONE
-                    Nestedchildlayout!!.visibility = View.VISIBLE
-                    btnConfirm!!.visibility = View.VISIBLE
+                    binding.NestedchildlayoutRecy!!.visibility = View.GONE
+                    binding.Nestedchildlayout!!.visibility = View.VISIBLE
+                    binding.btnConfirm!!.visibility = View.VISIBLE
                 }
 
                 R.id.radio_B_history -> {
-                    NestedchildlayoutRecy!!.visibility = View.VISIBLE
-                    btnConfirm!!.visibility = View.GONE
-                    Nestedchildlayout!!.visibility = View.GONE
+                    binding.NestedchildlayoutRecy!!.visibility = View.VISIBLE
+                    binding.btnConfirm!!.visibility = View.GONE
+                    binding.Nestedchildlayout!!.visibility = View.GONE
                     historyOfText()
                 }
             }
@@ -263,11 +216,11 @@ class AddTextNoticeboard : ActionBarActivity() {
     private fun loadhistory() {
         TextHistoryAdapter = TextHistoryAdapter(textdata, this)
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        rcy_history!!.layoutManager = mLayoutManager
-        rcy_history!!.itemAnimator = DefaultItemAnimator()
-        rcy_history!!.setHasFixedSize(true)
-        rcy_history!!.adapter = TextHistoryAdapter
-        rcy_history!!.recycledViewPool.setMaxRecycledViews(0, 500)
+        binding.rcyHistory!!.layoutManager = mLayoutManager
+        binding.rcyHistory!!.itemAnimator = DefaultItemAnimator()
+        binding.rcyHistory!!.setHasFixedSize(true)
+        binding.rcyHistory!!.adapter = TextHistoryAdapter
+        binding.rcyHistory!!.recycledViewPool.setMaxRecycledViews(0, 500)
         TextHistoryAdapter!!.notifyDataSetChanged()
     }
 
@@ -304,10 +257,10 @@ class AddTextNoticeboard : ActionBarActivity() {
                     var path = it
                     if (CommonUtil.SelcetedFileList != null) {
                         Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                        lbltotalfile!!.text = "Number of Files : " + Totalfile
-                        lbltotalfile!!.visibility = View.VISIBLE
+                        binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+                        binding.lbltotalfile!!.visibility = View.VISIBLE
                     } else {
-                        lbltotalfile!!.visibility = View.GONE
+                        binding.lbltotalfile!!.visibility = View.GONE
                     }
                 }
 
@@ -321,10 +274,10 @@ class AddTextNoticeboard : ActionBarActivity() {
                         var path = it
                         if (CommonUtil.SelcetedFileList != null) {
                             Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                            lbltotalfile!!.text = "Number of Files : " + Totalfile
-                            lbltotalfile!!.visibility = View.VISIBLE
+                            binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+                            binding.lbltotalfile!!.visibility = View.VISIBLE
                         } else {
-                            lbltotalfile!!.visibility = View.GONE
+                            binding.lbltotalfile!!.visibility = View.GONE
 
                         }
                     }
@@ -361,10 +314,10 @@ class AddTextNoticeboard : ActionBarActivity() {
                             var path = it
                             if (CommonUtil.SelcetedFileList != null) {
                                 Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                                lbltotalfile!!.text = "Number of Files : " + Totalfile
-                                lbltotalfile!!.visibility = View.VISIBLE
+                                binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+                                binding.lbltotalfile!!.visibility = View.VISIBLE
                             } else {
-                                lbltotalfile!!.visibility = View.GONE
+                                binding.lbltotalfile!!.visibility = View.GONE
 
                             }
                         }
@@ -399,8 +352,7 @@ class AddTextNoticeboard : ActionBarActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutUploadImagePdf)
-    fun ChooseFile() {
+     fun ChooseFile() {
 
         Log.d("popup", "test")
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -514,11 +466,10 @@ class AddTextNoticeboard : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_add_text_noticeboard
 
-    @OnClick(R.id.btnConfirm)
-    fun btnNextClick() {
+     fun btnNextClick() {
 
-        MenuTitle = txtTitle!!.text.toString()
-        MenuDescription = txtDescription!!.text.toString()
+        MenuTitle = binding.txtTitle!!.text.toString()
+        MenuDescription = binding.txtDescription!!.text.toString()
         Log.d("MenuDescription", MenuDescription!!)
         if (ScreenName.equals(CommonUtil.Noticeboard)) {
             if ((!MenuTitle.isNullOrEmpty()) && (!MenuDescription.isNullOrEmpty())) {
@@ -581,17 +532,6 @@ class AddTextNoticeboard : ActionBarActivity() {
         }
     }
 
-    @OnClick(R.id.btnCancel)
-    fun btnCancelClick() {
-        super.onBackPressed()
-    }
-
-    @OnClick(R.id.imgTextback)
-    fun imgBackClick() {
-        super.onBackPressed()
-    }
-
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
@@ -606,7 +546,7 @@ class AddTextNoticeboard : ActionBarActivity() {
     private val mTextEditorWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            tv_count!!.text = s.length.toString() + "/500"
+            binding.tvCount!!.text = s.length.toString() + "/500"
         }
 
         override fun afterTextChanged(s: Editable) {}

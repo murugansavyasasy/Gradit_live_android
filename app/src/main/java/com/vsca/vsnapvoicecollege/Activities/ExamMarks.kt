@@ -10,9 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -22,83 +19,47 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityExamViewMarksBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 
-class ExamMarks : BaseActivity() {
+class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
 
     var examAdapter: ExamMarkAdapter? = null
     override var appViewModel: App? = null
 
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollege)
-    var lblCollege: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollegeSize)
-    var lblCollegeSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.LayoutExamMarks)
-    var LayoutExamMarks: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.CommonLayout)
-    var CommonLayout: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lblExamTitle)
-    var lblExamTitle: TextView? = null
-
     var ExamHeaderID: String? = ""
     var ExamName: String? = ""
     var GetStudentExamMarks: List<ExamMarkListDetails> = ArrayList()
+
+    override fun inflateBinding(): ActivityExamViewMarksBinding {
+        return ActivityExamViewMarksBinding.inflate(layoutInflater)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
 
         super.onCreate(savedInstanceState)
         Log.d("onCreate", "lifecycle")
+        binding = ActivityExamViewMarksBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
+
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
         MenuBottomType()
+        binding.LayoutExamMarks.imgback.setOnClickListener { onBackPressed() }
 
         ExamHeaderID = intent.getStringExtra("ExamHeaderID")
         ExamName = intent.getStringExtra("Examname")
 
-        lblExamTitle!!.text = ExamName
+        binding.LayoutExamMarks.lblExamTitle.text = ExamName
 
         CommonUtil.MenuExamination = false
         CommonUtil.MenuAssignment = true
@@ -120,11 +81,11 @@ class ExamMarks : BaseActivity() {
         Glide.with(this)
             .load(CommonUtil.CommonAdvertisement)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imgAdvertisement!!)
+            .into(binding.LayoutExamMarks.imgAdvertisement!!)
         Glide.with(this)
             .load(CommonUtil.CommonAdImageSmall)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imgthumb!!)
+            .into(binding.LayoutExamMarks.imgthumb!!)
 
         appViewModel!!.ExamMarkListLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -138,28 +99,32 @@ class ExamMarks : BaseActivity() {
                     val size = GetStudentExamMarks.size
                     if (size > 0) {
 
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        recyclerNoticeboard!!.visibility = View.VISIBLE
+                        binding.LayoutExamMarks.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.LayoutExamMarks.recyclerCommon!!.visibility = View.VISIBLE
                         examAdapter = ExamMarkAdapter(GetStudentExamMarks, this)
                         val mLayoutManager: RecyclerView.LayoutManager =
                             LinearLayoutManager(this)
-                        recyclerNoticeboard!!.layoutManager = mLayoutManager
-                        recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                        recyclerNoticeboard!!.adapter = examAdapter
-                        recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.LayoutExamMarks.recyclerCommon!!.layoutManager = mLayoutManager
+                        binding.LayoutExamMarks.recyclerCommon!!.itemAnimator =
+                            DefaultItemAnimator()
+                        binding.LayoutExamMarks.recyclerCommon!!.adapter = examAdapter
+                        binding.LayoutExamMarks.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                            0,
+                            80
+                        )
                         examAdapter!!.notifyDataSetChanged()
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.LayoutExamMarks.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.LayoutExamMarks.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.LayoutExamMarks.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.LayoutExamMarks.recyclerCommon!!.visibility = View.GONE
                 }
             } else {
                 UserMenuRequest(this)
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                recyclerNoticeboard!!.visibility = View.GONE
+                binding.LayoutExamMarks.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.LayoutExamMarks.recyclerCommon!!.visibility = View.GONE
             }
         }
 
@@ -188,11 +153,6 @@ class ExamMarks : BaseActivity() {
             appViewModel!!.getStudentExamMarklist(jsonObject, this)
             Log.d("ExamMarksRequest:", jsonObject.toString())
         }
-    }
-
-    @OnClick(R.id.imgback)
-    fun imgbackClikc() {
-        onBackPressed()
     }
 
     override fun onBackPressed() {

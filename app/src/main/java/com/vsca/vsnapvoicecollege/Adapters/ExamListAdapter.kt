@@ -14,8 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.ExamList
@@ -232,98 +231,30 @@ class ExamListAdapter constructor(
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblNoticeboardTitle)
-        var lblNoticeboardTitle: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblNoticeboardDescription)
-        var lblNoticeboardDescription: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.lblNoticeboardDate)
-        var lblNoticeboardDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticetime)
-        var lblNoticetime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticePostedby)
-        var lblNoticePostedby: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytNotice)
-        var rytNotice: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.img_delete)
-        var img_delete: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowdown)
-        var imgArrowdown: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowUp)
-        var imgArrowUp: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.LayoutVenue)
-        var LayoutVenue: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.layoutSyllabus)
-        var layoutSyllabus: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblSyllabus)
-        var lblSyllabus: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblVenue)
-        var lblVenue: TextView? = null
+        val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)
+        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)
+        val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)
+        val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)
+        val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)
+        val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)
+        val img_delete: ImageView = itemView!!.findViewById(R.id.img_delete)
+        val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)
+        val imgArrowdown: ImageView = itemView!!.findViewById(R.id.imgArrowdown)
+        val imgArrowUp: ImageView = itemView!!.findViewById(R.id.imgArrowUp)
+        val LayoutVenue: ConstraintLayout = itemView!!.findViewById(R.id.LayoutVenue)
+        val layoutSyllabus: ConstraintLayout = itemView!!.findViewById(R.id.layoutSyllabus)
+        val lblSyllabus: TextView = itemView!!.findViewById(R.id.lblSyllabus)
+        val lblVenue: TextView = itemView!!.findViewById(R.id.lblVenue)
+        val venue: TextView = itemView!!.findViewById(R.id.venue)
+        val Syllabus: TextView = itemView!!.findViewById(R.id.Syllabus)
+        val lnrEventsView: LinearLayout = itemView!!.findViewById(R.id.lnrEventsView)
+        val liner_deleteandview: LinearLayout = itemView!!.findViewById(R.id.liner_deleteandview)
+        val liner_Delete: LinearLayout = itemView!!.findViewById(R.id.liner_Delete)
+        val lbl_section: TextView = itemView!!.findViewById(R.id.lbl_section)
+        val img_Edit: LinearLayout = itemView!!.findViewById(R.id.img_Edit)
 
 
-        @JvmField
-        @BindView(R.id.venue)
-        var venue: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.Syllabus)
-        var Syllabus: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrEventsView)
-        var lnrEventsView: LinearLayout? = null
-
-
-        @JvmField
-        @BindView(R.id.liner_deleteandview)
-        var liner_deleteandview: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.liner_Delete)
-        var liner_Delete: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lbl_section)
-        var lbl_section: TextView? = null
-
-        @JvmField
-        @BindView(R.id.img_Edit)
-        var img_Edit: LinearLayout? = null
-
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

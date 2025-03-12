@@ -8,8 +8,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.specificStudent_datalist
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -24,17 +23,10 @@ class specificStudent_adapter constructor(data: List<specificStudent_datalist>, 
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblEntiredepartment)
-        var lblEntiredepartment: TextView? = null
 
-        @JvmField
-        @BindView(R.id.chboxEntiredepartment)
-        var chboxEntiredepartment: CheckBox? = null
+        val lblEntiredepartment: TextView = itemView!!.findViewById(R.id.lblEntiredepartment)!!
+        val chboxEntiredepartment: CheckBox = itemView!!.findViewById(R.id.chboxEntiredepartment)!!
 
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

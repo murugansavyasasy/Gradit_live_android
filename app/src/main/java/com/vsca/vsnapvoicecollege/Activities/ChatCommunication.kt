@@ -20,10 +20,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
@@ -38,111 +34,12 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityCategoryCreditWiseBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityChatCommunicationBinding
 
 
-class ChatCommunication : BaseActivity() {
-
-
-    @JvmField
-    @BindView(R.id.txt_replayConstrine)
-    var txt_replayConstrine: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.layoutSend)
-    var layoutSend: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.txt_replay)
-    var txt_replay: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoChats)
-    var lblNoChats: TextView? = null
-
-    @JvmField
-    @BindView(R.id.recyclerChat)
-    var recyclerChat: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.img_delete)
-    var img_delete: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblname)
-    var lblname: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_swipe_Lable)
-    var txt_swipe_Lable: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.layoutTab)
-    var layoutTab: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.txt_onandoff)
-    var txt_onandoff: ConstraintLayout? = null
-
-
-    @JvmField
-    @BindView(R.id.lblContent)
-    var lblContent: EditText? = null
-
-    @JvmField
-    @BindView(R.id.imgSend)
-    var imgSend: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.switchonAndoff)
-    var switchonAndoff: Switch? = null
-
-    @JvmField
-    @BindView(R.id.lbl_switchLable)
-    var lbl_switchLable: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblyear)
-    var lblyear: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblsemester)
-    var lblsemester: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblsection)
-    var lblsection: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblcourse)
-    var lblcourse: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblsubject)
-    var lblsubject: TextView? = null
+class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
     var textstudent: String? = null
     var Yearname: String? = null
@@ -166,21 +63,36 @@ class ChatCommunication : BaseActivity() {
     var isrefresh: Boolean? = false
     var totalChatCount: String? = ""
 
+    override fun inflateBinding(): ActivityChatCommunicationBinding {
+        return ActivityChatCommunicationBinding.inflate(layoutInflater)
+    }
+
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
-
+        binding = ActivityChatCommunicationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         super.onCreate(savedInstanceState)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
-        MenuBottomType()
-        UserMenuRequest(this)
+
         swipeRefreshLayout = findViewById(R.id.swipyrefreshlayout)
         ReplayType = "2"
         CommonUtil.OnMenuClicks("ChatCommunication")
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        MenuBottomType()
+        UserMenuRequest(this)
+
+
+        binding.CommonLayout.imgheaderBack.setOnClickListener { imgheaderBack() }
 
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
@@ -208,10 +120,10 @@ class ChatCommunication : BaseActivity() {
 
 
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-            layoutSend!!.visibility = View.GONE
-            lblsemester!!.visibility = View.VISIBLE
-            lblsection!!.visibility = View.VISIBLE
-            lblsubject!!.visibility = View.VISIBLE
+            binding.CommonLayout.layoutSend!!.visibility = View.GONE
+            binding.CommonLayout.lblsemester!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblsection!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblsubject!!.visibility = View.VISIBLE
 
             Yearname = CommonUtil.yearnamae
             semestername = CommonUtil.semestername
@@ -220,38 +132,30 @@ class ChatCommunication : BaseActivity() {
             subjectname = CommonUtil.subjectname
             Log.d("Year_Name", Yearname.toString())
 
-            lblyear!!.text = Yearname
-            lblcourse!!.text = coursename
-            lblsection!!.text = sectionname
-            lblsemester!!.text = semestername
-            lblsubject!!.text = subjectname
+            binding.CommonLayout.lblyear!!.text = Yearname
+            binding.CommonLayout.lblcourse!!.text = coursename
+            binding.CommonLayout.lblsection!!.text = sectionname
+            binding.CommonLayout.lblsemester!!.text = semestername
+            binding.CommonLayout.lblsubject!!.text = subjectname
 
         } else if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5") {
 
-            layoutSend!!.visibility = View.VISIBLE
-            lblsemester!!.visibility = View.GONE
-            lblsection!!.visibility = View.GONE
-            lblsubject!!.visibility = View.GONE
+            binding.CommonLayout.layoutSend.visibility = View.VISIBLE
+            binding.CommonLayout.lblsemester!!.visibility = View.GONE
+            binding.CommonLayout.lblsection!!.visibility = View.GONE
+            binding.CommonLayout.lblsubject!!.visibility = View.GONE
 
             staffname = CommonUtil.staffname
             subjectname = CommonUtil.subjectname
 
-            lblyear!!.text = staffname
-            lblcourse!!.text = subjectname
+            binding.CommonLayout.lblyear!!.text = staffname
+            binding.CommonLayout.lblcourse!!.text = subjectname
 
         }
 
-        try {
-            layoutTab!!.visibility = View.GONE
-            lblMenuTitle!!.setText(R.string.txt_Video)
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
 
 
-
-        lblContent!!.addTextChangedListener(object : TextWatcher {
+        binding.CommonLayout.lblContent!!.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
 
@@ -266,17 +170,17 @@ class ChatCommunication : BaseActivity() {
 
                 if (s!!.length == 0) {
 
-                    imgSend!!.visibility = View.GONE
+                    binding.CommonLayout.imgSend!!.visibility = View.GONE
 
                 } else {
 
-                    imgSend!!.visibility = View.VISIBLE
+                    binding.CommonLayout.imgSend!!.visibility = View.VISIBLE
 
                 }
             }
         })
 
-        imgSend!!.setOnClickListener {
+        binding.CommonLayout.imgSend!!.setOnClickListener {
 
             val view: View? = this.currentFocus
 
@@ -284,28 +188,28 @@ class ChatCommunication : BaseActivity() {
 
             inputMethodManager.hideSoftInputFromWindow(view!!.windowToken, 0)
 
-            textstudent = lblContent!!.text.toString()
+            textstudent = binding.CommonLayout.lblContent!!.text.toString()
 
 
             CommonUtil.Textedit = textstudent.toString()
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
 
-                layoutSend!!.visibility = View.GONE
+                binding.CommonLayout.layoutSend.visibility = View.GONE
 
                 ChatSender(ReplayType.toString())
-                lblContent!!.setText("")
+                binding.CommonLayout.lblContent!!.setText("")
                 ChatListSender()
-                switchonAndoff!!.isChecked = false
-                txt_replayConstrine!!.visibility = View.GONE
-                txt_onandoff!!.visibility = View.GONE
-                layoutSend!!.visibility = View.GONE
+                binding.CommonLayout.switchonAndoff!!.isChecked = false
+                binding.CommonLayout.txtReplayConstrine!!!!.visibility = View.GONE
+                binding.CommonLayout.txtOnandoff!!.visibility = View.GONE
+                binding.CommonLayout.layoutSend.visibility = View.GONE
                 ReplayType = "2"
 
             } else {
 
-                layoutSend!!.visibility = View.VISIBLE
+                binding.CommonLayout.layoutSend.visibility = View.VISIBLE
                 ChatStudent()
-                lblContent!!.setText("")
+                binding.CommonLayout.lblContent!!.setText("")
                 ChatListStudent()
             }
         }
@@ -325,7 +229,7 @@ class ChatCommunication : BaseActivity() {
         })
 
 
-        switchonAndoff!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+        binding.CommonLayout.switchonAndoff!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             ReplayType = if (isChecked) {
                 "1"
             } else {
@@ -334,12 +238,12 @@ class ChatCommunication : BaseActivity() {
         })
 
 
-        img_delete!!.setOnClickListener {
-            txt_replayConstrine!!.visibility = View.GONE
-            txt_onandoff!!.visibility = View.GONE
-            layoutSend!!.visibility = View.GONE
+        binding.CommonLayout.imgDelete!!.setOnClickListener {
+            binding.CommonLayout.txtReplayConstrine!!!!.visibility = View.GONE
+            binding.CommonLayout.txtOnandoff!!.visibility = View.GONE
+            binding.CommonLayout.layoutSend.visibility = View.GONE
             ReplayType = "2"
-            txt_replay!!.text = ""
+            binding.CommonLayout.txtReplay!!.text = ""
         }
 
         appViewModel!!.Chatstudentlist!!.observe(this) { response ->
@@ -391,28 +295,28 @@ class ChatCommunication : BaseActivity() {
 
                     Chat_Text_adapter = Chat_Text_adapter(StudentChatList, this)
                     val mLayoutManager = LinearLayoutManager(this)
-                    recyclerChat!!.layoutManager = mLayoutManager
-                    recyclerChat!!.itemAnimator = DefaultItemAnimator()
-                    recyclerChat!!.adapter = Chat_Text_adapter
-                    recyclerChat!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.recyclerChat!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.recyclerChat!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.recyclerChat!!.adapter = Chat_Text_adapter
+                    binding.CommonLayout.recyclerChat!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     if (Offset == 0 || isrefresh!!) {
-                        recyclerChat!!.scrollToPosition(StudentChatList.size - 1)
+                        binding.CommonLayout.recyclerChat!!.scrollToPosition(StudentChatList.size - 1)
                     }
                     Chat_Text_adapter!!.notifyDataSetChanged()
 
                 } else {
 
-                    txt_swipe_Lable!!.visibility = View.GONE
+                    binding.CommonLayout!!.txtSwipeLable!!.visibility = View.GONE
                     if (StudentChatList.size == 0) {
                         CommonUtil.ApiAlert(this, CommonUtil.No_Data_Found)
-                        lblNoChats!!.visibility = View.VISIBLE
+                        binding.CommonLayout!!.lblNoChats!!.visibility = View.VISIBLE
                     }
                 }
             } else {
-                txt_swipe_Lable!!.visibility = View.GONE
+                binding.CommonLayout!!.txtSwipeLable!!.visibility = View.GONE
                 if (StudentChatList.size == 0) {
                     CommonUtil.ApiAlert(this, CommonUtil.No_Data_Found)
-                    lblNoChats!!.visibility = View.VISIBLE
+                    binding.CommonLayout!!.lblNoChats!!.visibility = View.VISIBLE
                 }
             }
         }
@@ -421,7 +325,7 @@ class ChatCommunication : BaseActivity() {
         appViewModel!!.ChatSenderside!!.observe(this) { response ->
             if (response != null) {
 
-                txt_swipe_Lable!!.visibility = View.VISIBLE
+                binding.CommonLayout!!.txtSwipeLable!!.visibility = View.VISIBLE
                 swipeRefreshLayout.isRefreshing = false
 
                 val status = response.result
@@ -498,11 +402,16 @@ class ChatCommunication : BaseActivity() {
                                                     dlg.show()
 
                                                 } else {
-                                                    layoutSend!!.visibility = View.VISIBLE
-                                                    txt_replayConstrine!!.visibility = View.VISIBLE
-                                                    txt_onandoff!!.visibility = View.VISIBLE
-                                                    txt_replay!!.text = item.question
-                                                    lblname!!.text = item.studentname
+                                                    binding.CommonLayout.layoutSend.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplayConstrine!!!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtOnandoff!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplay!!.text =
+                                                        item.question
+                                                    binding.CommonLayout.lblname!!.text =
+                                                        item.studentname
                                                 }
                                                 true
                                             }
@@ -540,11 +449,16 @@ class ChatCommunication : BaseActivity() {
                                                     dlg.show()
 
                                                 } else {
-                                                    layoutSend!!.visibility = View.VISIBLE
-                                                    txt_replayConstrine!!.visibility = View.VISIBLE
-                                                    txt_onandoff!!.visibility = View.VISIBLE
-                                                    txt_replay!!.text = item.question
-                                                    lblname!!.text = item.studentname
+                                                    binding.CommonLayout.layoutSend.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplayConstrine!!!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtOnandoff!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplay!!.text =
+                                                        item.question
+                                                    binding.CommonLayout.lblname!!.text =
+                                                        item.studentname
                                                 }
                                                 true
                                             }
@@ -588,11 +502,16 @@ class ChatCommunication : BaseActivity() {
                                                     dlg.show()
 
                                                 } else {
-                                                    layoutSend!!.visibility = View.VISIBLE
-                                                    txt_replayConstrine!!.visibility = View.VISIBLE
-                                                    txt_onandoff!!.visibility = View.VISIBLE
-                                                    txt_replay!!.text = item.question
-                                                    lblname!!.text = item.studentname
+                                                    binding.CommonLayout.layoutSend.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplayConstrine!!!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtOnandoff!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplay!!.text =
+                                                        item.question
+                                                    binding.CommonLayout.lblname!!.text =
+                                                        item.studentname
                                                 }
 
                                                 true
@@ -632,11 +551,16 @@ class ChatCommunication : BaseActivity() {
                                                     dlg.show()
 
                                                 } else {
-                                                    layoutSend!!.visibility = View.VISIBLE
-                                                    txt_replayConstrine!!.visibility = View.VISIBLE
-                                                    txt_onandoff!!.visibility = View.VISIBLE
-                                                    txt_replay!!.text = item.question
-                                                    lblname!!.text = item.studentname
+                                                    binding.CommonLayout.layoutSend.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplayConstrine!!!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtOnandoff!!.visibility =
+                                                        View.VISIBLE
+                                                    binding.CommonLayout.txtReplay!!.text =
+                                                        item.question
+                                                    binding.CommonLayout.lblname!!.text =
+                                                        item.studentname
                                                 }
 
                                                 true
@@ -648,24 +572,24 @@ class ChatCommunication : BaseActivity() {
                             }
                         })
                     val mLayoutManager = LinearLayoutManager(this)
-                    recyclerChat!!.layoutManager = mLayoutManager
-                    recyclerChat!!.itemAnimator = DefaultItemAnimator()
-                    recyclerChat!!.adapter = ChatSenderSide_Adapter
-                    recyclerChat!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.recyclerChat!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.recyclerChat!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.recyclerChat!!.adapter = ChatSenderSide_Adapter
+                    binding.CommonLayout.recyclerChat!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     if (Offset == 0 || isrefresh!!) {
                         Log.d("scrollToPosition", Senderside_Chatdata!!.size.toString())
-                        recyclerChat!!.scrollToPosition(Senderside_Chatdata!!.size - 1)
+                        binding.CommonLayout.recyclerChat!!.scrollToPosition(Senderside_Chatdata!!.size - 1)
                     }
                     ChatSenderSide_Adapter!!.notifyDataSetChanged()
 
                 } else {
-                    txt_swipe_Lable!!.visibility = View.GONE
+                    binding.CommonLayout!!.txtSwipeLable.visibility = View.GONE
                     CommonUtil.ApiAlert(this, CommonUtil.No_Data_Found)
-                    lblNoChats!!.visibility = View.VISIBLE
+                    binding.CommonLayout!!.lblNoChats!!.visibility = View.VISIBLE
                 }
             } else {
-                txt_swipe_Lable!!.visibility = View.GONE
-                lblNoChats!!.visibility = View.VISIBLE
+                binding.CommonLayout!!.txtSwipeLable!!.visibility = View.GONE
+                binding.CommonLayout!!.lblNoChats!!.visibility = View.VISIBLE
             }
         }
 
@@ -709,7 +633,6 @@ class ChatCommunication : BaseActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_chat_communication
 
-    @OnClick(R.id.imgheaderBack)
     fun imgheaderBack() {
         onBackPressed()
     }

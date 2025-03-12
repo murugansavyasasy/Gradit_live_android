@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.ExamMarkListDetails
 import com.vsca.vsnapvoicecollege.R
 
@@ -21,22 +20,10 @@ class ExamMarkAdapter(
     var Position: Int = 0
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        @JvmField
-        @BindView(R.id.lblName)
-        var lblName: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblMarks)
-        var lblMarks: TextView? = null
-
-        @JvmField
-        @BindView(R.id.LayoutNames)
-        var LayoutNames: ConstraintLayout? = null
-
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
+        val lblName: TextView = itemView!!.findViewById(R.id.lblName)
+        val lblMarks: TextView = itemView!!.findViewById(R.id.lblMarks)
+        val LayoutNames: ConstraintLayout = itemView!!.findViewById(R.id.LayoutNames)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

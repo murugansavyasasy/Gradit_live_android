@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vsca.vsnapvoicecollege.Activities.CourseDetails
@@ -151,96 +150,28 @@ class CourseDetailsAdapter : RecyclerView.Adapter<CourseDetailsAdapter.MyViewHol
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblSubjectName)
-        var lblSubjectName: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblSemesterName)
-        var lblSemesterName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblFeeAmount)
-        var lblFeeAmount: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSubjectType)
-        var lblSubjectType: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSubjectCategory)
-        var lblSubjectCategory: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSubjectCredits)
-        var lblSubjectCredits: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSubjectCode)
-        var lblSubjectCode: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSubjectRequirement)
-        var lblSubjectRequirement: TextView? = null
-
-        @JvmField
-        @BindView(R.id.layoutFeeeAmount)
-        var LayoutFeeeAmount: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.layoutSemNumber)
-        var LayoutSemNumber: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.ViewSide)
-        var ViewSide: View? = null
-
-        @JvmField
-        @BindView(R.id.layoutCategory)
-        var LayoutCategory: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.layoutSubjectType)
-        var LayoutSubjectType: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.LayoutSubjectRequirement)
-        var LayoutSubjectRequirement: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.layoutSubjectCredits)
-        var LayoutSubjectCredits: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.imgUser)
-        var imgUser: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.LayoutProfileOverall)
-        var LayoutProfileOverall: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.LayoutCourseAndExam)
-        var LayoutCourseAndExam: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblProfileKey)
-        var lblProfileKey: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblProfileValue)
-        var lblProfileValue: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblcolon0)
-        var lblcolon0: TextView? = null
-
-        @JvmField
-        @BindView(R.id.layoutOverAll)
-        var layoutOverAll: ConstraintLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
+        val lblSubjectName: TextView = itemView!!.findViewById(R.id.lblSubjectName)
+        val lblSemesterName: TextView = itemView!!.findViewById(R.id.lblSemesterName)
+        val lblFeeAmount: TextView = itemView!!.findViewById(R.id.lblFeeAmount)
+        val lblSubjectType: TextView = itemView!!.findViewById(R.id.lblSubjectType)
+        val lblSubjectCategory: TextView = itemView!!.findViewById(R.id.lblSubjectCategory)
+        val lblSubjectCredits: TextView = itemView!!.findViewById(R.id.lblSubjectCredits)
+        val lblSubjectCode: TextView = itemView!!.findViewById(R.id.lblSubjectCode)
+        val lblSubjectRequirement: TextView = itemView!!.findViewById(R.id.lblSubjectRequirement)
+        val LayoutFeeeAmount: ConstraintLayout = itemView!!.findViewById(R.id.layoutFeeeAmount)
+        val LayoutSemNumber: ConstraintLayout = itemView!!.findViewById(R.id.layoutSemNumber)
+        val ViewSide: View = itemView!!.findViewById(R.id.ViewSide)
+        val LayoutCategory: ConstraintLayout = itemView!!.findViewById(R.id.layoutCategory)
+        val LayoutSubjectType: ConstraintLayout = itemView!!.findViewById(R.id.layoutSubjectType)
+        val LayoutSubjectRequirement: ConstraintLayout = itemView!!.findViewById(R.id.LayoutSubjectRequirement)
+        val LayoutSubjectCredits: ConstraintLayout = itemView!!.findViewById(R.id.layoutSubjectCredits)
+        val imgUser: ImageView = itemView!!.findViewById(R.id.imgUser)
+        val LayoutProfileOverall: ConstraintLayout = itemView!!.findViewById(R.id.LayoutProfileOverall)
+        val LayoutCourseAndExam: ConstraintLayout = itemView!!.findViewById(R.id.LayoutCourseAndExam)
+        val lblProfileKey: TextView = itemView!!.findViewById(R.id.lblProfileKey)
+        val lblProfileValue: TextView = itemView!!.findViewById(R.id.lblProfileValue)
+        val lblcolon0: TextView = itemView!!.findViewById(R.id.lblcolon0)
+        val layoutOverAll: ConstraintLayout = itemView!!.findViewById(R.id.layoutOverAll)
     }
 }

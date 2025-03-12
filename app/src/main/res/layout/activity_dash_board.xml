@@ -11,6 +11,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <include
+            android:id="@+id/menuItem"
             layout="@layout/bottom_menu_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

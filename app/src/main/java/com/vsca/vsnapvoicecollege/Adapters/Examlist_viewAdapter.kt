@@ -9,8 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.ActivitySender.SubjectList
 import com.vsca.vsnapvoicecollege.Interfaces.ExamSubjectclick
 import com.vsca.vsnapvoicecollege.Model.examlist
@@ -90,62 +89,21 @@ class Examlist_viewAdapter(
         (itemView)!!
     ) {
 
-        @JvmField
-        @BindView(R.id.txt_get_subject)
-        var txt_get_subject: TextView? = null
-
-        @JvmField
-        @BindView(R.id.examlist_constrine)
-        var examlist_constrine: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_financeandaccounding)
-        var txt_financeandaccounding: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_testing_creating)
-        var txt_testing_creating: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_bcom_Accounts)
-        var txt_bcom_Accounts: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_year1)
-        var txt_year1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_semester1)
-        var txt_semester1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_b_section)
-        var txt_b_section: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_startdate)
-        var txt_startdate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_enddate)
-        var txt_enddate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.btn_editand_delete)
-        var btn_editand_delete: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_editbtn)
-        var txt_editbtn: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_deletebtn)
-        var txt_deletebtn: LinearLayout? = null
+        val txt_get_subject: TextView = itemView!!.findViewById(R.id.txt_get_subject)
+        val examlist_constrine: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrine)
+        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)
+        val txt_testing_creating: TextView = itemView!!.findViewById(R.id.txt_testing_creating)
+        val txt_bcom_Accounts: TextView = itemView!!.findViewById(R.id.txt_bcom_Accounts)
+        val txt_year1: TextView = itemView!!.findViewById(R.id.txt_year1)
+        val txt_semester1: TextView = itemView!!.findViewById(R.id.txt_semester1)
+        val txt_b_section: TextView = itemView!!.findViewById(R.id.txt_b_section)
+        val txt_startdate: TextView = itemView!!.findViewById(R.id.txt_startdate)
+        val txt_enddate: TextView = itemView!!.findViewById(R.id.txt_enddate)
+        val btn_editand_delete: LinearLayout = itemView!!.findViewById(R.id.btn_editand_delete)
+        val txt_editbtn: LinearLayout = itemView!!.findViewById(R.id.txt_editbtn)
+        val txt_deletebtn: LinearLayout = itemView!!.findViewById(R.id.txt_deletebtn)
 
 
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

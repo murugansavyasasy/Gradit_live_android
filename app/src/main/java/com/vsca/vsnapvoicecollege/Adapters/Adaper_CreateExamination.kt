@@ -10,8 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.*
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -40,41 +39,41 @@ class Adaper_CreateExamination(private val data: ArrayList<sectionnamelist>, con
         val data: sectionnamelist = sectionlist.get(position)
         if (data.sectionname.equals("")) {
 
-            holder.txt_section!!.text = "No Records Found"
+            holder.txtSection!!.text = "No Records Found"
         }
 
         val isExpanded = position == mExpandedPosition
 
 
-        holder.subject_recyclerview!!.visibility = if (isExpanded) View.VISIBLE else View.GONE
-        holder.constrine_first!!.isActivated = isExpanded
+        holder.subjectRecyclerview!!.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        holder.constrineFirst!!.isActivated = isExpanded
 
-        holder.txt_section!!.text = data.sectionname
+        holder.txtSection!!.text = data.sectionname
 
         if (CommonUtil.EditButtonclick.equals("ExamEdit")) {
 
             if (CommonUtil.SectionID_Exam.equals(data.sectionid)) {
 
             } else {
-                holder.constrine_first!!.setBackgroundColor(R.color.clr_light_pink)
+                holder.constrineFirst!!.setBackgroundColor(R.color.clr_light_pink)
             }
 
         }
 
         val itemViewchild = LinearLayoutManager(
-            holder.subject_recyclerview!!.context,
+            holder.subjectRecyclerview!!.context,
             LinearLayoutManager.VERTICAL,
             false
         )
 
         itemViewchild.initialPrefetchItemCount = data.subjectdetails.size
 
-        holder.constrine_first!!.setOnClickListener {
+        holder.constrineFirst!!.setOnClickListener {
 
             if (isExpanded) {
 
                 mExpandedPosition = if (isExpanded) -1 else position
-                holder.subject_recyclerview!!.visibility = View.GONE
+                holder.subjectRecyclerview!!.visibility = View.GONE
                 notifyDataSetChanged()
                 holder.tick!!.setBackgroundResource(R.drawable.tick_white)
                 holder.down!!.setBackgroundResource(R.drawable.down_arrow_white)
@@ -86,7 +85,7 @@ class Adaper_CreateExamination(private val data: ArrayList<sectionnamelist>, con
 
                     if (CommonUtil.SectionID_Exam.equals(data.sectionid)) {
 
-                        holder.constrine_first!!.isEnabled = true
+                        holder.constrineFirst!!.isEnabled = true
 
                         CommonUtil.SectionId = data.sectionid
 
@@ -94,14 +93,14 @@ class Adaper_CreateExamination(private val data: ArrayList<sectionnamelist>, con
                         holder.down!!.setBackgroundResource(R.drawable.ic_arrow_up_white)
 
                         mExpandedPosition = if (isExpanded) -1 else position
-                        holder.subject_recyclerview!!.visibility = View.VISIBLE
+                        holder.subjectRecyclerview!!.visibility = View.VISIBLE
                         notifyDataSetChanged()
 
 
                     } else {
 
                         mExpandedPosition = if (isExpanded) -1 else position
-                        holder.subject_recyclerview!!.visibility = View.GONE
+                        holder.subjectRecyclerview!!.visibility = View.GONE
                         notifyDataSetChanged()
                         holder.tick!!.setBackgroundResource(R.drawable.tick_white)
                         holder.down!!.setBackgroundResource(R.drawable.down_arrow_white)
@@ -114,16 +113,16 @@ class Adaper_CreateExamination(private val data: ArrayList<sectionnamelist>, con
                     holder.tick!!.setBackgroundResource(R.drawable.examinatin_changeexpandclolur)
                     holder.down!!.setBackgroundResource(R.drawable.ic_arrow_up_white)
                     mExpandedPosition = if (isExpanded) -1 else position
-                    holder.subject_recyclerview!!.visibility = View.VISIBLE
+                    holder.subjectRecyclerview!!.visibility = View.VISIBLE
                     notifyDataSetChanged()
                 }
             }
 
             Subject_List = Subject_List(data.subjectdetails, context)
-            holder.subject_recyclerview!!.layoutManager = itemViewchild
-            holder.subject_recyclerview!!.itemAnimator = DefaultItemAnimator()
-            holder.subject_recyclerview!!.adapter = Subject_List
-            holder.subject_recyclerview!!.recycledViewPool.setMaxRecycledViews(0, 80)
+            holder.subjectRecyclerview!!.layoutManager = itemViewchild
+            holder.subjectRecyclerview!!.itemAnimator = DefaultItemAnimator()
+            holder.subjectRecyclerview!!.adapter = Subject_List
+            holder.subjectRecyclerview!!.recycledViewPool.setMaxRecycledViews(0, 80)
             Subject_List!!.notifyDataSetChanged()
 
         }
@@ -137,31 +136,13 @@ class Adaper_CreateExamination(private val data: ArrayList<sectionnamelist>, con
         (itemView)!!
     ) {
 
-        @JvmField
-        @BindView(R.id.constrine_first)
-        var constrine_first: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_section)
-        var txt_section: TextView? = null
+        val constrineFirst: ConstraintLayout = itemView!!.findViewById(R.id.constrine_first)
+        val txtSection: TextView = itemView!!.findViewById(R.id.txt_section)
+        val down: TextView = itemView!!.findViewById(R.id.down)
+        val tick: TextView = itemView!!.findViewById(R.id.tick)
+        val subjectRecyclerview: RecyclerView = itemView!!.findViewById(R.id.subject_recyclerview)
 
 
-        @JvmField
-        @BindView(R.id.down)
-        var down: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.tick)
-        var tick: TextView? = null
-
-        @JvmField
-        @BindView(R.id.subject_recyclerview)
-        var subject_recyclerview: RecyclerView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

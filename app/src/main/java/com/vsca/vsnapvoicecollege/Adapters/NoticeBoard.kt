@@ -15,8 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
@@ -175,73 +174,24 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
 
-        @JvmField
-        @BindView(R.id.lblsubmittioncount)
-        var lblsubmittioncount: TextView? = null
+        val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)!!
+        val lblsubmittioncount: TextView = itemView!!.findViewById(R.id.lblsubmittioncount)!!
+        val lblNewCircle: TextView = itemView!!.findViewById(R.id.lblNewCircle)!!
+        val rytRecentNotification: RelativeLayout = itemView!!.findViewById(R.id.rytRecentNotification)!!
+        val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)!!
+        val imgArrowdown: ImageView = itemView!!.findViewById(R.id.imgArrowdown)!!
+        val imgArrowUp: ImageView = itemView!!.findViewById(R.id.imgArrowUp)!!
+        val img_AssignmentDelete: ImageView = itemView!!.findViewById(R.id.img_AssignmentDelete)!!
+        val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)!!
+        val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)!!
+        val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)!!
+        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)!!
+        val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)!!
+        val lnrSubmission: LinearLayout = itemView!!.findViewById(R.id.lnrSubmission)!!
+        val LayoutSubmissions: LinearLayout = itemView!!.findViewById(R.id.LayoutSubmissions)!!
+        val rytAssignmentFiles: RelativeLayout = itemView!!.findViewById(R.id.rytAssignmentFiles)!!
 
-        @JvmField
-        @BindView(R.id.lblNewCircle)
-        var lblNewCircle: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytRecentNotification)
-        var rytRecentNotification: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticeboardTitle)
-        var lblNoticeboardTitle: TextView? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowdown)
-        var imgArrowdown: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowUp)
-        var imgArrowUp: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.img_AssignmentDelete)
-        var img_AssignmentDelete: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticeboardDate)
-        var lblNoticeboardDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticetime)
-        var lblNoticetime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytNotice)
-        var rytNotice: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticeboardDescription)
-        var lblNoticeboardDescription: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticePostedby)
-        var lblNoticePostedby: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrSubmission)
-        var lnrSubmission: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.LayoutSubmissions)
-        var LayoutSubmissions: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.rytAssignmentFiles)
-        var rytAssignmentFiles: RelativeLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

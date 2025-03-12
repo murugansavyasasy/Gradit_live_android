@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.Get_staff_yourclass
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -70,38 +69,16 @@ class ExamAdd_StaffAdapter constructor(data: List<Get_staff_yourclass>, context:
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.txt_financeandaccounding)
-        var txt_financeandaccounding: TextView? = null
 
-        @JvmField
-        @BindView(R.id.txt_bcom_Accounts)
-        var txt_bcom_Accounts: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_year1)
-        var txt_year1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_semester1)
-        var txt_semester1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_date)
-        var txt_date: TextView? = null
-
-        @JvmField
-        @BindView(R.id.examlist_constrine)
-        var examlist_constrine: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_selectspecfic)
-        var txt_selectspecfic: TextView? = null
+        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)
+        val txt_bcom_Accounts: TextView = itemView!!.findViewById(R.id.txt_bcom_Accounts)
+        val txt_year1: TextView = itemView!!.findViewById(R.id.txt_year1)
+        val txt_semester1: TextView = itemView!!.findViewById(R.id.txt_semester1)
+        val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
+        val examlist_constrine: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrine)
+        val txt_selectspecfic: TextView = itemView!!.findViewById(R.id.txt_selectspecfic)
 
 
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

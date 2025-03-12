@@ -13,8 +13,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -39,37 +38,14 @@ class imagepreviewadapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.imgGrid)
-        var imgGrid: ImageView? = null
+        val imgGrid: ImageView = itemView!!.findViewById(R.id.imgGrid)!!
+//        val progress: ProgressBar = itemView!!.findViewById(R.id.progress)!!
+        val LayoutEventPhoto: ConstraintLayout = itemView!!.findViewById(R.id.LayoutEventPhoto)!!
+        val lmgPdf: ImageView = itemView!!.findViewById(R.id.lmgPdf)!!
+        val pdfCount: TextView = itemView!!.findViewById(R.id.pdfCount)!!
+        val imgCount: TextView = itemView!!.findViewById(R.id.imgCount)!!
+        val progress1: ProgressBar = itemView!!.findViewById(R.id.progress1)!!
 
-        @JvmField
-        @BindView(R.id.progress)
-        var progress: ProgressBar? = null
-
-        @JvmField
-        @BindView(R.id.LayoutEventPhoto)
-        var LayoutEventPhoto: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.lmgPdf)
-        var lmgPdf: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.pdfCount)
-        var pdfCount: TextView? = null
-
-        @JvmField
-        @BindView(R.id.imgCount)
-        var imgCount: TextView? = null
-
-        @JvmField
-        @BindView(R.id.progress1)
-        var progress1: ProgressBar? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

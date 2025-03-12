@@ -4,50 +4,26 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.databinding.FeeDetailsBinding
 
 class FeeDetails : AppCompatActivity() {
 
-
-    @JvmField
-    @BindView(R.id.imgBack)
-    var imgBack: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblLoading)
-    var lblLoading: TextView? = null
-
-    @JvmField
-    @BindView(R.id.webviewFeedetails)
-    var webviewFeedetails: WebView? = null
-
-    @JvmField
-    @BindView(R.id.progressBar)
-    var progressBar: ProgressBar? = null
-
+    private lateinit var binding: FeeDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fee_details)
-        ButterKnife.bind(this)
-
+        binding = FeeDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         CommonUtil.OnMenuClicks("FeeDetails")
@@ -55,7 +31,7 @@ class FeeDetails : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white)
 
-        loadFeeDetails(webviewFeedetails)
+        loadFeeDetails(binding.webviewFeedetails)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -78,8 +54,8 @@ class FeeDetails : AppCompatActivity() {
         webviewFeedetails.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                progressBar!!.visibility = View.GONE
-                lblLoading!!.visibility = View.GONE
+                binding.progressBar!!.visibility = View.GONE
+                binding.lblLoading!!.visibility = View.GONE
 
                 if (url != null && url.contains("paymentsucccess/returnhome")) {
                     CommonUtil.MenuFeeDetails = true
@@ -92,9 +68,9 @@ class FeeDetails : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (webviewFeedetails!!.canGoBack()) {
+        if (binding.webviewFeedetails!!.canGoBack()) {
             CommonUtil.MenuFeeDetails = true
-            webviewFeedetails!!.goBack()
+            binding.webviewFeedetails!!.goBack()
         } else {
             CommonUtil.MenuFeeDetails = true
             super.onBackPressed()
@@ -116,8 +92,8 @@ class FeeDetails : AppCompatActivity() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
             // Show the progress bar when page starts loading
-            progressBar!!.visibility = View.VISIBLE
-            lblLoading!!.visibility = View.VISIBLE
+            binding.progressBar!!.visibility = View.VISIBLE
+            binding.lblLoading!!.visibility = View.VISIBLE
         }
     }
 
@@ -125,7 +101,7 @@ class FeeDetails : AppCompatActivity() {
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             super.onProgressChanged(view, newProgress)
             // Update progress bar with loading progress
-            progressBar!!.progress = newProgress
+            binding.progressBar!!.progress = newProgress
         }
     }
 }

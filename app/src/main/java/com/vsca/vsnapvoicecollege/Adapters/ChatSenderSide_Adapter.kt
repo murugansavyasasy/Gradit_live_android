@@ -10,8 +10,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.ChatClickListener
 import com.vsca.vsnapvoicecollege.Model.Senderside_Chatdata
 import com.vsca.vsnapvoicecollege.R
@@ -36,47 +35,17 @@ class ChatSenderSide_Adapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.txt_financeandaccounding)
-        var txt_financeandaccounding: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_testing_creating)
-        var txt_testing_creating: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_date)
-        var txt_date: TextView? = null
-
-        @JvmField
-        @BindView(R.id.img_dotthree)
-        var img_dotthree: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.txt_testing_creatingans)
-        var txt_testing_creatingans: TextView? = null
+        val txt_financeandaccounding: TextView = itemView.findViewById(R.id.txt_financeandaccounding)
+        val txt_testing_creating: TextView = itemView.findViewById(R.id.txt_testing_creating)
+        val txt_date: TextView = itemView.findViewById(R.id.txt_date)
+        val img_dotthree: ImageView = itemView.findViewById(R.id.img_dotthree)
+        val txt_testing_creatingans: TextView = itemView.findViewById(R.id.txt_testing_creatingans)
+        val txt_financeandaccoundingans: TextView = itemView.findViewById(R.id.txt_financeandaccoundingans)
+        val examlist_constrineans: ConstraintLayout = itemView.findViewById(R.id.examlist_constrineans)
+        val txt_dateans: TextView = itemView.findViewById(R.id.txt_dateans)
+        val txt_question: TextView = itemView.findViewById(R.id.txt_question)
 
 
-        @JvmField
-        @BindView(R.id.txt_financeandaccoundingans)
-        var txt_financeandaccoundingans: TextView? = null
-
-        @JvmField
-        @BindView(R.id.examlist_constrineans)
-        var examlist_constrineans: ConstraintLayout? = null
-
-
-        @JvmField
-        @BindView(R.id.txt_dateans)
-        var txt_dateans: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_question)
-        var txt_question: TextView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

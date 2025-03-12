@@ -10,9 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.CategoryCreditWiseAdapter
 import com.vsca.vsnapvoicecollege.Model.*
@@ -20,52 +17,9 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityCategoryCreditWiseBinding
 
-class CategoryCreditWise : BaseActivity() {
-
-    @JvmField
-    @BindView(R.id.idRVCategories)
-    var ryclerCourse: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgheaderBack)
-    var imgheaderBack: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCategoryName)
-    var lblCategoryName: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuHeaderName)
-    var lblMenuHeaderName: TextView? = null
-
-    @JvmField
-    @BindView(R.id.RadioGroup)
-    var RadioGroup: RadioGroup? = null
-
-    @JvmField
-    @BindView(R.id.LayoutCountry)
-    var layoutDropdown: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lnrRadioGroup)
-    var lnrRadioGroup: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.viewLine)
-    var viewLine: View? = null
-
-    @JvmField
-    @BindView(R.id.imgDropdown)
-    var imgDropdown: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.LayoutTable)
-    var LayoutTable: TableLayout? = null
+class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
 
     override var appViewModel: App? = null
     var categorycreditAdapter: CategoryCreditWiseAdapter? = null
@@ -76,11 +30,16 @@ class CategoryCreditWise : BaseActivity() {
     var CategoryId: String? = null
     var selectedCategoryID: String? = null
     var selectedradioValue: String? = null
+    override fun inflateBinding(): ActivityCategoryCreditWiseBinding {
+        return ActivityCategoryCreditWiseBinding.inflate(layoutInflater)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
+        binding = ActivityCategoryCreditWiseBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        MenuBottomType()
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
@@ -88,12 +47,24 @@ class CategoryCreditWise : BaseActivity() {
             categeroyType()
         }
 
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve,
+            R.id.recyclermenusbottom,
+            R.id.swipeUpMenus,
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
+        )
+        MenuBottomType()
+
         CommonUtil.OnMenuClicks("CategoryCredit")
 
+        binding.imgheaderBack.setOnClickListener { setImgheaderBackclick() }
+        binding.idRVCategories!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
 
-        ryclerCourse!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
-
-        LayoutTable!!.visibility = View.GONE
+        binding.LayoutTable!!.visibility = View.GONE
 
         appViewModel!!.CategoryWiseCreditLiveData?.observe(this) { response ->
             if (response != null) {
@@ -107,34 +78,34 @@ class CategoryCreditWise : BaseActivity() {
 
                     var listSize = GetCategoryCreditData.size
                     if (listSize > 0) {
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        ryclerCourse!!.visibility = View.VISIBLE
-                        LayoutTable!!.visibility = View.VISIBLE
+                        binding.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.idRVCategories!!.visibility = View.VISIBLE
+                        binding.LayoutTable!!.visibility = View.VISIBLE
 
                         categorycreditAdapter =
                             CategoryCreditWiseAdapter(GetCategoryCreditData, this)
                         val mLayoutManager: RecyclerView.LayoutManager =
                             LinearLayoutManager(this)
-                        ryclerCourse!!.layoutManager = mLayoutManager
-                        ryclerCourse!!.itemAnimator = DefaultItemAnimator()
-                        ryclerCourse!!.adapter = categorycreditAdapter
-                        ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.idRVCategories!!.layoutManager = mLayoutManager
+                        binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                        binding.idRVCategories!!.adapter = categorycreditAdapter
+                        binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         categorycreditAdapter!!.notifyDataSetChanged()
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        ryclerCourse!!.visibility = View.GONE
-                        LayoutTable!!.visibility = View.GONE
+                        binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.idRVCategories!!.visibility = View.GONE
+                        binding.LayoutTable!!.visibility = View.GONE
 
                     }
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
-                    LayoutTable!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
+                    binding.LayoutTable!!.visibility = View.GONE
                 }
             } else {
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                ryclerCourse!!.visibility = View.GONE
-                LayoutTable!!.visibility = View.GONE
+                binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.idRVCategories!!.visibility = View.GONE
+                binding.LayoutTable!!.visibility = View.GONE
             }
         }
 
@@ -149,14 +120,14 @@ class CategoryCreditWise : BaseActivity() {
 
                 } else {
 
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
-                    LayoutTable!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
+                    binding.LayoutTable!!.visibility = View.GONE
                 }
             } else {
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                ryclerCourse!!.visibility = View.GONE
-                LayoutTable!!.visibility = View.GONE
+                binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.idRVCategories!!.visibility = View.GONE
+                binding.LayoutTable!!.visibility = View.GONE
 
             }
         }
@@ -164,17 +135,17 @@ class CategoryCreditWise : BaseActivity() {
     }
 
     private fun SetSpinnerValue() {
-        layoutDropdown!!.setOnClickListener {
+        binding.layoutDropdown!!.setOnClickListener {
             if (!countryOpen) {
-                lnrRadioGroup!!.visibility = View.VISIBLE
-                viewLine!!.visibility = View.VISIBLE
-                imgDropdown!!.setImageResource(R.drawable.ic_arraow_up)
+                binding.lnrRadioGroup!!.visibility = View.VISIBLE
+                binding.viewLine!!.visibility = View.VISIBLE
+                binding.imgDropdown!!.setImageResource(R.drawable.ic_arraow_up)
                 countryOpen = true
 
             } else {
-                lnrRadioGroup!!.visibility = View.GONE
-                viewLine!!.visibility = View.GONE
-                imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
+                binding.lnrRadioGroup!!.visibility = View.GONE
+                binding.viewLine!!.visibility = View.GONE
+                binding.imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
                 countryOpen = false
 
             }
@@ -201,18 +172,18 @@ class CategoryCreditWise : BaseActivity() {
             )
             params.setMargins(15, 15, 10, 15)
 
-            RadioGroup!!.addView(rb, params)
+            binding.RadioGroup!!.addView(rb, params)
 
 
             rb.setOnClickListener {
                 val list = GetCategoryTypeData[i]
                 val categoryname = list.category_name
                 val categoryID = list.category_id
-                lblCategoryName!!.text = categoryname
-                lnrRadioGroup!!.visibility = View.GONE
-                viewLine!!.visibility = View.GONE
-                imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
-                LayoutTable!!.visibility = View.GONE
+                binding.lblCategoryName!!.text = categoryname
+                binding.lnrRadioGroup!!.visibility = View.GONE
+                binding.viewLine!!.visibility = View.GONE
+                binding.imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
+                binding.LayoutTable!!.visibility = View.GONE
 
                 CategoryWiseRequest(categoryID!!)
 
@@ -232,7 +203,6 @@ class CategoryCreditWise : BaseActivity() {
 
     }
 
-    @OnClick(R.id.imgheaderBack)
     fun setImgheaderBackclick() {
         onBackPressed()
     }

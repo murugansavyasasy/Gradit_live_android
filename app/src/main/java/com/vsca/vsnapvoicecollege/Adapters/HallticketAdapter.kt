@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.HallticketResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -139,139 +138,40 @@ class HallticketAdapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.clgcity)
-        var clgcity: TextView? = null
+        val clgcity: TextView = itemView!!.findViewById(R.id.clgcity)
+        val clgname: TextView = itemView!!.findViewById(R.id.clgname)
+        val txt_studentname: TextView = itemView!!.findViewById(R.id.txt_studentname)
+        val txt_rollnumber: TextView = itemView!!.findViewById(R.id.txt_rollnumber)
+        val txt_dob: TextView = itemView!!.findViewById(R.id.txt_dob)
+        val txt_coursename: TextView = itemView!!.findViewById(R.id.txt_coursename)
+        val txt_coursecode: TextView = itemView!!.findViewById(R.id.txt_coursecode)
+        val txt_department: TextView = itemView!!.findViewById(R.id.txt_department)
+        val txt_semester: TextView = itemView!!.findViewById(R.id.txt_semester)
+        val txt_subsemnamesemnumber: TextView = itemView!!.findViewById(R.id.txt_subsemnamesemnumber)
+        val txt_subject: TextView = itemView!!.findViewById(R.id.txt_subject)
+        val txt_subjectcode: TextView = itemView!!.findViewById(R.id.txt_subjectcode)
+        val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
+        val txt_time: TextView = itemView!!.findViewById(R.id.txt_time)
+        val txt_arrear_regular: TextView = itemView!!.findViewById(R.id.txt_arrear_regular)
+        val txt_overallsemattendance: TextView = itemView!!.findViewById(R.id.txt_overallsemattendance)
+        val txt_coursewiseattendance: TextView = itemView!!.findViewById(R.id.txt_coursewiseattendance)
+        val txt_condonation_paid: TextView = itemView!!.findViewById(R.id.txt_condonation_paid)
 
-        @JvmField
-        @BindView(R.id.clgname)
-        var clgname: TextView? = null
+        val lnr_name: LinearLayout = itemView!!.findViewById(R.id.lnr_name)
+        val lnr_registerno: LinearLayout = itemView!!.findViewById(R.id.lnr_registerno)
+        val lnr_dob: LinearLayout = itemView!!.findViewById(R.id.lnr_dob)
+        val lnr_depart: LinearLayout = itemView!!.findViewById(R.id.lnr_depart)
+        val lnr_Coursename: LinearLayout = itemView!!.findViewById(R.id.lnr_Coursename)
+        val lnr_semester: LinearLayout = itemView!!.findViewById(R.id.lnr_semester)
+        val lnr_subject: LinearLayout = itemView!!.findViewById(R.id.lnr_subject)
+        val lnr_subjectcode: LinearLayout = itemView!!.findViewById(R.id.lnr_subjectcode)
+        val lnr_date: LinearLayout = itemView!!.findViewById(R.id.lnr_date)
+        val lnr_time: LinearLayout = itemView!!.findViewById(R.id.lnr_time)
+        val lnr_arrear_regular: LinearLayout = itemView!!.findViewById(R.id.lnr_arrear_regular)
+        val lnr_overall_semester_attendance: LinearLayout = itemView!!.findViewById(R.id.lnr_overall_semester_attendance)
+        val lnr_course_wise_attendance: LinearLayout = itemView!!.findViewById(R.id.lnr_course_wise_attendance)
+        val lnr_condonation_paid: LinearLayout = itemView!!.findViewById(R.id.lnr_condonation_paid)
 
-        @JvmField
-        @BindView(R.id.txt_studentname)
-        var txt_studentname: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_rollnumber)
-        var txt_rollnumber: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_dob)
-        var txt_dob: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_coursename)
-        var txt_coursename: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_coursecode)
-        var txt_coursecode: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.txt_department)
-        var txt_department: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_semester)
-        var txt_semester: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_subsemnamesemnumber)
-        var txt_subsemnamesemnumber: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_subject)
-        var txt_subject: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_subjectcode)
-        var txt_subjectcode: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_date)
-        var txt_date: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_time)
-        var txt_time: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_arrear_regular)
-        var txt_arrear_regular: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_overallsemattendance)
-        var txt_overallsemattendance: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_coursewiseattendance)
-        var txt_coursewiseattendance: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_condonation_paid)
-        var txt_condonation_paid: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnr_name)
-        var lnr_name: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_registerno)
-        var lnr_registerno: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_dob)
-        var lnr_dob: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_depart)
-        var lnr_depart: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_Coursename)
-        var lnr_Coursename: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_semester)
-        var lnr_semester: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_subject)
-        var lnr_subject: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_subjectcode)
-        var lnr_subjectcode: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_date)
-        var lnr_date: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_time)
-        var lnr_time: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_arrear_regular)
-        var lnr_arrear_regular: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_overall_semester_attendance)
-        var lnr_overall_semester_attendance: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_course_wise_attendance)
-        var lnr_course_wise_attendance: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnr_condonation_paid)
-        var lnr_condonation_paid: LinearLayout? = null
-
-
-        init {
-            ButterKnife.bind(this, (view))
-        }
 
     }
 

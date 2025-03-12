@@ -10,8 +10,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.ChatList
 import com.vsca.vsnapvoicecollege.R
 import java.text.SimpleDateFormat
@@ -28,42 +27,16 @@ class Chat_Text_adapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.txt_financeandaccounding)
-        var txt_financeandaccounding: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_date)
-        var txt_date: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_testing_creating)
-        var txt_testing_creating: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_testing_creatingans)
-        var txt_testing_creatingans: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_financeandaccoundingans)
-        var txt_financeandaccoundingans: TextView? = null
-
-        @JvmField
-        @BindView(R.id.examlist_constrineans)
-        var examlist_constrineans: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt_dateans)
-        var txt_dateans: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_question)
-        var txt_question: TextView? = null
+        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)
+        val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
+        val txt_testing_creating: TextView = itemView!!.findViewById(R.id.txt_testing_creating)
+        val txt_testing_creatingans: TextView = itemView!!.findViewById(R.id.txt_testing_creatingans)
+        val txt_financeandaccoundingans: TextView = itemView!!.findViewById(R.id.txt_financeandaccoundingans)
+        val examlist_constrineans: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrineans)
+        val txt_dateans: TextView = itemView!!.findViewById(R.id.txt_dateans)
+        val txt_question: TextView = itemView!!.findViewById(R.id.txt_question)
 
 
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

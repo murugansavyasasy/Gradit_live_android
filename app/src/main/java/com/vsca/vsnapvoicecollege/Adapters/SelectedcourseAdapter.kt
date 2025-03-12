@@ -9,8 +9,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.RecipientCheckListenerint
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelectedint
@@ -82,17 +81,10 @@ class SelectedcourseAdapter constructor(
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblRecipientData)
-        var lblDocumentName: TextView? = null
+        val lblDocumentName: TextView = itemView!!.findViewById(R.id.lblRecipientData)!!
+        val chbox: CheckBox = itemView!!.findViewById(R.id.chbox)!!
 
-        @JvmField
-        @BindView(R.id.chbox)
-        var chbox: CheckBox? = null
 
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

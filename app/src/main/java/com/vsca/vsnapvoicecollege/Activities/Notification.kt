@@ -5,28 +5,38 @@ import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.NotificationAdapter
 import com.vsca.vsnapvoicecollege.Model.GetNotificationDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 
-class Notification : BaseActivity() {
+class Notification : BaseActivity<BottomMenuSwipeBinding>() {
+
+
     var notificationadapter: NotificationAdapter? = null
 
-    @JvmField
-    @BindView(R.id.idRVCategories)
-    var rvNotification: RecyclerView? = null
     var GetNotificationData: List<GetNotificationDetails> = ArrayList()
+
+    override fun inflateBinding(): BottomMenuSwipeBinding {
+        return BottomMenuSwipeBinding.inflate(layoutInflater)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = BottomMenuSwipeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        ButterKnife.bind(this)
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+
         ActionBarMethod(this@Notification)
         MenuBottomType()
         NotificatonRequest()
@@ -48,10 +58,10 @@ class Notification : BaseActivity() {
                         NotificationAdapter(GetNotificationData, this@Notification)
                     val mLayoutManager: RecyclerView.LayoutManager =
                         LinearLayoutManager(this@Notification)
-                    rvNotification!!.layoutManager = mLayoutManager
-                    rvNotification!!.itemAnimator = DefaultItemAnimator()
-                    rvNotification!!.adapter = notificationadapter
-                    rvNotification!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.idRVCategories!!.layoutManager = mLayoutManager
+                    binding.idRVCategories!!!!.itemAnimator = DefaultItemAnimator()
+                    binding.idRVCategories!!!!.adapter = notificationadapter
+                    binding.idRVCategories!!!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     notificationadapter!!.notifyDataSetChanged()
                 } else {
                     CommonUtil.ApiAlert(this@Notification, message)

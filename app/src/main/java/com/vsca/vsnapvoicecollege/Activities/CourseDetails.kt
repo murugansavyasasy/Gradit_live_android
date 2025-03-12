@@ -10,9 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.CourseDetailsAdapter
 import com.vsca.vsnapvoicecollege.Model.GetCourseDetailsData
@@ -22,24 +19,13 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
+import com.vsca.vsnapvoicecollege.databinding.CommonRecyclerviewBottomsheetBinding
 
-class CourseDetails : BaseActivity() {
+class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
 
-    @JvmField
-    @BindView(R.id.idRVCategories)
-    var ryclerCourse: RecyclerView? = null
 
-    @JvmField
-    @BindView(R.id.imgheaderBack)
-    var imgheaderBack: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuHeaderName)
-    var lblMenuHeaderName: TextView? = null
 
     override var appViewModel: App? = null
     var courseadapter: CourseDetailsAdapter? = null
@@ -49,21 +35,36 @@ class CourseDetails : BaseActivity() {
     var examlistSize = 0
     var CourseListSize = 0
 
+    override fun inflateBinding(): CommonRecyclerviewBottomsheetBinding {
+        return CommonRecyclerviewBottomsheetBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
+        binding = CommonRecyclerviewBottomsheetBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
         MenuBottomType()
+
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         if (CommonUtil.parentMenuCourseExam == 1) {
-            ryclerCourse!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
-            lblMenuHeaderName!!.setText(R.string.txt_exam_app_details)
+            binding.idRVCategories!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
+            binding.lblMenuHeaderName!!.setText(R.string.txt_exam_app_details)
             CommonUtil.OnMenuClicks("ExamApp")
 
             if (CommonUtil.menu_readExamApplicationDetails.equals("1")) {
                 ExamApplicationDetails()
             }
+
+            binding.imgheaderBack.setOnClickListener { onBackPressed() }
 
             appViewModel!!.examApplicationResponseLiveData?.observe(this) { response ->
                 if (response != null) {
@@ -78,37 +79,37 @@ class CourseDetails : BaseActivity() {
                         Log.d("testExamSize", examlistSize.toString())
                         Log.d("GetExamAppiccationData", GetExamAppiccationData.size.toString())
                         if (examlistSize > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            ryclerCourse!!.visibility = View.VISIBLE
+                            binding.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.idRVCategories!!.visibility = View.VISIBLE
 
                             courseadapter =
                                 CourseDetailsAdapter(GetExamAppiccationData, this@CourseDetails, 1)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@CourseDetails)
-                            ryclerCourse!!.layoutManager = mLayoutManager
-                            ryclerCourse!!.itemAnimator = DefaultItemAnimator()
-                            ryclerCourse!!.adapter = courseadapter
-                            ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.idRVCategories!!.layoutManager = mLayoutManager
+                            binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                            binding.idRVCategories!!.adapter = courseadapter
+                            binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
-                            lblNoRecordsFound!!.visibility = View.VISIBLE
-                            ryclerCourse!!.visibility = View.GONE
+                            binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                            binding.idRVCategories!!.visibility = View.GONE
 
                         }
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        ryclerCourse!!.visibility = View.GONE
+                        binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
                 }
             }
         }
         if (CommonUtil.parentMenuCourseExam == 0) {
-            ryclerCourse!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
+            binding.idRVCategories!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
 
-            lblMenuHeaderName!!.setText(R.string.txt_course_details)
+            binding.lblMenuHeaderName!!.setText(R.string.txt_course_details)
             CommonUtil.OnMenuClicks("CourseDetails")
 
             if (CommonUtil.menu_readCourseDetails.equals("1")) {
@@ -124,36 +125,36 @@ class CourseDetails : BaseActivity() {
                         CourseListSize = GetCourseDetailsData.size
 
                         if (CourseListSize > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            ryclerCourse!!.visibility = View.VISIBLE
+                            binding.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.idRVCategories!!.visibility = View.VISIBLE
                             courseadapter =
                                 CourseDetailsAdapter(GetCourseDetailsData, this@CourseDetails, 0)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@CourseDetails)
-                            ryclerCourse!!.layoutManager = mLayoutManager
-                            ryclerCourse!!.itemAnimator = DefaultItemAnimator()
-                            ryclerCourse!!.adapter = courseadapter
-                            ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.idRVCategories!!.layoutManager = mLayoutManager
+                            binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                            binding.idRVCategories!!.adapter = courseadapter
+                            binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
-                            lblNoRecordsFound!!.visibility = View.VISIBLE
-                            ryclerCourse!!.visibility = View.GONE
+                            binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                            binding.idRVCategories!!.visibility = View.GONE
                         }
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        ryclerCourse!!.visibility = View.GONE
+                        binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
                 }
             }
         }
 
         if (CommonUtil.parentMenuCourseExam == 2) {
-            ryclerCourse!!.setBackgroundResource(R.drawable.bg_rectangle_white)
+            binding.idRVCategories!!.setBackgroundResource(R.drawable.bg_rectangle_white)
 
-            lblMenuHeaderName!!.setText(R.string.txt_profile)
+            binding.lblMenuHeaderName!!.setText(R.string.txt_profile)
             appViewModel!!.getStudentProfile(CommonUtil.MemberId, this@CourseDetails)
             appViewModel!!.getprofileResponseLiveData()?.observe(this) { response ->
                 if (response != null) {
@@ -163,37 +164,32 @@ class CourseDetails : BaseActivity() {
                         UserMenuRequest(this@CourseDetails)
                         GetProfileData = response.data!!
                         if (GetProfileData.size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            ryclerCourse!!.visibility = View.VISIBLE
+                            binding.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.idRVCategories!!.visibility = View.VISIBLE
                             courseadapter =
                                 CourseDetailsAdapter(this@CourseDetails, GetProfileData, 2)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@CourseDetails)
-                            ryclerCourse!!.layoutManager = mLayoutManager
-                            ryclerCourse!!.itemAnimator = DefaultItemAnimator()
-                            ryclerCourse!!.adapter = courseadapter
-                            ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.idRVCategories!!.layoutManager = mLayoutManager
+                            binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                            binding.idRVCategories!!.adapter = courseadapter
+                            binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
-                            lblNoRecordsFound!!.visibility = View.VISIBLE
-                            ryclerCourse!!.visibility = View.GONE
+                            binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                            binding.idRVCategories!!.visibility = View.GONE
                         }
 
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        ryclerCourse!!.visibility = View.GONE
+                        binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
                 }
             }
         }
-    }
-
-    @OnClick(R.id.imgheaderBack)
-    fun setImgheaderBackclick() {
-        onBackPressed()
     }
 
     override fun onBackPressed() {

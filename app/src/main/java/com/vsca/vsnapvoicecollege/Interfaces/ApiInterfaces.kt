@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Interfaces
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.AWS.PreSignedUrl
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
 import com.vsca.vsnapvoicecollege.Model.AssignmentMark
 import com.vsca.vsnapvoicecollege.Model.Assignment_Forward
@@ -569,5 +570,13 @@ interface ApiInterfaces {
 
     @POST("api/AppDetailsBal/BiometricEntryusingApp")
     fun BiometricEntryforAttendance(@Body jsonObject: JsonObject?): Call<JsonArray?>?
+
+    @GET("/api/AppDetailsBal/GetS3PresignedUrl")
+    fun getPreSignedUrl(
+        @Query("bucket") bucket: String?,
+        @Query("fileName") fileName: String?,
+        @Query("bucketPath") bucketPath: String?,
+        @Query("fileType") fileType: String?
+    ): Call<JsonArray?>?
 
 }

@@ -14,8 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.*
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -484,55 +483,18 @@ class Subject_List(data: List<Subjectdetail>, context: Context) :
         (itemView)!!
     ) {
 
-        @JvmField
-        @BindView(R.id.constrine_test)
-        var constrine_test: ConstraintLayout? = null
+        val constrine_test: ConstraintLayout = itemView!!.findViewById(R.id.constrine_test)!!
+        val constrin_second: ConstraintLayout = itemView!!.findViewById(R.id.constrin_second)!!
+        val txtTitle: EditText = itemView!!.findViewById(R.id.txtTitle)!!
+        val txtDescription: EditText = itemView!!.findViewById(R.id.txtDescription)!!
+        val start_date: TextView = itemView!!.findViewById(R.id.start_date)!!
+        val down1: TextView = itemView!!.findViewById(R.id.down1)!!
+        val txt_session1: TextView = itemView!!.findViewById(R.id.txt_session1)!!
+        val txt_test: TextView = itemView!!.findViewById(R.id.txt_test)!!
+        val tick1: TextView = itemView!!.findViewById(R.id.tick1)!!
+        val btn_save: Button = itemView!!.findViewById(R.id.btn_save)!!
+        val btn_Delete: Button = itemView!!.findViewById(R.id.btn_Delete)!!
 
-        @JvmField
-        @BindView(R.id.constrin_second)
-        var constrin_second: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.txtTitle)
-        var txtTitle: EditText? = null
-
-        @JvmField
-        @BindView(R.id.txtDescription)
-        var txtDescription: EditText? = null
-
-        @JvmField
-        @BindView(R.id.start_date)
-        var start_date: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.down1)
-        var down1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_session1)
-        var txt_session1: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_test)
-        var txt_test: TextView? = null
-
-        @JvmField
-        @BindView(R.id.tick1)
-        var tick1: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.btn_save)
-        var btn_save: Button? = null
-
-        @JvmField
-        @BindView(R.id.btn_Delete)
-        var btn_Delete: Button? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

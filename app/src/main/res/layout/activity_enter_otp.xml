@@ -31,7 +31,9 @@
             android:text="@string/txt_proceed_with_your"
             android:textSize="@dimen/twenty_three"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imglogo"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/imglogo">
+
+        </TextView>
 
         <TextView
             android:id="@+id/lblLogin"
@@ -46,7 +48,9 @@
             android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblProceed"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/lblProceed">
+
+        </TextView>
 
         <TextView
             android:id="@+id/lblmobilenumber"
@@ -61,7 +65,9 @@
             android:visibility="gone"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblLogin"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/lblLogin">
+
+        </TextView>
 
         <EditText
             android:id="@+id/edMobilenumber"

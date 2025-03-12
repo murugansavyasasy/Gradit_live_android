@@ -13,16 +13,10 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -35,12 +29,14 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.SetTheme
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
 
 class ApplyLeave : ActionBarActivity() {
+
 
     var appViewModel: App? = null
     var AdWebURl: String? = null
@@ -54,58 +50,89 @@ class ApplyLeave : ActionBarActivity() {
     var Date: Int? = null
     var Month: Int? = null
     var Year: Int? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.SpinnerLeaveType)
-    var SpinnerLeaveType: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.lblFromDate)
-    var lblFromDate: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblToDate)
-    var lblToDate: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.tv_count)
-    var tv_count: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txtNoofDays)
-    var txtNoofDays: EditText? = null
-
-    @JvmField
-    @BindView(R.id.txtLeaveReason)
-    var txtLeaveReason: EditText? = null
-
     var GetLeaveTypeData: List<LeaveTypeData> = ArrayList()
     var bookArrayList = ArrayList<String>()
     var LeaveName: String? = null
     var LeaveType: String? = null
     var LeaveTypeID = 0
+    private lateinit var binding: ActivityApplyLeaveBinding
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityApplyLeaveBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionbarWithoutBottom(this)
         imgRefresh!!.visibility = View.GONE
 
-        txtNoofDays!!.isEnabled = false
+        binding.txtNoofDays!!.isEnabled = false
+
+        binding.btnCancel.setOnClickListener {
+            onBackPressed()
+        }
+
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
+
+        binding.lnrFromDate.setOnClickListener {
+            startdata()
+        }
+
+        binding.lnrToDate.setOnClickListener {
+            enddate()
+        }
+
+        binding.btnConfirm.setOnClickListener {
+            StartDate = binding.lblFromDate!!.text.toString()
+            EndDate = binding.lblToDate!!.text.toString()
+            Numberoddays = binding.txtNoofDays!!.text.toString()
+            CommonUtil.LeaveReasion = binding.txtLeaveReason!!.text.toString()
+
+            CommonUtil.leavestartdate = StartDate.toString()
+
+            CommonUtil.leaveenddate = EndDate.toString()
+            CommonUtil.numberofday = Numberoddays.toString()
+
+            if (CommonUtil.leavestartdate.isNullOrEmpty() || CommonUtil.leaveenddate.isNullOrEmpty() || CommonUtil.numberofday.isNullOrEmpty() || CommonUtil.LeaveReasion.isNullOrEmpty() || LeaveTypeID.equals(
+                    0
+                )
+            ) {
+
+                CommonUtil.ApiAlert(this, CommonUtil.fill_the_details)
+
+            } else {
+
+                val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@ApplyLeave)
+                alertDialog.setTitle(CommonUtil.Hold_on)
+                alertDialog.setMessage(CommonUtil.Apply_Leave)
+                alertDialog.setPositiveButton(CommonUtil.Yes) { _, _ ->
+
+
+                    if (CommonUtil.Leavetype.equals("Edit")) {
+
+                        Manageleavesend("edit", LeaveTypeID.toString())
+
+                    } else {
+
+                        Manageleavesend("add", LeaveTypeID.toString())
+
+                    }
+                }
+
+                alertDialog.setNegativeButton(CommonUtil.No) { _, _ ->
+
+
+                }
+                val alert: AlertDialog = alertDialog.create()
+                alert.setCanceledOnTouchOutside(false)
+                alert.show()
+
+            }
+        }
 
         appViewModel!!.AdvertisementLiveData?.observe(this,
             Observer<GetAdvertisementResponse?> { response ->
@@ -120,11 +147,12 @@ class ApplyLeave : ActionBarActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
@@ -135,7 +163,6 @@ class ApplyLeave : ActionBarActivity() {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-                    BaseActivity.UserMenuRequest(this)
                     bookArrayList.clear()
                     if (status == 1) {
                         GetLeaveTypeData = response.data!!
@@ -152,15 +179,17 @@ class ApplyLeave : ActionBarActivity() {
                                 this, android.R.layout.simple_spinner_item, bookArrayList
                             )
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                            SpinnerLeaveType!!.adapter = adapter
-                            SpinnerLeaveType!!.onItemSelectedListener =
+                            binding.SpinnerLeaveType!!.adapter = adapter
+                            binding.SpinnerLeaveType!!.onItemSelectedListener =
                                 object : AdapterView.OnItemSelectedListener {
                                     override fun onItemSelected(
                                         adapterView: AdapterView<*>?, view: View, i: Int, l: Long
                                     ) {
-                                        val index: Int = SpinnerLeaveType!!.selectedItemPosition
+                                        val index: Int =
+                                            binding.SpinnerLeaveType!!.selectedItemPosition
                                         LeaveTypeID = index
-                                        LeaveType = SpinnerLeaveType!!.selectedItem.toString()
+                                        LeaveType =
+                                            binding.SpinnerLeaveType!!.selectedItem.toString()
                                     }
 
                                     override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -216,7 +245,7 @@ class ApplyLeave : ActionBarActivity() {
             spf = SimpleDateFormat("dd/MM/yyyy")
             val date = spf.format(newDate)
 
-            lblFromDate!!.text = date
+            binding.lblFromDate!!.text = date
             CommonUtil.leavestartdate = date
 
             val date2 = CommonUtil.leaveenddate
@@ -225,16 +254,16 @@ class ApplyLeave : ActionBarActivity() {
             spf2 = SimpleDateFormat("dd/MM/yyyy")
             val date4 = spf2.format(newDate2)
 
-            lblToDate!!.text = date4
+            binding.lblToDate!!.text = date4
             CommonUtil.leaveenddate = date4
 
-            txtNoofDays!!.setText(CommonUtil.numberofday)
-            txtLeaveReason!!.setText(CommonUtil.LeaveReasion)
+            binding.txtNoofDays!!.setText(CommonUtil.numberofday)
+            binding.txtLeaveReason!!.setText(CommonUtil.LeaveReasion)
 
         }
 
-        txtLeaveReason!!.addTextChangedListener(mTextEditorWatcher)
-        txtLeaveReason!!.enableScrollText()
+        binding.txtLeaveReason!!.addTextChangedListener(mTextEditorWatcher)
+        binding.txtLeaveReason!!.enableScrollText()
     }
 
 
@@ -285,10 +314,6 @@ class ApplyLeave : ActionBarActivity() {
     override val layoutResourceId: Int
         protected get() = R.layout.activity_apply_leave
 
-    @OnClick(R.id.imgLeaveback)
-    fun LeaveApplyback() {
-        onBackPressed()
-    }
 
     fun EditText.enableScrollText() {
         overScrollMode = View.OVER_SCROLL_ALWAYS
@@ -312,70 +337,12 @@ class ApplyLeave : ActionBarActivity() {
     private val mTextEditorWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            tv_count!!.text = s.length.toString() + "/500"
+            binding.tvCount!!.text = s.length.toString() + "/500"
         }
 
         override fun afterTextChanged(s: Editable) {}
     }
 
-    @OnClick(R.id.btnConfirm)
-    fun btnConform() {
-
-        StartDate = lblFromDate!!.text.toString()
-        EndDate = lblToDate!!.text.toString()
-        Numberoddays = txtNoofDays!!.text.toString()
-        CommonUtil.LeaveReasion = txtLeaveReason!!.text.toString()
-
-        CommonUtil.leavestartdate = StartDate.toString()
-
-        CommonUtil.leaveenddate = EndDate.toString()
-        CommonUtil.numberofday = Numberoddays.toString()
-
-        if (CommonUtil.leavestartdate.isNullOrEmpty() || CommonUtil.leaveenddate.isNullOrEmpty() || CommonUtil.numberofday.isNullOrEmpty() || CommonUtil.LeaveReasion.isNullOrEmpty() || LeaveTypeID.equals(
-                0
-            )
-        ) {
-
-            CommonUtil.ApiAlert(this, CommonUtil.fill_the_details)
-
-        } else {
-
-            val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@ApplyLeave)
-            alertDialog.setTitle(CommonUtil.Hold_on)
-            alertDialog.setMessage(CommonUtil.Apply_Leave)
-            alertDialog.setPositiveButton(CommonUtil.Yes) { _, _ ->
-
-
-                if (CommonUtil.Leavetype.equals("Edit")) {
-
-                    Manageleavesend("edit", LeaveTypeID.toString())
-
-                } else {
-
-                    Manageleavesend("add", LeaveTypeID.toString())
-
-                }
-            }
-
-            alertDialog.setNegativeButton(CommonUtil.No) { _, _ ->
-
-
-            }
-            val alert: AlertDialog = alertDialog.create()
-            alert.setCanceledOnTouchOutside(false)
-            alert.show()
-
-        }
-
-    }
-
-    @OnClick(R.id.btnCancel)
-    fun btnCancel() {
-        onBackPressed()
-    }
-
-
-    @OnClick(R.id.lnrFromDate)
     fun startdata() {
 
         val c = Calendar.getInstance()
@@ -386,7 +353,7 @@ class ApplyLeave : ActionBarActivity() {
                 val _date = if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth.toString()
                 val _pickedDate = "$_date/$_month/$year"
                 Log.e("PickedDate: ", "Date: $_pickedDate") //2019-02-12
-                lblFromDate!!.text = _pickedDate
+                binding.lblFromDate!!.text = _pickedDate
 
                 Date = _date.toInt()
                 Month = _month.toInt()
@@ -398,10 +365,9 @@ class ApplyLeave : ActionBarActivity() {
 
     }
 
-    @OnClick(R.id.lnrToDate)
     fun enddate() {
 
-        if (lblFromDate!!.text.equals("")) {
+        if (binding.lblFromDate!!.text.equals("")) {
 
             CommonUtil.ApiAlert(this, CommonUtil.from_date)
 
@@ -416,12 +382,12 @@ class ApplyLeave : ActionBarActivity() {
                     val _pickedDate = "$_date/$_month/$_year"
 
 
-                    lblToDate!!.text = _pickedDate
+                    binding.lblToDate!!.text = _pickedDate
 
-                    if (!lblFromDate!!.text.isNullOrEmpty() && !lblToDate!!.text.isNullOrEmpty()) {
+                    if (!binding.lblFromDate!!.text.isNullOrEmpty() && !binding.lblToDate!!.text.isNullOrEmpty()) {
 
-                        StartDate = lblFromDate!!.text.toString()
-                        EndDate = lblToDate!!.text.toString()
+                        StartDate = binding.lblFromDate!!.text.toString()
+                        EndDate = binding.lblToDate!!.text.toString()
 
                         val mDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
@@ -433,9 +399,9 @@ class ApplyLeave : ActionBarActivity() {
                         val mDayDifference = mDifferenceDates.toString()
 
                         if (mDayDifference.equals("0")) {
-                            txtNoofDays!!.setText("1")
+                            binding.txtNoofDays!!.setText("1")
                         } else {
-                            txtNoofDays!!.setText(mDayDifference)
+                            binding.txtNoofDays!!.setText(mDayDifference)
 
                         }
 
@@ -461,7 +427,6 @@ class ApplyLeave : ActionBarActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }

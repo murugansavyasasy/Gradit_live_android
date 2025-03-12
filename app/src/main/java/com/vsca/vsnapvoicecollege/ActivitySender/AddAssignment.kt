@@ -26,15 +26,12 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.AWS.S3Uploader
-import com.vsca.vsnapvoicecollege.AWS.S3Utils
+import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
+import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Activities.Assignment
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
@@ -49,6 +46,7 @@ import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.VideoAlbum.AlbumVideoSelectVideoActivity
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.AddImageNewBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -100,82 +98,7 @@ class AddAssignment : ActionBarActivity() {
     var separator = ","
     var FilePopup: PopupWindow? = null
     var photoTempFileWrite: File? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.start_date)
-    var start_date: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.tv_count)
-    var tv_count: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_decription)
-    var txt_decription: TextView? = null
-
-    @JvmField
-    @BindView(R.id.edt_devision)
-    var edt_devision: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblUploadFiles)
-    var lblUploadFiles: TextView? = null
-
-    @JvmField
-    @BindView(R.id.view)
-    var view: View? = null
-
-    @JvmField
-    @BindView(R.id.edt_title)
-    var edt_title: EditText? = null
-
-    @JvmField
-    @BindView(R.id.txtDescription)
-    var txtDescription: EditText? = null
-
-    @JvmField
-    @BindView(R.id.lblAboveCircularPath)
-    var lblAboveCircularPath: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.lbl_fileselectedstate)
-    var lbl_fileselectedstate: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_title)
-    var txt_title: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_Assignmenttype)
-    var txt_Assignmenttype: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.txt_submissionon)
-    var txt_submissionon: TextView? = null
-
-    @JvmField
-    @BindView(R.id.btnConfirm)
-    var btnConfirm: Button? = null
-
-
-    @JvmField
-    @BindView(R.id.LayoutUploadVideo)
-    var LayoutUploadVideo: ConstraintLayout? = null
+    var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
 
     var filename: String? = null
     var FileType: String? = null
@@ -184,54 +107,65 @@ class AddAssignment : ActionBarActivity() {
     var AssignmentTitleForward: String? = null
     var AssignmentType: String? = null
     var AssignmentDescription: String? = null
+    private lateinit var binding: AddImageNewBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = AddImageNewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionbarWithoutBottom(this)
+        isAwsUploadingPreSigned = AwsUploadingPreSigned()
         imgRefresh!!.visibility = View.GONE
 
         ScreenName = intent.getStringExtra("ScreenName")
         AssignmentTitleForward = intent.getStringExtra("AssignmentTitle")
         AssignmentType = intent.getStringExtra("AssignmentType")
         Log.d("AssignmentForward", ScreenName.toString())
+
         if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
 
-            lblMenuTitle!!.text = CommonUtil.Forward_Assignment
+            binding.lblMenuTitle!!.text = CommonUtil.Forward_Assignment
             if (AssignmentType.equals("image")) {
 
-                edt_devision!!.text = "IMAGE"
+                binding.edtDevision!!.text = "IMAGE"
 
             } else if (AssignmentType.equals("video")) {
 
-                edt_devision!!.text = "VIDEO"
+                binding.edtDevision!!.text = "VIDEO"
 
             } else if (AssignmentType.equals("pdf")) {
 
-                edt_devision!!.text = "PDF"
+                binding.edtDevision!!.text = "PDF"
 
             } else if (AssignmentType.equals("text")) {
 
-                edt_devision!!.text = "TEXT"
+                binding.edtDevision!!.text = "TEXT"
 
             } else if (AssignmentType.equals("All")) {
 
             }
-            edt_title!!.setText(AssignmentTitleForward)
-            edt_title!!.setEnabled(false)
-            edt_devision!!.setEnabled(false)
-            txtDescription!!.visibility = View.GONE
-            LayoutUploadVideo!!.visibility = View.GONE
-            txt_decription!!.visibility = View.GONE
+            binding.edtTitle!!.setText(AssignmentTitleForward)
+            binding.edtTitle!!.setEnabled(false)
+            binding.edtDevision!!.setEnabled(false)
+            binding.txtDescription!!.visibility = View.GONE
+            binding.LayoutUploadVideo!!.visibility = View.GONE
+            binding.txtDecription!!.visibility = View.GONE
         } else {
-            txtDescription!!.visibility = View.VISIBLE
-            LayoutUploadVideo!!.visibility = View.VISIBLE
-            txt_decription!!.visibility = View.VISIBLE
+            binding.txtDescription!!.visibility = View.VISIBLE
+            binding.LayoutUploadVideo!!.visibility = View.VISIBLE
+            binding.txtDecription!!.visibility = View.VISIBLE
         }
+
+        binding.LayoutUploadVideo.setOnClickListener { PICKFILE() }
+        binding.imgImagePdfback.setOnClickListener { onBackPressed() }
+        binding.startDate.setOnClickListener { eventdateClick() }
+        binding.btnConfirm.setOnClickListener { selectreciption() }
+        binding.btnCancel.setOnClickListener { btnCancel() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
@@ -247,11 +181,11 @@ class AddAssignment : ActionBarActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
@@ -259,14 +193,14 @@ class AddAssignment : ActionBarActivity() {
 
         if (ScreenName.equals("Assignment Submit")) {
 
-            edt_title!!.visibility = View.GONE
-            txt_title!!.visibility = View.GONE
-            edt_devision!!.visibility = View.GONE
-            start_date!!.visibility = View.GONE
-            txt_Assignmenttype!!.visibility = View.GONE
-            txt_submissionon!!.visibility = View.GONE
-            view!!.visibility = View.GONE
-            btnConfirm!!.text = "Submit"
+            binding.edtTitle!!.visibility = View.GONE
+            binding.txtTitle!!.visibility = View.GONE
+            binding.edtDevision!!.visibility = View.GONE
+            binding.startDate!!.visibility = View.GONE
+            binding.txtAssignmenttype!!.visibility = View.GONE
+            binding.txtSubmissionon!!.visibility = View.GONE
+            binding.view!!.visibility = View.GONE
+            binding.btnConfirm!!.text = "Submit"
 
         }
 
@@ -300,35 +234,35 @@ class AddAssignment : ActionBarActivity() {
             }
         }
 
-        txtDescription!!.addTextChangedListener(mTextEditorWatcher)
-        txtDescription!!.enableScrollText()
+        binding.txtDescription!!.addTextChangedListener(mTextEditorWatcher)
+        binding.txtDescription!!.enableScrollText()
 
 
-        edt_devision?.setOnClickListener {
-            val popupMenu = PopupMenu(this@AddAssignment, edt_devision)
+        binding.edtDevision?.setOnClickListener {
+            val popupMenu = PopupMenu(this@AddAssignment, binding.edtDevision)
             popupMenu.menuInflater.inflate(R.menu.assignment_typemenu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
 
-                edt_devision!!.setText(menuItem.title)
+                binding.edtDevision!!.setText(menuItem.title)
                 if (menuItem.title!!.equals("PDF")) {
-                    lblUploadFiles?.setText("Upload Pdf")
+                    binding.lblUploadFiles?.setText("Upload Pdf")
                     FileType = "PDF"
-                    LayoutUploadVideo!!.visibility = View.VISIBLE
+                    binding.LayoutUploadVideo!!.visibility = View.VISIBLE
 
                 } else if (menuItem.title!!.equals("IMAGE")) {
-                    lblUploadFiles?.setText("Upload Image")
+                    binding.lblUploadFiles?.setText("Upload Image")
                     FileType = "IMAGE"
-                    LayoutUploadVideo!!.visibility = View.VISIBLE
+                    binding.LayoutUploadVideo!!.visibility = View.VISIBLE
 
                 } else if (menuItem.title!!.equals("VIDEO")) {
-                    lblUploadFiles?.text = "Upload Video"
+                    binding.lblUploadFiles?.text = "Upload Video"
                     FileType = "VIDEO"
-                    LayoutUploadVideo!!.visibility = View.VISIBLE
+                    binding.LayoutUploadVideo!!.visibility = View.VISIBLE
 
                 } else if (menuItem.title!!.equals("TEXT")) {
                     FileType = "TEXT"
-                    lbl_fileselectedstate!!.visibility = View.GONE
-                    LayoutUploadVideo!!.visibility = View.GONE
+                    binding.lblFileselectedstate!!.visibility = View.GONE
+                    binding.LayoutUploadVideo!!.visibility = View.GONE
                 }
                 true
             }
@@ -356,10 +290,10 @@ class AddAssignment : ActionBarActivity() {
                             var Count: String? = null
                             if (CommonUtil.SelcetedFileList != null) {
                                 Count = CommonUtil.SelcetedFileList.size.toString()
-                                lbl_fileselectedstate!!.visibility = View.VISIBLE
-                                lbl_fileselectedstate!!.text = "Number of file selected : " + Count
+                                binding.lblFileselectedstate!!.visibility = View.VISIBLE
+                                binding.lblFileselectedstate!!.text = "Number of file selected : " + Count
                             } else {
-                                lbl_fileselectedstate!!.visibility = View.GONE
+                                binding.lblFileselectedstate!!.visibility = View.GONE
                             }
 
                         }
@@ -378,11 +312,11 @@ class AddAssignment : ActionBarActivity() {
                         var Count: String? = null
                         if (CommonUtil.SelcetedFileList != null) {
                             Count = CommonUtil.SelcetedFileList.size.toString()
-                            lbl_fileselectedstate!!.visibility = View.VISIBLE
-                            lbl_fileselectedstate!!.setText("Nmber of file selected : " + Count)
+                            binding.lblFileselectedstate!!.visibility = View.VISIBLE
+                            binding.lblFileselectedstate!!.setText("Nmber of file selected : " + Count)
 
                         } else {
-                            lbl_fileselectedstate!!.visibility = View.GONE
+                            binding.lblFileselectedstate!!.visibility = View.GONE
 
                         }
                     }
@@ -520,7 +454,6 @@ class AddAssignment : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.add_image_new
 
-    @OnClick(R.id.LayoutUploadVideo)
     fun PICKFILE() {
 
         CommonUtil.SelcetedFileList.clear()
@@ -595,19 +528,19 @@ class AddAssignment : ActionBarActivity() {
 
         } else {
 
-            filename = lblUploadFiles.toString()
-            if (lblUploadFiles!!.text.equals("Upload Image")) {
+            filename = binding.lblUploadFiles.toString()
+            if (binding.lblUploadFiles!!.text.equals("Upload Image")) {
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 intent.addCategory(Intent.CATEGORY_OPENABLE)
                 intent.type = "image/*"
                 selectImagesActivityResult.launch(intent)
-            } else if (lblUploadFiles!!.text.equals("Upload Pdf")) {
+            } else if (binding.lblUploadFiles!!.text.equals("Upload Pdf")) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "application/pdf"
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
                 startActivityForResult(intent, SELECT_PDF)
-            } else if (lblUploadFiles!!.text.equals("Upload Video")) {
+            } else if (binding.lblUploadFiles!!.text.equals("Upload Video")) {
                 val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
                 intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 startActivityForResult(intent1, SELECT_VIDEO)
@@ -629,12 +562,7 @@ class AddAssignment : ActionBarActivity() {
         return image
     }
 
-    @OnClick(R.id.imgImagePdfback)
-    fun imgBackClick() {
-        onBackPressed()
-    }
 
-    @OnClick(R.id.start_date)
     fun eventdateClick() {
 
         val c = Calendar.getInstance()
@@ -646,7 +574,7 @@ class AddAssignment : ActionBarActivity() {
                 val _date = if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth.toString()
                 val _pickedDate = "$_date/$_month/$_year"
                 Log.e("PickedDate: ", "Date: $_pickedDate") //2019-02-12
-                start_date!!.text = _pickedDate
+                binding.startDate!!.text = _pickedDate
             }, c[Calendar.YEAR], c[Calendar.MONTH], c[Calendar.MONTH]
         )
         dialog.datePicker.minDate = System.currentTimeMillis() - 1000
@@ -654,31 +582,29 @@ class AddAssignment : ActionBarActivity() {
 
     }
 
-    @OnClick(R.id.btnCancel)
     fun btnCancel() {
         CommonUtil.SelcetedFileList.clear()
         onBackPressed()
     }
 
-    @OnClick(R.id.btnConfirm)
     fun selectreciption() {
 
 
         if (ScreenName.equals("Assignment Submit")) {
 
-            CommonUtil.startdate = start_date!!.text.toString()
-            CommonUtil.Description = txtDescription!!.text.toString()
-            CommonUtil.title = edt_title!!.text.toString()
+            CommonUtil.startdate = binding.startDate!!.text.toString()
+            CommonUtil.Description = binding.txtDescription!!.text.toString()
+            CommonUtil.title = binding.edtTitle!!.text.toString()
 
             if (ScreenName.equals("Assignment Submit")) {
-                AssignmentDescription = txtDescription!!.text.toString()
+                AssignmentDescription = binding.txtDescription!!.text.toString()
 
                 if (!AssignmentDescription.isNullOrEmpty() && CommonUtil.SelcetedFileList.size > 0) {
                     val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@AddAssignment)
                     alertDialog.setTitle(CommonUtil.Hold_on)
                     alertDialog.setMessage(CommonUtil.Are_you_submit)
                     alertDialog.setPositiveButton(CommonUtil.Yes) { _, _ ->
-                        awsFileUpload(this, pathIndex)
+                        isUploadAWS()
                     }
                     alertDialog.setNegativeButton(CommonUtil.No) { _, _ ->
                     }
@@ -701,21 +627,21 @@ class AddAssignment : ActionBarActivity() {
                 startActivity(i)
             } else if (CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals("p3")) {
                 val i: Intent = Intent(this, AddRecipients::class.java)
-                CommonUtil.startdate = start_date!!.text.toString()
+                CommonUtil.startdate = binding.startDate!!.text.toString()
                 i.putExtra("ScreenName", ScreenName)
                 startActivity(i)
             } else {
                 val i: Intent = Intent(this, PrincipalRecipient::class.java)
-                CommonUtil.startdate = start_date!!.text.toString()
+                CommonUtil.startdate = binding.startDate!!.text.toString()
                 i.putExtra("ScreenName", ScreenName)
                 startActivity(i)
             }
 
         } else {
 
-            AssignmentDate = start_date!!.text.toString()
-            AssignmentTitle = edt_title!!.text.toString()
-            AssignmentDescription = txtDescription!!.text.toString()
+            AssignmentDate = binding.startDate!!.text.toString()
+            AssignmentTitle = binding.edtTitle!!.text.toString()
+            AssignmentDescription = binding.txtDescription!!.text.toString()
 
             if (!AssignmentDate.isNullOrEmpty() && !AssignmentTitle.isNullOrEmpty() && !AssignmentDescription.isNullOrEmpty()) {
 
@@ -725,9 +651,9 @@ class AddAssignment : ActionBarActivity() {
 
                 } else {
 
-                    CommonUtil.startdate = start_date!!.text.toString()
-                    CommonUtil.Description = txtDescription!!.text.toString()
-                    CommonUtil.title = edt_title!!.text.toString()
+                    CommonUtil.startdate = binding.startDate!!.text.toString()
+                    CommonUtil.Description = binding.txtDescription!!.text.toString()
+                    CommonUtil.title = binding.edtTitle!!.text.toString()
                     ScreenName = CommonUtil.New_Assignment
 
 
@@ -759,7 +685,45 @@ class AddAssignment : ActionBarActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
+    private fun isUploadAWS() {
+        progressDialog = CustomLoading.createProgressDialog(this)
+        progressDialog!!.show()
+        Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
+        for (i in CommonUtil.SelcetedFileList.indices) {
+            AwsUploadingFile(
+                CommonUtil.SelcetedFileList[i]
+            )
+        }
+    }
+
+
+    private fun AwsUploadingFile(
+        isFilePath: String
+    ) {
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            isFilePath,
+            CommonUtil.Collage_ids,
+            object : UploadCallback {
+                override fun onUploadSuccess(response: String?, isAwsFile: String?) {
+                    Log.d("Upload Success", response!!)
+                    Awsuploadedfile.add(isAwsFile!!)
+                    if (CommonUtil.EventStatus.equals("Past")) {
+                        CommonUtil.EventStatus = "Past"
+                    } else {
+                        CommonUtil.EventStatus = "Upcoming"
+                    }
+                    if (Awsuploadedfile.size == CommonUtil.SelcetedFileList.size) {
+                        progressDialog!!.dismiss()
+                        AssignmentsendEntireSection()
+                    }
+                }
+
+                override fun onUploadError(error: String?) {
+                    Log.e("Upload Error", error!!)
+                }
+            })
+    }
+
     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
@@ -785,11 +749,11 @@ class AddAssignment : ActionBarActivity() {
                 var Count: String? = null
                 if (CommonUtil.SelcetedFileList != null) {
                     Count = CommonUtil.SelcetedFileList.size.toString()
-                    lbl_fileselectedstate!!.visibility = View.VISIBLE
-                    lbl_fileselectedstate!!.setText("Nmber of file selected :" + Count)
+                    binding.lblFileselectedstate!!.visibility = View.VISIBLE
+                    binding.lblFileselectedstate!!.setText("Nmber of file selected :" + Count)
 
                 } else {
-                    lbl_fileselectedstate!!.visibility = View.GONE
+                    binding.lblFileselectedstate!!.visibility = View.GONE
                 }
 
                 if (uriString.startsWith("content://")) {
@@ -824,11 +788,11 @@ class AddAssignment : ActionBarActivity() {
                 var Count: String? = null
                 if (CommonUtil.SelcetedFileList != null) {
                     Count = CommonUtil.SelcetedFileList.size.toString()
-                    lbl_fileselectedstate!!.visibility = View.VISIBLE
-                    lbl_fileselectedstate!!.setText("Nmber of file selected :" + Count)
+                    binding.lblFileselectedstate!!.visibility = View.VISIBLE
+                    binding.lblFileselectedstate!!.setText("Nmber of file selected :" + Count)
 
                 } else {
-                    lbl_fileselectedstate!!.visibility = View.GONE
+                    binding.lblFileselectedstate!!.visibility = View.GONE
                 }
 
                 CommonUtil.SelcetedFileList.forEach {
@@ -858,11 +822,11 @@ class AddAssignment : ActionBarActivity() {
                             var Count: String? = null
                             if (CommonUtil.SelcetedFileList != null) {
                                 Count = CommonUtil.SelcetedFileList.size.toString()
-                                lbl_fileselectedstate!!.visibility = View.VISIBLE
-                                lbl_fileselectedstate!!.setText("Nmber of file selected :" + Count)
+                                binding.lblFileselectedstate!!.visibility = View.VISIBLE
+                                binding.lblFileselectedstate!!.setText("Nmber of file selected :" + Count)
 
                             } else {
-                                lbl_fileselectedstate!!.visibility = View.GONE
+                                binding.lblFileselectedstate!!.visibility = View.GONE
 
                             }
                         }
@@ -928,8 +892,8 @@ class AddAssignment : ActionBarActivity() {
         jsonembed.add("buttons", jsonshare)
 
         `object`.add("upload", jsonObjectclasssec)
-        `object`.addProperty("name", edt_title!!.text.toString())
-        `object`.addProperty("description", txtDescription!!.text.toString())
+        `object`.addProperty("name", binding.edtTitle!!.text.toString())
+        `object`.addProperty("description", binding.txtDescription!!.text.toString())
         `object`.add("privacy", jsonprivacy)
         `object`.add("embed", jsonembed)
         val head = "Bearer " + "8d74d8bf6b5742d39971cc7d3ffbb51a"
@@ -1078,93 +1042,93 @@ class AddAssignment : ActionBarActivity() {
         })
     }
 
-    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-
-        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-        val s3uploaderObj: S3Uploader
-        s3uploaderObj = S3Uploader(activity)
-        pathIndex = pathind!!
-
-        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
-            Log.d("uploadFilePath", uploadFilePath.toString())
-            val extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-            contentType = if (extension.equals(".pdf")) {
-                ".pdf"
-            } else {
-                ".jpg"
-            }
-            break
-        }
-
-        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-            Log.d("test", uploadFilePath!!)
-            if (uploadFilePath != null) {
-                progressDialog = CustomLoading.createProgressDialog(this)
-
-                progressDialog!!.show()
-                fileNameDateTime =
-                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
-                fileNameDateTime = "File_" + fileNameDateTime
-                Log.d("filenamedatetime", fileNameDateTime.toString())
-                s3uploaderObj.initUpload(
-                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-                )
-
-                s3uploaderObj.setOns3UploadDone(object : S3Uploader.S3UploadInterface {
-                    override fun onUploadSuccess(response: String?) {
-                        if (response!!.equals("Success")) {
-
-                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-                                this@AddAssignment,
-                                CommonUtil.CollegeId.toString(),
-                                uploadFilePath,
-                                fileNameDateTime
-                            )
-
-                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-
-                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-
-
-                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-
-
-                                fileName = File(uploadFilePath)
-
-                                filename = fileName!!.name
-                                AWSUploadedFilesList.add(
-                                    AWSUploadedFiles(
-                                        CommonUtil.urlFromS3!!, filename, contentType
-                                    )
-                                )
-
-                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-                                awsFileUpload(activity, pathIndex + 1)
-
-                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-                                    progressDialog!!.dismiss()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onUploadError(response: String?) {
-                        progressDialog!!.dismiss()
-                        Log.d("error", "Error Uploading")
-                    }
-                })
-            }
-        } else {
-            AssignmentsendEntireSection()
-        }
-    }
+//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
+//
+//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
+//        val s3Uploader1Obj: S3Uploader1
+//        s3Uploader1Obj = S3Uploader1(activity)
+//        pathIndex = pathind!!
+//
+//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
+//            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
+//            Log.d("uploadFilePath", uploadFilePath.toString())
+//            val extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
+//            contentType = if (extension.equals(".pdf")) {
+//                ".pdf"
+//            } else {
+//                ".jpg"
+//            }
+//            break
+//        }
+//
+//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
+//            Log.d("test", uploadFilePath!!)
+//            if (uploadFilePath != null) {
+//                progressDialog = CustomLoading.createProgressDialog(this)
+//
+//                progressDialog!!.show()
+//                fileNameDateTime =
+//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
+//                fileNameDateTime = "File_" + fileNameDateTime
+//                Log.d("filenamedatetime", fileNameDateTime.toString())
+//                s3Uploader1Obj.initUpload(
+//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
+//                )
+//
+//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
+//                    override fun onUploadSuccess(response: String?) {
+//                        if (response!!.equals("Success")) {
+//
+//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
+//                                this@AddAssignment,
+//                                CommonUtil.CollegeId.toString(),
+//                                uploadFilePath,
+//                                fileNameDateTime
+//                            )
+//
+//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
+//
+//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
+//
+//
+//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
+//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
+//
+//
+//                                fileName = File(uploadFilePath)
+//
+//                                filename = fileName!!.name
+//                                AWSUploadedFilesList.add(
+//                                    AWSUploadedFiles(
+//                                        CommonUtil.urlFromS3!!, filename, contentType
+//                                    )
+//                                )
+//
+//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
+//                                awsFileUpload(activity, pathIndex + 1)
+//
+//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
+//                                    progressDialog!!.dismiss()
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onUploadError(response: String?) {
+//                        progressDialog!!.dismiss()
+//                        Log.d("error", "Error Uploading")
+//                    }
+//                })
+//            }
+//        } else {
+//            AssignmentsendEntireSection()
+//        }
+//    }
 
     private val mTextEditorWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            tv_count!!.text = s.length.toString() + "/500"
+            binding.tvCount!!.text = s.length.toString() + "/500"
         }
 
         override fun afterTextChanged(s: Editable) {}

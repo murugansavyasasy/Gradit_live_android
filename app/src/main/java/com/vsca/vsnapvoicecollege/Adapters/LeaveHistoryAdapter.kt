@@ -13,8 +13,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.ApplyLeave
 import com.vsca.vsnapvoicecollege.Activities.Attendance
@@ -44,54 +43,19 @@ class LeaveHistoryAdapter(
     var Position: Int = 0
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        @JvmField
-        @BindView(R.id.lblLeaveCreatedDate)
-        var lblLeaveCreatedDate: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblleaveStatus)
-        var lblleaveStatus: TextView? = null
+        val lblLeaveCreatedDate: TextView = itemView!!.findViewById(R.id.lblLeaveCreatedDate)!!
+        val lblleaveStatus: TextView = itemView!!.findViewById(R.id.lblleaveStatus)!!
+        val lblLeaveType: TextView = itemView!!.findViewById(R.id.lblLeaveType)!!
+        val lblLeaveNoOfDays: TextView = itemView!!.findViewById(R.id.lblLeaveNoOfDays)!!
+        val lblFromDate: TextView = itemView!!.findViewById(R.id.lblFromDate)!!
+        val lblToDate: TextView = itemView!!.findViewById(R.id.lblToDate)!!
+        val rytLeaveDescription: RelativeLayout = itemView!!.findViewById(R.id.rytLeaveDescription)!!
+        val lblLeaveReason: TextView = itemView!!.findViewById(R.id.lblLeaveReason)!!
+        val lblEditleave: TextView = itemView!!.findViewById(R.id.lblEditleave)!!
+        val lblDelete: TextView = itemView!!.findViewById(R.id.lblDelete)!!
+        val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)!!
 
-        @JvmField
-        @BindView(R.id.lblLeaveType)
-        var lblLeaveType: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblLeaveNoOfDays)
-        var lblLeaveNoOfDays: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblFromDate)
-        var lblFromDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblToDate)
-        var lblToDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytLeaveDescription)
-        var rytLeaveDescription: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblLeaveReason)
-        var lblLeaveReason: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblEditleave)
-        var lblEditleave: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblDelete)
-        var lblDelete: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

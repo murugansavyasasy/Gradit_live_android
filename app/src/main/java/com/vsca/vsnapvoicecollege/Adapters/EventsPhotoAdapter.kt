@@ -9,8 +9,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.vsca.vsnapvoicecollege.Activities.ViewFiles
@@ -21,21 +20,11 @@ class EventsPhotoAdapter(private val listname: List<String>, private val context
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.imgGrid)
-        var imgGrid: ImageView? = null
+        val imgGrid: ImageView = itemView!!.findViewById(R.id.imgGrid)
+        val progress: ProgressBar = itemView!!.findViewById(R.id.progress)
+        val LayoutEventPhoto: ConstraintLayout = itemView!!.findViewById(R.id.LayoutEventPhoto)
 
-        @JvmField
-        @BindView(R.id.progress)
-        var progress: ProgressBar? = null
 
-        @JvmField
-        @BindView(R.id.LayoutEventPhoto)
-        var LayoutEventPhoto: ConstraintLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

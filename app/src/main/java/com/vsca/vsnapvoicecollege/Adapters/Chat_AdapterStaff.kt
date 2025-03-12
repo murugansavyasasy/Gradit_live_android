@@ -8,8 +8,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.ChatListener_Staff
 import com.vsca.vsnapvoicecollege.Model.DataX
 import com.vsca.vsnapvoicecollege.R
@@ -24,37 +23,15 @@ class Chat_AdapterStaff(
     }
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        @JvmField
-        @BindView(R.id.imgStaffProfile)
-        var imgStaffProfile: ImageView? = null
+        val imgStaffProfile: ImageView = itemView!!.findViewById(R.id.imgStaffProfile)
+        val lblStaffName: TextView = itemView!!.findViewById(R.id.lblStaffName)
+        val lblSubjectName: TextView = itemView!!.findViewById(R.id.lblSubjectName)
+        val LayoutStaff: RelativeLayout = itemView!!.findViewById(R.id.LayoutStaff)
+        val lblSemester: TextView = itemView!!.findViewById(R.id.lblSemester)
+        val lblyear: TextView = itemView!!.findViewById(R.id.lblyear)
+        val lblSection: TextView = itemView!!.findViewById(R.id.lblSection)
 
-        @JvmField
-        @BindView(R.id.lblStaffName)
-        var lblStaffName: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblSubjectName)
-        var lblSubjectName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.LayoutStaff)
-        var LayoutStaff: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblSemester)
-        var lblSemester: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblyear)
-        var lblyear: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSection)
-        var lblSection: TextView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

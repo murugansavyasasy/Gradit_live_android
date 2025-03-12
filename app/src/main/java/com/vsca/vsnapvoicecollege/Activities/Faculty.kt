@@ -10,9 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -26,82 +23,13 @@ import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityExamViewMarksBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityFacultyMainBinding
 
-class Faculty : BaseActivity() {
-
+class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     var facultyAdapter: FacultyAdapter? = null
     override var appViewModel: App? = null
-
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.SpinnerSemester)
-    var SpinnerSemester: Spinner? = null
-
-
-    @JvmField
-    @BindView(R.id.SpinnerSections1)
-    var SpinnerSections1: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.recyclerCommon1)
-    var recyclerCommon1: RecyclerView? = null
-
-
-    @JvmField
-    @BindView(R.id.idRVCategories)
-    var ryclerCourse: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgheaderBack)
-    var imgheaderBack: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblCategoryName)
-    var lblCategoryName: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuHeaderName)
-    var lblMenuHeaderName: TextView? = null
-
-    @JvmField
-    @BindView(R.id.RadioGroup)
-    var RadioGroup: RadioGroup? = null
-
-    @JvmField
-    @BindView(R.id.LayoutCountry)
-    var layoutDropdown: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lnrRadioGroup)
-    var lnrRadioGroup: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.viewLine)
-    var viewLine: View? = null
-
-    @JvmField
-    @BindView(R.id.imgDropdown)
-    var imgDropdown: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.LayoutTable)
-    var LayoutTable: TableLayout? = null
-
 
     var SelectedSpinnerID: String? = null
     var SelectedSpinnerIDdepart: String? = null
@@ -127,6 +55,10 @@ class Faculty : BaseActivity() {
     var SectionnameList = ArrayList<String>()
     var SemesterAndSection = ArrayList<String>()
 
+    override fun inflateBinding(): ActivityFacultyMainBinding {
+        return ActivityFacultyMainBinding.inflate(layoutInflater)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
@@ -134,13 +66,23 @@ class Faculty : BaseActivity() {
         super.onCreate(savedInstanceState)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
+        binding = ActivityFacultyMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ActionBarMethod(this)
+
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
         MenuBottomType()
-
-
         CommonUtil.OnMenuClicks("Faculty")
         imgRefresh!!.visibility = View.GONE
+
+        binding.Facultylayout.LayoutAdvertisement.setOnClickListener {
+            adclick()
+        }
 
         appViewModel!!.AdvertisementLiveData?.observe(this,
             Observer<GetAdvertisementResponse?> { response ->
@@ -157,9 +99,9 @@ class Faculty : BaseActivity() {
                         }
 
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.Facultylayout.imgAdvertisement!!)
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.Facultylayout.imgthumb!!)
                     }
                 }
             })
@@ -187,8 +129,8 @@ class Faculty : BaseActivity() {
                         GetSemesterSectionData = response.data!!
 
                         if (GetSemesterSectionData.size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.Facultylayout.recyclerCommon!!.visibility = View.VISIBLE
 
 
                             for (j in GetSemesterSectionData.indices) {
@@ -205,10 +147,10 @@ class Faculty : BaseActivity() {
                             val adapter =
                                 ArrayAdapter(this, R.layout.spinner_textview, SemesterAndSection)
                             adapter.setDropDownViewResource(R.layout.dopdown_spinner)
-                            SpinnerSemester!!.adapter = adapter
+                            binding.Facultylayout.SpinnerSemester!!.adapter = adapter
 
 
-                            SpinnerSemester!!.onItemSelectedListener =
+                            binding.Facultylayout.SpinnerSemester!!.onItemSelectedListener =
                                 object : AdapterView.OnItemSelectedListener {
                                     override fun onItemSelected(
                                         parent: AdapterView<*>,
@@ -219,8 +161,8 @@ class Faculty : BaseActivity() {
 
                                         if (position != 0) {
 
-                                            SpinnerSections1!!.visibility = View.VISIBLE
-                                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                                            binding.Facultylayout.SpinnerSections1!!.visibility = View.VISIBLE
+                                            binding.Facultylayout.recyclerCommon!!.visibility = View.VISIBLE
 
                                             SemesterId =
                                                 GetSemesterSectionData.get(position - 1).clgsemesterid!!
@@ -238,8 +180,8 @@ class Faculty : BaseActivity() {
 
 
                                         } else {
-                                            SpinnerSections1!!.visibility = View.GONE
-                                            recyclerNoticeboard!!.visibility = View.GONE
+                                            binding.Facultylayout.SpinnerSections1!!.visibility = View.GONE
+                                            binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                                         }
                                     }
 
@@ -249,18 +191,18 @@ class Faculty : BaseActivity() {
                                 }
 
                         } else {
-                            lblNoRecordsFound!!.visibility = View.VISIBLE
-                            recyclerNoticeboard!!.visibility = View.GONE
+                            binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                            binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                         }
                     } else {
                         UserMenuRequest(this)
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
 
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
             }
             appViewModel!!.facultyListRecevier!!.observe(this) { response ->
@@ -271,26 +213,26 @@ class Faculty : BaseActivity() {
                     UserMenuRequest(this)
                     if (status == 1) {
 
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        recyclerNoticeboard!!.visibility = View.VISIBLE
+                        binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.Facultylayout.recyclerCommon!!.visibility = View.VISIBLE
                         GetFacultyLiveData = response.data!!
 
 
                         facultyAdapter = FacultyAdapter(GetFacultyLiveData, this)
                         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                        recyclerNoticeboard!!.layoutManager = mLayoutManager
-                        recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                        recyclerNoticeboard!!.adapter = facultyAdapter
-                        recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.Facultylayout.recyclerCommon!!.layoutManager = mLayoutManager
+                        binding.Facultylayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                        binding.Facultylayout.recyclerCommon!!.adapter = facultyAdapter
+                        binding.Facultylayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         facultyAdapter!!.notifyDataSetChanged()
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
                     UserMenuRequest(this)
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
             }
 
@@ -363,24 +305,24 @@ class Faculty : BaseActivity() {
                     UserMenuRequest(this)
                     if (status == 1) {
 
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        recyclerCommon1!!.visibility = View.VISIBLE
+                        binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.Facultylayout.recyclerCommon1!!.visibility = View.VISIBLE
                         GetFacultyLiveData = response.data!!
                         facultyAdapter = FacultyAdapter(GetFacultyLiveData, this)
                         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                        recyclerCommon1!!.layoutManager = mLayoutManager
-                        recyclerCommon1!!.itemAnimator = DefaultItemAnimator()
-                        recyclerCommon1!!.adapter = facultyAdapter
-                        recyclerCommon1!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.Facultylayout.recyclerCommon1!!.layoutManager = mLayoutManager
+                        binding.Facultylayout.recyclerCommon1!!.itemAnimator = DefaultItemAnimator()
+                        binding.Facultylayout.recyclerCommon1!!.adapter = facultyAdapter
+                        binding.Facultylayout.recyclerCommon1!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         facultyAdapter!!.notifyDataSetChanged()
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerCommon1!!.visibility = View.GONE
+                        binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.Facultylayout.recyclerCommon1!!.visibility = View.GONE
                     }
                 } else {
                     UserMenuRequest(this)
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
             }
 
@@ -397,24 +339,24 @@ class Faculty : BaseActivity() {
                     UserMenuRequest(this)
                     if (status == 1) {
 
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        recyclerNoticeboard!!.visibility = View.VISIBLE
+                        binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.Facultylayout.recyclerCommon!!.visibility = View.VISIBLE
                         GetFacultyLiveData = response.data!!
                         facultyAdapter = FacultyAdapter(GetFacultyLiveData, this)
                         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                        recyclerNoticeboard!!.layoutManager = mLayoutManager
-                        recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                        recyclerNoticeboard!!.adapter = facultyAdapter
-                        recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.Facultylayout.recyclerCommon!!.layoutManager = mLayoutManager
+                        binding.Facultylayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                        binding.Facultylayout.recyclerCommon!!.adapter = facultyAdapter
+                        binding.Facultylayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         facultyAdapter!!.notifyDataSetChanged()
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
                     UserMenuRequest(this)
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
             }
         }
@@ -427,8 +369,8 @@ class Faculty : BaseActivity() {
         val adaptersection = ArrayAdapter(this, R.layout.spinner_textview, SectionnameList)
         adaptersection.setDropDownViewResource(R.layout.dopdown_spinner)
 
-        SpinnerSections1!!.adapter = adaptersection
-        SpinnerSections1!!.onItemSelectedListener = object :
+        binding.Facultylayout.SpinnerSections1!!.adapter = adaptersection
+        binding.Facultylayout.SpinnerSections1!!.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(
@@ -438,11 +380,11 @@ class Faculty : BaseActivity() {
                 id: Long
             ) {
                 if (position != 0) {
-                    recyclerNoticeboard!!.visibility = View.VISIBLE
+                    binding.Facultylayout.recyclerCommon!!.visibility = View.VISIBLE
                     SectionId = GetSectionData.get(position - 1).sectionid!!
                     StudentFacultyRequest()
                 } else {
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
 
                 }
             }
@@ -465,14 +407,14 @@ class Faculty : BaseActivity() {
         }
         val adapter = ArrayAdapter(this, R.layout.spinner_rextview_course, SpinningCoursedata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_course_layout)
-        SpinnerSections1!!.adapter = adapter
-        SpinnerSections1!!.onItemSelectedListener =
+        binding.Facultylayout.SpinnerSections1!!.adapter = adapter
+        binding.Facultylayout.SpinnerSections1!!.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>, view: View, position: Int, id: Long
                 ) {
                     if (position != 0) {
-                        recyclerCommon1!!.visibility = View.VISIBLE
+                        binding.Facultylayout.recyclerCommon1!!.visibility = View.VISIBLE
 
                         SelectedSpinnerIDdepart =
                             GetDepartmentData!!.get(position - 1).department_id
@@ -481,7 +423,7 @@ class Faculty : BaseActivity() {
                         }
                         FacultyRequest()
                     } else {
-                        recyclerCommon1!!.visibility = View.GONE
+                        binding.Facultylayout.recyclerCommon1!!.visibility = View.GONE
                     }
                 }
 
@@ -501,15 +443,15 @@ class Faculty : BaseActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, SpinnerData)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        SpinnerSemester!!.adapter = adapter
-        SpinnerSemester!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.Facultylayout.SpinnerSemester!!.adapter = adapter
+        binding.Facultylayout.SpinnerSemester!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
 
                 if (position != 0) {
 
-                    SpinnerSections1!!.visibility = View.VISIBLE
+                    binding.Facultylayout.SpinnerSections1!!.visibility = View.VISIBLE
 
                     SelectedSpinnerID = GetDivisionData!!.get(position - 1).division_id
                     GetDivisionData!!.get(position - 1).division_name?.let {
@@ -518,8 +460,8 @@ class Faculty : BaseActivity() {
                     GetDepartmentRequest()
                 } else {
 
-                    SpinnerSections1!!.visibility = View.GONE
-                    recyclerCommon1!!.visibility = View.GONE
+                    binding.Facultylayout.SpinnerSections1!!.visibility = View.GONE
+                    binding.Facultylayout.recyclerCommon1!!.visibility = View.GONE
 
                 }
             }
@@ -637,7 +579,6 @@ class Faculty : BaseActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }

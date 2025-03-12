@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -30,52 +27,13 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
 
-class Events : BaseActivity() {
+class Events : BaseActivity<ActivityNoticeboardBinding>() {
 
     var eventsAdapter: EventsAdapter? = null
     override var appViewModel: App? = null
-
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollege)
-    var lblCollege: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollegeSize)
-    var lblCollegeSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
 
     var EventType = true
     var GetEvetnsData: List<GetEventDetailsData> = ArrayList()
@@ -90,18 +48,35 @@ class Events : BaseActivity() {
     var PreviousAddId: Int = 0
     var departmentcount: Int? = null
     var Collegecount: Int? = null
+override fun inflateBinding(): ActivityNoticeboardBinding {
+    return ActivityNoticeboardBinding.inflate(layoutInflater)
+}
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
-
         super.onCreate(savedInstanceState)
+        binding = ActivityNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
-        MenuBottomType()
+
         CommonUtil.OnMenuClicks("Events")
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        MenuBottomType()
         TabDepartmentColor()
+
+
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
+        binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
+        binding.CommonLayout.imgAddPlus.setOnClickListener { plusClick() }
 
         SearchList!!.visibility = View.VISIBLE
 
@@ -129,9 +104,9 @@ class Events : BaseActivity() {
         }
 
 
-        lblMenuTitle!!.setText(R.string.txt_events)
-        lblDepartment!!.setText(R.string.txt_upcoming)
-        lblCollege!!.setText(R.string.txt_past)
+        binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_events)
+        binding.CommonLayout.lblDepartment!!.setText(R.string.txt_upcoming)
+        binding.CommonLayout.lblCollege!!.setText(R.string.txt_past)
         CommonUtil.EventEdit = "Edit"
 
         if (CommonUtil.EventStatus.equals("Past")) {
@@ -172,9 +147,9 @@ class Events : BaseActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -217,8 +192,8 @@ class Events : BaseActivity() {
                         GetEvetnsData = response.data!!
                         val size = GetEvetnsData.size
                         if (size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
                             eventsAdapter =
                                 EventsAdapter(GetEvetnsData, this, object : EventClickListener {
                                     override fun oneventClick(
@@ -249,10 +224,10 @@ class Events : BaseActivity() {
                                 })
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = eventsAdapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = eventsAdapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             eventsAdapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -267,8 +242,8 @@ class Events : BaseActivity() {
 
                         if (size > 0) {
 
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
                             eventsAdapter =
                                 EventsAdapter(GetEvetnsData, this, object : EventClickListener {
                                     override fun oneventClick(
@@ -304,10 +279,10 @@ class Events : BaseActivity() {
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = eventsAdapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = eventsAdapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             eventsAdapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -333,11 +308,11 @@ class Events : BaseActivity() {
                         departmentcount = Integer.parseInt(CountUpcoming!!)
 
                         if (intdepartment > 0) {
-                            lblDepartmentSize!!.text = CountUpcoming
-                            lblDepartmentSize!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblDepartmentSize!!.text = CountUpcoming
+                            binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
                         } else {
-                            lblDepartmentSize!!.text = CountUpcoming
-                            lblDepartmentSize!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblDepartmentSize!!.text = CountUpcoming
+                            binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
                         }
 
                     } else {
@@ -353,11 +328,11 @@ class Events : BaseActivity() {
                         Collegecount = Integer.parseInt(Countpast!!)
 
                         if (intcollage > 0) {
-                            lblCollegeSize!!.text = Countpast
-                            lblCollegeSize!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblCollegeSize!!.text = Countpast
+                            binding.CommonLayout.lblCollegeSize!!.visibility = View.VISIBLE
                         } else {
-                            lblCollegeSize!!.text = Countpast
-                            lblCollegeSize!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblCollegeSize!!.text = Countpast
+                            binding.CommonLayout.lblCollegeSize!!.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -426,31 +401,30 @@ class Events : BaseActivity() {
     }
 
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
 
 
     private fun NoDataFound() {
-        lblNoRecordsFound!!.visibility = View.VISIBLE
-        recyclerNoticeboard!!.visibility = View.GONE
+        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
     }
 
     private fun CountValueSet() {
 
         if (!CountUpcoming.equals("0") && !CountUpcoming.equals("")) {
-            lblDepartmentSize!!.visibility = View.VISIBLE
-            lblDepartmentSize!!.text = CountUpcoming
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblDepartmentSize!!.text = CountUpcoming
         } else {
-            lblDepartmentSize!!.visibility = View.GONE
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
             CountUpcoming = "0"
         }
         if (!Countpast.equals("0") && !Countpast.equals("")) {
-            lblCollegeSize!!.visibility = View.VISIBLE
-            lblCollegeSize!!.text = Countpast
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblCollegeSize!!.text = Countpast
         } else {
-            lblCollegeSize!!.visibility = View.GONE
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.GONE
             Countpast = "0"
         }
 
@@ -458,10 +432,10 @@ class Events : BaseActivity() {
         var intCollegecount = Integer.parseInt(Countpast!!)
         var TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
-            lbltotalsize!!.visibility = View.VISIBLE
-            lbltotalsize!!.text = TotalSizeCount.toString()
+            binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
         } else {
-            lbltotalsize!!.visibility = View.GONE
+            binding.CommonLayout.lbltotalsize!!.visibility = View.GONE
         }
     }
 
@@ -491,7 +465,6 @@ class Events : BaseActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutDepartment)
     fun departmentClick() {
 
         CommonUtil.EventStatus = "Upcoming"
@@ -506,7 +479,6 @@ class Events : BaseActivity() {
 
     }
 
-    @OnClick(R.id.LayoutCollege)
     fun collegeClick() {
 
         CommonUtil.EventStatus = "Past"
@@ -533,7 +505,6 @@ class Events : BaseActivity() {
     }
 
 
-    @OnClick(R.id.imgAddPlus)
     fun plusClick() {
 
         val i: Intent = Intent(this, AddEvents::class.java)

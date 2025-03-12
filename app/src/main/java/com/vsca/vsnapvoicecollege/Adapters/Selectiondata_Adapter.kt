@@ -8,8 +8,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.ChildItemClickListener
 import com.vsca.vsnapvoicecollege.Model.Sectiondetail
 import com.vsca.vsnapvoicecollege.R
@@ -75,19 +74,9 @@ class Selectiondata_Adapter(
     inner class MyViewHolder (itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
+        val section: TextView = itemView!!.findViewById(R.id.section)!!
+        val chboxsection: CheckBox = itemView!!.findViewById(R.id.chboxsection)!!
 
-        @JvmField
-        @BindView(R.id.section)
-        var section: TextView? = null
-
-        @JvmField
-        @BindView(R.id.chboxsection)
-        var chboxsection: CheckBox? = null
-
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

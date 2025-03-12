@@ -14,9 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -31,44 +28,15 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivitySemesterCreditTableBinding
 import java.util.Locale
 
-class Video : BaseActivity() {
+class Video: BaseActivity<ActivityNoticeboardBinding>() {
 
     var videoAdapter: VideoAdapter? = null
     override var appViewModel: App? = null
-
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.layoutTab)
-    var layoutTab: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
 
     var GetVideoListData: List<GetVideoListDetails> = ArrayList()
     var CountVideo = "0"
@@ -77,22 +45,37 @@ class Video : BaseActivity() {
     var AdWebURl: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-
+        binding = ActivityNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-
-        ButterKnife.bind(this)
         ActionBarMethod(this)
+
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        TabDepartmentColor()
         MenuBottomType()
 
-        layoutTab!!.visibility = View.GONE
-        lblMenuTitle!!.setText(R.string.txt_Video)
+        binding.CommonLayout.layoutTab!!.visibility = View.GONE
+        binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_Video)
         CommonUtil.OnMenuClicks("Video")
-        TabDepartmentColor()
+
+
+        binding.CommonLayout.imgAddPlus.setOnClickListener { addVideo() }
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+
 
 
         SearchList!!.visibility = View.VISIBLE
@@ -146,11 +129,11 @@ class Video : BaseActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -182,8 +165,8 @@ class Video : BaseActivity() {
                     GetVideoListData = response.data!!
                     CountValueSet()
                     if (GetVideoListData.size > 0) {
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        recyclerNoticeboard!!.visibility = View.VISIBLE
+                        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
 
                         videoAdapter = VideoAdapter(GetVideoListData, this, object : VideoListener {
                             override fun onVideoClick(
@@ -202,25 +185,25 @@ class Video : BaseActivity() {
                         })
 
                         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                        recyclerNoticeboard!!.layoutManager = mLayoutManager
-                        recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                        recyclerNoticeboard!!.adapter = videoAdapter
-                        recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                        binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                        binding.CommonLayout.recyclerCommon!!.adapter = videoAdapter
+                        binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         videoAdapter!!.notifyDataSetChanged()
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
 
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                 }
 
             } else {
 
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                recyclerNoticeboard!!.visibility = View.GONE
+                binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
             }
         }
 
@@ -280,10 +263,10 @@ class Video : BaseActivity() {
         var intdepartment: Int? = null
         intdepartment = GetVideoListData.size
         if (intdepartment > 0) {
-            lbltotalsize!!.visibility = View.VISIBLE
-            lbltotalsize!!.text = intdepartment.toString()
+            binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lbltotalsize!!.text = intdepartment.toString()
         } else {
-            lbltotalsize!!.visibility = View.GONE
+            binding.CommonLayout.lbltotalsize!!.visibility = View.GONE
         }
 
     }
@@ -303,8 +286,6 @@ class Video : BaseActivity() {
         }
     }
 
-    @OnClick(R.id.imgAddPlus)
-
     fun addVideo() {
         val i: Intent = Intent(this, AddVideo::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -312,7 +293,6 @@ class Video : BaseActivity() {
         startActivity(i)
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }

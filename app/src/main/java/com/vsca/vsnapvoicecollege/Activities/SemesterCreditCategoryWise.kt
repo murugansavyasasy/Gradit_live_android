@@ -10,9 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.SemesterCreditAllCategoryAdapter
 import com.vsca.vsnapvoicecollege.Adapters.SemesterCreditsAdapter
@@ -21,60 +18,11 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivitySemesterCreditTableBinding
+import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 
-class SemesterCreditCategoryWise : BaseActivity() {
-
-    @JvmField
-    @BindView(R.id.idRVCategories)
-    var ryclerCourse: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgheaderBack)
-    var imgheaderBack: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCategoryName)
-    var lblCategoryName: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuHeaderName)
-    var lblMenuHeaderName: TextView? = null
-
-    @JvmField
-    @BindView(R.id.RadioGroup)
-    var RadioGroup: RadioGroup? = null
-
-    @JvmField
-    @BindView(R.id.LayoutCountry)
-    var layoutDropdown: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lnrRadioGroup)
-    var lnrRadioGroup: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.viewLine)
-    var viewLine: View? = null
-
-    @JvmField
-    @BindView(R.id.imgDropdown)
-    var imgDropdown: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.LayoutSemesterTable)
-    var LayoutSemesterTable: TableLayout? = null
-
-    @JvmField
-    @BindView(R.id.TableSemCategory)
-    var TableSemCategory: TableLayout? = null
-
-    @JvmField
-    @BindView(R.id.Layoutoverall)
-    var Layoutoverall: ConstraintLayout? = null
+class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBinding>() {
 
     override var appViewModel: App? = null
     var semesterCreditsAdapter: SemesterCreditsAdapter? = null
@@ -93,21 +41,36 @@ class SemesterCreditCategoryWise : BaseActivity() {
     var selectedCategoryID: String? = null
     var selectedradioValue: String? = null
 
+    override fun inflateBinding(): ActivitySemesterCreditTableBinding {
+        return ActivitySemesterCreditTableBinding.inflate(layoutInflater)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
-        lblMenuHeaderName!!.text = getString(R.string.txt_semester_credit_points)
-        MenuBottomType()
+        binding = ActivitySemesterCreditTableBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.lblMenuHeaderName!!.text = getString(R.string.txt_semester_credit_points)
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
         if (CommonUtil.menu_readSemCreditPoints.equals("1")) {
             SemesterType()
         }
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        MenuBottomType()
 
         CommonUtil.OnMenuClicks("SemCredit")
+        binding.imgheaderBack.setOnClickListener {
+            onBackPressed()
+        }
 
-        ryclerCourse!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
+        binding.idRVCategories!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
 
         appViewModel!!.SemesterWiseCreditAllLiveData?.observe(this) { response ->
             if (response != null) {
@@ -121,10 +84,10 @@ class SemesterCreditCategoryWise : BaseActivity() {
                     GetSemesterCreditWiseAllData = response.data!!
                     var listSize = GetSemesterCreditWiseAllData.size
                     if (listSize > 0) {
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        ryclerCourse!!.visibility = View.VISIBLE
-                        TableSemCategory!!.visibility = View.GONE
-                        LayoutSemesterTable!!.visibility = View.VISIBLE
+                        binding.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.idRVCategories!!.visibility = View.VISIBLE
+                        binding.TableSemCategory!!.visibility = View.GONE
+                        binding.LayoutSemesterTable!!.visibility = View.VISIBLE
 
                         for (i in GetSemesterCreditWiseAllData.indices) {
                             categoryNamehead = GetSemesterCreditWiseAllData[i].category_name
@@ -163,25 +126,25 @@ class SemesterCreditCategoryWise : BaseActivity() {
                                 SemesterCreditAllCategoryAdapter(SemAllCreditList, this)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            ryclerCourse!!.layoutManager = mLayoutManager
-                            ryclerCourse!!.itemAnimator = DefaultItemAnimator()
-                            ryclerCourse!!.adapter = semesterAllCreditsAdapter
-                            ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.idRVCategories!!.layoutManager = mLayoutManager
+                            binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                            binding.idRVCategories!!.adapter = semesterAllCreditsAdapter
+                            binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             semesterAllCreditsAdapter!!.notifyDataSetChanged()
                         }
 
 
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        ryclerCourse!!.visibility = View.GONE
+                        binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
                 }
             } else {
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                ryclerCourse!!.visibility = View.GONE
+                binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.idRVCategories!!.visibility = View.GONE
             }
 
 
@@ -199,34 +162,34 @@ class SemesterCreditCategoryWise : BaseActivity() {
 
                     var listSize = GetSemesterCreditWiseData.size
                     if (listSize > 0) {
-                        lblNoRecordsFound!!.visibility = View.GONE
-                        ryclerCourse!!.visibility = View.VISIBLE
-                        LayoutSemesterTable!!.visibility = View.VISIBLE
-                        TableSemCategory!!.visibility = View.GONE
+                        binding.lblNoRecordsFound!!.visibility = View.GONE
+                        binding.idRVCategories!!.visibility = View.VISIBLE
+                        binding.LayoutSemesterTable!!.visibility = View.VISIBLE
+                        binding.TableSemCategory!!.visibility = View.GONE
 
                         semesterCreditsAdapter =
                             SemesterCreditsAdapter(GetSemesterCreditWiseData, this)
                         val mLayoutManager: RecyclerView.LayoutManager =
                             LinearLayoutManager(this)
-                        ryclerCourse!!.layoutManager = mLayoutManager
-                        ryclerCourse!!.itemAnimator = DefaultItemAnimator()
-                        ryclerCourse!!.adapter = semesterCreditsAdapter
-                        ryclerCourse!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.idRVCategories!!.layoutManager = mLayoutManager
+                        binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                        binding.idRVCategories!!.adapter = semesterCreditsAdapter
+                        binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                         semesterCreditsAdapter!!.notifyDataSetChanged()
 
                     } else {
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        ryclerCourse!!.visibility = View.GONE
+                        binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.idRVCategories!!.visibility = View.GONE
                     }
 
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
                 }
 
             } else {
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                ryclerCourse!!.visibility = View.GONE
+                binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.idRVCategories!!.visibility = View.GONE
             }
         }
 
@@ -240,12 +203,12 @@ class SemesterCreditCategoryWise : BaseActivity() {
                     SetSpinnerValue()
 
                 } else {
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    ryclerCourse!!.visibility = View.GONE
+                    binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.idRVCategories!!.visibility = View.GONE
                 }
             } else {
-                lblNoRecordsFound!!.visibility = View.VISIBLE
-                ryclerCourse!!.visibility = View.GONE
+                binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                binding.idRVCategories!!.visibility = View.GONE
             }
         }
     }
@@ -254,21 +217,21 @@ class SemesterCreditCategoryWise : BaseActivity() {
         get() = R.layout.activity_semester_credit_table
 
     private fun SetSpinnerValue() {
-        layoutDropdown!!.setOnClickListener {
+        binding.layoutDropdown!!.setOnClickListener {
             if (!countryOpen) {
-                lnrRadioGroup!!.visibility = View.VISIBLE
-                viewLine!!.visibility = View.VISIBLE
-                imgDropdown!!.setImageResource(R.drawable.ic_arraow_up)
+                binding.layoutDropdown!!.visibility = View.VISIBLE
+                binding.viewLine!!.visibility = View.VISIBLE
+                binding.imgDropdown!!.setImageResource(R.drawable.ic_arraow_up)
                 countryOpen = true
-                Layoutoverall!!.visibility = View.GONE
+                binding.Layoutoverall!!.visibility = View.GONE
 
                 Log.d("Open", countryOpen.toString())
             } else {
-                lnrRadioGroup!!.visibility = View.GONE
-                viewLine!!.visibility = View.GONE
-                imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
+                binding.layoutDropdown!!.visibility = View.GONE
+                binding.viewLine!!.visibility = View.GONE
+                binding.imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
                 countryOpen = false
-                Layoutoverall!!.visibility = View.GONE
+                binding.Layoutoverall!!.visibility = View.GONE
                 Log.d("Close", countryOpen.toString())
 
             }
@@ -291,16 +254,16 @@ class SemesterCreditCategoryWise : BaseActivity() {
             )
             params.setMargins(15, 15, 10, 15)
 
-            RadioGroup!!.addView(rb, params)
+            binding.RadioGroup!!.addView(rb, params)
             rb.setOnClickListener {
                 val list = GetSemesterTypeData[i]
                 val semestername = list.semseter_name
                 selectedCategoryID = list.semester_id
-                lblCategoryName!!.text = semestername
-                lnrRadioGroup!!.visibility = View.GONE
-                viewLine!!.visibility = View.GONE
-                imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
-                Layoutoverall!!.visibility = View.VISIBLE
+                binding.lblCategoryName!!.text = semestername
+                binding.layoutDropdown!!.visibility = View.GONE
+                binding.viewLine!!.visibility = View.GONE
+                binding.imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
+                binding.Layoutoverall!!.visibility = View.VISIBLE
                 countryOpen = false
                 SemesterWiseRequest(selectedCategoryID!!)
 
@@ -319,11 +282,6 @@ class SemesterCreditCategoryWise : BaseActivity() {
         } else {
             appViewModel!!.getSemesterWiseCredit(jsonObject, this)
         }
-    }
-
-    @OnClick(R.id.imgheaderBack)
-    fun setImgheaderBackclick() {
-        onBackPressed()
     }
 
     override fun onBackPressed() {

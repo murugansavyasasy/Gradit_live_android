@@ -8,31 +8,19 @@ import android.view.View
 import android.webkit.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityVideoPlayBinding
 
 class VideoPlay : AppCompatActivity() {
 
-    @JvmField
-    @BindView(R.id.lblVideoTitle)
-    var lblVideoTitle: TextView? = null
+    private lateinit var binding: ActivityVideoPlayBinding
 
-    @JvmField
-    @BindView(R.id.lblVideoDescription)
-    var lblVideoDescription: TextView? = null
-
-    @JvmField
-    @BindView(R.id.mywebview)
-    var mywebview: WebView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_play)
-        ButterKnife.bind(this)
-
-
+        binding = ActivityVideoPlayBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val VideoID = intent.getStringExtra("iframe")
 
         if (VideoID != null) {
@@ -44,8 +32,12 @@ class VideoPlay : AppCompatActivity() {
         val appread = intent.getStringExtra("appread")
         val detailid = intent.getStringExtra("detailid")
 
-        lblVideoTitle!!.text = title
-        lblVideoDescription!!.text = description
+        binding.imgheaderBack.setOnClickListener {
+            super.onBackPressed()
+        }
+
+        binding.lblVideoTitle!!.text = title
+        binding.lblVideoDescription!!.text = description
         if (appread.equals("0")) {
             BaseActivity.AppReadStatus(
                 this, "video", detailid!!
@@ -54,27 +46,22 @@ class VideoPlay : AppCompatActivity() {
         LoadVideo(VideoID!!)
     }
 
-    @OnClick(R.id.imgheaderBack)
-    fun imgbackClick() {
-        super.onBackPressed()
-    }
-
     private fun LoadVideo(VideoID: String) {
 
         Log.d("testvideo", VideoID)
 
-        mywebview!!.setBackgroundColor(resources.getColor(R.color.clr_black))
-        mywebview!!.settings.javaScriptEnabled = true
-        mywebview!!.settings.domStorageEnabled = true
-        mywebview!!.settings.setSupportZoom(false)
-        mywebview!!.settings.builtInZoomControls = false
-        mywebview!!.settings.displayZoomControls = false
-        mywebview!!.isScrollContainer = false
-        mywebview!!.isHorizontalScrollBarEnabled = false
-        mywebview!!.isVerticalScrollBarEnabled = false
+        binding.mywebview!!.setBackgroundColor(resources.getColor(R.color.clr_black))
+        binding.mywebview!!.settings.javaScriptEnabled = true
+        binding.mywebview!!.settings.domStorageEnabled = true
+        binding.mywebview!!.settings.setSupportZoom(false)
+        binding.mywebview!!.settings.builtInZoomControls = false
+        binding.mywebview!!.settings.displayZoomControls = false
+        binding.mywebview!!.isScrollContainer = false
+        binding.mywebview!!.isHorizontalScrollBarEnabled = false
+        binding.mywebview!!.isVerticalScrollBarEnabled = false
 
-        mywebview!!.setOnTouchListener(View.OnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE })
-        mywebview!!.webViewClient = object : WebViewClient() {
+        binding.mywebview!!.setOnTouchListener(View.OnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE })
+        binding.mywebview!!.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
                 webView: WebView,
                 request: WebResourceRequest
@@ -82,7 +69,7 @@ class VideoPlay : AppCompatActivity() {
                 return true
             }
         }
-        mywebview!!.webChromeClient = object : WebChromeClient() {
+        binding.mywebview!!.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
                 setProgress(progress * 100)
                 if (progress == 100) {
@@ -90,7 +77,7 @@ class VideoPlay : AppCompatActivity() {
                 }
             }
         }
-        mywebview!!.settings.pluginState = WebSettings.PluginState.ON
+        binding.mywebview!!.settings.pluginState = WebSettings.PluginState.ON
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
@@ -110,7 +97,7 @@ class VideoPlay : AppCompatActivity() {
                 " </html> "
 
         Log.d("datahtmlweb", data_html)
-        mywebview!!.loadData(data_html, "text/html", "UTF-8")
+        binding.mywebview!!.loadData(data_html, "text/html", "UTF-8")
 
 
     }

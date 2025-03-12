@@ -19,9 +19,7 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -37,52 +35,15 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuTitle
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityImageOrPdfBinding
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ImageOrPdf : ActionBarActivity() {
-
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.LayoutUploadImagePdf)
-    var LayoutUploadImagePdf: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.btnConfirm)
-    var btnConfirm: Button? = null
-
-
-    @JvmField
-    @BindView(R.id.edImgTitle)
-    var edImgTitle: EditText? = null
-
-
-    @JvmField
-    @BindView(R.id.txt_imgpdfdescription)
-    var txt_imgpdfdescription: EditText? = null
-
-    @JvmField
-    @BindView(R.id.tv_count)
-    var tv_count: TextView? = null
-
-    @JvmField
-    @BindView(R.id.iblfileseletedotnot)
-    var iblfileseletedotnot: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalfile)
-    var lbltotalfile: TextView? = null
+class ImageOrPdf: ActionBarActivity() {
 
 
     var FilePopup: PopupWindow? = null
@@ -106,16 +67,27 @@ class ImageOrPdf : ActionBarActivity() {
     var Totalfile: String? = null
     var ScreenName: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
+    private lateinit var binding: ActivityImageOrPdfBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityImageOrPdfBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionbarWithoutBottom(this)
-        ButterKnife.bind(this)
-        CommonUtil.SelcetedFileList.clear()
+         CommonUtil.SelcetedFileList.clear()
         imgRefresh!!.visibility = View.GONE
+        
+        binding.LayoutUploadImagePdf.setOnClickListener { ChooseFile() }
+        binding.imgImagePdfback.setOnClickListener {  super.onBackPressed() }
+        binding.btnCancel.setOnClickListener {  super.onBackPressed() }
+        binding.LayoutAdvertisement.setOnClickListener {  adclick() }
+
+
+        
 
         appViewModel!!.AdvertisementLiveData?.observe(this,
             androidx.lifecycle.Observer<GetAdvertisementResponse?> { response ->
@@ -130,20 +102,20 @@ class ImageOrPdf : ActionBarActivity() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
 
-        btnConfirm!!.setOnClickListener {
+        binding.btnConfirm!!.setOnClickListener {
 
-            if (!edImgTitle!!.text.isNullOrEmpty() && !txt_imgpdfdescription!!.text.isNullOrEmpty()) {
-                MenuTitle = edImgTitle!!.text.toString()
-                MenuDescription = txt_imgpdfdescription!!.text.toString()
+            if (!binding.edImgTitle!!.text.isNullOrEmpty() && !binding.txtImgpdfdescription!!.text.isNullOrEmpty()) {
+                MenuTitle = binding.edImgTitle!!.text.toString()
+                MenuDescription = binding.txtImgpdfdescription!!.text.toString()
                 ScreenName = CommonUtil.Image_Pdf
 
                 if (CommonUtil.SelcetedFileList.isNotEmpty()) {
@@ -179,8 +151,8 @@ class ImageOrPdf : ActionBarActivity() {
             }
         }
 
-        txt_imgpdfdescription!!.addTextChangedListener(mTextEditorWatcher)
-        txt_imgpdfdescription!!.enableScrollText()
+        binding.txtImgpdfdescription!!.addTextChangedListener(mTextEditorWatcher)
+        binding.txtImgpdfdescription!!.enableScrollText()
     }
 
     private fun AdForCollegeApi() {
@@ -201,8 +173,7 @@ class ImageOrPdf : ActionBarActivity() {
         Log.d("PreviousAddId", PreviousAddId.toString())
     }
 
-    @OnClick(R.id.LayoutUploadImagePdf)
-    fun ChooseFile() {
+     fun ChooseFile() {
 
         Log.d("popup", "test")
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -293,7 +264,7 @@ class ImageOrPdf : ActionBarActivity() {
     private val mTextEditorWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            tv_count!!.text = s.length.toString() + "/500"
+            binding.tvCount!!.text = s.length.toString() + "/500"
         }
 
         override fun afterTextChanged(s: Editable) {}
@@ -302,17 +273,7 @@ class ImageOrPdf : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_image_or_pdf
 
-    @OnClick(R.id.imgImagePdfback)
-    fun backClick() {
-        super.onBackPressed()
-    }
 
-    @OnClick(R.id.btnCancel)
-    fun btnCancel() {
-        super.onBackPressed()
-    }
-
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
@@ -338,10 +299,10 @@ class ImageOrPdf : ActionBarActivity() {
                     var path = it
                     if (CommonUtil.SelcetedFileList != null) {
                         Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                        lbltotalfile!!.text = "Number of Files : " + Totalfile
-                        lbltotalfile!!.visibility = View.VISIBLE
+                        binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+                        binding.lbltotalfile!!.visibility = View.VISIBLE
                     } else {
-                        lbltotalfile!!.visibility = View.GONE
+                        binding.lbltotalfile!!.visibility = View.GONE
 
                     }
                 }
@@ -356,10 +317,10 @@ class ImageOrPdf : ActionBarActivity() {
                         var path = it
                         if (CommonUtil.SelcetedFileList != null) {
                             Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                            lbltotalfile!!.text = "Number of Files : " + Totalfile
-                            lbltotalfile!!.visibility = View.VISIBLE
+                            binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+                            binding.lbltotalfile!!.visibility = View.VISIBLE
                         } else {
-                            lbltotalfile!!.visibility = View.GONE
+                            binding.lbltotalfile!!.visibility = View.GONE
 
                         }
                     }
@@ -414,10 +375,10 @@ class ImageOrPdf : ActionBarActivity() {
                             var path = it
                             if (CommonUtil.SelcetedFileList != null) {
                                 Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                                lbltotalfile!!.text = "Number of Files : " + Totalfile
-                                lbltotalfile!!.visibility = View.VISIBLE
+                                binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+                                binding.lbltotalfile!!.visibility = View.VISIBLE
                             } else {
-                                lbltotalfile!!.visibility = View.GONE
+                                binding.lbltotalfile!!.visibility = View.GONE
 
                             }
                         }

@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -27,90 +24,19 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceBinding
+import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Attendance : BaseActivity() {
+class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
     var attendanceAdapter: AttendanceAdapter? = null
     var leaveHistoryAdapter: LeaveHistoryAdapter? = null
     var leavehistoryptincipleadapter: Leavehistory_principleAdapter? = null
     var Attendance_SenderSide_Adapter: Attendance_SenderSide_Adapter? = null
     var isAttendanceType = "Attendance"
-
-    @JvmField
-    @BindView(R.id.recyclerAttendance)
-    var recyclerAttendance: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.recyclerLeaveHistory)
-    var recyclerLeaveHistory: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollege)
-    var lblCollege: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollegeSize)
-    var lblCollegeSize: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.CalendarView)
-    var CalendarView: CalendarView? = null
-
-//    @JvmField
-//    @BindView(R.id.collapsibleCalendar)
-//    var collapsibleCalendar: CollapsibleCalendar? = null
-
-
-    @JvmField
-    @BindView(R.id.lnrCalendar)
-    var lnrCalendar: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.LayoutNoAttendanceData)
-    var LayoutNoAttendanceData: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lblNoDataFound)
-    var lblNoDataFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.imgApplyleave)
-    var imgApplyleave: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblAttendanceCount)
-    var lblAttendanceCount: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblLeaveHistoryCount)
-    var lblLeaveHistoryCount: TextView? = null
 
     var GetAttendanceData: List<AttendanceData> = ArrayList()
     var LeaveHistoryLiveData: ArrayList<LeaveHistoryData> = ArrayList()
@@ -125,21 +51,45 @@ class Attendance : BaseActivity() {
     var attendanceGet: List<Daum> = ArrayList()
     var AttendanceScreen: String? = "Take_Attendance"
 
+    override fun inflateBinding(): ActivityAttendanceBinding {
+        return ActivityAttendanceBinding.inflate(layoutInflater)
+    }
+
     override var appViewModel: App? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
+
         super.onCreate(savedInstanceState)
+        binding = ActivityAttendanceBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve,
+            R.id.recyclermenusbottom,
+            R.id.swipeUpMenus,
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
+        )
+        UserMenuRequest(this)
         TabDepartmentColor()
         MenuBottomType()
 
-        val selectedDate: Long = CalendarView!!.date
+        val selectedDate: Long = binding.CommonLayout.CalendarView!!.date
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
         SelectedDate = simpleDateFormat.format(selectedDate)
         CommonUtil.Selecteddata = SelectedDate.toString()
+
+        binding.imgApplyleave.setOnClickListener { applayleave() }
+        binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
+
+        binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
 
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                 "p2"
@@ -147,40 +97,40 @@ class Attendance : BaseActivity() {
                 "p3"
             )
         ) {
-            lnrCalendar!!.visibility = View.VISIBLE
+            binding.CommonLayout.lnrCalendar!!.visibility = View.VISIBLE
             attendanceGet()
 
         } else {
-            lnrCalendar!!.visibility = View.GONE
+            binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
             attendancelistStudent()
         }
 
         if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
-            recyclerLeaveHistory!!.visibility = View.VISIBLE
+            binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
 
         } else {
-            recyclerLeaveHistory!!.visibility = View.GONE
+            binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
 
         }
-        imgApplyleave!!.visibility = View.GONE
+        binding.imgApplyleave.visibility = View.GONE
 
         CommonUtil.OnMenuClicks("Attendance")
         CommonUtil.PresentlistStudent.clear()
         CommonUtil.AbsendlistStudent.clear()
 
-        lblMenuTitle!!.setText(R.string.txt_attendance)
-        lblDepartment!!.setText(R.string.txt_attendance)
-        lblCollege!!.setText(R.string.txt_leave_history)
+        binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_attendance)
+        binding.CommonLayout.lblDepartment!!.setText(R.string.txt_attendance)
+        binding.CommonLayout.lblCollege!!.setText(R.string.txt_leave_history)
 
 
         if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
 
             bottomsheetStateCollpased()
             TabCollegeColor()
-            lnrCalendar!!.visibility = View.GONE
-            LayoutNoAttendanceData!!.visibility = View.GONE
-            recyclerAttendance!!.visibility = View.GONE
-            recyclerLeaveHistory!!.visibility = View.VISIBLE
+            binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
+            binding.CommonLayout.LayoutNoAttendanceData!!.visibility = View.GONE
+            binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
+            binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
 
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                     "p2"
@@ -188,8 +138,8 @@ class Attendance : BaseActivity() {
                     "p3"
                 )
             ) {
-                imgApplyleave!!.visibility = View.GONE
-                imgAddPlus!!.visibility = View.GONE
+                binding.imgApplyleave.visibility = View.GONE
+                binding.imgAddPlus.visibility = View.GONE
                 if (CommonUtil.menu_readAttendance.equals("1")) {
 
                     GetLeaveptincipleHistory()
@@ -200,7 +150,7 @@ class Attendance : BaseActivity() {
             ) {
 
                 if (CommonUtil.menu_writeAttendance.equals("1")) {
-                    imgApplyleave!!.visibility = View.VISIBLE
+                    binding.imgApplyleave.visibility = View.VISIBLE
                 }
                 if (CommonUtil.menu_readAttendance.equals("1")) {
 
@@ -215,30 +165,30 @@ class Attendance : BaseActivity() {
             )
         ) {
 
-            if (lblMenuTitle!!.text.equals("Attendance")) {
-                imgApplyleave!!.visibility = View.GONE
+            if (binding.CommonLayout.lblMenuTitle!!.text.equals("Attendance")) {
+                binding.imgApplyleave!!.visibility = View.GONE
             } else {
                 if (CommonUtil.menu_writeAttendance.equals("1")) {
-                    imgApplyleave!!.visibility = View.VISIBLE
+                    binding.imgApplyleave.visibility = View.VISIBLE
                 }
             }
 
-            imgAddPlus!!.visibility = View.GONE
+            binding.imgAddPlus.visibility = View.GONE
         } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                 "p2"
             ) || CommonUtil.Priority.equals(
                 "p3"
             )
         ) {
-            imgApplyleave!!.visibility = View.GONE
-            imgAddPlus!!.visibility = View.GONE
-            recyclerAttendance!!.visibility = View.VISIBLE
+            binding.imgApplyleave.visibility = View.GONE
+            binding.imgAddPlus.visibility = View.GONE
+            binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
 
             if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
-                recyclerLeaveHistory!!.visibility = View.VISIBLE
+                binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
 
             } else {
-                recyclerLeaveHistory!!.visibility = View.GONE
+                binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
 
             }
         }
@@ -253,32 +203,32 @@ class Attendance : BaseActivity() {
                         )
                     ) {
 
-                        if (lblMenuTitle!!.text.equals("Attendance")) {
-                            imgApplyleave!!.visibility = View.GONE
+                        if (binding.CommonLayout.lblMenuTitle!!.text.equals("Attendance")) {
+                            binding.imgApplyleave.visibility = View.GONE
                         } else {
                             if (CommonUtil.menu_writeAttendance.equals("1")) {
-                                imgApplyleave!!.visibility = View.VISIBLE
+                                binding.imgApplyleave.visibility = View.VISIBLE
                             }
                         }
                         attendancelistStudent()
-                        imgAddPlus!!.visibility = View.GONE
+                        binding.imgAddPlus.visibility = View.GONE
                     } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                             "p2"
                         ) || CommonUtil.Priority.equals(
                             "p3"
                         )
                     ) {
-                        recyclerAttendance!!.visibility = View.VISIBLE
+                        binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
                         if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
-                            recyclerLeaveHistory!!.visibility = View.VISIBLE
+                            binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
 
                         } else {
-                            recyclerLeaveHistory!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
 
                         }
-                        lnrCalendar!!.visibility = View.VISIBLE
-                        imgApplyleave!!.visibility = View.GONE
-                        imgAddPlus!!.visibility = View.GONE
+                        binding.CommonLayout.lnrCalendar!!.visibility = View.VISIBLE
+                        binding.imgApplyleave.visibility = View.GONE
+                        binding.imgAddPlus.visibility = View.GONE
                         attendanceGet()
                     }
                 } else {
@@ -289,13 +239,13 @@ class Attendance : BaseActivity() {
                             "p3"
                         )
                     ) {
-                        imgApplyleave!!.visibility = View.GONE
-                        imgAddPlus!!.visibility = View.GONE
+                        binding.imgApplyleave.visibility = View.GONE
+                        binding.imgAddPlus.visibility = View.GONE
 
                         GetLeaveptincipleHistory()
                     } else if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5")) {
                         if (CommonUtil.menu_writeAttendance.equals("1")) {
-                            imgApplyleave!!.visibility = View.VISIBLE
+                            binding.imgApplyleave.visibility = View.VISIBLE
                         }
                         GetLeaveHistory()
                     }
@@ -304,9 +254,9 @@ class Attendance : BaseActivity() {
             }
         })
 
-        CalendarView!!.maxDate = Date().time
+        binding.CommonLayout.CalendarView!!.maxDate = Date().time
 
-        CalendarView!!.setOnDateChangeListener(android.widget.CalendarView.OnDateChangeListener { calendarView, year, month, dayOfMonth ->
+        binding.CommonLayout.CalendarView!!.setOnDateChangeListener(android.widget.CalendarView.OnDateChangeListener { calendarView, year, month, dayOfMonth ->
             SelectedDate = dayOfMonth.toString() + "/" + (month + 1) + "/" + year
             Log.d("SelectedDateClick", SelectedDate!!)
             CommonUtil.Selecteddata = SelectedDate.toString()
@@ -315,98 +265,36 @@ class Attendance : BaseActivity() {
                 )
             ) {
 
-                if (lblMenuTitle!!.text.equals("Attendance")) {
-                    imgApplyleave!!.visibility = View.GONE
+                if (binding.CommonLayout.lblMenuTitle!!.text.equals("Attendance")) {
+                    binding.imgApplyleave.visibility = View.GONE
                 } else {
                     if (CommonUtil.menu_writeAttendance.equals("1")) {
-                        imgApplyleave!!.visibility = View.VISIBLE
+                        binding.imgApplyleave.visibility = View.VISIBLE
                     }
                 }
-                imgAddPlus!!.visibility = View.GONE
+                binding.imgAddPlus.visibility = View.GONE
             } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                     "p2"
                 ) || CommonUtil.Priority.equals(
                     "p3"
                 )
             ) {
-                recyclerAttendance!!.visibility = View.VISIBLE
+                binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
                 if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
-                    recyclerLeaveHistory!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
 
                 } else {
-                    recyclerLeaveHistory!!.visibility = View.GONE
+                    binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
 
                 }
-                lnrCalendar!!.visibility = View.VISIBLE
-                imgApplyleave!!.visibility = View.GONE
-                imgAddPlus!!.visibility = View.GONE
+                binding.CommonLayout.lnrCalendar!!.visibility = View.VISIBLE
+                binding.imgApplyleave.visibility = View.GONE
+                binding.imgAddPlus.visibility = View.GONE
                 if (CommonUtil.menu_readAttendance.equals("1")) {
                     attendanceGet()
                 }
             }
         })
-
-// CollapsibleCalender Code. Don't remove it.
-
-//        val today = Calendar.getInstance()
-//
-//
-//        collapsibleCalendar.setMaxDate(today)
-//
-//        collapsibleCalendar!!.setCalendarListener(object : CollapsibleCalendar.CalendarListener {
-//            override fun onDaySelect() {
-//
-//
-//                val day: Day = collapsibleCalendar!!.selectedDay
-//
-//                SelectedDate = "ClickedDate" + day.day + "/" + (day.month + 1) + "/" + day.year
-//                Log.d("SelectedDateClick", SelectedDate!!)
-//
-//                val createdDateTime: String = SelectedDate.toString()
-//                val firstvalue: Array<String> =
-//                    createdDateTime.split("ClickedDate".toRegex()).toTypedArray()
-//                val createddate: String = firstvalue.get(1)
-//                Log.d("SelectedDateClick", createddate)
-//                CommonUtil.Selecteddata = createddate
-//
-//                if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5") || CommonUtil.Priority.equals(
-//                        "p6"
-//                    )
-//                ) {
-//
-//                    if (lblMenuTitle!!.text.equals("Attendance")) {
-//                        imgApplyleave!!.visibility = View.GONE
-//                    } else {
-//                        imgApplyleave!!.visibility = View.VISIBLE
-//                    }
-//
-//                    AttendanceRequest(SelectedDate!!)
-//                    imgAddPlus!!.visibility = View.GONE
-//                } else if (CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals(
-//                        "p3"
-//                    )
-//                ) {
-//
-//                    recyclerAttendance!!.visibility = View.VISIBLE
-//                    if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
-//                        recyclerLeaveHistory!!.visibility = View.VISIBLE
-//
-//                    } else {
-//                        recyclerLeaveHistory!!.visibility = View.GONE
-//                    }
-//
-//                    lnrCalendar!!.visibility = View.VISIBLE
-//                    imgApplyleave!!.visibility = View.GONE
-//                    imgAddPlus!!.visibility = View.GONE
-//                    GetSubject()
-//                }
-//            }
-//
-//            override fun onItemClick(view: View) {}
-//            override fun onDataUpdate() {}
-//            override fun onMonthChange() {}
-//            override fun onWeekChange(i: Int) {}
-//        })
 
 
         appViewModel!!.AdvertisementLiveData?.observe(this) { response ->
@@ -424,11 +312,12 @@ class Attendance : BaseActivity() {
                     }
 
                     Glide.with(this).load(AdBackgroundImage)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgAdvertisement!!)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.CommonLayout.imgAdvertisement!!)
                     Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                     Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(imgthumb!!)
+                        .into(binding.CommonLayout.imgthumb!!)
                 }
             }
         }
@@ -441,75 +330,31 @@ class Attendance : BaseActivity() {
                 UserMenuRequest(this)
                 AdForCollegeApi()
                 if (status == 1) {
-                    lblNoDataFound!!.visibility = View.GONE
-                    recyclerAttendance!!.visibility = View.VISIBLE
-                    recyclerLeaveHistory!!.visibility = View.GONE
+                    binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
+                    binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
                     StudentAttendance = response.data
                     attendanceAdapter = AttendanceAdapter(StudentAttendance, this@Attendance)
                     val mLayoutManager: RecyclerView.LayoutManager =
                         LinearLayoutManager(this@Attendance)
-                    recyclerAttendance!!.layoutManager = mLayoutManager
-                    recyclerAttendance!!.itemAnimator = DefaultItemAnimator()
-                    recyclerAttendance!!.adapter = attendanceAdapter
-                    recyclerAttendance!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.recyclerAttendance!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.recyclerAttendance!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.recyclerAttendance!!.adapter = attendanceAdapter
+                    binding.CommonLayout.recyclerAttendance!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     attendanceAdapter!!.notifyDataSetChanged()
 
                 } else {
-                    recyclerAttendance!!.visibility = View.GONE
-                    recyclerLeaveHistory!!.visibility = View.GONE
-                    lblNoDataFound!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
+                    binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
+                    binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                 }
             } else {
-                lblNoDataFound!!.visibility = View.VISIBLE
+                binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
             }
         }
-
-//        appViewModel!!.AttendanceDatesLiveData?.observe(this) { response ->
-//
-//            if (response != null) {
-//                UserMenuRequest(this)
-//
-//                val status = response.status
-//                val message = response.message
-//
-//                if (status == 1) {
-//                    lblNoDataFound!!.visibility = View.GONE
-//                    LayoutNoAttendanceData!!.visibility = View.GONE
-//                    recyclerAttendance!!.visibility = View.VISIBLE
-//                    if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
-//                        recyclerLeaveHistory!!.visibility = View.VISIBLE
-//                    } else {
-//                        recyclerLeaveHistory!!.visibility = View.GONE
-//
-//                    }
-//                    GetAttendanceData = response.data!!
-//                    lblAttendanceCount!!.visibility = View.VISIBLE
-//                    lblAttendanceCount!!.text = GetAttendanceData.size.toString()
-//
-//                    Log.d("AttendanceDataSize", GetAttendanceData.size.toString())
-//
-//                    attendanceAdapter = AttendanceAdapter(GetAttendanceData, this@Attendance)
-//                    val mLayoutManager: RecyclerView.LayoutManager =
-//                        LinearLayoutManager(this@Attendance)
-//                    recyclerAttendance!!.layoutManager = mLayoutManager
-//                    recyclerAttendance!!.itemAnimator = DefaultItemAnimator()
-//                    recyclerAttendance!!.adapter = attendanceAdapter
-//                    recyclerAttendance!!.recycledViewPool.setMaxRecycledViews(0, 80)
-//                    attendanceAdapter!!.notifyDataSetChanged()
-//
-//                } else {
-//
-//                    LayoutNoAttendanceData!!.visibility = View.VISIBLE
-//                    recyclerAttendance!!.visibility = View.GONE
-//                    lblNoDataFound!!.visibility = View.GONE
-//
-//                }
-//            } else {
-//                lblNoDataFound!!.visibility = View.GONE
-//                LayoutNoAttendanceData!!.visibility = View.VISIBLE
-//                recyclerAttendance!!.visibility = View.GONE
-//            }
-//        }
 
         appViewModel!!.LeaveHistoryLiveData?.observe(this) { response ->
 
@@ -518,10 +363,11 @@ class Attendance : BaseActivity() {
                 val message = response.message
 
                 if (status == 1) {
-                    lblNoDataFound!!.visibility = View.GONE
-                    lblLeaveHistoryCount!!.visibility = View.VISIBLE
+                    binding.CommonLayout.lblNoDataFound.visibility = View.GONE
+                    binding.CommonLayout.lblLeaveHistoryCount.visibility = View.VISIBLE
                     LeaveHistoryLiveData = response.data!!
-                    lblLeaveHistoryCount!!.text = LeaveHistoryLiveData.size.toString()
+                    binding.CommonLayout.lblLeaveHistoryCount!!.text =
+                        LeaveHistoryLiveData.size.toString()
                     Log.d("LeaveHistoryDataSize", LeaveHistoryLiveData.size.toString())
                     leaveHistoryAdapter = LeaveHistoryAdapter(
                         LeaveHistoryLiveData,
@@ -537,25 +383,28 @@ class Attendance : BaseActivity() {
 
                     val mLayoutManager: RecyclerView.LayoutManager =
                         LinearLayoutManager(this@Attendance)
-                    recyclerLeaveHistory!!.layoutManager = mLayoutManager
-                    recyclerLeaveHistory!!.itemAnimator = DefaultItemAnimator()
-                    recyclerLeaveHistory!!.adapter = leaveHistoryAdapter
-                    recyclerLeaveHistory!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.recyclerLeaveHistory!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.recyclerLeaveHistory!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.recyclerLeaveHistory!!.adapter = leaveHistoryAdapter
+                    binding.CommonLayout.recyclerLeaveHistory!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     leaveHistoryAdapter!!.notifyDataSetChanged()
 
                 } else {
                     if (isAttendanceType.equals("Attendance")) {
-                        lblNoDataFound!!.visibility = View.GONE
+                        binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                     } else {
-                        lblNoDataFound!!.visibility = View.VISIBLE
+                        binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                     }
 
                 }
             } else {
-                if (isAttendanceType.equals("Attendance")) {
-                    lblNoDataFound!!.visibility = View.GONE
+                if (isAttendanceType == "Attendance") {
+                    binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                 } else {
-                    lblNoDataFound!!.visibility = View.VISIBLE
+                    binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                 }
             }
         }
@@ -569,10 +418,11 @@ class Attendance : BaseActivity() {
 
                 if (status == 1) {
 
-                    lblNoDataFound!!.visibility = View.GONE
-                    lblLeaveHistoryCount!!.visibility = View.VISIBLE
+                    binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
+                    binding.CommonLayout.lblLeaveHistoryCount!!.visibility = View.VISIBLE
                     LeaveHistoryprincipleLiveData = response.data
-                    lblLeaveHistoryCount!!.text = LeaveHistoryprincipleLiveData.size.toString()
+                    binding.CommonLayout.lblLeaveHistoryCount!!.text =
+                        LeaveHistoryprincipleLiveData.size.toString()
 
                     Log.d("LeaveHistoryDataSize", LeaveHistoryprincipleLiveData.size.toString())
                     leavehistoryptincipleadapter = Leavehistory_principleAdapter(
@@ -587,23 +437,26 @@ class Attendance : BaseActivity() {
                         })
                     val mLayoutManager: RecyclerView.LayoutManager =
                         LinearLayoutManager(this@Attendance)
-                    recyclerLeaveHistory!!.layoutManager = mLayoutManager
-                    recyclerLeaveHistory!!.itemAnimator = DefaultItemAnimator()
-                    recyclerLeaveHistory!!.adapter = leavehistoryptincipleadapter
-                    recyclerLeaveHistory!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.recyclerLeaveHistory.layoutManager = mLayoutManager
+                    binding.CommonLayout.recyclerLeaveHistory.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.recyclerLeaveHistory.adapter = leavehistoryptincipleadapter
+                    binding.CommonLayout.recyclerLeaveHistory.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     leavehistoryptincipleadapter!!.notifyDataSetChanged()
                 } else {
                     if (isAttendanceType.equals("Attendance")) {
-                        lblNoDataFound!!.visibility = View.GONE
+                        binding.CommonLayout.lblNoDataFound.visibility = View.GONE
                     } else {
-                        lblNoDataFound!!.visibility = View.VISIBLE
+                        binding.CommonLayout.lblNoDataFound.visibility = View.VISIBLE
                     }
                 }
             } else {
                 if (isAttendanceType.equals("Attendance")) {
-                    lblNoDataFound!!.visibility = View.GONE
+                    binding.CommonLayout.lblNoDataFound.visibility = View.GONE
                 } else {
-                    lblNoDataFound!!.visibility = View.VISIBLE
+                    binding.CommonLayout.lblNoDataFound.visibility = View.VISIBLE
                 }
             }
         }
@@ -616,17 +469,21 @@ class Attendance : BaseActivity() {
                     UserMenuRequest(this)
                     AdForCollegeApi()
                     attendanceGet = response.data
-                    lblNoDataFound!!.visibility = View.GONE
-                    lblAttendanceCount!!.visibility = View.VISIBLE
-                    lblAttendanceCount!!.text = attendanceGet.size.toString()
+                    binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
+                    binding.CommonLayout.lblAttendanceCount!!.visibility = View.VISIBLE
+                    binding.CommonLayout.lblAttendanceCount!!.text = attendanceGet.size.toString()
 
                     Attendance_SenderSide_Adapter =
                         Attendance_SenderSide_Adapter(attendanceGet, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    recyclerAttendance!!.layoutManager = mLayoutManager
-                    recyclerAttendance!!.itemAnimator = DefaultItemAnimator()
-                    recyclerAttendance!!.adapter = Attendance_SenderSide_Adapter
-                    recyclerAttendance!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.recyclerAttendance!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.recyclerAttendance!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.recyclerAttendance!!.adapter =
+                        Attendance_SenderSide_Adapter
+                    binding.CommonLayout.recyclerAttendance!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                 }
             } else {
                 CommonUtil.ApiAlert(
@@ -699,14 +556,12 @@ class Attendance : BaseActivity() {
     }
 
 
-    @OnClick(R.id.imgApplyleave)
     fun applayleave() {
         val i = Intent(this, ApplyLeave::class.java)
         startActivity(i)
         CommonUtil.Leavetype = ""
     }
 
-    @OnClick(R.id.LayoutDepartment)
     fun departmentClick() {
         isAttendanceType = "Attendance"
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
@@ -715,15 +570,15 @@ class Attendance : BaseActivity() {
                 "p3"
             )
         ) {
-            lnrCalendar!!.visibility = View.VISIBLE
+            binding.CommonLayout.lnrCalendar!!.visibility = View.VISIBLE
         } else {
-            lnrCalendar!!.visibility = View.GONE
+            binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
         }
         AttendanceScreen = "Take_Attendance"
         TabDepartmentColor()
         CommonUtil.AttendanceStatus = ""
-        recyclerAttendance!!.visibility = View.VISIBLE
-        recyclerLeaveHistory!!.visibility = View.GONE
+        binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
+        binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
         bottomsheetStateCollpased()
 
         if (CommonUtil.menu_readAttendance.equals("1")) {
@@ -732,16 +587,16 @@ class Attendance : BaseActivity() {
                     "p6"
                 )
             ) {
-                if (lblMenuTitle!!.text.equals("Attendance")) {
-                    imgApplyleave!!.visibility = View.GONE
+                if (binding.CommonLayout.lblMenuTitle!!.text.equals("Attendance")) {
+                    binding.imgApplyleave.visibility = View.GONE
                 } else {
                     if (CommonUtil.menu_writeAttendance.equals("1")) {
-                        imgApplyleave!!.visibility = View.VISIBLE
+                        binding.imgApplyleave.visibility = View.VISIBLE
                     }
                 }
 
                 attendancelistStudent()
-                imgAddPlus!!.visibility = View.GONE
+                binding.imgAddPlus.visibility = View.GONE
             } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                     "p2"
                 ) || CommonUtil.Priority.equals(
@@ -749,26 +604,25 @@ class Attendance : BaseActivity() {
                 )
             ) {
                 if (CommonUtil.menu_writeAttendance.equals("1")) {
-                    imgApplyleave!!.visibility = View.GONE
+                    binding.imgApplyleave.visibility = View.GONE
                 }
-                imgAddPlus!!.visibility = View.GONE
+                binding.imgAddPlus.visibility = View.GONE
                 attendanceGet()
             }
         }
     }
 
-    @OnClick(R.id.LayoutCollege)
     fun collegeClick() {
 
         isAttendanceType = "LeaveHistory"
-        lnrCalendar!!.visibility = View.GONE
+        binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
         AttendanceScreen = "Leave_History"
         CommonUtil.AttendanceStatus = ""
         bottomsheetStateCollpased()
         TabCollegeColor()
-        LayoutNoAttendanceData!!.visibility = View.GONE
-        recyclerAttendance!!.visibility = View.GONE
-        recyclerLeaveHistory!!.visibility = View.VISIBLE
+        binding.CommonLayout.LayoutNoAttendanceData!!.visibility = View.GONE
+        binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
+        binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
 
         if (CommonUtil.menu_readAttendance.equals("1")) {
 
@@ -779,13 +633,13 @@ class Attendance : BaseActivity() {
                     "p3"
                 )
             ) {
-                imgApplyleave!!.visibility = View.GONE
-                imgAddPlus!!.visibility = View.GONE
+                binding.imgApplyleave.visibility = View.GONE
+                binding.imgAddPlus.visibility = View.GONE
 
                 GetLeaveptincipleHistory()
             } else if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5")) {
                 if (CommonUtil.menu_writeAttendance.equals("1")) {
-                    imgApplyleave!!.visibility = View.VISIBLE
+                    binding.imgApplyleave.visibility = View.VISIBLE
                 }
                 GetLeaveHistory()
             }
@@ -793,7 +647,7 @@ class Attendance : BaseActivity() {
 
         if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5")) {
             if (CommonUtil.menu_writeAttendance.equals("1")) {
-                imgApplyleave!!.visibility = View.VISIBLE
+                binding.imgApplyleave.visibility = View.VISIBLE
             }
         }
     }
@@ -804,19 +658,19 @@ class Attendance : BaseActivity() {
     }
 
     override fun onResume() {
-        lblNoDataFound!!.visibility = View.GONE
+        binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
         if (CommonUtil.menu_readAttendance.equals("1")) {
             if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
-                recyclerLeaveHistory!!.visibility = View.VISIBLE
+                binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
                 if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                         "p2"
                     ) || CommonUtil.Priority.equals(
                         "p3"
                     )
                 ) {
-                    recyclerLeaveHistory!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.VISIBLE
                     GetLeaveptincipleHistory()
-                    recyclerAttendance!!.visibility = View.GONE
+                    binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
                 } else if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5")) {
                     GetLeaveHistory()
                 }
@@ -827,9 +681,9 @@ class Attendance : BaseActivity() {
                         "p3"
                     )
                 ) {
-                    recyclerLeaveHistory!!.visibility = View.GONE
+                    binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
                     GetLeaveptincipleHistory()
-                    recyclerAttendance!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
                 } else if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5")) {
                     GetLeaveHistory()
                 }
@@ -840,7 +694,7 @@ class Attendance : BaseActivity() {
         super.onResume()
         CommonUtil.AbsendlistStudent.clear()
         CommonUtil.PresentlistStudent.clear()
-        lblNoDataFound!!.visibility = View.GONE
+        binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
     }
 
     private fun AdForCollegeApi() {

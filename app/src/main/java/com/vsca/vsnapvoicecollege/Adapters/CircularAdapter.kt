@@ -11,8 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Activities.*
 import com.vsca.vsnapvoicecollege.Model.GetCircularListDetails
 import com.vsca.vsnapvoicecollege.R
@@ -181,79 +180,24 @@ class CircularAdapter constructor(data: List<GetCircularListDetails>, context: C
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblNoticeboardTitle)
-        var lblNoticeboardTitle: TextView? = null
+        val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)
+        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)
+        val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)
+        val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)
+        val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)
+        val lblCircularPath: TextView = itemView!!.findViewById(R.id.lblCircularPath)
+        val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)
+        val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)
+        val imgArrowdown: ImageView = itemView!!.findViewById(R.id.imgArrowdown)
+        val imgArrowUp: ImageView = itemView!!.findViewById(R.id.imgArrowUp)
+        val lblAboveCircularPath: TextView = itemView!!.findViewById(R.id.lblAboveCircularPath)
+        val lblFileCount: TextView = itemView!!.findViewById(R.id.lblFileCount)
+        val lnrAttachment: LinearLayout = itemView!!.findViewById(R.id.lnrAttachment)
+        val lnrAboveAttachment: LinearLayout = itemView!!.findViewById(R.id.lnrAboveAttachment)
+        val rytCircularFiles: RelativeLayout = itemView!!.findViewById(R.id.rytCircularFiles)
+        val lblNewCircle: TextView = itemView!!.findViewById(R.id.lblNewCircle)
+        val lbl_section: TextView = itemView!!.findViewById(R.id.lbl_section)
 
-        @JvmField
-        @BindView(R.id.lblNoticeboardDescription)
-        var lblNoticeboardDescription: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticeboardDate)
-        var lblNoticeboardDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticetime)
-        var lblNoticetime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticePostedby)
-        var lblNoticePostedby: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblCircularPath)
-        var lblCircularPath: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytNotice)
-        var rytNotice: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowdown)
-        var imgArrowdown: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowUp)
-        var imgArrowUp: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.lblAboveCircularPath)
-        var lblAboveCircularPath: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblFileCount)
-        var lblFileCount: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrAttachment)
-        var lnrAttachment: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnrAboveAttachment)
-        var lnrAboveAttachment: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.rytCircularFiles)
-        var rytCircularFiles: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblNewCircle)
-        var lblNewCircle: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.lbl_section)
-        var lbl_section: TextView? = null
-
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

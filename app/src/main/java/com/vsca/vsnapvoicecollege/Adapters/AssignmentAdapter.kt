@@ -13,14 +13,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.*
 import com.vsca.vsnapvoicecollege.ActivitySender.AddAssignment
 import com.vsca.vsnapvoicecollege.ActivitySender.Assignment_Submition
-import com.vsca.vsnapvoicecollege.ActivitySender.ImageViewAdapter
 import com.vsca.vsnapvoicecollege.Model.Delete_noticeboard
 import com.vsca.vsnapvoicecollege.Model.GetAssignmentDetails
 import com.vsca.vsnapvoicecollege.Model.ImageListView
@@ -283,9 +281,7 @@ class AssignmentAdapter(data: List<GetAssignmentDetails>, context: Context) :
 
         }
 
-//        holder.img_AssignmentDelete!!.setOnClickListener {
-//            AssignmentDelete()
-//        }
+
     }
 
     override fun getItemCount(): Int {
@@ -295,103 +291,31 @@ class AssignmentAdapter(data: List<GetAssignmentDetails>, context: Context) :
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblNoticeboardTitle)
-        var lblNoticeboardTitle: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticeboardDescription)
-        var lblNoticeboardDescription: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticeboardDate)
-        var lblNoticeboardDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticetime)
-        var lblNoticetime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticePostedby)
-        var lblNoticePostedby: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNotAssingmentSubmition)
-        var lblNotAssingmentSubmition: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSubmitedOn)
-        var lblSubmitedOn: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytNotice)
-        var rytNotice: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.LayoutSubmissions)
-        var LayoutSubmissions: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowdown)
-        var imgArrowdown: ImageView? = null
+        val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)
+        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)
+        val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)
+        val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)
+        val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)
+        val lblNotAssingmentSubmition: TextView = itemView!!.findViewById(R.id.lblNotAssingmentSubmition)
+        val lblSubmitedOn: TextView = itemView!!.findViewById(R.id.lblSubmitedOn)
+        val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)
+        val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)
+        val LayoutSubmissions: LinearLayout = itemView!!.findViewById(R.id.LayoutSubmissions)
+        val imgArrowdown: ImageView = itemView!!.findViewById(R.id.imgArrowdown)
+        val view: View = itemView!!.findViewById(R.id.view)
+        val rytAssignmentFiles: RelativeLayout = itemView!!.findViewById(R.id.rytAssignmentFiles)
+        val lblsubmittioncount: TextView = itemView!!.findViewById(R.id.lblsubmittioncount)
+        val lblFileCount: TextView = itemView!!.findViewById(R.id.lblFileCount)
+        val lnrForward: LinearLayout = itemView!!.findViewById(R.id.lnrForward)
+        val lnrAttachment: LinearLayout = itemView!!.findViewById(R.id.lnrAttachment)
+        val lblAssignmentPath: TextView = itemView!!.findViewById(R.id.lblAssignmentPath)
+        val lblNewCircle: TextView = itemView!!.findViewById(R.id.lblNewCircle)
+        val lblPreviousSubmission: TextView = itemView!!.findViewById(R.id.lblPreviousSubmission)
+        val lblAssingmentSubmition: TextView = itemView!!.findViewById(R.id.lblAssingmentSubmition)
+        val lblAssingmentSubmit: TextView = itemView!!.findViewById(R.id.lblAssingmentSubmit)
+        val img_AssignmentDelete: ImageView = itemView!!.findViewById(R.id.img_AssignmentDelete)
 
 
-        @JvmField
-        @BindView(R.id.view)
-        var view: View? = null
-
-
-        @JvmField
-        @BindView(R.id.rytAssignmentFiles)
-        var rytAssignmentFiles: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblsubmittioncount)
-        var lblsubmittioncount: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblFileCount)
-        var lblFileCount: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrForward)
-        var lnrForward: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnrAttachment)
-        var lnrAttachment: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblAssignmentPath)
-        var lblAssignmentPath: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNewCircle)
-        var lblNewCircle: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblPreviousSubmission)
-        var lblPreviousSubmission: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblAssingmentSubmition)
-        var lblAssingmentSubmition: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblAssingmentSubmit)
-        var lblAssingmentSubmit: TextView? = null
-
-        @JvmField
-        @BindView(R.id.img_AssignmentDelete)
-        var img_AssignmentDelete: ImageView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

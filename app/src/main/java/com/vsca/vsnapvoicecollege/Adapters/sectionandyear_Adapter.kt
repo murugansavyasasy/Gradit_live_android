@@ -9,8 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.ActivitySender.AddRecipients
 import com.vsca.vsnapvoicecollege.Interfaces.ChildItemClickListener
 import com.vsca.vsnapvoicecollege.Model.*
@@ -70,17 +69,9 @@ class sectionandyear_Adapter(data: ArrayList<Data>, context: AddRecipients) :
     inner class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.year)
-        var year: TextView? = null
+        val year: TextView = itemView!!.findViewById(R.id.year)!!
+        val child_recyclerview: RecyclerView = itemView!!.findViewById(R.id.child_recyclerview)!!
 
-        @JvmField
-        @BindView(R.id.child_recyclerview)
-        var child_recyclerview: RecyclerView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

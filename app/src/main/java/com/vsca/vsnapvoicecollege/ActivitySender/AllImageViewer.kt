@@ -9,11 +9,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -23,58 +18,40 @@ import com.vsca.vsnapvoicecollege.Adapters.ImageViewer
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
+import com.vsca.vsnapvoicecollege.databinding.ActivityAllImageViewerBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 
 class AllImageViewer : ActionBarActivity() {
 
-    @JvmField
-    @BindView(R.id.lmgback)
-    var lmgback: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgNxtright)
-    var imgNxtright: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgNxtleft)
-    var imgNxtleft: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.progressBar)
-    var progressBar: ProgressBar? = null
-
-    @JvmField
-    @BindView(R.id.webview)
-    var webview: WebView? = null
-
-    @JvmField
-    @BindView(R.id.imgView)
-    var imgView: PhotoView? = null
 
     lateinit var imageViewAdapter: ImageViewer
     private var isPosition = 0
+    private lateinit var binding: ActivityAllImageViewerBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+        binding = ActivityAllImageViewerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+         ActionbarWithoutBottom(this)
         isPositionUpdate(isPosition)
-        lmgback!!.setOnClickListener {
+        binding.lmgback!!.setOnClickListener {
             onBackPressed()
         }
 
-        imgNxtright!!.setOnClickListener {
+        binding.imgNxtright!!.setOnClickListener {
             if (CommonUtil.isImageViewList.size > 1) {
-                progressBar!!.visibility = ProgressBar.VISIBLE
+                binding.progressBar!!.visibility = ProgressBar.VISIBLE
                 isPosition++
                 isPositionUpdate(isPosition)
             }
         }
 
-        imgNxtleft!!.setOnClickListener {
+        binding.imgNxtleft!!.setOnClickListener {
             if (CommonUtil.isImageViewList.size > 1) {
                 if (isPosition > 0) {
-                    progressBar!!.visibility = ProgressBar.VISIBLE
+                    binding.progressBar!!.visibility = ProgressBar.VISIBLE
                     isPosition--
                     isPositionUpdate(isPosition)
                 }
@@ -85,44 +62,44 @@ class AllImageViewer : ActionBarActivity() {
     private fun isPositionUpdate(position: Int) {
         Log.d("Position", position.toString())
         if (position == 0) {
-            imgNxtleft!!.isClickable = false
-            imgNxtleft!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_keyboard_arrow_left_brown))
+            binding.imgNxtleft!!.isClickable = false
+            binding.imgNxtleft!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_keyboard_arrow_left_brown))
         } else {
-            imgNxtleft!!.isClickable = true
-            imgNxtleft!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_keyboard_arrow_left_24))
+            binding.imgNxtleft!!.isClickable = true
+            binding.imgNxtleft!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_keyboard_arrow_left_24))
         }
 
         if (position == CommonUtil.isImageViewList.size - 1) {
-            imgNxtright!!.isClickable = false
-            imgNxtright!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_chevron_right_brown))
+            binding.imgNxtright!!.isClickable = false
+            binding.imgNxtright!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_chevron_right_brown))
         } else {
-            imgNxtright!!.isClickable = true
-            imgNxtright!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_chevron_right_24))
+            binding.imgNxtright!!.isClickable = true
+            binding.imgNxtright!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_chevron_right_24))
         }
         isUpdateFile(position)
     }
 
     private fun isUpdateFile(position: Int) {
         if (CommonUtil.isImageViewList[position].filetype.equals("image")) {
-            progressBar!!.visibility = ProgressBar.GONE
-            webview!!.visibility = View.GONE
-            imgView!!.visibility = View.VISIBLE
+            binding.progressBar!!.visibility = ProgressBar.GONE
+            binding.webview!!.visibility = View.GONE
+            binding.imgView!!.visibility = View.VISIBLE
             Glide.with(this)
                 .load(CommonUtil.isImageViewList[position].filepath.toString())
                 .apply(RequestOptions.centerInsideTransform())
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(imgView!!)
+                .into(binding.imgView!!)
         } else {
-            webview!!.visibility = View.VISIBLE
-            imgView!!.visibility = View.GONE
-            webview!!.settings.javaScriptEnabled = true
-            webview!!.setVerticalScrollbarOverlay(true)
-            webview!!.settings.setSupportZoom(true)
-            webview!!.settings.builtInZoomControls = true
-            webview!!.settings.displayZoomControls = false
-            webview!!.webViewClient = MyWebViewClient()
-            webview!!.webChromeClient = MyWebChromeClient()
-            webview!!.loadUrl("https://docs.google.com/gview?embedded=true&url=${CommonUtil.isImageViewList[position].filepath}")
+            binding.webview!!.visibility = View.VISIBLE
+            binding.imgView!!.visibility = View.GONE
+            binding.webview!!.settings.javaScriptEnabled = true
+            binding.webview!!.setVerticalScrollbarOverlay(true)
+            binding.webview!!.settings.setSupportZoom(true)
+            binding.webview!!.settings.builtInZoomControls = true
+            binding.webview!!.settings.displayZoomControls = false
+            binding.webview!!.webViewClient = MyWebViewClient()
+            binding.webview!!.webChromeClient = MyWebChromeClient()
+            binding.webview!!.loadUrl("https://docs.google.com/gview?embedded=true&url=${CommonUtil.isImageViewList[position].filepath}")
         }
     }
 
@@ -130,13 +107,13 @@ class AllImageViewer : ActionBarActivity() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
             // Show ProgressBar when page starts loading
-            progressBar!!.visibility = ProgressBar.VISIBLE
+            binding.progressBar!!.visibility = ProgressBar.VISIBLE
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             // Hide ProgressBar when page finishes loading
-            progressBar!!.visibility = ProgressBar.GONE
+            binding.progressBar!!.visibility = ProgressBar.GONE
         }
     }
 
@@ -144,7 +121,7 @@ class AllImageViewer : ActionBarActivity() {
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             super.onProgressChanged(view, newProgress)
             // Update ProgressBar with loading progress
-            progressBar!!.progress = newProgress
+            binding.progressBar!!.progress = newProgress
         }
     }
 

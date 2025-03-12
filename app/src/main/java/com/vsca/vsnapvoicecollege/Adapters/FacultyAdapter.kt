@@ -11,8 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vsca.vsnapvoicecollege.Activities.ChatParent
@@ -73,33 +72,13 @@ class FacultyAdapter constructor(data: List<GetFacultyListDetails>, context: Con
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblStaffType)
-        var lblStaffType: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblSubjectName)
-        var lblSubjectName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblStaffName)
-        var lblStaffName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.btn_intreact)
-        var btn_intreact: TextView? = null
-
-        @JvmField
-        @BindView(R.id.imgFaclutyPhoto)
-        var imgFaclutyPhoto: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.layoutSubjecthandled)
-        var layoutSubjecthandled: LinearLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
+        val lblStaffType: TextView = itemView!!.findViewById(R.id.lblStaffType)
+        val lblSubjectName: TextView = itemView!!.findViewById(R.id.lblSubjectName)
+        val lblStaffName: TextView = itemView!!.findViewById(R.id.lblStaffName)
+        val btn_intreact: TextView = itemView!!.findViewById(R.id.btn_intreact)
+        val imgFaclutyPhoto: ImageView = itemView!!.findViewById(R.id.imgFaclutyPhoto)
+        val layoutSubjecthandled: LinearLayout = itemView!!.findViewById(R.id.layoutSubjecthandled)
     }
 
     init {

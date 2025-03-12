@@ -9,112 +9,101 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.vsca.vsnapvoicecollege.Adapters.LoginChooseRoles
 import com.vsca.vsnapvoicecollege.Interfaces.LoginRolesListener
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityLoginRolesBinding
 
 class LoginRoles : AppCompatActivity() {
 
-    @JvmField
-    @BindView(R.id.ryclerview)
-    var ryclerview: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.txt_student)
-    var txt_student: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_Principle)
-    var txt_Principle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_Parent)
-    var txt_Parent: TextView? = null
-
     var rolesadapter: LoginChooseRoles? = null
     var appviewModel: App? = null
+    private lateinit var binding: ActivityLoginRolesBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login_roles)
-        ButterKnife.bind(this)
+        binding = ActivityLoginRolesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         CommonUtil.MenuListDashboard.clear()
         appviewModel = ViewModelProvider(this)[App::class.java]
         appviewModel!!.init()
 
 
 
-        txt_student!!.setOnClickListener {
+        binding.txtStudent!!.setOnClickListener {
 
             rolesadapter!!._LoginClick("p4")
-            txt_student!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
-            txt_Principle!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
-            txt_Principle!!.setTextColor(resources.getColor(R.color.black))
-            txt_student!!.setTextColor(resources.getColor(R.color.white))
+            binding.txtStudent!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
+            binding.txtPrinciple!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+            binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.black))
+            binding.txtStudent!!.setTextColor(resources.getColor(R.color.white))
 
         }
 
-        txt_Parent!!.setOnClickListener {
+        binding.btnLogout.setOnClickListener{
+            logoutClick()
+        }
 
-            if (txt_Parent!!.text.equals(CommonUtil.Non_Teaching_staff)) {
+        binding.txtParent!!.setOnClickListener {
+
+            if (binding.txtParent!!.text.equals(CommonUtil.Non_Teaching_staff)) {
 
                 rolesadapter!!._LoginClick("p6")
-                txt_Parent!!.setTextColor(resources.getColor(R.color.white))
-                txt_Parent!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
-                txt_Principle!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
-                txt_Principle!!.setTextColor(resources.getColor(R.color.black))
+                binding.txtParent!!.setTextColor(resources.getColor(R.color.white))
+                binding.txtParent!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
+                binding.txtPrinciple!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+                binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.black))
 
             } else {
 
                 rolesadapter!!._LoginClick("p5")
-                txt_Parent!!.setTextColor(resources.getColor(R.color.white))
-                txt_Parent!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
-                txt_Principle!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
-                txt_Principle!!.setTextColor(resources.getColor(R.color.black))
+                binding.txtParent!!.setTextColor(resources.getColor(R.color.white))
+                binding.txtParent!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
+                binding.txtPrinciple!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+                binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.black))
             }
         }
 
-        txt_Principle!!.setOnClickListener {
+        binding.txtPrinciple!!.setOnClickListener {
 
-            if (txt_Principle!!.text.equals(CommonUtil._staff)) {
+            if (binding.txtPrinciple!!.text.equals(CommonUtil._staff)) {
 
                 rolesadapter!!._LoginClick("p3")
-                txt_Principle!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
-                txt_Principle!!.setTextColor(resources.getColor(R.color.white))
-                txt_student!!.setTextColor(resources.getColor(R.color.black))
-                txt_student!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+                binding.txtPrinciple!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
+                binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
+                binding.txtStudent!!.setTextColor(resources.getColor(R.color.black))
+                binding.txtStudent!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
 
-            } else if (txt_Principle!!.text.equals(CommonUtil.HOD)) {
+            } else if (binding.txtPrinciple!!.text.equals(CommonUtil.HOD)) {
 
                 rolesadapter!!._LoginClick("p2")
-                txt_Principle!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
-                txt_Principle!!.setTextColor(resources.getColor(R.color.white))
-                txt_student!!.setTextColor(resources.getColor(R.color.black))
-                txt_student!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+                binding.txtPrinciple!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
+                binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
+                binding.txtStudent!!.setTextColor(resources.getColor(R.color.black))
+                binding.txtStudent!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
 
-            } else if (txt_Principle!!.text.equals("UNIVERSITY HEAD")) {
+            } else if (binding.txtPrinciple!!.text.equals("UNIVERSITY HEAD")) {
 
                 rolesadapter!!._LoginClick("p7")
-                txt_Principle!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
-                txt_Principle!!.setTextColor(resources.getColor(R.color.white))
-                txt_student!!.setTextColor(resources.getColor(R.color.black))
-                txt_student!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
-                txt_Parent!!.setTextColor(resources.getColor(R.color.black))
-                txt_Parent!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+                binding.txtPrinciple!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
+                binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
+                binding.txtStudent!!.setTextColor(resources.getColor(R.color.black))
+                binding.txtStudent!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+                binding.txtParent!!.setTextColor(resources.getColor(R.color.black))
+                binding.txtParent!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
 
             } else {
 
                 rolesadapter!!._LoginClick("p1")
-                txt_Principle!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
-                txt_Principle!!.setTextColor(resources.getColor(R.color.white))
-                txt_student!!.setTextColor(resources.getColor(R.color.black))
-                txt_student!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
+                binding.txtPrinciple!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
+                binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
+                binding.txtStudent!!.setTextColor(resources.getColor(R.color.black))
+                binding.txtStudent!!.background = resources.getDrawable(R.drawable.loginus_backround_whitecolor)
 
             }
         }
@@ -122,27 +111,27 @@ class LoginRoles : AppCompatActivity() {
         for (i in CommonUtil.UserDataList!!.indices) {
 
             if (CommonUtil.UserDataList!![i].priority.equals("p1")) {
-                txt_Principle!!.visibility = View.VISIBLE
+                binding.txtPrinciple!!.visibility = View.VISIBLE
             } else if (CommonUtil.UserDataList!![i].priority.equals("p7")) {
-                txt_Principle!!.visibility = View.VISIBLE
-                txt_Principle!!.text = "UNIVERSITY HEAD"
+                binding.txtPrinciple!!.visibility = View.VISIBLE
+                binding.txtPrinciple!!.text = "UNIVERSITY HEAD"
             } else if (CommonUtil.UserDataList!![i].priority.equals("p2")) {
-                txt_Principle!!.text = "HOD"
-                txt_Principle!!.visibility = View.VISIBLE
+                binding.txtPrinciple!!.text = "HOD"
+                binding.txtPrinciple!!.visibility = View.VISIBLE
             } else if (CommonUtil.UserDataList!![i].priority.equals("p3")) {
-                txt_Principle!!.text = "STAFF"
-                txt_Principle!!.visibility = View.VISIBLE
+                binding.txtPrinciple!!.text = "STAFF"
+                binding.txtPrinciple!!.visibility = View.VISIBLE
             } else if (CommonUtil.UserDataList!![i].priority.equals("p4")) {
-                txt_student!!.visibility = View.VISIBLE
+                binding.txtStudent!!.visibility = View.VISIBLE
             }
 
             if (CommonUtil.UserDataList!![i].priority.equals("p5")) {
-                txt_Parent!!.visibility = View.VISIBLE
-                txt_student!!.visibility = View.GONE
+                binding.txtParent!!.visibility = View.VISIBLE
+                binding.txtStudent!!.visibility = View.GONE
             }
 
             if (CommonUtil.UserDataList!![i].priority.equals("p6")) {
-                txt_Parent!!.text = "NON TEACHING STAFF"
+                binding.txtParent!!.text = "NON TEACHING STAFF"
             }
 
         }
@@ -152,67 +141,67 @@ class LoginRoles : AppCompatActivity() {
             for (i in CommonUtil.UserDataList!!.indices) {
 
                 if (CommonUtil.UserDataList!![i].priority.equals("p1")) {
-                    txt_Principle!!.visibility = View.VISIBLE
-                    txt_student!!.visibility = View.GONE
-                    txt_Parent!!.visibility = View.GONE
-                    txt_Principle!!.background =
+                    binding.txtPrinciple!!.visibility = View.VISIBLE
+                    binding.txtStudent!!.visibility = View.GONE
+                    binding.txtParent!!.visibility = View.GONE
+                    binding.txtPrinciple!!.background =
                         resources.getDrawable(R.drawable.login_typebackround_color)
-                    txt_Principle!!.setTextColor(resources.getColor(R.color.white))
+                    binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
 
                 } else if (CommonUtil.UserDataList!![i].priority.equals("p7")) {
-                    txt_Principle!!.visibility = View.VISIBLE
-                    txt_student!!.visibility = View.GONE
-                    txt_Parent!!.visibility = View.GONE
+                    binding.txtPrinciple!!.visibility = View.VISIBLE
+                    binding.txtStudent!!.visibility = View.GONE
+                    binding.txtParent!!.visibility = View.GONE
 
-                    txt_Principle!!.background =
+                    binding.txtPrinciple!!.background =
                         resources.getDrawable(R.drawable.login_typebackround_color)
-                    txt_Principle!!.setTextColor(resources.getColor(R.color.white))
+                    binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
 
                 } else if (CommonUtil.UserDataList!![i].priority.equals("p2")) {
-                    txt_Principle!!.visibility = View.VISIBLE
-                    txt_student!!.visibility = View.GONE
-                    txt_Parent!!.visibility = View.GONE
+                    binding.txtPrinciple!!.visibility = View.VISIBLE
+                    binding.txtStudent!!.visibility = View.GONE
+                    binding.txtParent!!.visibility = View.GONE
 
-                    txt_Principle!!.background =
+                    binding.txtPrinciple!!.background =
                         resources.getDrawable(R.drawable.login_typebackround_color)
-                    txt_Principle!!.setTextColor(resources.getColor(R.color.white))
+                    binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
 
                 } else if (CommonUtil.UserDataList!![i].priority.equals("p3")) {
-                    txt_Principle!!.visibility = View.VISIBLE
-                    txt_student!!.visibility = View.GONE
-                    txt_Parent!!.visibility = View.GONE
+                    binding.txtPrinciple!!.visibility = View.VISIBLE
+                    binding.txtStudent!!.visibility = View.GONE
+                    binding.txtParent!!.visibility = View.GONE
 
-                    txt_Principle!!.background =
+                    binding.txtPrinciple!!.background =
                         resources.getDrawable(R.drawable.login_typebackround_color)
-                    txt_Principle!!.setTextColor(resources.getColor(R.color.white))
+                    binding.txtPrinciple!!.setTextColor(resources.getColor(R.color.white))
 
                 } else if (CommonUtil.UserDataList!![i].priority.equals("p4")) {
-                    txt_Principle!!.visibility = View.GONE
-                    txt_student!!.visibility = View.VISIBLE
-                    txt_Parent!!.visibility = View.GONE
+                    binding.txtPrinciple!!.visibility = View.GONE
+                    binding.txtStudent!!.visibility = View.VISIBLE
+                    binding.txtParent!!.visibility = View.GONE
 
-                    txt_student!!.setTextColor(resources.getColor(R.color.white))
-                    txt_student!!.background =
+                    binding.txtStudent!!.setTextColor(resources.getColor(R.color.white))
+                    binding.txtStudent!!.background =
                         resources.getDrawable(R.drawable.login_typebackround_color)
 
                 } else if (CommonUtil.UserDataList!![i].priority.equals("p5")) {
-                    txt_Principle!!.visibility = View.GONE
-                    txt_student!!.visibility = View.GONE
-                    txt_Parent!!.visibility = View.VISIBLE
+                    binding.txtPrinciple!!.visibility = View.GONE
+                    binding.txtStudent!!.visibility = View.GONE
+                    binding.txtParent!!.visibility = View.VISIBLE
 
-                    txt_Parent!!.background =
+                    binding.txtParent!!.background =
                         resources.getDrawable(R.drawable.login_typebackround_color)
-                    txt_Parent!!.setTextColor(resources.getColor(R.color.white))
+                    binding.txtParent!!.setTextColor(resources.getColor(R.color.white))
 
                 } else if (CommonUtil.UserDataList!![i].priority.equals("p6")) {
 
-                    txt_Principle!!.visibility = View.GONE
-                    txt_student!!.visibility = View.GONE
-                    txt_Parent!!.visibility = View.VISIBLE
+                    binding.txtPrinciple!!.visibility = View.GONE
+                    binding.txtStudent!!.visibility = View.GONE
+                    binding.txtParent!!.visibility = View.VISIBLE
 
-                    txt_Parent!!.background =
+                    binding.txtParent!!.background =
                         resources.getDrawable(R.drawable.login_typebackround_color)
-                    txt_Parent!!.setTextColor(resources.getColor(R.color.white))
+                    binding.txtParent!!.setTextColor(resources.getColor(R.color.white))
 
                 }
             }
@@ -237,10 +226,10 @@ class LoginRoles : AppCompatActivity() {
         }
 
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@LoginRoles)
-        ryclerview!!.layoutManager = mLayoutManager
-        ryclerview!!.itemAnimator = DefaultItemAnimator()
-        ryclerview!!.adapter = rolesadapter
-        ryclerview!!.recycledViewPool.setMaxRecycledViews(0, 80)
+        binding.ryclerview!!.layoutManager = mLayoutManager
+        binding.ryclerview!!.itemAnimator = DefaultItemAnimator()
+        binding.ryclerview!!.adapter = rolesadapter
+        binding.ryclerview!!.recycledViewPool.setMaxRecycledViews(0, 80)
         rolesadapter!!.notifyDataSetChanged()
 
     }
@@ -264,7 +253,6 @@ class LoginRoles : AppCompatActivity() {
         CommonUtil.CollegeLogo = data.colglogo!!
     }
 
-    @OnClick(R.id.btnLogout)
     fun logoutClick() {
         BaseActivity.LogoutAlert(getString(R.string.txt_logout_alert), 0, this@LoginRoles)
     }

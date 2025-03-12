@@ -28,13 +28,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.AWS.S3Uploader
-import com.vsca.vsnapvoicecollege.AWS.S3Utils
+import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
+import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Activities.Assignment
 import com.vsca.vsnapvoicecollege.Activities.Circular
@@ -91,235 +89,72 @@ import java.util.concurrent.TimeUnit
 
 class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListener {
 
-    @JvmField
-    @BindView(R.id.ch_all)
-    var ch_all: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.lblEntireDepartmentlable)
-    var lblEntireDepartmentlable: TextView? = null
-
-    @JvmField
-    @BindView(R.id.btnRecipientCancel)
-    var btnRecipientCancel: Button? = null
-
-    @JvmField
-    @BindView(R.id.btnConfirm)
-    var btnConfirm: Button? = null
-
-    @JvmField
-    @BindView(R.id.layoutButton)
-    var layoutButton: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lblDivision)
-    var lblDivision: TextView? = null
-
-    @JvmField
-    @BindView(R.id.Division_All)
-    var Division_All: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_onandoff)
-    var txt_onandoff: RelativeLayout? = null
-
-    @JvmField
-    @BindView(R.id.switchonAndoff)
-    var switchonAndoff: Switch? = null
-
-    @JvmField
-    @BindView(R.id.ALL2)
-    var ALL2: TextView? = null
-
-    @JvmField
-    @BindView(R.id.ch_all1)
-    var ch_all1: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.ALL3)
-    var ALL3: TextView? = null
-
-    @JvmField
-    @BindView(R.id.ch_all2)
-    var ch_all2: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.ALL4)
-    var ALL4: TextView? = null
-
-    @JvmField
-    @BindView(R.id.ch_all4)
-    var ch_all4: CheckBox? = null
-
-
-    @JvmField
-    @BindView(R.id.txtTarget)
-    var txtTarget: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lnrTarget)
-    var lnrTarget: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.edt_selectiontuterorsubject)
-    var edt_selectiontuterorsubject: TextView? = null
-
-    @JvmField
-    @BindView(R.id.NestedScrollView)
-    var NestedScrollView: NestedScrollView? = null
-
-
-    @JvmField
-    @BindView(R.id.LayoutRecipient)
-    var LayoutRecipient: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_selectsubortutor)
-    var txt_selectsubortutor: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCourse)
-    var lblCourse: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblYourClasses)
-    var lblYourClasses: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblGroups)
-    var lblGroups: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.recycleRecipients)
-    var recycleRecipients: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.lblSelectedRecipient)
-    var lblSelectedRecipient: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.spinnerDropdown)
-    var spinnerDropdown: Spinner? = null
-
-
-    @JvmField
-    @BindView(R.id.Spinning_yourclasses)
-    var Spinning_yourclasses: Spinner? = null
-
-
-    @JvmField
-    @BindView(R.id.spinnerDropdowncourse)
-    var spinnerDropdowncourse: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.chboxParents)
-    var chboxParents: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.Viewlineone)
-    var Viewlineone: View? = null
-
-    @JvmField
-    @BindView(R.id.chboxStaff)
-    var chboxStaff: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.lnrTargetParent)
-    var lnrTargetParent: LinearLayout? = null
-
-
-    @JvmField
-    @BindView(R.id.recycleRecipientscourse)
-    var recycleRecipientscourse: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.recycleyearandsection)
-    var recycleyearandsection: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.chboxStudent)
-    var chboxStudent: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.chboxAll)
-    var chboxAll: CheckBox? = null
-
-    @JvmField
-    @BindView(R.id.Viewlinetwo)
-    var Viewlinetwo: View? = null
-
-
-    @JvmField
-    @BindView(R.id.recycle_Staffrecipients)
-    var recycle_Staffrecipients: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.txt_selectspecfic)
-    var txt_selectspecfic: TextView? = null
-
-    @JvmField
-    @BindView(R.id.layoutstudentlist)
-    var layoutstudentlist: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.txt_department)
-    var txt_department: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_selectspecfic_YearandSecrion)
-    var txt_selectspecfic_YearandSecrion: TextView? = null
-
-    @JvmField
-    @BindView(R.id.Viewlinethree)
-    var Viewlinethree: View? = null
-
-    @JvmField
-    @BindView(R.id.txt_mydepartment)
-    var txt_mydepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txt_myclass)
-    var txt_myclass: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lbl_select_student)
-    var lbl_select_student: TextView? = null
-
-    @JvmField
-    @BindView(R.id.recycle_specificstudent)
-    var recycle_specificstudent: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.relative_Recycle)
-    var relative_Recycle: RelativeLayout? = null
-
-    @JvmField
-    @BindView(R.id.idSV)
-    var SearchView: SearchView? = null
-
-    @JvmField
-    @BindView(R.id.Viewlinefour)
-    var Viewlinefour: View? = null
-
-    @JvmField
-    @BindView(R.id.lnrStaff)
-    var lnrStaff: LinearLayout? = null
+    companion object {
+        lateinit var ch_all: CheckBox
+        lateinit var lblEntireDepartmentlable: TextView
+        lateinit var btnRecipientCancel: Button
+        lateinit var btnConfirm: Button
+        lateinit var layoutButton: ConstraintLayout
+        lateinit var lblDivision: TextView
+        lateinit var Division_All: TextView
+        lateinit var txt_onandoff: RelativeLayout
+        lateinit var switchonAndoff: Switch
+        lateinit var ALL2: TextView
+        lateinit var ch_all1: CheckBox
+        lateinit var ALL3: TextView
+        lateinit var ch_all2: CheckBox
+        lateinit var ALL4: TextView
+        lateinit var ch_all4: CheckBox
+        lateinit var txtTarget: TextView
+        lateinit var lnrTarget: LinearLayout
+        lateinit var edt_selectiontuterorsubject: TextView
+        lateinit var NestedScrollView: NestedScrollView
+        lateinit var LayoutRecipient: ConstraintLayout
+        lateinit var lblDepartment: TextView
+        lateinit var txt_selectsubortutor: TextView
+        lateinit var lblCourse: TextView
+        lateinit var lblYourClasses: TextView
+        lateinit var lblGroups: TextView
+        lateinit var recycleRecipients: RecyclerView
+        lateinit var lblSelectedRecipient: TextView
+        lateinit var spinnerDropdown: Spinner
+        lateinit var Spinning_yourclasses: Spinner
+        lateinit var spinnerDropdowncourse: Spinner
+        lateinit var chboxParents: CheckBox
+        lateinit var Viewlineone: View
+        lateinit var chboxStaff: CheckBox
+        lateinit var lnrTargetParent: LinearLayout
+        lateinit var recycleRecipientscourse: RecyclerView
+        lateinit var recycleyearandsection: RecyclerView
+        lateinit var chboxStudent: CheckBox
+        lateinit var chboxAll: CheckBox
+        lateinit var Viewlinetwo: View
+        lateinit var recycle_Staffrecipients: RecyclerView
+        lateinit var txt_selectspecfic: TextView
+        lateinit var layoutstudentlist: ConstraintLayout
+        lateinit var txt_department: TextView
+        lateinit var txt_selectspecfic_YearandSecrion: TextView
+        lateinit var Viewlinethree: View
+        lateinit var txt_mydepartment: TextView
+        lateinit var txt_myclass: TextView
+        lateinit var lbl_select_student: TextView
+        lateinit var recycle_specificstudent: RecyclerView
+        lateinit var relative_Recycle: RelativeLayout
+        lateinit var SearchView: SearchView
+        lateinit var Viewlinefour: View
+        lateinit var lnrStaff: LinearLayout
+    }
 
     var isVideoToken = ""
-
 
     //AWS
     var Awsuploadedfile = ArrayList<String>()
     var pathIndex = 0
     var uploadFilePath: String? = null
     var contentType: String? = null
-    var AWSUploadedFilesList = ArrayList<AWSUploadedFiles>()
+
+    //    var AWSUploadedFilesList = ArrayList<AWSUploadedFiles>()
+    var AWSUploadedFilesList = ArrayList<String>()
     var progressDialog: ProgressDialog? = null
     var fileNameDateTime: String? = null
     var SenderType = ""
@@ -355,6 +190,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     var My_Department: String? = null
     var Card_name: String? = ""
 
+    var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
+
     // ADAPTERS
     var divisionadapter: SelectedRecipientAdapter? = null
     var SelectedcourseAdapter: SelectedRecipientAdapter? = null
@@ -369,8 +206,66 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
         ActionbarWithoutBottom(this)
+
+        isAwsUploadingPreSigned = AwsUploadingPreSigned()
+
+
+        ch_all = findViewById(R.id.ch_all)
+        lblEntireDepartmentlable = findViewById(R.id.lblEntireDepartmentlable)
+        btnRecipientCancel = findViewById(R.id.btnRecipientCancel)
+        btnConfirm = findViewById(R.id.btnConfirm)
+        layoutButton = findViewById(R.id.layoutButton)
+        lblDivision = findViewById(R.id.lblDivision)
+        Division_All = findViewById(R.id.Division_All)
+        txt_onandoff = findViewById(R.id.txt_onandoff)
+        switchonAndoff = findViewById(R.id.switchonAndoff)
+        ALL2 = findViewById(R.id.ALL2)
+        ch_all1 = findViewById(R.id.ch_all1)
+        ALL3 = findViewById(R.id.ALL3)
+        ch_all2 = findViewById(R.id.ch_all2)
+        ALL4 = findViewById(R.id.ALL4)
+        ch_all4 = findViewById(R.id.ch_all4)
+        txtTarget = findViewById(R.id.txtTarget)
+        lnrTarget = findViewById(R.id.lnrTarget)
+        edt_selectiontuterorsubject = findViewById(R.id.edt_selectiontuterorsubject)
+        NestedScrollView = findViewById(R.id.NestedScrollView)
+        LayoutRecipient = findViewById(R.id.LayoutRecipient)
+        lblDepartment = findViewById(R.id.lblDepartment)
+        txt_selectsubortutor = findViewById(R.id.txt_selectsubortutor)
+        lblCourse = findViewById(R.id.lblCourse)
+        lblYourClasses = findViewById(R.id.lblYourClasses)
+        lblGroups = findViewById(R.id.lblGroups)
+        recycleRecipients = findViewById(R.id.recycleRecipients)
+        lblSelectedRecipient = findViewById(R.id.lblSelectedRecipient)
+        spinnerDropdown = findViewById(R.id.spinnerDropdown)
+        Spinning_yourclasses = findViewById(R.id.Spinning_yourclasses)
+        spinnerDropdowncourse = findViewById(R.id.spinnerDropdowncourse)
+        chboxParents = findViewById(R.id.chboxParents)
+        Viewlineone = findViewById(R.id.Viewlineone)
+        chboxStaff = findViewById(R.id.chboxStaff)
+        lnrTargetParent = findViewById(R.id.lnrTargetParent)
+        recycleRecipientscourse = findViewById(R.id.recycleRecipientscourse)
+        recycleyearandsection = findViewById(R.id.recycleyearandsection)
+        chboxStudent = findViewById(R.id.chboxStudent)
+        chboxAll = findViewById(R.id.chboxAll)
+        Viewlinetwo = findViewById(R.id.Viewlinetwo)
+        recycle_Staffrecipients = findViewById(R.id.recycle_Staffrecipients)
+        txt_selectspecfic = findViewById(R.id.txt_selectspecfic)
+        layoutstudentlist = findViewById(R.id.layoutstudentlist)
+        txt_department = findViewById(R.id.txt_department)
+        txt_selectspecfic_YearandSecrion = findViewById(R.id.txt_selectspecfic_YearandSecrion)
+        Viewlinethree = findViewById(R.id.Viewlinethree)
+        txt_mydepartment = findViewById(R.id.txt_mydepartment)
+        txt_myclass = findViewById(R.id.txt_myclass)
+        lbl_select_student = findViewById(R.id.lbl_select_student)
+        recycle_specificstudent = findViewById(R.id.recycle_specificstudent)
+        relative_Recycle = findViewById(R.id.relative_Recycle)
+        SearchView = findViewById(R.id.idSV)
+        Viewlinefour = findViewById(R.id.Viewlinefour)
+        lnrStaff = findViewById(R.id.lnrStaff)
+
+
         CommonUtil.DepartmentChooseIds.clear()
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
@@ -1391,7 +1286,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
@@ -2404,6 +2298,16 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
             }
         })
 
+
+        btnConfirm.setOnClickListener { SendButtonAPi() }
+        btnRecipientCancel.setOnClickListener { cancelClick() }
+        lblEntireDepartmentlable.setOnClickListener { EntireClick() }
+        lblDivision.setOnClickListener { divisionClick() }
+        lblDepartment.setOnClickListener { departmentClick() }
+        lblCourse.setOnClickListener { CourseClick() }
+        lblYourClasses.setOnClickListener { YourClassesClick() }
+        lblGroups.setOnClickListener { GroupsClick() }
+
     }
 
     private fun filter(text: String) {
@@ -2690,8 +2594,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     //----------CONFORM AND CANCLE BUTTON ------------
 
 
-    @SuppressLint("SuspiciousIndentation")
-    @OnClick(R.id.btnConfirm)
     fun SendButtonAPi() {
 
         Log.d("checkbox_isStaff", isStaff.toString())
@@ -3376,7 +3278,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
 
                             }
                             alertDialog.setNegativeButton(
@@ -3408,8 +3311,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
 
                             }
                             alertDialog.setNegativeButton(
@@ -3441,8 +3344,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -3472,8 +3375,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -3507,12 +3410,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     }
 
                                 } else {
@@ -3521,11 +3424,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
+//                                        awsFileUpload(this, pathIndex)
                                     }
                                 }
                             }
@@ -3557,8 +3460,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                awsFileUpload(this, pathIndex)
-
+//                                awsFileUpload(this, pathIndex)
+                                isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
                                 CommonUtil.No
@@ -3594,8 +3497,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         CommonUtil.Yes
                     ) { _, _ ->
 
-                        awsFileUpload(this, pathIndex)
-
+//                        awsFileUpload(this, pathIndex)
+                        isUploadAWS()
                     }
                     alertDialog.setNegativeButton(
                         CommonUtil.No
@@ -4818,11 +4721,13 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
                                     //  NoticeBoardSMSsending()
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
                                     //  NoticeBoardSMSsendingTuter()
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 }
 
                             } else {
@@ -4832,11 +4737,13 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
                                     //  NoticeBoardSMSsending()
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
                                     //  NoticeBoardSMSsendingTuter()
-                                    awsFileUpload(this, pathIndex)
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 }
                             }
                         }
@@ -4878,11 +4785,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                    awsFileUpload(this, pathIndex)
-
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
+//                                    awsFileUpload(this, pathIndex)
                                 }
 
                             } else {
@@ -4891,11 +4798,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                    awsFileUpload(this, pathIndex)
-
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
+//                                    awsFileUpload(this, pathIndex)
                                 }
                             }
                         }
@@ -4930,8 +4837,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         CommonUtil.Yes
                     ) { _, _ ->
 
-                        awsFileUpload(this, pathIndex)
-
+//                        awsFileUpload(this, pathIndex)
+                        isUploadAWS()
                     }
                     alertDialog.setNegativeButton(
                         CommonUtil.No
@@ -5695,8 +5602,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.Yes
                                 ) { _, _ ->
 
-                                    awsFileUpload(this, pathIndex)
-
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 }
                                 alertDialog.setNegativeButton(
                                     CommonUtil.No
@@ -5725,8 +5632,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         CommonUtil.Yes
                                     ) { _, _ ->
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     }
                                     alertDialog.setNegativeButton(
                                         CommonUtil.No
@@ -5757,7 +5664,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         alertDialog.setPositiveButton(
                                             CommonUtil.Yes
                                         ) { _, _ ->
-                                            awsFileUpload(this, pathIndex)
+//                                            awsFileUpload(this, pathIndex)
+                                            isUploadAWS()
 
                                         }
                                         alertDialog.setNegativeButton(
@@ -5788,8 +5696,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         alertDialog.setPositiveButton(
                                             CommonUtil.Yes
                                         ) { _, _ ->
-                                            awsFileUpload(this, pathIndex)
-
+//                                            awsFileUpload(this, pathIndex)
+                                            isUploadAWS()
                                         }
 
                                         alertDialog.setNegativeButton(
@@ -5826,8 +5734,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.Yes
                                 ) { _, _ ->
 
-                                    awsFileUpload(this, pathIndex)
-
+//                                    awsFileUpload(this, pathIndex)
+                                    isUploadAWS()
                                 }
                                 alertDialog.setNegativeButton(
                                     CommonUtil.No
@@ -5856,8 +5764,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         CommonUtil.Yes
                                     ) { _, _ ->
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
 
                                     }
                                     alertDialog.setNegativeButton(
@@ -5890,8 +5798,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                             CommonUtil.Yes
                                         ) { _, _ ->
 
-                                            awsFileUpload(this, pathIndex)
-
+//                                            awsFileUpload(this, pathIndex)
+                                            isUploadAWS()
                                         }
                                         alertDialog.setNegativeButton(
                                             CommonUtil.No
@@ -5922,8 +5830,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                             CommonUtil.Yes
                                         ) { _, _ ->
 
-                                            awsFileUpload(this, pathIndex)
-
+//                                            awsFileUpload(this, pathIndex)
+                                            isUploadAWS()
                                         }
 
                                         alertDialog.setNegativeButton(
@@ -6633,16 +6541,20 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
                                     CommonUtil.receivertype = "5"
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
-                                        awsFileUpload(this, pathIndex)
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                                        awsFileUpload(this, pathIndex)
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     }
                                 } else {
                                     CommonUtil.receivertype = "7"
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
-                                        awsFileUpload(this, pathIndex)
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                                        awsFileUpload(this, pathIndex)
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     }
                                 }
                             }
@@ -6683,11 +6595,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
+//                                        awsFileUpload(this, pathIndex)
                                     }
 
                                 } else {
@@ -6696,12 +6608,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                        awsFileUpload(this, pathIndex)
-
+//                                        awsFileUpload(this, pathIndex)
+                                        isUploadAWS()
                                     }
                                 }
                             }
@@ -6945,7 +6857,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         CommonUtil.Yes
                     ) { _, _ ->
 
-                        awsFileUpload(this, pathIndex)
+//                        awsFileUpload(this, pathIndex)
+                        isUploadAWS()
 
                     }
                     alertDialog.setNegativeButton(
@@ -6962,7 +6875,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
     }
 
-    @OnClick(R.id.btnRecipientCancel)
     fun cancelClick() {
 
         CommonUtil.DepartmentChooseIds.clear()
@@ -7491,7 +7403,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         if (!CommonUtil.urlFromS3.equals(null)) {
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
                 if (CommonUtil.urlFromS3!!.contains(".pdf")) {
                     FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
                 } else {
@@ -7549,7 +7461,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         if (!CommonUtil.urlFromS3.equals(null)) {
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
                 if (CommonUtil.urlFromS3!!.contains(".pdf")) {
                     FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
                 } else {
@@ -7680,7 +7592,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         for (i in AWSUploadedFilesList.indices) {
             val FileNameobject = JsonObject()
             FileNameobject.addProperty(
-                ApiRequestNames.Req_FileName, AWSUploadedFilesList[i].filepath
+                ApiRequestNames.Req_FileName, AWSUploadedFilesList[i]
             )
             FileNameArray.add(FileNameobject)
         }
@@ -7719,7 +7631,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         for (i in AWSUploadedFilesList.indices) {
             val FileNameobject = JsonObject()
-            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
             FileNameArray.add(FileNameobject)
         }
         jsonObject.add("FileNameArray", FileNameArray)
@@ -7755,7 +7667,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         for (i in AWSUploadedFilesList.indices) {
             val FileNameobject = JsonObject()
-            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+            FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
             FileNameArray.add(FileNameobject)
         }
         jsonObject.add("FileNameArray", FileNameArray)
@@ -7793,7 +7705,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
                 FileNameArray.add(FileNameobject)
             }
             jsonObject.add("FileNameArray", FileNameArray)
@@ -7804,7 +7716,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
             val FileNameArray = JsonArray()
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
-                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i].filepath)
+                FileNameobject.addProperty("FileName", AWSUploadedFilesList[i])
                 FileNameArray.add(FileNameobject)
             }
             jsonObject.add("FileNameArray", FileNameArray)
@@ -8044,7 +7956,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 //--------CLICK THE PARTICULER DATA
 
 
-    @OnClick(R.id.lblEntireDepartmentlable)
     fun EntireClick() {
 
         //    chboxStudent!!.isChecked = false
@@ -8108,7 +8019,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     }
 
 
-    @OnClick(R.id.lblDivision)
     fun divisionClick() {
 
 
@@ -8200,7 +8110,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
     }
 
-    @OnClick(R.id.lblDepartment)
     fun departmentClick() {
 
         if (lblDepartment!!.text.toString().equals(CommonUtil.Year_Section)) {
@@ -8291,7 +8200,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
     }
 
-    @OnClick(R.id.lblCourse)
     fun CourseClick() {
 
         if (lblCourse!!.text.toString().equals(CommonUtil.Course)) {
@@ -8357,7 +8265,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
     }
 
-    @OnClick(R.id.lblYourClasses)
     fun YourClassesClick() {
 
         if (lblYourClasses!!.text.toString().equals(CommonUtil.Your_Classes)) {
@@ -8434,7 +8341,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
     }
 
-    @OnClick(R.id.lblGroups)
     fun GroupsClick() {
         if (lblGroups!!.text.toString().equals(CommonUtil.Groups)) {
             Card_name = CommonUtil.Groups
@@ -8506,471 +8412,472 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
 // ----------------AWS UPLOAD FUNCTION--------------//
 
-    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-
-        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-        val s3uploaderObj: S3Uploader
-        s3uploaderObj = S3Uploader(activity)
-        pathIndex = pathind!!
-
-        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
-            Log.d("uploadFilePath", uploadFilePath.toString())
-            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-            if (extension.equals(".pdf")) {
-                contentType = ".pdf"
-            } else {
-                contentType = ".jpg"
-            }
-            break
-        }
-
-        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-            Log.d("test", uploadFilePath!!)
-            if (uploadFilePath != null) {
-                progressDialog = CustomLoading.createProgressDialog(this)
-
-                progressDialog!!.show()
-                fileNameDateTime =
-                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
-                fileNameDateTime = "File_" + fileNameDateTime
-                Log.d("filenamedatetime", fileNameDateTime.toString())
-                s3uploaderObj.initUpload(
-                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-                )
-
-                s3uploaderObj.setOns3UploadDone(object : S3Uploader.S3UploadInterface {
-                    override fun onUploadSuccess(response: String?) {
-                        if (response!!.equals("Success")) {
-
-                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-                                this@AddRecipients,
-                                CommonUtil.CollegeId.toString(),
-                                uploadFilePath,
-                                fileNameDateTime
-                            )
-
-                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-
-                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-
-
-                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-
-
-                                fileName = File(uploadFilePath)
-
-                                filename = fileName!!.name
-                                AWSUploadedFilesList.add(
-                                    AWSUploadedFiles(
-                                        CommonUtil.urlFromS3!!, filename, contentType
-                                    )
-                                )
-
-                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-                                awsFileUpload(activity, pathIndex + 1)
-
-                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-                                    progressDialog!!.dismiss()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onUploadError(response: String?) {
-                        progressDialog!!.dismiss()
-                    }
-                })
-            }
-
-        } else {
-
-            if (ScreenName.equals(CommonUtil.Image_Pdf)) {
-
-                if (CommonUtil.Priority.equals("p1")) {
-
-                    if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-
-                        if (!CommonUtil.receivertype.equals("")) {
-
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                ImageOrPdfsendentire()
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-
-                    } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-
-
-                        if (!CommonUtil.receiverid.equals("")) {
-
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                ImageOrPdfsendparticuler()
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-
-                    } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-
-
-                        if (!CommonUtil.receiverid.equals("")) {
-
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-
-                                ImageOrPdfsendparticuler()
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-
-                    } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-
-                        if (!CommonUtil.receiverid.equals("")) {
-
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                ImageOrPdfsendparticuler()
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-
-                    } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-
-                        if (!CommonUtil.receiverid.equals("")) {
-
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-
-                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                        ImageOrPdfsendparticuler()
-
-                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                        ImageOrPdfsendparticulerTuter()
-
-                                    }
-
-                                } else {
-
-                                    CommonUtil.receivertype = "7"
-
-                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                        ImageOrPdfsendparticuler()
-
-                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                        ImageOrPdfsendparticulerTuter()
-                                    }
-                                }
-
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-
-                    } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-
-                        if (!CommonUtil.receiverid.equals("")) {
-
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                ImageOrPdfsendparticuler()
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-
-                    } else {
-
-                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-
-                    }
-                } else if (CommonUtil.Priority.equals("p3")) {
-
-                    if (!CommonUtil.receiverid.equals("")) {
-
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                                if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                    ImageOrPdfsendparticuler()
-
-                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                    ImageOrPdfsendparticulerTuter()
-
-                                }
-
-                            } else {
-
-                                CommonUtil.receivertype = "7"
-
-                                if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                    ImageOrPdfsendparticuler()
-
-                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                    ImageOrPdfsendparticulerTuter()
-                                }
-                            }
-
-
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                        }
-                    } else {
-                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                    }
-                } else if (CommonUtil.Priority.equals("p2")) {
-
-                    if (My_Department.equals("Yes")) {
-
-                        if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
-
-                            if (!CommonUtil.receivertype.equals("")) {
-
-                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                    ImageOrPdfsendparticuler()
-
-                                } else {
-                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                                }
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                            }
-                        } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-
-                            if (!CommonUtil.receivertype.equals("")) {
-
-                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                    ImageOrPdfsendparticuler()
-
-                                } else {
-                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                                }
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                            }
-
-                        } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
-
-                            if (!CommonUtil.receivertype.equals("")) {
-
-                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                    ImageOrPdfsendparticuler()
-
-                                } else {
-                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                                }
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                            }
-                        }
-
-                    } else {
-
-                        if (!CommonUtil.receiverid.equals("")) {
-
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-
-                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                        ImageOrPdfsendparticuler()
-
-                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                        ImageOrPdfsendparticulerTuter()
-
-                                    }
-
-                                } else {
-
-                                    CommonUtil.receivertype = "7"
-
-                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                        ImageOrPdfsendparticuler()
-
-                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                        ImageOrPdfsendparticulerTuter()
-                                    }
-                                }
-
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-
-                    }
-
-                }
-
-            } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
-
-                if (CommonUtil.Priority.equals("p3")) {
-                    if (!CommonUtil.receiverid.equals("")) {
-                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                    NoticeBoardSMSsending()
-
-                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                                    NoticeBoardSMSsendingTuter()
-
-                                }
-
-                            } else {
-
-                                CommonUtil.receivertype = "7"
-
-                                if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                    NoticeBoardSMSsending()
-
-                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                                    NoticeBoardSMSsendingTuter()
-                                }
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                        }
-                    } else {
-                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                    }
-                } else if (CommonUtil.Priority.equals("p2")) {
-                    if (My_Department.equals("Yes")) {
-                        if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
-                            if (!CommonUtil.receivertype.equals("")) {
-                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-                                    NoticeBoardSMSsending()
-                                } else {
-                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                                }
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                            }
-                        } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-                            if (!CommonUtil.receivertype.equals("")) {
-                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-                                    NoticeBoardSMSsending()
-                                } else {
-                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                                }
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                            }
-                        } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
-                            if (!CommonUtil.receivertype.equals("")) {
-                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-                                    NoticeBoardSMSsending()
-                                } else {
-                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                                }
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                            }
-                        }
-                    } else {
-                        if (!CommonUtil.receiverid.equals("")) {
-                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-                                        NoticeBoardSMSsending()
-                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                                        NoticeBoardSMSsending()
-                                    }
-                                } else {
-                                    CommonUtil.receivertype = "7"
-                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-                                        NoticeBoardSMSsending()
-                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-                                        NoticeBoardSMSsending()
-                                    }
-                                }
-                            } else {
-                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-                            }
-                        } else {
-                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-                        }
-                    }
-                }
-
-            } else if (ScreenName!!.equals(CommonUtil.New_Assignment)) {
-
-
-                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                    CommonUtil.receivertype = "5"
-                    AssignmentsendEntireSection()
-
-                } else {
-
-                    CommonUtil.receivertype = "7"
-                    AssignmentsendEntireSection()
-
-                }
-            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
-
-
-                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                    CommonUtil.receivertype = "5"
-                    Assignmentforward()
-                } else {
-
-                    CommonUtil.receivertype = "7"
-                    Assignmentforward()
-                }
-            }
-        }
-    }
+//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
+//
+//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
+//        val s3Uploader1Obj: S3Uploader1
+//        s3Uploader1Obj = S3Uploader1(activity)
+//        pathIndex = pathind!!
+//
+//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
+//            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
+//            Log.d("uploadFilePath", uploadFilePath.toString())
+//            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
+//            if (extension.equals(".pdf")) {
+//                contentType = ".pdf"
+//            } else {
+//                contentType = ".jpg"
+//            }
+//            break
+//        }
+//
+//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
+//            Log.d("test", uploadFilePath!!)
+//            if (uploadFilePath != null) {
+//                progressDialog = CustomLoading.createProgressDialog(this)
+//
+//                progressDialog!!.show()
+//                fileNameDateTime =
+//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
+//                fileNameDateTime = "File_" + fileNameDateTime
+//                Log.d("filenamedatetime", fileNameDateTime.toString())
+//                s3Uploader1Obj.initUpload(
+//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
+//                )
+//
+//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
+//                    override fun onUploadSuccess(response: String?) {
+//                        if (response!!.equals("Success")) {
+//
+//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
+//                                this@AddRecipients,
+//                                CommonUtil.CollegeId.toString(),
+//                                uploadFilePath,
+//                                fileNameDateTime
+//                            )
+//
+//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
+//
+//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
+//
+//
+//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
+//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
+//
+//
+//                                fileName = File(uploadFilePath)
+//
+//                                filename = fileName!!.name
+//                                AWSUploadedFilesList.add(
+//                                    AWSUploadedFiles(
+//                                        CommonUtil.urlFromS3!!, filename, contentType
+//                                    )
+//                                )
+//
+//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
+////                                awsFileUpload(activity, pathIndex + 1)
+//
+//
+//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
+//                                    progressDialog!!.dismiss()
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onUploadError(response: String?) {
+//                        progressDialog!!.dismiss()
+//                    }
+//                })
+//            }
+//
+//        } else {
+//
+//            if (ScreenName.equals(CommonUtil.Image_Pdf)) {
+//
+//                if (CommonUtil.Priority.equals("p1")) {
+//
+//                    if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
+//
+//                        if (!CommonUtil.receivertype.equals("")) {
+//
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//                                ImageOrPdfsendentire()
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//
+//                    } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
+//
+//
+//                        if (!CommonUtil.receiverid.equals("")) {
+//
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//                                ImageOrPdfsendparticuler()
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//
+//                    } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
+//
+//
+//                        if (!CommonUtil.receiverid.equals("")) {
+//
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//
+//                                ImageOrPdfsendparticuler()
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//
+//                    } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+//
+//                        if (!CommonUtil.receiverid.equals("")) {
+//
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//                                ImageOrPdfsendparticuler()
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//
+//                    } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
+//
+//                        if (!CommonUtil.receiverid.equals("")) {
+//
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//
+//                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+//
+//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                        ImageOrPdfsendparticuler()
+//
+//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//
+//                                        ImageOrPdfsendparticulerTuter()
+//
+//                                    }
+//
+//                                } else {
+//
+//                                    CommonUtil.receivertype = "7"
+//
+//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                        ImageOrPdfsendparticuler()
+//
+//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//
+//                                        ImageOrPdfsendparticulerTuter()
+//                                    }
+//                                }
+//
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//
+//                    } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
+//
+//                        if (!CommonUtil.receiverid.equals("")) {
+//
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//                                ImageOrPdfsendparticuler()
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//
+//                    } else {
+//
+//                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//
+//                    }
+//                } else if (CommonUtil.Priority.equals("p3")) {
+//
+//                    if (!CommonUtil.receiverid.equals("")) {
+//
+//                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//
+//                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+//
+//                                if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                    ImageOrPdfsendparticuler()
+//
+//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//
+//                                    ImageOrPdfsendparticulerTuter()
+//
+//                                }
+//
+//                            } else {
+//
+//                                CommonUtil.receivertype = "7"
+//
+//                                if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                    ImageOrPdfsendparticuler()
+//
+//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//
+//                                    ImageOrPdfsendparticulerTuter()
+//                                }
+//                            }
+//
+//
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                        }
+//                    } else {
+//                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                    }
+//                } else if (CommonUtil.Priority.equals("p2")) {
+//
+//                    if (My_Department.equals("Yes")) {
+//
+//                        if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
+//
+//                            if (!CommonUtil.receivertype.equals("")) {
+//
+//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//                                    ImageOrPdfsendparticuler()
+//
+//                                } else {
+//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                                }
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                            }
+//                        } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+//
+//                            if (!CommonUtil.receivertype.equals("")) {
+//
+//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//                                    ImageOrPdfsendparticuler()
+//
+//                                } else {
+//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                                }
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                            }
+//
+//                        } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
+//
+//                            if (!CommonUtil.receivertype.equals("")) {
+//
+//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//                                    ImageOrPdfsendparticuler()
+//
+//                                } else {
+//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                                }
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                            }
+//                        }
+//
+//                    } else {
+//
+//                        if (!CommonUtil.receiverid.equals("")) {
+//
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//
+//
+//                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+//
+//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                        ImageOrPdfsendparticuler()
+//
+//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//
+//                                        ImageOrPdfsendparticulerTuter()
+//
+//                                    }
+//
+//                                } else {
+//
+//                                    CommonUtil.receivertype = "7"
+//
+//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                        ImageOrPdfsendparticuler()
+//
+//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//
+//                                        ImageOrPdfsendparticulerTuter()
+//                                    }
+//                                }
+//
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//
+//                    }
+//
+//                }
+//
+//            } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
+//
+//                if (CommonUtil.Priority.equals("p3")) {
+//                    if (!CommonUtil.receiverid.equals("")) {
+//                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+//                                if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                    NoticeBoardSMSsending()
+//
+//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//                                    NoticeBoardSMSsendingTuter()
+//
+//                                }
+//
+//                            } else {
+//
+//                                CommonUtil.receivertype = "7"
+//
+//                                if (SpinningText.equals(CommonUtil.Subjects)) {
+//
+//                                    NoticeBoardSMSsending()
+//
+//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//                                    NoticeBoardSMSsendingTuter()
+//                                }
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                        }
+//                    } else {
+//                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                    }
+//                } else if (CommonUtil.Priority.equals("p2")) {
+//                    if (My_Department.equals("Yes")) {
+//                        if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
+//                            if (!CommonUtil.receivertype.equals("")) {
+//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//                                    NoticeBoardSMSsending()
+//                                } else {
+//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                                }
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                            }
+//                        } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+//                            if (!CommonUtil.receivertype.equals("")) {
+//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//                                    NoticeBoardSMSsending()
+//                                } else {
+//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                                }
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                            }
+//                        } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
+//                            if (!CommonUtil.receivertype.equals("")) {
+//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//                                    NoticeBoardSMSsending()
+//                                } else {
+//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                                }
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                            }
+//                        }
+//                    } else {
+//                        if (!CommonUtil.receiverid.equals("")) {
+//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+//                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+//                                        NoticeBoardSMSsending()
+//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//                                        NoticeBoardSMSsending()
+//                                    }
+//                                } else {
+//                                    CommonUtil.receivertype = "7"
+//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
+//                                        NoticeBoardSMSsending()
+//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
+//                                        NoticeBoardSMSsending()
+//                                    }
+//                                }
+//                            } else {
+//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+//                            }
+//                        } else {
+//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+//                        }
+//                    }
+//                }
+//
+//            } else if (ScreenName!!.equals(CommonUtil.New_Assignment)) {
+//
+//
+//                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+//
+//                    CommonUtil.receivertype = "5"
+//                    AssignmentsendEntireSection()
+//
+//                } else {
+//
+//                    CommonUtil.receivertype = "7"
+//                    AssignmentsendEntireSection()
+//
+//                }
+//            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
+//
+//
+//                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+//
+//                    CommonUtil.receivertype = "5"
+//                    Assignmentforward()
+//                } else {
+//
+//                    CommonUtil.receivertype = "7"
+//                    Assignmentforward()
+//                }
+//            }
+//        }
+//    }
 
     private fun VoiceSendEntire() {
 
@@ -9299,522 +9206,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     mProgressDialog.dismiss()
                 }
             })
-    }
-
-
-    fun VimeoVideoUpload(activity: Activity, file: String) {
-
-        val strsize = file.length
-        Log.d("videosize", strsize.toString())
-        Log.d("File", file.toString())
-        val clientinterceptor = OkHttpClient.Builder()
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        clientinterceptor.interceptors().add(interceptor)
-        val client1: OkHttpClient
-        client1 = OkHttpClient.Builder().connectTimeout(300, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.MINUTES).writeTimeout(5, TimeUnit.MINUTES).build()
-        val retrofit = Retrofit.Builder().client(client1).baseUrl("https://api.vimeo.com/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
-        val mProgressDialog = ProgressDialog(activity)
-        mProgressDialog.isIndeterminate = true
-        mProgressDialog.setMessage("Connecting...")
-        mProgressDialog.setCancelable(false)
-        mProgressDialog.show()
-        val `object` = JsonObject()
-        val jsonObjectclasssec = JsonObject()
-        jsonObjectclasssec.addProperty("approach", "post")
-        jsonObjectclasssec.addProperty("size", strsize.toString())
-        val jsonprivacy = JsonObject()
-        jsonprivacy.addProperty("view", "unlisted")
-        val jsonshare = JsonObject()
-        jsonshare.addProperty("share", "false")
-        val jsonembed = JsonObject()
-        jsonembed.add("buttons", jsonshare)
-
-        `object`.add("upload", jsonObjectclasssec)
-        `object`.addProperty("name", CommonUtil.title)
-        `object`.addProperty("description", CommonUtil.Description)
-        `object`.add("privacy", jsonprivacy)
-        `object`.add("embed", jsonembed)
-        val head = "Bearer " + "8d74d8bf6b5742d39971cc7d3ffbb51a"
-        Log.d("header", head)
-        Log.d("object", `object`.toString())
-
-
-        val call: Call<JsonObject> = service.VideoUpload(`object`, head)
-        Log.d("jsonOBJECT", `object`.toString())
-        call.enqueue(object : Callback<JsonObject> {
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                val res = response.code()
-                Log.d("RESPONSE", response.toString())
-                if (response.isSuccessful) {
-
-
-                    try {
-                        val object1 = JSONObject(response.body().toString())
-                        Log.d("responsevimeo", object1.toString())
-                        Log.d("Response sucess", "response entered success")
-
-                        val obj = object1.getJSONObject("upload")
-                        val obj1 = object1.getJSONObject("embed")
-                        val upload_link = obj.getString("upload_link")
-                        val link = object1.getString("link")
-                        val iframe = obj1.getString("html")
-
-                        Log.d("upload_link", upload_link)
-                        Log.d("iframe", iframe)
-                        Log.d("link", link)
-
-                        // this  below two line is my checking line
-
-                        CommonUtil.VimeoIframe = iframe
-                        CommonUtil.VimeoVideoUrl = link
-                        Log.d("VimeoVideoUrl", CommonUtil.VimeoVideoUrl.toString())
-
-                        try {
-                            CommonUtil.Videofile = false
-                            VIDEOUPLOAD(upload_link, file, activity)
-                            CommonUtil.Videofile = true
-
-                        } catch (e: Exception) {
-                            Log.e("VIMEO Exception", e.message!!)
-                            CommonUtil.Toast(activity, "Video sending failed.Retry")
-                        }
-                    } catch (e: Exception) {
-                        Log.e("VIMEO Exception", e.message!!)
-                        CommonUtil.Toast(activity, e.message)
-                    }
-                } else {
-                    CommonUtil.Toast(activity, "Video sending failed.Retry")
-                }
-            }
-
-            override fun onFailure(
-                call: Call<JsonObject>, t: Throwable
-            ) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                Log.e("Response Failure", t.message!!)
-                CommonUtil.Toast(activity, "Video sending failed.Retry")
-            }
-        })
-    }
-
-    @SuppressLint("LongLogTag")
-    private fun VIDEOUPLOAD(
-        upload_link: String, file: String, activity: Activity
-    ) {
-        Log.d("Upload_link", upload_link)
-        val separated = upload_link.split("?").toTypedArray()
-        val name = separated[0]
-        val FileName = separated[1]
-        val upload = name.replace("upload", "")
-        Log.d("Upload", upload)
-        val id = FileName.split("&").toTypedArray()
-        val ticket_id = id[0]
-        val video_file_id = id[1]
-        val signature = id[2]
-        val v6 = id[3]
-        val redirect_url = id[4]
-        val seperate1: Array<String> = ticket_id.split("=").toTypedArray()
-        val ticket = seperate1[0]
-        val ticket2 = seperate1[1]
-        val seperate2: Array<String> = video_file_id.split("=").toTypedArray()
-        val ticket1 = seperate2[0]
-        val ticket3 = seperate2[1]
-        val seper: Array<String> = signature.split("=").toTypedArray()
-        val ticke = seper[0]
-        val tick = seper[1]
-        val sepera: Array<String> = v6.split("=").toTypedArray()
-        val str = sepera[0]
-        val str1 = sepera[1]
-        val sucess: Array<String> = redirect_url.split("=").toTypedArray()
-        val urlRIDERCT = sucess[0]
-        val redirect_url123 = sucess[1]
-
-        val client1: OkHttpClient
-        client1 = OkHttpClient.Builder().connectTimeout(600, TimeUnit.SECONDS)
-            .readTimeout(40, TimeUnit.MINUTES).writeTimeout(40, TimeUnit.MINUTES).build()
-
-        val retrofit = Retrofit.Builder().client(client1).baseUrl(upload)
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        Log.d("Retro_Fit", retrofit.toString())
-
-        val mProgressDialog = ProgressDialog(activity)
-        mProgressDialog.isIndeterminate = true
-        mProgressDialog.setMessage("Uploading...")
-        mProgressDialog.setCancelable(false)
-        mProgressDialog.show()
-        val service: ApiInterfaces = retrofit.create(ApiInterfaces::class.java)
-        var requestFile: RequestBody? = null
-
-        try {
-
-            val filepath = file
-            val `in`: InputStream = FileInputStream(filepath)
-            val buf: ByteArray
-            buf = ByteArray(`in`.available())
-            while (`in`.read(buf) != -1);
-
-            requestFile =
-                RequestBody.create("application/offset+octet-stream".toMediaTypeOrNull(), buf)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            CommonUtil.Toast(activity, e.message)
-        }
-
-        val call: Call<ResponseBody> = service.patchVimeoVideoMetaData(
-            ticket2,
-            ticket3,
-            tick,
-            str1,
-            redirect_url123 + CommonUtil.VideoSending_RedarectUrl,
-            requestFile
-        )
-
-        Log.d("Redirect_Url", redirect_url123 + CommonUtil.VideoSending_RedarectUrl)
-
-        call.enqueue(object : Callback<ResponseBody?> {
-            override fun onResponse(
-                call: Call<ResponseBody?>, response: Response<ResponseBody?>
-            ) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                try {
-                    if (response.isSuccessful) {
-
-                        CommonUtil.Videofile = true
-
-                        CommonUtil.selectedPaths.add(response.toString())
-                        Log.d("SeletedFile_Video", CommonUtil.selectedPaths.toString())
-
-                        CommonUtil.Toast(activity, "Successfull Uploaded")
-
-                        if (CommonUtil.Priority.equals("p1")) {
-
-                            if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-
-                                if (!CommonUtil.receivertype.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                        VideosendEntire()
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-
-                                if (!CommonUtil.receiverid.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                        VideosendParticuler()
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-
-
-                                if (!CommonUtil.receiverid.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-
-                                        VideosendParticuler()
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-
-                                if (!CommonUtil.receiverid.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                        VideosendParticuler()
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-
-                                if (!CommonUtil.receiverid.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-
-                                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                                            if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                                VideosendParticuler()
-
-                                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                                VideosendParticulerTuter()
-
-                                            }
-
-                                        } else {
-
-                                            CommonUtil.receivertype = "7"
-
-                                            if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                                VideosendParticuler()
-
-                                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                                VideosendParticulerTuter()
-                                            }
-                                        }
-
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-
-                                if (!CommonUtil.receiverid.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                        VideosendParticuler()
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            } else {
-
-                                CommonUtil.ApiAlert(
-                                    this@AddRecipients, CommonUtil.Select_the_Receiver
-                                )
-
-                            }
-
-                        } else if (CommonUtil.Priority.equals("p3")) {
-
-
-                            if (ScreenName.equals(CommonUtil.New_Video)) {
-
-                                if (!CommonUtil.receiverid.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                                            if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                                VideosendParticuler()
-
-                                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                                VideosendParticulerTuter()
-
-                                            }
-
-                                        } else {
-
-                                            CommonUtil.receivertype = "7"
-
-                                            if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                                VideosendParticuler()
-
-                                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                                VideosendParticulerTuter()
-                                            }
-                                        }
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            }
-                        } else if (CommonUtil.Priority.equals("p2")) {
-
-                            if (My_Department.equals("Yes")) {
-
-                                if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
-
-                                    if (!CommonUtil.receivertype.equals("")) {
-
-                                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                            VideosendParticuler()
-
-                                        } else {
-                                            CommonUtil.ApiAlert(
-                                                this@AddRecipients, CommonUtil.Select_the_Target
-                                            )
-                                        }
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Receiver
-                                        )
-                                    }
-                                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-
-                                    if (!CommonUtil.receivertype.equals("")) {
-
-                                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                            VideosendParticuler()
-
-                                        } else {
-                                            CommonUtil.ApiAlert(
-                                                this@AddRecipients, CommonUtil.Select_the_Target
-                                            )
-                                        }
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Receiver
-                                        )
-                                    }
-                                } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
-
-                                    if (!CommonUtil.receivertype.equals("")) {
-
-                                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-                                            VideosendParticuler()
-
-                                        } else {
-                                            CommonUtil.ApiAlert(
-                                                this@AddRecipients, CommonUtil.Select_the_Target
-                                            )
-                                        }
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Receiver
-                                        )
-                                    }
-                                }
-
-                            } else {
-
-
-                                if (!CommonUtil.receiverid.equals("")) {
-
-                                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-
-
-                                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-
-                                            if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                                VideosendParticuler()
-
-                                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                                VideosendParticulerTuter()
-
-                                            }
-
-                                        } else {
-
-                                            CommonUtil.receivertype = "7"
-
-                                            if (SpinningText.equals(CommonUtil.Subjects)) {
-
-                                                VideosendParticuler()
-
-                                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
-
-                                                VideosendParticulerTuter()
-                                            }
-                                        }
-
-                                    } else {
-                                        CommonUtil.ApiAlert(
-                                            this@AddRecipients, CommonUtil.Select_the_Target
-                                        )
-                                    }
-                                } else {
-                                    CommonUtil.ApiAlert(
-                                        this@AddRecipients, CommonUtil.Select_the_Receiver
-                                    )
-                                }
-
-                            }
-                        }
-
-                    } else {
-
-                        CommonUtil.Toast(activity, "Video sending failed.Retry")
-
-                    }
-                } catch (e: Exception) {
-                    CommonUtil.Toast(activity, e.message)
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                if (mProgressDialog.isShowing) mProgressDialog.dismiss()
-                CommonUtil.Toast(activity, "Video sending failed.Retry")
-            }
-        })
     }
 
     override fun onResume() {
@@ -10154,6 +9545,434 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     )
                 }
 
+            }
+        }
+    }
+
+
+    private fun isUploadAWS() {
+        progressDialog = CustomLoading.createProgressDialog(this)
+        progressDialog!!.show()
+        Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
+        for (i in CommonUtil.SelcetedFileList.indices) {
+            AwsUploadingFile(
+                CommonUtil.SelcetedFileList.get(i)
+            )
+        }
+    }
+
+    private fun AwsUploadingFile(
+        isFilePath: String
+    ) {
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            isFilePath,
+            CommonUtil.Collage_ids,
+            object : UploadCallback {
+                override fun onUploadSuccess(response: String?, isAwsFile: String?) {
+                    Log.d("Upload Success", response!!)
+
+                    AWSUploadedFilesList.add(isAwsFile!!)
+                    Awsuploadedfile.add(isAwsFile!!.toString())
+                    Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
+                    if (CommonUtil.EventStatus.equals("Past")) {
+                        CommonUtil.EventStatus = "Past"
+                    } else {
+                        CommonUtil.EventStatus = "Upcoming"
+                    }
+                    if (AWSUploadedFilesList.size == CommonUtil.SelcetedFileList.size) {
+                        progressDialog!!.dismiss()
+                        isSendApi()
+                    }
+                }
+
+                override fun onUploadError(error: String?) {
+                    Log.e("Upload Error", error!!)
+                }
+            })
+    }
+
+    fun isSendApi() {
+        if (ScreenName.equals(CommonUtil.Image_Pdf)) {
+
+            if (CommonUtil.Priority.equals("p1")) {
+
+                if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
+
+                    if (!CommonUtil.receivertype.equals("")) {
+
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+                            ImageOrPdfsendentire()
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+
+                } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
+
+
+                    if (!CommonUtil.receiverid.equals("")) {
+
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+                            ImageOrPdfsendparticuler()
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+
+                } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
+
+
+                    if (!CommonUtil.receiverid.equals("")) {
+
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+
+                            ImageOrPdfsendparticuler()
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+
+                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+
+                    if (!CommonUtil.receiverid.equals("")) {
+
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+                            ImageOrPdfsendparticuler()
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+
+                } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
+
+                    if (!CommonUtil.receiverid.equals("")) {
+
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+
+                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                                if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                    ImageOrPdfsendparticuler()
+
+                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+
+                                    ImageOrPdfsendparticulerTuter()
+
+                                }
+
+                            } else {
+
+                                CommonUtil.receivertype = "7"
+
+                                if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                    ImageOrPdfsendparticuler()
+
+                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+
+                                    ImageOrPdfsendparticulerTuter()
+                                }
+                            }
+
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+
+                } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
+
+                    if (!CommonUtil.receiverid.equals("")) {
+
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+                            ImageOrPdfsendparticuler()
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+
+                } else {
+
+                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+
+                }
+            } else if (CommonUtil.Priority.equals("p3")) {
+
+                if (!CommonUtil.receiverid.equals("")) {
+
+                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+
+                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                            if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                ImageOrPdfsendparticuler()
+
+                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
+
+                                ImageOrPdfsendparticulerTuter()
+
+                            }
+
+                        } else {
+
+                            CommonUtil.receivertype = "7"
+
+                            if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                ImageOrPdfsendparticuler()
+
+                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
+
+                                ImageOrPdfsendparticulerTuter()
+                            }
+                        }
+
+
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                    }
+                } else {
+                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                }
+            } else if (CommonUtil.Priority.equals("p2")) {
+
+                if (My_Department.equals("Yes")) {
+
+                    if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
+
+                        if (!CommonUtil.receivertype.equals("")) {
+
+                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+                                ImageOrPdfsendparticuler()
+
+                            } else {
+                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                            }
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                        }
+                    } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+
+                        if (!CommonUtil.receivertype.equals("")) {
+
+                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+                                ImageOrPdfsendparticuler()
+
+                            } else {
+                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                            }
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                        }
+
+                    } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
+
+                        if (!CommonUtil.receivertype.equals("")) {
+
+                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+                                ImageOrPdfsendparticuler()
+
+                            } else {
+                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                        }
+                    }
+
+                } else {
+
+                    if (!CommonUtil.receiverid.equals("")) {
+
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+
+
+                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                                if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                    ImageOrPdfsendparticuler()
+
+                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+
+                                    ImageOrPdfsendparticulerTuter()
+
+                                }
+
+                            } else {
+
+                                CommonUtil.receivertype = "7"
+
+                                if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                    ImageOrPdfsendparticuler()
+
+                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+
+                                    ImageOrPdfsendparticulerTuter()
+                                }
+                            }
+
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+
+                }
+
+            }
+
+        } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
+
+            if (CommonUtil.Priority.equals("p3")) {
+                if (!CommonUtil.receiverid.equals("")) {
+                    if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                NoticeBoardSMSsending()
+
+                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
+                                NoticeBoardSMSsendingTuter()
+
+                            }
+
+                        } else {
+
+                            CommonUtil.receivertype = "7"
+
+                            if (SpinningText.equals(CommonUtil.Subjects)) {
+
+                                NoticeBoardSMSsending()
+
+                            } else if (SpinningText.equals(CommonUtil.Tutor)) {
+                                NoticeBoardSMSsendingTuter()
+                            }
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                    }
+                } else {
+                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                }
+            } else if (CommonUtil.Priority.equals("p2")) {
+                if (My_Department.equals("Yes")) {
+                    if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
+                        if (!CommonUtil.receivertype.equals("")) {
+                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                                NoticeBoardSMSsending()
+                            } else {
+                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                        }
+                    } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
+                        if (!CommonUtil.receivertype.equals("")) {
+                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                                NoticeBoardSMSsending()
+                            } else {
+                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                        }
+                    } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
+                        if (!CommonUtil.receivertype.equals("")) {
+                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                                NoticeBoardSMSsending()
+                            } else {
+                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                        }
+                    }
+                } else {
+                    if (!CommonUtil.receiverid.equals("")) {
+                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
+                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                if (SpinningText.equals(CommonUtil.Subjects)) {
+                                    NoticeBoardSMSsending()
+                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+                                    NoticeBoardSMSsending()
+                                }
+                            } else {
+                                CommonUtil.receivertype = "7"
+                                if (SpinningText.equals(CommonUtil.Subjects)) {
+                                    NoticeBoardSMSsending()
+                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
+                                    NoticeBoardSMSsending()
+                                }
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
+                        }
+                    } else {
+                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
+                    }
+                }
+            }
+
+        } else if (ScreenName!!.equals(CommonUtil.New_Assignment)) {
+
+
+            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                CommonUtil.receivertype = "5"
+                AssignmentsendEntireSection()
+
+            } else {
+
+                CommonUtil.receivertype = "7"
+                AssignmentsendEntireSection()
+
+            }
+        } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
+
+
+            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                CommonUtil.receivertype = "5"
+                Assignmentforward()
+            } else {
+
+                CommonUtil.receivertype = "7"
+                Assignmentforward()
             }
         }
     }

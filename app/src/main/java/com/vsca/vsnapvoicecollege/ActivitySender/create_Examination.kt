@@ -14,9 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
@@ -31,28 +28,12 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityCreateExaminationBinding
 
-class create_Examination : ActionBarActivity() {
+class create_Examination: ActionBarActivity() {
 
-    @JvmField
-    @BindView(R.id.create_exam_recycle)
-    var create_exam_recycle: RecyclerView? = null
 
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.btn_conform)
-    var btn_conform: Button? = null
-
-    @JvmField
-    @BindView(R.id.ibi_norecordsfound)
-    var ibi_norecordsfound: TextView? = null
 
     var sectionnamelist: ArrayList<sectionnamelist>? = null
     var adapterExamination: Adaper_CreateExamination? = null
@@ -62,15 +43,22 @@ class create_Examination : ActionBarActivity() {
     var AdBackgroundImage: String? = null
     var AdSmallImage: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
+    private lateinit var binding: ActivityCreateExaminationBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityCreateExaminationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+         ActionbarWithoutBottom(this)
         imgRefresh!!.visibility = View.GONE
+
+        binding.imgback.setOnClickListener { imgback() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
@@ -88,13 +76,13 @@ class create_Examination : ActionBarActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
@@ -195,10 +183,10 @@ class create_Examination : ActionBarActivity() {
                     CommonUtil.seleteddataArray.clear()
                     adapterExamination = Adaper_CreateExamination(sectionnamelist!!, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    create_exam_recycle!!.layoutManager = mLayoutManager
-                    create_exam_recycle!!.itemAnimator = DefaultItemAnimator()
-                    create_exam_recycle!!.adapter = adapterExamination
-                    create_exam_recycle!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.createExamRecycle!!.layoutManager = mLayoutManager
+                    binding.createExamRecycle!!.itemAnimator = DefaultItemAnimator()
+                    binding.createExamRecycle!!.adapter = adapterExamination
+                    binding.createExamRecycle!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     adapterExamination!!.notifyDataSetChanged()
                 } else {
                     CommonUtil.ApiAlert(this, CommonUtil.No_Data_Found)
@@ -208,7 +196,7 @@ class create_Examination : ActionBarActivity() {
             }
         }
 
-        btn_conform!!.setOnClickListener {
+        binding.btnConform!!.setOnClickListener {
 
             if (CommonUtil.EditButtonclick.equals("ExamEdit")) {
 
@@ -490,8 +478,7 @@ class create_Examination : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_create_examination
 
-    @OnClick(R.id.LayoutAdvertisement)
-    fun adclick() {
+     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
 
@@ -502,8 +489,7 @@ class create_Examination : ActionBarActivity() {
         super.onResume()
     }
 
-    @OnClick(R.id.imgback)
-    fun imgback() {
+     fun imgback() {
         onBackPressed()
         CommonUtil.Examination_Creation.clear()
         CommonUtil.Subjectdetail_ExamCreation.clear()

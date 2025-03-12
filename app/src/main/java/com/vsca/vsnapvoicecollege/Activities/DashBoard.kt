@@ -22,16 +22,12 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
@@ -47,31 +43,16 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.DeviceType
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
+import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import java.io.ByteArrayOutputStream
 
 
-class DashBoard : BaseActivity() {
-
-    @JvmField
-    @BindView(R.id.lblSwipedown)
-    var lblSwipedown: TextView? = null
-
-    @JvmField
-    @BindView(R.id.OverallLayout)
-    var rytParent: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.idRVCategories)
-    var idRVCategories: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.LayoutBottomMenus)
-    var LayoutBottomMenus: CoordinatorLayout? = null
+class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 
     var exist_Count = 0
     var Contact_Count = 0
     var contact_alert_title = ""
-    var contact_alert_Content: kotlin.String? = ""
+    var contact_alert_Content: String? = ""
     var contact_display_name = ""
     var contact_numbers: kotlin.String? = ""
     var contact_button: kotlin.String? = ""
@@ -102,16 +83,28 @@ class DashBoard : BaseActivity() {
     var order = 0
     var Success: String? = null
 
-    @SuppressLint("SuspiciousIndentation")
+    override fun inflateBinding(): BottomMenuSwipeBinding {
+        return BottomMenuSwipeBinding.inflate(layoutInflater)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
+        CommonUtil.SetTheme(this)
+        binding = BottomMenuSwipeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         CommonUtil.RequestPermission(this)
         ActionBarMethod(this@DashBoard)
         CommonUtil.OnMenuClicks("Home")
 
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus,0, 0, 0
+        )
+
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -504,99 +497,99 @@ class DashBoard : BaseActivity() {
                 dashboardOverallList.add(DashboardOverall(category!!, adimageList1))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             }
             if (category == "Ad" && order == 2) {
                 dashboardOverallList.add(DashboardOverall(category!!, adimageList2))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             }
             if (category == "Ad" && order == 4) {
                 dashboardOverallList.add(DashboardOverall(category!!, adimageList4))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Notice Board") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardNoticeboardlist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Circular") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardCircularlist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Leave Request") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardLeaveRequestlist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Upcoming Events") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardEventlist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Assignments") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardAssignmentList))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Chat") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardChatlist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Emergency Notification") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardEmergencyVoicelist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Recent Notifications") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardRecentVoicelist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             } else if (category == "Attendance") {
                 dashboardOverallList.add(DashboardOverall(category!!, dashboardAttendancetlist))
                 adapter = DashboardParent(dashboardOverallList, this@DashBoard)
                 val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoard)
-                idRVCategories!!.layoutManager = mLayoutManager
-                idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                idRVCategories!!.adapter = adapter
+                binding.idRVCategories!!.layoutManager = mLayoutManager
+                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+                binding.idRVCategories!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
             }
         }
@@ -694,7 +687,7 @@ class DashBoard : BaseActivity() {
             true
         )
 
-        popupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0)
+        popupWindow.showAtLocation(binding.OverallLayout, Gravity.CENTER, 0, 0)
         val container = popupWindow.contentView.parent as View
         val wm = getSystemService(WINDOW_SERVICE) as WindowManager
         val p = container.layoutParams as WindowManager.LayoutParams
@@ -785,39 +778,4 @@ class DashBoard : BaseActivity() {
             Log.e("SaveContactsError", "Error saving contacts: ${e.message}")
         }
     }
-
-
-//    private fun saveContacts() {
-//
-//        val b = BitmapFactory.decodeResource(resources, R.drawable.gradit_logo)
-//        val stream = ByteArrayOutputStream()
-//        b.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//        val byteArray = stream.toByteArray()
-//        val data = java.util.ArrayList<ContentValues>()
-//        val intent = Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI)
-//        val row = ContentValues()
-//        row.put(
-//            ContactsContract.Contacts.Data.MIMETYPE,
-//            ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
-//        )
-//        row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray)
-//        data.add(row)
-//        for (i in contacts.indices) {
-//            val row_Number = ContentValues()
-//            row_Number.put(
-//                ContactsContract.RawContacts.Data.MIMETYPE,
-//                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
-//            )
-//            row_Number.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i])
-//            row_Number.put(
-//                ContactsContract.CommonDataKinds.Phone.TYPE,
-//                ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
-//            )
-//            data.add(row_Number)
-//        }
-//        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name)
-//        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data)
-//        startActivityForResult(intent, 100)
-//
-//    }
 }

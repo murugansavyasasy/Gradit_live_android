@@ -9,9 +9,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.R
@@ -20,24 +17,10 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityLoginBinding
 
 class Login : AppCompatActivity() {
-
-    @JvmField
-    @BindView(R.id.txt_forgetpassword)
-    var lblforgotPassword: TextView? = null
-
-    @JvmField
-    @BindView(R.id.phone_number_edt)
-    var phone_number_edt: TextView? = null
-
-    @JvmField
-    @BindView(R.id.password_edt)
-    var password_edt: EditText? = null
-
-    @JvmField
-    @BindView(R.id.img_passwordopen)
-    var img_passwordopen: ImageView? = null
 
     var lblcontent: TextView? = null
     var MobileNumber: String? = null
@@ -46,23 +29,30 @@ class Login : AppCompatActivity() {
     var LoginData: List<LoginDetails> = ArrayList()
     private var passwordvisible = true
     var appViewModel: App? = null
+    private lateinit var binding: ActivityLoginBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        ButterKnife.bind(this)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         authViewModel = ViewModelProvider(this)[Auth::class.java]
         authViewModel!!.init()
         CommonUtil.MenuListDashboard.clear()
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
-        lblforgotPassword!!.setOnClickListener {
+        binding.txtForgetpassword!!.setOnClickListener {
             GetOtp()
+        }
+        binding.imgPasswordopen.setOnClickListener { imgpasswordlockClick() }
+
+        binding.txtNext.setOnClickListener {
+            LoginbtnClick()
         }
 
         MobileNumber = intent.getStringExtra("MobileNumber")
-        phone_number_edt!!.text = MobileNumber
+        binding.phoneNumberEdt!!.text = MobileNumber
 
         authViewModel!!.loginResposneLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -125,9 +115,8 @@ class Login : AppCompatActivity() {
         }
     }
 
-    @OnClick(R.id.txt_next)
-    fun LoginbtnClick(view: View?) {
-        Password = password_edt!!.text.toString()
+    fun LoginbtnClick() {
+        Password = binding.passwordEdt!!.text.toString()
 
         Log.d("Mobilenumber", MobileNumber!!)
         if (MobileNumber != "" && Password != "") {
@@ -141,17 +130,16 @@ class Login : AppCompatActivity() {
         }
     }
 
-    @OnClick(R.id.img_passwordopen)
     fun imgpasswordlockClick() {
         if (passwordvisible) {
-            password_edt!!.transformationMethod = PasswordTransformationMethod.getInstance()
-            img_passwordopen!!.setImageResource(R.drawable.ic_lock)
+            binding.passwordEdt!!.transformationMethod = PasswordTransformationMethod.getInstance()
+            binding.imgPasswordopen!!.setImageResource(R.drawable.ic_lock)
             passwordvisible = false
         } else {
-            password_edt!!.transformationMethod = null
+            binding.passwordEdt!!.transformationMethod = null
             passwordvisible = true
-            password_edt!!.setSelection(password_edt!!.text.length)
-            img_passwordopen!!.setImageResource(R.drawable.ic_lock_open)
+            binding.passwordEdt!!.setSelection(binding.passwordEdt!!.text.length)
+            binding.imgPasswordopen!!.setImageResource(R.drawable.ic_lock_open)
         }
     }
 

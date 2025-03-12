@@ -6,40 +6,31 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityForgotPasswordBinding
 
 class ForgotPassword : AppCompatActivity() {
 
-
-    @JvmField
-    @BindView(R.id.edMobilenumber)
-    var edMobilenumber: EditText? = null
-
-    @JvmField
-    @BindView(R.id.txt_next)
-    var txt_next: TextView? = null
-
-    var lblclose: TextView? = null
     var lblcontent: TextView? = null
-    var Btndial: Button? = null
-    var btnDialSecond: Button? = null
-    var btnDialThird: Button? = null
+
 
     var mobilenumber: String? = null
     var appViewModel: App? = null
     var status: Int = 0
     var message: String? = null
+    private lateinit var binding: ActivityForgotPasswordBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forgot_password)
-        ButterKnife.bind(this)
+        binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
@@ -62,7 +53,7 @@ class ForgotPassword : AppCompatActivity() {
         }
 
 
-        txt_next!!.setOnClickListener {
+        binding.txtNext!!.setOnClickListener {
             GetOtp()
         }
     }

@@ -9,8 +9,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.EventClickListener
 import com.vsca.vsnapvoicecollege.Model.GetAssignmentDetails
 import com.vsca.vsnapvoicecollege.Model.GetEventDetailsData
@@ -32,54 +31,19 @@ class EventsAdapter(
     private var mExpandedPosition: Int = -1
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        @JvmField
-        @BindView(R.id.lblNoticeboardTitle)
-        var lblNoticeboardTitle: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblNoticeboardDescription)
-        var lblNoticeboardDescription: TextView? = null
+        val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)
+//        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)
+        val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)
+        val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)
+        val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)
+        val imgArrowdown: ImageView = itemView!!.findViewById(R.id.imgArrowdown)
+//        val imgArrowUp: ImageView = itemView!!.findViewById(R.id.imgArrowUp)
+//        val lnrEventsView: LinearLayout = itemView!!.findViewById(R.id.lnrEventsView)
+//        val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)
+        val lnrNoticeboardd: RelativeLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)
+        val lblNewCircle: TextView = itemView!!.findViewById(R.id.lblNewCircle)
 
-        @JvmField
-        @BindView(R.id.lblNoticeboardDate)
-        var lblNoticeboardDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticetime)
-        var lblNoticetime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblNoticePostedby)
-        var lblNoticePostedby: TextView? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowdown)
-        var imgArrowdown: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.imgArrowUp)
-        var imgArrowUp: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.lnrEventsView)
-        var lnrEventsView: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.rytNotice)
-        var rytNotice: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: RelativeLayout? = null
-
-
-        @JvmField
-        @BindView(R.id.lblNewCircle)
-        var lblNewCircle: TextView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

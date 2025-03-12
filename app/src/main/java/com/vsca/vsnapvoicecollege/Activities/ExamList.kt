@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -31,54 +28,15 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
 
-class ExamList : BaseActivity() {
+class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
+
 
     var examAdapter: ExamListAdapter? = null
     override var appViewModel: App? = null
     var ExamHeaderID: String? = ""
-
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollege)
-    var lblCollege: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollegeSize)
-    var lblCollegeSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
 
     var ExamType = true
     var GetExamListData: ArrayList<GetExamListDetails> = ArrayList()
@@ -92,20 +50,34 @@ class ExamList : BaseActivity() {
     var PreviousAddId: Int = 0
     var type: String? = null
 
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
-        MenuBottomType()
-        CommonUtil.OnMenuClicks("ExamList")
-        TabDepartmentColor()
 
-        lblMenuTitle!!.setText(R.string.txt_exam)
-        lblDepartment!!.setText(R.string.txt_upcoming)
-        lblCollege!!.setText(R.string.txt_past)
+        CommonUtil.OnMenuClicks("ExamList")
+
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        TabDepartmentColor()
+        MenuBottomType()
+
+        binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_exam)
+        binding.CommonLayout.lblDepartment!!.setText(R.string.txt_upcoming)
+        binding.CommonLayout.lblCollege!!.setText(R.string.txt_past)
         CommonUtil.Screenname = ""
         type = ""
         CommonUtil.EditButtonclick = ""
@@ -117,6 +89,10 @@ class ExamList : BaseActivity() {
             Search!!.visibility = View.VISIBLE
 
         }
+        binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
+        binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.CommonLayout.imgAddPlus.setOnClickListener { imgaddclick() }
 
         idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -153,11 +129,11 @@ class ExamList : BaseActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -193,8 +169,8 @@ class ExamList : BaseActivity() {
                         GetExamListData = response.data!!
                         val size = GetExamListData.size
                         if (size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
                             examAdapter = ExamListAdapter(GetExamListData, this, true,
                                 object : ExamMarkViewClickListener {
                                     override fun onExamClickListener(
@@ -212,8 +188,8 @@ class ExamList : BaseActivity() {
                                                     "p2"
                                                 ) || CommonUtil.Priority.equals("p3") || (CommonUtil.Priority.equals(
                                                     "p4"
-                                                ) && lblDepartment!!.text.equals("Upcoming")) ||
-                                                (CommonUtil.Priority.equals("p5") && lblDepartment!!.text.equals(
+                                                ) && binding.CommonLayout.lblDepartment!!.text.equals("Upcoming")) ||
+                                                (CommonUtil.Priority.equals("p5") && binding.CommonLayout.lblDepartment!!.text.equals(
                                                     "Upcoming"
                                                 ))
                                             ) {
@@ -240,10 +216,10 @@ class ExamList : BaseActivity() {
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = examAdapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = examAdapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             examAdapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -257,8 +233,8 @@ class ExamList : BaseActivity() {
 
                         if (size > 0) {
 
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
 
                             examAdapter = ExamListAdapter(GetExampastListData, this, false,
                                 object : ExamMarkViewClickListener {
@@ -298,10 +274,10 @@ class ExamList : BaseActivity() {
                                 })
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = examAdapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = examAdapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             examAdapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -338,8 +314,8 @@ class ExamList : BaseActivity() {
     }
 
     private fun NoDataFound() {
-        lblNoRecordsFound!!.visibility = View.VISIBLE
-        recyclerNoticeboard!!.visibility = View.GONE
+        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
     }
 
     private fun filter(text: String) {
@@ -367,27 +343,27 @@ class ExamList : BaseActivity() {
     private fun CountValueSet() {
 
         if (!UpcominExamCount.equals("0") && !UpcominExamCount.equals("")) {
-            lblDepartmentSize!!.visibility = View.VISIBLE
-            lblDepartmentSize!!.text = UpcominExamCount
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblDepartmentSize!!.text = UpcominExamCount
         } else {
-            lblDepartmentSize!!.visibility = View.GONE
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
             UpcominExamCount = "0"
         }
         if (!PastExamCount.equals("0") && !PastExamCount.equals("")) {
-            lblCollegeSize!!.visibility = View.VISIBLE
-            lblCollegeSize!!.text = PastExamCount
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblCollegeSize!!.text = PastExamCount
         } else {
-            lblCollegeSize!!.visibility = View.GONE
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.GONE
             PastExamCount = "0"
         }
         val intdepartment = Integer.parseInt(UpcominExamCount!!)
         val intCollegecount = Integer.parseInt(PastExamCount!!)
         val TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
-            lbltotalsize!!.visibility = View.VISIBLE
-            lbltotalsize!!.text = TotalSizeCount.toString()
+            binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
         } else {
-            lbltotalsize!!.visibility = View.GONE
+            binding.CommonLayout.lbltotalsize!!.visibility = View.GONE
         }
     }
 
@@ -440,7 +416,6 @@ class ExamList : BaseActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutDepartment)
     fun departmentClick() {
         bottomsheetStateCollpased()
         TabDepartmentColor()
@@ -453,7 +428,6 @@ class ExamList : BaseActivity() {
         type = ""
     }
 
-    @OnClick(R.id.LayoutCollege)
     fun collegeClick() {
         bottomsheetStateCollpased()
         ExamType = false
@@ -502,12 +476,10 @@ class ExamList : BaseActivity() {
         Log.d("PreviousAddId", PreviousAddId.toString())
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
 
-    @OnClick(R.id.imgAddPlus)
     fun imgaddclick() {
 
         val i: Intent = Intent(this, AddExamination::class.java)

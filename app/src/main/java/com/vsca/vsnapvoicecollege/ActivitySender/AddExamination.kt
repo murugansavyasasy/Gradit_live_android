@@ -12,9 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -31,6 +29,8 @@ import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityAddExaminationBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import java.util.Calendar
 
 class AddExamination : ActionBarActivity() {
@@ -70,99 +70,29 @@ class AddExamination : ActionBarActivity() {
     var _pickedDate = ""
     var semesterisnotselected: String? = null
 
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.start_date)
-    var start_date: TextView? = null
-
-    @JvmField
-    @BindView(R.id.txtTitle)
-    var txtTitle: EditText? = null
-
-    @JvmField
-    @BindView(R.id.end_date)
-    var end_date: TextView? = null
-
-    @JvmField
-    @BindView(R.id.spnhod_division)
-    var spnhod_division: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.get_seletion_subject_button)
-    var get_seletion_subject_button: Button? = null
-
-    @JvmField
-    @BindView(R.id.spn_division)
-    var spn_division: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.spn_department)
-    var spn_department: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.spn_course)
-    var spn_course: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.spn_year)
-    var spn_year: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.spn_semester)
-    var spn_semester: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.spnhodyear)
-    var spnhodyear: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.spnhodsemester)
-    var spnhodsemester: Spinner? = null
-
-    @JvmField
-    @BindView(R.id.spinning_department)
-    var spinning_department: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.con_principlelayout)
-    var con_principlelayout: ConstraintLayout? = null
-
-
-    @JvmField
-    @BindView(R.id.constrin_selectdepaerment)
-    var constrin_selectdepaerment: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.rcy_hodandstaff)
-    var rcy_hodandstaff: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.rcy_hod)
-    var rcy_hod: RecyclerView? = null
+    private lateinit var binding: ActivityAddExaminationBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityAddExaminationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+         ActionbarWithoutBottom(this)
         imgRefresh!!.visibility = View.GONE
 
-        spnhodyear!!.visibility = View.GONE
-        spnhodsemester!!.visibility = View.GONE
-        spnhod_division!!.visibility = View.GONE
+        binding.spnhodyear!!.visibility = View.GONE
+        binding.spnhodsemester!!.visibility = View.GONE
+        binding.spnhodDivision!!.visibility = View.GONE
         CommonUtil.semesterid = ""
         CommonUtil.EditButtonclick = ""
+
+        binding.imgback.setOnClickListener { onBackPressed() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.startDate.setOnClickListener { eventdateClick() }
+        binding.endDate.setOnClickListener { endeate() }
 
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -181,25 +111,25 @@ class AddExamination : ActionBarActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.imgAdvertisement!!)
 
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
 
-        get_seletion_subject_button?.setOnClickListener {
+        binding.getSeletionSubjectButton?.setOnClickListener {
 
-            startdate = start_date!!.text.toString()
-            CommonUtil.minimumdate = start_date!!.text.toString()
-            enddate = end_date!!.text.toString()
-            CommonUtil.maxmumdate = end_date!!.text.toString()
+            startdate = binding.startDate!!.text.toString()
+            CommonUtil.minimumdate = binding.startDate!!.text.toString()
+            enddate = binding.endDate!!.text.toString()
+            CommonUtil.maxmumdate = binding.endDate!!.text.toString()
 
 
-            CommonUtil.Examname = txtTitle!!.text.toString()
+            CommonUtil.Examname = binding.txtTitle!!.text.toString()
             CommonUtil.startdate = startdate
             CommonUtil.enddate = enddate
 
@@ -211,7 +141,7 @@ class AddExamination : ActionBarActivity() {
 
             } else if (CommonUtil.enddate.isEmpty()) {
                 Toast.makeText(this, CommonUtil._Enddate, Toast.LENGTH_SHORT).show()
-            }else if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
+            } else if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
 
                 if (Division.equals("1")) {
 
@@ -266,9 +196,9 @@ class AddExamination : ActionBarActivity() {
                     Toast.makeText(this, CommonUtil.Select_Division, Toast.LENGTH_SHORT).show()
                 }
 
-            }else if (CommonUtil.Priority.equals("p2")) {
+            } else if (CommonUtil.Priority.equals("p2")) {
 
-                if (spinning_department!!.text.equals(CommonUtil.Classes_I_handle)) {
+                if (binding.spinningDepartment!!.text.equals(CommonUtil.Classes_I_handle)) {
 
                     if (CommonUtil.semesterid.equals("") || CommonUtil.Examname.equals("")) {
                         Toast.makeText(this, CommonUtil.Select_Section, Toast.LENGTH_SHORT).show()
@@ -287,10 +217,10 @@ class AddExamination : ActionBarActivity() {
                         )
                     ) {
                         Toast.makeText(this, CommonUtil.Select_Type, Toast.LENGTH_SHORT).show()
-                    } else if (spnhodyear!!.visibility == View.GONE) {
+                    } else if (binding.spnhodyear!!.visibility == View.GONE) {
                         Toast.makeText(this, CommonUtil.Select_Course, Toast.LENGTH_SHORT).show()
 
-                    } else if (spnhodsemester!!.visibility == View.GONE) {
+                    } else if (binding.spnhodsemester!!.visibility == View.GONE) {
                         Toast.makeText(this, CommonUtil.Select_year, Toast.LENGTH_SHORT).show()
 
                     } else if (semesterisnotselected.equals("semesterisnotselected")) {
@@ -350,22 +280,22 @@ class AddExamination : ActionBarActivity() {
 
         if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
             GetDivisionRequest()
-            con_principlelayout!!.visibility = View.VISIBLE
-            rcy_hodandstaff!!.visibility = View.GONE
-            constrin_selectdepaerment!!.visibility = View.GONE
-            rcy_hod!!.visibility = View.GONE
+            binding.conPrinciplelayout!!.visibility = View.VISIBLE
+            binding.rcyHodandstaff!!.visibility = View.GONE
+            binding.constrinSelectdepaerment!!.visibility = View.GONE
+            binding.rcyHod!!.visibility = View.GONE
         } else if (CommonUtil.Priority.equals("p3")) {
 
-            rcy_hodandstaff!!.visibility = View.VISIBLE
-            constrin_selectdepaerment!!.visibility = View.GONE
-            con_principlelayout!!.visibility = View.GONE
+            binding.rcyHodandstaff!!.visibility = View.VISIBLE
+            binding.constrinSelectdepaerment!!.visibility = View.GONE
+            binding.conPrinciplelayout!!.visibility = View.GONE
             GetSubject()
-            rcy_hod!!.visibility = View.GONE
+            binding.rcyHod!!.visibility = View.GONE
         } else if (CommonUtil.Priority.equals("p2")) {
 
-            constrin_selectdepaerment!!.visibility = View.VISIBLE
-            con_principlelayout!!.visibility = View.GONE
-            rcy_hodandstaff!!.visibility = View.GONE
+            binding.constrinSelectdepaerment!!.visibility = View.VISIBLE
+            binding.conPrinciplelayout!!.visibility = View.GONE
+            binding.rcyHodandstaff!!.visibility = View.GONE
 
         }
 
@@ -378,10 +308,10 @@ class AddExamination : ActionBarActivity() {
                     getsubjectlist = response.data!!
                     StaffAdapter = ExamAdd_StaffAdapter(getsubjectlist, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    rcy_hodandstaff!!.layoutManager = mLayoutManager
-                    rcy_hodandstaff!!.itemAnimator = DefaultItemAnimator()
-                    rcy_hodandstaff!!.adapter = StaffAdapter
-                    rcy_hodandstaff!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.rcyHodandstaff!!.layoutManager = mLayoutManager
+                    binding.rcyHodandstaff!!.itemAnimator = DefaultItemAnimator()
+                    binding.rcyHodandstaff!!.adapter = StaffAdapter
+                    binding.rcyHodandstaff!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     StaffAdapter!!.notifyDataSetChanged()
                 }
             } else {
@@ -397,14 +327,14 @@ class AddExamination : ActionBarActivity() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    rcy_hod!!.visibility = View.VISIBLE
+                    binding.rcyHod!!.visibility = View.VISIBLE
                     getsubjectlist = response.data!!
                     StaffAdapter = ExamAdd_StaffAdapter(getsubjectlist, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    rcy_hod!!.layoutManager = mLayoutManager
-                    rcy_hod!!.itemAnimator = DefaultItemAnimator()
-                    rcy_hod!!.adapter = StaffAdapter
-                    rcy_hod!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.rcyHod!!.layoutManager = mLayoutManager
+                    binding.rcyHod!!.itemAnimator = DefaultItemAnimator()
+                    binding.rcyHod!!.adapter = StaffAdapter
+                    binding.rcyHod!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     StaffAdapter!!.notifyDataSetChanged()
                 }
             } else {
@@ -537,7 +467,7 @@ class AddExamination : ActionBarActivity() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                BaseActivity.UserMenuRequest(this)
+//                BaseActivity.UserMenuRequest(this)
                 if (status == 1) {
                     GetSemesterSectionData = response.data!!
                     if (GetSemesterSectionData.size > 0) {
@@ -562,31 +492,31 @@ class AddExamination : ActionBarActivity() {
             }
         }
 
-        spinning_department?.setOnClickListener {
-            val popupMenu = PopupMenu(this@AddExamination, spinning_department)
+        binding.spinningDepartment?.setOnClickListener {
+            val popupMenu = PopupMenu(this@AddExamination, binding.spinningDepartment)
             popupMenu.menuInflater.inflate(R.menu.hoddepartmentorclasses, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
 
-                spinning_department!!.text = menuItem.title
+                binding.spinningDepartment!!.text = menuItem.title
 
-                if (spinning_department!!.text.equals(CommonUtil.My_Department)) {
+                if (binding.spinningDepartment!!.text.equals(CommonUtil.My_Department)) {
 
                     SeletedType = "1"
-                    spnhod_division!!.visibility = View.VISIBLE
-                    spnhodyear!!.visibility = View.VISIBLE
-                    spnhodsemester!!.visibility = View.VISIBLE
-                    rcy_hod!!.visibility = View.GONE
+                    binding.spnhodDivision!!.visibility = View.VISIBLE
+                    binding.spnhodyear!!.visibility = View.VISIBLE
+                    binding.spnhodsemester!!.visibility = View.VISIBLE
+                    binding.rcyHod!!.visibility = View.GONE
                     Getcoursehoddepartment()
 
-                } else if (spinning_department!!.text.equals(CommonUtil.Classes_I_handle)) {
+                } else if (binding.spinningDepartment!!.text.equals(CommonUtil.Classes_I_handle)) {
 
                     SeletedType = "1"
                     SelectedSpinnerIDcousre = ""
                     CommonUtil.YearId = ""
                     CommonUtil.semesterid = ""
-                    spnhod_division!!.visibility = View.GONE
-                    spnhodyear!!.visibility = View.GONE
-                    spnhodsemester!!.visibility = View.GONE
+                    binding.spnhodDivision!!.visibility = View.GONE
+                    binding.spnhodyear!!.visibility = View.GONE
+                    binding.spnhodsemester!!.visibility = View.GONE
                     GetSubject()
                 }
                 true
@@ -609,15 +539,15 @@ class AddExamination : ActionBarActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, SpinnerdivisionData)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        spn_division!!.adapter = adapter
-        spn_division!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spnDivision!!.adapter = adapter
+        binding.spnDivision!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
                 if (position != 0) {
 
                     Division = "1"
-                    spn_department!!.visibility = View.VISIBLE
+                    binding.spnDepartment!!.visibility = View.VISIBLE
                     SelectedSpinnerIDdivision = GetDivisionData!!.get(position - 1).division_id
                     Log.d("spinnerselected", SelectedSpinnerIDdivision!!)
                     GetDivisionData!!.get(position - 1).division_name?.let {
@@ -627,10 +557,10 @@ class AddExamination : ActionBarActivity() {
                 } else {
                     Division = ""
 
-                    spn_department!!.visibility = View.GONE
-                    spn_course!!.visibility = View.GONE
-                    spn_year!!.visibility = View.GONE
-                    spn_semester!!.visibility = View.GONE
+                    binding.spnDepartment!!.visibility = View.GONE
+                    binding.spnCourse!!.visibility = View.GONE
+                    binding.spnYear!!.visibility = View.GONE
+                    binding.spnSemester!!.visibility = View.GONE
 
                 }
             }
@@ -649,15 +579,15 @@ class AddExamination : ActionBarActivity() {
         }
         val adapter = ArrayAdapter(this, R.layout.spinner_rextview_course, Spinningdepaerdata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_course_layout)
-        spn_department!!.adapter = adapter
-        spn_department!!.onItemSelectedListener =
+        binding.spnDepartment!!.adapter = adapter
+        binding.spnDepartment!!.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>, view: View, position: Int, id: Long
                 ) {
                     if (position != 0) {
                         Department = "1"
-                        spn_course!!.visibility = View.VISIBLE
+                        binding.spnCourse!!.visibility = View.VISIBLE
 
                         SelectedSpinnerIDdepart =
                             GetDepartmentData!!.get(position - 1).department_id
@@ -669,9 +599,9 @@ class AddExamination : ActionBarActivity() {
                     } else {
                         Department = ""
 
-                        spn_course!!.visibility = View.GONE
-                        spn_year!!.visibility = View.GONE
-                        spn_semester!!.visibility = View.GONE
+                        binding.spnCourse!!.visibility = View.GONE
+                        binding.spnYear!!.visibility = View.GONE
+                        binding.spnSemester!!.visibility = View.GONE
                     }
                 }
 
@@ -691,22 +621,22 @@ class AddExamination : ActionBarActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, Spinnercoursedata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        spn_course!!.adapter = adapter
-        spn_course!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spnCourse!!.adapter = adapter
+        binding.spnCourse!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
                 if (position != 0) {
                     Course = "1"
-                    spn_year!!.visibility = View.VISIBLE
+                    binding.spnYear!!.visibility = View.VISIBLE
 
                     SelectedSpinnerIDcousre = Getcoursedepartment!!.get(position - 1).course_id
                     Getcoursedepartment!!.get(position - 1).course_name?.let {
                     }
                     GetyearandsectionRequest()
                 } else {
-                    spn_year!!.visibility = View.GONE
-                    spn_semester!!.visibility = View.GONE
+                    binding.spnYear!!.visibility = View.GONE
+                    binding.spnSemester!!.visibility = View.GONE
                     Course = ""
 
 
@@ -729,15 +659,15 @@ class AddExamination : ActionBarActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, Spinneryaerdata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        spn_year!!.adapter = adapter
-        spn_year!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spnYear!!.adapter = adapter
+        binding.spnYear!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
 
                 if (position != 0) {
                     Year = "1"
-                    spn_semester!!.visibility = View.VISIBLE
+                    binding.spnSemester!!.visibility = View.VISIBLE
 
                     SelectedSpinnerIDyear = Getyouurclassdata!!.get(position - 1).yearid.toString()
                     Log.d("spinnerselected", SelectedSpinnerIDyear!!)
@@ -747,7 +677,7 @@ class AddExamination : ActionBarActivity() {
                     }
                     SemesterRequest()
                 } else {
-                    spn_semester!!.visibility = View.GONE
+                    binding.spnSemester!!.visibility = View.GONE
                     Year = ""
 
                 }
@@ -769,8 +699,8 @@ class AddExamination : ActionBarActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, Spinnersemesterdata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        spn_semester!!.adapter = adapter
-        spn_semester!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spnSemester!!.adapter = adapter
+        binding.spnSemester!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
@@ -808,33 +738,34 @@ class AddExamination : ActionBarActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, Spinnercoursedata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        spnhod_division!!.adapter = adapter
-        spnhod_division!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>, view: View, position: Int, id: Long
-            ) {
-                if (position != 0) {
+        binding.spnhodDivision!!.adapter = adapter
+        binding.spnhodDivision!!.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>, view: View, position: Int, id: Long
+                ) {
+                    if (position != 0) {
 
-                    spnhodyear!!.visibility = View.VISIBLE
-                    spnhodsemester!!.visibility = View.VISIBLE
+                        binding.spnhodyear!!.visibility = View.VISIBLE
+                        binding.spnhodsemester!!.visibility = View.VISIBLE
 
-                    SelectedSpinnerIDcousre = Getcoursedepartment!!.get(position - 1).course_id
-                    Getcoursedepartment!!.get(position - 1).course_name?.let {
-                        Log.d("spinning data", it)
+                        SelectedSpinnerIDcousre = Getcoursedepartment!!.get(position - 1).course_id
+                        Getcoursedepartment!!.get(position - 1).course_name?.let {
+                            Log.d("spinning data", it)
+                        }
+                        GetyearandhodRequest()
+                    } else {
+
+                        binding.spnhodyear!!.visibility = View.GONE
+                        binding.spnhodsemester!!.visibility = View.GONE
+
                     }
-                    GetyearandhodRequest()
-                } else {
+                }
 
-                    spnhodyear!!.visibility = View.GONE
-                    spnhodsemester!!.visibility = View.GONE
+                override fun onNothingSelected(parent: AdapterView<*>) {
 
                 }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
     }
 
     private fun LoadhodyearSpinner() {
@@ -848,14 +779,14 @@ class AddExamination : ActionBarActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, Spinneryaerdata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        spnhodyear!!.adapter = adapter
-        spnhodyear!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spnhodyear!!.adapter = adapter
+        binding.spnhodyear!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
                 if (position != 0) {
 
-                    spnhodsemester!!.visibility = View.VISIBLE
+                    binding.spnhodsemester!!.visibility = View.VISIBLE
 
                     SelectedSpinnerIDyearhod =
                         Getyouurclassdata!!.get(position - 1).yearid.toString()
@@ -865,7 +796,7 @@ class AddExamination : ActionBarActivity() {
                     }
                     SemesterhodRequest()
                 } else {
-                    spnhodsemester!!.visibility = View.GONE
+                    binding.spnhodsemester!!.visibility = View.GONE
                 }
             }
 
@@ -885,29 +816,30 @@ class AddExamination : ActionBarActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, Spinnersemesterdata)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        spnhodsemester!!.adapter = adapter
-        spnhodsemester!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>, view: View, position: Int, id: Long
-            ) {
+        binding.spnhodsemester!!.adapter = adapter
+        binding.spnhodsemester!!.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>, view: View, position: Int, id: Long
+                ) {
 
-                if (position != 0) {
+                    if (position != 0) {
 
-                    SelectedSpinnerIDsemester =
-                        GetSemesterSectionData.get(position - 1).clgsemesterid.toString()
-                    CommonUtil.semesterid = SelectedSpinnerIDsemester.toString()
-                    GetSemesterSectionData.get(position - 1).semestername?.let {
-                        semesterisnotselected = ""
+                        SelectedSpinnerIDsemester =
+                            GetSemesterSectionData.get(position - 1).clgsemesterid.toString()
+                        CommonUtil.semesterid = SelectedSpinnerIDsemester.toString()
+                        GetSemesterSectionData.get(position - 1).semestername?.let {
+                            semesterisnotselected = ""
+                        }
+                    } else {
+                        semesterisnotselected = "semesterisnotselected"
                     }
-                } else {
-                    semesterisnotselected = "semesterisnotselected"
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+
                 }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
     }
 
     private fun SemesterRequest() {
@@ -1016,13 +948,8 @@ class AddExamination : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_add_examination
 
-    @OnClick(R.id.imgback)
-    fun imgBackClick() {
-        onBackPressed()
-    }
 
-    @OnClick(R.id.LayoutAdvertisement)
-    fun adclick() {
+     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
 
@@ -1035,8 +962,7 @@ class AddExamination : ActionBarActivity() {
         super.onResume()
     }
 
-    @OnClick(R.id.start_date)
-    fun eventdateClick() {
+     fun eventdateClick() {
 
         val c = Calendar.getInstance()
         val dialog = DatePickerDialog(
@@ -1051,7 +977,7 @@ class AddExamination : ActionBarActivity() {
                 CommonUtil.YearDate = _year.toInt()
 
                 Log.e("PickedDate: ", "Date: $_pickedDate") //2019-02-12
-                start_date!!.text = _pickedDate
+                binding.startDate!!.text = _pickedDate
             }, c[Calendar.YEAR], c[Calendar.MONTH], c[Calendar.MONTH]
         )
         dialog.datePicker.minDate = System.currentTimeMillis() - 1000
@@ -1059,8 +985,7 @@ class AddExamination : ActionBarActivity() {
 
     }
 
-    @OnClick(R.id.end_date)
-    fun endeate() {
+     fun endeate() {
 
 
         val c = Calendar.getInstance()
@@ -1076,7 +1001,7 @@ class AddExamination : ActionBarActivity() {
                 CommonUtil.Enddateyear = _year.toInt()
 
 
-                end_date!!.text = _pickedDate
+                binding.endDate!!.text = _pickedDate
             }, c[Calendar.YEAR], c[Calendar.MONTH], c[Calendar.MONTH]
         )
 
@@ -1092,7 +1017,7 @@ class AddExamination : ActionBarActivity() {
         }
         dialog.datePicker.minDate = c.timeInMillis
         dialog.show()
-        CommonUtil.enddate = end_date.toString()
+        CommonUtil.enddate = binding.endDate.toString()
 
     }
 }

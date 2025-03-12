@@ -10,8 +10,7 @@ import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.bumptech.glide.Glide
 import com.vsca.vsnapvoicecollege.Model.ImageListView
 import com.vsca.vsnapvoicecollege.R
@@ -25,18 +24,10 @@ class ImageViewer(
     lateinit var progress: ProgressBar
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imgView: ImageView = itemView!!.findViewById(R.id.imgView)!!
+        val webview: WebView = itemView!!.findViewById(R.id.webview)!!
 
-        @JvmField
-        @BindView(R.id.imgView)
-        var imgView: ImageView? = null
 
-        @JvmField
-        @BindView(R.id.webview)
-        var webview: WebView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
 

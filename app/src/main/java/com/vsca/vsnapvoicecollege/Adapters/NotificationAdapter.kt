@@ -11,8 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Activities.*
 import com.vsca.vsnapvoicecollege.Model.GetNotificationDetails
 import com.vsca.vsnapvoicecollege.R
@@ -127,29 +126,13 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblMemberName)
-        var lblMemberName: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblNotificationContent)
-        var lblNotificationContent: TextView? = null
+        val lblMemberName: TextView = itemView!!.findViewById(R.id.lblMemberName)!!
+        val lblNotificationContent: TextView = itemView!!.findViewById(R.id.lblNotificationContent)!!
+        val lblNoticeficationTime: TextView = itemView!!.findViewById(R.id.lblNoticeficationTime)!!
+        val lblDate: TextView = itemView!!.findViewById(R.id.lblDate)!!
+        val rytOverAll: RelativeLayout = itemView!!.findViewById(R.id.rytOverAll)!!
 
-        @JvmField
-        @BindView(R.id.lblNoticeficationTime)
-        var lblNoticeficationTime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblDate)
-        var lblDate: TextView? = null
-
-        @JvmField
-        @BindView(R.id.rytOverAll)
-        var rytOverAll: RelativeLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

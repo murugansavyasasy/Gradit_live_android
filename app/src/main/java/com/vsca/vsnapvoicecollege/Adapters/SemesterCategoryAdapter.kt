@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Model.SemesterAllCategory
 import com.vsca.vsnapvoicecollege.R
 
@@ -52,53 +51,19 @@ class SemesterCategoryAdapter constructor(data: List<SemesterAllCategory>, conte
     }
 
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder((itemView)!!) {
-        @JvmField
-        @BindView(R.id.lblTobeObtained)
-        var lblTobeObtained: TextView? = null
 
-        @JvmField
-        @BindView(R.id.lblSemester)
-        var lblSemester: TextView? = null
+        val lblTobeObtained: TextView = itemView!!.findViewById(R.id.lblTobeObtained)!!
+        val lblSemester: TextView = itemView!!.findViewById(R.id.lblSemester)!!
+        val lblObtained: TextView = itemView!!.findViewById(R.id.lblObtained)!!
+        val lblTotalCredits: TextView = itemView!!.findViewById(R.id.lblTotalCredits)!!
+        val layoutCategorytable: TableLayout = itemView!!.findViewById(R.id.layoutCategorytable)!!
+        val lblTobeObtainedsem: TextView = itemView!!.findViewById(R.id.lblTobeObtainedsem)!!
+        val lblSemesterSem: TextView = itemView!!.findViewById(R.id.lblSemesterSem)!!
+        val lblObtainedsem: TextView = itemView!!.findViewById(R.id.lblObtainedsem)!!
+        val lblTotalCreditsSem: TextView = itemView!!.findViewById(R.id.lblTotalCreditsSem)!!
+        val LayoutSemesterTable: TableLayout = itemView!!.findViewById(R.id.LayoutSemesterTable)!!
+        val lblCategory: TextView = itemView!!.findViewById(R.id.lblCategory)!!
 
-        @JvmField
-        @BindView(R.id.lblObtained)
-        var lblObtained: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblTotalCredits)
-        var lblTotalCredits: TextView? = null
-
-        @JvmField
-        @BindView(R.id.layoutCategorytable)
-        var layoutCategorytable: TableLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblTobeObtainedsem)
-        var lblTobeObtainedsem: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblSemesterSem)
-        var lblSemesterSem: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblObtainedsem)
-        var lblObtainedsem: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblTotalCreditsSem)
-        var lblTotalCreditsSem: TextView? = null
-
-        @JvmField
-        @BindView(R.id.LayoutSemesterTable)
-        var LayoutSemesterTable: TableLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblCategory)
-        var lblCategory: TextView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

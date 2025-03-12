@@ -9,8 +9,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.Attendance_EditClickLisitiner
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.SenderModel.Attendance_Edit_Selected
@@ -35,34 +34,12 @@ class Attendance_Edit_Adapter constructor(
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-//        @JvmField
-//        @BindView(R.id.lblEntiredepartment)
-//        var lblEntiredepartment: TextView? = null
 
-//        @JvmField
-//        @BindView(R.id.chboxEntiredepartment)
-//        var chboxEntiredepartment: CheckBox? = null
+        val img_mark_attendance: ImageView = itemView!!.findViewById(R.id.img_mark_attendance)
+        val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)
+        val lbl_studentname: TextView = itemView!!.findViewById(R.id.lbl_studentname)
+        val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutstudentlist)
 
-        @JvmField
-        @BindView(R.id.img_mark_attendance)
-        var img_mark_attendance: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.con_attendance)
-        var con_attendance: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.lbl_studentname)
-        var lbl_studentname: TextView? = null
-
-
-        @JvmField
-        @BindView(R.id.layoutstudentlist)
-        var layoutstudentlist: ConstraintLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
 

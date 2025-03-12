@@ -4,48 +4,26 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityEnterOtpBinding
 
 class EnterOtp : AppCompatActivity() {
-
     var appViewModel: App? = null
-
-    @JvmField
-    @BindView(R.id.btnContinue)
-    var btnContinue: Button? = null
-
-    @JvmField
-    @BindView(R.id.edMobilenumber)
-    var edMobilenumber: EditText? = null
-
-    @JvmField
-    @BindView(R.id.edPassword)
-    var edPassword: EditText? = null
-
-    @JvmField
-    @BindView(R.id.lblResendCode)
-    var lblResendCode: TextView? = null
-
     var mobilenumber: String? = null
     var Otp: String? = null
+    private lateinit var binding: ActivityEnterOtpBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_enter_otp)
-        ButterKnife.bind(this)
+        binding = ActivityEnterOtpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
@@ -95,14 +73,14 @@ class EnterOtp : AppCompatActivity() {
             }
         }
 
-        lblResendCode!!.setOnClickListener {
+        binding.lblResendCode!!.setOnClickListener {
             GetOtp()
         }
 
-        btnContinue!!.setOnClickListener {
+        binding.btnContinue!!.setOnClickListener {
 
             mobilenumber = CommonUtil.isForgotMobileNumber
-            Otp = edPassword!!.text.toString()
+            Otp = binding.edPassword!!.text.toString()
 
             if (mobilenumber.equals("")) {
                 CommonUtil.ApiAlert(this, CommonUtil.Enter_mobileNumber)

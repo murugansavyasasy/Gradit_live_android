@@ -20,6 +20,7 @@
             android:layout_marginBottom="@dimen/hundred" />
 
         <include
+            android:id="@+id/bottomSheet"
             layout="@layout/bottom_menu_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

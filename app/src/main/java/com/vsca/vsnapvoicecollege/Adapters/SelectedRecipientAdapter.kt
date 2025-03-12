@@ -12,8 +12,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Interfaces.RecipientCheckListener
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
@@ -50,7 +49,7 @@ class SelectedRecipientAdapter(
         if (CommonUtil.AttendanceScreen == "AttendanceScreen") {
             holder.layoutstudentlist!!.visibility = View.GONE
             holder.con_attendance!!.visibility = View.VISIBLE
-            holder.lbl_studentname!!.text = data.SelectedName
+            holder.lblStudentname!!.text = data.SelectedName
             CommonUtil.Absentlistcount = ""
 
             if (CommonUtil.PresentlistStudent.contains(data.SelectedId.toString())) {
@@ -143,33 +142,14 @@ class SelectedRecipientAdapter(
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        @JvmField
-        @BindView(R.id.lblRecipientData)
-        var lblDocumentName: TextView? = null
+        val lblDocumentName: TextView = itemView!!.findViewById(R.id.lblRecipientData)!!
+        val chbox: CheckBox = itemView!!.findViewById(R.id.chbox)!!
+        val lblStudentname: TextView = itemView!!.findViewById(R.id.lbl_studentname)!!
+        val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutEntireCollege)!!
+        val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)!!
+        val img_mark_attendance: ImageView = itemView!!.findViewById(R.id.img_mark_attendance)!!
 
-        @JvmField
-        @BindView(R.id.lbl_studentname)
-        var lbl_studentname: TextView? = null
 
-        @JvmField
-        @BindView(R.id.layoutEntireCollege)
-        var layoutstudentlist: ConstraintLayout? = null
-
-        @JvmField
-        @BindView(R.id.con_attendance)
-        var con_attendance: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.chbox)
-        var chbox: CheckBox? = null
-
-        @JvmField
-        @BindView(R.id.img_mark_attendance)
-        var img_mark_attendance: ImageView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView)!!)
-        }
     }
 
     init {

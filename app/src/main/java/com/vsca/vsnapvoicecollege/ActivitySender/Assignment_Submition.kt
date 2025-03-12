@@ -12,8 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -25,6 +24,8 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityAssignmentSubmitionBinding
 
 
 class Assignment_Submition : ActionBarActivity() {
@@ -33,47 +34,27 @@ class Assignment_Submition : ActionBarActivity() {
     var appViewModel: App? = null
     var Assignmentsubmit: ArrayList<AssignmentSubmit> = ArrayList()
 
-    @JvmField
-    @BindView(R.id.recycle_AssignmentSubmition)
-    var recycle_AssignmentSubmition: RecyclerView? = null
 
-    @JvmField
-    @BindView(R.id.tblnotsubmitted)
-    var tblnotsubmitted: TableLayout? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgImagePdfback)
-    var imgImagePdfback: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblNodatafound)
-    var lblNodatafound: TextView? = null
 
     var AdBackgroundImage: String? = null
     var AdSmallImage: String? = null
     var AdWebURl: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
+    private lateinit var binding: ActivityAssignmentSubmitionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
 
         super.onCreate(savedInstanceState)
+        binding = ActivityAssignmentSubmitionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        ActionbarWithoutBottom(this)
+         ActionbarWithoutBottom(this)
 
-        imgImagePdfback!!.setOnClickListener {
+        binding.imgImagePdfback!!.setOnClickListener {
             super.onBackPressed()
         }
 
@@ -93,11 +74,11 @@ class Assignment_Submition : ActionBarActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.imgAdvertisement!!)
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
@@ -107,26 +88,26 @@ class Assignment_Submition : ActionBarActivity() {
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
-                    lblNodatafound!!.visibility = View.GONE
+                    binding.lblNodatafound!!.visibility = View.GONE
                     if (CommonUtil.isSubmitted == "submitted") {
-                        tblnotsubmitted!!.visibility = View.GONE
+                        binding.tblnotsubmitted!!.visibility = View.GONE
                     } else {
-                        tblnotsubmitted!!.visibility = View.VISIBLE
+                        binding.tblnotsubmitted!!.visibility = View.VISIBLE
                     }
                     Assignmentsubmit = response.data
                     Assignment_SubmittionAdapter =
                         Assignment_SubmittionAdapter(Assignmentsubmit, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    recycle_AssignmentSubmition!!.layoutManager = mLayoutManager
-                    recycle_AssignmentSubmition!!.itemAnimator = DefaultItemAnimator()
-                    recycle_AssignmentSubmition!!.adapter = Assignment_SubmittionAdapter
-                    recycle_AssignmentSubmition!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.recycleAssignmentSubmition!!.layoutManager = mLayoutManager
+                    binding.recycleAssignmentSubmition!!.itemAnimator = DefaultItemAnimator()
+                    binding.recycleAssignmentSubmition!!.adapter = Assignment_SubmittionAdapter
+                    binding.recycleAssignmentSubmition!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     Assignment_SubmittionAdapter!!.notifyDataSetChanged()
                 } else {
-                    lblNodatafound!!.visibility = View.VISIBLE
+                    binding.lblNodatafound!!.visibility = View.VISIBLE
                 }
             } else {
-                lblNodatafound!!.visibility = View.VISIBLE
+                binding.lblNodatafound!!.visibility = View.VISIBLE
             }
         }
 
@@ -136,21 +117,21 @@ class Assignment_Submition : ActionBarActivity() {
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
-                    lblNodatafound!!.visibility = View.GONE
+                    binding.lblNodatafound!!.visibility = View.GONE
                     Assignmentsubmit = response.data
                     Assignment_SubmittionAdapter =
                         Assignment_SubmittionAdapter(Assignmentsubmit, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    recycle_AssignmentSubmition!!.layoutManager = mLayoutManager
-                    recycle_AssignmentSubmition!!.itemAnimator = DefaultItemAnimator()
-                    recycle_AssignmentSubmition!!.adapter = Assignment_SubmittionAdapter
-                    recycle_AssignmentSubmition!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.recycleAssignmentSubmition!!.layoutManager = mLayoutManager
+                    binding.recycleAssignmentSubmition!!.itemAnimator = DefaultItemAnimator()
+                    binding.recycleAssignmentSubmition!!.adapter = Assignment_SubmittionAdapter
+                    binding.recycleAssignmentSubmition!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     Assignment_SubmittionAdapter!!.notifyDataSetChanged()
                 } else {
-                    lblNodatafound!!.visibility = View.VISIBLE
+                    binding.lblNodatafound!!.visibility = View.VISIBLE
                 }
             } else {
-                lblNodatafound!!.visibility = View.VISIBLE
+                binding.lblNodatafound!!.visibility = View.VISIBLE
             }
         }
     }
@@ -193,8 +174,7 @@ class Assignment_Submition : ActionBarActivity() {
     }
 
     override val layoutResourceId: Int
-        //get() = R.layout.previous_assignment_submited
-        get() = R.layout.activity_assignment_submition
+         get() = R.layout.activity_assignment_submition
 
     override fun onResume() {
         var AddId: Int = 1

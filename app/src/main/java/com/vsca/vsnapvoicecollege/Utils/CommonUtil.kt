@@ -12,10 +12,15 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -39,6 +44,16 @@ import javax.xml.transform.ErrorListener
 
 
 object CommonUtil {
+
+
+    public var imgSwipe: ImageView? = null
+    public var btnContinue: Button? = null
+    public var layoutBottomCurve: ConstraintLayout? = null
+    public var recyclerMenusBottom: RecyclerView? = null
+    public var llBottomSheet: LinearLayout? = null
+    public var layoutDepartment: ConstraintLayout? = null
+    public var layoutCollege: ConstraintLayout? = null
+    public var imgAddPlus: ImageView? = null
 
 
     @kotlin.jvm.JvmField

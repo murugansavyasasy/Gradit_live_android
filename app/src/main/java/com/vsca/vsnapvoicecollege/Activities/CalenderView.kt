@@ -10,7 +10,7 @@ import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar.Cale
 import com.vsca.vsnapvoicecollege.R
 
 
-class CaleanderView : AppCompatActivity() {
+class CalenderView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_caleander_view)
@@ -34,7 +34,5 @@ class CaleanderView : AppCompatActivity() {
             override fun onMonthChange() {}
             override fun onWeekChange(i: Int) {}
         })
-
-
     }
 }

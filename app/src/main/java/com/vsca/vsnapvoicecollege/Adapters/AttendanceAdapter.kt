@@ -9,8 +9,7 @@ import android.widget.RelativeLayout
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.mackhartley.roundedprogressbar.RoundedProgressBar
 import com.vsca.vsnapvoicecollege.ActivitySender.AttendanceDetailsfromstudent
 import com.vsca.vsnapvoicecollege.Model.StudentAttendance
@@ -27,45 +26,16 @@ class AttendanceAdapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.txtSubject)
-        var txtSubject: TextView? = null
+        val txtSubject: TextView = itemView!!.findViewById(R.id.txtSubject)
+        val lblstaffName: TextView = itemView!!.findViewById(R.id.lblstaffName)
+        val crdattendance: RelativeLayout = itemView!!.findViewById(R.id.crdattendance)
+        val txt24hours: TextView = itemView!!.findViewById(R.id.txt24hours)
+        val txt12hours: TextView = itemView!!.findViewById(R.id.txt12hours)
+        val lblatten_presentage: TextView = itemView!!.findViewById(R.id.lblatten_presentage)
+        val customProgress: RoundedProgressBar = itemView!!.findViewById(R.id.customProgress)
+        val tblattendance: TableLayout = itemView!!.findViewById(R.id.tblattendance)
+        val crd_attendance: NeumorphCardView = itemView!!.findViewById(R.id.crd_attendance)
 
-        @JvmField
-        @BindView(R.id.lblstaffName)
-        var lblstaffName: TextView? = null
-
-        @JvmField
-        @BindView(R.id.crdattendance)
-        var crdattendance: RelativeLayout? = null
-
-        @JvmField
-        @BindView(R.id.txt24hours)
-        var txt24hours: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt12hours)
-        var txt12hours: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lblatten_presentage)
-        var lblatten_presentage: TextView? = null
-
-        @JvmField
-        @BindView(R.id.customProgress)
-        var customProgress: RoundedProgressBar? = null
-
-        @JvmField
-        @BindView(R.id.tblattendance)
-        var tblattendance: TableLayout? = null
-
-        @JvmField
-        @BindView(R.id.crd_attendance)
-        var crd_attendance: NeumorphCardView? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

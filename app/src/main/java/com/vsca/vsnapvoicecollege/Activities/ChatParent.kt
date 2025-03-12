@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -29,44 +26,13 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 
-class ChatParent : BaseActivity() {
+class ChatParent : BaseActivity<ActivityNoticeboardBinding>() {
 
     var chatAdapter: ChatStaffAdapter? = null
     var Chat_AdapterStaff: Chat_AdapterStaff? = null
     override var appViewModel: App? = null
-
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartment)
-    var lblDepartment: TextView? = null
-
-    @JvmField
-    @BindView(R.id.layoutTab)
-    var layoutTab: ConstraintLayout? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
 
 
     var GetStaffListData: List<GetStaffDetailsData> = ArrayList()
@@ -77,17 +43,33 @@ class ChatParent : BaseActivity() {
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
 
+override fun inflateBinding(): ActivityNoticeboardBinding {
+    return ActivityNoticeboardBinding.inflate(layoutInflater)
+}
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        binding = ActivityNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
-        MenuBottomType()
-        layoutTab!!.visibility = View.GONE
+
+        binding.CommonLayout.layoutTab!!!!.visibility = View.GONE
         CommonUtil.OnMenuClicks("Chat")
-        lblMenuTitle!!.text = "Chat"
+        binding.CommonLayout.lblMenuTitle!!.text = "Chat"
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        MenuBottomType()
+
+
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
         if (CommonUtil.menu_readChat.equals("1")) {
 
@@ -105,7 +87,7 @@ class ChatParent : BaseActivity() {
                 Student_Side_Chat_list()
             }
         } else {
-            lblNoRecordsFound!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
         }
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -124,11 +106,11 @@ class ChatParent : BaseActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -183,22 +165,24 @@ class ChatParent : BaseActivity() {
 
                         val mLayoutManager: RecyclerView.LayoutManager =
                             GridLayoutManager(applicationContext, 2)
-                        recyclerNoticeboard!!.layoutManager = mLayoutManager
-                        recyclerNoticeboard!!.isNestedScrollingEnabled = true
-                        recyclerNoticeboard!!.addItemDecoration(GridSpacingItemDecoration(2, false))
-                        recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                        recyclerNoticeboard!!.adapter = chatAdapter
+                        binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                        binding.CommonLayout.recyclerCommon!!.isNestedScrollingEnabled = true
+                        binding.CommonLayout.recyclerCommon!!.addItemDecoration(
+                            GridSpacingItemDecoration(2, false)
+                        )
+                        binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                        binding.CommonLayout.recyclerCommon!!.adapter = chatAdapter
                     } else {
 
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
                     }
                 } else {
 
                     UserMenuRequest(this)
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
                 }
             }
@@ -250,23 +234,25 @@ class ChatParent : BaseActivity() {
 
                         val mLayoutManager: RecyclerView.LayoutManager =
                             GridLayoutManager(applicationContext, 2)
-                        recyclerNoticeboard!!.layoutManager = mLayoutManager
-                        recyclerNoticeboard!!.isNestedScrollingEnabled = true
-                        recyclerNoticeboard!!.addItemDecoration(GridSpacingItemDecoration(2, false))
-                        recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                        recyclerNoticeboard!!.adapter = Chat_AdapterStaff
+                        binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                        binding.CommonLayout.recyclerCommon!!.isNestedScrollingEnabled = true
+                        binding.CommonLayout.recyclerCommon!!.addItemDecoration(
+                            GridSpacingItemDecoration(2, false)
+                        )
+                        binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                        binding.CommonLayout.recyclerCommon!!.adapter = Chat_AdapterStaff
 
                     } else {
 
-                        lblNoRecordsFound!!.visibility = View.VISIBLE
-                        recyclerNoticeboard!!.visibility = View.GONE
+                        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
                     }
                 } else {
 
                     UserMenuRequest(this)
-                    lblNoRecordsFound!!.visibility = View.VISIBLE
-                    recyclerNoticeboard!!.visibility = View.GONE
+                    binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
                 }
             }
@@ -342,7 +328,6 @@ class ChatParent : BaseActivity() {
 
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }

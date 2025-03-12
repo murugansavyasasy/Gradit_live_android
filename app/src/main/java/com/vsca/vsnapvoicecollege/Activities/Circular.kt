@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -29,50 +26,14 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
+import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
 
-class Circular : BaseActivity() {
+class Circular : BaseActivity<ActivityNoticeboardBinding>() {
 
     var circularadapter: CircularAdapter? = null
     override var appViewModel: App? = null
-
-    @JvmField
-    @BindView(R.id.recyclerCommon)
-    var recyclerNoticeboard: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lbltotalsize)
-    var lbltotalsize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblMenuTitle)
-    var lblMenuTitle: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblCollegeSize)
-    var lblCollegeSize: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoRecordsFound)
-    var lblNoRecordsFound: TextView? = null
-
-
-    @JvmField
-    @BindView(R.id.txt_NoticeLable)
-    var txt_NoticeLable: TextView? = null
-
 
     var CircularType = true
     var GetCircularData: List<GetCircularListDetails> = ArrayList()
@@ -85,16 +46,29 @@ class Circular : BaseActivity() {
     var AdWebURl: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
+
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
-
+        binding = ActivityNoticeboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         super.onCreate(savedInstanceState)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionBarMethod(this)
-        MenuBottomType()
+
         CommonUtil.OnMenuClicks("Circular")
+
+
+        accessBottomViewIcons(
+            binding,
+            R.id.img_swipe,
+            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+        )
+        MenuBottomType()
         TabDepartmentColor()
 
         SearchList!!.visibility = View.VISIBLE
@@ -104,6 +78,12 @@ class Circular : BaseActivity() {
             Search!!.visibility = View.VISIBLE
 
         }
+        binding.CommonLayout.imgAddPlus.setOnClickListener { imgaddclick() }
+        binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
+
+        binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
+
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)
@@ -135,9 +115,9 @@ class Circular : BaseActivity() {
                 "p3"
             )
         ) {
-            txt_NoticeLable!!.visibility = View.VISIBLE
+            binding.CommonLayout.txtNoticeLable!!.visibility = View.VISIBLE
         } else {
-            txt_NoticeLable!!.visibility = View.GONE
+            binding.CommonLayout.txtNoticeLable!!.visibility = View.GONE
         }
 
 
@@ -158,11 +138,11 @@ class Circular : BaseActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -203,15 +183,19 @@ class Circular : BaseActivity() {
                         GetCircularData = response.data!!
                         val size = GetCircularData.size
                         if (size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
                             circularadapter = CircularAdapter(GetCircularData, this)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = circularadapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = circularadapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             circularadapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -220,16 +204,20 @@ class Circular : BaseActivity() {
                         GetCircularData = response.data!!
                         val size = GetCircularData.size
                         if (size > 0) {
-                            lblNoRecordsFound!!.visibility = View.GONE
-                            recyclerNoticeboard!!.visibility = View.VISIBLE
+                            binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
+                            binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
 
                             circularadapter = CircularAdapter(GetCircularData, this@Circular)
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this@Circular)
-                            recyclerNoticeboard!!.layoutManager = mLayoutManager
-                            recyclerNoticeboard!!.itemAnimator = DefaultItemAnimator()
-                            recyclerNoticeboard!!.adapter = circularadapter
-                            recyclerNoticeboard!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.adapter = circularadapter
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             circularadapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -261,7 +249,7 @@ class Circular : BaseActivity() {
                 }
             }
         })
-        lblMenuTitle!!.setText(R.string.txt_img_pdf)
+        binding.CommonLayout.lbltotalsize!!.setText(R.string.txt_img_pdf)
     }
 
 
@@ -308,7 +296,6 @@ class Circular : BaseActivity() {
         Log.d("PreviousAddId", PreviousAddId.toString())
     }
 
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
@@ -320,34 +307,34 @@ class Circular : BaseActivity() {
     }
 
     private fun NoDataFound() {
-        lblNoRecordsFound!!.visibility = View.VISIBLE
-        recyclerNoticeboard!!.visibility = View.GONE
+        binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
+        binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
     }
 
     private fun CountValueSet() {
 
         if (!DepartmentCount.equals("0") && !DepartmentCount.equals("")) {
-            lblDepartmentSize!!.visibility = View.VISIBLE
-            lblDepartmentSize!!.text = DepartmentCount
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblDepartmentSize!!.text = DepartmentCount
         } else {
-            lblDepartmentSize!!.visibility = View.GONE
+            binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
             DepartmentCount = "0"
         }
         if (!CollegeCount.equals("0") && !CollegeCount.equals("")) {
-            lblCollegeSize!!.visibility = View.VISIBLE
-            lblCollegeSize!!.text = CollegeCount
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lblCollegeSize!!.text = CollegeCount
         } else {
-            lblCollegeSize!!.visibility = View.GONE
+            binding.CommonLayout.lblCollegeSize!!.visibility = View.GONE
             CollegeCount = "0"
         }
         var intdepartment = Integer.parseInt(DepartmentCount!!)
         var intCollegecount = Integer.parseInt(CollegeCount!!)
         var TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
-            lbltotalsize!!.visibility = View.VISIBLE
-            lbltotalsize!!.text = TotalSizeCount.toString()
+            binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
+            binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
         } else {
-            lbltotalsize!!.visibility = View.GONE
+            binding.CommonLayout.lbltotalsize!!.visibility = View.GONE
         }
     }
 
@@ -370,7 +357,6 @@ class Circular : BaseActivity() {
         }
     }
 
-    @OnClick(R.id.LayoutDepartment)
     fun departmentClick() {
         bottomsheetStateCollpased()
         CircularType = true
@@ -380,7 +366,6 @@ class Circular : BaseActivity() {
         TabDepartmentColor()
     }
 
-    @OnClick(R.id.LayoutCollege)
     fun collegeClick() {
         bottomsheetStateCollpased()
         CircularType = false
@@ -391,7 +376,6 @@ class Circular : BaseActivity() {
 
     }
 
-    @OnClick(R.id.imgAddPlus)
     fun imgaddclick() {
 
         val i: Intent = Intent(this, ImageOrPdf::class.java)

@@ -7,12 +7,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -20,18 +16,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.AWS.S3Uploader
-import com.vsca.vsnapvoicecollege.AWS.S3Utils
+import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
+import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.ActivitySender.AddEvents
 import com.vsca.vsnapvoicecollege.Adapters.EventsPhotoAdapter
-import com.vsca.vsnapvoicecollege.Model.AWSUploadedFiles
 import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
 import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
 import com.vsca.vsnapvoicecollege.Model.GetEventDetailsData
@@ -42,68 +34,20 @@ import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
+import com.vsca.vsnapvoicecollege.databinding.ActivityEventsBinding
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EventsViewDetails : ActionBarActivity() {
-
-
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.lblEventDate)
-    var lblEventDate: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblEventDescription)
-    var lblEventDescription: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblEventTopic)
-    var lblEventTopic: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblEventVenue)
-    var lblEventVenue: TextView? = null
-
-    @JvmField
-    @BindView(R.id.btn_addpic)
-    var btn_addpic: TextView? = null
-
-    @JvmField
-    @BindView(R.id.lblEventTime)
-    var lblEventTime: TextView? = null
-
-    @JvmField
-    @BindView(R.id.recyleEventPhoto)
-    var recyleEventPhoto: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.lblNoPhotoFound)
-    var lblNoPhotoFound: TextView? = null
-
-    @JvmField
-    @BindView(R.id.btn_edittevent)
-    var btn_edittevent: TextView? = null
-
-    @JvmField
-    @BindView(R.id.UPLOADIMAGE)
-    var UPLOADIMAGE: Button? = null
-
 
     //  AWS
     var Awsuploadedfile = ArrayList<String>()
     var pathIndex = 0
     var uploadFilePath: String? = null
     var contentType: String? = null
-    var AWSUploadedFilesList = ArrayList<AWSUploadedFiles>()
+
+    //    var AWSUploadedFilesList = ArrayList<AWSUploadedFiles>()
+    var AWSUploadedFilesList = ArrayList<String>()
     var progressDialog: ProgressDialog? = null
     var fileNameDateTime: String? = null
 
@@ -125,24 +69,28 @@ class EventsViewDetails : ActionBarActivity() {
     var AdSmallImage: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     val REQUEST_GAllery = 2
+    private lateinit var binding: ActivityEventsBinding
+    var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
-        ButterKnife.bind(this)
+        binding = ActivityEventsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ActionbarWithoutBottom(this@EventsViewDetails)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
         ActionbarWithoutBottom(this)
-        BaseActivity.UserMenuRequest(this)
 
-
-
+        binding.btnAddpic.setOnClickListener { btnAddpic() }
+        binding.imgEventback.setOnClickListener { super.onBackPressed() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
+        isAwsUploadingPreSigned = AwsUploadingPreSigned()
         if (CommonUtil.EventEdit.equals("Edit") && CommonUtil.MemberId.toString() == CommonUtil.EventCreatedby) {
-            btn_edittevent!!.visibility = View.VISIBLE
+            binding.btnEdittevent!!!!.visibility = View.VISIBLE
         } else {
-            btn_edittevent!!.visibility = View.GONE
+            binding.btnEdittevent!!!!.visibility = View.GONE
         }
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -161,13 +109,13 @@ class EventsViewDetails : ActionBarActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.imgthumb!!)
                     }
                 }
             })
@@ -224,11 +172,11 @@ class EventsViewDetails : ActionBarActivity() {
 
         eventsdata = intent.getSerializableExtra("EventsData") as? GetEventDetailsData
 
-        lblEventTime!!.text = eventsdata!!.event_time
-        lblEventVenue!!.text = eventsdata!!.venue
-        lblEventDate!!.text = eventsdata!!.event_date
-        lblEventTopic!!.text = eventsdata!!.topic
-        lblEventDescription!!.text = eventsdata!!.body
+        binding.lblEventTime!!.text = eventsdata!!.event_time
+        binding.lblEventVenue!!.text = eventsdata!!.venue
+        binding.lblEventDate!!.text = eventsdata!!.event_date
+        binding.lblEventTopic!!.text = eventsdata!!.topic
+        binding.lblEventDescription!!.text = eventsdata!!.body
         eventsDetaildID = eventsdata!!.eventdetailsid
         eventID = eventsdata!!.eventid
 
@@ -243,33 +191,38 @@ class EventsViewDetails : ActionBarActivity() {
 
             eventPhotosList = eventsdata!!.newfilepath
             if (eventPhotosList.isNullOrEmpty()) {
-                recyleEventPhoto!!.visibility = View.GONE
-                lblNoPhotoFound!!.visibility = View.VISIBLE
+                binding.recyleEventPhoto!!.visibility = View.GONE
+                binding.lblNoPhotoFound!!.visibility = View.VISIBLE
             } else {
                 eventPhotosList = eventsdata!!.newfilepath
 
                 if (eventPhotosList!!.size > 0) {
-                    recyleEventPhoto!!.visibility = View.VISIBLE
-                    lblNoPhotoFound!!.visibility = View.GONE
+                    binding.recyleEventPhoto!!.visibility = View.VISIBLE
+                    binding.lblNoPhotoFound!!.visibility = View.GONE
 
                     photoAdapter = EventsPhotoAdapter(eventPhotosList!!, this)
                     val mLayoutManager: RecyclerView.LayoutManager =
                         GridLayoutManager(applicationContext, 3)
-                    recyleEventPhoto!!.layoutManager = mLayoutManager
-                    recyleEventPhoto!!.isNestedScrollingEnabled = true
-                    recyleEventPhoto!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-                    recyleEventPhoto!!.itemAnimator = DefaultItemAnimator()
-                    recyleEventPhoto!!.adapter = photoAdapter
+                    binding.recyleEventPhoto!!.layoutManager = mLayoutManager
+                    binding.recyleEventPhoto!!.isNestedScrollingEnabled = true
+                    binding.recyleEventPhoto!!.addItemDecoration(
+                        GridSpacingItemDecoration(
+                            4,
+                            false
+                        )
+                    )
+                    binding.recyleEventPhoto!!.itemAnimator = DefaultItemAnimator()
+                    binding.recyleEventPhoto!!.adapter = photoAdapter
 
                 } else {
 
-                    recyleEventPhoto!!.visibility = View.GONE
-                    lblNoPhotoFound!!.visibility = View.VISIBLE
+                    binding.recyleEventPhoto!!.visibility = View.GONE
+                    binding.lblNoPhotoFound!!.visibility = View.VISIBLE
                 }
             }
         } catch (NpE: NullPointerException) {
-            recyleEventPhoto!!.visibility = View.GONE
-            lblNoPhotoFound!!.visibility = View.VISIBLE
+            binding.recyleEventPhoto!!.visibility = View.GONE
+            binding.lblNoPhotoFound!!.visibility = View.VISIBLE
             NpE.printStackTrace()
         }
 
@@ -281,12 +234,12 @@ class EventsViewDetails : ActionBarActivity() {
                 "p6"
             )
         ) {
-            btn_addpic!!.visibility = View.VISIBLE
+            binding.btnAddpic!!.visibility = View.VISIBLE
         } else {
-            btn_addpic!!.visibility = View.GONE
+            binding.btnAddpic!!.visibility = View.GONE
         }
 
-        btn_edittevent!!.setOnClickListener {
+        binding.btnEdittevent!!!!.setOnClickListener {
 
             EventEdit = "EventEdit"
             val intent1 = Intent(this, AddEvents::class.java)
@@ -297,8 +250,7 @@ class EventsViewDetails : ActionBarActivity() {
         }
     }
 
-    @OnClick(R.id.btn_addpic)
-    fun btn_addpic() {
+    fun btnAddpic() {
 
         val intent1 = Intent(this, AlbumSelectActivity::class.java)
         intent1.putExtra("Gallery", "Images")
@@ -347,13 +299,7 @@ class EventsViewDetails : ActionBarActivity() {
     override val layoutResourceId: Int
         protected get() = R.layout.activity_events
 
-    @OnClick(R.id.imgEventback)
-    fun eventclickback() {
-        super.onBackPressed()
-    }
 
-
-    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
@@ -421,7 +367,7 @@ class EventsViewDetails : ActionBarActivity() {
                 CommonUtil.Yes
             ) { _, _ ->
 
-                awsFileUpload(this, pathIndex)
+                isUploadAWS()
 
             }
             alertDialog.setNegativeButton(
@@ -436,86 +382,127 @@ class EventsViewDetails : ActionBarActivity() {
 
     }
 
-    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-
-        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-        val s3uploaderObj: S3Uploader
-        s3uploaderObj = S3Uploader(activity)
-        pathIndex = pathind!!
-
-        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-            uploadFilePath = CommonUtil.SelcetedFileList[index]
-            Log.d("uploadFilePath", uploadFilePath.toString())
-            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-            if (extension.equals(".pdf")) {
-                contentType = ".pdf"
-            } else {
-                contentType = ".jpg"
-            }
-            break
-        }
-
-        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-            Log.d("test", uploadFilePath!!)
-            if (uploadFilePath != null) {
-                progressDialog = CustomLoading.createProgressDialog(this)
-
-                progressDialog!!.show()
-                fileNameDateTime =
-                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().time)
-                fileNameDateTime = "File_" + fileNameDateTime
-                Log.d("filenamedatetime", fileNameDateTime.toString())
-                s3uploaderObj.initUpload(
-                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-                )
-
-                s3uploaderObj.setOns3UploadDone(object : S3Uploader.S3UploadInterface {
-                    override fun onUploadSuccess(response: String?) {
-                        if (response!!.equals("Success")) {
-                            if (CommonUtil.EventStatus.equals("Past")) {
-                                CommonUtil.EventStatus = "Past"
-                            } else {
-                                CommonUtil.EventStatus = "Upcoming"
-                            }
-                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-                                this@EventsViewDetails,
-                                CommonUtil.CollegeId.toString(),
-                                uploadFilePath,
-                                fileNameDateTime
-                            )
-                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-                                Log.d("Awsiploadfilepath", Awsaupladedfilepath.toString())
-                                fileName = File(uploadFilePath)
-                                filename = fileName!!.name
-                                AWSUploadedFilesList.add(
-                                    AWSUploadedFiles(
-                                        CommonUtil.urlFromS3!!,
-                                        filename,
-                                        contentType
-                                    )
-                                )
-                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-                                awsFileUpload(activity, pathIndex + 1)
-                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-                                    progressDialog!!.dismiss()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onUploadError(response: String?) {
-                        progressDialog!!.dismiss()
-                        Log.d("error", "Error Uploading")
-                    }
-                })
-            }
-        } else {
-            Eventupdateimage()
+    private fun isUploadAWS() {
+        progressDialog = CustomLoading.createProgressDialog(this)
+        progressDialog!!.show()
+        Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
+        for (i in CommonUtil.SelcetedFileList.indices) {
+            AwsUploadingFile(
+                CommonUtil.SelcetedFileList.get(i)
+            )
         }
     }
+
+    private fun AwsUploadingFile(
+        isFilePath: String
+    ) {
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            isFilePath,
+            CommonUtil.Collage_ids,
+            object : UploadCallback {
+                override fun onUploadSuccess(response: String?, isAwsFile: String?) {
+                    Log.d("Upload Success", response!!)
+                    AWSUploadedFilesList.add(isAwsFile!!)
+                    Awsuploadedfile.add(isAwsFile!!.toString())
+                    Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
+                    if (CommonUtil.EventStatus.equals("Past")) {
+                        CommonUtil.EventStatus = "Past"
+                    } else {
+                        CommonUtil.EventStatus = "Upcoming"
+                    }
+                    if (AWSUploadedFilesList.size == CommonUtil.SelcetedFileList.size) {
+                        progressDialog!!.dismiss()
+                        Eventupdateimage()
+                    }
+                }
+
+                override fun onUploadError(error: String?) {
+                    Log.e("Upload Error", error!!)
+                }
+            })
+    }
+
+
+//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
+//
+//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
+//        val s3Uploader1Obj: S3Uploader1
+//        s3Uploader1Obj = S3Uploader1(activity)
+//        pathIndex = pathind!!
+//
+//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
+//            uploadFilePath = CommonUtil.SelcetedFileList[index]
+//            Log.d("uploadFilePath", uploadFilePath.toString())
+//            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
+//            if (extension.equals(".pdf")) {
+//                contentType = ".pdf"
+//            } else {
+//                contentType = ".jpg"
+//            }
+//            break
+//        }
+//
+//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
+//            Log.d("test", uploadFilePath!!)
+//            if (uploadFilePath != null) {
+//                progressDialog = CustomLoading.createProgressDialog(this)
+//
+//                progressDialog!!.show()
+//                fileNameDateTime =
+//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().time)
+//                fileNameDateTime = "File_" + fileNameDateTime
+//                Log.d("filenamedatetime", fileNameDateTime.toString())
+//                s3Uploader1Obj.initUpload(
+//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
+//                )
+//
+//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
+//                    override fun onUploadSuccess(response: String?) {
+//                        if (response!!.equals("Success")) {
+//                            if (CommonUtil.EventStatus.equals("Past")) {
+//                                CommonUtil.EventStatus = "Past"
+//                            } else {
+//                                CommonUtil.EventStatus = "Upcoming"
+//                            }
+//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
+//                                this@EventsViewDetails,
+//                                CommonUtil.CollegeId.toString(),
+//                                uploadFilePath,
+//                                fileNameDateTime
+//                            )
+//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
+//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
+//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
+//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
+//                                Log.d("Awsiploadfilepath", Awsaupladedfilepath.toString())
+//                                fileName = File(uploadFilePath)
+//                                filename = fileName!!.name
+////                                AWSUploadedFilesList.add(
+////                                    AWSUploadedFiles(
+////                                        CommonUtil.urlFromS3!!,
+////                                        filename,
+////                                        contentType
+////                                    )
+////                                )
+//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
+//                                awsFileUpload(activity, pathIndex + 1)
+//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
+//                                    progressDialog!!.dismiss()
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onUploadError(response: String?) {
+//                        progressDialog!!.dismiss()
+//                        Log.d("error", "Error Uploading")
+//                    }
+//                })
+//            }
+//        } else {
+//            Eventupdateimage()
+//        }
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()

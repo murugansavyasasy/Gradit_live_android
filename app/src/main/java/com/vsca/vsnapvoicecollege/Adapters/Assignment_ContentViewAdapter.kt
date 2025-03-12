@@ -13,8 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
+
 import com.vsca.vsnapvoicecollege.Activities.VideoPlay
 import com.vsca.vsnapvoicecollege.Activities.ViewFiles
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_ViewData
@@ -128,34 +127,13 @@ class Assignment_ContentViewAdapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.filename)
-        var filename: TextView? = null
+        val filename: TextView = itemView.findViewById(R.id.filename)
+        val ibisubmissiontime: TextView = itemView.findViewById(R.id.ibisubmissiontime)
+        val viewFile: ImageView = itemView.findViewById(R.id.viewFile)
+        val lnrDesc: LinearLayout = itemView.findViewById(R.id.lnrDesc)
+        val lblDesc: TextView = itemView.findViewById(R.id.lblDesc)
+        val lnrNoticeboardd: LinearLayout = itemView.findViewById(R.id.lnrNoticeboardd)
 
-        @JvmField
-        @BindView(R.id.ibisubmissiontime)
-        var ibisubmissiontime: TextView? = null
-
-        @JvmField
-        @BindView(R.id.viewFile)
-        var viewFile: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.lnrDesc)
-        var lnrDesc: LinearLayout? = null
-
-        @JvmField
-        @BindView(R.id.lblDesc)
-        var lblDesc: TextView? = null
-
-        @JvmField
-        @BindView(R.id.lnrNoticeboardd)
-        var lnrNoticeboardd: LinearLayout? = null
-
-        init {
-            ButterKnife.bind(this, (itemView))
-            AssignmentContent_ViewData = listname
-        }
 
     }
 

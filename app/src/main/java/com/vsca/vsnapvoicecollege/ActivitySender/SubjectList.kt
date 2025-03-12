@@ -10,9 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -30,24 +28,10 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 
-class SubjectList : BaseActivity() {
+import com.vsca.vsnapvoicecollege.databinding.SubjectListviewBinding
 
-    @JvmField
-    @BindView(R.id.create_exam_recycle)
-    var create_exam_recycle: RecyclerView? = null
+class SubjectList : BaseActivity<SubjectListviewBinding>() {
 
-    @JvmField
-    @BindView(R.id.imgAdvertisement)
-    var imgAdvertisement: ImageView? = null
-
-    @JvmField
-    @BindView(R.id.imgthumb)
-    var imgthumb: ImageView? = null
-
-
-    @JvmField
-    @BindView(R.id.lblDepartmentSize)
-    var lblDepartmentSize: TextView? = null
 
     var SubjectListAdapter: SubjectListAdapter? = null
     override var appViewModel: App? = null
@@ -63,17 +47,26 @@ class SubjectList : BaseActivity() {
     var SubjectdetailX: List<SubjectdetailX> = ArrayList()
     var ExamSubjectList: List<ExamSubjectList> = ArrayList()
     var ExamSubjectSubList: List<ExamSubjectSubList> = ArrayList()
+//    private lateinit var binding: SubjectListviewBinding
+override fun inflateBinding(): SubjectListviewBinding {
+    return SubjectListviewBinding.inflate(layoutInflater)
+}
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
-
+        binding = SubjectListviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         super.onCreate(savedInstanceState)
+        
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ButterKnife.bind(this)
-        ActionBarMethod(this)
+         ActionBarMethod(this)
         MenuBottomType()
+
+        binding.CommonLayout.imgback.setOnClickListener { onBackPressed() }
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -92,13 +85,13 @@ class SubjectList : BaseActivity() {
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgAdvertisement!!)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imgthumb!!)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
                 }
             })
@@ -117,19 +110,19 @@ class SubjectList : BaseActivity() {
 
                     if (ExamSubjectSubList.size > 0) {
                         Subjectcount = SubjectCount.toString()
-                        lblDepartmentSize!!.text = Subjectcount
-                        lblDepartmentSize!!.visibility = View.VISIBLE
+                        binding.CommonLayout.lblDepartmentSize!!.text = Subjectcount
+                        binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
                     } else {
-                        lblDepartmentSize!!.visibility = View.GONE
+                        binding.CommonLayout.lblDepartmentSize!!.visibility = View.GONE
 
                     }
 
                     SubjectListAdapter = SubjectListAdapter(ExamSubjectSubList, this)
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-                    create_exam_recycle!!.layoutManager = mLayoutManager
-                    create_exam_recycle!!.itemAnimator = DefaultItemAnimator()
-                    create_exam_recycle!!.adapter = SubjectListAdapter
-                    create_exam_recycle!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.createExamRecycle!!.layoutManager = mLayoutManager
+                    binding.CommonLayout.createExamRecycle!!.itemAnimator = DefaultItemAnimator()
+                    binding.CommonLayout.createExamRecycle!!.adapter = SubjectListAdapter
+                    binding.CommonLayout.createExamRecycle!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     SubjectListAdapter!!.notifyDataSetChanged()
                 }
             }
@@ -170,7 +163,7 @@ class SubjectList : BaseActivity() {
     override val layoutResourceId: Int
         get() = R.layout.subject_listview
 
-    @OnClick(R.id.LayoutAdvertisement)
+//    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
@@ -182,8 +175,8 @@ class SubjectList : BaseActivity() {
         Examviewdata()
     }
 
-    @OnClick(R.id.imgback)
-    fun imgback() {
-        onBackPressed()
-    }
+//    @OnClick(R.id.imgback)
+//    fun imgback() {
+//        onBackPressed()
+//    }
 }
