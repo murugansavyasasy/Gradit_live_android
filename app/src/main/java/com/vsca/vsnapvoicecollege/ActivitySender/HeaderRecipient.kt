@@ -666,7 +666,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                         it.college_name
                         it.college_id
 
-                        val group = RecipientSelected(it.college_id.toString(), it.college_name)
+                        val group = RecipientSelected(it.college_id.toString(), it.college_name,"")
                         SelectedRecipientlist.add(group)
                     }
 
@@ -724,7 +724,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             it.division_id
                             it.division_name
 
-                            val divisions = RecipientSelected(it.division_id, it.division_name)
+                            val divisions = RecipientSelected(it.division_id, it.division_name,"")
                             SelectedRecipientlist.add(divisions)
                         }
 
@@ -887,7 +887,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             it.groupid
                             it.groupname
 
-                            val group = RecipientSelected(it.groupid, it.groupname)
+                            val group = RecipientSelected(it.groupid, it.groupname,"")
 
                             SelectedRecipientlist.add(group)
                         }
@@ -1336,7 +1336,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             for (i in GetCourseData!!.indices) {
                                 if (GetCourseData!![i].division_id.toString() == SelectedSpinnerID) {
                                     val department = RecipientSelected(
-                                        GetCourseData!![i].course_id, GetCourseData!![i].course_name
+                                        GetCourseData!![i].course_id, GetCourseData!![i].course_name,""
                                     )
                                     FilterDepartment.add(department)
                                 }
@@ -1371,7 +1371,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             GetCourseData!!.forEach {
                                 it.course_id
                                 it.course_name
-                                val department = RecipientSelected(it.course_id, it.course_name)
+                                val department = RecipientSelected(it.course_id, it.course_name,"")
                                 SelectedRecipientlist.add(department)
                             }
 
@@ -1455,7 +1455,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                 if (GetDepartmentData!![i].division_id.toString() == SelectedSpinnerID) {
                                     val department = RecipientSelected(
                                         GetDepartmentData!![i].department_id,
-                                        GetDepartmentData!![i].department_name
+                                        GetDepartmentData!![i].department_name,""
                                     )
                                     FilterDepartment.add(department)
                                 }
@@ -1493,7 +1493,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                 it.department_id
                                 it.department_name
                                 val department =
-                                    RecipientSelected(it.department_id, it.department_name)
+                                    RecipientSelected(it.department_id, it.department_name,"")
                                 SelectedRecipientlist.add(department)
                             }
 
@@ -1578,7 +1578,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                     if (GetCourseData!![j].department_name == name) {
                                         val department = RecipientSelected(
                                             GetCourseData!![j].course_id,
-                                            GetCourseData!![j].course_name
+                                            GetCourseData!![j].course_name,""
                                         )
                                         FilterDepartment.add(department)
                                     }
@@ -1610,7 +1610,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                         for (i in GetCourseData!!.indices) {
                             if (GetCourseData!![i].division_id.toString() == DivisionId) {
                                 val department = RecipientSelected(
-                                    GetCourseData!![i].course_id, GetCourseData!![i].course_name
+                                    GetCourseData!![i].course_id, GetCourseData!![i].course_name,""
                                 )
                                 FilterDepartment.add(department)
                             }
@@ -2104,7 +2104,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
     private fun AwsUploadingFile(
         isFilePath: String
     ) {
-        isAwsUploadingPreSigned!!.getPreSignedUrl(
+        isAwsUploadingPreSigned!!.getPreSignedUrl(this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {

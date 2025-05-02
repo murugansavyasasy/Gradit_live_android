@@ -87,7 +87,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
 
         Log.d("biometric_request", jsonObjectSchool.toString());
-        Call<StaffBiometricLocationRes> call = RestClient.apiInterfaces.getExistingViewLocations(jsonObjectSchool);
+        Call<StaffBiometricLocationRes> call = RestClient.Companion.getApiInterfaces().getExistingViewLocations(jsonObjectSchool);
         call.enqueue(new Callback<StaffBiometricLocationRes>() {
             @Override
             public void onResponse(Call<StaffBiometricLocationRes> call, Response<StaffBiometricLocationRes> response) {
@@ -206,7 +206,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         jsonObjectSchool.addProperty("distance", distance);
         jsonObjectSchool.addProperty("userId", StaffID);
         Log.d("location_update_request", jsonObjectSchool.toString());
-        Call<JsonArray> call = RestClient.apiInterfaces.updateLocation(jsonObjectSchool);
+        Call<JsonArray> call = RestClient.Companion.getApiInterfaces().updateLocation(jsonObjectSchool);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -281,7 +281,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         jsonObjectSchool.addProperty("CollegeId", SchoolID);
         jsonObjectSchool.addProperty("locationId", item.getId());
         Log.d("location_remove_request", jsonObjectSchool.toString());
-        Call<JsonArray> call = RestClient.apiInterfaces.removeLocation(jsonObjectSchool);
+        Call<JsonArray> call = RestClient.Companion.getApiInterfaces().removeLocation(jsonObjectSchool);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {

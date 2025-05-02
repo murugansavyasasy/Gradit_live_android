@@ -50,6 +50,7 @@ class SelectedRecipientAdapter(
             holder.layoutstudentlist!!.visibility = View.GONE
             holder.con_attendance!!.visibility = View.VISIBLE
             holder.lblStudentname!!.text = data.SelectedName
+            holder.lblRegNo!!.text = "Register No : " + data.isRegNo
             CommonUtil.Absentlistcount = ""
 
             if (CommonUtil.PresentlistStudent.contains(data.SelectedId.toString())) {
@@ -75,17 +76,18 @@ class SelectedRecipientAdapter(
             }
 
         } else {
-
-            holder.layoutstudentlist!!.visibility = View.VISIBLE
-            holder.con_attendance!!.visibility = View.GONE
-            holder.lblDocumentName!!.text = data.SelectedName
-            holder.chbox!!.isChecked = CommonUtil.receiverid.contains(data.SelectedId.toString())
+            holder.layoutstudentlist.visibility = View.VISIBLE
+            holder.lblRegNo1.visibility = View.VISIBLE
+            holder.con_attendance.visibility = View.GONE
+            holder.lblDocumentName.text = data.SelectedName
+            holder.lblRegNo1.text = "Register No : " + data.isRegNo
+            holder.chbox.isChecked = CommonUtil.receiverid.contains(data.SelectedId.toString())
 
             if (CommonUtil.Priority == "p1" || CommonUtil.Priority == "p7") {
                 if (CommonUtil.courseType == "Department" || CommonUtil.courseType == "Course") {
                     for (i in CommonUtil.DepartmentChooseIds.indices) {
                         if (CommonUtil.DepartmentChooseIds[i] == data.SelectedId.toString()) {
-                            holder.chbox!!.isChecked = true
+                            holder.chbox.isChecked = true
                             Log.d("Checked", "Checked")
                         }
                     }
@@ -145,6 +147,8 @@ class SelectedRecipientAdapter(
         val lblDocumentName: TextView = itemView!!.findViewById(R.id.lblRecipientData)!!
         val chbox: CheckBox = itemView!!.findViewById(R.id.chbox)!!
         val lblStudentname: TextView = itemView!!.findViewById(R.id.lbl_studentname)!!
+        val lblRegNo1: TextView = itemView!!.findViewById(R.id.lblRegNo1)!!
+        val lblRegNo: TextView = itemView!!.findViewById(R.id.lblRegNo)!!
         val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutEntireCollege)!!
         val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)!!
         val img_mark_attendance: ImageView = itemView!!.findViewById(R.id.img_mark_attendance)!!

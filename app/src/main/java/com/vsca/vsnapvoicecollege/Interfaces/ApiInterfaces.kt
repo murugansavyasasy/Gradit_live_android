@@ -571,12 +571,13 @@ interface ApiInterfaces {
     @POST("api/AppDetailsBal/BiometricEntryusingApp")
     fun BiometricEntryforAttendance(@Body jsonObject: JsonObject?): Call<JsonArray?>?
 
-    @GET("/api/AppDetailsBal/GetS3PresignedUrl")
+    //    @GET("/api/AppDetailsBal/GetS3PresignedUrl")
+    @GET("get-s3-presigned-url")
     fun getPreSignedUrl(
         @Query("bucket") bucket: String?,
         @Query("fileName") fileName: String?,
         @Query("bucketPath") bucketPath: String?,
         @Query("fileType") fileType: String?
-    ): Call<JsonArray?>?
+    ): Call<JsonObject?>?
 
 }

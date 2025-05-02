@@ -238,7 +238,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     getspecifictuterstudent.forEach {
                         it.memberid
                         it.name
-                        val group = RecipientSelected(it.memberid, it.name)
+                        val group = RecipientSelected(it.memberid, it.name,it.regno)
                         SelectedRecipientlist.add(group)
                     }
                     binding.ALL4!!.text = "Mark all as absent"

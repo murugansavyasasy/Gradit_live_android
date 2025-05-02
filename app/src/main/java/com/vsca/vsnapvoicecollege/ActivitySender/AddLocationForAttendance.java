@@ -234,7 +234,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         jsonObjectSchool.addProperty("longitude", current_longitude);
         jsonObjectSchool.addProperty("distance", distance);
         Log.d("location_add_request", jsonObjectSchool.toString());
-        Call<JsonArray> call = RestClient.apiInterfaces.addBiometricLocation(jsonObjectSchool);
+        Call<JsonArray> call = RestClient.Companion.getApiInterfaces().addBiometricLocation(jsonObjectSchool);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {

@@ -2841,14 +2841,14 @@ class AppServices {
         get() = imageorpdfparticuler
 
     fun Assignmentsenddata(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+//        var progressDialog = CustomLoading.createProgressDialog(activity)
+//        progressDialog!!.show()
         RestClient.apiInterfaces.Assignmentsend(jsonObject)
             ?.enqueue(object : Callback<Assignmentsent?> {
                 override fun onResponse(
                     call: Call<Assignmentsent?>, response: Response<Assignmentsent?>
                 ) {
-                    progressDialog!!.dismiss()
+//                    progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2856,7 +2856,7 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            progressDialog!!.dismiss()
+//                            progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2867,7 +2867,7 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+//                        progressDialog!!.dismiss()
                         Assignmentdata.postValue(null)
                     } else {
                         Assignmentdata.postValue(null)
@@ -2875,7 +2875,7 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Assignmentsent?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+//                    progressDialog!!.dismiss()
                     Assignmentdata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(

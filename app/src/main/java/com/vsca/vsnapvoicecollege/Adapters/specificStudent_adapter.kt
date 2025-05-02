@@ -1,6 +1,7 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,6 @@ class specificStudent_adapter constructor(data: List<specificStudent_datalist>, 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data: specificStudent_datalist = specificstudentdata[position]
         holder.lblEntiredepartment!!.text = data.name
-
         holder.chboxEntiredepartment!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
 
             if (isChecked) {

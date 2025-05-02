@@ -1,6 +1,7 @@
 package com.vsca.vsnapvoicecollege.Utils
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -43,17 +44,18 @@ import java.io.File
 import javax.xml.transform.ErrorListener
 
 
+@SuppressLint("StaticFieldLeak")
 object CommonUtil {
 
 
-    public var imgSwipe: ImageView? = null
-    public var btnContinue: Button? = null
-    public var layoutBottomCurve: ConstraintLayout? = null
-    public var recyclerMenusBottom: RecyclerView? = null
-    public var llBottomSheet: LinearLayout? = null
-    public var layoutDepartment: ConstraintLayout? = null
-    public var layoutCollege: ConstraintLayout? = null
-    public var imgAddPlus: ImageView? = null
+     var imgSwipe: ImageView? = null
+     var btnContinue: Button? = null
+     var layoutBottomCurve: ConstraintLayout? = null
+     var recyclerMenusBottom: RecyclerView? = null
+     var llBottomSheet: LinearLayout? = null
+     var layoutDepartment: ConstraintLayout? = null
+     var layoutCollege: ConstraintLayout? = null
+     var imgAddPlus: ImageView? = null
 
 
     @kotlin.jvm.JvmField
@@ -74,7 +76,7 @@ object CommonUtil {
     var Appid = 1
 
     @JvmField
-    var VersionId = 34
+    var VersionId = 35
 
     // MENU NAME
 
@@ -536,6 +538,7 @@ object CommonUtil {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     fun RequestPermission(activity: Activity?) {
         val permissions: List<String> = if (Priority.equals("p4") || Priority.equals("p5") || Priority.equals("p6")) {
             Log.d("testPriority", Priority)
@@ -668,6 +671,18 @@ object CommonUtil {
 //                token.continuePermissionRequest()
 //            }
 //        }).withErrorListener { }.onSameThread().check()
+//    }
+
+//    private fun showPermissionSettingsDialog() {
+//        android.app.AlertDialog.Builder(this)
+//            .setTitle("Permission Required")
+//            .setMessage("Some permissions were permanently denied. Please enable them in app settings.")
+//            .setPositiveButton("Go to Settings") { _, _ ->
+//                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                intent.data = Uri.parse("package:$packageName")
+//                startActivity(intent)
+//            }
+//            .show()
 //    }
 
     fun RequestCameraPermission(activity: Activity?) {

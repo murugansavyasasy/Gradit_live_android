@@ -167,7 +167,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
         JsonObject jsonObjectSchool = new JsonObject();
         jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
-        Call<StaffListRes> call = RestClient.apiInterfaces.getStaffList(jsonObjectSchool);
+        Call<StaffListRes> call = RestClient.Companion.getApiInterfaces().getStaffList(jsonObjectSchool);
         call.enqueue(new Callback<StaffListRes>() {
 
             @Override
@@ -266,7 +266,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
         Log.d("biometric_request", jsonObjectSchool.toString());
 
-        Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(jsonObjectSchool);
+        Call<StaffAttendanceBiometricReportRes> call = RestClient.Companion.getApiInterfaces().getStaffBiometricAttendanceReport(jsonObjectSchool);
         call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
             @Override
             public void onResponse(Call<StaffAttendanceBiometricReportRes> call, retrofit2.Response<StaffAttendanceBiometricReportRes> response) {
@@ -369,7 +369,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         jsonObjectSchool.addProperty("todate", item.getDate());
 
         Log.d("biometric_request", jsonObjectSchool.toString());
-        Call<PunchHistoryRes> call = RestClient.apiInterfaces.viewPunchHistory(jsonObjectSchool);
+        Call<PunchHistoryRes> call = RestClient.Companion.getApiInterfaces().viewPunchHistory(jsonObjectSchool);
         call.enqueue(new Callback<PunchHistoryRes>() {
 
             @Override

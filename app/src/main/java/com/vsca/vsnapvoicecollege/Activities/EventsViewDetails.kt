@@ -396,7 +396,7 @@ class EventsViewDetails : ActionBarActivity() {
     private fun AwsUploadingFile(
         isFilePath: String
     ) {
-        isAwsUploadingPreSigned!!.getPreSignedUrl(
+        isAwsUploadingPreSigned!!.getPreSignedUrl(this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {

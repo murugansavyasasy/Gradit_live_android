@@ -38,6 +38,7 @@ class Attendance_Edit_Adapter constructor(
         val img_mark_attendance: ImageView = itemView!!.findViewById(R.id.img_mark_attendance)
         val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)
         val lbl_studentname: TextView = itemView!!.findViewById(R.id.lbl_studentname)
+        val lbl_RTegNo: TextView = itemView!!.findViewById(R.id.lbl_RTegNo)
         val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutstudentlist)
 
     }
@@ -61,6 +62,7 @@ class Attendance_Edit_Adapter constructor(
 
         checkClick = checkListener
         holder.lbl_studentname!!.text = data.membername
+        holder.lbl_RTegNo.text = "Register No : " + data.rollno
         CommonUtil.Absentlistcount = ""
         holder.layoutstudentlist!!.visibility = View.GONE
         holder.con_attendance!!.visibility = View.VISIBLE

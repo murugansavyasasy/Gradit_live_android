@@ -359,7 +359,7 @@ class AddExamination : ActionBarActivity() {
                         GetDivisionData!!.forEach {
                             it.division_id
                             it.division_name
-                            val divisions = RecipientSelected(it.division_id, it.division_name)
+                            val divisions = RecipientSelected(it.division_id, it.division_name,"")
                             SelectedRecipientlist.add(divisions)
                         }
                         LoadDivisionSpinner()
@@ -387,7 +387,7 @@ class AddExamination : ActionBarActivity() {
                             it.department_id
                             it.department_name
                             val department =
-                                RecipientSelected(it.department_id, it.department_name)
+                                RecipientSelected(it.department_id, it.department_name,"")
                             SelectedRecipientlist.add(department)
                         }
                         LoadDepartmentSpinner()
@@ -416,7 +416,7 @@ class AddExamination : ActionBarActivity() {
                             it.course_id
                             it.course_name
 
-                            val group = RecipientSelected(it.course_id, it.course_name)
+                            val group = RecipientSelected(it.course_id, it.course_name,"")
                             SelectedRecipientlist.add(group)
                         }
                         if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
@@ -447,7 +447,7 @@ class AddExamination : ActionBarActivity() {
                         Getyouurclassdata!!.forEach {
                             it.yearid
                             it.yearname
-                            val course = RecipientSelected(it.yearid.toString(), it.yearname)
+                            val course = RecipientSelected(it.yearid.toString(), it.yearname,"")
                             SelectedRecipientlist.add(course)
                         }
                         if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
@@ -475,7 +475,7 @@ class AddExamination : ActionBarActivity() {
                         GetSemesterSectionData.forEach {
                             it.clgsemesterid
                             it.semestername
-                            val semester = RecipientSelected(it.clgsemesterid, it.semestername)
+                            val semester = RecipientSelected(it.clgsemesterid, it.semestername,"")
                             SelectedRecipientlist.add(semester)
                         }
                         if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {

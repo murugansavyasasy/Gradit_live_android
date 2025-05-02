@@ -3,35 +3,28 @@ package com.vsca.vsnapvoicecollege.AWS;
 import android.app.Activity;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces;
-import com.vsca.vsnapvoicecollege.R;
 import com.vsca.vsnapvoicecollege.Repository.RestClient;
+import com.vsca.vsnapvoicecollege.Utils.SharedPreference;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
-import java.util.List;
 
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Retrofit;
 
 public class AwsUploadingPreSigned {
 
     String isBucket = "";
 
-    public void getPreSignedUrl(String isFilePathUrl, String instituteID, UploadCallback uploadCallback) {
-
+    public void getPreSignedUrl( Activity activity,String isFilePathUrl, String instituteID, UploadCallback uploadCallback) {
 
         String bucketPath = "";
         String currentDate = CurrentDatePicking.getCurrentDate();
@@ -61,38 +54,55 @@ public class AwsUploadingPreSigned {
         }
 
 
-        String GET_PRESIGNED_BASE_URL = "https://gradit.voicesnap.com/api/AppDetailsBal/";
-        RestClient.Companion.changeApiBaseUrl(GET_PRESIGNED_BASE_URL);
+        String baseUrl = RestClient.Companion.getClient().baseUrl().toString();
+        Log.d("baseUrl", baseUrl.toString());
+        RestClient.Companion.changeApiBaseUrl("https://api.schoolchimes.com/nodejs/api/MergedApi/");
 
         String isFileName = getFileNameFromPath(isFilePathUrl);
 
-        ApiInterfaces apiService = RestClient.Companion.getClient().create(ApiInterfaces.class);
-        Call<JsonArray> call = apiService.getPreSignedUrl(isBucket, isFileName, bucketPath, String.valueOf(isFileType));
+        Retrofit retrofit = RestClient.Companion.getClient();
+        String retrofitBaseUrl = retrofit.baseUrl().toString();
+        Log.d("RetrofitBaseURL", "Base URL from Retrofit: " + retrofitBaseUrl);
 
-        call.enqueue(new Callback<JsonArray>() {
+        ApiInterfaces apiService = RestClient.Companion.getClient().create(ApiInterfaces.class);
+        Call<JsonObject> call = apiService.getPreSignedUrl(isBucket, isFileName, bucketPath, String.valueOf(isFileType));
+
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 Log.d("attendance:code-res", response.code() + " - " + response);
                 try {
-                    JSONArray jsonArray = new JSONArray(response.body().toString());
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int status = jsonObject.getInt("status");
-                        String message = jsonObject.getString("message");
-                        String ispresignedurl = jsonObject.getString("presignedurl");
-                        String isfileurl = jsonObject.getString("fileurl");
-                        isAwsUpload(ispresignedurl, isFilePathUrl, isfileurl, uploadCallback);
-                    }
+                    JSONObject jsonResponse = new JSONObject(response.body().toString());
+
+                    int status = jsonResponse.getInt("status");
+                    String message = jsonResponse.getString("message");
+
+                    JSONObject dataObject = jsonResponse.getJSONObject("data");
+                    String isPresignedUrl = dataObject.getString("presignedUrl");
+                    String isFileUrl = dataObject.getString("fileUrl");
+
+                    Log.d("UploadInfo", "Presigned URL: " + isPresignedUrl);
+                    Log.d("UploadInfo", "File URL: " + isFileUrl);
+                    String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+                    RestClient.Companion.changeApiBaseUrl(isBaseUrl);
+                    // Call your upload method
+                    isAwsUpload(isPresignedUrl, isFilePathUrl, isFileUrl, uploadCallback,activity);
+
                 } catch (Exception e) {
+                    String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+                    RestClient.Companion.changeApiBaseUrl(isBaseUrl);
                     String errorMessage = response.message(); // Get the error message from the response
-                    Log.e("Response Error", errorMessage != null ? errorMessage : "Unknown error occurred");
+                    Log.e("Response Error", errorMessage != null ? errorMessage : "Unknown error occurred", e);
                     uploadCallback.onUploadError(errorMessage);
                 }
+
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
+                String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+                RestClient.Companion.changeApiBaseUrl(isBaseUrl);
 //                Toast.makeText(activity, activity.getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                 uploadCallback.onUploadError(t.getMessage());
             }
@@ -104,7 +114,7 @@ public class AwsUploadingPreSigned {
         return file.getName();
     }
 
-    private void isAwsUpload(String presignedUrl, String filePath, String isFileUploadUrl, UploadCallback uploadCallback) {
+    private void isAwsUpload(String presignedUrl, String filePath, String isFileUploadUrl, UploadCallback uploadCallback,Activity activity) {
 
         byte[] imageData = getImageData(filePath); // Replace with the actual byte array of your image
         File isFilePth = new File(filePath);
@@ -131,10 +141,15 @@ public class AwsUploadingPreSigned {
             public void onSuccess(String message) {
                 Log.d("S3Upload", message);
                 uploadCallback.onUploadSuccess(message, isFileUploadUrl);
+                String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+                RestClient.Companion.changeApiBaseUrl(isBaseUrl);
+
             }
 
             @Override
             public void onError(Exception error) {
+                String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+                RestClient.Companion.changeApiBaseUrl(isBaseUrl);
                 Log.e("S3Upload", "Error: " + error.getMessage(), error);
             }
         });

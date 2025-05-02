@@ -14,12 +14,20 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
@@ -59,9 +67,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
@@ -656,7 +670,7 @@ class AddAssignment : ActionBarActivity() {
                     CommonUtil.title = binding.edtTitle!!.text.toString()
                     ScreenName = CommonUtil.New_Assignment
 
-
+                    Log.d("CommonUtil.Priority", CommonUtil.Priority)
                     if (CommonUtil.Priority.equals("p7")) {
                         val i: Intent = Intent(this, HeaderRecipient::class.java)
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -701,6 +715,7 @@ class AddAssignment : ActionBarActivity() {
         isFilePath: String
     ) {
         isAwsUploadingPreSigned!!.getPreSignedUrl(
+            this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {

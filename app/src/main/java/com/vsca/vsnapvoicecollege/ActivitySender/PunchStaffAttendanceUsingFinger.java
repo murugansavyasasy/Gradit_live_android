@@ -456,7 +456,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
 
         Log.d("biometric_request", jsonObjectSchool.toString());
-        Call<StaffBiometricLocationRes> call = RestClient.apiInterfaces.getStaffBiometricLocations(jsonObjectSchool);
+        Call<StaffBiometricLocationRes> call = RestClient.Companion.getApiInterfaces().getStaffBiometricLocations(jsonObjectSchool);
         call.enqueue(new Callback<StaffBiometricLocationRes>() {
             @Override
             public void onResponse(Call<StaffBiometricLocationRes> call, Response<StaffBiometricLocationRes> response) {
@@ -514,7 +514,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
         Log.d("biometric_request", jsonObjectSchool.toString());
 
-        Call<StaffAttendanceBiometricReportRes> call = RestClient.apiInterfaces.getStaffBiometricAttendanceReport(jsonObjectSchool);
+        Call<StaffAttendanceBiometricReportRes> call = RestClient.Companion.getApiInterfaces().getStaffBiometricAttendanceReport(jsonObjectSchool);
         call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
 
             @Override
@@ -588,7 +588,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         jsonObjectSchool.addProperty("todate", item.getDate());
 
         Log.d("biometric_request", jsonObjectSchool.toString());
-        Call<PunchHistoryRes> call = RestClient.apiInterfaces.viewPunchHistory(jsonObjectSchool);
+        Call<PunchHistoryRes> call = RestClient.Companion.getApiInterfaces().viewPunchHistory(jsonObjectSchool);
         call.enqueue(new Callback<PunchHistoryRes>() {
 
 
@@ -708,7 +708,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         jsonObjectSchool.addProperty("punch_type", punch_type);
         jsonObjectSchool.addProperty("device_model", fullDeviceInfo);
         Log.d("biometric_request", jsonObjectSchool.toString());
-        Call<JsonArray> call = RestClient.apiInterfaces.BiometricEntryforAttendance(jsonObjectSchool);
+        Call<JsonArray> call = RestClient.Companion.getApiInterfaces().BiometricEntryforAttendance(jsonObjectSchool);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {

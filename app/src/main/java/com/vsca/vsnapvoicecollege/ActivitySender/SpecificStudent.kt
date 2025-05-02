@@ -1,12 +1,9 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
@@ -15,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
@@ -30,9 +26,7 @@ import com.vsca.vsnapvoicecollege.Activities.Noticeboard
 import com.vsca.vsnapvoicecollege.Activities.Video
 import com.vsca.vsnapvoicecollege.Adapters.SelectedRecipientAdapter
 import com.vsca.vsnapvoicecollege.Adapters.specificStudent_adapter
-import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
 import com.vsca.vsnapvoicecollege.Interfaces.RecipientCheckListener
-import com.vsca.vsnapvoicecollege.Model.AWSUploadedFiles
 import com.vsca.vsnapvoicecollege.Model.specificStudent_datalist
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
@@ -46,23 +40,12 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivitySpecificStudentBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 class SpecificStudent : ActionBarActivity(),
     VimeoUploader.UploadCompletionListener {
@@ -335,7 +318,7 @@ class SpecificStudent : ActionBarActivity(),
                         it.memberid
                         it.name
 
-                        val group = RecipientSelected(it.memberid, it.name)
+                        val group = RecipientSelected(it.memberid, it.name, it.regno)
                         SelectedRecipientlist.add(group)
                     }
 
@@ -1740,7 +1723,6 @@ class SpecificStudent : ActionBarActivity(),
         jsonObject.addProperty("receiverid", CommonUtil.receiverid)
 
         if (FileType.equals("IMAGE")) {
-
             jsonObject.addProperty("assignmenttype", "image")
             val FileNameArray = JsonArray()
 
@@ -1787,9 +1769,8 @@ class SpecificStudent : ActionBarActivity(),
             FileNameArray.add(FileNameobject)
             jsonObject.add("FileNameArray", FileNameArray)
         }
-
-        appViewModel!!.Assignmentsend(jsonObject, this)
         Log.d("SMSJsonObject", jsonObject.toString())
+        appViewModel!!.Assignmentsend(jsonObject, this)
     }
 
     private fun SmsToParticularTypeRequest() {
@@ -2021,6 +2002,7 @@ class SpecificStudent : ActionBarActivity(),
     ) {
         Log.d("isFilePath",isFilePath.toString())
         isAwsUploadingPreSigned!!.getPreSignedUrl(
+            this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {

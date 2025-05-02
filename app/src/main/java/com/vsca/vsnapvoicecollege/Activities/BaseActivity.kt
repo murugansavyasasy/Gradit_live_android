@@ -15,7 +15,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ListPopupWindow
+import android.widget.PopupWindow
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +46,11 @@ import com.vsca.vsnapvoicecollege.Model.GetOverAllCountDetails
 import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
-import com.vsca.vsnapvoicecollege.Utils.*
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
+import com.vsca.vsnapvoicecollege.Utils.MyWebViewClient
+import com.vsca.vsnapvoicecollege.Utils.MyWebViewClientContext
+import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
 import java.io.File
@@ -1044,7 +1055,11 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     override fun onResume() {
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
+        if (::bottomSheetBehavior.isInitialized) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
         super.onResume()
     }
 

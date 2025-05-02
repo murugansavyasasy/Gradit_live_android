@@ -1,7 +1,7 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Intent
@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -82,6 +83,9 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
     var deviceToken: String? = null
     var order = 0
     var Success: String? = null
+    var isPermission = true
+
+    private var shouldInitAfterPermission = false
 
     override fun inflateBinding(): BottomMenuSwipeBinding {
         return BottomMenuSwipeBinding.inflate(layoutInflater)
@@ -98,7 +102,6 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
         CommonUtil.OnMenuClicks("Home")
 
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
-
         accessBottomViewIcons(
             binding,
             R.id.img_swipe,
@@ -623,11 +626,128 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
         Log.d("DahsboardRequest:", jsonObject.toString())
     }
 
-    override fun onResume() {
-        MenuBottomType()
-        DashBoardRequest()
-        super.onResume()
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 101) {
+            var showSettingsDialog = false
+
+            for (i in permissions.indices) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    val permission = permissions[i]
+                    val shouldShowRationale =
+                        ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+                    if (!shouldShowRationale) {
+                        // User selected "Don't ask again"
+                        showSettingsDialog = true
+                    }
+                }
+            }
+
+            val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+            val alreadyShown = prefs.getBoolean("settings_dialog_shown", false)
+
+            if (showSettingsDialog && !alreadyShown) {
+                prefs.edit().putBoolean("settings_dialog_shown", true).apply()
+                showPermissionSettingsDialog()
+            }
+        }
     }
+
+    private fun showPermissionSettingsDialog() {
+
+        AlertDialog.Builder(this)
+            .setTitle("Permission Required")
+            .setMessage("Some permissions were permanently denied. Please enable them in app settings.")
+            .setPositiveButton("Go to Settings") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:$packageName")
+                startActivity(intent)
+            }
+            .show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (hasAllPermissions()) {
+            MenuBottomType()
+            DashBoardRequest()
+        } else {
+            shouldInitAfterPermission = true
+            if (isPermission) {
+                isPermission = false
+                showPermissionSettingsDialog()
+            }
+//            CommonUtil.RequestPermission(this)
+        }
+    }
+
+    private fun hasAllPermissions(): Boolean {
+        val requiredPermissions =
+            if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5" || CommonUtil.Priority == "p6") {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    listOf(
+                        Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.POST_NOTIFICATIONS,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.INTERNET
+                    )
+                } else {
+                    listOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.RECORD_AUDIO
+                    )
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    listOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
+                } else {
+                    listOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.INTERNET
+                    )
+                }
+            }
+
+        return requiredPermissions.all {
+            ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+
+//    override fun onResume() {
+//        CommonUtil.RequestPermission(this)
+//        MenuBottomType()
+//        DashBoardRequest()
+//        super.onResume()
+//    }
 
 
     private fun checkIfContactsExist() {
@@ -647,7 +767,7 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
         }
         Contact_Count = 0
         for (i in contacts.indices) {
-            val number: String = contacts.get(i)
+            val number: String = contacts[i]
             if (number != null) {
                 val lookupUri = Uri.withAppendedPath(
                     ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number)
