@@ -143,6 +143,4 @@ object ApiMethods {
 
     const val GetResumeBuilderProfileDetails ="profile/get-profile/"
 
-
-
 }

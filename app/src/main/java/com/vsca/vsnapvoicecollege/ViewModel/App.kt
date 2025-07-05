@@ -113,9 +113,6 @@ class App(application: Application) : AndroidViewModel(application) {
     var assignmentViewContentResponseLiveData: LiveData<GetAssignmentViewContentResponse?>? = null
         private set
 
-    var getResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>? = null
-        private set
-
 
     var appreadstatusresponseLiveData: LiveData<StatusMessageResponse?>? = null
     var eventListbyTypeliveData: LiveData<GetEventListbyTypeResponse?>? = null
@@ -336,7 +333,7 @@ class App(application: Application) : AndroidViewModel(application) {
         Text_History = apiRepositories!!.text_history
         _voiceHistory = apiRepositories!!.voicehistory_
         CollageList = apiRepositories!!.CollageListdataHeader
-        getResumeBuilderProfileDetailsLiveData = apiRepositories!!.GetResumeBuilderProfileDetailsLiveData
+        ResumeBuilderProfileDetails = apiRepositories!!.GetResumeBuilderProfileDetailsLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
