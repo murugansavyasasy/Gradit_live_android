@@ -59,6 +59,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
 
 
 
+
         accessBottomViewIcons(
             binding,
             R.id.img_swipe,

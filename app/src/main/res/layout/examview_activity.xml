@@ -20,14 +20,23 @@
             android:layout_marginBottom="@dimen/hundred" />
 
         <include
-            android:id="@+id/bottomSheet"
             layout="@layout/bottom_menu_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
             app:behavior_hideable="false"
             app:behavior_peekHeight="120dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            app:layout_constraintBottom_toBottomOf="parent"></include>
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"></include>
+
+<!--        <include-->
+<!--            android:id="@+id/bottomSheet"-->
+<!--            layout="@layout/bottom_menu_layout"-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="visible"-->
+<!--            app:behavior_hideable="false"-->
+<!--            app:behavior_peekHeight="120dp"-->
+<!--            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"></include>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

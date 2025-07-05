@@ -168,6 +168,12 @@ object CommonUtil {
     var ExamEditEnddate = ""
     var isAttendanceType = ""
 
+    var isShortlisted = "Shortlisted"
+    var isAvailable = "Available"
+    var isPlaced = "Placed"
+    var isAttendedInterview = "AttendedInterview"
+    var isNotConsented = "Not consented"
+
     //Login details
     var Priority = ""
     var Questionid = ""

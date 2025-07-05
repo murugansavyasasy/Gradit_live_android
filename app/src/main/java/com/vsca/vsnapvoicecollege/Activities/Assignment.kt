@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,9 +28,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.OnBackSetBottomMenuClickTrue
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.OnMenuClicks
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
-import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import java.util.Locale
 
 class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
@@ -70,7 +66,12 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         accessBottomViewIcons(
             binding,
             R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.layoutbottomCurve,
+            R.id.recyclermenusbottom,
+            R.id.swipeUpMenus,
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
 
 
@@ -117,7 +118,6 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
-
                 filter(msg)
                 return false
             }
@@ -130,7 +130,8 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         }
 
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 if (response != null) {
                     val status = response.status
@@ -165,7 +166,6 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                         CountValueSet()
                     }
                 } else {
-
                     OverAllMenuCountData1 = emptyList()
                 }
             }

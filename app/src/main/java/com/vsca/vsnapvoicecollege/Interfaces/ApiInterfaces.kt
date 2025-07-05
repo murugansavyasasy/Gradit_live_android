@@ -50,6 +50,7 @@ import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetNotificationsResponse
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -579,5 +580,12 @@ interface ApiInterfaces {
         @Query("bucketPath") bucketPath: String?,
         @Query("fileType") fileType: String?
     ): Call<JsonObject?>?
+
+
+    @GET(ApiMethods.GetResumeBuilderProfileDetails)
+    fun getResumeBuilderProfileDetails(
+        @Query("id") id: Int?
+    ): Call<GetResumeBuilderProfileDetails?>?
+
 
 }

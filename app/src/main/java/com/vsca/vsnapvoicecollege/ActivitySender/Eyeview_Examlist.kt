@@ -53,16 +53,20 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         ActionBarMethod(this)
-
+        ActionBarMethod(this)
 
         accessBottomViewIcons(
             binding,
             R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.layoutbottomCurve,
+            R.id.recyclermenusbottom,
+            R.id.swipeUpMenus,
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
         MenuBottomType()
-
+        UserMenuRequest(this)
 
         CommonUtil.ExamcreationEdit.clear()
         CommonUtil.SubjectExamcreationEDIT.clear()
@@ -70,16 +74,10 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.imgback.setOnClickListener { imgback() }
 
-        accessBottomViewIcons(
-            binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
-        )
 
 
-
-
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 if (response != null) {
                     val status = response.status
@@ -109,7 +107,7 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
             if (response != null) {
                 val status = response.Status
                 val message = response.Message
-                UserMenuRequest(this)
+
                 AdForCollegeApi()
 
                 if (status == 1) {
@@ -252,14 +250,16 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
                                     val dlg =
                                         this.let { AlertDialog.Builder(this@Eyeview_Examlist) }
                                     dlg.setTitle(CommonUtil.Delete_ExamSection)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
 
                                             ExamSectionDelete()
 
                                         })
 
-                                    dlg.setNegativeButton(CommonUtil.CANCEL,
+                                    dlg.setNegativeButton(
+                                        CommonUtil.CANCEL,
                                         DialogInterface.OnClickListener { dialog, which ->
 
                                         })
@@ -354,7 +354,7 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
     override val layoutResourceId: Int
         get() = R.layout.examview_activity
 
-     fun adclick() {
+    fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
 
@@ -372,7 +372,7 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
         }
     }
 
-     fun imgback() {
+    fun imgback() {
         CommonUtil.EditButtonclick = ""
         onBackPressed()
     }

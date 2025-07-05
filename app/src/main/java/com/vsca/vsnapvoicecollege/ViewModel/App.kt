@@ -48,6 +48,7 @@ import com.vsca.vsnapvoicecollege.Model.GetGrouplist
 import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -110,6 +111,9 @@ class App(application: Application) : AndroidViewModel(application) {
     var assignmentCountResponseLiveData: LiveData<GetAssignmentCountResponse?>? = null
         private set
     var assignmentViewContentResponseLiveData: LiveData<GetAssignmentViewContentResponse?>? = null
+        private set
+
+    var getResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>? = null
         private set
 
 
@@ -211,6 +215,7 @@ class App(application: Application) : AndroidViewModel(application) {
     var Text_History: LiveData<textHistory?>? = null
     var _voiceHistory: LiveData<voicehistory?>? = null
     var CollageList: LiveData<CollageList?>? = null
+    var ResumeBuilderProfileDetails: LiveData<GetResumeBuilderProfileDetails?>? = null
 
 
     fun init() {
@@ -331,6 +336,7 @@ class App(application: Application) : AndroidViewModel(application) {
         Text_History = apiRepositories!!.text_history
         _voiceHistory = apiRepositories!!.voicehistory_
         CollageList = apiRepositories!!.CollageListdataHeader
+        getResumeBuilderProfileDetailsLiveData = apiRepositories!!.GetResumeBuilderProfileDetailsLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -775,5 +781,9 @@ class App(application: Application) : AndroidViewModel(application) {
 
     fun CollageHeaderSend(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.CollageListdata(jsonObject, activity!!)
+    }
+
+    fun GetResumeBuilderProfileDetails(Id:Int ?, activity: Activity?) {
+        apiRepositories!!.GetResumeBuilderProfileDetailsRequest(Id, activity!!)
     }
 }

@@ -49,6 +49,7 @@ import com.vsca.vsnapvoicecollege.Model.GetGrouplist
 import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -201,6 +202,7 @@ class AppServices {
     var VoiceHistory_: MutableLiveData<voicehistory?>
     var CollageListHeaderSent: MutableLiveData<CollageList?>
     var GetHallticket: MutableLiveData<Hallticket?>
+    var isGetResumeBuilderProfileDetails: MutableLiveData<GetResumeBuilderProfileDetails?>
 
 
     init {
@@ -303,6 +305,7 @@ class AppServices {
         VoiceHistory_ = MutableLiveData()
         CollageListHeaderSent = MutableLiveData()
         GetHallticket = MutableLiveData()
+        isGetResumeBuilderProfileDetails = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5329,6 +5332,54 @@ class AppServices {
 
     val hallticketdataget: LiveData<Hallticket?>
         get() = GetHallticket
+
+
+    fun GetResumeBuilderProfileDetailsRequest(id:Int ?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.getResumeBuilderProfileDetails(id)
+            ?.enqueue(object : Callback<GetResumeBuilderProfileDetails?> {
+                override fun onResponse(
+                    call: Call<GetResumeBuilderProfileDetails?>, response: Response<GetResumeBuilderProfileDetails?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetResumeBuilderProfileDetails.postValue(response.body())
+
+                            } else {
+                                isGetResumeBuilderProfileDetails.postValue(response.body())
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetResumeBuilderProfileDetails.postValue(null)
+                        } else {
+                            isGetResumeBuilderProfileDetails.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<GetResumeBuilderProfileDetails?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetResumeBuilderProfileDetails.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
+        get() = isGetResumeBuilderProfileDetails
+
 
 
 }

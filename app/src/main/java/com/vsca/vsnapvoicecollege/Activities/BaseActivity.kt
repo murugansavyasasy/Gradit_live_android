@@ -37,6 +37,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.ActivitySender.Hall_Ticket
 import com.vsca.vsnapvoicecollege.ActivitySender.PunchStaffAttendanceUsingFinger
 import com.vsca.vsnapvoicecollege.ActivitySender.StaffWiseAttendanceReports
@@ -756,11 +757,23 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             view.findViewById<View>(R.id.layoutChangePassword) as ConstraintLayout
         val layoutClearCache = view.findViewById<View>(R.id.layoutClearCache) as ConstraintLayout
 
+        val layoutResumeMaker = view.findViewById<View>(R.id.layoutResumeMaker) as ConstraintLayout
+
+
         if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5") {
             layoutProfile.visibility = View.VISIBLE
         } else {
             layoutProfile.visibility = View.GONE
         }
+
+        layoutResumeMaker.setOnClickListener {
+            profilePopup!!.dismiss()
+            val i = Intent(activity, ResumeBuilder::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            activity.startActivity(i)
+        }
+
 
         layoutProfile.setOnClickListener {
             profilePopup!!.dismiss()

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rlaEditProfileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shadow_white"
+        android:padding="@dimen/twenty">
+
+        <ImageView
+            android:id="@+id/imgback"
+            android:layout_width="@dimen/thirty"
+            android:layout_height="@dimen/thirty"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_back"></ImageView>
+
+        <TextView
+            style="@style/CustomTextStylePoppinsBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_toEndOf="@+id/imgback"
+            android:text="@string/preview_my_resume"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/webviewDocument"
+        android:layout_above="@+id/commonBottomResumeBuilder"
+        android:layout_below="@+id/rlaEditProfileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/commonBottomResumeBuilder"
+        layout="@layout/commonbottom_resumebuilder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"></include>
+
+</RelativeLayout>

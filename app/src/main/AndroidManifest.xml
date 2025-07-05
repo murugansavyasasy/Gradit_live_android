@@ -196,6 +196,44 @@
             android:screenOrientation="portrait"
             android:theme="@style/Prinipal"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".Activities.ResumeBuilder.ResumeBuilder"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Prinipal"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".Activities.ResumeBuilder.MyProfileEdit.EditBasicDetails"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".Activities.ResumeBuilder.AcademicRecordsEdit.EditAcademicDetails"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".Activities.ResumeBuilder.SkillSetEdit.EditSkillSet"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".Activities.ResumeBuilder.BuildMyResume.BuildMyResume"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".Activities.ResumeBuilder.BuildMyResume.ResumePreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".Activities.Communication"
             android:exported="false"
@@ -214,6 +252,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+
         <activity
             android:name=".Activities.ExamMarks"
             android:exported="false"

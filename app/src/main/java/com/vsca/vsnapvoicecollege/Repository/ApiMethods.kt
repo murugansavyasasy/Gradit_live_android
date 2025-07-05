@@ -141,4 +141,8 @@ object ApiMethods {
     const val SendVoiceToEntireCollegeFromHistory =
         "api/AppDetailsBal/SendVoiceToEntireCollegeFromHistory"
 
+    const val GetResumeBuilderProfileDetails ="profile/get-profile/"
+
+
+
 }

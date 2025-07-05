@@ -1119,7 +1119,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         it.memberid
                         it.name
 
-                        val group = RecipientSelected(it.memberid, it.name,it.regno)
+                        val group = RecipientSelected(it.memberid, it.name, it.regno)
                         SelectedRecipientlist.add(group)
                     }
 
@@ -1193,7 +1193,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent = Intent(this, Events::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -1209,7 +1210,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1241,7 +1243,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1259,7 +1262,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1289,7 +1293,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1307,7 +1312,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1339,7 +1345,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1357,7 +1364,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1387,7 +1395,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1421,7 +1430,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1451,7 +1461,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1483,7 +1494,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1584,7 +1596,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.course_id
                             it.course_name
 
-                            val group = RecipientSelected(it.course_id, it.course_name,"")
+                            val group = RecipientSelected(it.course_id, it.course_name, "")
                             SelectedRecipientlist.add(group)
                         }
 
@@ -1662,7 +1674,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.groupid
                             it.groupname
 
-                            val group = RecipientSelected(it.groupid, it.groupname,"")
+                            val group = RecipientSelected(it.groupid, it.groupname, "")
 
                             SelectedRecipientlist.add(group)
                         }
@@ -1781,13 +1793,14 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.division_id
                             it.division_name
 
-                            val divisions = RecipientSelected(it.division_id, it.division_name,"")
+                            val divisions = RecipientSelected(it.division_id, it.division_name, "")
                             SelectedRecipientlist.add(divisions)
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Division)) {
 
                             recycleRecipients!!.visibility = View.VISIBLE
-                            divisionadapter = SelectedRecipientAdapter(SelectedRecipientlist,
+                            divisionadapter = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -1861,7 +1874,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         GetCourseData!!.forEach {
                             it.course_id
                             it.course_name
-                            var department = RecipientSelected(it.course_id, it.course_name,"")
+                            var department = RecipientSelected(it.course_id, it.course_name, "")
                             SelectedRecipientlist.add(department)
                         }
 
@@ -1938,11 +1951,13 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         GetDepartmentData!!.forEach {
                             it.department_id
                             it.department_name
-                            val divisions = RecipientSelected(it.department_id, it.department_name,"")
+                            val divisions =
+                                RecipientSelected(it.department_id, it.department_name, "")
                             SelectedRecipientlist.add(divisions)
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-                            departmentAdapter = SelectedRecipientAdapter(SelectedRecipientlist,
+                            departmentAdapter = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -2010,7 +2025,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2028,7 +2044,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2058,7 +2075,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2076,7 +2094,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2106,7 +2125,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2124,7 +2144,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2155,7 +2176,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2172,7 +2194,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2202,7 +2225,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2220,7 +2244,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2251,7 +2276,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -2268,7 +2294,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -8937,7 +8964,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -8959,7 +8987,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -9051,7 +9080,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -9074,7 +9104,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent = Intent(
                                                 this@AddRecipients, Communication::class.java
@@ -9161,7 +9192,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent = Intent(
                                                 this@AddRecipients, Communication::class.java
@@ -9181,7 +9213,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent = Intent(
                                                 this@AddRecipients, Communication::class.java
@@ -9564,7 +9597,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun AwsUploadingFile(
         isFilePath: String
     ) {
-        isAwsUploadingPreSigned!!.getPreSignedUrl(this,
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {

@@ -74,7 +74,7 @@ class imagepreviewadapter(
                             target: Target<Drawable>,
                             isFirstResource: Boolean
                         ): Boolean {
-                            TODO("Not yet implemented")
+                          return false
                         }
 
                         override fun onResourceReady(

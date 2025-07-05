@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtItem"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/fourteen_sp" />
+
+   <FrameLayout
+       android:id="@+id/frmImageLay"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content">
+
+       <com.google.android.material.imageview.ShapeableImageView
+           android:id="@+id/imgItem"
+           android:layout_width="@dimen/one_ten"
+           android:layout_height="@dimen/one_sixty"
+           app:strokeColor="@color/light_gray2"
+           app:strokeWidth="2dp"
+           app:shapeAppearanceOverlay="@style/RoundedSquare"
+           android:padding="5dp">
+       </com.google.android.material.imageview.ShapeableImageView>
+       <ImageView
+           android:id="@+id/imgTick"
+           android:layout_width="24dp"
+           android:layout_height="24dp"
+           android:layout_gravity="center_vertical|center"
+           android:layout_margin="6dp"
+           android:visibility="gone"
+           android:src="@drawable/white_tick_icon" />
+   </FrameLayout>
+
+</LinearLayout>
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="@dimen/one_ten"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:gravity="center"-->
+<!--    android:orientation="vertical"-->
+<!--    android:padding="@dimen/eight">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/txtItem"-->
+<!--        style="@style/CustomTextStylePoppinsBold"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Title"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        android:textSize="@dimen/fourteen_sp" />-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/ten"-->
+<!--        android:background="@drawable/rect_gray_radius"-->
+<!--        android:padding="@dimen/five">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imgItem"-->
+<!--            android:layout_width="@dimen/hundred"-->
+<!--            android:layout_height="@dimen/one_sixty"-->
+<!--            android:scaleType="centerCrop">-->
+<!--        </ImageView>-->
+<!--    </LinearLayout>-->
+
+
+<!--</LinearLayout>-->

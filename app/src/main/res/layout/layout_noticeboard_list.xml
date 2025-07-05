@@ -49,7 +49,6 @@
                             android:id="@+id/imgAdvertisement"
                             android:layout_width="400dp"
                             android:layout_height="@dimen/hundred"
-                            android:layout_marginEnd="@dimen/ten"
                             android:scaleType="fitXY"
                             android:visibility="visible"
                             app:layout_constraintStart_toStartOf="parent"

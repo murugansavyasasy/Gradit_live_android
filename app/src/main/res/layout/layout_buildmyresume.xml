@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rlaEditProfileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shadow_white"
+        android:padding="@dimen/twenty">
+
+        <ImageView
+            android:id="@+id/imgback"
+            android:layout_width="@dimen/thirty"
+            android:layout_height="@dimen/thirty"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_back"></ImageView>
+
+        <TextView
+            style="@style/CustomTextStylePoppinsBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_toEndOf="@+id/imgback"
+            android:text="@string/build_my_resume"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/commonBottomResumeBuilder"
+        android:layout_below="@+id/rlaEditProfileHeader">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fifteen"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginEnd="@dimen/fifteen">
+
+            <TextView
+                android:id="@+id/lblPickTemp"
+                style="@style/CustomTextStylePoppinsBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/pick_a_template"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/sixteen_sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcyPickResume"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_below="@+id/lblPickTemp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/lblTheme"
+                android:layout_marginTop="@dimen/five"
+                style="@style/CustomTextStylePoppinsBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rcyPickResume"
+                android:layout_alignParentStart="true"
+                android:text="@string/select_a_theme"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/sixteen_sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <include
+        android:id="@+id/commonBottomResumeBuilder"
+        layout="@layout/commonbottom_resumebuilder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"></include>
+
+</RelativeLayout>

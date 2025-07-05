@@ -722,8 +722,8 @@
                 android:id="@+id/chboxStudent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:buttonTint="@color/clr_principal" />
+                android:buttonTint="@color/clr_principal"
+                android:checked="true" />
 
             <TextView
                 android:id="@+id/lblStudent"

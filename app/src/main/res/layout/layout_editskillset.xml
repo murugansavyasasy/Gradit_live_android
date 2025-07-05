@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rlaEditProfileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shadow_white"
+        android:padding="@dimen/twenty">
+
+        <ImageView
+            android:id="@+id/imgback"
+            android:layout_width="@dimen/thirty"
+            android:layout_height="@dimen/thirty"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_back"></ImageView>
+
+        <TextView
+            style="@style/CustomTextStylePoppinsBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_toEndOf="@+id/imgback"
+            android:text="@string/edit_skillsets"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/commonBottomResumeBuilder"
+        android:layout_below="@+id/rlaEditProfileHeader">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fifteen"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_marginEnd="@dimen/fifteen">
+
+            <TextView
+                android:id="@+id/lblSkillSet"
+                style="@style/CustomTextStylePoppinsBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/skill_set"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/sixteen_sp" />
+
+            <LinearLayout
+                android:id="@+id/lnrSkillSetDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblSkillSet"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lblLanguageknown"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/languages_known"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:background="@drawable/rect_gray_radius"
+                    android:padding="@dimen/eight"></EditText>
+
+                <TextView
+                    android:id="@+id/lblSoftSkills"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/soft_skills"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <CheckBox
+                            android:id="@+id/cbSelect1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:layout_weight="0.5"
+                            android:button="@drawable/ch_square"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/five"
+                            android:text="option 1"
+                            android:visibility="visible" />
+
+                        <CheckBox
+                            android:id="@+id/cbSelect2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:layout_weight="0.5"
+                            android:button="@drawable/ch_square"
+                            android:padding="@dimen/five"
+                            android:text="option 2"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                    <!--                    row 2-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <CheckBox
+                            android:id="@+id/cbSelect3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:layout_weight="0.5"
+                            android:button="@drawable/ch_square"
+                            android:padding="@dimen/five"
+                            android:text="option 3"
+                            android:visibility="visible" />
+
+                        <CheckBox
+                            android:id="@+id/cbSelect4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:layout_weight="0.5"
+                            android:button="@drawable/ch_square"
+                            android:padding="@dimen/five"
+                            android:text="option 4"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                    <!--                    Row 2-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <CheckBox
+                            android:id="@+id/cbSelect5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:layout_weight="0.5"
+                            android:button="@drawable/ch_square"
+                            android:padding="@dimen/five"
+                            android:text="option 5"
+                            android:visibility="visible" />
+
+                        <CheckBox
+                            android:id="@+id/cbSelect6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:layout_weight="0.5"
+                            android:button="@drawable/ch_square"
+                            android:padding="@dimen/five"
+                            android:text="option 6"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/lblAreasofInterest"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/areas_of_interest"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerAreaOfInterest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="@drawable/rect_gray_radius"
+                    />
+
+
+                <TextView
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/internship_experiences"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/edtInternshipExp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:background="@drawable/rect_gray_radius"
+                    android:padding="@dimen/eight">
+
+                </EditText>
+
+                <TextView
+                    android:id="@+id/lblProgrammingLanguages"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/programming_languages"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerProgrammingLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="@drawable/rect_gray_radius"
+                    />
+
+                <TextView
+                    android:id="@+id/lblToolsAndPlatform"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/tools_and_platform_known"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerToolAndPlatform"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="@drawable/rect_gray_radius"
+                    />
+
+                <TextView
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/certifications"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/edtCertificate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:background="@drawable/rect_gray_radius"
+                    android:padding="@dimen/eight"></EditText>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/CustomTextStylePoppinsBold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="@string/assessment"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fourteen_sp">
+
+                    </TextView>
+
+                    <TextView
+                        style="@style/CustomTextStylePoppinsBold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/five"
+                        android:layout_weight="0.5"
+                        android:text="@string/score"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fourteen_sp">
+
+                    </TextView>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/AssessmentcontainerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/lblAddAnother"
+                    style="@style/CustomTextStylePoppinsMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/add_another"
+                    android:textColor="@color/light_blue2"
+                    android:layout_marginBottom="@dimen/thirty"
+                    android:textSize="@dimen/thirteen_sp"></TextView>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/commonBottomResumeBuilder"
+        layout="@layout/commonbottom_resumebuilder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"></include>
+
+</RelativeLayout>

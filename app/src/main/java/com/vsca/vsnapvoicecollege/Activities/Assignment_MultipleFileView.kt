@@ -58,8 +58,6 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionBarMethod(this)
-
 
         Assignmnetview = intent.getStringExtra("Assignment")
 
@@ -71,8 +69,9 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
             R.id.img_swipe,
             R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
         )
+       // ActionBarMethod(this)
         MenuBottomType()
-
+        UserMenuRequest(this)
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -118,10 +117,10 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
             binding.CommonLayout.linerFiletype!!.visibility = View.VISIBLE
             AssignmentContentView("image")
 
-            binding.CommonLayout.lblImage!!.setOnClickListener {
+            binding.CommonLayout.lblImage.setOnClickListener {
                 AssignmentContentView("image")
                 type = "image"
-                binding.CommonLayout.lblPdf!!.setBackgroundColor(
+                binding.CommonLayout.lblPdf.setBackgroundColor(
                     Color.parseColor(
                         resources.getString(
                             R.string.txt_color_white
