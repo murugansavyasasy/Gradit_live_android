@@ -103,6 +103,19 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         }
         Log.d("MemberID",CommonUtil.MemberId.toString())
 
+        binding.CommonLayout.btnEditOne.setOnClickListener {
+            val i = Intent(this, EditBasicDetails::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+            i.putExtra("name", binding.CommonLayout.lblName.text.toString())
+            i.putExtra("phone", binding.CommonLayout.lblMobileNo.text.toString())
+            i.putExtra("email", binding.CommonLayout.lblGamilId.text.toString())
+            i.putExtra("image", appViewModel!!.getResumeBuilderProfileDetailsLiveData!!.value?.data?.firstOrNull()?.memberImagePath)
+
+            this.startActivity(i)
+        }
+
+
 
     }
 

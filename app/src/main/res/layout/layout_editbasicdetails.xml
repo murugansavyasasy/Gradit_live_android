@@ -49,6 +49,7 @@
                 android:layout_centerHorizontal="true">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgProfile"
                     android:layout_width="@dimen/eighty"
                     android:layout_height="wrap_content"
                     android:src="@drawable/test_image"
@@ -111,6 +112,7 @@
                     android:textSize="@dimen/fourteen_sp"></TextView>
 
                 <EditText
+                    android:id="@+id/edtPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
@@ -127,6 +129,7 @@
                     android:textSize="@dimen/fourteen_sp"></TextView>
 
                 <EditText
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
