@@ -5338,7 +5338,7 @@ class AppServices {
         val progressDialog = CustomLoading.createProgressDialog(activity)
 
         progressDialog!!.show()
-        RestClient.resumeApiInterfaces.getResumeBuilderProfileDetails(id)
+        RestClient.resumeApiInterfaces.getResumeBuilderProfileDetails(id!!)
             ?.enqueue(object : Callback<GetResumeBuilderProfileDetails?> {
                 override fun onResponse(
                     call: Call<GetResumeBuilderProfileDetails?>, response: Response<GetResumeBuilderProfileDetails?>

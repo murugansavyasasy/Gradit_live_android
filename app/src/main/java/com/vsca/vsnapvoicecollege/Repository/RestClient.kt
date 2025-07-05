@@ -113,51 +113,166 @@ import java.util.concurrent.TimeUnit
 //}
 
 
+//Old-San
+//
+//
+//class RestClient {
+//
+//    companion object {
+//        private var BASE_URL = "https://gradit.voicesnap.com/"
+//        private var RESUME_URL = "http://192.168.5.107:3002/api/"
+//        private var retrofit: Retrofit? = null
+//        private var ResumeRetrofit: Retrofit? = null
+//        private var _ResumeApiInterfaces: ApiInterfaces? = null
+//        private var okHttpClient: OkHttpClient? = null
+//        private var _apiInterfaces: ApiInterfaces? = null
+//
+//
+//        val apiInterfaces: ApiInterfaces
+//            get() {
+//                if (_apiInterfaces == null) {
+//                    initRetrofit()
+//                }
+//                return _apiInterfaces!!
+//            }
+//
+//        //resume
+//
+//        val resumeApiInterfaces: ApiInterfaces
+//            get() {
+//                if (_ResumeApiInterfaces == null) {
+//                    initResumeRetrofit()
+//                }
+//                return _ResumeApiInterfaces!!
+//            }
+//
+////resume
+//        private fun initResumeRetrofit() {
+//            if (okHttpClient == null) {
+//                createHttpClient()
+//            }
+//
+//            ResumeRetrofit = Retrofit.Builder()
+//                .baseUrl(RESUME_URL)
+//                .client(okHttpClient!!)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//
+//            _ResumeApiInterfaces = ResumeRetrofit!!.create(ApiInterfaces::class.java)
+//        }
+//
+//
+//        private fun createHttpClient() {
+//            val interceptor = HttpLoggingInterceptor().apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//            }
+//
+//            okHttpClient = OkHttpClient.Builder()
+//                .addInterceptor(interceptor)
+//                .connectTimeout(300, TimeUnit.SECONDS)
+//                .readTimeout(5, TimeUnit.MINUTES)
+//                .writeTimeout(5, TimeUnit.MINUTES)
+//                .build()
+//        }
+//
+//
+//        private fun initRetrofit() {
+//            if (okHttpClient == null) {
+//                val interceptor = HttpLoggingInterceptor().apply {
+//                    level = HttpLoggingInterceptor.Level.BODY
+//                }
+//
+//                okHttpClient = OkHttpClient.Builder()
+//                    .addInterceptor(interceptor)
+//                    .connectTimeout(300, TimeUnit.SECONDS)
+//                    .readTimeout(5, TimeUnit.MINUTES)
+//                    .writeTimeout(5, TimeUnit.MINUTES)
+//                    .build()
+//            }
+//
+//            retrofit = Retrofit.Builder()
+//                .baseUrl(BASE_URL)
+//                .client(okHttpClient!!)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//
+//            _apiInterfaces = retrofit!!.create(ApiInterfaces::class.java)
+//        }
+//
+//        fun changeApiBaseUrl(newBaseUrl: String) {
+//            BASE_URL = newBaseUrl
+//            retrofit = null
+//            _apiInterfaces = null
+//            initRetrofit()
+//        }
+//
+//        val client: Retrofit
+//            get() {
+//                if (retrofit == null) {
+//                    initRetrofit()
+//                }
+//                return retrofit!!
+//            }
+//    }
+//}
+
+
 class RestClient {
 
     companion object {
         private var BASE_URL = "https://gradit.voicesnap.com/"
-        private var RESUME_URL = "https://192.168.5.107:3002/api/"
-        private var retrofit: Retrofit? = null
-        private var ResumeRetrofit: Retrofit? = null
-        private var _ResumeApiInterfaces: ApiInterfaces? = null
-        private var okHttpClient: OkHttpClient? = null
-        private var _apiInterfaces: ApiInterfaces? = null
+        private const val RESUME_URL = "http://192.168.5.107:3002/api/"
 
+        private var retrofit: Retrofit? = null
+        private var resumeRetrofit: Retrofit? = null
+        private var okHttpClient: OkHttpClient? = null
+
+        private var _apiInterfaces: ApiInterfaces? = null
+        private var _resumeApiInterfaces: ApiInterfaces? = null
 
         val apiInterfaces: ApiInterfaces
             get() {
                 if (_apiInterfaces == null) {
-                    initRetrofit()
+                    initDefaultRetrofit()
                 }
                 return _apiInterfaces!!
             }
 
-        //resume
-
         val resumeApiInterfaces: ApiInterfaces
             get() {
-                if (_ResumeApiInterfaces == null) {
+                if (_resumeApiInterfaces == null) {
                     initResumeRetrofit()
                 }
-                return _ResumeApiInterfaces!!
+                return _resumeApiInterfaces!!
             }
 
-//resume
+        private fun initDefaultRetrofit() {
+            if (okHttpClient == null) {
+                createHttpClient()
+            }
+
+            retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient!!)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            _apiInterfaces = retrofit!!.create(ApiInterfaces::class.java)
+        }
+
         private fun initResumeRetrofit() {
             if (okHttpClient == null) {
                 createHttpClient()
             }
 
-            ResumeRetrofit = Retrofit.Builder()
+            resumeRetrofit = Retrofit.Builder()
                 .baseUrl(RESUME_URL)
                 .client(okHttpClient!!)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-            _ResumeApiInterfaces = ResumeRetrofit!!.create(ApiInterfaces::class.java)
+            _resumeApiInterfaces = resumeRetrofit!!.create(ApiInterfaces::class.java)
         }
-
 
         private fun createHttpClient() {
             val interceptor = HttpLoggingInterceptor().apply {
@@ -172,46 +287,23 @@ class RestClient {
                 .build()
         }
 
-
-        private fun initRetrofit() {
-            if (okHttpClient == null) {
-                val interceptor = HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                }
-
-                okHttpClient = OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .connectTimeout(300, TimeUnit.SECONDS)
-                    .readTimeout(5, TimeUnit.MINUTES)
-                    .writeTimeout(5, TimeUnit.MINUTES)
-                    .build()
-            }
-
-            retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(okHttpClient!!)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            _apiInterfaces = retrofit!!.create(ApiInterfaces::class.java)
-        }
-
         fun changeApiBaseUrl(newBaseUrl: String) {
             BASE_URL = newBaseUrl
             retrofit = null
             _apiInterfaces = null
-            initRetrofit()
+            initDefaultRetrofit()
         }
 
         val client: Retrofit
             get() {
                 if (retrofit == null) {
-                    initRetrofit()
+                    initDefaultRetrofit()
                 }
                 return retrofit!!
             }
     }
 }
+
 
 
 

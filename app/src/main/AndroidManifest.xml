@@ -3,7 +3,7 @@
     package="com.vsca.vsnapvoicecollege">
 
     <uses-feature
-        android:name="android.hardware.camera"
+        android:name="androfid.hardware.camera"
         android:required="false" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

@@ -113,6 +113,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Streaming
 import retrofit2.http.Url
@@ -582,10 +583,14 @@ interface ApiInterfaces {
     ): Call<JsonObject?>?
 
 
-    @GET(ApiMethods.GetResumeBuilderProfileDetails)
+//    @GET(ApiMethods.GetResumeBuilderProfileDetails)
+//    fun getResumeBuilderProfileDetails(
+//        @Query("id") id: Int?
+//    ): Call<GetResumeBuilderProfileDetails?>?
+
+    @GET("profile/get-profile/{id}")
     fun getResumeBuilderProfileDetails(
-        @Query("id") id: Int?
-    ): Call<GetResumeBuilderProfileDetails?>?
+        @Path("id") userId: Int
+    ): Call<GetResumeBuilderProfileDetails>
 
-
-}
+    }

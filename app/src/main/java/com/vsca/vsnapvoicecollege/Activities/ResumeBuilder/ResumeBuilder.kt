@@ -64,21 +64,23 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         ActionBarMethod(this@ResumeBuilder)
         UserMenuRequest(this)
         MenuBottomType()
-//        calling the Profile Details
-        GetProfileDetails()
 
-        appViewModel!!.getResumeBuilderProfileDetailsLiveData!!.observe(this) { response ->
-            if (response != null) {
-                val status = response.status
-                val message = response.message
-                if (status == true) {
+
+
+            appViewModel?.ResumeBuilderProfileDetails!!.observe(this) { response ->
+                if (response != null) {
+                    val status = response.status
+                    val message = response.message
+                    if (status == true) {
                         isLoadProfileDetails(response.data)
+                    } else {
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                     }
-                else {
-                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 }
             }
-        }
+
+        //        calling the Profile Details
+        GetProfileDetails()
 
         CommonUtil.RequestCameraPermission(this)
         binding.CommonLayout.btnEditOne.setOnClickListener{
@@ -110,7 +112,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             i.putExtra("name", binding.CommonLayout.lblName.text.toString())
             i.putExtra("phone", binding.CommonLayout.lblMobileNo.text.toString())
             i.putExtra("email", binding.CommonLayout.lblGamilId.text.toString())
-            i.putExtra("image", appViewModel!!.getResumeBuilderProfileDetailsLiveData!!.value?.data?.firstOrNull()?.memberImagePath)
+            i.putExtra("image", appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath)
 
             this.startActivity(i)
         }
