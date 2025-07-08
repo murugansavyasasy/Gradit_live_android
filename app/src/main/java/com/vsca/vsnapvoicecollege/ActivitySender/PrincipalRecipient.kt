@@ -1,25 +1,22 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
-import android.annotation.SuppressLint
-import android.app.Activity
+//import android.widget.binding.idSV
+
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SearchView
-//import android.widget.binding.idSV
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
@@ -34,9 +31,7 @@ import com.vsca.vsnapvoicecollege.Activities.Noticeboard
 import com.vsca.vsnapvoicecollege.Activities.Video
 import com.vsca.vsnapvoicecollege.Adapters.SelectedRecipientAdapter
 import com.vsca.vsnapvoicecollege.Adapters.Subject_Adapter
-import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
 import com.vsca.vsnapvoicecollege.Interfaces.RecipientCheckListener
-import com.vsca.vsnapvoicecollege.Model.AWSUploadedFiles
 import com.vsca.vsnapvoicecollege.Model.GetGroupData
 import com.vsca.vsnapvoicecollege.Model.Get_staff_yourclass
 import com.vsca.vsnapvoicecollege.R
@@ -54,23 +49,12 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityPrincipalRecipientBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListener {
 
@@ -133,7 +117,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         super.onCreate(savedInstanceState)
         binding = ActivityPrincipalRecipientBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this)
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
@@ -523,7 +507,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent = Intent(this, MessageCommunication::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -536,7 +521,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent = Intent(this, Communication::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -562,7 +548,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -577,7 +564,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -610,13 +598,14 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             it.division_id
                             it.division_name
 
-                            val divisions = RecipientSelected(it.division_id, it.division_name,"")
+                            val divisions = RecipientSelected(it.division_id, it.division_name, "")
                             SelectedRecipientlist.add(divisions)
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Division)) {
 
                             binding.recycleRecipients!!.visibility = View.VISIBLE
-                            divisionadapter = SelectedRecipientAdapter(SelectedRecipientlist,
+                            divisionadapter = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -675,12 +664,13 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             it.groupid
                             it.groupname
 
-                            var group = RecipientSelected(it.groupid, it.groupname,"")
+                            var group = RecipientSelected(it.groupid, it.groupname, "")
 
                             SelectedRecipientlist.add(group)
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-                            groupAdapter = SelectedRecipientAdapter(SelectedRecipientlist,
+                            groupAdapter = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -753,7 +743,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -786,7 +777,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -876,7 +868,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -894,7 +887,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -925,7 +919,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -943,7 +938,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -974,7 +970,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -992,7 +989,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1022,7 +1020,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1056,7 +1055,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1090,7 +1090,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1108,7 +1109,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1139,7 +1141,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent = Intent(this, Events::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -1155,7 +1158,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1262,7 +1266,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1280,7 +1285,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1310,7 +1316,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1328,7 +1335,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1359,7 +1367,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -1377,7 +1386,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
 
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent = Intent(this, Video::class.java)
@@ -1526,7 +1536,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     if (GetCourseData!![j].department_name == name) {
                                         val department = RecipientSelected(
                                             GetCourseData!![j].course_id,
-                                            GetCourseData!![j].course_name,""
+                                            GetCourseData!![j].course_name, ""
                                         )
                                         FilterCourse.add(department)
                                     }
@@ -1536,7 +1546,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 binding.idSV!!.visibility = View.VISIBLE
                                 binding.idSV!!.queryHint = "Search Department"
                                 SearchType = "DepartmentCourse"
-                                SelectedcourseAdapter = SelectedRecipientAdapter(FilterCourse,
+                                SelectedcourseAdapter = SelectedRecipientAdapter(
+                                    FilterCourse,
                                     this@PrincipalRecipient,
                                     object : RecipientCheckListener {
                                         override fun add(data: RecipientSelected?) {
@@ -1585,7 +1596,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 if (DivisionIDFilter == GetCourseData!![i].division_id) {
                                     SelectedSpinnerID = GetCourseData!![i].department_id
                                     val department = RecipientSelected(
-                                        GetCourseData!![i].course_id, GetCourseData!![i].course_name,""
+                                        GetCourseData!![i].course_id,
+                                        GetCourseData!![i].course_name,
+                                        ""
                                     )
                                     FilterCourse.add(department)
                                     binding.recycleRecipientcourse!!.visibility = View.VISIBLE
@@ -1598,7 +1611,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     binding.idSV!!.visibility = View.VISIBLE
                                     binding.idSV!!.queryHint = "Search Department"
                                     SearchType = "ParticularDepartment"
-                                    SelectedcourseAdapter = SelectedRecipientAdapter(FilterCourse,
+                                    SelectedcourseAdapter = SelectedRecipientAdapter(
+                                        FilterCourse,
                                         this@PrincipalRecipient,
                                         object : RecipientCheckListener {
                                             override fun add(data: RecipientSelected?) {
@@ -1684,12 +1698,13 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 if (GetDepartmentData!![i].division_id.toString() == SelectedSpinnerID) {
                                     val department = RecipientSelected(
                                         GetDepartmentData!![i].department_id,
-                                        GetDepartmentData!![i].department_name,""
+                                        GetDepartmentData!![i].department_name, ""
                                     )
                                     FilterDepartment.add(department)
                                     binding.recycleRecipientYourclasses!!.visibility = View.VISIBLE
                                     binding.scrooling!!.visibility = View.VISIBLE
-                                    departmentAdapter = SelectedRecipientAdapter(FilterDepartment,
+                                    departmentAdapter = SelectedRecipientAdapter(
+                                        FilterDepartment,
                                         this@PrincipalRecipient,
                                         object : RecipientCheckListener {
                                             override fun add(data: RecipientSelected?) {
@@ -1723,7 +1738,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 it.department_id
                                 it.department_name
                                 val divisions =
-                                    RecipientSelected(it.department_id, it.department_name,"")
+                                    RecipientSelected(it.department_id, it.department_name, "")
                                 SelectedRecipientlist.add(divisions)
                             }
                             binding.chAllDepartment!!.visibility = View.VISIBLE
@@ -1737,7 +1752,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 binding.chAllDepartment!!.isChecked = false
                                 binding.txtChDepartment!!.text = CommonUtil.Select_All
                             }
-                            departmentAdapter = SelectedRecipientAdapter(SelectedRecipientlist,
+                            departmentAdapter = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this@PrincipalRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -1808,7 +1824,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             for (i in GetCourseData!!.indices) {
                                 if (GetCourseData!![i].division_id.toString() == SelectedSpinnerID) {
                                     val department = RecipientSelected(
-                                        GetCourseData!![i].course_id, GetCourseData!![i].course_name,""
+                                        GetCourseData!![i].course_id,
+                                        GetCourseData!![i].course_name,
+                                        ""
                                     )
                                     FilterDepartment.add(department)
                                     binding.recycleRecipientcourse!!.visibility = View.VISIBLE
@@ -1861,7 +1879,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             GetCourseData!!.forEach {
                                 it.course_id
                                 it.course_name
-                                val department = RecipientSelected(it.course_id, it.course_name,"")
+                                val department = RecipientSelected(it.course_id, it.course_name, "")
                                 SelectedRecipientlist.add(department)
                             }
                             binding.chAllcourse!!.visibility = View.VISIBLE
@@ -1881,7 +1899,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             binding.idSV!!.queryHint = "Search Course"
                             SearchType = "CourseAll"
                             binding.SpinningYourclasses!!.visibility = View.VISIBLE
-                            SelectedcourseAdapter = SelectedRecipientAdapter(SelectedRecipientlist,
+                            SelectedcourseAdapter = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this@PrincipalRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -2292,7 +2311,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         Log.d("SMSJsonObject", jsonObject.toString())
     }
 
-     fun EntireClick() {
+    fun EntireClick() {
 
         isParent = false
         //   isStudent = false
@@ -2350,7 +2369,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     }
 
 
-     fun divisionClick() {
+    fun divisionClick() {
 
 //        binding.lnrTargetAll!!.visibility = View.VISIBLE
         CommonUtil.receivertype = "8"
@@ -2415,7 +2434,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
     }
 
-     fun departmentClick() {
+    fun departmentClick() {
 
         CommonUtil.receivertype = "3"
         isParent = false
@@ -2485,7 +2504,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
     }
 
-     fun CourseClick() {
+    fun CourseClick() {
 
 //        if (CommonUtil.isParentEnable == "1") {
 //            binding.lnrTargetAll!!.visibility = View.VISIBLE
@@ -2550,7 +2569,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
     }
 
-     fun YourClassesClick() {
+    fun YourClassesClick() {
 
 //        if (CommonUtil.isParentEnable == "1") {
 //            binding.lnrTargetAll!!.visibility = View.VISIBLE
@@ -2617,7 +2636,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
     }
 
-     fun GroupsClick() {
+    fun GroupsClick() {
 
 //        if (CommonUtil.isParentEnable == "1") {
 //            binding.lnrTargetAll!!.visibility = View.VISIBLE
@@ -3041,7 +3060,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         this@PrincipalRecipient.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -3065,7 +3085,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         this@PrincipalRecipient.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -3155,7 +3176,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         this@PrincipalRecipient.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
 
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent = Intent(
@@ -3177,7 +3199,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         this@PrincipalRecipient.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -3268,7 +3291,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         this@PrincipalRecipient.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent = Intent(
                                                 this@PrincipalRecipient, Communication::class.java
@@ -3289,7 +3313,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                         this@PrincipalRecipient.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -4547,9 +4572,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     CommonUtil.Forward_Assignment
                 )
             ) {
-
                 if (!CommonUtil.receiverid.equals("")) {
-
                     val alertDialog: AlertDialog.Builder =
                         AlertDialog.Builder(this@PrincipalRecipient)
                     alertDialog.setTitle(CommonUtil.Submit_Alart)
@@ -4557,7 +4580,6 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                     alertDialog.setPositiveButton(
                         CommonUtil.Yes
                     ) { _, _ ->
-
 //                        awsFileUpload(this, pathIndex)
                         isUploadAWS()
 
@@ -5115,7 +5137,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         }
     }
 
-     fun cancelClick() {
+    fun cancelClick() {
         onBackPressed()
         CommonUtil.DepartmentChooseIds.clear()
     }
@@ -5182,7 +5204,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     private fun AwsUploadingFile(
         isFilePath: String
     ) {
-        isAwsUploadingPreSigned!!.getPreSignedUrl(this,
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {

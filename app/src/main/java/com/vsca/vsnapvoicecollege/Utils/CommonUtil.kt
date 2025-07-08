@@ -173,6 +173,9 @@ object CommonUtil {
     var isPlaced = "Placed"
     var isAttendedInterview = "AttendedInterview"
     var isNotConsented = "Not consented"
+    var isNumberOfArrears = "Num. of Arrears"
+    var isBacklogs = "Current Backlogs"
+    var isIffin = "-"
 
     //Login details
     var Priority = ""

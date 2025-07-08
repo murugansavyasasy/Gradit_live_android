@@ -48,7 +48,9 @@ import com.vsca.vsnapvoicecollege.Model.GetGrouplist
 import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -213,6 +215,8 @@ class App(application: Application) : AndroidViewModel(application) {
     var _voiceHistory: LiveData<voicehistory?>? = null
     var CollageList: LiveData<CollageList?>? = null
     var ResumeBuilderProfileDetails: LiveData<GetResumeBuilderProfileDetails?>? = null
+    var ResumeBuilderAcademicDetails: LiveData<GetResumeBuilderAcademicDetails?>? = null
+    var ResumeBuilderSkillSetDetails: LiveData<GetResumeBuilderSkillSetDetails?>? = null
 
 
     fun init() {
@@ -334,6 +338,8 @@ class App(application: Application) : AndroidViewModel(application) {
         _voiceHistory = apiRepositories!!.voicehistory_
         CollageList = apiRepositories!!.CollageListdataHeader
         ResumeBuilderProfileDetails = apiRepositories!!.GetResumeBuilderProfileDetailsLiveData
+        ResumeBuilderAcademicDetails = apiRepositories!!.GetResumeBuilderAcademicDetailsLiveData
+        ResumeBuilderSkillSetDetails = apiRepositories!!.GetResumeBuilderSkillSetDetailsLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -782,5 +788,13 @@ class App(application: Application) : AndroidViewModel(application) {
 
     fun GetResumeBuilderProfileDetails(Id:Int ?, activity: Activity?) {
         apiRepositories!!.GetResumeBuilderProfileDetailsRequest(Id, activity!!)
+    }
+
+    fun GetResumeBuilderAcademicDetails(Id:Int ?, activity: Activity?) {
+        apiRepositories!!.GetResumeBuilderAcademicDetailsRequest(Id, activity!!)
+    }
+
+    fun GetResumeBuilderSkillSetDetails(Id:Int ?, activity: Activity?) {
+        apiRepositories!!.GetResumeBuilderSkillSetDetailsRequest(Id, activity!!)
     }
 }

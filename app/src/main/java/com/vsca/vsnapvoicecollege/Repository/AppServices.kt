@@ -49,7 +49,9 @@ import com.vsca.vsnapvoicecollege.Model.GetGrouplist
 import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -203,6 +205,8 @@ class AppServices {
     var CollageListHeaderSent: MutableLiveData<CollageList?>
     var GetHallticket: MutableLiveData<Hallticket?>
     var isGetResumeBuilderProfileDetails: MutableLiveData<GetResumeBuilderProfileDetails?>
+    var isGetResumeBuilderAcademicDetails: MutableLiveData<GetResumeBuilderAcademicDetails?>
+    var isGetResumeBuilderSkillSetDetails: MutableLiveData<GetResumeBuilderSkillSetDetails?>
 
 
     init {
@@ -306,6 +310,8 @@ class AppServices {
         CollageListHeaderSent = MutableLiveData()
         GetHallticket = MutableLiveData()
         isGetResumeBuilderProfileDetails = MutableLiveData()
+        isGetResumeBuilderAcademicDetails = MutableLiveData()
+        isGetResumeBuilderSkillSetDetails = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5354,8 +5360,6 @@ class AppServices {
 
                                 isGetResumeBuilderProfileDetails.postValue(response.body())
 
-                            } else {
-                                isGetResumeBuilderProfileDetails.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
@@ -5379,6 +5383,99 @@ class AppServices {
 
     val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
         get() = isGetResumeBuilderProfileDetails
+
+
+    //Get Academic Details
+    fun GetResumeBuilderAcademicDetailsRequest(id:Int ?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.getResumeBuilderAcademicDetails(id!!)
+            ?.enqueue(object : Callback<GetResumeBuilderAcademicDetails?> {
+                override fun onResponse(
+                    call: Call<GetResumeBuilderAcademicDetails?>, response: Response<GetResumeBuilderAcademicDetails?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetResumeBuilderAcademicDetails.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetResumeBuilderAcademicDetails.postValue(null)
+                        } else {
+                            isGetResumeBuilderAcademicDetails.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<GetResumeBuilderAcademicDetails?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetResumeBuilderAcademicDetails.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val GetResumeBuilderAcademicDetailsLiveData: LiveData<GetResumeBuilderAcademicDetails?>
+        get() = isGetResumeBuilderAcademicDetails
+
+    //Get SkillSet Details
+    fun GetResumeBuilderSkillSetDetailsRequest(id:Int ?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.getResumeBuilderSkillSetDetails(id!!)
+            ?.enqueue(object : Callback<GetResumeBuilderSkillSetDetails?> {
+                override fun onResponse(
+                    call: Call<GetResumeBuilderSkillSetDetails?>, response: Response<GetResumeBuilderSkillSetDetails?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetResumeBuilderSkillSetDetails.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetResumeBuilderSkillSetDetails.postValue(null)
+                        } else {
+                            isGetResumeBuilderSkillSetDetails.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<GetResumeBuilderSkillSetDetails?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetResumeBuilderSkillSetDetails.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val GetResumeBuilderSkillSetDetailsLiveData: LiveData<GetResumeBuilderSkillSetDetails?>
+        get() = isGetResumeBuilderSkillSetDetails
+
+
 
 
 
