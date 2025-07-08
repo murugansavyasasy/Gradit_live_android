@@ -6,7 +6,10 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
+import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
 import com.vsca.vsnapvoicecollege.Model.Assignment_Forward
 import com.vsca.vsnapvoicecollege.Model.Assignment_Submit
@@ -97,6 +100,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AppServices {
+    private val _addEditProfileLiveData = MutableLiveData<AddEditProfileResponse?>()
+    val addEditProfileLiveData: LiveData<AddEditProfileResponse?>
+        get() = _addEditProfileLiveData
     var progressDialog: ProgressDialog? = null
     var client_app: RestClient
     var GetCourseDetailsMutableData: MutableLiveData<GetCourseDetailsResposne?>
@@ -5377,9 +5383,48 @@ class AppServices {
             })
     }
 
+    fun addEditProfile(isJsonObject: JsonObject, activity: Activity) {
+//        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        progressDialog?.show()
+
+        Log.d("addEditProfile", "Request URL: http://192.168.5.107:3002/api/profile/add-edit-profile")
+        Log.d("addEditProfile", "Request Body: ${Gson().toJson(isJsonObject)}")
+
+        RestClient.resumeApiInterfaces.addEditProfileCall(isJsonObject)
+            .enqueue(object : Callback<AddEditProfileResponse?> {
+                override fun onResponse(
+                    call: Call<AddEditProfileResponse?>,
+                    response: Response<AddEditProfileResponse?>
+                ) {
+//                    progressDialog?.dismiss()
+                    Log.d("addEditProfile", "Parsed Body: ${Gson().toJson(response.body())}")
+
+                    if (response.isSuccessful && response.body() != null) {
+                        _addEditProfileLiveData.postValue(response.body())
+                    } else {
+                        _addEditProfileLiveData.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<AddEditProfileResponse?>, t: Throwable) {
+//                    progressDialog?.dismiss()
+                    _addEditProfileLiveData.postValue(null)
+
+                    Log.e("addEditProfile", "API call failed: ${t.localizedMessage}")
+                    t.printStackTrace()
+
+                    CommonUtil.ApiAlertFinish(
+                        activity,
+                        activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+
+
+
     val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
         get() = isGetResumeBuilderProfileDetails
-
-
 
 }

@@ -3,6 +3,8 @@ package com.vsca.vsnapvoicecollege.Interfaces
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.PreSignedUrl
+import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
+import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
 import com.vsca.vsnapvoicecollege.Model.AssignmentMark
 import com.vsca.vsnapvoicecollege.Model.Assignment_Forward
@@ -588,9 +590,14 @@ interface ApiInterfaces {
 //        @Query("id") id: Int?
 //    ): Call<GetResumeBuilderProfileDetails?>?
 
+    @POST("profile/add-edit-profile")
+    fun addEditProfileCall(
+        @Body isJsonObject: JsonObject
+    ): Call<AddEditProfileResponse>
+
     @GET("profile/get-profile/{id}")
     fun getResumeBuilderProfileDetails(
-        @Path("id") userId: Int
+        @Path("id") id: Int
     ): Call<GetResumeBuilderProfileDetails>
 
-    }
+}

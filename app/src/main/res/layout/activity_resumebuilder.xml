@@ -19,7 +19,8 @@
             android:layout_marginStart="@dimen/fifteen"
             android:layout_marginEnd="@dimen/fifteen"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/hundred"></include>
+            android:layout_marginBottom="@dimen/hundred">
+        </include>
 
         <include
             layout="@layout/bottom_menu_layout"

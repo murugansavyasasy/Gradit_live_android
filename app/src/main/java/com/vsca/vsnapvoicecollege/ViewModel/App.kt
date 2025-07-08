@@ -5,7 +5,9 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
 import com.vsca.vsnapvoicecollege.Model.Assignment_Forward
 import com.vsca.vsnapvoicecollege.Model.Assignment_Submit
@@ -89,10 +91,25 @@ import com.vsca.vsnapvoicecollege.SenderModel.GetCourseDepartmentResposne
 import com.vsca.vsnapvoicecollege.SenderModel.GetDepartmentResponse
 import com.vsca.vsnapvoicecollege.SenderModel.GetDivisionResponse
 import com.vsca.vsnapvoicecollege.SenderModel.SenderStatusMessageData
+import androidx.lifecycle.viewModelScope
+import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
+import kotlinx.coroutines.launch
+
 
 class App(application: Application) : AndroidViewModel(application) {
 
-    private var apiRepositories: AppServices? = null
+
+    private val apiRepositories = AppServices()
+
+    val addEditProfileLiveData: LiveData<AddEditProfileResponse?>
+        get() = apiRepositories.addEditProfileLiveData
+
+    val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
+        get() = apiRepositories.GetResumeBuilderProfileDetailsLiveData
+
+
 
     var Hallticket: LiveData<Hallticket?>? = null
         private set
@@ -216,8 +233,6 @@ class App(application: Application) : AndroidViewModel(application) {
 
 
     fun init() {
-        apiRepositories = AppServices()
-
         Hallticket = apiRepositories!!.hallticketdataget
 
         courseDetailsResposneLiveData = apiRepositories!!.courseDetailsResposneLiveData
@@ -780,7 +795,15 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.CollageListdata(jsonObject, activity!!)
     }
 
-    fun GetResumeBuilderProfileDetails(Id:Int ?, activity: Activity?) {
-        apiRepositories!!.GetResumeBuilderProfileDetailsRequest(Id, activity!!)
+    fun addEditProfile(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.addEditProfile(isJsonObject, activity)
+    }
+
+    fun GetResumeBuilderProfileDetails(id: Int?, activity: Activity) {
+        apiRepositories!!.GetResumeBuilderProfileDetailsRequest(id, activity)
     }
 }
+
+
+
+
