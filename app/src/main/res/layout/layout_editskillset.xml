@@ -90,102 +90,15 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp" />
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcSoftSkills"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:layout_marginTop="@dimen/ten"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <CheckBox
-                            android:id="@+id/cbSelect1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_weight="0.5"
-                            android:button="@drawable/ch_square"
-                            android:gravity="center_vertical"
-                            android:padding="@dimen/five"
-                            android:text="option 1"
-                            android:visibility="visible" />
-
-                        <CheckBox
-                            android:id="@+id/cbSelect2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_weight="0.5"
-                            android:button="@drawable/ch_square"
-                            android:padding="@dimen/five"
-                            android:text="option 2"
-                            android:visibility="visible" />
-                    </LinearLayout>
-                    <!--                    row 2-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/five"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <CheckBox
-                            android:id="@+id/cbSelect3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_weight="0.5"
-                            android:button="@drawable/ch_square"
-                            android:padding="@dimen/five"
-                            android:text="option 3"
-                            android:visibility="visible" />
-
-                        <CheckBox
-                            android:id="@+id/cbSelect4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_weight="0.5"
-                            android:button="@drawable/ch_square"
-                            android:padding="@dimen/five"
-                            android:text="option 4"
-                            android:visibility="visible" />
-                    </LinearLayout>
-                    <!--                    Row 2-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/five"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <CheckBox
-                            android:id="@+id/cbSelect5"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_weight="0.5"
-                            android:button="@drawable/ch_square"
-                            android:padding="@dimen/five"
-                            android:text="option 5"
-                            android:visibility="visible" />
-
-                        <CheckBox
-                            android:id="@+id/cbSelect6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:layout_weight="0.5"
-                            android:button="@drawable/ch_square"
-                            android:padding="@dimen/five"
-                            android:text="option 6"
-                            android:visibility="visible" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
 
                 <TextView
                     android:id="@+id/lblAreasofInterest"

@@ -24,7 +24,11 @@ import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderAssessmentDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderCertificationDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderIntenshipDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderProjectDetailsAdapter
+import com.vsca.vsnapvoicecollege.Model.GetAssessmentDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
@@ -41,6 +45,8 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
     override var appViewModel: App? = null
     var isMemeberId = 0
     private val isEducationItem = mutableListOf<GetEducationalDetailsData>()
+    var isSkillSetData: GetResumeBuilderSkillSetDetailsData? = null
+
 
 
     override fun inflateBinding(): ActivityResumebuilderBinding {
@@ -65,8 +71,8 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
             Glide.with(this)
                 .load(updatedImage)
-                .placeholder(R.drawable.test_image)
-                .error(R.drawable.test_image)
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
                 .into(binding.CommonLayout.imgProfile)
 
             GetProfileDetails()
@@ -112,12 +118,20 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         appViewModel?.ResumeBuilderAcademicDetails!!.observe(this) { response ->
             if (response != null) {
                 if (response.status) {
-                    isLoadAcademicDetails(response.data[0])
-                    binding.CommonLayout.lnrAcademicDetails.visibility = View.VISIBLE
-                    Log.d("AcademicRespone", response.data.toString())
-                } else {
+                    if (response.data.size>0) {
+                        isLoadAcademicDetails(response.data[0])
+                        binding.CommonLayout.lblEditTwo.text = getString(R.string.txt_edit)
+                        binding.CommonLayout.lnrAcademicDetails.visibility = View.VISIBLE
+                        Log.d("AcademicRespone", response.data.toString())
+                    }
+                    else{
+                        binding.CommonLayout.lnrAcademicDetails.visibility = View.GONE
+                        binding.CommonLayout.lblEditTwo.text = getString(R.string.txt_Add)
+                        Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
                     binding.CommonLayout.lnrAcademicDetails.visibility = View.GONE
-                    binding.CommonLayout.lblEditTwo.text = getString(R.string.txt_Add)
                     Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -126,9 +140,20 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         appViewModel?.ResumeBuilderSkillSetDetails!!.observe(this) { response ->
             if (response != null) {
                 if (response.status) {
-                    isLoadSkillSetDetails(response.data)
-                    Log.d("AcademicRespone", response.data.toString())
-                } else {
+                    if (response.data.size>0){
+                        isLoadSkillSetDetails(response.data)
+                        binding.CommonLayout.lnrSkillSetDetails.visibility = View.VISIBLE
+                        binding.CommonLayout.btnEditThree.text = getString(R.string.txt_edit)
+                        Log.d("AcademicRespone", response.data.toString())
+                    }
+                    else{
+                        binding.CommonLayout.lnrSkillSetDetails.visibility = View.GONE
+                        binding.CommonLayout.btnEditThree.text = getString(R.string.txt_Add)
+                        Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
+                    binding.CommonLayout.lnrSkillSetDetails.visibility = View.GONE
                     Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -157,6 +182,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         binding.CommonLayout.btnEditThree.setOnClickListener {
             val i = Intent(this, EditSkillSet::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            isSaveSkillSetData()
             this.startActivity(i)
         }
         binding.CommonLayout.lblBuildMyResume.setOnClickListener {
@@ -184,6 +210,24 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 //            startActivityForResult(i, 123)
             startActivity(i)
         }
+    }
+
+    private fun isSaveSkillSetData() {
+        val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
+        id=isMemeberId,
+        languages=binding.CommonLayout.lblLanguageKnown.text.toString(),
+        softSkill=binding.CommonLayout.lblSoftSkills.text .toString(),
+        areaInterest=binding.CommonLayout.lblAreasofInterest.text.toString(),
+        internship=isSkillSetData!!.internship,
+        programmingLanguage=binding.CommonLayout.lblProgrammingLanguages.text.toString(),
+        toolsPlatform=binding.CommonLayout.lblToolsandplatformsknown.text.toString(),
+        certifications=isSkillSetData!!.certifications,
+        assessmentDetails=isSkillSetData!!.assessmentDetails,
+        projects=isSkillSetData!!.projects,
+        )
+        Log.d("isSaveSkillSetData",saveSkillSetData.toString())
+        //We are Saving all the data in Constant as List Here
+        CommonUtil.isSkillSetDataSending = saveSkillSetData
     }
 
 
@@ -264,8 +308,8 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
             Glide.with(this)
                 .load(it.memberImagePath)
-                .placeholder(R.drawable.image_placeholder)
-                .error(R.drawable.image_placeholder)
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
                 .into(binding.CommonLayout.imgProfile)
 
 
@@ -328,15 +372,15 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
     }
 
     private fun isLoadSkillSetDetails(SkillSetData: List<GetResumeBuilderSkillSetDetailsData>) {
-        val SkillSet = SkillSetData.firstOrNull()
-        SkillSet?.let {
+        isSkillSetData = SkillSetData.firstOrNull()
+        isSkillSetData?.let {
             binding.CommonLayout.lblLanguageKnown.text = it.languages
             binding.CommonLayout.lblSoftSkills.text = it.softSkill
             binding.CommonLayout.lblAreasofInterest.text = it.areaInterest
             binding.CommonLayout.lblProgrammingLanguages.text = it.programmingLanguage
             binding.CommonLayout.lblToolsandplatformsknown.text = it.toolsPlatform
 
-            if (SkillSet.internship.isNotEmpty()) {
+            if (isSkillSetData!!.internship!!.isNotEmpty()) {
                 binding.CommonLayout.rcInternshipExperiences.layoutManager =
                     object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
                         override fun canScrollVertically(): Boolean = false
@@ -344,10 +388,10 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 binding.CommonLayout.rcInternshipExperiences.isNestedScrollingEnabled = false
                 binding.CommonLayout.rcInternshipExperiences.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                 binding.CommonLayout.rcInternshipExperiences.adapter =
-                    ResumeBuilderIntenshipDetailsAdapter(SkillSet.internship)
+                    ResumeBuilderIntenshipDetailsAdapter(isSkillSetData!!.internship!!)
             }
 
-            if (SkillSet.certifications.isNotEmpty()) {
+            if (isSkillSetData!!.certifications!!.isNotEmpty()) {
                 binding.CommonLayout.rcCertifications.layoutManager =
                     object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
                         override fun canScrollVertically(): Boolean = false
@@ -355,10 +399,10 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 binding.CommonLayout.rcCertifications.isNestedScrollingEnabled = false
                 binding.CommonLayout.rcCertifications.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                 binding.CommonLayout.rcCertifications.adapter =
-                    ResumeBuilderCertificationDetailsAdapter(SkillSet.certifications)
+                    ResumeBuilderCertificationDetailsAdapter(isSkillSetData!!.certifications!!)
             }
 
-            if (SkillSet.projects.isNotEmpty()) {
+            if (isSkillSetData!!.projects!!.isNotEmpty()) {
                 binding.CommonLayout.rcProject.layoutManager =
                     object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
                         override fun canScrollVertically(): Boolean = false
@@ -366,10 +410,10 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 binding.CommonLayout.rcProject.isNestedScrollingEnabled = false
                 binding.CommonLayout.rcProject.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                 binding.CommonLayout.rcProject.adapter =
-                    ResumeBuilderProjectDetailsAdapter(SkillSet.projects)
+                    ResumeBuilderProjectDetailsAdapter(isSkillSetData!!.projects!!)
             }
 
-            if (SkillSet.assessmentDetails.isNotEmpty()) {
+            if (isSkillSetData!!.assessmentDetails!!.isNotEmpty()) {
                 binding.CommonLayout.rcAssessmentScore.layoutManager =
                     object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
                         override fun canScrollVertically(): Boolean = false
@@ -377,7 +421,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 binding.CommonLayout.rcAssessmentScore.isNestedScrollingEnabled = false
                 binding.CommonLayout.rcAssessmentScore.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                 binding.CommonLayout.rcAssessmentScore.adapter =
-                    ResumeBuilderAssessmentDetailsAdapter(SkillSet.assessmentDetails)
+                    ResumeBuilderAssessmentDetailsAdapter(isSkillSetData!!.assessmentDetails!!)
             }
 
         }
@@ -390,7 +434,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     fun GetAcademicDetails() {
 //        appViewModel!!.GetResumeBuilderAcademicDetails(CommonUtil.MemberId, this@ResumeBuilder)
-        appViewModel!!.GetResumeBuilderAcademicDetails(31145, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderAcademicDetails(31138, this@ResumeBuilder)
     }
 
     fun GetSkillSetDetails() {

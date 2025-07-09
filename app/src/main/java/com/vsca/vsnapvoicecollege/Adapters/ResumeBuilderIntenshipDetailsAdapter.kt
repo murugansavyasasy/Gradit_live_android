@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
 class ResumeBuilderIntenshipDetailsAdapter(private val items: List<GetInternshipDetailsData>) :
     RecyclerView.Adapter<ResumeBuilderIntenshipDetailsAdapter.ViewHolder>() {
@@ -26,6 +27,6 @@ class ResumeBuilderIntenshipDetailsAdapter(private val items: List<GetInternship
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.lblCompanyName.text = item.companyName
-        holder.lblDuration.text = item.from +" to "+item.to
+        holder.lblDuration.text = CommonUtil.convertTimeStampToCustomFormat(item.from) +" to "+CommonUtil.convertTimeStampToCustomFormat(item.to)
     }
 }
