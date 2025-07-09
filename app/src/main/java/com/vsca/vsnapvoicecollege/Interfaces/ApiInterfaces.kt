@@ -52,7 +52,9 @@ import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetNotificationsResponse
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -600,4 +602,16 @@ interface ApiInterfaces {
         @Path("id") id: Int
     ): Call<GetResumeBuilderProfileDetails>
 
-}
+
+        @GET(ApiMethods.GetResumeBuilderAcademicDetails)
+    fun getResumeBuilderAcademicDetails(
+        @Query("idMember") id: Int?
+    ): Call<GetResumeBuilderAcademicDetails?>?
+
+    @GET(ApiMethods.GetResumeBuilderSkillSetDetails)
+    fun getResumeBuilderSkillSetDetails(
+        @Query("idMember") id: Int?
+    ): Call<GetResumeBuilderSkillSetDetails?>?
+
+
+    }

@@ -583,34 +583,51 @@
                     android:layout_centerVertical="true" />
             </RelativeLayout>
 
-
             <LinearLayout
-                android:layout_marginTop="@dimen/eight"
-                android:id="@+id/lnrAcademicDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_below="@+id/lblAcademicRecords"
+                android:layout_width="match_parent"
                 android:background="@drawable/gray_radius"
-                android:orientation="horizontal"
-                android:padding="@dimen/ten"
-                android:weightSum="3">
+                android:id="@+id/lnrAcademicDetails"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:paddingStart="@dimen/ten"
+                    android:paddingEnd="@dimen/ten"
+                    android:paddingTop="@dimen/ten"
+                    android:id="@+id/rcAcademicDetails"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:layout_marginTop="@dimen/eight"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/five"
+                    android:layout_marginEnd="@dimen/five"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="@color/light_gray">
+                </View>
 
                 <LinearLayout
+                    android:layout_marginBottom="@dimen/five"
+                    android:layout_marginStart="@dimen/ten"
+                    android:id="@+id/lnrBackLogs"
+                    android:layout_marginTop="@dimen/five"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
                     <TextView
-                        style="@style/CustomTextStylePoppinsRegular"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/_10th"
                         android:textColor="@color/light_gray"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-
+                        android:text="@string/current_backlogs_colon"
+                        android:layout_height="wrap_content">
+                    </TextView>
                     <TextView
-                        android:layout_marginTop="@dimen/three"
+                        android:id="@+id/lblBackLogs"
                         style="@style/CustomTextStylePoppinsBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -619,138 +636,44 @@
                         android:paddingTop="@dimen/two"
                         android:paddingEnd="@dimen/eight"
                         android:paddingBottom="@dimen/two"
+                        android:layout_marginStart="@dimen/ten"
                         android:text="77"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-
-                    <TextView
-                        style="@style/CustomTextStylePoppinsRegular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/five"
-                        android:text="@string/pg_cgpa"
-                        android:textColor="@color/light_gray"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-
-                    <TextView
-                        android:layout_marginTop="@dimen/three"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/eight"
-                        android:paddingTop="@dimen/two"
-                        android:paddingEnd="@dimen/eight"
-                        android:paddingBottom="@dimen/two"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/CustomTextStylePoppinsRegular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/_12"
-                        android:textColor="@color/light_gray"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-
-                    <TextView
-                        android:layout_marginTop="@dimen/three"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/orange_radius"
-                        android:paddingStart="@dimen/eight"
-                        android:paddingTop="@dimen/two"
-                        android:paddingEnd="@dimen/eight"
-                        android:paddingBottom="@dimen/two"
-                        android:text="63"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-
-                    <TextView
-                        style="@style/CustomTextStylePoppinsRegular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/five"
-                        android:text="@string/current_blcklogs"
-                        android:textColor="@color/light_gray"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-
-                    <TextView
-                        android:layout_marginTop="@dimen/three"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/eight"
-                        android:paddingTop="@dimen/two"
-                        android:paddingEnd="@dimen/eight"
-                        android:paddingBottom="@dimen/two"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/CustomTextStylePoppinsRegular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ug_cgpa"
-                        android:textColor="@color/light_gray"
-                        android:textSize="@dimen/twelve_sp"></TextView>
-
-                    <TextView
-                        android:layout_marginTop="@dimen/three"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/yellow_radius"
-                        android:paddingStart="@dimen/eight"
-                        android:paddingTop="@dimen/two"
-                        android:paddingEnd="@dimen/eight"
-                        android:paddingBottom="@dimen/two"
-                        android:text="50"
-                        android:textColor="@color/white"
                         android:textSize="@dimen/twelve_sp">
-                    </TextView>
 
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginStart="@dimen/ten"
+                    android:id="@+id/lnrNoofArrears"
+                    android:layout_marginTop="@dimen/ten"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
                     <TextView
-                        style="@style/CustomTextStylePoppinsRegular"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/five"
-                        android:text="@string/num_of_arrears"
                         android:textColor="@color/light_gray"
-                        android:textSize="@dimen/twelve_sp">
+                        android:text="@string/num_of_arrears_coloun"
+                        android:layout_height="wrap_content">
                     </TextView>
-
                     <TextView
-                        android:layout_marginTop="@dimen/three"
+                        android:id="@+id/lblNoofArrears"
                         style="@style/CustomTextStylePoppinsBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/dark_green_radius"
                         android:paddingStart="@dimen/eight"
                         android:paddingTop="@dimen/two"
                         android:paddingEnd="@dimen/eight"
-                        android:background="@drawable/red_radius"
                         android:paddingBottom="@dimen/two"
-                        android:text="2"
+                        android:layout_marginStart="@dimen/fifteen"
+                        android:text="77"
                         android:textColor="@color/white"
                         android:textSize="@dimen/twelve_sp"></TextView>
                 </LinearLayout>
             </LinearLayout>
+
+
 
             <RelativeLayout
                 android:layout_marginTop="@dimen/ten"
@@ -820,7 +743,7 @@
                     android:alpha="0.2"
                     android:background="@color/light_gray">
                 </View>
-<!--                row2-->
+                <!--                row2-->
                 <TextView
                     android:layout_marginTop="@dimen/ten"
                     style="@style/CustomTextStylePoppinsMedium"
@@ -878,7 +801,36 @@
                     android:alpha="0.2"
                     android:background="@color/light_gray">
                 </View>
-<!--                Row 4-->
+                <!--                Row 4-->
+                <TextView
+                    android:layout_marginTop="@dimen/ten"
+                    style="@style/CustomTextStylePoppinsMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/project"
+                    android:textColor="@color/light_gray"
+                    android:textSize="@dimen/thirteen_sp">
+
+                </TextView>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="@dimen/three"
+                    android:id="@+id/rcProject"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:alpha="0.2"
+                    android:background="@color/light_gray">
+                </View>
+                <!--                Row 4-->
                 <TextView
                     android:layout_marginTop="@dimen/ten"
                     style="@style/CustomTextStylePoppinsMedium"
@@ -890,16 +842,17 @@
 
                 </TextView>
 
-                <TextView
+
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="@dimen/three"
-                    android:id="@+id/lblInternshipExperiences"
-                    style="@style/CustomTextStylePoppinsBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="6 months intern at Sukra InfoTek, Chennai."
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/twelve_sp">
-                </TextView>
+                    android:id="@+id/rcInternshipExperiences"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -907,7 +860,7 @@
                     android:alpha="0.2"
                     android:background="@color/light_gray">
                 </View>
-<!--                Row 5-->
+                <!--                Row 5-->
                 <TextView
                     android:layout_marginTop="@dimen/ten"
                     style="@style/CustomTextStylePoppinsMedium"
@@ -936,7 +889,7 @@
                     android:alpha="0.2"
                     android:background="@color/light_gray">
                 </View>
-<!--                Row 6-->
+                <!--                Row 6-->
                 <TextView
                     android:layout_marginTop="@dimen/ten"
                     style="@style/CustomTextStylePoppinsMedium"
@@ -965,7 +918,7 @@
                     android:alpha="0.2"
                     android:background="@color/light_gray">
                 </View>
-<!--                Row 7-->
+                <!--                Row 7-->
                 <TextView
                     android:layout_marginTop="@dimen/ten"
                     style="@style/CustomTextStylePoppinsMedium"
@@ -977,24 +930,23 @@
 
                 </TextView>
 
-                <TextView
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="@dimen/three"
-                    android:id="@+id/lblCertifications"
-                    style="@style/CustomTextStylePoppinsBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Coursera ML - Andrew Ng - Mar 2024"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/twelve_sp">
-                </TextView>
+                    android:id="@+id/rcCertifications"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/ten"
+                    android:layout_marginTop="@dimen/five"
                     android:alpha="0.2"
                     android:background="@color/light_gray">
                 </View>
-<!--                Row 8-->
+                <!--                Row 8-->
                 <TextView
                     android:layout_marginTop="@dimen/ten"
                     style="@style/CustomTextStylePoppinsMedium"
@@ -1006,25 +958,15 @@
 
                 </TextView>
 
-                <TextView
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="@dimen/three"
-                    android:id="@+id/lblAptitudeScore"
-                    style="@style/CustomTextStylePoppinsBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Aptitude: 85/100"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/twelve_sp">
-                </TextView>
-                <TextView
-                    android:id="@+id/lblCodingScore"
-                    style="@style/CustomTextStylePoppinsBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Coding: 78/100"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/twelve_sp">
-                </TextView>
+                    android:id="@+id/rcAssessmentScore"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

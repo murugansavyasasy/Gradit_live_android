@@ -142,5 +142,7 @@ object ApiMethods {
         "api/AppDetailsBal/SendVoiceToEntireCollegeFromHistory"
 
     const val GetResumeBuilderProfileDetails ="profile/get-profile/"
+    const val GetResumeBuilderAcademicDetails ="academicrecord/get-academic"
+    const val GetResumeBuilderSkillSetDetails ="skillset/get-skillset"
 
 }

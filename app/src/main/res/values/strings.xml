@@ -183,6 +183,7 @@
     <string name="date">dd/mm/yyyy</string>
     <string name="txt_select_year">Select Year</string>
     <string name="txt_edit">Edit</string>
+    <string name="txt_Add">Add</string>
     <string name="txt_Delete">Delete</string>
     <string name="txt_no_attendance_available">Still Attendance not taken for this date</string>
     <string name="txt_leave_type">Leave Type</string>
@@ -278,6 +279,7 @@
     <string name="pg_cgpa">PG CGPA</string>
     <string name="current_blcklogs">Current Blcklogs</string>
     <string name="num_of_arrears">Num. of Arrears</string>
+    <string name="num_of_arrears_coloun">Num. of Arrears :</string>
     <string name="skill_set">Skill Sets</string>
     <string name="languages_known">Languages known</string>
     <string name="soft_skills">Soft Skills</string>
@@ -301,6 +303,7 @@
     <string name="add_another">+ Add another</string>
     <string name="backlogs_and_arrears">Backlogs and Arrears</string>
     <string name="current_backlogs">Current Backlogs</string>
+    <string name="current_backlogs_colon">Current Backlogs :</string>
     <string name="edit_skillsets">Edit SkillSets</string>
     <string name="assessment">Assessment</string>
     <string name="score">Score</string>
@@ -312,6 +315,7 @@
     <string name="preview_my_resume">Preview My Resume</string>
     <string name="select_a_theme">Select a Theme</string>
     <string name="year_of_study">Year Of Study</string>
+    <string name="project">Projects</string>
 
 
 </resources>
