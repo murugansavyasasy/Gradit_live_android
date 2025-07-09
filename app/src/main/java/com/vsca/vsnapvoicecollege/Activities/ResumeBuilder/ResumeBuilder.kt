@@ -97,16 +97,17 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         UserMenuRequest(this)
         MenuBottomType()
 
-        appViewModel?.ResumeBuilderProfileDetails!!.observe(this) { response ->
-            if (response != null) {
+        appViewModel?.resumeBuilderAcademicAddEditResponse?.observe(this) { response ->
+            if (response != null && response.status) {
+                Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show()
 
-                if (response.status) {
-                    isLoadProfileDetails(response.data)
-                } else {
-                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
-                }
+                setResult(RESULT_OK)
+                finish()
+            } else {
+                Toast.makeText(this, "Save failed, please try again.", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         appViewModel?.ResumeBuilderAcademicDetails!!.observe(this) { response ->
             if (response != null) {
@@ -148,6 +149,9 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         binding.CommonLayout.lblEditTwo.setOnClickListener {
             val i = Intent(this, EditAcademicDetails::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            // Pass backlogs & arrears
+            i.putExtra("backlogs", binding.CommonLayout.lblBackLogs.text.toString())
+            i.putExtra("arrears", binding.CommonLayout.lblNoofArrears.text.toString())
             this.startActivity(i)
         }
         binding.CommonLayout.btnEditThree.setOnClickListener {
@@ -175,7 +179,10 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 "image",
                 appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath
             )
-            startActivityForResult(i, 123)
+            i.putExtra("placementStatus", appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberPlacementStatus)
+            i.putExtra("notificationStatus", appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberNotificationStatus ?: false)
+//            startActivityForResult(i, 123)
+            startActivity(i)
         }
     }
 
@@ -396,6 +403,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     override fun onResume() {
         GetProfileDetails()
+        GetAcademicDetails()
         super.onResume()
     }
 

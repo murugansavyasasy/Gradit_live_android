@@ -597,6 +597,14 @@ interface ApiInterfaces {
         @Body isJsonObject: JsonObject
     ): Call<AddEditProfileResponse>
 
+    @POST("academicrecord/add-edit-academic")
+    fun addEditAcademic(
+        @Body request: HashMap<String, Any>
+    ): Call<GetResumeBuilderAcademicDetails>
+
+
+
+
     @GET("profile/get-profile/{id}")
     fun getResumeBuilderProfileDetails(
         @Path("id") id: Int

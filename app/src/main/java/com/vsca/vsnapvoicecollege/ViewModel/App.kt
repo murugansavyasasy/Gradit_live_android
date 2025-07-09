@@ -111,6 +111,9 @@ class App(application: Application) : AndroidViewModel(application) {
     val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
         get() = apiRepositories.GetResumeBuilderProfileDetailsLiveData
 
+    val resumeBuilderAcademicAddEditResponse: LiveData<GetResumeBuilderAcademicDetails?>
+        get() = apiRepositories.resumeBuilderAcademicAddEditResponse
+
 
 
     var Hallticket: LiveData<Hallticket?>? = null
@@ -805,6 +808,7 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.addEditProfile(isJsonObject, activity)
     }
 
+
     fun GetResumeBuilderProfileDetails(id: Int?, activity: Activity) {
         apiRepositories!!.GetResumeBuilderProfileDetailsRequest(id, activity)
     }
@@ -813,6 +817,12 @@ class App(application: Application) : AndroidViewModel(application) {
     fun GetResumeBuilderAcademicDetails(Id:Int ?, activity: Activity?) {
         apiRepositories!!.GetResumeBuilderAcademicDetailsRequest(Id, activity!!)
     }
+
+
+    fun AddEditAcademicDetails(request: HashMap<String, Any>, activity: Activity) {
+        apiRepositories.addEditAcademicDetails(request, activity)
+    }
+
 
     fun GetResumeBuilderSkillSetDetails(Id:Int ?, activity: Activity?) {
         apiRepositories!!.GetResumeBuilderSkillSetDetailsRequest(Id, activity!!)

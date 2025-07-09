@@ -9,7 +9,7 @@ data class GetResumeBuilderProfileDetailsData(
     val memberstudentEmail: String,
     val memberImagePath: String?=null,
     val memberPlacementStatus: String?=null,
-    val memberNotificationStatus: String?=null,
+    val memberNotificationStatus: Boolean?=null,
     val memberRegno: String,
     val memberDob: String,
     val memberGender: String,

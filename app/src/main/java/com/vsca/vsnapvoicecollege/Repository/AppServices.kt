@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
@@ -5474,6 +5475,40 @@ class AppServices {
                 }
             })
     }
+
+
+
+    private val _resumeBuilderAcademicAddEditResponse = MutableLiveData<GetResumeBuilderAcademicDetails?>()
+    val resumeBuilderAcademicAddEditResponse: LiveData<GetResumeBuilderAcademicDetails?>
+        get() = _resumeBuilderAcademicAddEditResponse
+
+    fun addEditAcademicDetails(request: HashMap<String, Any>, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog?.show()
+
+        RestClient.resumeApiInterfaces.addEditAcademic(request)
+            .enqueue(object : Callback<GetResumeBuilderAcademicDetails> {
+                override fun onResponse(
+                    call: Call<GetResumeBuilderAcademicDetails>,
+                    response: Response<GetResumeBuilderAcademicDetails>
+                ) {
+                    progressDialog?.dismiss()
+                    if (response.isSuccessful && response.body() != null) {
+                        _resumeBuilderAcademicAddEditResponse.postValue(response.body())
+                    } else {
+                        _resumeBuilderAcademicAddEditResponse.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<GetResumeBuilderAcademicDetails>, t: Throwable) {
+                    progressDialog?.dismiss()
+                    _resumeBuilderAcademicAddEditResponse.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(activity, activity.getString(R.string.txt_no_record_found))
+                }
+            })
+    }
+
 
     val GetResumeBuilderAcademicDetailsLiveData: LiveData<GetResumeBuilderAcademicDetails?>
         get() = isGetResumeBuilderAcademicDetails
