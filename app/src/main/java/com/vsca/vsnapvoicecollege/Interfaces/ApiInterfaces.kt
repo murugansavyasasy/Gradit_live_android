@@ -55,6 +55,7 @@ import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -75,6 +76,7 @@ import com.vsca.vsnapvoicecollege.Model.MenuResponse
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
 import com.vsca.vsnapvoicecollege.Model.PunchHistoryRes
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
 import com.vsca.vsnapvoicecollege.Model.SenderSide_ChatModel
@@ -612,6 +614,15 @@ interface ApiInterfaces {
     fun getResumeBuilderSkillSetDetails(
         @Query("idMember") id: Int?
     ): Call<GetResumeBuilderSkillSetDetails?>?
+
+  @GET(ApiMethods.GetResumeBuilderSoftSkillsDetails)
+    fun getResumeBuilderSoftSkillsDetails(
+    ): Call<GetResumeBuilderSkillSetSoftSkills?>?
+
+    @POST(ApiMethods.SendResumeBuilderSoftSkillsDetails)
+    fun SendSkillSetDetails(
+        @Body isJsonObject: JsonObject
+    ): Call<ResumeBuilderEditSkillSetResponse>
 
 
     }

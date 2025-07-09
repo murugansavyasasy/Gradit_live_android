@@ -8,7 +8,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten">
+        android:layout_marginTop="@dimen/ten"
+        android:paddingBottom="@dimen/twenty_five"
+        >
         <RelativeLayout
             android:id="@+id/lblMyProfile"
             android:layout_width="match_parent"
@@ -584,11 +586,13 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:layout_marginTop="@dimen/ten"
                 android:layout_below="@+id/lblAcademicRecords"
                 android:layout_width="match_parent"
                 android:background="@drawable/gray_radius"
                 android:id="@+id/lnrAcademicDetails"
                 android:orientation="vertical"
+                android:paddingBottom="@dimen/ten"
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -972,7 +976,6 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/ten"
                     android:alpha="0.2"
-                    android:paddingBottom="@dimen/twenty"
                     android:background="@color/light_gray">
                 </View>
             </LinearLayout>

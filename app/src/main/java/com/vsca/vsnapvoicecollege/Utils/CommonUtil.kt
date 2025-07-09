@@ -32,6 +32,7 @@ import com.vsca.vsnapvoicecollege.Model.AttendanceHour
 import com.vsca.vsnapvoicecollege.Model.AttendanceHourEdit
 import com.vsca.vsnapvoicecollege.Model.ExamcreationEdit
 import com.vsca.vsnapvoicecollege.Model.Examination_Creation
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
 import com.vsca.vsnapvoicecollege.Model.ImageListView
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
@@ -41,6 +42,9 @@ import com.vsca.vsnapvoicecollege.Model.SubjectdetailX
 import com.vsca.vsnapvoicecollege.Model.Subjectdetail_ExamCreation
 import com.vsca.vsnapvoicecollege.R
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 import javax.xml.transform.ErrorListener
 
 
@@ -71,6 +75,8 @@ object CommonUtil {
     val AbsendlistStudent: MutableList<String> = ArrayList()
     var Onbackpressed = ""
     var iSubjectId = ArrayList<String>()
+    var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null
+
 
     @JvmField
     var Appid = 1
@@ -451,6 +457,21 @@ object CommonUtil {
     private val REQUEST_CODE_APP_SETTINGS = 101
 
 //    var isBioMetricEnable: Int = 0
+
+    //Date Convert From "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" to "dd MMM yyyy"
+    fun convertTimeStampToCustomFormat(isDateFormat: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+            val date = inputFormat.parse(isDateFormat)
+
+            val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            isDateFormat
+        }
+    }
 
 
     fun ApiAlert(activity: Activity?, msg: String?) {

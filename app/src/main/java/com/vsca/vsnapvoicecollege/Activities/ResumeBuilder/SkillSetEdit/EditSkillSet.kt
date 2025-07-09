@@ -1,6 +1,7 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,21 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderAcademicDetailsAdapter
+import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderSoftSkillsAdapter
+import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
 
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditskillsetBinding
 
@@ -24,8 +36,8 @@ class EditSkillSet : AppCompatActivity() {
     private val areaofInterest = listOf("Select","Technology","Writing","Travel","Volunteering","Learning Languages")
     private val programmingLanguage = listOf("Select","Python","Java","C","C++","Kotlin","Assemble Language")
     private val toolsAndPlatform = listOf("Select","Firebase","LeetCode","JetBrains IDE","Android Studio","Swift")
-
-
+    val isActuallSoftSkills = mutableListOf<GetResumeBuilderSkillSetSoftSkills>()
+    val isCurrentSoftSkills = mutableListOf<GetResumeBuilderSkillSetSoftSkills>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +47,32 @@ class EditSkillSet : AppCompatActivity() {
         appViewModel!!.init()
         binding.commonBottomResumeBuilder.imgDefault.visibility= View.GONE
         addAssessmentRow()
+        GetSoftSkillsDetails()
+
+
+
+
+        appViewModel?.ResumeBuilderSoftSkillsDetails!!.observe(this) { response ->
+            if (response != null) {
+                if (response.status) {
+                    isLoadSoftSkillsDetails(response.data)
+                } else {
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        appViewModel?.ResumeBuilderEditSkillSetDetails!!.observe(this) { response ->
+            if (response != null) {
+
+                if (response.status) {
+                    Log.d("EditSkillSet","Scucessful EDit")
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+
+                } else {
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
         binding.lblAddAnother!!.setOnClickListener {
             addAssessmentRow()
@@ -45,8 +83,8 @@ class EditSkillSet : AppCompatActivity() {
             onBackPressed()
         }
 
-        //Area of Interest Spinner
 
+        //Area of Interest Spinner
         val adapterAreaOfInterest = object : ArrayAdapter<String>(this, 0, areaofInterest) {
 
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -144,8 +182,30 @@ class EditSkillSet : AppCompatActivity() {
         binding.spinnerToolAndPlatform.adapter = adapterToolsAndPlatform
 
     }
+    fun GetSoftSkillsDetails() {
+//        appViewModel!!.GetResumeBuilderSoftSkillsDetails(this@EditSkillSet)
+        appViewModel!!.GetResumeBuilderSoftSkillsDetails(this@EditSkillSet)
+    }
+
+    fun UpdateEditSkillSetDetails() {
+        val jsonObject = JsonObject().apply {
+        }
+        appViewModel!!.SendEditSkillSetDetails(jsonObject,this@EditSkillSet)
+    }
 
 
+
+    private fun isLoadSoftSkillsDetails(data: List<String>) {
+        if (data.size>0){
+            binding.rcSoftSkills.layoutManager = GridLayoutManager(this, 2)
+            binding.rcSoftSkills.isNestedScrollingEnabled = false
+            binding.rcSoftSkills.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            binding.rcSoftSkills.adapter =
+                ResumeBuilderSoftSkillsAdapter(data)
+        }
+
+
+    }
 
 
     private fun addAssessmentRow() {

@@ -95,6 +95,8 @@ import com.vsca.vsnapvoicecollege.SenderModel.GetDivisionResponse
 import com.vsca.vsnapvoicecollege.SenderModel.SenderStatusMessageData
 import androidx.lifecycle.viewModelScope
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import kotlinx.coroutines.launch
@@ -107,11 +109,6 @@ class App(application: Application) : AndroidViewModel(application) {
 
     val addEditProfileLiveData: LiveData<AddEditProfileResponse?>
         get() = apiRepositories.addEditProfileLiveData
-
-    val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
-        get() = apiRepositories.GetResumeBuilderProfileDetailsLiveData
-
-
 
     var Hallticket: LiveData<Hallticket?>? = null
         private set
@@ -234,6 +231,8 @@ class App(application: Application) : AndroidViewModel(application) {
     var ResumeBuilderProfileDetails: LiveData<GetResumeBuilderProfileDetails?>? = null
     var ResumeBuilderAcademicDetails: LiveData<GetResumeBuilderAcademicDetails?>? = null
     var ResumeBuilderSkillSetDetails: LiveData<GetResumeBuilderSkillSetDetails?>? = null
+    var ResumeBuilderSoftSkillsDetails: LiveData<GetResumeBuilderSkillSetSoftSkills?>? = null
+    var ResumeBuilderEditSkillSetDetails: LiveData<ResumeBuilderEditSkillSetResponse?>? = null
 
 
     fun init() {
@@ -355,6 +354,8 @@ class App(application: Application) : AndroidViewModel(application) {
         ResumeBuilderProfileDetails = apiRepositories!!.GetResumeBuilderProfileDetailsLiveData
         ResumeBuilderAcademicDetails = apiRepositories!!.GetResumeBuilderAcademicDetailsLiveData
         ResumeBuilderSkillSetDetails = apiRepositories!!.GetResumeBuilderSkillSetDetailsLiveData
+        ResumeBuilderSoftSkillsDetails = apiRepositories!!.GetResumeBuilderSoftSkillsLiveData
+        ResumeBuilderEditSkillSetDetails = apiRepositories!!.ResumeBuilderEditSkillSetLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -817,4 +818,11 @@ class App(application: Application) : AndroidViewModel(application) {
     fun GetResumeBuilderSkillSetDetails(Id:Int ?, activity: Activity?) {
         apiRepositories!!.GetResumeBuilderSkillSetDetailsRequest(Id, activity!!)
     }
+    fun GetResumeBuilderSoftSkillsDetails(activity: Activity?) {
+        apiRepositories!!.GetResumeBuilderSoftSkillsRequest( activity!!)
+    }
+    fun SendEditSkillSetDetails(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.SendResumeBuilderEditSoftSkillsRequest(isJsonObject, activity)
+    }
+
 }

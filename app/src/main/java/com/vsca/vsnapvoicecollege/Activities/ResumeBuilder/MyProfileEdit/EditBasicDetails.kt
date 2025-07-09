@@ -376,7 +376,6 @@ class EditBasicDetails : AppCompatActivity() {
         viewModel.addEditProfile(jsonObject, this@EditBasicDetails)
     }
 
-
 }
 
 
