@@ -110,6 +110,9 @@ class App(application: Application) : AndroidViewModel(application) {
     val addEditProfileLiveData: LiveData<AddEditProfileResponse?>
         get() = apiRepositories.addEditProfileLiveData
 
+    val resumeBuilderAcademicAddEditResponse: LiveData<GetResumeBuilderAcademicDetails?>
+        get() = apiRepositories.resumeBuilderAcademicAddEditResponse
+
     var Hallticket: LiveData<Hallticket?>? = null
         private set
 
@@ -821,6 +824,11 @@ class App(application: Application) : AndroidViewModel(application) {
     fun GetResumeBuilderSoftSkillsDetails(activity: Activity?) {
         apiRepositories!!.GetResumeBuilderSoftSkillsRequest( activity!!)
     }
+
+    fun AddEditAcademicDetails(request: HashMap<String, Any>, activity: Activity) {
+        apiRepositories.addEditAcademicDetails(request, activity)
+    }
+
     fun SendEditSkillSetDetails(isJsonObject: JsonObject, activity: Activity) {
         apiRepositories!!.SendResumeBuilderEditSoftSkillsRequest(isJsonObject, activity)
     }

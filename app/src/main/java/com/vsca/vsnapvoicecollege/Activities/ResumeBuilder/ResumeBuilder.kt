@@ -103,17 +103,16 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         UserMenuRequest(this)
         MenuBottomType()
 
-        appViewModel?.resumeBuilderAcademicAddEditResponse?.observe(this) { response ->
-            if (response != null && response.status) {
-                Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show()
+        appViewModel?.ResumeBuilderProfileDetails!!.observe(this) { response ->
+            if (response != null) {
 
-                setResult(RESULT_OK)
-                finish()
-            } else {
-                Toast.makeText(this, "Save failed, please try again.", Toast.LENGTH_SHORT).show()
+                if (response.status) {
+                    isLoadProfileDetails(response.data)
+                } else {
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                }
             }
         }
-
 
         appViewModel?.ResumeBuilderAcademicDetails!!.observe(this) { response ->
             if (response != null) {
@@ -174,9 +173,6 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         binding.CommonLayout.lblEditTwo.setOnClickListener {
             val i = Intent(this, EditAcademicDetails::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            // Pass backlogs & arrears
-            i.putExtra("backlogs", binding.CommonLayout.lblBackLogs.text.toString())
-            i.putExtra("arrears", binding.CommonLayout.lblNoofArrears.text.toString())
             this.startActivity(i)
         }
         binding.CommonLayout.btnEditThree.setOnClickListener {
@@ -205,25 +201,22 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 "image",
                 appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath
             )
-            i.putExtra("placementStatus", appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberPlacementStatus)
-            i.putExtra("notificationStatus", appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberNotificationStatus ?: false)
-//            startActivityForResult(i, 123)
-            startActivity(i)
+            startActivityForResult(i, 123)
         }
     }
 
     private fun isSaveSkillSetData() {
         val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
-        id=isMemeberId,
-        languages=binding.CommonLayout.lblLanguageKnown.text.toString(),
-        softSkill=binding.CommonLayout.lblSoftSkills.text .toString(),
-        areaInterest=binding.CommonLayout.lblAreasofInterest.text.toString(),
-        internship=isSkillSetData!!.internship,
-        programmingLanguage=binding.CommonLayout.lblProgrammingLanguages.text.toString(),
-        toolsPlatform=binding.CommonLayout.lblToolsandplatformsknown.text.toString(),
-        certifications=isSkillSetData!!.certifications,
-        assessmentDetails=isSkillSetData!!.assessmentDetails,
-        projects=isSkillSetData!!.projects,
+            id=isMemeberId,
+            languages=binding.CommonLayout.lblLanguageKnown.text.toString(),
+            softSkill=binding.CommonLayout.lblSoftSkills.text .toString(),
+            areaInterest=binding.CommonLayout.lblAreasofInterest.text.toString(),
+            internship=isSkillSetData!!.internship,
+            programmingLanguage=binding.CommonLayout.lblProgrammingLanguages.text.toString(),
+            toolsPlatform=binding.CommonLayout.lblToolsandplatformsknown.text.toString(),
+            certifications=isSkillSetData!!.certifications,
+            assessmentDetails=isSkillSetData!!.assessmentDetails,
+            projects=isSkillSetData!!.projects,
         )
         Log.d("isSaveSkillSetData",saveSkillSetData.toString())
         //We are Saving all the data in Constant as List Here
@@ -447,7 +440,6 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     override fun onResume() {
         GetProfileDetails()
-        GetAcademicDetails()
         super.onResume()
     }
 
@@ -456,4 +448,3 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         super.onBackPressed()
     }
 }
-

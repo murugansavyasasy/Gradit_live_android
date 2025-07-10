@@ -520,8 +520,3 @@ class EditBasicDetails : AppCompatActivity() {
     }
 
 }
-
-
-
-
-
