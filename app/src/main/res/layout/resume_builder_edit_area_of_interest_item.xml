@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/btnClose"
+        android:elevation="@dimen/five"
+        android:src="@drawable/close_red"
+        android:layout_alignParentEnd="true"
+        android:layout_width="@dimen/twenty"
+        android:layout_height="@dimen/twenty">
+
+    </ImageView>
+    <LinearLayout
+        android:layout_margin="@dimen/fifteen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/lblAreaOfInterest"
+            android:layout_width="match_parent"
+            android:text="comminication"
+            android:layout_height="wrap_content">
+        </TextView>
+    </LinearLayout>
+</RelativeLayout>

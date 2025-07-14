@@ -1,6 +1,6 @@
 package com.vsca.vsnapvoicecollege.Model
 
-class GetAssessmentDetailsData(
-    val score: String,
-    val assessment: String,
-)
+data class GetAssessmentDetailsData(
+    var assessment: String,
+    var score: String,
+    )

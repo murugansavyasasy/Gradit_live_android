@@ -13,6 +13,7 @@ class GetResumeBuilderSkillSetDetailsData (
     val projects: List<GetProjectDetailsData>?=null,
     val createdOn: Any?=null,
     val modifiedOn: Any?=null,
-    val isDelete: Int?=null,
+    val isDelete: String?=null,
     val idMember: Int?=null,
+    val updatedFields:Any?=null
 )

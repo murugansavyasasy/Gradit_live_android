@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/five"
+    android:layout_height="wrap_content">
+
+    <TextView
+
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/course_name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fourteen_sp" />
+    <EditText
+        android:layout_marginTop="@dimen/five"
+        android:id="@+id/edtCourseName"
+        android:layout_width="match_parent"
+        android:hint="@string/enter_course_name"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_gray_radius"
+        android:padding="@dimen/eight" />
+
+    <TextView
+        android:layout_marginTop="@dimen/ten"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/institute"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fourteen_sp" />
+    <EditText
+        android:layout_marginTop="@dimen/five"
+        android:id="@+id/edtInstituteName"
+        android:hint="@string/enter_institute_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_gray_radius"
+        android:padding="@dimen/eight" />
+
+    <TextView
+        android:layout_marginTop="@dimen/ten"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/duration"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fourteen_sp" />
+    <EditText
+        android:layout_marginTop="@dimen/five"
+        android:id="@+id/edtDuration"
+        android:hint="@string/enter_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_gray_radius"
+        android:padding="@dimen/eight" />
+
+    <TextView
+        android:textColor="@color/light_red"
+        android:id="@+id/lblremove"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:text="@string/remove"
+        android:layout_height="wrap_content">
+    </TextView>
+
+</LinearLayout>

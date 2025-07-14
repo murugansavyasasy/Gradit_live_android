@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            style="@style/CustomTextStylePoppinsBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/assessment"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fourteen_sp">
+
+        </TextView>
+
+        <TextView
+            style="@style/CustomTextStylePoppinsBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five"
+            android:layout_weight="0.5"
+            android:text="@string/score"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fourteen_sp">
+
+        </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/five"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_weight="0.5"
+            android:id="@+id/edtAssessment"
+            android:layout_width="0dp"
+            android:hint="@string/assessment"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rect_gray_radius"
+            android:padding="@dimen/eight" />
+
+        <EditText
+            android:layout_weight="0.5"
+            android:id="@+id/edtPercentage"
+            android:layout_marginStart="@dimen/five"
+            android:layout_width="0dp"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rect_gray_radius"
+            android:padding="@dimen/eight" />
+    </LinearLayout>
+    <TextView
+        android:textColor="@color/light_red"
+        android:id="@+id/lblremove"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:text="@string/remove"
+        android:layout_height="wrap_content">
+    </TextView>
+</LinearLayout>
