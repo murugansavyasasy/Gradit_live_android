@@ -1,4 +1,5 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder
+import android.app.Activity
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import android.content.Context
 import android.content.Intent
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit.EditAcademicDetails
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildMyResume
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.MyProfileEdit.EditBasicDetails
@@ -53,31 +55,6 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         return ActivityResumebuilderBinding.inflate(layoutInflater)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-
-        if (requestCode == 123 && resultCode == RESULT_OK && data != null) {
-            val updatedName = data.getStringExtra("updatedName")
-            val updatedPhone = data.getStringExtra("updatedPhone")
-            val updatedEmail = data.getStringExtra("updatedEmail")
-            val updatedImage = data.getStringExtra("updatedImage")
-
-
-            binding.CommonLayout.lblName.text = updatedName ?: ""
-            binding.CommonLayout.lblMobileNo.text = updatedPhone ?: ""
-            binding.CommonLayout.lblGamilId.text = updatedEmail ?: ""
-
-
-            Glide.with(this)
-                .load(updatedImage)
-                .placeholder(R.drawable.default_profile)
-                .error(R.drawable.default_profile)
-                .into(binding.CommonLayout.imgProfile)
-
-            GetProfileDetails()
-        }
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +74,6 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-
 
         ActionBarMethod(this@ResumeBuilder)
         UserMenuRequest(this)
@@ -172,9 +148,17 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         }
         binding.CommonLayout.lblEditTwo.setOnClickListener {
             val i = Intent(this, EditAcademicDetails::class.java)
+            val academicData = appViewModel?.ResumeBuilderAcademicDetails?.value?.data?.firstOrNull()
+            if (academicData != null) {
+                i.putExtra("backlogs", academicData.backlogs)
+                i.putExtra("arrears", academicData.numberOfArrears)
+                val json = Gson().toJson(academicData.educationalDetails)
+                i.putExtra("educationalDetails", json)
+            }
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            this.startActivity(i)
+            startActivityForResult(i, 101)
         }
+
         binding.CommonLayout.btnEditThree.setOnClickListener {
             val i = Intent(this, EditSkillSet::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -196,12 +180,23 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             i.putExtra("email", binding.CommonLayout.lblGamilId.text.toString())
             Log.d("MemberId1", isMemeberId.toString())
             i.putExtra("memberId", isMemeberId)
+            i.putExtra(
+                "placementStatus",
+                binding.CommonLayout.lblAvailPlacement.text.toString()
+            )
 
             i.putExtra(
                 "image",
                 appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath
             )
             startActivityForResult(i, 123)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
+            GetAcademicDetails() // re-fetch updated data
         }
     }
 
@@ -427,7 +422,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     fun GetAcademicDetails() {
 //        appViewModel!!.GetResumeBuilderAcademicDetails(CommonUtil.MemberId, this@ResumeBuilder)
-        appViewModel!!.GetResumeBuilderAcademicDetails(31138, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderAcademicDetails(31145, this@ResumeBuilder)
     }
 
     fun GetSkillSetDetails() {

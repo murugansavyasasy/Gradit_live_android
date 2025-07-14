@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <RelativeLayout
         android:id="@+id/rlaEditProfileHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_shadow_white"
         android:padding="@dimen/twenty">
+
 
         <ImageView
             android:id="@+id/imgback"
@@ -18,6 +20,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/arrow_back">
         </ImageView>
+
 
         <TextView
             style="@style/CustomTextStylePoppinsBold"
@@ -31,7 +34,9 @@
             android:textSize="@dimen/eighteen_sp">
         </TextView>
 
+
     </RelativeLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,16 +44,19 @@
         android:layout_above="@+id/commonBottomResumeBuilder"
         android:layout_below="@+id/rlaEditProfileHeader">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten">
+
 
             <RelativeLayout
                 android:id="@+id/rlaProfileImage"
                 android:layout_width="@dimen/hundred"
                 android:layout_height="@dimen/ninety"
                 android:layout_centerHorizontal="true">
+
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgProfile"
@@ -59,6 +67,8 @@
                     app:civ_border_width="2dp"></de.hdodenhof.circleimageview.CircleImageView>
 
 
+
+
                 <ImageView
                     android:layout_width="@dimen/sixty"
                     android:layout_height="@dimen/thirty_five"
@@ -66,6 +76,7 @@
                     android:layout_alignParentBottom="true"
                     android:src="@drawable/camera_icon"></ImageView>
             </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/imgDeleteProfile"
@@ -77,7 +88,9 @@
                 android:text="@string/delete_picture"
                 android:textColor="@color/clr_txt_red">
 
+
             </TextView>
+
 
             <LinearLayout
                 android:id="@+id/lnrProfileDetails"
@@ -89,6 +102,7 @@
                 android:layout_marginEnd="@dimen/twenty"
                 android:orientation="vertical">
 
+
                 <TextView
                     style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="match_parent"
@@ -97,7 +111,9 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp">
 
+
                 </TextView>
+
 
                 <EditText
                     android:id="@+id/edtName"
@@ -105,7 +121,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
                     android:background="@drawable/rect_gray_radius"
+                    android:inputType="textPersonName"
                     android:padding="@dimen/eight">
+
 
                 </EditText>
                 <!--                contact phone-->
@@ -118,7 +136,9 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp">
 
+
                 </TextView>
+
 
                 <EditText
                     android:id="@+id/edtPhone"
@@ -127,6 +147,7 @@
                     android:layout_marginTop="@dimen/five"
                     android:background="@drawable/rect_gray_radius"
                     android:padding="@dimen/eight"
+                    android:inputType="number"
                     android:maxLength="10">
                 </EditText>
                 <!--                Email Address-->
@@ -139,7 +160,9 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp">
 
+
                 </TextView>
+
 
                 <EditText
                     android:id="@+id/edtEmail"
@@ -147,10 +170,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
                     android:background="@drawable/rect_gray_radius"
+                    android:inputType="textEmailAddress"
                     android:padding="@dimen/eight">
+
 
                 </EditText>
             </LinearLayout>
+
 
             <View
                 android:id="@+id/viewOne"
@@ -161,7 +187,9 @@
                 android:alpha="0.2"
                 android:background="@color/light_gray">
 
+
             </View>
+
 
             <LinearLayout
                 android:id="@+id/lnrPlacementStatusDetails"
@@ -173,6 +201,7 @@
                 android:layout_marginEnd="@dimen/twenty"
                 android:orientation="vertical">
 
+
                 <TextView
                     android:id="@+id/lblPlacementStatus"
                     style="@style/CustomTextStylePoppinsBold"
@@ -182,12 +211,14 @@
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/sixteen_sp" />
 
+
                 <LinearLayout
                     android:id="@+id/lnrPlacementStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
                     android:gravity="start|center">
+
 
                     <TextView
                         style="@style/CustomTextStylePoppinsRegular"
@@ -197,7 +228,9 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/fourteen_sp">
 
+
                     </TextView>
+
 
                     <TextView
                         style="@style/CustomTextStylePoppinsRegular"
@@ -208,28 +241,33 @@
                         android:textColor="@color/light_gray"
                         android:textSize="@dimen/twelve_sp">
 
+
                     </TextView>
                 </LinearLayout>
 
-                <EditText
+
+                <TextView
                     android:id="@+id/edtPlacementStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
                     android:background="@drawable/rect_gray_radius"
                     android:padding="@dimen/eight">
-                </EditText>
+                </TextView>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="@dimen/ten">
 
+
                     <com.vsca.vsnapvoicecollege.Utils.CustomSwitch
                         android:id="@+id/customSwitch"
                         android:layout_width="@dimen/thirty"
                         android:layout_height="@dimen/thirty"
                         android:layout_centerVertical="true" />
+
 
                     <TextView
                         style="@style/CustomTextStylePoppinsRegular"
@@ -240,11 +278,13 @@
                         android:layout_toEndOf="@+id/customSwitch"
                         android:text="@string/EditProfile_constent_message">
 
+
                     </TextView>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
+
 
     <include
         android:id="@+id/commonBottomResumeBuilder"
@@ -254,4 +294,7 @@
         android:layout_alignParentBottom="true">
     </include>
 
+
 </RelativeLayout>
+
+

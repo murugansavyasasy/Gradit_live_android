@@ -12,6 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
@@ -34,16 +37,35 @@ class EditAcademicDetails : AppCompatActivity() {
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
+        // Hide default icon and update button text
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
         binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.update)
 
+        // Get data from intent
         val backlogs = intent.getStringExtra("backlogs") ?: ""
         val arrears = intent.getStringExtra("arrears") ?: ""
+        val educationalDetailsJson = intent.getStringExtra("educationalDetails")
 
+        // Fill inputs
         binding.edtBacklogs.setText(backlogs)
         binding.edtArrears.setText(arrears)
 
-        addRow() // add first empty row
+        // Load qualifications if any
+        if (!educationalDetailsJson.isNullOrEmpty()) {
+            val gson = Gson()
+            val type = object : TypeToken<List<GetEducationalDetailsData>>() {}.type
+            val educationalDetails = gson.fromJson<List<GetEducationalDetailsData>>(educationalDetailsJson, type)
+
+            if (educationalDetails.isNotEmpty()) {
+                educationalDetails.forEach {
+                    addRow(it)
+                }
+            } else {
+                addRow() // empty row if no data
+            }
+        } else {
+            addRow()
+        }
 
         binding.lblAddAnother.setOnClickListener {
             addRow()
@@ -53,11 +75,11 @@ class EditAcademicDetails : AppCompatActivity() {
             onBackPressed()
         }
 
-        // observe API response
+        // Observe save response
         appViewModel?.resumeBuilderAcademicAddEditResponse?.observe(this) { response ->
             if (response != null && response.status) {
                 Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show()
-                setResult(Activity.RESULT_OK) // notify parent to reload data
+                setResult(Activity.RESULT_OK)
                 finish()
             } else {
                 Toast.makeText(this, "Save failed, please try again.", Toast.LENGTH_SHORT).show()
@@ -69,11 +91,12 @@ class EditAcademicDetails : AppCompatActivity() {
         }
     }
 
-    private fun addRow() {
+    private fun addRow(item: GetEducationalDetailsData? = null) {
         val rowView = LayoutInflater.from(this)
             .inflate(R.layout.item_qualification, binding.containerLayout, false)
 
         val spinner = rowView.findViewById<Spinner>(R.id.SpinnerQualification)
+        val edtPercentage = rowView.findViewById<EditText>(R.id.edtPercentage)
 
         val adapter = object : ArrayAdapter<String>(this, 0, qualificationList) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -94,6 +117,14 @@ class EditAcademicDetails : AppCompatActivity() {
         }
 
         spinner.adapter = adapter
+
+        // Prefill if item is passed
+        item?.let {
+            val pos = qualificationList.indexOf(it.classDegree)
+            if (pos >= 0) spinner.setSelection(pos)
+            edtPercentage.setText(it.percentage)
+        }
+
         binding.containerLayout.addView(rowView)
     }
 
@@ -110,7 +141,7 @@ class EditAcademicDetails : AppCompatActivity() {
 
             val qualification = spinner.selectedItem.toString()
             val percentage = edtPercentage.text.toString().trim()
-            val institution = "ABC Institute of Technology" // replace later if you have input
+            val institution = "ABC Institute of Technology" // TODO: Update if you add input
 
             if (qualification != "Select" && percentage.isNotEmpty()) {
                 educationalDetails.add(
@@ -123,7 +154,6 @@ class EditAcademicDetails : AppCompatActivity() {
             }
         }
 
-        // build request with fixed idMember = 31145
         val request = hashMapOf<String, Any>(
             "idMember" to 31145,
             "educationalDetails" to educationalDetails,

@@ -79,6 +79,7 @@
                         android:textSize="@dimen/fourteen_sp">
 
                     </TextView>
+
                     <TextView
                         android:layout_marginStart="@dimen/five"
                         android:layout_weight="0.5"
@@ -100,6 +101,25 @@
                     android:layout_marginTop="@dimen/five"
                     android:orientation="vertical"
                     />
+                <!-- School/Institution -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:text="School/Institution"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <EditText
+                    android:id="@+id/edtSchoolInstitution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:background="@drawable/rect_gray_radius"
+                    android:padding="@dimen/eight"
+                    android:hint="Type and search" />
+
                 <TextView
                     android:id="@+id/lblAddAnother"
                     android:layout_marginTop="@dimen/ten"
@@ -112,6 +132,7 @@
                     >
                 </TextView>
             </LinearLayout>
+
             <View
                 android:id="@+id/viewOne"
                 android:layout_width="match_parent"
@@ -181,7 +202,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rect_gray_radius"
-                    android:padding="@dimen/eight" />
+                    android:padding="@dimen/eight"
+                    android:inputType="number"/>
                 <EditText
                     android:layout_weight="0.5"
                     android:id="@+id/edtArrears"
@@ -189,7 +211,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rect_gray_radius"
-                    android:padding="@dimen/eight" />
+                    android:padding="@dimen/eight"
+                    android:inputType="number"/>
             </LinearLayout>
 
 
