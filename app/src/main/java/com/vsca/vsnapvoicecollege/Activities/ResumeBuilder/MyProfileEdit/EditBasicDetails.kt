@@ -554,7 +554,6 @@ class EditBasicDetails : AppCompatActivity() {
 
         Log.d("isProfileImage", isProfileImage)
 
-
         val jsonObject = JsonObject()
         jsonObject.addProperty("idMember", memberId)
         jsonObject.addProperty("imagePath", isProfileImage)

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
@@ -75,6 +76,6 @@ class ResumeBuilderEditProjectDetailsAdapter(
 
     inner class ProjectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val edtProjectTitle: EditText = itemView.findViewById(R.id.edtProjectTitle)
-        val lblremove: TextView = itemView.findViewById(R.id.lblremove)
+        val lblremove:ImageView = itemView.findViewById(R.id.lblremove)
     }
 }

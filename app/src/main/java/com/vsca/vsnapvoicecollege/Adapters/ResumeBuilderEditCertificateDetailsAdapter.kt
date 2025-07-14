@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
@@ -95,6 +96,6 @@ class ResumeBuilderEditCertificateDetailsAdapter(
         val edtCourseName: EditText = itemView.findViewById(R.id.edtCourseName)
         val edtInstituteName: EditText = itemView.findViewById(R.id.edtInstituteName)
         val edtDuration: TextView = itemView.findViewById(R.id.edtDuration)
-        val lblremove: TextView = itemView.findViewById(R.id.lblremove)
+        val lblremove: ImageView = itemView.findViewById(R.id.lblremove)
     }
 }

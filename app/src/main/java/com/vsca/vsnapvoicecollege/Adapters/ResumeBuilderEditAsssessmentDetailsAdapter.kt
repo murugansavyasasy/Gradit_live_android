@@ -3,6 +3,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
@@ -83,6 +84,6 @@ class ResumeBuilderEditAsssessmentDetailsAdapter(
     inner class AssessmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val edtAssessment: EditText = itemView.findViewById(R.id.edtAssessment)
         val edtPercentage: EditText = itemView.findViewById(R.id.edtPercentage)
-        val lblremove: TextView = itemView.findViewById(R.id.lblremove)
+        val lblremove: ImageView = itemView.findViewById(R.id.lblremove)
     }
 }
