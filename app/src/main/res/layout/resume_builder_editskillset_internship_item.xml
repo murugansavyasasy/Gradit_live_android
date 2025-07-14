@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/five"
+    android:layout_height="wrap_content">
+
+    <TextView
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/company_name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fourteen_sp" />
+    <EditText
+        android:layout_marginTop="@dimen/five"
+        android:id="@+id/edtCompanyName"
+        android:layout_width="match_parent"
+        android:hint="@string/enter_company_name"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_gray_radius"
+        android:padding="@dimen/eight" />
+
+    <TextView
+        android:layout_marginTop="@dimen/ten"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/role"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fourteen_sp" />
+    <EditText
+        android:layout_marginTop="@dimen/five"
+        android:id="@+id/edtRole"
+        android:hint="@string/enter_internship_role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_gray_radius"
+        android:padding="@dimen/eight" />
+
+    <TextView
+        android:layout_marginTop="@dimen/ten"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/period_duration"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fourteen_sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="@dimen/five"
+            android:id="@+id/txtFromDate"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/calendar_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_from"
+            android:layout_marginEnd="@dimen/ten"
+            android:background="@drawable/rect_gray_radius"
+            android:padding="@dimen/eight" />
+        <TextView
+            android:layout_marginTop="@dimen/five"
+            android:id="@+id/txtToDate"
+            android:layout_weight="1"
+            android:hint="@string/txt_to"
+            android:drawableEnd="@drawable/calendar_icon"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rect_gray_radius"
+            android:padding="@dimen/eight" />
+    </LinearLayout>
+    <TextView
+        android:textColor="@color/light_red"
+        android:id="@+id/lblremove"
+        style="@style/CustomTextStylePoppinsBold"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:text="@string/remove"
+        android:layout_height="wrap_content">
+    </TextView>
+</LinearLayout>

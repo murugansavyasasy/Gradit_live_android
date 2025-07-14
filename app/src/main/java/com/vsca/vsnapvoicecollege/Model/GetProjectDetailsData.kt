@@ -1,5 +1,5 @@
 package com.vsca.vsnapvoicecollege.Model
 
-class GetProjectDetailsData(
-    val title: String,
+data class GetProjectDetailsData(
+    var title: String,
     )

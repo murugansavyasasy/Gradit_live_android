@@ -3,6 +3,7 @@ package com.vsca.vsnapvoicecollege.Utils
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -43,6 +44,7 @@ import com.vsca.vsnapvoicecollege.Model.Subjectdetail_ExamCreation
 import com.vsca.vsnapvoicecollege.R
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
 import javax.xml.transform.ErrorListener
@@ -458,6 +460,53 @@ object CommonUtil {
 
 //    var isBioMetricEnable: Int = 0
 
+
+    //Date Picker
+    fun showDatePickerWithExistingDate(
+        context: Context,
+        existingDateStr: String?,   // e.g., "12 Jun 2025"
+        minDate: Long? = null,
+        onDateSelected: (String, Long) -> Unit
+    ) {
+        val calendar = Calendar.getInstance() // default to today
+
+        // Try parsing existing date
+        if (!existingDateStr.isNullOrBlank()) {
+            try {
+                val sdf = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+                val parsedDate = sdf.parse(existingDateStr)
+                parsedDate?.let {
+                    calendar.time = it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val dialog = DatePickerDialog(context, { _, y, m, d ->
+            val selectedCalendar = Calendar.getInstance().apply {
+                set(y, m, d)
+            }
+
+            val pickedDate = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).format(selectedCalendar.time)
+            val millis = selectedCalendar.timeInMillis
+
+            onDateSelected(pickedDate, millis)
+
+        }, year, month, day)
+
+        // Set minDate if provided
+        minDate?.let { dialog.datePicker.minDate = it }
+
+        dialog.show()
+    }
+
+
+
     //Date Convert From "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" to "dd MMM yyyy"
     fun convertTimeStampToCustomFormat(isDateFormat: String): String {
         return try {
@@ -472,6 +521,19 @@ object CommonUtil {
             isDateFormat
         }
     }
+
+    //"dd MMM YYYY" into a timestamp in milliseconds
+    fun parseDateToMillis(dateStr: String): Long? {
+        return try {
+            val sdf = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            val date = sdf.parse(dateStr)
+            date?.time
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
 
     fun ApiAlert(activity: Activity?, msg: String?) {

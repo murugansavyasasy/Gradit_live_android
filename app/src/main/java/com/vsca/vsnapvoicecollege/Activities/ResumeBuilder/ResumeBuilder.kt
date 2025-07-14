@@ -206,12 +206,12 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             languages=binding.CommonLayout.lblLanguageKnown.text.toString(),
             softSkill=binding.CommonLayout.lblSoftSkills.text .toString(),
             areaInterest=binding.CommonLayout.lblAreasofInterest.text.toString(),
-            internship=isSkillSetData!!.internship,
+            internship=isSkillSetData?.internship,
             programmingLanguage=binding.CommonLayout.lblProgrammingLanguages.text.toString(),
             toolsPlatform=binding.CommonLayout.lblToolsandplatformsknown.text.toString(),
-            certifications=isSkillSetData!!.certifications,
-            assessmentDetails=isSkillSetData!!.assessmentDetails,
-            projects=isSkillSetData!!.projects,
+            certifications=isSkillSetData?.certifications,
+            assessmentDetails=isSkillSetData?.assessmentDetails,
+            projects=isSkillSetData?.projects,
         )
         Log.d("isSaveSkillSetData",saveSkillSetData.toString())
         //We are Saving all the data in Constant as List Here
@@ -422,7 +422,8 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     fun GetAcademicDetails() {
 //        appViewModel!!.GetResumeBuilderAcademicDetails(CommonUtil.MemberId, this@ResumeBuilder)
-        appViewModel!!.GetResumeBuilderAcademicDetails(31145, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderAcademicDetails(31146, this@ResumeBuilder)
+
     }
 
     fun GetSkillSetDetails() {

@@ -617,63 +617,71 @@
                 </View>
 
                 <LinearLayout
-                    android:layout_marginBottom="@dimen/five"
-                    android:layout_marginStart="@dimen/ten"
-                    android:id="@+id/lnrBackLogs"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:gravity="center"
                     android:layout_marginTop="@dimen/five"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
                     android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:textColor="@color/light_gray"
-                        android:text="@string/current_backlogs_colon"
-                        android:layout_height="wrap_content">
-                    </TextView>
-                    <TextView
-                        android:id="@+id/lblBackLogs"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/dark_green_radius"
-                        android:paddingStart="@dimen/eight"
-                        android:paddingTop="@dimen/two"
-                        android:paddingEnd="@dimen/eight"
-                        android:paddingBottom="@dimen/two"
+                    <LinearLayout
+                        android:layout_weight="1"
                         android:layout_marginStart="@dimen/ten"
-                        android:text="77"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/twelve_sp">
-
-                    </TextView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_marginStart="@dimen/ten"
-                    android:id="@+id/lnrNoofArrears"
-                    android:layout_marginTop="@dimen/ten"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:textColor="@color/light_gray"
-                        android:text="@string/num_of_arrears_coloun"
+                        android:id="@+id/lnrBackLogs"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
                         android:layout_height="wrap_content">
-                    </TextView>
-                    <TextView
-                        android:id="@+id/lblNoofArrears"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/dark_green_radius"
-                        android:paddingStart="@dimen/eight"
-                        android:paddingTop="@dimen/two"
-                        android:paddingEnd="@dimen/eight"
-                        android:paddingBottom="@dimen/two"
-                        android:layout_marginStart="@dimen/fifteen"
-                        android:text="77"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/twelve_sp"></TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/light_gray"
+                            android:text="@string/current_backlogs_colon"
+                            android:layout_height="wrap_content">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/lblBackLogs"
+                            style="@style/CustomTextStylePoppinsBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dark_green_radius"
+                            android:paddingStart="@dimen/eight"
+                            android:paddingTop="@dimen/two"
+                            android:paddingEnd="@dimen/eight"
+                            android:paddingBottom="@dimen/two"
+                            android:layout_marginStart="@dimen/ten"
+                            android:text="77"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/twelve_sp">
+
+                        </TextView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/ten"
+                        android:id="@+id/lnrNoofArrears"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/light_gray"
+                            android:text="@string/num_of_arrears_coloun"
+                            android:layout_height="wrap_content">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/lblNoofArrears"
+                            style="@style/CustomTextStylePoppinsBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dark_green_radius"
+                            android:paddingStart="@dimen/eight"
+                            android:paddingTop="@dimen/two"
+                            android:paddingEnd="@dimen/eight"
+                            android:paddingBottom="@dimen/two"
+                            android:layout_marginStart="@dimen/fifteen"
+                            android:text="77"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/twelve_sp">
+                        </TextView>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 

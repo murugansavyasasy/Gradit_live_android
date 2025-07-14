@@ -1,8 +1,8 @@
 package com.vsca.vsnapvoicecollege.Model
 
-class GetInternshipDetailsData (
-    val to: String,
-    val from: String,
-    val companyName: String,
-    val designation: String,
+data class GetInternshipDetailsData (
+    var to: String,
+    var from: String,
+    var companyName: String,
+    var designation: String,
 )

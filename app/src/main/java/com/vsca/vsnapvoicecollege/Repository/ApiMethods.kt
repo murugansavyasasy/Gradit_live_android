@@ -144,7 +144,7 @@ object ApiMethods {
     const val GetResumeBuilderProfileDetails ="profile/get-profile/"
     const val GetResumeBuilderAcademicDetails ="academicrecord/get-academic"
     const val GetResumeBuilderSkillSetDetails ="skillset/get-skillset"
-    const val GetResumeBuilderSoftSkillsDetails ="academicrecord/get-softskill"
+    const val GetResumeBuilderSoftSkillsDetails ="skillset/get-softskill"
     const val SendResumeBuilderSoftSkillsDetails ="skillset/add-edit-skillset"
 
 }

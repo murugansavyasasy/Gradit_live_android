@@ -4,17 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.vsca.vsnapvoicecollege.Interfaces.OnSoftSkillSelectedListener
+import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.R
-import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkillsData
 class ResumeBuilderSoftSkillsAdapter(
-    private val skills: List<String>
+    skills: List<GetResumeBuilderSkillSetSoftSkillsData>,
+    preSelected: List<String>,
+    private val listener: OnSoftSkillSelectedListener
 ) : RecyclerView.Adapter<ResumeBuilderSoftSkillsAdapter.ViewHolder>() {
-
-    val selectedSkills = mutableListOf<String>()
+    //Here SkillList is SoftSkills which comes from APi(How many Option there in API)
+    private val skillList: List<String> = skills.firstOrNull()?.softSkills ?: emptyList()
+    //Here selectedSkills,The User have this SoftSkills which we fetch from SkillSet GET APi
+    private val selectedSkills = preSelected.toMutableList()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val lblcbSelect: CheckBox = view.findViewById(R.id.lblcbSelect)
@@ -27,29 +30,27 @@ class ResumeBuilderSoftSkillsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val skill = skills[position]
+        val skill = skillList[position]
         val isSelected = selectedSkills.contains(skill)
 
         holder.lblcbSelect.text = skill
-        holder.lblcbSelect.isChecked = isSelected
-
-        val drawableRes = if (isSelected) R.drawable.ch_square_check else R.drawable.ch_square_uncheck
-        holder.lblcbSelect.setButtonDrawable(drawableRes)
-
-        // Remove existing listener to avoid incorrect behavior during recycling
         holder.lblcbSelect.setOnCheckedChangeListener(null)
+        holder.lblcbSelect.isChecked = isSelected
+        holder.lblcbSelect.setButtonDrawable(
+            if (isSelected) R.drawable.ch_square_check else R.drawable.ch_square_uncheck
+        )
 
-        // Set new listener
         holder.lblcbSelect.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                selectedSkills.add(skill)
+                if (!selectedSkills.contains(skill)) selectedSkills.add(skill)
             } else {
                 selectedSkills.remove(skill)
             }
-            notifyItemChanged(position) // Refresh to update the drawable
+            notifyItemChanged(position) // to update drawable
+            listener.onSoftSkillsChanged(selectedSkills) // 🔔 notify activity
         }
     }
+    fun getUpdatedList(): List<String> = selectedSkills
 
-    override fun getItemCount(): Int = skills.size
+    override fun getItemCount(): Int = skillList.size
 }
-

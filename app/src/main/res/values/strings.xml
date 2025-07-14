@@ -304,7 +304,7 @@
     <string name="backlogs_and_arrears">Backlogs and Arrears</string>
     <string name="current_backlogs">Current Backlogs</string>
     <string name="current_backlogs_colon">Current Backlogs :</string>
-    <string name="edit_skillsets">Edit SkillSets</string>
+    <string name="edit_skillsets">Edit Skill Sets</string>
     <string name="assessment">Assessment</string>
     <string name="score">Score</string>
     <string name="tools_and_platform_known">Tools and Platform Known</string>
@@ -317,6 +317,26 @@
     <string name="year_of_study">Year Of Study</string>
     <string name="project">Projects</string>
     <string name="update">Update</string>
+    <string name="company_name">Company Name</string>
+    <string name="role">Role</string>
+    <string name="period_duration">Period (From/To)</string>
+    <string name="enter_internship_role">Enter internship role</string>
+    <string name="enter_company_name">Enter company name</string>
+    <string name="enter_course_name">Enter course name</string>
+    <string name="enter_institute_name">Enter institute name</string>
+    <string name="enter_project_title">Enter project title</string>
+    <string name="enter_duration">Enter duration </string>
+    <string name="duration">Duration </string>
+    <string name="institute">Institute</string>
+    <string name="course_name">Course Name</string>
+    <string name="project_title">Project title</string>
+    <string name="remove">Remove</string>
+    <string name="enter_comma_separated">Enter comma separated</string>
+    <string name="enter_area_of_interest">Enter areas of interest</string>
+    <string name="add_one">+ Add</string>
+    <string name="tools">Tools</string>
+    <string name="assessment_details">Assessment Details</string>
+
 
 
 </resources>
