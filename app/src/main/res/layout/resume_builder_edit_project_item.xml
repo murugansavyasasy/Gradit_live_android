@@ -5,14 +5,30 @@
     android:layout_marginBottom="@dimen/five"
     android:layout_height="wrap_content">
 
-    <TextView
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        style="@style/CustomTextStylePoppinsBold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/project_title"
-        android:textColor="@color/black"
-        android:textSize="@dimen/fourteen_sp" />
+
+        <TextView
+
+            style="@style/CustomTextStylePoppinsBold"
+            android:layout_width="match_parent"
+            android:layout_toStartOf="@+id/lblremove"
+            android:layout_height="wrap_content"
+            android:text="@string/project_title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fourteen_sp" />
+
+        <ImageView
+            android:layout_alignParentEnd="true"
+            android:id="@+id/lblremove"
+            android:src="@drawable/close_red"
+            android:layout_width="@dimen/twenty"
+            android:layout_height="@dimen/twenty">
+        </ImageView>
+    </RelativeLayout>
     <EditText
         android:layout_marginTop="@dimen/five"
         android:id="@+id/edtProjectTitle"
@@ -21,15 +37,5 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rect_gray_radius"
         android:padding="@dimen/eight" />
-
-    <TextView
-        android:textColor="@color/light_red"
-        android:id="@+id/lblremove"
-        style="@style/CustomTextStylePoppinsBold"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/ten"
-        android:text="@string/remove"
-        android:layout_height="wrap_content">
-    </TextView>
 
 </LinearLayout>

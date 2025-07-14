@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
@@ -34,17 +35,29 @@ class ResumeBuilderEditInternshipDetailsAdapter(
 
         // Handle FROM date selection
         holder.txtFromDate.setOnClickListener {
-            val existingText = holder.txtFromDate.text.toString()
+            val existingFromText = holder.txtFromDate.text.toString()
+            val existingToText = holder.txtToDate.text.toString()
 
             CommonUtil.showDatePickerWithExistingDate(
                 context = holder.itemView.context,
-                existingDateStr = existingText,
+                existingDateStr = existingFromText,
                 minDate = null
-            ) { pickedDate, _ ->
-                holder.txtFromDate.setText(pickedDate)
-                internships[position].from = pickedDate
+            ) { pickedFromDate, pickedFromMillis ->
+                holder.txtFromDate.setText(pickedFromDate)
+                internships[position].from = pickedFromDate
+
+                // Check if To Date is set and is before new From Date
+                if (!existingToText.isNullOrBlank()) {
+                    val toMillis = CommonUtil.parseDateToMillis(existingToText)
+                    if (toMillis != null && pickedFromMillis > toMillis) {
+                        // Update To Date to match new From Date
+                        holder.txtToDate.setText(pickedFromDate)
+                        internships[position].to = pickedFromDate
+                    }
+                }
             }
         }
+
 
         // Handle TO date selection (restrict to >= FROM date)
         holder.txtToDate.setOnClickListener {
@@ -127,6 +140,6 @@ fun showValidationErrors(recyclerView: RecyclerView): Boolean {
         val edtRole: EditText = itemView.findViewById(R.id.edtRole)
         val txtFromDate: TextView = itemView.findViewById(R.id.txtFromDate)
         val txtToDate: TextView = itemView.findViewById(R.id.txtToDate)
-        val lblremove: TextView = itemView.findViewById(R.id.lblremove)
+        val lblremove: ImageView = itemView.findViewById(R.id.lblremove)
     }
 }

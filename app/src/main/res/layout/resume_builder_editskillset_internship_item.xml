@@ -5,13 +5,29 @@
     android:layout_marginBottom="@dimen/five"
     android:layout_height="wrap_content">
 
-    <TextView
-        style="@style/CustomTextStylePoppinsBold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/company_name"
-        android:textColor="@color/black"
-        android:textSize="@dimen/fourteen_sp" />
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblcompany"
+            style="@style/CustomTextStylePoppinsBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/company_name"
+            android:layout_toStartOf="@+id/lblremove"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fourteen_sp" />
+
+        <ImageView
+            android:layout_alignParentEnd="true"
+            android:id="@+id/lblremove"
+            android:src="@drawable/close_red"
+            android:layout_width="@dimen/twenty"
+            android:layout_height="@dimen/twenty">
+        </ImageView>
+    </RelativeLayout>
     <EditText
         android:layout_marginTop="@dimen/five"
         android:id="@+id/edtCompanyName"
@@ -74,13 +90,4 @@
             android:background="@drawable/rect_gray_radius"
             android:padding="@dimen/eight" />
     </LinearLayout>
-    <TextView
-        android:textColor="@color/light_red"
-        android:id="@+id/lblremove"
-        style="@style/CustomTextStylePoppinsBold"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/ten"
-        android:text="@string/remove"
-        android:layout_height="wrap_content">
-    </TextView>
 </LinearLayout>

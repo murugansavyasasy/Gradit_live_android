@@ -13,9 +13,9 @@
 
         <TextView
             style="@style/CustomTextStylePoppinsBold"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.53"
             android:text="@string/assessment"
             android:textColor="@color/black"
             android:textSize="@dimen/fourteen_sp">
@@ -24,15 +24,23 @@
 
         <TextView
             style="@style/CustomTextStylePoppinsBold"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/five"
-            android:layout_weight="0.5"
+            android:layout_weight="0.45"
             android:text="@string/score"
             android:textColor="@color/black"
             android:textSize="@dimen/fourteen_sp">
 
         </TextView>
+
+        <ImageView
+            android:layout_weight="0.02"
+            android:id="@+id/lblremove"
+            android:src="@drawable/close_red"
+            android:layout_width="@dimen/twenty"
+            android:layout_height="@dimen/twenty">
+        </ImageView>
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="@dimen/five"
@@ -59,13 +67,4 @@
             android:background="@drawable/rect_gray_radius"
             android:padding="@dimen/eight" />
     </LinearLayout>
-    <TextView
-        android:textColor="@color/light_red"
-        android:id="@+id/lblremove"
-        style="@style/CustomTextStylePoppinsBold"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/ten"
-        android:text="@string/remove"
-        android:layout_height="wrap_content">
-    </TextView>
 </LinearLayout>

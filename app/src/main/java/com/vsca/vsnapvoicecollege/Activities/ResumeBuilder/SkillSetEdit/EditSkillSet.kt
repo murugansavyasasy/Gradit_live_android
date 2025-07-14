@@ -1,4 +1,5 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderEditAsssessmentDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderEditCertificateDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderEditInternshipDetailsAdapter
@@ -38,7 +40,7 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
     var savedAreaOfInterest=""
     var savedProgrammmingLanguage=""
     var savedToolsAndPlatform=""
-    var savedMemberID=""
+    var savedMemberID=-1
     private lateinit var internshipAdapter: ResumeBuilderEditInternshipDetailsAdapter
     private lateinit var savedInternshipList: List<GetInternshipDetailsData>
     private lateinit var editableInternshipList: MutableList<GetInternshipDetailsData>
@@ -75,8 +77,8 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         savedToolsAndPlatform=CommonUtil.isSkillSetDataSending?.toolsPlatform.toString()
         savedProgrammmingLanguage=CommonUtil.isSkillSetDataSending?.programmingLanguage.toString()
         savedAreaOfInterest=CommonUtil.isSkillSetDataSending?.areaInterest.toString()
-        savedMemberID=CommonUtil.isSkillSetDataSending?.id.toString()
-        Log.d("savedMemberID",savedMemberID)
+        savedMemberID=CommonUtil.isSkillSetDataSending?.idMember!!
+        Log.d("savedMemberID",savedMemberID.toString())
 
         GetSoftSkillsDetails()
         binding.edtLanguageknown.setText(CommonUtil.isSkillSetDataSending?.languages)
@@ -184,70 +186,57 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
 
 
             var isChanged = false
-            val changeLog = mutableListOf<String>()
 
             if (selectedInternshipList.toSet() != savedInternshipList.toSet()) {
-                changeLog.add("Internship")
                 Log.d("SkillSetCheck", "Internship changed")
                 isChanged = true
             }
 
             if (selectedCertificateList.toSet() != savedCertificateList.toSet()) {
-                changeLog.add("Certificate")
                 Log.d("SkillSetCheck", "Certificate changed")
                 isChanged = true
             }
 
             if (savedLanguage!=binding.edtLanguageknown.text.toString()) {
-                changeLog.add("Language")
                 Log.d("SkillSetCheck", "Language changed")
                 isChanged = true
             }
 
             if (savedToolsAndPlatform!=binding.edtToolsAndPlatform.text.toString()) {
-                changeLog.add("Tools And Platform")
                 Log.d("SkillSetCheck", "ToolsAndPlatform changed")
                 isChanged = true
             }
             if (savedAreaOfInterest!=binding.edtAreaOfInterest.text.toString()) {
-                changeLog.add("Area of Intereset")
                 Log.d("SkillSetCheck", " Area of Intereset changed")
                 isChanged = true
             }
             if (savedProgrammmingLanguage!=binding.edtProgrammingLanguage.text.toString()) {
-                changeLog.add("Programming Language")
-
                 Log.d("SkillSetCheck", " Programming Language changed")
                 isChanged = true
             }
 
             if (selectedAssessmentList.toSet() != savedAssessmentList.toSet()) {
-                changeLog.add("Assessment")
-
                 Log.d("SkillSetCheck", "Assessment changed")
                 isChanged = true
             }
 
             if (selectedProjectList.toSet() != savedProjectList.toSet()) {
-                changeLog.add("Project")
-
                 Log.d("SkillSetCheck", "Project changed")
                 isChanged = true
             }
 
             if (selectedSoftSkillsList.toSet() != savedSoftSkillsList.toSet()) {
-                changeLog.add("SoftSkills")
-
                 Log.d("SkillSetCheck", "SoftSkills changed")
                 isChanged = true
             }
 
             if (isChanged) {
-                showConfirmationDialog(changeLog)
+                showConfirmationDialog()
             }
             else{
+                showNoChanges()
                 Toast.makeText(this, "No changes made.", Toast.LENGTH_SHORT).show()
-                Log.d("SkillSetCheck", "❌ No changes made")
+                Log.d("SkillSetCheck", "No changes made")
             }
         }
 
@@ -274,21 +263,21 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
             }
         }
 
+        binding.commonBottomResumeBuilder.btnDefault1!!.setOnClickListener {
+            onBackPressed()
+        }
+
         binding.imgback!!.setOnClickListener {
             onBackPressed()
         }
 
     }
 
-    private fun showConfirmationDialog(changedFields: List<String>) {
+    private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
 
         val message = buildString {
-            append("You have changed the following:\n")
-            changedFields.forEach {
-                append("- $it\n")
-            }
-            append("\nAre you sure you want to save?")
+            append("Are you sure you want to save?")
         }
 
         builder.setTitle("Confirmation")
@@ -296,6 +285,10 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
             .setPositiveButton("Yes") { dialog, _ ->
                 UpdateEditSkillSetDetails()
                 dialog.dismiss()
+                val intent = Intent(this, ResumeBuilder::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                finish()
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
@@ -304,8 +297,24 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         builder.create().show()
     }
 
+    private fun showNoChanges() {
+        val builder = AlertDialog.Builder(this)
+
+        val message = buildString {
+
+            append("No changes made?")
+        }
+
+        builder.setTitle("Alert")
+            .setMessage(message)
+            .setNegativeButton("Ok") { dialog, _ ->
+                dialog.dismiss()
+            }
+        builder.create().show()
+    }
+
+
     fun GetSoftSkillsDetails() {
-//        appViewModel!!.GetResumeBuilderSoftSkillsDetails(this@EditSkillSet)
         appViewModel!!.GetResumeBuilderSoftSkillsDetails(this@EditSkillSet)
     }
 

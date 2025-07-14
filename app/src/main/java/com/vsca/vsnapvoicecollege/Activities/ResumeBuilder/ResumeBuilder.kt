@@ -202,7 +202,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     private fun isSaveSkillSetData() {
         val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
-            id=isMemeberId,
+            idMember = isMemeberId,
             languages=binding.CommonLayout.lblLanguageKnown.text.toString(),
             softSkill=binding.CommonLayout.lblSoftSkills.text .toString(),
             areaInterest=binding.CommonLayout.lblAreasofInterest.text.toString(),
@@ -427,8 +427,9 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
     }
 
     fun GetSkillSetDetails() {
-//        appViewModel!!.GetResumeBuilderSkillSetDetails(CommonUtil.MemberId, this@ResumeBuilder)
-        appViewModel!!.GetResumeBuilderSkillSetDetails(31146, this@ResumeBuilder)
+        isMemeberId=31145
+        //        appViewModel!!.GetResumeBuilderSkillSetDetails(CommonUtil.MemberId, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderSkillSetDetails(isMemeberId, this@ResumeBuilder)
     }
 
     override val layoutResourceId: Int
