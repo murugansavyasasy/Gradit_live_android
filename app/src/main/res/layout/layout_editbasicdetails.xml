@@ -62,7 +62,7 @@
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/eighty"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/test_image"
+                    android:src="@drawable/default_profile"
                     app:civ_border_color="@color/light_gray2"
                     app:civ_border_width="2dp"></de.hdodenhof.circleimageview.CircleImageView>
 

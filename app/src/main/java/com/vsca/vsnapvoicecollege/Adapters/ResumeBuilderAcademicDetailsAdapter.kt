@@ -34,6 +34,7 @@ class ResumeBuilderAcademicDetailsAdapter(private val items: List<GetEducational
         holder.lblCatoryName.text = item.classDegree
         holder.lblValue.text = item.percentage
 
+
         val drawable = ContextCompat
             .getDrawable(holder.itemView.context, R.drawable.dark_green_radius)
             ?.mutate()

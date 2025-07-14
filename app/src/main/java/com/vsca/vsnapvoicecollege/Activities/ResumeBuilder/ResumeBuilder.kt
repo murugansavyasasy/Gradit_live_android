@@ -43,19 +43,14 @@ import com.vsca.vsnapvoicecollege.databinding.ActivityResumebuilderBinding
 
 class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
-
     override var appViewModel: App? = null
     var isMemeberId = 0
     private val isEducationItem = mutableListOf<GetEducationalDetailsData>()
     var isSkillSetData: GetResumeBuilderSkillSetDetailsData? = null
 
-
-
     override fun inflateBinding(): ActivityResumebuilderBinding {
         return ActivityResumebuilderBinding.inflate(layoutInflater)
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
@@ -152,12 +147,14 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             if (academicData != null) {
                 i.putExtra("backlogs", academicData.backlogs)
                 i.putExtra("arrears", academicData.numberOfArrears)
+
                 val json = Gson().toJson(academicData.educationalDetails)
                 i.putExtra("educationalDetails", json)
             }
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivityForResult(i, 101)
+            startActivityForResult(i, 101) // ✅ use requestCode!
         }
+
 
         binding.CommonLayout.btnEditThree.setOnClickListener {
             val i = Intent(this, EditSkillSet::class.java)
@@ -189,14 +186,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 "image",
                 appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath
             )
-            startActivityForResult(i, 123)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-            GetAcademicDetails() // re-fetch updated data
+           startActivity(i)
         }
     }
 
@@ -422,7 +412,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     fun GetAcademicDetails() {
 //        appViewModel!!.GetResumeBuilderAcademicDetails(CommonUtil.MemberId, this@ResumeBuilder)
-        appViewModel!!.GetResumeBuilderAcademicDetails(31146, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderAcademicDetails(31145, this@ResumeBuilder)
 
     }
 
@@ -436,6 +426,7 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
     override fun onResume() {
         GetProfileDetails()
+        GetAcademicDetails()
         super.onResume()
     }
 

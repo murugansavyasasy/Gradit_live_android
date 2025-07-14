@@ -16,7 +16,7 @@
             android:layout_width="@dimen/thirty"
             android:layout_height="@dimen/thirty"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow_back"></ImageView>
+            android:src="@drawable/arrow_back" />
 
         <TextView
             style="@style/CustomTextStylePoppinsBold"
@@ -24,199 +24,160 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/ten"
-            android:layout_toEndOf="@+id/imgback"
-            android:text="@string/edit_academic_details"
+            android:layout_toEndOf="@id/imgback"
+            android:text="Edit Profile"
             android:textColor="@color/black"
-            android:textSize="@dimen/eighteen_sp"></TextView>
+            android:textSize="@dimen/eighteen_sp" />
 
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/commonBottomResumeBuilder"
-        android:layout_below="@+id/rlaEditAcademicHeader">
+        android:layout_above="@id/commonBottomResumeBuilder"
+        android:layout_below="@id/rlaEditAcademicHeader">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten">
+
             <TextView
-                android:layout_marginStart="@dimen/fifteen"
-                android:layout_marginEnd="@dimen/fifteen"
                 android:id="@+id/txtAcademicTitle"
                 style="@style/CustomTextStylePoppinsBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/academicrecords"
-                android:textColor="@color/dark_blue"
-                android:textSize="@dimen/sixteen_sp"
                 android:layout_alignParentStart="true"
-                 />
+                android:layout_marginStart="@dimen/fifteen"
+                android:layout_marginEnd="@dimen/fifteen"
+                android:text="Academic Records"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/sixteen_sp" />
 
             <LinearLayout
+                android:id="@+id/lnrAcademicDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtAcademicTitle"
                 android:layout_marginStart="@dimen/fifteen"
                 android:layout_marginEnd="@dimen/fifteen"
                 android:layout_marginTop="@dimen/ten"
-                android:id="@+id/lnrAcademicDetails"
-                android:orientation="vertical"
-                android:layout_below="@+id/txtAcademicTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-<!--                heading-->
+                android:orientation="vertical">
+
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:weightSum="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_weight="0.5"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/your_name"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/fourteen_sp">
-
-                    </TextView>
-
-                    <TextView
-                        android:layout_marginStart="@dimen/five"
-                        android:layout_weight="0.5"
-                        style="@style/CustomTextStylePoppinsBold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/of_marks"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/fourteen_sp">
-
-                    </TextView>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/zero"
+                    android:weightSum="1">
                 </LinearLayout>
-<!--                Qualification Spinner-->
-                <LinearLayout
 
+                <LinearLayout
                     android:id="@+id/containerLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
-                    android:orientation="vertical"
-                    />
-                <!-- School/Institution -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten"
-                    style="@style/CustomTextStylePoppinsBold"
-                    android:text="School/Institution"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/fourteen_sp" />
-
-                <EditText
-                    android:id="@+id/edtSchoolInstitution"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five"
-                    android:background="@drawable/rect_gray_radius"
-                    android:padding="@dimen/eight"
-                    android:hint="Type and search" />
+                    android:orientation="vertical" />
 
                 <TextView
                     android:id="@+id/lblAddAnother"
-                    android:layout_marginTop="@dimen/ten"
                     android:layout_width="match_parent"
-                    style="@style/CustomTextStylePoppinsMedium"
-                    android:textSize="@dimen/thirteen_sp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="+ Add another"
+                    style="@style/CustomTextStylePoppinsMedium"
                     android:textColor="@color/light_blue2"
-                    android:text="@string/add_another"
-                    >
-                </TextView>
+                    android:textSize="@dimen/thirteen_sp" />
+
             </LinearLayout>
 
             <View
                 android:id="@+id/viewOne"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/lnrAcademicDetails"
+                android:layout_below="@id/lnrAcademicDetails"
                 android:layout_marginTop="@dimen/ten"
                 android:alpha="0.2"
-                android:background="@color/light_gray">
-            </View>
+                android:background="@color/light_gray" />
+
             <TextView
-                android:layout_marginTop="@dimen/ten"
-                android:layout_marginStart="@dimen/fifteen"
-                android:layout_marginEnd="@dimen/fifteen"
                 android:id="@+id/lblBacklogsAndArrears"
-                android:layout_below="@+id/viewOne"
                 style="@style/CustomTextStylePoppinsBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/backlogs_and_arrears"
-                android:textColor="@color/dark_blue"
-                android:textSize="@dimen/sixteen_sp"
-                android:layout_alignParentStart="true"
-                />
-            <LinearLayout
-                android:id="@+id/lnrBacklogs"
+                android:layout_below="@id/viewOne"
                 android:layout_marginStart="@dimen/fifteen"
                 android:layout_marginEnd="@dimen/fifteen"
-                android:layout_below="@+id/lblBacklogsAndArrears"
-                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/ten"
-                android:weightSum="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_weight="0.5"
-                    style="@style/CustomTextStylePoppinsBold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/current_backlogs"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/fourteen_sp">
+                android:text="Backlogs and Arrears"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/sixteen_sp" />
 
-                </TextView>
-                <TextView
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_weight="0.5"
-                    style="@style/CustomTextStylePoppinsBold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Number of Arrears"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/fourteen_sp">
-
-                </TextView>
-            </LinearLayout>
             <LinearLayout
-                android:layout_below="@+id/lnrBacklogs"
+                android:id="@+id/lnrBacklogs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/lblBacklogsAndArrears"
+                android:layout_marginStart="@dimen/fifteen"
+                android:layout_marginEnd="@dimen/fifteen"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Current Backlogs"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="@dimen/five"
+                    android:text="Number of Arrears"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lnrBacklogs"
                 android:orientation="horizontal"
                 android:padding="@dimen/ten">
 
                 <EditText
-                    android:layout_weight="0.5"
                     android:id="@+id/edtBacklogs"
-                    android:layout_marginStart="@dimen/five"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_gray_radius"
-                    android:padding="@dimen/eight"
-                    android:inputType="number"/>
-                <EditText
                     android:layout_weight="0.5"
-                    android:id="@+id/edtArrears"
                     android:layout_marginStart="@dimen/five"
+                    android:background="@drawable/rect_gray_radius"
+                    android:inputType="number"
+                    android:padding="@dimen/eight"
+                    android:hint="Enter" />
+
+                <EditText
+                    android:id="@+id/edtArrears"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="@dimen/five"
                     android:background="@drawable/rect_gray_radius"
+                    android:inputType="number"
                     android:padding="@dimen/eight"
-                    android:inputType="number"/>
+                    android:hint="Enter" />
+
             </LinearLayout>
 
-
         </RelativeLayout>
+
     </ScrollView>
 
     <include
@@ -224,6 +185,6 @@
         layout="@layout/commonbottom_resumebuilder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"></include>
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

@@ -107,20 +107,14 @@ class EditBasicDetails : AppCompatActivity() {
 
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
             checkForChangesBeforeSave()
-
-
         }
-
-
         binding.rlaProfileImage.setOnClickListener {
             showChooseImageDialog()
         }
 
-
         binding.imgDeleteProfile.setOnClickListener {
             showDeleteImageConfirmationDialog()
         }
-
 
         val name = intent.getStringExtra("name") ?: ""
         val phone = intent.getStringExtra("phone") ?: ""
@@ -147,8 +141,8 @@ class EditBasicDetails : AppCompatActivity() {
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
         Glide.with(this)
             .load(isUserImage)
-            .placeholder(R.drawable.test_image)
-            .error(R.drawable.test_image)
+            .placeholder(R.drawable.default_profile)
+            .error(R.drawable.default_profile)
             .into(binding.imgProfile)
 
 
@@ -163,15 +157,10 @@ class EditBasicDetails : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
             finish()
         }
-
-
         binding.customSwitch.setChecked(isNotificationStatus)
 
-
     }
-
-
-    private fun showDeleteImageConfirmationDialog() {
+        private fun showDeleteImageConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Delete Photo")
         builder.setMessage("Are you sure you want to delete your profile photo?")
@@ -202,7 +191,7 @@ class EditBasicDetails : AppCompatActivity() {
 
 
         Glide.with(this)
-            .load(R.drawable.test_image)
+            .load(R.drawable.default_profile)
             .into(binding.imgProfile)
 
 
@@ -217,7 +206,7 @@ class EditBasicDetails : AppCompatActivity() {
 
 
         Glide.with(this)
-            .load(R.drawable.test_image)
+            .load(R.drawable.default_profile)
             .into(binding.imgProfile)
 
 
@@ -330,8 +319,8 @@ class EditBasicDetails : AppCompatActivity() {
 
         Glide.with(this)
             .load(isUserImage)
-            .placeholder(R.drawable.test_image)
-            .error(R.drawable.test_image)
+            .placeholder(R.drawable.default_profile)
+            .error(R.drawable.default_profile)
             .into(binding.imgProfile)
     }
 
@@ -459,7 +448,7 @@ class EditBasicDetails : AppCompatActivity() {
                         CommonUtil.SelcetedFileList.add(profileImagePath.toString())
                         Glide.with(this)
                             .load(it)
-                            .placeholder(R.drawable.test_image)
+                            .placeholder(R.drawable.default_profile)
                             .into(binding.imgProfile)
                     }
                 }
@@ -473,7 +462,7 @@ class EditBasicDetails : AppCompatActivity() {
                         CommonUtil.SelcetedFileList.add(profileImagePath.toString())
                         Glide.with(this)
                             .load(it)
-                            .placeholder(R.drawable.test_image)
+                            .placeholder(R.drawable.default_profile)
                             .into(binding.imgProfile)
                     }
                 }

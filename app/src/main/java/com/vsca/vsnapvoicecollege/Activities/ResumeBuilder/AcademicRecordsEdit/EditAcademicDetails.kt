@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -24,10 +25,10 @@ class EditAcademicDetails : AppCompatActivity() {
     private var appViewModel: App? = null
     private lateinit var binding: LayoutEditacademicdetailsBinding
 
-    private val qualificationList = listOf(
-        "Select", "10 th", "11 th", "12th",
-        "Under Graduate", "Post Graduate", "Doctorate"
-    )
+    private var originalBacklogs: String = ""
+    private var originalArrears: String = ""
+    private var originalEducationalDetails: List<GetEducationalDetailsData> = listOf()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,33 +47,43 @@ class EditAcademicDetails : AppCompatActivity() {
         val arrears = intent.getStringExtra("arrears") ?: ""
         val educationalDetailsJson = intent.getStringExtra("educationalDetails")
 
-        // Fill inputs
+        originalBacklogs = backlogs
+        originalArrears = arrears
+
         binding.edtBacklogs.setText(backlogs)
         binding.edtArrears.setText(arrears)
 
-        // Load qualifications if any
+
         if (!educationalDetailsJson.isNullOrEmpty()) {
             val gson = Gson()
             val type = object : TypeToken<List<GetEducationalDetailsData>>() {}.type
-            val educationalDetails = gson.fromJson<List<GetEducationalDetailsData>>(educationalDetailsJson, type)
+            val educationalDetails =
+                gson.fromJson<List<GetEducationalDetailsData>>(educationalDetailsJson, type)
+
+            originalEducationalDetails = educationalDetails // Save original for comparison
 
             if (educationalDetails.isNotEmpty()) {
                 educationalDetails.forEach {
                     addRow(it)
                 }
             } else {
-                addRow() // empty row if no data
+                addRow()
             }
         } else {
             addRow()
         }
 
         binding.lblAddAnother.setOnClickListener {
-            addRow()
+            if (validateCurrentRows()) {
+                addRow()
+            }
         }
 
         binding.imgback.setOnClickListener {
             onBackPressed()
+        }
+        binding.commonBottomResumeBuilder.btnDefault1.setOnClickListener {
+            finish()
         }
 
         // Observe save response
@@ -87,46 +98,144 @@ class EditAcademicDetails : AppCompatActivity() {
         }
 
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
-            saveAcademicDetails()
+            if (!validateCurrentRows()) {
+                return@setOnClickListener
+            }
+
+            if (isDataChanged()) {
+                showSaveConfirmationDialog()
+            } else {
+                showNoChangesDialog()
+            }
         }
+    }
+
+    private fun validateCurrentRows(): Boolean {
+        for (i in 0 until binding.containerLayout.childCount) {
+            val row = binding.containerLayout.getChildAt(i)
+            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
+            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
+            val percentage = edtPercentage.text.toString().trim()
+            val institution = edtInstitution.text.toString().trim()
+
+            if (percentage.isEmpty()) {
+                edtPercentage.error = "Enter % of marks"
+                edtPercentage.requestFocus()
+                return false
+            }
+
+            if (institution.isEmpty()) {
+                edtInstitution.error = "Enter institution/school name"
+                edtInstitution.requestFocus()
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun isDataChanged(): Boolean {
+        val currentBacklogs = binding.edtBacklogs.text.toString().trim()
+        val currentArrears = binding.edtArrears.text.toString().trim()
+
+        if (currentBacklogs != originalBacklogs || currentArrears != originalArrears) return true
+
+        if (binding.containerLayout.childCount != originalEducationalDetails.size) return true
+
+        for (i in 0 until binding.containerLayout.childCount) {
+            val row = binding.containerLayout.getChildAt(i)
+            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
+            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
+            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
+
+            val classDegree = edtClassDegree.text.toString().trim()
+            val percentage = edtPercentage.text.toString().trim()
+            val institution = edtInstitution.text.toString().trim()
+
+            val originalItem = originalEducationalDetails.getOrNull(i)
+            if (originalItem == null) return true
+
+            if (classDegree != originalItem.classDegree ||
+                percentage != originalItem.percentage ||
+                institution != originalItem.institution) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+
+    private fun showSaveConfirmationDialog() {
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Confirm Save")
+        builder.setMessage("Are you sure you want to save these changes?")
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            saveAcademicDetails()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
+
+    private fun showNoChangesDialog() {
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("No Changes Detected")
+        builder.setMessage("No changes found. Exit without saving?")
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            finish()
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     private fun addRow(item: GetEducationalDetailsData? = null) {
         val rowView = LayoutInflater.from(this)
             .inflate(R.layout.item_qualification, binding.containerLayout, false)
 
-        val spinner = rowView.findViewById<Spinner>(R.id.SpinnerQualification)
+        val edtClassDegree = rowView.findViewById<EditText>(R.id.edtClassDegree)
         val edtPercentage = rowView.findViewById<EditText>(R.id.edtPercentage)
+        val edtInstitution = rowView.findViewById<EditText>(R.id.edtInstitution)
+        val imgRemove = rowView.findViewById<View>(R.id.imgRemove)
 
-        val adapter = object : ArrayAdapter<String>(this, 0, qualificationList) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                return createCustomView(position, convertView, parent)
-            }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                return createCustomView(position, convertView, parent)
-            }
-
-            private fun createCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = convertView ?: LayoutInflater.from(context)
-                    .inflate(R.layout.item_spinner_qualification, parent, false)
-                val textView = view.findViewById<TextView>(R.id.textQualification)
-                textView.text = qualificationList[position]
-                return view
+        imgRemove.setOnClickListener {
+            if (binding.containerLayout.childCount > 1) {
+                val builder = android.app.AlertDialog.Builder(this)
+                builder.setTitle("Remove Entry")
+                builder.setMessage("Are you sure you want to remove this entry?")
+                builder.setPositiveButton("Yes") { dialog, _ ->
+                    binding.containerLayout.removeView(rowView)
+                    dialog.dismiss()
+                }
+                builder.setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                builder.show()
+            } else {
+                Toast.makeText(this, "At least one entry is required.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        spinner.adapter = adapter
-
-        // Prefill if item is passed
+        // Pre-fill if editing existing data
         item?.let {
-            val pos = qualificationList.indexOf(it.classDegree)
-            if (pos >= 0) spinner.setSelection(pos)
+            edtClassDegree.setText(it.classDegree)
             edtPercentage.setText(it.percentage)
+            edtInstitution.setText(it.institution)
         }
+
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutParams.topMargin = resources.getDimensionPixelSize(R.dimen.ten)
+        rowView.layoutParams = layoutParams
 
         binding.containerLayout.addView(rowView)
     }
+
 
     private fun saveAcademicDetails() {
         val backlogs = binding.edtBacklogs.text.toString().trim()
@@ -136,22 +245,21 @@ class EditAcademicDetails : AppCompatActivity() {
 
         for (i in 0 until binding.containerLayout.childCount) {
             val row = binding.containerLayout.getChildAt(i)
-            val spinner = row.findViewById<Spinner>(R.id.SpinnerQualification)
+            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
             val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
+            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
 
-            val qualification = spinner.selectedItem.toString()
+            val classDegree = edtClassDegree.text.toString().trim()
             val percentage = edtPercentage.text.toString().trim()
-            val institution = "ABC Institute of Technology" // TODO: Update if you add input
+            val institution = edtInstitution.text.toString().trim()
 
-            if (qualification != "Select" && percentage.isNotEmpty()) {
-                educationalDetails.add(
-                    mapOf(
-                        "classDegree" to qualification,
-                        "percentage" to percentage,
-                        "institution" to institution
-                    )
+            educationalDetails.add(
+                mapOf(
+                    "classDegree" to classDegree,
+                    "percentage" to percentage,
+                    "institution" to institution
                 )
-            }
+            )
         }
 
         val request = hashMapOf<String, Any>(
@@ -160,7 +268,7 @@ class EditAcademicDetails : AppCompatActivity() {
             "backlogs" to backlogs,
             "numberOfArrears" to arrears
         )
-
         appViewModel?.AddEditAcademicDetails(request, this)
     }
+
 }
