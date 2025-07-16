@@ -40,25 +40,20 @@ import java.util.*
 
 class EditBasicDetails : AppCompatActivity() {
 
-
     private lateinit var viewModel: App
     private lateinit var binding: LayoutEditbasicdetailsBinding
 
-
     private val REQUEST_IMAGE_CAPTURE = 101
     private val REQUEST_PICK_IMAGE = 102
-
 
     private var photoURI: Uri? = null
     private var profileImagePath: String? = null
     private var popupWindow: PopupWindow? = null
     var Awsuploadedfile = java.util.ArrayList<String>()
 
-
     private var memberId: Int = 0
     private var isUserImage: String? = null
     var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
-
 
     private var originalName: String = ""
     private var originalPhone: String = ""
@@ -67,36 +62,26 @@ class EditBasicDetails : AppCompatActivity() {
     private var originalNotificationStatus: Boolean = false
     private var isImageDeleted: Boolean = false
 
-
     var fileNameDateTime: String? = null
     var Awsaupladedfilepath: String? = null
     var separator = ","
     var fileName: File? = null
     var filename: String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutEditbasicdetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.update)
-
-
         viewModel = ViewModelProvider(this)[App::class.java]
         viewModel.init()
-
-
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
-
-
         binding.commonBottomResumeBuilder.btnDefault1.setOnClickListener {
             checkForChangesBeforeExit()
             resetImageToOriginal()
             finish()
         }
-
 
         binding.imgback.setOnClickListener {
             checkForChangesBeforeExit()
@@ -104,10 +89,47 @@ class EditBasicDetails : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
-            checkForChangesBeforeSave()
+            val currentName = binding.edtName.text.toString().trim()
+            val currentPhone = binding.edtPhone.text.toString().trim()
+            val currentEmail = binding.edtEmail.text.toString().trim()
+            val currentPlacementStatus = binding.edtPlacementStatus.text.toString().trim()
+            val currentNotificationStatus = binding.customSwitch.isChecked()
+
+            val isChanged = currentName != originalName ||
+                    currentPhone != originalPhone ||
+                    currentEmail != originalEmail ||
+                    currentPlacementStatus != originalPlacementStatus ||
+                    currentNotificationStatus != originalNotificationStatus ||
+                    CommonUtil.SelcetedFileList.isNotEmpty() ||
+                    isImageDeleted
+//            // Validation
+//            if (currentName.isEmpty()) {
+//                binding.edtName.error = "Enter your name"
+//                binding.edtName.requestFocus()
+//                return@setOnClickListener
+//            }
+//
+//            if (currentPhone.length != 10 || !currentPhone.matches(Regex("\\d{10}"))) {
+//                binding.edtPhone.error = "Enter a valid 10-digit phone number"
+//                binding.edtPhone.requestFocus()
+//                return@setOnClickListener
+//            }
+//
+//            if (currentEmail.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(currentEmail).matches()) {
+//                binding.edtEmail.error = "Enter a valid email address"
+//                binding.edtEmail.requestFocus()
+//                return@setOnClickListener
+//            }
+
+            if (isChanged) {
+                showConfirmationDialog()
+            } else {
+                Toast.makeText(this, "No changes found, saving anyway...", Toast.LENGTH_SHORT).show()
+                isSaveTheData()
+            }
         }
+
         binding.rlaProfileImage.setOnClickListener {
             showChooseImageDialog()
         }
@@ -121,19 +143,18 @@ class EditBasicDetails : AppCompatActivity() {
         val email = intent.getStringExtra("email") ?: ""
         val isPlacement = intent.getStringExtra("placementStatus") ?: ""
         val isNotificationStatus = intent.getBooleanExtra("notificationStatus", false)
+        Log.d("DEBUG", "Got notificationStatus: $isNotificationStatus")
         isUserImage = intent.getStringExtra("image") ?: ""
         memberId = intent.getIntExtra("memberId", 0)
         val placementStatus = intent.getStringExtra("placementStatus")
         binding.edtPlacementStatus.setText(placementStatus)
         Log.d("MemberId2", memberId.toString())
 
-
         originalName = name
         originalPhone = phone
         originalEmail = email
         originalPlacementStatus = isPlacement
         originalNotificationStatus = isNotificationStatus
-
 
         binding.edtName.setText(name)
         binding.edtPhone.setText(phone)
@@ -144,7 +165,6 @@ class EditBasicDetails : AppCompatActivity() {
             .placeholder(R.drawable.default_profile)
             .error(R.drawable.default_profile)
             .into(binding.imgProfile)
-
 
         viewModel.addEditProfileLiveData.observe(this) { response ->
             Log.d("addEditProfile", "API Response: $response")
@@ -158,43 +178,30 @@ class EditBasicDetails : AppCompatActivity() {
             finish()
         }
         binding.customSwitch.setChecked(isNotificationStatus)
-
     }
-        private fun showDeleteImageConfirmationDialog() {
+
+    private fun showDeleteImageConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Delete Photo")
         builder.setMessage("Are you sure you want to delete your profile photo?")
-
-
         builder.setPositiveButton("Yes") { dialog, _ ->
-            clearProfileImage() // <<< only clear now!
+            clearProfileImage()
             isImageDeleted = true
             dialog.dismiss()
         }
-
-
         builder.setNegativeButton("No") { dialog, _ ->
             dialog.dismiss()
         }
-
-
         builder.create().show()
     }
-
 
     private fun deleteProfileImage() {
         profileImagePath = null
         isUserImage = ""
-
-
         CommonUtil.SelcetedFileList.clear()
-
-
         Glide.with(this)
             .load(R.drawable.default_profile)
             .into(binding.imgProfile)
-
-
         Log.d("ProfileImage", "Profile photo deleted")
     }
 
@@ -204,15 +211,11 @@ class EditBasicDetails : AppCompatActivity() {
         CommonUtil.SelcetedFileList.clear()
         isUserImage = ""
 
-
         Glide.with(this)
             .load(R.drawable.default_profile)
             .into(binding.imgProfile)
-
-
         Log.d("ProfileImage", "Profile image cleared by user")
     }
-
 
     private fun checkForChangesBeforeSave() {
         val currentName = binding.edtName.text.toString().trim()
@@ -220,8 +223,6 @@ class EditBasicDetails : AppCompatActivity() {
         val currentEmail = binding.edtEmail.text.toString().trim()
         val currentPlacementStatus = binding.edtPlacementStatus.text.toString().trim()
         val currentNotificationStatus = binding.customSwitch.isChecked()
-
-
         val isSame = currentName == originalName &&
                 currentPhone == originalPhone &&
                 currentEmail == originalEmail &&
@@ -229,8 +230,6 @@ class EditBasicDetails : AppCompatActivity() {
                 currentNotificationStatus == originalNotificationStatus &&
                 CommonUtil.SelcetedFileList.isEmpty() &&
                 !isImageDeleted
-
-
         if (isSame) {
             showExitConfirmationDialog()
         } else {
@@ -238,15 +237,12 @@ class EditBasicDetails : AppCompatActivity() {
         }
     }
 
-
     private fun checkForChangesBeforeExit() {
         val currentName = binding.edtName.text.toString().trim()
         val currentPhone = binding.edtPhone.text.toString().trim()
         val currentEmail = binding.edtEmail.text.toString().trim()
         val currentPlacementStatus = binding.edtPlacementStatus.text.toString().trim()
         val currentNotificationStatus = binding.customSwitch.isChecked()
-
-
         val isSame = currentName == originalName &&
                 currentPhone == originalPhone &&
                 currentEmail == originalEmail &&
@@ -254,17 +250,12 @@ class EditBasicDetails : AppCompatActivity() {
                 currentNotificationStatus == originalNotificationStatus &&
                 CommonUtil.SelcetedFileList.isEmpty() &&
                 !isImageDeleted
-
-
-
-
         if (isSame) {
             showExitConfirmationDialog()
         } else {
             finish()
         }
     }
-
 
     private fun showExitConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
@@ -280,15 +271,10 @@ class EditBasicDetails : AppCompatActivity() {
         builder.create().show()
     }
 
-
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
-
-
         builder.setMessage("Are you sure you want to save?")
             .setTitle("Confirmation")
-
-
         builder.setPositiveButton("Yes") { dialog, id ->
             Log.d("isSelectedArraySize", CommonUtil.SelcetedFileList.size.toString())
             if (CommonUtil.SelcetedFileList.size > 0) {
@@ -298,25 +284,16 @@ class EditBasicDetails : AppCompatActivity() {
             }
             dialog.dismiss()
         }
-
-
         builder.setNegativeButton("No") { dialog, id ->
             dialog.dismiss()
         }
-
-
         val dialog = builder.create()
         dialog.show()
     }
 
-
     private fun resetImageToOriginal() {
         profileImagePath = null
         CommonUtil.SelcetedFileList.clear()
-
-
-
-
         Glide.with(this)
             .load(isUserImage)
             .placeholder(R.drawable.default_profile)
@@ -324,31 +301,19 @@ class EditBasicDetails : AppCompatActivity() {
             .into(binding.imgProfile)
     }
 
-
     private fun showChooseImageDialog() {
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialog: View = inflater.inflate(R.layout.popup_choose_file, null)
-
-
-
-
         popupWindow = PopupWindow(
             dialog, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true
         )
         popupWindow?.showAtLocation(dialog, Gravity.BOTTOM, 0, 0)
-
-
         val LayoutGallery = dialog.findViewById<ConstraintLayout>(R.id.LayoutGallery)
         val LayoutCamera = dialog.findViewById<ConstraintLayout>(R.id.LayoutCamera)
         val LayoutDocuments =
             dialog.findViewById<ConstraintLayout>(R.id.LayoutDocuments) // <-- find PDF option
         val popClose = dialog.findViewById<ImageView>(R.id.popClose)
-
-
-
-
         LayoutDocuments.visibility = View.GONE
-
 
         val container = popupWindow?.contentView?.parent as View
         val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -361,15 +326,12 @@ class EditBasicDetails : AppCompatActivity() {
         popClose.setOnClickListener {
             popupWindow?.dismiss()
         }
-
-
         LayoutGallery.setOnClickListener {
             val galleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE)
             popupWindow?.dismiss()
         }
-
 
         LayoutCamera.setOnClickListener {
             popupWindow?.dismiss()
@@ -393,7 +355,6 @@ class EditBasicDetails : AppCompatActivity() {
                 }
             }
         }
-
 
         LayoutCamera.setOnClickListener {
             popupWindow?.dismiss()
@@ -418,7 +379,6 @@ class EditBasicDetails : AppCompatActivity() {
             }
         }
     }
-
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
@@ -431,11 +391,8 @@ class EditBasicDetails : AppCompatActivity() {
         return image
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_PICK_IMAGE -> {
@@ -452,7 +409,6 @@ class EditBasicDetails : AppCompatActivity() {
                             .into(binding.imgProfile)
                     }
                 }
-
 
                 REQUEST_IMAGE_CAPTURE -> {
                     CommonUtil.SelcetedFileList.clear()
@@ -472,7 +428,6 @@ class EditBasicDetails : AppCompatActivity() {
         }
     }
 
-
     private fun getPathFromUri(uri: Uri): String? {
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)
@@ -483,14 +438,9 @@ class EditBasicDetails : AppCompatActivity() {
                 path = it.getString(columnIndex)
             }
         }
-
-
         Log.d("getPathFromUri", "Resolved file path: $path")
-
-
         return path
     }
-
 
     private fun AwsUploadingFile(isFilePath: String) {
         isAwsUploadingPreSigned!!.getPreSignedUrl(
@@ -503,15 +453,11 @@ class EditBasicDetails : AppCompatActivity() {
                     Log.d("isAwsFile", isAwsFile!!)
                     Awsuploadedfile.add(isAwsFile.toString())
                     Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-
-
                     if (Awsuploadedfile.size == CommonUtil.SelcetedFileList.size) {
                         Log.d("isAwsFile", Awsuploadedfile[0].toString())
                         isSaveTheData()
                     }
                 }
-
-
                 override fun onUploadError(error: String?) {
                     Log.e("Upload Error", error!!)
                     Toast.makeText(this@EditBasicDetails, "Upload failed", Toast.LENGTH_SHORT)
@@ -521,26 +467,10 @@ class EditBasicDetails : AppCompatActivity() {
         )
     }
 
-
     fun isSaveTheData() {
         val updatedName = binding.edtName.text.toString().trim()
         val updatedPhone = binding.edtPhone.text.toString().trim()
         val updatedEmail = binding.edtEmail.text.toString().trim()
-
-
-        if (updatedPhone.length != 10 || !updatedPhone.matches(Regex("\\d{10}"))) {
-            Toast.makeText(this, "Please enter a valid 10-digit phone number", Toast.LENGTH_SHORT)
-                .show()
-            return
-        }
-
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(updatedEmail).matches()) {
-            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT)
-                .show()
-            return
-        }
-
 
         var isProfileImage = ""
         if (Awsuploadedfile.size > 0) {
@@ -551,22 +481,16 @@ class EditBasicDetails : AppCompatActivity() {
             isProfileImage = isUserImage.toString()
         }
 
-
-        Log.d("isProfileImage", isProfileImage)
-
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("idMember", memberId)
-        jsonObject.addProperty("imagePath", isProfileImage)
-        jsonObject.addProperty("memberName", updatedName)
-        jsonObject.addProperty("notificationPlacement", binding.customSwitch.isChecked())
-        jsonObject.addProperty("placementStatus", "Placed")
-        jsonObject.addProperty("primaryMobileNo", updatedPhone)
-        jsonObject.addProperty("studentEmail", updatedEmail)
+        val jsonObject = JsonObject().apply {
+            addProperty("idMember", memberId)
+            addProperty("imagePath", isProfileImage)
+            addProperty("memberName", updatedName)
+            addProperty("notificationPlacement", binding.customSwitch.isChecked())
+            addProperty("placementStatus", "Placed")
+            addProperty("primaryMobileNo", updatedPhone)
+            addProperty("studentEmail", updatedEmail)
+        }
         Log.d("isSaveDataRequest", jsonObject.toString())
-
-
         viewModel.addEditProfile(jsonObject, this@EditBasicDetails)
     }
-
-
 }

@@ -5483,7 +5483,7 @@ class AppServices {
     }
 
 
-
+    //Edit Academic Details
     private val _resumeBuilderAcademicAddEditResponse = MutableLiveData<GetResumeBuilderAcademicDetails?>()
     val resumeBuilderAcademicAddEditResponse: LiveData<GetResumeBuilderAcademicDetails?>
         get() = _resumeBuilderAcademicAddEditResponse
@@ -5530,16 +5530,13 @@ class AppServices {
                     call: Call<GetResumeBuilderSkillSetDetails?>, response: Response<GetResumeBuilderSkillSetDetails?>
                 ) {
                     progressDialog!!.dismiss()
-
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-
                             progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isGetResumeBuilderSkillSetDetails.postValue(response.body())
-
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
@@ -5549,7 +5546,6 @@ class AppServices {
                         }
                     }
                 }
-
                 override fun onFailure(call: Call<GetResumeBuilderSkillSetDetails?>, t: Throwable) {
                     progressDialog!!.dismiss()
                     isGetResumeBuilderSkillSetDetails.postValue(null)
@@ -5563,7 +5559,6 @@ class AppServices {
 
     val GetResumeBuilderSkillSetDetailsLiveData: LiveData<GetResumeBuilderSkillSetDetails?>
         get() = isGetResumeBuilderSkillSetDetails
-
 
     //Get SoftSkills Details
     fun GetResumeBuilderSoftSkillsRequest(activity: Activity) {
@@ -5595,7 +5590,6 @@ class AppServices {
                         }
                     }
                 }
-
                 override fun onFailure(call: Call<GetResumeBuilderSkillSetSoftSkills?>, t: Throwable) {
                     progressDialog!!.dismiss()
                     isGetResumeBuilderSoftSkillsDetails.postValue(null)
@@ -5641,7 +5635,6 @@ class AppServices {
                         }
                     }
                 }
-
                 override fun onFailure(call: Call<ResumeBuilderEditSkillSetResponse?>, t: Throwable) {
                     progressDialog!!.dismiss()
                     isSendResumeBuilderEditSkillSetDetails.postValue(null)
@@ -5652,9 +5645,6 @@ class AppServices {
                 }
             })
     }
-
     val ResumeBuilderEditSkillSetLiveData: LiveData<ResumeBuilderEditSkillSetResponse?>
         get() = isSendResumeBuilderEditSkillSetDetails
-
-
 }

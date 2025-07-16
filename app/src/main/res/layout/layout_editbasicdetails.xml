@@ -30,6 +30,7 @@
             android:layout_marginStart="@dimen/ten"
             android:layout_toEndOf="@+id/imgback"
             android:text="@string/edit_profile"
+            android:fontFamily="@font/poppins_medium"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp">
         </TextView>
@@ -74,7 +75,8 @@
                     android:layout_height="@dimen/thirty_five"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:src="@drawable/camera_icon"></ImageView>
+                    android:src="@drawable/camera_icon">
+                </ImageView>
             </RelativeLayout>
 
 
@@ -86,6 +88,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/twenty"
                 android:text="@string/delete_picture"
+                android:textSize="@dimen/twelve"
+                android:fontFamily="@font/poppins_regular"
                 android:textColor="@color/clr_txt_red">
 
 
@@ -108,6 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/your_name"
+                    android:fontFamily="@font/poppins_regular"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp">
 
@@ -133,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
                     android:text="@string/contact_phone"
+                    android:fontFamily="@font/poppins_regular"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp">
 
@@ -157,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
                     android:text="@string/email_address"
+                    android:fontFamily="@font/poppins_regular"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp">
 
@@ -208,6 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/placement_status"
+                    android:fontFamily="@font/poppins_regular"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/sixteen_sp" />
 
@@ -225,6 +233,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/placement_status"
+                        android:fontFamily="@font/poppins_regular"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fourteen_sp">
 
@@ -237,6 +246,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/five"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="@string/marked_by_placement_offficer"
                         android:textColor="@color/light_gray"
                         android:textSize="@dimen/twelve_sp">
@@ -275,6 +285,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/ten"
+                        android:fontFamily="@font/poppins_regular"
                         android:layout_toEndOf="@+id/customSwitch"
                         android:text="@string/EditProfile_constent_message">
 

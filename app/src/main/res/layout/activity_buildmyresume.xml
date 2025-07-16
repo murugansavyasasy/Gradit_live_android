@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/commonBottomResumeBuilder">
+
+        <LinearLayout
+            android:id="@+id/layout_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:id="@+id/lblBuildMyResumeHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_shadow_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/twenty">
+
+                <ImageView
+                    android:id="@+id/imgback"
+                    android:layout_width="@dimen/thirty"
+                    android:layout_height="@dimen/thirty"
+                    android:src="@drawable/arrow_back" />
+
+                <TextView
+                    android:id="@+id/tv_header_title"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/build_my_resume"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/eighteen_sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/select_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Select the details which you want to include \nin the resume"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/sixteen_sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_academic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/academic_records"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_10th"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/checked_box1"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="10th %"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_12th"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_three"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="12th %"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_ug"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="UG CGPA"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_pg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="PG CGPA"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_backlogs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/backlogs"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_arrears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/number_of_arrears"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/ten"
+                android:background="#D1D1D6" />
+
+
+            <TextView
+                android:id="@+id/tv_skill_sets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/skill_sets"
+                android:textSize="16sp" />
+
+
+            <!-- Languages Known Main -->
+            <CheckBox
+                android:id="@+id/cb_languages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="Languages known" />
+
+            <!-- English & Tamil in a row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_english"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/english"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_tamil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/tamil"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <!-- Hindi alone -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_hindi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/hindi"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/ten"
+                android:background="#D1D1D6" />
+
+            <CheckBox
+                android:id="@+id/cb_soft_skills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="Soft skills" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/sf_teamwork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/teamwork"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/sf_management"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/time_management"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/sf_leadership"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/leadership"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/sf_Solving"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/problem_solving"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/ten"
+                android:background="#D1D1D6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Areas of Interest"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/cb_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="Areas of interest" />
+
+            <!-- ✅ புதிய CheckBoxes  -->
+            <CheckBox
+                android:id="@+id/cb_data_science"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="@string/data_science" />
+
+            <CheckBox
+                android:id="@+id/cb_web_dev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="@string/web_development" />
+
+
+            <!-- Internship Experiences -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/five"
+                android:background="#D1D1D6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Internship Experiences"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/cb_internship"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="Include Internship" />
+
+            <!-- Child items example -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/intern_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="Company Name"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/intern_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="Duration"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/ten"
+                android:background="#D1D1D6" />
+
+            <!-- Programming Languages -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Programming Languages"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/pl_python"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five"
+                    android:layout_marginEnd="24dp"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/python"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <CheckBox
+                    android:id="@+id/pl_java"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/java"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/pl_cpp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_five"
+                    android:button="@drawable/ch_square_uncheck"
+                    android:fontFamily="@font/poppins_regular"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="C++"
+                    android:textSize="@dimen/fourteen_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/five"
+                android:background="#D1D1D6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Tools and Platforms Known"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/cb_git"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="@string/git" />
+
+
+            <CheckBox
+                android:id="@+id/cb_vscode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="@string/vscode"
+                android:textSize="@dimen/fourteen_sp" />
+
+            <CheckBox
+                android:id="@+id/cb_mysql"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="@string/mysql"
+                android:textSize="@dimen/fourteen_sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/ten"
+                android:background="#D1D1D6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Certifications"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/cb_certifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:button="@drawable/ch_square_uncheck"
+                android:fontFamily="@font/poppins_regular"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="Certifications" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/commonBottomResumeBuilder"
+        layout="@layout/commonbottom_resumebuilder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

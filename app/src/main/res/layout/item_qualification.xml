@@ -17,6 +17,7 @@
             android:layout_weight="0.57"
             android:text="Class/Degree"
             android:textStyle="bold"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@color/black"
             android:textSize="@dimen/fourteen_sp"
             android:layout_marginEnd="@dimen/five" />
@@ -27,16 +28,16 @@
             android:layout_weight="0.4"
             android:text="% of Marks"
             android:textStyle="bold"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@color/black"
             android:textSize="@dimen/fourteen_sp"
             android:layout_marginStart="@dimen/five" />
         <ImageView
             android:id="@+id/imgRemove"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="@dimen/fifteen"
-            android:src="@drawable/ic_close"
-            android:background="@drawable/bg_red_circle"
+            android:src="@drawable/close_red"
             android:contentDescription="Remove row"
             android:padding="@dimen/four" />
     </LinearLayout>
@@ -76,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ten"
         android:text="School/Institution"
+        android:fontFamily="@font/poppins_regular"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="@dimen/fourteen_sp" />

@@ -336,7 +336,24 @@
     <string name="add_one">+ Add</string>
     <string name="tools">Tools</string>
     <string name="assessment_details">Assessment Details</string>
-
+    <string name="academic_records">Academic records</string>
+    <string name="backlogs">Backlogs</string>
+    <string name="mysql">MySQL</string>
+    <string name="vscode">VSCode</string>
+    <string name="git">Git</string>
+    <string name="tamil">Tamil</string>
+    <string name="hindi">Hindi</string>
+    <string name="english">English</string>
+    <string name="skill_sets">Skill sets</string>
+    <string name="teamwork">Teamwork</string>
+    <string name="time_management">Time Management</string>
+    <string name="number_of_arrears">Number of Arrears</string>
+    <string name="python">Python</string>
+    <string name="leadership">Leadership</string>
+    <string name="problem_solving">Problem Solving</string>
+    <string name="data_science">Data Science</string>
+    <string name="web_development">Web Development</string>
+    <string name="java">Java</string>
 
 
 </resources>

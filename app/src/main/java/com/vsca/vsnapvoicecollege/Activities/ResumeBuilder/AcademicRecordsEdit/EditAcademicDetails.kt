@@ -29,7 +29,6 @@ class EditAcademicDetails : AppCompatActivity() {
     private var originalArrears: String = ""
     private var originalEducationalDetails: List<GetEducationalDetailsData> = listOf()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutEditacademicdetailsBinding.inflate(layoutInflater)
@@ -52,7 +51,6 @@ class EditAcademicDetails : AppCompatActivity() {
 
         binding.edtBacklogs.setText(backlogs)
         binding.edtArrears.setText(arrears)
-
 
         if (!educationalDetailsJson.isNullOrEmpty()) {
             val gson = Gson()
@@ -96,7 +94,6 @@ class EditAcademicDetails : AppCompatActivity() {
                 Toast.makeText(this, "Save failed, please try again.", Toast.LENGTH_SHORT).show()
             }
         }
-
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
             if (!validateCurrentRows()) {
                 return@setOnClickListener
@@ -113,10 +110,19 @@ class EditAcademicDetails : AppCompatActivity() {
     private fun validateCurrentRows(): Boolean {
         for (i in 0 until binding.containerLayout.childCount) {
             val row = binding.containerLayout.getChildAt(i)
+            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
             val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
             val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
+
+            val classDegree = edtClassDegree.text.toString().trim()
             val percentage = edtPercentage.text.toString().trim()
             val institution = edtInstitution.text.toString().trim()
+
+            if (classDegree.isEmpty()) {
+                edtClassDegree.error = "Enter class/degree"
+                edtClassDegree.requestFocus()
+                return false
+            }
 
             if (percentage.isEmpty()) {
                 edtPercentage.error = "Enter % of marks"
@@ -132,6 +138,7 @@ class EditAcademicDetails : AppCompatActivity() {
         }
         return true
     }
+
 
     private fun isDataChanged(): Boolean {
         val currentBacklogs = binding.edtBacklogs.text.toString().trim()
@@ -156,14 +163,14 @@ class EditAcademicDetails : AppCompatActivity() {
 
             if (classDegree != originalItem.classDegree ||
                 percentage != originalItem.percentage ||
-                institution != originalItem.institution) {
+                institution != originalItem.institution
+            ) {
                 return true
             }
         }
 
         return false
     }
-
 
     private fun showSaveConfirmationDialog() {
         val builder = android.app.AlertDialog.Builder(this)
@@ -203,22 +210,11 @@ class EditAcademicDetails : AppCompatActivity() {
 
         imgRemove.setOnClickListener {
             if (binding.containerLayout.childCount > 1) {
-                val builder = android.app.AlertDialog.Builder(this)
-                builder.setTitle("Remove Entry")
-                builder.setMessage("Are you sure you want to remove this entry?")
-                builder.setPositiveButton("Yes") { dialog, _ ->
-                    binding.containerLayout.removeView(rowView)
-                    dialog.dismiss()
-                }
-                builder.setNegativeButton("No") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                builder.show()
+                binding.containerLayout.removeView(rowView)
             } else {
                 Toast.makeText(this, "At least one entry is required.", Toast.LENGTH_SHORT).show()
             }
         }
-
         // Pre-fill if editing existing data
         item?.let {
             edtClassDegree.setText(it.classDegree)
@@ -270,5 +266,4 @@ class EditAcademicDetails : AppCompatActivity() {
         )
         appViewModel?.AddEditAcademicDetails(request, this)
     }
-
 }

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit.EditAcademicDetails
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildMyResume
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildResumeActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.MyProfileEdit.EditBasicDetails
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.EditSkillSet
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderAcademicDetailsAdapter
@@ -69,11 +70,9 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-
         ActionBarMethod(this@ResumeBuilder)
         UserMenuRequest(this)
         MenuBottomType()
-
         appViewModel?.ResumeBuilderProfileDetails!!.observe(this) { response ->
             if (response != null) {
 
@@ -135,7 +134,6 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
 
 
         CommonUtil.RequestCameraPermission(this)
-
         binding.CommonLayout.btnEditOne.setOnClickListener {
             val i = Intent(this, EditBasicDetails::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -152,9 +150,8 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 i.putExtra("educationalDetails", json)
             }
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivityForResult(i, 101) // ✅ use requestCode!
+            startActivityForResult(i, 101)
         }
-
 
         binding.CommonLayout.btnEditThree.setOnClickListener {
             val i = Intent(this, EditSkillSet::class.java)
@@ -163,12 +160,11 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             this.startActivity(i)
         }
         binding.CommonLayout.lblBuildMyResume.setOnClickListener {
-            val i = Intent(this, BuildMyResume::class.java)
+            val i = Intent(this, BuildResumeActivity::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this.startActivity(i)
         }
         Log.d("MemberID", CommonUtil.MemberId.toString())
-
         binding.CommonLayout.btnEditOne.setOnClickListener {
             val i = Intent(this, EditBasicDetails::class.java)
 
@@ -208,7 +204,6 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         CommonUtil.isSkillSetDataSending = saveSkillSetData
     }
 
-
     private fun isLoadAcademicDetails(AcademicData: GetResumeBuilderAcademicDetailsData) {
         isEducationItem.clear()
         val eduList = AcademicData.educationalDetails
@@ -222,7 +217,6 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
                 }
             }
         }
-
 
         if (AcademicData.backlogs != "") {
             binding.CommonLayout.lblBackLogs.text = AcademicData.backlogs
@@ -268,29 +262,21 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
             drawable.setColor(ContextCompat.getColor(context, colorResId))
             return drawable
         }
-
         return null
     }
-
 
     private fun isLoadProfileDetails(profileData: List<GetResumeBuilderProfileDetailsData>) {
         val profile = profileData.firstOrNull()
         profile?.let {
-
             binding.CommonLayout.lblName.text = it.memberName
             isMemeberId = it.memberId.toIntOrNull() ?: 0
             binding.CommonLayout.lblMobileNo.text = it.memberPhoneNumber
             binding.CommonLayout.lblGamilId.text = it.memberstudentEmail
-
-
-
             Glide.with(this)
                 .load(it.memberImagePath)
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(binding.CommonLayout.imgProfile)
-
-
             val drawable = ContextCompat.getDrawable(binding.root.context, R.drawable.green_radius)
                 ?.mutate() as GradientDrawable
             if (it.memberPlacementStatus == CommonUtil.isShortlisted) {
@@ -409,11 +395,9 @@ class ResumeBuilder : BaseActivity<ActivityResumebuilderBinding>() {
         appViewModel!!.GetResumeBuilderProfileDetails(31145, this@ResumeBuilder)
     }
 
-
     fun GetAcademicDetails() {
 //        appViewModel!!.GetResumeBuilderAcademicDetails(CommonUtil.MemberId, this@ResumeBuilder)
         appViewModel!!.GetResumeBuilderAcademicDetails(31145, this@ResumeBuilder)
-
     }
 
     fun GetSkillSetDetails() {

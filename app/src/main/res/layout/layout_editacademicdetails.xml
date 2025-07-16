@@ -26,6 +26,7 @@
             android:layout_marginStart="@dimen/ten"
             android:layout_toEndOf="@id/imgback"
             android:text="Edit Profile"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp" />
 
@@ -50,6 +51,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="@dimen/fifteen"
                 android:layout_marginEnd="@dimen/fifteen"
+                android:fontFamily="@font/poppins_regular"
                 android:text="Academic Records"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/sixteen_sp" />
@@ -85,9 +87,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
                     android:text="+ Add another"
+                    android:fontFamily="@font/poppins_regular"
                     style="@style/CustomTextStylePoppinsMedium"
                     android:textColor="@color/light_blue2"
-                    android:textSize="@dimen/thirteen_sp" />
+                    android:textSize="@dimen/fourteen" />
 
             </LinearLayout>
 
@@ -106,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/viewOne"
+                android:fontFamily="@font/poppins_regular"
                 android:layout_marginStart="@dimen/fifteen"
                 android:layout_marginEnd="@dimen/fifteen"
                 android:layout_marginTop="@dimen/ten"
@@ -129,6 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:text="Current Backlogs"
+                    android:fontFamily="@font/poppins_regular"
                     style="@style/CustomTextStylePoppinsBold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp" />
@@ -137,6 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:fontFamily="@font/poppins_regular"
                     android:layout_marginStart="@dimen/five"
                     android:text="Number of Arrears"
                     style="@style/CustomTextStylePoppinsBold"
