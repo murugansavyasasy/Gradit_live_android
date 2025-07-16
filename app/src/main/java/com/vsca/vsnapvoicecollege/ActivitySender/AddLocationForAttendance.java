@@ -77,7 +77,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     String Address = "";
     Spinner spinnerMetres;
     String[] Metres = {"20", "30", "40",
-            "50", "60", "70", "80","90","100", "Custom"};
+            "50", "60", "70", "80", "90", "100", "Custom"};
 
     String SelectedSpinnerDistance = "";
     private PopupWindow locationHistoryPopup;
@@ -85,7 +85,6 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     public LocationsHistoryAdapter mAdapter;
 
     public List<StaffBiometricLocationRes.BiometricLoationData> locationsList = new ArrayList<StaffBiometricLocationRes.BiometricLoationData>();
-
 
 
     @Override
@@ -274,51 +273,38 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnPickLocation:
-                getPermissions();
-                break;
 
-            case R.id.btnAddLocation:
+        int id = v.getId();
 
-                if (!txtLocationName.getText().toString().equals("") && !String.valueOf(current_latitude).equals("") && !String.valueOf(current_longitude).equals("") && !txtMeters.getText().toString().trim().equals("")) {
+        if (id == R.id.btnPickLocation) {
+            getPermissions();
+        } else if (id == R.id.btnAddLocation) {
+            if (!txtLocationName.getText().toString().equals("") && !String.valueOf(current_latitude).equals("") && !String.valueOf(current_longitude).equals("") && !txtMeters.getText().toString().trim().equals("")) {
 
-                    String distance = "";
-                    if (SelectedSpinnerDistance.equals("Custom")) {
-                        distance = txtMeters.getText().toString();
-                    } else {
-                        distance = SelectedSpinnerDistance;
-                    }
-
-                    int distanceCheck = Integer.parseInt(distance);
-                    if(distanceCheck >= 10) {
-                       addConfirmationAlert();
-                   }
-                   else {
-                       Toast.makeText(AddLocationForAttendance.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
-                   }
-                }
-                else {
-                    Toast.makeText(AddLocationForAttendance.this, "Please enter all the required fields", Toast.LENGTH_SHORT).show();
+                String distance = "";
+                if (SelectedSpinnerDistance.equals("Custom")) {
+                    distance = txtMeters.getText().toString();
+                } else {
+                    distance = SelectedSpinnerDistance;
                 }
 
-                break;
+                int distanceCheck = Integer.parseInt(distance);
+                if (distanceCheck >= 10) {
+                    addConfirmationAlert();
+                } else {
+                    Toast.makeText(AddLocationForAttendance.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(AddLocationForAttendance.this, "Please enter all the required fields", Toast.LENGTH_SHORT).show();
+            }
 
-            case R.id.btnEnableLocation:
-                AddLocationForAttendance.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                break;
-
-            case R.id.btnViewLocations:
-                Intent inVoice = new Intent(AddLocationForAttendance.this, ViewExistingLocations.class);
-                inVoice.putExtra("SCHOOL_ID", SchoolID);
-                inVoice.putExtra("STAFF_ID", StaffID);
-                startActivity(inVoice);
-
-                break;
-
-
-            default:
-                break;
+        } else if (id == R.id.btnEnableLocation) {
+            AddLocationForAttendance.this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        } else if (id == R.id.btnViewLocations) {
+            Intent inVoice = new Intent(this, ViewExistingLocations.class);
+            inVoice.putExtra("SCHOOL_ID", SchoolID);
+            inVoice.putExtra("STAFF_ID", StaffID);
+            startActivity(inVoice);
         }
 
     }
@@ -367,7 +353,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
     @SuppressLint("MissingPermission")
     private void getCurentLocation() {
-        LocationHelper call = new LocationHelper(AddLocationForAttendance.this,this,"new");
+        LocationHelper call = new LocationHelper(AddLocationForAttendance.this, this, "new");
         call.getFreshLocation(AddLocationForAttendance.this);
         rytProgressBar.setVisibility(View.VISIBLE);
     }

@@ -38,7 +38,7 @@
             android:id="@+id/imgDefault"
             android:layout_width="@dimen/eighteen"
             android:layout_height="@dimen/eighteen"
-            android:src="@drawable/download_icon"
+            android:src="@drawable/save_icon"
             android:visibility="gone">
 
         </ImageView>

@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frameColour"
+    android:layout_width="@dimen/fifty"
+    android:layout_height="@dimen/fifty">
+
+    <View
+        android:id="@+id/colourCode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/circle_black_solid_background" />
+
+    <ImageView
+        android:id="@+id/imgTick"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:src="@drawable/white_tick_icon"
+        android:visibility="gone" />
+</FrameLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<View xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="@dimen/fifty"-->
+<!--    android:id="@+id/colourCode"-->
+<!--    android:background="@drawable/circle_black_solid_background"-->
+<!--    android:layout_height="@dimen/fifty">-->
+
+<!--</View>-->

@@ -96,6 +96,7 @@ import com.vsca.vsnapvoicecollege.SenderModel.SenderStatusMessageData
 import androidx.lifecycle.viewModelScope
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
@@ -236,6 +237,7 @@ class App(application: Application) : AndroidViewModel(application) {
     var ResumeBuilderSkillSetDetails: LiveData<GetResumeBuilderSkillSetDetails?>? = null
     var ResumeBuilderSoftSkillsDetails: LiveData<GetResumeBuilderSkillSetSoftSkills?>? = null
     var ResumeBuilderEditSkillSetDetails: LiveData<ResumeBuilderEditSkillSetResponse?>? = null
+    var ResumeBuilderThemeTemplate: LiveData<GetResumeBuilderThemeTemplate?>? = null
 
 
     fun init() {
@@ -359,6 +361,7 @@ class App(application: Application) : AndroidViewModel(application) {
         ResumeBuilderSkillSetDetails = apiRepositories!!.GetResumeBuilderSkillSetDetailsLiveData
         ResumeBuilderSoftSkillsDetails = apiRepositories!!.GetResumeBuilderSoftSkillsLiveData
         ResumeBuilderEditSkillSetDetails = apiRepositories!!.ResumeBuilderEditSkillSetLiveData
+        ResumeBuilderThemeTemplate = apiRepositories!!.ResumeBuilderThemeTemplateLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -831,6 +834,10 @@ class App(application: Application) : AndroidViewModel(application) {
 
     fun SendEditSkillSetDetails(isJsonObject: JsonObject, activity: Activity) {
         apiRepositories!!.SendResumeBuilderEditSoftSkillsRequest(isJsonObject, activity)
+    }
+
+    fun GetResumeBuilderThemeTemplate(activity: Activity) {
+        apiRepositories!!.GetResumeBuilderThemeTemplateRequest(activity)
     }
 
 }

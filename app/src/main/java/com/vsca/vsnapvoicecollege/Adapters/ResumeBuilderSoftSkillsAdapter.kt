@@ -37,7 +37,7 @@ class ResumeBuilderSoftSkillsAdapter(
         holder.lblcbSelect.setOnCheckedChangeListener(null)
         holder.lblcbSelect.isChecked = isSelected
         holder.lblcbSelect.setButtonDrawable(
-            if (isSelected) R.drawable.ch_square_check else R.drawable.ch_square_uncheck
+            if (isSelected) R.drawable.checkedbox else R.drawable.uncheckbox
         )
 
         holder.lblcbSelect.setOnCheckedChangeListener { _, isChecked ->

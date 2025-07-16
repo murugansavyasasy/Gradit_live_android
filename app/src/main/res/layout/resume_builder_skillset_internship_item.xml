@@ -6,15 +6,19 @@
     <TextView
         android:id="@+id/lblCompanyName"
         android:layout_width="match_parent"
-        style="@style/CustomTextStylePoppinsBold"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="@dimen/twelve_sp"
+        android:textColor="@color/black"
         android:text="ABC Private Limited Company"
         android:layout_height="wrap_content">
     </TextView>
     <TextView
         android:id="@+id/lblDuration"
         android:layout_width="match_parent"
-        style="@style/CustomTextStylePoppinsMedium"
-        android:text="25 Jan 2025 to 24 Feb 2025"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/ten_sp"
+        android:textColor="@color/black"
+         android:text="25 Jan 2025 to 24 Feb 2025"
         android:layout_height="wrap_content">
     </TextView>
 

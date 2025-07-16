@@ -57,6 +57,8 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateData
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -218,6 +220,7 @@ class AppServices {
     var isGetResumeBuilderSkillSetDetails: MutableLiveData<GetResumeBuilderSkillSetDetails?>
     var isGetResumeBuilderSoftSkillsDetails: MutableLiveData<GetResumeBuilderSkillSetSoftSkills?>
     var isSendResumeBuilderEditSkillSetDetails: MutableLiveData<ResumeBuilderEditSkillSetResponse?>
+    var isGetResumeBuilderThemeTemplate :MutableLiveData<GetResumeBuilderThemeTemplate?>
 
 
     init {
@@ -325,6 +328,7 @@ class AppServices {
         isGetResumeBuilderSkillSetDetails = MutableLiveData()
         isGetResumeBuilderSoftSkillsDetails = MutableLiveData()
         isSendResumeBuilderEditSkillSetDetails = MutableLiveData()
+        isGetResumeBuilderThemeTemplate = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5647,4 +5651,51 @@ class AppServices {
     }
     val ResumeBuilderEditSkillSetLiveData: LiveData<ResumeBuilderEditSkillSetResponse?>
         get() = isSendResumeBuilderEditSkillSetDetails
+
+    //Get Theme Tempalate Details
+    fun GetResumeBuilderThemeTemplateRequest(activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.getResumeBuilderThemeTemplateDetails()
+            ?.enqueue(object : Callback<GetResumeBuilderThemeTemplate?> {
+                override fun onResponse(
+                    call: Call<GetResumeBuilderThemeTemplate?>, response: Response<GetResumeBuilderThemeTemplate?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetResumeBuilderThemeTemplate.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetResumeBuilderThemeTemplate.postValue(null)
+                        } else {
+                            isGetResumeBuilderThemeTemplate.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<GetResumeBuilderThemeTemplate?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetResumeBuilderThemeTemplate.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val ResumeBuilderThemeTemplateLiveData: LiveData<GetResumeBuilderThemeTemplate?>
+        get() = isGetResumeBuilderThemeTemplate
+
+
 }

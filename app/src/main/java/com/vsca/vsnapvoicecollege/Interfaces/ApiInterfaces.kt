@@ -56,6 +56,7 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -631,6 +632,10 @@ interface ApiInterfaces {
     fun SendSkillSetDetails(
         @Body isJsonObject: JsonObject
     ): Call<ResumeBuilderEditSkillSetResponse>
+
+    @GET(ApiMethods.GetResumeBuilderThemeTemplate)
+    fun getResumeBuilderThemeTemplateDetails(
+    ): Call<GetResumeBuilderThemeTemplate?>?
 
 
     }

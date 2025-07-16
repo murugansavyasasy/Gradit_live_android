@@ -63,7 +63,7 @@ android {
     }
 }
 
-repositories {w
+repositories {
     mavenCentral()
     maven {
         url "https://s3.amazonaws.com/repo.commonsware.com"

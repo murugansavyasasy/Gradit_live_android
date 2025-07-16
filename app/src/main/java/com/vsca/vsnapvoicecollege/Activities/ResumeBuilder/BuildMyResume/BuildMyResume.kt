@@ -3,11 +3,17 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.vsca.vsnapvoicecollege.Adapters.PickThemeTemplateColourAdapter
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateData
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
 import com.vsca.vsnapvoicecollege.R
 
 import com.vsca.vsnapvoicecollege.ViewModel.App
@@ -18,41 +24,10 @@ class BuildMyResume : AppCompatActivity() {
 
     var appViewModel: App? = null
     private lateinit var binding: LayoutBuildmyresumeBinding
-    private var selectedItem: PickResumeData? = null
-
-    val sampleData = listOf(
-        PickResumeData(
-            "Cascade",
-            "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png",
-            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-        ),
-        PickResumeData(
-            "Crisp",
-            "https://developer.android.com/images/brand/Android_Robot.png",
-            "https://www.africau.edu/images/default/sample.pdf"
-        ),
-        PickResumeData(
-            "Detailed",
-            "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png",
-            "https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
-        ),
-        PickResumeData(
-            "Lorem ipsum",
-            "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-            "https://www.orimi.com/pdf-test.pdf"
-        ),
-        PickResumeData(
-            "Ipsum dto",
-            "https://upload.wikimedia.org/wikipedia/commons/0/04/OpenAI_Logo.svg",
-            "https://file-examples.com/storage/fe77e616925e244dc9472d1/2017/10/file-sample_150kB.pdf"
-        ),
-        PickResumeData(
-            "Adgr we",
-            "https://developer.android.com/images/jetpack/jetpack-compose-hero.svg",
-            "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf"
-        ),
-    )
-
+    private var selectedImageItem: GetResumeBuilderThemeTemplateImage? = null
+    private lateinit var pickThemeTemplateColourAdapter: PickThemeTemplateColourAdapter
+    private lateinit var pickResumeAdapter: PickResumeAdapter
+    private var selectedColourItem: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,14 +38,41 @@ class BuildMyResume : AppCompatActivity() {
         appViewModel!!.init()
         binding.commonBottomResumeBuilder.btnDefault2.text=resources.getString(R.string.proceed)
         binding.commonBottomResumeBuilder.imgDefault.visibility= View.GONE
-        loadData()
+
+        GetResumeBuilderThemeTemplate()
 
         binding.commonBottomResumeBuilder.btnDefault2.setOnClickListener{
-            selectedItem?.let { item ->
-                val intent = Intent(this, ResumePreviewActivity::class.java)
-                intent.putExtra("TemplateDocumentURL", item.documentUrl)
-                startActivity(intent)
+            selectedImageItem?.let { item ->
+                Log.d("TemplateImageURL", item.templateImage)
+//                val intent = Intent(this, ResumePreviewActivity::class.java)
+//                intent.putExtra("TemplateDocumentURL", item.templateImage)
+//                startActivity(intent)
         }
+            selectedColourItem?.let { item->
+                Log.d("TemplateColorCode", item)
+            }
+        }
+
+
+
+        appViewModel?.ResumeBuilderThemeTemplate!!.observe(this) { response ->
+            if (response != null) {
+                if (response.status) {
+                    if (response.data.size>0) {
+                        isLoadThemeTemplate(response.data[0])
+                        binding.CommonLayout.visibility=View.VISIBLE
+                        Log.d("GetResumeBuilderThemeTemplate", response.data.toString())
+                    }
+                    else{
+                        binding.CommonLayout.visibility=View.GONE
+                        Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
+                    binding.CommonLayout.visibility=View.GONE
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
 
@@ -80,13 +82,29 @@ class BuildMyResume : AppCompatActivity() {
         }
     }
 
-    private fun loadData() {
+    private fun isLoadThemeTemplate(getResumeBuilderThemeTemplateData: GetResumeBuilderThemeTemplateData) {
+        //Template Image Adapter
         binding.rcyPickResume.layoutManager = GridLayoutManager(this, 3)
-        val adapter = PickResumeAdapter(sampleData) { selectedDocumentURL ->
-            selectedItem=selectedDocumentURL
+        pickResumeAdapter = PickResumeAdapter(getResumeBuilderThemeTemplateData.templateImages) { selectedImage ->
+            selectedImageItem=selectedImage
 
         }
-        binding.rcyPickResume.adapter = adapter
+        binding.rcyPickResume.adapter = pickResumeAdapter
+
+
+        //Colour code Adapter
+        binding.rcyPickResume.layoutManager = GridLayoutManager(this, 5)
+        pickThemeTemplateColourAdapter = PickThemeTemplateColourAdapter(getResumeBuilderThemeTemplateData.themeColors) { selectedColour ->
+            selectedColourItem=selectedColour
+
+        }
+        binding.rcyPickResume.adapter = pickThemeTemplateColourAdapter
+
+
+    }
+
+    fun GetResumeBuilderThemeTemplate() {
+        appViewModel!!.GetResumeBuilderThemeTemplate(this@BuildMyResume)
     }
 
 

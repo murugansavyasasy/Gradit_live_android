@@ -34,6 +34,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/CommonLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/commonBottomResumeBuilder"
@@ -62,8 +63,8 @@
                 android:layout_below="@+id/lblPickTemp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
             </androidx.recyclerview.widget.RecyclerView>
+
             <TextView
                 android:id="@+id/lblTheme"
                 android:layout_marginTop="@dimen/five"
@@ -75,6 +76,14 @@
                 android:text="@string/select_a_theme"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/sixteen_sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcThemeColour"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_below="@+id/lblTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
 
         </RelativeLayout>
 
