@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/lblSkillSet"
-                style="@style/CustomTextStylePoppinsBold"
+                android:fontFamily="@font/poppins_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -64,63 +64,65 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblSkillSet"
-                android:layout_marginTop="@dimen/ten"
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/languages_known"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp" />
 
                 <EditText
                     android:id="@+id/edtLanguageknown"
-                    android:hint="@string/enter_comma_separated"
                     android:layout_width="match_parent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/sixteen_sp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
                     android:background="@drawable/rect_gray_radius"
+                    android:hint="@string/enter_comma_separated"
                     android:padding="@dimen/eight"></EditText>
 
                 <TextView
                     android:id="@+id/lblSoftSkills"
-                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/soft_skills"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcSoftSkills"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
-                    android:clipToPadding="false"
-                    android:layout_marginTop="@dimen/ten"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
 
                 <TextView
                     android:id="@+id/lblAreasofInterest"
-                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/areas_of_interest"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp" />
 
                 <EditText
-                    android:layout_marginTop="@dimen/five"
                     android:id="@+id/edtAreaOfInterest"
-                    android:hint="@string/enter_area_of_interest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:fontFamily="@font/poppins_regular"
+android:textSize="@dimen/sixteen_sp"
                     android:background="@drawable/rect_gray_radius"
+                    android:hint="@string/enter_area_of_interest"
                     android:padding="@dimen/eight" />
 
                 <View
@@ -131,36 +133,35 @@
                     android:background="@color/light_gray"></View>
 
                 <TextView
-                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/project"
                     android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/fourteen_sp">
+                    android:textSize="@dimen/sixteen_sp">
 
                 </TextView>
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/ten"
                     android:id="@+id/rcProject"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
                     android:clipToPadding="false"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
 
                 <TextView
                     android:id="@+id/lblAddAnotherProject"
-                    style="@style/CustomTextStylePoppinsMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_another"
                     android:layout_marginTop="@dimen/ten"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="@string/add_another"
                     android:textColor="@color/light_blue2"
-                    android:textSize="@dimen/thirteen_sp">
+                    android:textSize="@dimen/fourteen_sp">
 
                 </TextView>
 
@@ -172,36 +173,34 @@
                     android:background="@color/light_gray"></View>
 
                 <TextView
-
-                    style="@style/CustomTextStylePoppinsBold"
+                    android:fontFamily="@font/poppins_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
                     android:text="@string/internship_experiences"
                     android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/fourteen_sp">
+                    android:textSize="@dimen/sixteen_sp">
 
                 </TextView>
+
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/ten"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
-                    android:clipToPadding="false"
                     android:id="@+id/rcInternshipExperiences"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
 
                 <TextView
                     android:id="@+id/lblAddAnotherInternship"
-                    style="@style/CustomTextStylePoppinsMedium"
+                    android:fontFamily="@font/poppins_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_another"
                     android:layout_marginTop="@dimen/five"
+                    android:text="@string/add_another"
                     android:textColor="@color/light_blue2"
-                    android:textSize="@dimen/thirteen_sp">
-                </TextView>
+                    android:textSize="@dimen/fourteen_sp"></TextView>
 
 
                 <View
@@ -210,21 +209,21 @@
                     android:layout_marginTop="@dimen/ten"
                     android:alpha="0.2"
                     android:background="@color/light_gray"></View>
-                <TextView
 
-                    style="@style/CustomTextStylePoppinsBold"
+                <TextView
+                    android:fontFamily="@font/poppins_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
                     android:text="@string/tools"
                     android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/fourteen_sp">
+                    android:textSize="@dimen/sixteen_sp">
 
                 </TextView>
 
                 <TextView
+                    android:fontFamily="@font/poppins_medium"
                     android:id="@+id/lblProgrammingLanguages"
-                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
@@ -234,16 +233,18 @@
 
                 <EditText
                     android:id="@+id/edtProgrammingLanguage"
-                    android:hint="@string/enter_comma_separated"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/sixteen_sp"
                     android:background="@drawable/rect_gray_radius"
+                    android:hint="@string/enter_comma_separated"
                     android:padding="@dimen/eight"></EditText>
 
                 <TextView
                     android:id="@+id/lblToolsAndPlatform"
-                    style="@style/CustomTextStylePoppinsBold"
+                    android:fontFamily="@font/poppins_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
@@ -253,11 +254,13 @@
 
                 <EditText
                     android:id="@+id/edtToolsAndPlatform"
-                    android:hint="@string/enter_comma_separated"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/sixteen_sp"
                     android:background="@drawable/rect_gray_radius"
+                    android:hint="@string/enter_comma_separated"
                     android:padding="@dimen/eight"></EditText>
 
                 <View
@@ -273,28 +276,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
                     android:text="@string/certifications"
+                    android:fontFamily="@font/poppins_medium"
                     android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/fourteen_sp">
+                    android:textSize="@dimen/sixteen_sp">
 
                 </TextView>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/ten"
                     android:id="@+id/rcCertificate"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"></androidx.recyclerview.widget.RecyclerView>
 
                 <TextView
                     android:id="@+id/lblAddAnotherCertificate"
-                    style="@style/CustomTextStylePoppinsMedium"
+                    android:fontFamily="@font/poppins_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_another"
                     android:layout_marginTop="@dimen/five"
+                    android:text="@string/add_another"
                     android:textColor="@color/light_blue2"
-                    android:textSize="@dimen/thirteen_sp">
-                </TextView>
+                    android:textSize="@dimen/fourteen_sp"></TextView>
 
                 <View
                     android:layout_width="match_parent"
@@ -304,38 +306,36 @@
                     android:background="@color/light_gray"></View>
 
                 <TextView
-                    style="@style/CustomTextStylePoppinsBold"
+                    android:fontFamily="@font/poppins_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
                     android:text="@string/assessment_details"
                     android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/fourteen_sp">
+                    android:textSize="@dimen/sixteen_sp">
 
                 </TextView>
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/ten"
                     android:id="@+id/rcAssessmentScore"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
                     android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
 
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
 
                 <TextView
                     android:id="@+id/lblAddAnotherAssessment"
-                    style="@style/CustomTextStylePoppinsMedium"
+                    android:fontFamily="@font/poppins_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_another"
                     android:layout_marginTop="@dimen/five"
+                    android:text="@string/add_another"
                     android:textColor="@color/light_blue2"
-                    android:textSize="@dimen/thirteen_sp">
-                </TextView>
+                    android:textSize="@dimen/fourteen_sp"></TextView>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

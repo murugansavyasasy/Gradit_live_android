@@ -146,5 +146,6 @@ object ApiMethods {
     const val GetResumeBuilderSkillSetDetails ="skillset/get-skillset"
     const val GetResumeBuilderSoftSkillsDetails ="skillset/get-softskill"
     const val SendResumeBuilderSoftSkillsDetails ="skillset/add-edit-skillset"
+    const val GetResumeBuilderThemeTemplate ="get/resumetemplatethemecolor"
 
 }

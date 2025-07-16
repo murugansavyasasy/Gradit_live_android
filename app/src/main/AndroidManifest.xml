@@ -210,7 +210,7 @@
             android:name=".Activities.ResumeBuilder.ResumeBuilder"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Prinipal"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
         <activity

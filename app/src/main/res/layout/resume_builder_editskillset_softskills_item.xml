@@ -9,6 +9,8 @@
         android:button="@drawable/ch_square"
         android:gravity="center_vertical"
         android:padding="@dimen/five"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="@dimen/fourteen_sp"
         android:text="option 1"
         android:visibility="visible" />
 </LinearLayout>

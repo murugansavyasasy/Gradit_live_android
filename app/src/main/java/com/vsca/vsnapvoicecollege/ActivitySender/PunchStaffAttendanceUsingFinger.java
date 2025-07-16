@@ -836,54 +836,52 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnEnableLocation:
-                redirectToEnableGPS();
-                break;
 
-            case R.id.btnPresent:
-                enableBiometric();
-                break;
 
-            case R.id.btnMarkAttendance:
+        int id = v.getId();
 
-                if (CommonUtil.INSTANCE.getMenu_writeMarkAttendance().equals("1")) {
-                    rytAddLocation.setVisibility(View.VISIBLE);
-                } else {
-                    rytAddLocation.setVisibility(View.GONE);
-                }
+        if (id == R.id.btnEnableLocation) {
+            redirectToEnableGPS();
 
-                latitudeToStopCalling = "";
-                langitudeToStopCalling = "";
-                isMarkAttendnaceScreen = true;
-                btnMarkAttendance.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
-                btnAttendanceHistory.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
-                btnMarkAttendance.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
-                btnAttendanceHistory.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
-                rytMarkAttendanceSceen.setVisibility(View.VISIBLE);
-                rytAttendanceHistorySceen.setVisibility(View.GONE);
-                getLocationPermissions();
+        } else if (id == R.id.btnPresent) {
+            enableBiometric();
 
-                break;
+        } else if (id == R.id.btnMarkAttendance) {
 
-            case R.id.btnAttendanceHistory:
+            if (CommonUtil.INSTANCE.getMenu_writeMarkAttendance().equals("1")) {
+                rytAddLocation.setVisibility(View.VISIBLE);
+            } else {
                 rytAddLocation.setVisibility(View.GONE);
-                loadAttendanceHistory();
+            }
 
-                break;
+            latitudeToStopCalling = "";
+            langitudeToStopCalling = "";
+            isMarkAttendnaceScreen = true;
 
-            case R.id.rytAddLocation:
+            btnMarkAttendance.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
+            btnAttendanceHistory.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
+            btnMarkAttendance.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
+            btnAttendanceHistory.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
 
-                Intent inVoice = new Intent(PunchStaffAttendanceUsingFinger.this, AddLocationForAttendance.class);
-                inVoice.putExtra("SCHOOL_ID", String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
-                inVoice.putExtra("STAFF_ID", String.valueOf(CommonUtil.INSTANCE.getMemberId()));
-                startActivity(inVoice);
+            rytMarkAttendanceSceen.setVisibility(View.VISIBLE);
+            rytAttendanceHistorySceen.setVisibility(View.GONE);
 
-                break;
+            getLocationPermissions();
 
-            default:
-                break;
+        } else if (id == R.id.btnAttendanceHistory) {
+            rytAddLocation.setVisibility(View.GONE);
+            loadAttendanceHistory();
+
+        } else if (id == R.id.rytAddLocation) {
+
+            Intent inVoice = new Intent(PunchStaffAttendanceUsingFinger.this, AddLocationForAttendance.class);
+            inVoice.putExtra("SCHOOL_ID", String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
+            inVoice.putExtra("STAFF_ID", String.valueOf(CommonUtil.INSTANCE.getMemberId()));
+            startActivity(inVoice);
+
         }
+
+
     }
     private void loadAttendanceHistory() {
         isMarkAttendnaceScreen = false;

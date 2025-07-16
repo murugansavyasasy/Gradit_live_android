@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/lblcompany"
-            style="@style/CustomTextStylePoppinsBold"
+            android:fontFamily="@font/poppins_medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/company_name"
@@ -31,6 +31,8 @@
     <EditText
         android:layout_marginTop="@dimen/five"
         android:id="@+id/edtCompanyName"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/sixteen_sp"
         android:layout_width="match_parent"
         android:hint="@string/enter_company_name"
         android:layout_height="wrap_content"
@@ -39,7 +41,7 @@
 
     <TextView
         android:layout_marginTop="@dimen/ten"
-        style="@style/CustomTextStylePoppinsBold"
+        android:fontFamily="@font/poppins_medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/role"
@@ -48,6 +50,8 @@
     <EditText
         android:layout_marginTop="@dimen/five"
         android:id="@+id/edtRole"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/sixteen_sp"
         android:hint="@string/enter_internship_role"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +60,7 @@
 
     <TextView
         android:layout_marginTop="@dimen/ten"
-        style="@style/CustomTextStylePoppinsBold"
+        android:fontFamily="@font/poppins_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/period_duration"
@@ -71,6 +75,8 @@
             android:layout_marginTop="@dimen/five"
             android:id="@+id/txtFromDate"
             android:layout_weight="1"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="@dimen/sixteen_sp"
             android:drawableEnd="@drawable/calendar_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,6 +89,8 @@
             android:id="@+id/txtToDate"
             android:layout_weight="1"
             android:hint="@string/txt_to"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="@dimen/sixteen_sp"
             android:drawableEnd="@drawable/calendar_icon"
             android:layout_marginStart="@dimen/ten"
             android:layout_width="match_parent"

@@ -301,7 +301,6 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         val builder = AlertDialog.Builder(this)
 
         val message = buildString {
-
             append("No changes made?")
         }
 

@@ -497,44 +497,36 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnTodaysReport:
-                cardType = "DayWise";
-                attendanceReportsList.clear();
-                rytStaffSpinner.setVisibility(View.GONE);
-                lnrDatesSpinners.setVisibility(View.GONE);
-                txtSearch.setVisibility(View.VISIBLE);
-                txtSearch.setText("");
+        int id = v.getId();
 
-                btnTodaysReport.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
-                btnMonthWiseReports.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
-                btnTodaysReport.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
-                btnMonthWiseReports.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
+        if (id == R.id.btnTodaysReport) {
+            cardType = "DayWise";
+            attendanceReportsList.clear();
+            rytStaffSpinner.setVisibility(View.GONE);
+            lnrDatesSpinners.setVisibility(View.GONE);
+            txtSearch.setVisibility(View.VISIBLE);
+            txtSearch.setText("");
 
-                getStaffWiseAttendanceReports();
+            btnTodaysReport.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
+            btnMonthWiseReports.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
+            btnTodaysReport.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
+            btnMonthWiseReports.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
 
-                break;
+            getStaffWiseAttendanceReports();
 
-            case R.id.btnMonthWiseReports:
-                cardType = "MonthWise";
-                attendanceReportsList.clear();
-                rytStaffSpinner.setVisibility(View.VISIBLE);
-                lnrDatesSpinners.setVisibility(View.VISIBLE);
-                txtSearch.setVisibility(View.GONE);
+        } else if (id == R.id.btnMonthWiseReports) {
+            cardType = "MonthWise";
+            attendanceReportsList.clear();
+            rytStaffSpinner.setVisibility(View.VISIBLE);
+            lnrDatesSpinners.setVisibility(View.VISIBLE);
+            txtSearch.setVisibility(View.GONE);
 
-                loadYearsSpinner();
+            loadYearsSpinner();
 
-                btnMonthWiseReports.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
-                btnTodaysReport.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
-                btnMonthWiseReports.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
-                btnTodaysReport.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
-
-                break;
-
-
-            default:
-                break;
+            btnMonthWiseReports.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
+            btnTodaysReport.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
+            btnMonthWiseReports.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
+            btnTodaysReport.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
         }
-
     }
 }

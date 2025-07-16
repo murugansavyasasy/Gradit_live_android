@@ -12,10 +12,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateData
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
 import com.vsca.vsnapvoicecollege.R
 
-class PickResumeAdapter(private val itemList: List<PickResumeData>
-,    private val onItemClick: (PickResumeData) -> Unit
+class PickResumeAdapter(private val itemList: List<GetResumeBuilderThemeTemplateImage>
+,    private val onItemClick: (GetResumeBuilderThemeTemplateImage) -> Unit
 ) :
     RecyclerView.Adapter<PickResumeAdapter.GridViewHolder>() {
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -28,10 +30,10 @@ class PickResumeAdapter(private val itemList: List<PickResumeData>
         val frame: FrameLayout = itemView.findViewById(R.id.frmImageLay)
 
 
-        fun bind(item: PickResumeData, isSelected: Boolean) {
-            text.text = item.title
+        fun bind(item: GetResumeBuilderThemeTemplateImage, isSelected: Boolean) {
+            text.text = item.name
             Glide.with(itemView.context)
-                .load(item.imageUrl)
+                .load(item.templateImage)
                 .placeholder(R.drawable.image_placeholder)
                 .into(image)
 

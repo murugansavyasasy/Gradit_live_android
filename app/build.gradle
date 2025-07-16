@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdk 34
+    compileSdk 35
     namespace "com.vsca.vsnapvoicecollege"
     defaultConfig {
         configurations.configureEach {
@@ -17,7 +17,7 @@ android {
 
         applicationId "com.vsca.vsnapvoicecollege"
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode 55
         versionName "4.9"
         vectorDrawables.useSupportLibrary = true
