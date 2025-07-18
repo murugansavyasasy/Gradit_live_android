@@ -1,12 +1,13 @@
 package com.vsca.vsnapvoicecollege.Model
 
 class GetResumeBuilderAcademicDetailsData(
-    val id: Int,
+    val id: String?=null,
     val educationalDetails: List<GetEducationalDetailsData>,
-    val backlogs: String,
-    val numberOfArrears: String,
-    val createdOn: Any,
-    val modifiedOn: Any,
-    val isDelete: Int,
-    val idMember: Int
+    val backlogs: String?=null,
+    val numberOfArrears: String?=null,
+    val createdOn: Any?=null,
+    val modifiedOn: Any?=null,
+    val isDelete: Int?=null,
+    val idMember: Int?=null
+
 )

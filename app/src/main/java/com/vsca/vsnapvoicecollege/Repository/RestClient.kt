@@ -220,7 +220,8 @@ import java.util.concurrent.TimeUnit
 class RestClient {
 
     companion object {
-        private var BASE_URL = "https://gradit.voicesnap.com/"
+//        private var BASE_URL = "https://gradit.voicesnap.com/"
+        private var BASE_URL = "https://www.thegradit.com/"
         private const val RESUME_URL = "http://192.168.5.107:3002/api/"
 
         private var retrofit: Retrofit? = null

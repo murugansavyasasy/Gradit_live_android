@@ -16,7 +16,8 @@
             android:layout_width="@dimen/thirty"
             android:layout_height="@dimen/thirty"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow_back"></ImageView>
+            android:src="@drawable/arrow_back">
+        </ImageView>
 
         <TextView
             style="@style/CustomTextStylePoppinsBold"

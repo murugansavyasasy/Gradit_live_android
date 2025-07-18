@@ -17,6 +17,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
 
@@ -28,6 +29,7 @@ class EditAcademicDetails : AppCompatActivity() {
     private var originalBacklogs: String = ""
     private var originalArrears: String = ""
     private var originalEducationalDetails: List<GetEducationalDetailsData> = listOf()
+    var memberId=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

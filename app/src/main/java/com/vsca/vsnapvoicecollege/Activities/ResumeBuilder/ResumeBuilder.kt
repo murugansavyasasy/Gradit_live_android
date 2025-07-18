@@ -1,4 +1,5 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
@@ -26,6 +27,7 @@ import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderCertificationDetailsAdap
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderIntenshipDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderProjectDetailsAdapter
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
@@ -35,11 +37,12 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 
 
-class ResumeBuilder : AppCompatActivity(){
+class ResumeBuilder : AppCompatActivity() {
 
     var isMemeberId = 0
     private val isEducationItem = mutableListOf<GetEducationalDetailsData>()
     var isSkillSetData: GetResumeBuilderSkillSetDetailsData? = null
+    var eduList: List<GetEducationalDetailsData> = emptyList()
     var appViewModel: App? = null
     private lateinit var binding: LayoutResumebuilderBinding
 
@@ -49,7 +52,6 @@ class ResumeBuilder : AppCompatActivity(){
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-
 
         appViewModel?.ResumeBuilderProfileDetails!!.observe(this) { response ->
             if (response != null) {
@@ -65,19 +67,17 @@ class ResumeBuilder : AppCompatActivity(){
         appViewModel?.ResumeBuilderAcademicDetails!!.observe(this) { response ->
             if (response != null) {
                 if (response.status) {
-                    if (response.data.size>0) {
+                    if (response.data.size > 0) {
                         isLoadAcademicDetails(response.data[0])
                         binding.lblEditTwo.text = getString(R.string.txt_edit)
                         binding.lnrAcademicDetails.visibility = View.VISIBLE
                         Log.d("AcademicRespone", response.data.toString())
-                    }
-                    else{
+                    } else {
                         binding.lnrAcademicDetails.visibility = View.GONE
                         binding.lblEditTwo.text = getString(R.string.txt_Add)
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
-                }
-                else {
+                } else {
                     binding.lnrAcademicDetails.visibility = View.GONE
                     Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 }
@@ -87,19 +87,17 @@ class ResumeBuilder : AppCompatActivity(){
         appViewModel?.ResumeBuilderSkillSetDetails!!.observe(this) { response ->
             if (response != null) {
                 if (response.status) {
-                    if (response.data.size>0){
+                    if (response.data.size > 0) {
                         isLoadSkillSetDetails(response.data)
                         binding.lnrSkillSetDetails.visibility = View.VISIBLE
                         binding.btnEditThree.text = getString(R.string.txt_edit)
                         Log.d("AcademicRespone", response.data.toString())
-                    }
-                    else{
+                    } else {
                         binding.lnrSkillSetDetails.visibility = View.GONE
                         binding.btnEditThree.text = getString(R.string.txt_Add)
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
-                }
-                else {
+                } else {
                     binding.lnrSkillSetDetails.visibility = View.GONE
                     Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 }
@@ -119,20 +117,26 @@ class ResumeBuilder : AppCompatActivity(){
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this.startActivity(i)
         }
-        binding.lblEditTwo.setOnClickListener {
-            val i = Intent(this, EditAcademicDetails::class.java)
-            val academicData = appViewModel?.ResumeBuilderAcademicDetails?.value?.data?.firstOrNull()
-            if (academicData != null) {
-                i.putExtra("backlogs", academicData.backlogs)
-                i.putExtra("arrears", academicData.numberOfArrears)
+//        binding.lblEditTwo.setOnClickListener {
+//            val i = Intent(this, EditAcademicDetails::class.java)
+//            val academicData = appViewModel?.ResumeBuilderAcademicDetails?.value?.data?.firstOrNull()
+//            if (academicData != null) {
+//                i.putExtra("backlogs", academicData.backlogs)
+//                i.putExtra("arrears", academicData.numberOfArrears)
+//
+//                val json = Gson().toJson(academicData.educationalDetails)
+//                i.putExtra("educationalDetails", json)
+//            }
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            startActivityForResult(i, 101)
+//        }
 
-                val json = Gson().toJson(academicData.educationalDetails)
-                i.putExtra("educationalDetails", json)
-            }
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivityForResult(i, 101)
+        binding.lblEditTwo.setOnClickListener {
+            val i = Intent(this,EditAcademicDetails::class.java)
+            isSaveAcademicDetails()
+            this.startActivity(i)
         }
-        binding.imgback.setOnClickListener{
+        binding.imgback.setOnClickListener {
             onBackPressed()
         }
 
@@ -145,6 +149,8 @@ class ResumeBuilder : AppCompatActivity(){
             this.startActivity(i)
         }
         binding.lblBuildMyResume.setOnClickListener {
+            isSaveSkillSetData()
+            isSaveAcademicDetails()
             val i = Intent(this, BuildResumeActivity::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this.startActivity(i)
@@ -153,52 +159,112 @@ class ResumeBuilder : AppCompatActivity(){
 
 
         binding.btnEditOne.setOnClickListener {
-            val i = Intent(this, EditBasicDetails::class.java)
-            i.putExtra("name", binding.lblName.text.toString())
-            i.putExtra("phone", binding.lblMobileNo.text.toString())
-            i.putExtra("email", binding.lblGamilId.text.toString())
-            Log.d("MemberId1", isMemeberId.toString())
-            i.putExtra("memberId", isMemeberId)
-            i.putExtra(
-                "placementStatus",
-                binding.lblAvailPlacement.text.toString()
-            )
-
-            i.putExtra(
-                "image",
-                appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath
-            )
-           startActivity(i)
+            saveBasicDetails()
+            startActivity(Intent(this, EditBasicDetails::class.java))
         }
+
+
+//        binding.btnEditOne.setOnClickListener {
+//            val i = Intent(this, EditBasicDetails::class.java)
+//            i.putExtra("name", binding.lblName.text.toString())
+//            i.putExtra("phone", binding.lblMobileNo.text.toString())
+//            i.putExtra("email", binding.lblGamilId.text.toString())
+//            Log.d("MemberId1", isMemeberId.toString())
+//            i.putExtra("memberId", isMemeberId)
+//            i.putExtra(
+//                "placementStatus",
+//                binding.lblAvailPlacement.text.toString()
+//            )
+//
+//            i.putExtra(
+//                "image",
+//                appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath
+//            )
+//           startActivity(i)
+//        }
     }
+//
+//    private fun isSaveAcademicDetails() {
+//        val academicData = GetResumeBuilderAcademicDetails(
+//        )
+//
+//    }
+
+
+    private fun isSaveAcademicDetails() {
+        val academicDetails = GetResumeBuilderAcademicDetailsData(
+            backlogs = binding.lblBackLogs.text.toString(),
+            numberOfArrears = binding.lblNoofArrears.text.toString(),
+            educationalDetails = eduList,
+        )
+
+        Log.d("academicDetails",academicDetails.toString())
+
+        Log.d("saveAcademicDetails", "Saving academic details:")
+        Log.d("saveAcademicDetails", "Backlogs: ${academicDetails.backlogs}")
+        Log.d("saveAcademicDetails", "Arrears: ${academicDetails.numberOfArrears}")
+        Log.d("saveAcademicDetails", "Arrears: ${academicDetails.educationalDetails}")
+
+        Log.d("academicDetails", "Educational Details:")
+        academicDetails.educationalDetails.forEachIndexed { index, detail ->
+            Log.d("academicDetails", "Item $index: $detail")
+        }
+
+
+        // Save to CommonUtil
+        CommonUtil.saveAcademicDetails = academicDetails
+        Log.d("AcademicDetails-----",CommonUtil.saveAcademicDetails!!.educationalDetails.toString())
+
+    }
+
+    private fun saveBasicDetails() {
+        val basicDetails = GetResumeBuilderProfileDetailsData(
+            memberId = isMemeberId.toString(),
+            memberName = binding.lblName.text.toString(),
+            memberPhoneNumber = binding.lblMobileNo.text.toString(),
+            memberstudentEmail = binding.lblGamilId.text.toString(),
+            memberPlacementStatus = binding.lblAvailPlacement.text.toString(),
+            memberImagePath = appViewModel?.ResumeBuilderProfileDetails?.value?.data?.firstOrNull()?.memberImagePath,
+
+        )
+        Log.d("saveBasicDetails", "Saving basic details:")
+        Log.d("saveBasicDetails", "ID: ${basicDetails.memberId}")
+        Log.d("saveBasicDetails", "Name: ${basicDetails.memberName}")
+        Log.d("saveBasicDetails", "Phone: ${basicDetails.memberPhoneNumber}")
+        Log.d("saveBasicDetails", "Email: ${basicDetails.memberstudentEmail}")
+        Log.d("saveBasicDetails", "PlacementStatus: ${basicDetails.memberPlacementStatus}")
+        Log.d("saveBasicDetails", "ImagePath: ${basicDetails.memberImagePath}")
+        CommonUtil.saveBasicDetails = basicDetails
+    }
+
 
     private fun isSaveSkillSetData() {
         val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
-            idMember =isMemeberId,
-            languages=binding.lblLanguageKnown.text.toString(),
-            softSkill=binding.lblSoftSkills.text .toString(),
-            areaInterest=binding.lblAreasofInterest.text.toString(),
-            internship=isSkillSetData?.internship,
-            programmingLanguage=binding.lblProgrammingLanguages.text.toString(),
-            toolsPlatform=binding.lblToolsandplatformsknown.text.toString(),
-            certifications=isSkillSetData?.certifications,
-            assessmentDetails=isSkillSetData?.assessmentDetails,
-            projects=isSkillSetData?.projects,
+            idMember = isMemeberId,
+            languages = binding.lblLanguageKnown.text.toString(),
+            softSkill = binding.lblSoftSkills.text.toString(),
+            areaInterest = binding.lblAreasofInterest.text.toString(),
+            internship = isSkillSetData?.internship,
+            programmingLanguage = binding.lblProgrammingLanguages.text.toString(),
+            toolsPlatform = binding.lblToolsandplatformsknown.text.toString(),
+            certifications = isSkillSetData?.certifications,
+            assessmentDetails = isSkillSetData?.assessmentDetails,
+            projects = isSkillSetData?.projects,
         )
-        Log.d("isSaveSkillSetData",saveSkillSetData.toString())
+        Log.d("isSaveSkillSetData", saveSkillSetData.toString())
         //We are Saving all the data in Constant as List Here
         CommonUtil.isSkillSetDataSending = saveSkillSetData
     }
 
     private fun isLoadAcademicDetails(AcademicData: GetResumeBuilderAcademicDetailsData) {
         isEducationItem.clear()
-        val eduList = AcademicData.educationalDetails
+        eduList = AcademicData.educationalDetails
         if (eduList.isNotEmpty()) {
             eduList.forEach { item ->
                 val degree = item.classDegree?.trim()
                 val percentage = item.percentage?.trim()
                 val institution = item.institution?.trim()
-                if (!degree.isNullOrEmpty() && !percentage.isNullOrEmpty()&& !institution.isNullOrEmpty()) {
+                if (!degree.isNullOrEmpty() && !percentage.isNullOrEmpty() && !institution.isNullOrEmpty()) {
                     isEducationItem.add(item)
                 }
             }
@@ -216,7 +282,8 @@ class ResumeBuilder : AppCompatActivity(){
 
         if (AcademicData.numberOfArrears != "") {
             binding.lblNoofArrears.text = AcademicData.numberOfArrears
-            binding.lblNoofArrears.background = getColoredDrawable(binding.root.context, R.color.light_red)
+            binding.lblNoofArrears.background =
+                getColoredDrawable(binding.root.context, R.color.light_red)
         } else {
             binding.lblNoofArrears.text = CommonUtil.isIffin
             binding.lblNoofArrears.background =
@@ -224,7 +291,7 @@ class ResumeBuilder : AppCompatActivity(){
         }
 
         Log.d("isEducationItem", isEducationItem.toString())
-        if (isEducationItem.size > 0 ) {
+        if (isEducationItem.size > 0) {
             binding.lblEditTwo.text = getString(R.string.txt_edit)
             binding.lnrAcademicDetails.visibility = View.VISIBLE
             binding.rcAcademicDetails.layoutManager = GridLayoutManager(this, 3)
@@ -257,7 +324,7 @@ class ResumeBuilder : AppCompatActivity(){
 
 
             binding.lblName.text = it.memberName
-            isMemeberId = it.memberId.toIntOrNull() ?: 0
+            isMemeberId = it.memberId?.toIntOrNull() ?: 0
             binding.lblMobileNo.text = it.memberPhoneNumber
             binding.lblGamilId.text = it.memberstudentEmail
 
@@ -319,7 +386,8 @@ class ResumeBuilder : AppCompatActivity(){
             binding.lblDOB.text = it.memberDob
             binding.lblGender.text = it.memberGender
             binding.lblQualification.text = it.courseName
-            binding.lblAddress.text = it.memberPermanentAddress1 + it.memberPermanentAddressCity + it.memberPermanentAddressState + it.memberPermanentAddressCountry
+            binding.lblAddress.text =
+                it.memberPermanentAddress1 + it.memberPermanentAddressCity + it.memberPermanentAddressState + it.memberPermanentAddressCountry
             binding.lblAdmissionNo.text = it.memberAdmissionNo
             binding.lblDepartmentName.text = it.departmentName
             binding.lblYearOfStudy.text = it.semesterName
@@ -393,7 +461,7 @@ class ResumeBuilder : AppCompatActivity(){
     }
 
     fun GetSkillSetDetails() {
-        isMemeberId=31145
+        isMemeberId = 31145
         //        appViewModel!!.GetResumeBuilderSkillSetDetails(CommonUtil.MemberId, this@ResumeBuilder)
         appViewModel!!.GetResumeBuilderSkillSetDetails(isMemeberId, this@ResumeBuilder)
     }

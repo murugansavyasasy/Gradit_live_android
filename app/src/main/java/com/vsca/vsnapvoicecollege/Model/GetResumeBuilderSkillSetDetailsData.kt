@@ -11,9 +11,10 @@ class GetResumeBuilderSkillSetDetailsData (
     val certifications: List<GetCertificateDetailsData>?=null,
     val assessmentDetails: List<GetAssessmentDetailsData>?=null,
     val projects: List<GetProjectDetailsData>?=null,
-    val createdOn: Any?=null,
+    val createdOn: Any? = null,
     val modifiedOn: Any?=null,
     val isDelete: String?=null,
     val idMember: Int?=null,
-    val updatedFields:Any?=null
-)
+    val updatedFields:Any?=null,
+
+    )

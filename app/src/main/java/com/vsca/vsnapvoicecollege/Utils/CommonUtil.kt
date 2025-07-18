@@ -33,10 +33,13 @@ import com.vsca.vsnapvoicecollege.Model.AttendanceHour
 import com.vsca.vsnapvoicecollege.Model.AttendanceHourEdit
 import com.vsca.vsnapvoicecollege.Model.ExamcreationEdit
 import com.vsca.vsnapvoicecollege.Model.Examination_Creation
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
 import com.vsca.vsnapvoicecollege.Model.ImageListView
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.Model.Sectiondetail_ExamCreation
 import com.vsca.vsnapvoicecollege.Model.SubjectExamcreationEDIT
 import com.vsca.vsnapvoicecollege.Model.SubjectdetailX
@@ -78,6 +81,9 @@ object CommonUtil {
     var Onbackpressed = ""
     var iSubjectId = ArrayList<String>()
     var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null
+    var saveBasicDetails: GetResumeBuilderProfileDetailsData? =null
+    var saveAcademicDetails : GetResumeBuilderAcademicDetailsData? =null
+    var fullResumeData: ResumeContextData? = null
 
 
     @JvmField
