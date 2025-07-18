@@ -53,6 +53,7 @@ import com.vsca.vsnapvoicecollege.Model.GetGrouplist
 import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetProfileResume
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
@@ -76,6 +77,8 @@ import com.vsca.vsnapvoicecollege.Model.ManageLeave
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
 import com.vsca.vsnapvoicecollege.Model.SenderSide_ChatModel
@@ -221,6 +224,11 @@ class AppServices {
     var isGetResumeBuilderSoftSkillsDetails: MutableLiveData<GetResumeBuilderSkillSetSoftSkills?>
     var isSendResumeBuilderEditSkillSetDetails: MutableLiveData<ResumeBuilderEditSkillSetResponse?>
     var isGetResumeBuilderThemeTemplate :MutableLiveData<GetResumeBuilderThemeTemplate?>
+    var isSendResumeBuilderGenerateResume: MutableLiveData<ResumeBuilderGenerateResumeResponse?>
+    var isSendResumeBuilderSaveTitle: MutableLiveData<ResumeBuilderSaveTitleResponse?>
+    var isGetResumeBuilderProfileResume: MutableLiveData<GetProfileResume?>
+
+
 
 
     init {
@@ -329,6 +337,9 @@ class AppServices {
         isGetResumeBuilderSoftSkillsDetails = MutableLiveData()
         isSendResumeBuilderEditSkillSetDetails = MutableLiveData()
         isGetResumeBuilderThemeTemplate = MutableLiveData()
+        isSendResumeBuilderGenerateResume = MutableLiveData()
+        isSendResumeBuilderSaveTitle = MutableLiveData()
+        isGetResumeBuilderProfileResume = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5398,6 +5409,9 @@ class AppServices {
             })
     }
 
+    val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
+        get() = isGetResumeBuilderProfileDetails
+
     fun addEditProfile(isJsonObject: JsonObject, activity: Activity) {
 //        val progressDialog = CustomLoading.createProgressDialog(activity)
 //        progressDialog?.show()
@@ -5435,12 +5449,6 @@ class AppServices {
                 }
             })
     }
-
-
-
-
-    val GetResumeBuilderProfileDetailsLiveData: LiveData<GetResumeBuilderProfileDetails?>
-        get() = isGetResumeBuilderProfileDetails
 
 
 
@@ -5696,6 +5704,150 @@ class AppServices {
 
     val ResumeBuilderThemeTemplateLiveData: LiveData<GetResumeBuilderThemeTemplate?>
         get() = isGetResumeBuilderThemeTemplate
+
+
+
+    //Generate Resume
+    fun SendResumeBuilderGenerateResumeRequest(isJsonObject: JsonObject,activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.SendGenerateResume(isJsonObject)
+            ?.enqueue(object : Callback<ResumeBuilderGenerateResumeResponse?> {
+                override fun onResponse(
+                    call: Call<ResumeBuilderGenerateResumeResponse?>, response: Response<ResumeBuilderGenerateResumeResponse?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isSendResumeBuilderGenerateResume.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isSendResumeBuilderGenerateResume.postValue(null)
+                        } else {
+                            isSendResumeBuilderGenerateResume.postValue(null)
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<ResumeBuilderGenerateResumeResponse?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isSendResumeBuilderGenerateResume.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+    val ResumeBuilderGenerateResumeLiveData: LiveData<ResumeBuilderGenerateResumeResponse?>
+        get() = isSendResumeBuilderGenerateResume
+
+
+
+    //Send SaveTitle
+    fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject,activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
+            ?.enqueue(object : Callback<ResumeBuilderSaveTitleResponse?> {
+                override fun onResponse(
+                    call: Call<ResumeBuilderSaveTitleResponse?>, response: Response<ResumeBuilderSaveTitleResponse?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isSendResumeBuilderSaveTitle.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isSendResumeBuilderSaveTitle.postValue(null)
+                        } else {
+                            isSendResumeBuilderSaveTitle.postValue(null)
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<ResumeBuilderSaveTitleResponse?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isSendResumeBuilderSaveTitle.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+    val ResumeBuilderSaveTitleLiveData: LiveData<ResumeBuilderSaveTitleResponse?>
+        get() = isSendResumeBuilderSaveTitle
+
+
+
+
+
+    //Get Profile Resume
+    fun GetResumeBuilderProfileResumeRequest(id:Int ?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.getProfileResume(id)
+            ?.enqueue(object : Callback<GetProfileResume?> {
+                override fun onResponse(
+                    call: Call<GetProfileResume?>, response: Response<GetProfileResume?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetResumeBuilderProfileResume.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetResumeBuilderProfileResume.postValue(null)
+                        } else {
+                            isGetResumeBuilderProfileResume.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<GetProfileResume?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetResumeBuilderProfileResume.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val ResumeBuilderProfileResumeLiveData: LiveData<GetProfileResume?>
+        get() = isGetResumeBuilderProfileResume
+
+
+
+
+
 
 
 }

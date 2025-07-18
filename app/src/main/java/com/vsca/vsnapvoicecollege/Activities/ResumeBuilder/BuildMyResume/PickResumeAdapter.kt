@@ -17,7 +17,7 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
 import com.vsca.vsnapvoicecollege.R
 
 class PickResumeAdapter(private val itemList: List<GetResumeBuilderThemeTemplateImage>
-,    private val onItemClick: (GetResumeBuilderThemeTemplateImage) -> Unit
+,    private val onItemClick: (GetResumeBuilderThemeTemplateImage,Int) -> Unit
 ) :
     RecyclerView.Adapter<PickResumeAdapter.GridViewHolder>() {
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -31,30 +31,27 @@ class PickResumeAdapter(private val itemList: List<GetResumeBuilderThemeTemplate
 
 
         fun bind(item: GetResumeBuilderThemeTemplateImage, isSelected: Boolean) {
-            text.text = item.name
+            text.text = item.resume_template_name
+
             Glide.with(itemView.context)
-                .load(item.templateImage)
+                .load(item.resume_template_image)
                 .placeholder(R.drawable.image_placeholder)
                 .into(image)
 
             val shapeableImageView = image as ShapeableImageView
+            shapeableImageView.strokeWidth = 0f
 
             if (isSelected) {
-                shapeableImageView.strokeColor = ColorStateList.valueOf(
-                    ContextCompat.getColor(itemView.context, R.color.dark_blue)
-                )
-                shapeableImageView.strokeWidth = 3f
-                tick.visibility = View.VISIBLE
+                frame.background = ContextCompat.getDrawable(itemView.context, R.drawable.bg_resume_item_selected)
+//                tick.visibility=View.VISIBLE
                 itemView.alpha = 0.5f
             } else {
-                shapeableImageView.strokeColor = ColorStateList.valueOf(
-                    ContextCompat.getColor(itemView.context, android.R.color.darker_gray)
-                )
-                shapeableImageView.strokeWidth = 3f
-                tick.visibility = View.GONE
-                frame.setBackgroundColor(Color.TRANSPARENT)
+                frame.background = ContextCompat.getDrawable(itemView.context, R.drawable.bg_resume_item_unselected)
+//                tick.visibility=View.GONE
+                itemView.alpha = 1.0f
             }
         }
+
     }
 
 
@@ -78,7 +75,8 @@ class PickResumeAdapter(private val itemList: List<GetResumeBuilderThemeTemplate
             notifyItemChanged(previousSelected)
             notifyItemChanged(selectedPosition)
 
-            onItemClick(itemList[selectedPosition])
+            //Here we Pass the item and postion
+            onItemClick(itemList[selectedPosition], selectedPosition + 1)
         }
     }
 

@@ -1,6 +1,6 @@
 package com.vsca.vsnapvoicecollege.Model
 
 class GetResumeBuilderThemeTemplateImage (
-    val name:String,
-    val templateImage:String
+    val resume_template_name:String,
+    val resume_template_image:String
 )

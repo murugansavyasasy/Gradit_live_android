@@ -756,7 +756,7 @@ android:fontFamily="@font/poppins_regular"
 
                     <TextView
                         android:id="@+id/txtSkillSetTitle"
-                        android:fontFamily="@font/poppins_regular"
+                        android:fontFamily="@font/poppins_medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/skill_set"

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/twenty">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty"
+            android:background="@color/very_light_gray"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/lblMyResume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen"
+                android:layout_weight="0.9"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/save_your_resume"
+                android:textSize="@dimen/sixteen_sp">
+
+            </TextView>
+
+            <ImageView
+                android:id="@+id/imgClose"
+                android:layout_width="@dimen/twenty"
+                android:layout_height="@dimen/thirty"
+                android:layout_weight="0.1"
+                android:src="@drawable/close">
+
+            </ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fifteen"
+                android:layout_marginEnd="@dimen/fifteen"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/select_a_resume_to_view_and_manage"
+                android:textSize="@dimen/fourteen_sp">
+            </TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/ten"
+                android:alpha="0.2"
+                android:background="@color/light_gray">
+            </View>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcProfileResume"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_height="@dimen/two_hunderd">
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/fifteen">
+
+            <TextView
+                android:layout_weight="0.25"
+                android:id="@+id/lblBuildMyResume"
+                android:layout_width="match_parent"
+                android:fontFamily="@font/poppins_semibold"
+                android:textSize="@dimen/fourteen_sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblConsentedPlacement"
+                android:background="@drawable/gradient_orange_radius"
+                android:drawableStart="@drawable/starstick_icon"
+                android:gravity="center"
+                android:paddingStart="@dimen/fifteen"
+                android:paddingTop="@dimen/ten"
+                android:paddingEnd="@dimen/fifteen"
+                android:paddingBottom="@dimen/ten"
+                android:text="@string/build_my_resume"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <TextView
+                android:layout_weight="0.45"
+                android:id="@+id/lblOr"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/fourteen_sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblConsentedPlacement"
+                android:layout_toEndOf="@+id/lblBuildMyResume"
+                android:drawablePadding="@dimen/three"
+                android:paddingStart="@dimen/fifteen"
+                android:paddingTop="@dimen/ten"
+                android:paddingBottom="@dimen/ten"
+                android:text="@string/or"
+                android:textColor="@color/black">
+            </TextView>
+
+            <TextView
+                android:layout_weight="0.3"
+                android:id="@+id/btnUploadResume"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/fourteen_sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblConsentedPlacement"
+                android:layout_toEndOf="@+id/lblOr"
+                android:drawablePadding="@dimen/three"
+                android:paddingStart="@dimen/five"
+                android:paddingTop="@dimen/ten"
+                android:paddingBottom="@dimen/ten"
+                android:text="@string/upload_a_resume"
+                android:textColor="@color/light_blue2">
+            </TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -354,6 +354,16 @@
     <string name="data_science">Data Science</string>
     <string name="web_development">Web Development</string>
     <string name="java">Java</string>
+    <string name="save_your_resume">Save Your Resume</string>
+    <string name="my_resumes">My Resumes</string>
+    <string name="name_the_resume">Name the resume</string>
+    <string name="enter_a_title">Enter a title</string>
+    <string name="download_as_doc_format">Download as DOC format</string>
+    <string name="to_edit_resume_manually">to edit resume manually</string>
+    <string name="download_as_pdf_format">Download as PDF format</string>
+    <string name="to_share_with_company_hrs">to share with company HRs</string>
+    <string name="select_a_resume_to_view_and_manage">Select a resume to view and manage</string>
+    <string name="default_">Default</string>
 
 
 </resources>
