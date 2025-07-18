@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@+id/rlaEditProfileHeader"
@@ -41,15 +42,16 @@
         android:layout_below="@+id/rlaEditProfileHeader">
 
         <RelativeLayout
+            android:paddingBottom="@dimen/fifteen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/fifteen"
+            android:layout_marginStart="@dimen/ten"
             android:layout_marginTop="@dimen/ten"
-            android:layout_marginEnd="@dimen/fifteen">
+            android:layout_marginEnd="@dimen/ten">
 
             <TextView
                 android:id="@+id/lblPickTemp"
-                style="@style/CustomTextStylePoppinsBold"
+                android:fontFamily="@font/poppins_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -60,15 +62,18 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcyPickResume"
                 android:layout_marginTop="@dimen/ten"
+                android:layout_gravity="center"
                 android:layout_below="@+id/lblPickTemp"
                 android:layout_width="match_parent"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/lblTheme"
                 android:layout_marginTop="@dimen/five"
-                style="@style/CustomTextStylePoppinsBold"
+                android:fontFamily="@font/poppins_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rcyPickResume"
@@ -78,11 +83,13 @@
                 android:textSize="@dimen/sixteen_sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcThemeColour"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_below="@+id/lblTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:id="@+id/rcThemeColour"
+            android:layout_marginTop="@dimen/ten"
+            android:layout_below="@+id/lblTheme"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
 
         </RelativeLayout>

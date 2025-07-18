@@ -14,6 +14,8 @@ class ResumeBuilderSoftSkillsAdapter(
     preSelected: List<String>,
     private val listener: OnSoftSkillSelectedListener
 ) : RecyclerView.Adapter<ResumeBuilderSoftSkillsAdapter.ViewHolder>() {
+
+
     //Here SkillList is SoftSkills which comes from APi(How many Option there in API)
     private val skillList: List<String> = skills.firstOrNull()?.softSkills ?: emptyList()
     //Here selectedSkills,The User have this SoftSkills which we fetch from SkillSet GET APi

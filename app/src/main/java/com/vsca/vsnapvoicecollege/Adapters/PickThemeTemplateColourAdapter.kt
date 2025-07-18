@@ -1,8 +1,12 @@
 package com.vsca.vsnapvoicecollege.Adapters
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.R
 
@@ -19,17 +23,35 @@ class PickThemeTemplateColourAdapter(private val itemList: List<String>
 
         fun bind(item: String, isSelected: Boolean) {
             try {
-                val parsedColor = android.graphics.Color.parseColor(item)
-                colour.setBackgroundColor(parsedColor)
+                val parsedColor = Color.parseColor(item)
+                val bgDrawable = colour.background.mutate()
+                if (bgDrawable is GradientDrawable) {
+                    // Set fill color
+                    bgDrawable.setColor(parsedColor)
+
+                    // Set stroke color
+                    val strokeColor = if (isSelected) {
+                        ContextCompat.getColor(itemView.context, R.color.dark_blue)
+                    } else {
+                        Color.TRANSPARENT
+                    }
+                    bgDrawable.setStroke(4.dpToPx(itemView.context), strokeColor)
+                }
             } catch (e: IllegalArgumentException) {
-                colour.setBackgroundColor(android.graphics.Color.GRAY)
+                (colour.background as? GradientDrawable)?.apply {
+                    setColor(Color.GRAY)
+                    setStroke(4.dpToPx(itemView.context), Color.TRANSPARENT)
+                }
             }
 
-            // Show tick if selected
             tick.visibility = if (isSelected) View.VISIBLE else View.GONE
         }
-    }
 
+
+    }
+    fun Int.dpToPx(context: Context): Int {
+        return (this * context.resources.displayMetrics.density).toInt()
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {

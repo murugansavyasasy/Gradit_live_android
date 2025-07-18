@@ -52,6 +52,7 @@ import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetNotificationsResponse
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetProfileResume
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
@@ -78,6 +79,8 @@ import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
 import com.vsca.vsnapvoicecollege.Model.PunchHistoryRes
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
 import com.vsca.vsnapvoicecollege.Model.SenderSide_ChatModel
@@ -636,6 +639,23 @@ interface ApiInterfaces {
     @GET(ApiMethods.GetResumeBuilderThemeTemplate)
     fun getResumeBuilderThemeTemplateDetails(
     ): Call<GetResumeBuilderThemeTemplate?>?
+
+    @POST(ApiMethods.SendResumeBuilderGenerateResume)
+    fun SendGenerateResume(
+        @Body isJsonObject: JsonObject
+    ): Call<ResumeBuilderGenerateResumeResponse>
+
+    @POST(ApiMethods.SendResumeBuilderSaveTitle)
+    fun SendSaveTitle(
+        @Body isJsonObject: JsonObject
+    ): Call<ResumeBuilderSaveTitleResponse>
+
+
+    @GET(ApiMethods.GetProfileResume)
+    fun getProfileResume(
+        @Query("idMember") id: Int?
+    ): Call<GetProfileResume?>?
+
 
 
     }

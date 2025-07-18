@@ -1,50 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Header -->
     <RelativeLayout
         android:id="@+id/rlaEditProfileHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_shadow_white"
-        android:padding="@dimen/twenty">
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/imgback"
-            android:layout_width="@dimen/thirty"
-            android:layout_height="@dimen/thirty"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow_back"></ImageView>
+            android:src="@drawable/arrow_back"
+            android:contentDescription="Back" />
 
-        <TextView
-            style="@style/CustomTextStylePoppinsBold"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_toEndOf="@+id/imgback"
-            android:text="@string/preview_my_resume"
-            android:textColor="@color/black"
-            android:textSize="@dimen/eighteen_sp">
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/imgback"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:text="Preview My Resume"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_medium"
+                 />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/lblPdfName"
+                android:layout_marginStart="10dp"
+                android:drawablePadding="@dimen/five"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:drawableStart="@drawable/document_icon"
+                android:layout_height="wrap_content">
 
-        </TextView>
+            </TextView>
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/thirty"
+            android:id="@+id/lbldelete"
+            android:src="@drawable/red_bin_delete_icon"
+            android:layout_height="@dimen/thirty">
+
+        </ImageView>
+
 
     </RelativeLayout>
 
-    <WebView
-        android:id="@+id/webviewDocument"
-        android:layout_above="@+id/commonBottomResumeBuilder"
-        android:layout_below="@+id/rlaEditProfileHeader"
+    <!-- PDF WebView & Zoom -->
+    <FrameLayout
+        android:id="@+id/frameWeb"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_below="@id/rlaEditProfileHeader"
+        android:layout_above="@id/commonBottomResumeBuilder"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
 
+
+        <WebView
+            android:background="@android:color/transparent"
+            android:overScrollMode="never"
+            android:id="@+id/webviewDocument"
+            android:layout_width="match_parent"
+            android:layerType="software"
+            android:layout_margin="@dimen/fifty_five"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/lnrZoomOptions"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:id="@+id/zoomOut"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/zoom_out_icon"
+                android:contentDescription="Zoom Out" />
+
+            <ImageView
+                android:id="@+id/zoomIn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/zoom_in_icon"
+                android:contentDescription="Zoom In" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Bottom Buttons -->
     <include
         android:id="@+id/commonBottomResumeBuilder"
         layout="@layout/commonbottom_resumebuilder"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"></include>
-
+        android:layout_height="wrap_content" />
 </RelativeLayout>
+
+

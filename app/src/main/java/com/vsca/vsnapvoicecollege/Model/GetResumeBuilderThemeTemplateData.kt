@@ -1,6 +1,6 @@
 package com.vsca.vsnapvoicecollege.Model
 
 class GetResumeBuilderThemeTemplateData (
-    val templateImages: List<GetResumeBuilderThemeTemplateImage>,
-    val themeColors:  List<String>
+    val template: List<GetResumeBuilderThemeTemplateImage>,
+    val themecolor:  List<String>
 )

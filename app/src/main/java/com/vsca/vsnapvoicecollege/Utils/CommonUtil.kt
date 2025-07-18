@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -78,6 +79,8 @@ object CommonUtil {
     var Onbackpressed = ""
     var iSubjectId = ArrayList<String>()
     var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null
+    var isRBBucketName = "gradit-communication"
+    var isRBBucketPath = "2025-02-12/7033"
 
 
     @JvmField
@@ -533,6 +536,21 @@ object CommonUtil {
             null
         }
     }
+
+
+    fun SucessAlert(activity: Activity?,title:String?, msg: String?) {
+        if (activity != null && !activity.isFinishing) {
+            val builder = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.Header))
+            builder.setTitle(title)
+            builder.setMessage(msg)
+            builder.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss() // only this dialog
+            }
+            builder.setCancelable(false)
+            builder.show()
+        }
+    }
+
 
 
 

@@ -95,9 +95,12 @@ import com.vsca.vsnapvoicecollege.SenderModel.GetDivisionResponse
 import com.vsca.vsnapvoicecollege.SenderModel.SenderStatusMessageData
 import androidx.lifecycle.viewModelScope
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
+import com.vsca.vsnapvoicecollege.Model.GetProfileResume
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import kotlinx.coroutines.launch
@@ -238,6 +241,10 @@ class App(application: Application) : AndroidViewModel(application) {
     var ResumeBuilderSoftSkillsDetails: LiveData<GetResumeBuilderSkillSetSoftSkills?>? = null
     var ResumeBuilderEditSkillSetDetails: LiveData<ResumeBuilderEditSkillSetResponse?>? = null
     var ResumeBuilderThemeTemplate: LiveData<GetResumeBuilderThemeTemplate?>? = null
+    var ResumeBuilderGenerateResume: LiveData<ResumeBuilderGenerateResumeResponse?>? = null
+    var ResumeBuilderSaveTitle: LiveData<ResumeBuilderSaveTitleResponse?>? = null
+    var ResumeBuilderProfileResume: LiveData<GetProfileResume?>? = null
+
 
 
     fun init() {
@@ -362,6 +369,9 @@ class App(application: Application) : AndroidViewModel(application) {
         ResumeBuilderSoftSkillsDetails = apiRepositories!!.GetResumeBuilderSoftSkillsLiveData
         ResumeBuilderEditSkillSetDetails = apiRepositories!!.ResumeBuilderEditSkillSetLiveData
         ResumeBuilderThemeTemplate = apiRepositories!!.ResumeBuilderThemeTemplateLiveData
+        ResumeBuilderGenerateResume = apiRepositories!!.ResumeBuilderGenerateResumeLiveData
+        ResumeBuilderSaveTitle = apiRepositories!!.ResumeBuilderSaveTitleLiveData
+        ResumeBuilderProfileResume = apiRepositories!!.ResumeBuilderProfileResumeLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -840,4 +850,16 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetResumeBuilderThemeTemplateRequest(activity)
     }
 
+
+    fun SendGenerateResume(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.SendResumeBuilderGenerateResumeRequest(isJsonObject, activity)
+    }
+
+    fun SendSaveTittle(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.SendResumeBuilderSaveTitleRequest(isJsonObject, activity)
+    }
+
+    fun GetResumeBuilderProfileResume(id: Int?, activity: Activity) {
+        apiRepositories!!.GetResumeBuilderProfileResumeRequest(id, activity)
+    }
 }
