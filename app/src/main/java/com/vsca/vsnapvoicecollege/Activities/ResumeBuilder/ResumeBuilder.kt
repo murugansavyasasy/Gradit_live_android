@@ -264,24 +264,36 @@ class ResumeBuilder : AppCompatActivity() {
     }
 
     private fun saveBasicDetails() {
+        val profile = appViewModel?.ResumeBuilderProfileDetails?.value?.data?.firstOrNull()
+
         val basicDetails = GetResumeBuilderProfileDetailsData(
             memberId = isMemeberId.toString(),
             memberName = binding.lblName.text.toString(),
             memberPhoneNumber = binding.lblMobileNo.text.toString(),
             memberstudentEmail = binding.lblGamilId.text.toString(),
             memberPlacementStatus = binding.lblAvailPlacement.text.toString(),
-            memberImagePath = appViewModel?.ResumeBuilderProfileDetails?.value?.data?.firstOrNull()?.memberImagePath,
-
+            memberImagePath = profile?.memberImagePath,
+            memberPermanentAddress1 = profile?.memberPermanentAddress1,
+            memberPermanentAddressCity = profile?.memberPermanentAddressCity,
+            memberPermanentAddressState = profile?.memberPermanentAddressState,
+            memberPermanentAddressPincode = profile?.memberPermanentAddressPincode,
+            memberPermanentAddressCountry = profile?.memberPermanentAddressCountry
         )
+
         Log.d("saveBasicDetails", "Saving basic details:")
         Log.d("saveBasicDetails", "ID: ${basicDetails.memberId}")
         Log.d("saveBasicDetails", "Name: ${basicDetails.memberName}")
         Log.d("saveBasicDetails", "Phone: ${basicDetails.memberPhoneNumber}")
         Log.d("saveBasicDetails", "Email: ${basicDetails.memberstudentEmail}")
-        Log.d("saveBasicDetails", "PlacementStatus: ${basicDetails.memberPlacementStatus}")
-        Log.d("saveBasicDetails", "ImagePath: ${basicDetails.memberImagePath}")
+        Log.d("saveBasicDetails", "Address1: ${basicDetails.memberPermanentAddress1}")
+        Log.d("saveBasicDetails", "City: ${basicDetails.memberPermanentAddressCity}")
+        Log.d("saveBasicDetails", "State: ${basicDetails.memberPermanentAddressState}")
+        Log.d("saveBasicDetails", "Pincode: ${basicDetails.memberPermanentAddressPincode}")
+        Log.d("saveBasicDetails", "Country: ${basicDetails.memberPermanentAddressCountry}")
+
         CommonUtil.saveBasicDetails = basicDetails
     }
+
 
 
     private fun isSaveSkillSetData() {

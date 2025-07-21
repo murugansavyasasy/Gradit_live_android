@@ -271,9 +271,5 @@ class BuildMyResume : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Resume context data is missing", Toast.LENGTH_SHORT).show()
         }
-
-
     }
-
-
 }
