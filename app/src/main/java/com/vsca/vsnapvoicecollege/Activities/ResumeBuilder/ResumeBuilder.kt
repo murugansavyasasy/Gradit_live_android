@@ -1,12 +1,19 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +26,7 @@ import com.google.gson.Gson
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit.EditAcademicDetails
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildMyResume
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildResumeActivity
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.ResumePreviewActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.MyProfileEdit.EditBasicDetails
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.EditSkillSet
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderAcademicDetailsAdapter
@@ -26,11 +34,13 @@ import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderAssessmentDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderCertificationDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderIntenshipDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderProjectDetailsAdapter
+import com.vsca.vsnapvoicecollege.Adapters.ResumeListAdapter
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetResumeTitleData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
@@ -45,6 +55,8 @@ class ResumeBuilder : AppCompatActivity() {
     var eduList: List<GetEducationalDetailsData> = emptyList()
     var appViewModel: App? = null
     private lateinit var binding: LayoutResumebuilderBinding
+    private var savedResumeList: List<GetResumeTitleData> = emptyList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +75,27 @@ class ResumeBuilder : AppCompatActivity() {
                 }
             }
         }
+
+        appViewModel?.ResumeBuilderProfileResume!!.observe(this) { response ->
+            if (response != null) {
+                if (response.status) {
+                    savedResumeList = response.data.resumeTitle
+                    Log.d("savedResumeList", savedResumeList.toString())
+
+                    if (savedResumeList.size > 0) {
+                        binding.lnrBuildMyResume.visibility = View.GONE
+                        binding.lblViewMyResumes.visibility = View.VISIBLE
+                    } else {
+                        binding.lnrBuildMyResume.visibility = View.VISIBLE
+                        binding.lblViewMyResumes.visibility = View.GONE
+                    }
+
+                } else {
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
 
         appViewModel?.ResumeBuilderAcademicDetails!!.observe(this) { response ->
             if (response != null) {
@@ -107,6 +140,18 @@ class ResumeBuilder : AppCompatActivity() {
         GetProfileDetails() //calling the Profile Details
         GetAcademicDetails()//calling the Academic Details
         GetSkillSetDetails()//calling the SkillSet Details
+        GetProfileResume()
+
+
+        binding.lblViewMyResumes.setOnClickListener{
+            if (savedResumeList.size>0){
+                showResumeListDialog(this,savedResumeList)
+            }
+            else{
+                Toast.makeText(this, "No Resume Avaiable!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
 
         CommonUtil.RequestCameraPermission(this)
@@ -149,6 +194,7 @@ class ResumeBuilder : AppCompatActivity() {
             this.startActivity(i)
         }
         binding.lblBuildMyResume.setOnClickListener {
+            saveBasicDetails()
             isSaveSkillSetData()
             isSaveAcademicDetails()
             val i = Intent(this, BuildResumeActivity::class.java)
@@ -464,6 +510,52 @@ class ResumeBuilder : AppCompatActivity() {
         isMemeberId = 31145
         //        appViewModel!!.GetResumeBuilderSkillSetDetails(CommonUtil.MemberId, this@ResumeBuilder)
         appViewModel!!.GetResumeBuilderSkillSetDetails(isMemeberId, this@ResumeBuilder)
+    }
+
+
+    fun showResumeListDialog(
+        activity: Activity,
+        resumeList: List<GetResumeTitleData>
+    ) {
+        val dialogView = LayoutInflater.from(activity).inflate(R.layout.see_my_resume, null)
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.setCanceledOnTouchOutside(false)
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+
+        val imgClose = dialogView.findViewById<ImageView>(R.id.imgClose)
+        val lblBuildMyResume = dialogView.findViewById<TextView>(R.id.lblBuildMyResume)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rcProfileResume)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = ResumeListAdapter(activity, resumeList) {
+            val intent = Intent(activity, ResumePreviewActivity::class.java)
+            intent.putExtra("TemplateDocumentURL", it.url)
+            intent.putExtra("ScreenName","MyResumes")
+            intent.putExtra("FileName",it.title)
+            intent.putExtra("MemberID",31146)
+            activity.startActivity(intent)
+        }
+
+        imgClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        lblBuildMyResume.setOnClickListener {
+            saveBasicDetails()
+            isSaveSkillSetData()
+            isSaveAcademicDetails()
+            val i = Intent(this, BuildResumeActivity::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            this.startActivity(i)
+            alertDialog.dismiss()
+        }
+
+    }
+
+    fun GetProfileResume() {
+        appViewModel!!.GetResumeBuilderProfileResume(31146, this@ResumeBuilder)
     }
 
     override fun onResume() {

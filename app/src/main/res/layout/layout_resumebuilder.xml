@@ -201,65 +201,102 @@ android:fontFamily="@font/poppins_medium"
 
             </TextView>
 
-            <TextView
-                android:id="@+id/lblBuildMyResume"
-                android:layout_width="wrap_content"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/fourteen_sp"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_below="@+id/lblConsentedPlacement"
+                android:id="@+id/lnrBuildMyResume"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/gradient_orange_radius"
-                android:drawableStart="@drawable/starstick_icon"
-                android:gravity="center"
-                android:paddingStart="@dimen/fifteen"
-                android:paddingTop="@dimen/ten"
-                android:paddingEnd="@dimen/fifteen"
-                android:paddingBottom="@dimen/ten"
-                android:text="@string/build_my_resume"
-                android:textColor="@color/black">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblBuildMyResume"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="@dimen/fourteen_sp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_orange_radius"
+                    android:drawableStart="@drawable/starstick_icon"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/fifteen"
+                    android:paddingTop="@dimen/ten"
+                    android:paddingEnd="@dimen/fifteen"
+                    android:paddingBottom="@dimen/ten"
+                    android:text="@string/build_my_resume"
+                    android:textColor="@color/black">
 
-            </TextView>
+                </TextView>
 
-            <TextView
-                android:id="@+id/lblOr"
-                android:fontFamily="@font/poppins_regular"
-                android:textSize="@dimen/fourteen_sp"
+                <TextView
+                    android:id="@+id/lblOr"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/fourteen_sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblConsentedPlacement"
+                    android:layout_toEndOf="@+id/lblBuildMyResume"
+                    android:drawablePadding="@dimen/three"
+                    android:paddingStart="@dimen/fifteen"
+                    android:paddingTop="@dimen/ten"
+                    android:paddingBottom="@dimen/ten"
+                    android:text="@string/or"
+                    android:textColor="@color/black"></TextView>
+
+                <TextView
+                    android:id="@+id/btnUploadResume"
+
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/fourteen_sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblConsentedPlacement"
+                    android:layout_toEndOf="@+id/lblOr"
+                    android:drawablePadding="@dimen/three"
+                    android:paddingStart="@dimen/five"
+                    android:paddingTop="@dimen/ten"
+                    android:paddingBottom="@dimen/ten"
+                    android:text="@string/upload_a_resume"
+                    android:textColor="@color/light_blue2"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:id="@+id/lblViewMyResumes"
+                android:layout_marginTop="@dimen/ten"
+                android:background="@drawable/rect_gray_radius"
+                android:layout_below="@+id/lnrBuildMyResume"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblConsentedPlacement"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_toEndOf="@+id/lblBuildMyResume"
-                android:drawablePadding="@dimen/three"
-                android:paddingStart="@dimen/fifteen"
+                android:paddingStart="@dimen/twenty"
+                android:paddingEnd="@dimen/twenty"
                 android:paddingTop="@dimen/ten"
                 android:paddingBottom="@dimen/ten"
-                android:text="@string/or"
-                android:textColor="@color/black"></TextView>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="@string/my_resumes"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="@dimen/fourteen_sp"
+                    android:drawablePadding="@dimen/ten"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/document_icon"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/btnUploadResume"
+                </TextView>
 
-android:fontFamily="@font/poppins_regular"
-                android:textSize="@dimen/fourteen_sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblConsentedPlacement"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_toEndOf="@+id/lblOr"
-                android:drawablePadding="@dimen/three"
-                android:paddingStart="@dimen/five"
-                android:paddingTop="@dimen/ten"
-                android:paddingBottom="@dimen/ten"
-                android:text="@string/upload_a_resume"
-                android:textColor="@color/light_blue2"></TextView>
+                <ImageView
+                    android:layout_marginStart="@dimen/ten"
+                    android:layout_width="@dimen/twenty"
+                    android:src="@drawable/ic_arrow_down"
+                    android:layout_height="@dimen/twenty">
+
+                </ImageView>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lblBasicDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|center"
-                android:layout_below="@+id/lblBuildMyResume"
+                android:layout_below="@+id/lblViewMyResumes"
                 android:layout_marginTop="@dimen/ten">
 
                 <TextView

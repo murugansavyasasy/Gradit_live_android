@@ -17,7 +17,13 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Adapters.PickThemeTemplateColourAdapter
+import com.vsca.vsnapvoicecollege.Model.EducationFormattedData
+import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
+import com.vsca.vsnapvoicecollege.Model.GetResumeTitleData
+import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
@@ -35,8 +41,7 @@ class BuildMyResume : AppCompatActivity() {
     private var selectedColourItem: String? = null
     private var isMemeberID: Int? = -1
     private var selectedTemplateNumber: Int? =-1
-
-
+    private var fullData: ResumeContextData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +54,8 @@ class BuildMyResume : AppCompatActivity() {
         binding.commonBottomResumeBuilder.btnDefault2.text = resources.getString(R.string.proceed)
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
 
-        GetResumeBuilderThemeTemplate()
 
+        GetResumeBuilderThemeTemplate()
 
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
             var isValid=true
@@ -168,7 +173,7 @@ class BuildMyResume : AppCompatActivity() {
 
                 //manually pdf
                 val intent = Intent(this, ResumePreviewActivity::class.java)
-                intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752815189344.pdf")
+                intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752813975101.pdf")
                 intent.putExtra("MemberID",31146)
                 intent.putExtra("ScreenName","BuildMyResume")
                 startActivity(intent)
@@ -189,146 +194,84 @@ class BuildMyResume : AppCompatActivity() {
                 "colourCode "+selectedColourItem+
                 "templateNo "+selectedTemplateNumber)
 
-        isMemeberID=31146
         val gson = Gson()
-
-        // Parent JSON object
         val parentJson = JsonObject()
+        fullData = CommonUtil.fullResumeData
+        isMemeberID=fullData?.memberId?.toIntOrNull()?:-1
 
-        // Context object (inner content)
-        val contextJson = JsonObject().apply {
-            // Basic info
-            addProperty("name", "Virat Kohli")
-            addProperty("email", "viratkohli@example.com")
-            addProperty("phone", "1234567890")
-            addProperty("address", "1/111,t nagar,chennai")
+        if (fullData != null) {
 
-            // skills
-            add("skills", JsonArray().apply {
-                listOf("JavaScript", "Node.js", "angular", "figma", "python").forEach { add(it) }
-            })
+            val contextJson = JsonObject().apply {
+                // Basic Info
+                addProperty("name", fullData?.name ?: "")
+                addProperty("email", fullData?.email ?: "")
+                addProperty("phone", fullData?.phone ?: "")
+                addProperty("address", fullData?.address ?: "")
 
-            // education
-            add("education", JsonArray().apply {
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "class" to "10th std",
-                            "percentage" to "56",
-                            "institution" to "alagappa matric hr sec school"
-                        )
-                    )
-                )
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "class" to "12th std",
-                            "percentage" to "78",
-                            "institution" to "alagappa matric hr sec school"
-                        )
-                    )
-                )
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "degree" to "B.Tech",
-                            "percentage" to "72",
-                            "institution" to "srm education of technology"
-                        )
-                    )
-                )
-            })
+                // Skills
+                add("skills", JsonArray().apply {
+                    fullData?.skills?.forEach { add(it) }
+                })
 
-            // experience
-            add("internship", JsonArray().apply {
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "designation" to "Full stack developer",
-                            "company" to "TechCorp",
-                            "duration" to "2020-2023"
-                        )
-                    )
-                )
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "designation" to "software engineer",
-                            "company" to "ancc",
-                            "duration" to "2024-2025"
-                        )
-                    )
-                )
-            })
+                // Education
+                add("education", JsonArray().apply {
+                    fullData?.education?.forEach { edu ->
+                        add(gson.toJsonTree(edu))
+                    }
+                })
 
-            // area of interest
-            add("areainterest", JsonArray().apply {
-                listOf("Full stack developer", "UI UX Design", "data science", "AI").forEach {
-                    add(
-                        it
-                    )
-                }
-            })
+                // Internship
+                add("internship", JsonArray().apply {
+                    fullData?.experience?.forEach { intern ->
+                        add(gson.toJsonTree(intern))
+                    }
+                })
 
-            // soft skills
-            add("softSkill", JsonArray().apply {
-                listOf("Teamwork", "Adaptability", "Communication").forEach { add(it) }
-            })
+                // Area of Interest
+                add("areainterest", JsonArray().apply {
+                    fullData?.areainterest?.forEach { add(it) }
+                })
 
-            // certifications
-            add("certifications", JsonArray().apply {
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "course" to "aws",
-                            "institute" to "abc institute",
-                            "duration" to "2 hours"
-                        )
-                    )
-                )
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "course" to "powerbi",
-                            "institute" to "technology institute",
-                            "duration" to "2 hours"
-                        )
-                    )
-                )
-                add(
-                    gson.toJsonTree(
-                        mapOf(
-                            "course" to "node.js",
-                            "institute" to "xyz institute",
-                            "duration" to "2 hours"
-                        )
-                    )
-                )
-            })
+                // Soft Skills
+                add("softSkill", JsonArray().apply {
+                    fullData?.softSkill?.forEach { add(it) }
+                })
 
-            // languages
-            add("languages", JsonArray().apply {
-                listOf("Tamil", "English", "Hindi").forEach { add(it) }
-            })
+                // Certifications
+                add("certifications", JsonArray().apply {
+                    fullData?.certifications?.forEach { cert ->
+                        add(gson.toJsonTree(cert))
+                    }
+                })
 
-            // projects
-            add("projects", JsonArray().apply {
-                add(gson.toJsonTree(mapOf("title" to "ticket booking website")))
-                add(gson.toJsonTree(mapOf("title" to "erp website")))
-            })
+                // Languages
+                add("languages", JsonArray().apply {
+                    fullData?.languages?.forEach { add(it) }
+                })
+
+                // Projects
+                add("projects", JsonArray().apply {
+                    fullData?.projects?.forEach { proj ->
+                        add(gson.toJsonTree(proj))
+                    }
+                })
+            }
+
+            // Final JSON object
+            parentJson.add("context", contextJson)
+            parentJson.addProperty("templateNumber", selectedTemplateNumber)
+            parentJson.addProperty("themeColor", selectedColourItem)
+            parentJson.addProperty("bucket", CommonUtil.isRBBucketName)
+            parentJson.addProperty("bucketPath", CommonUtil.isRBBucketPath)
+            parentJson.addProperty("idMember", isMemeberID)
+
+            Log.d("GeneratedJSON", parentJson.toString())
+            appViewModel?.SendGenerateResume(parentJson, this@BuildMyResume)
+
+        } else {
+            Toast.makeText(this, "Resume context data is missing", Toast.LENGTH_SHORT).show()
         }
 
-// Final structure
-        parentJson.add("context", contextJson)
-        parentJson.addProperty("templateNumber", selectedTemplateNumber)
-        parentJson.addProperty("themeColor", selectedColourItem)
-        parentJson.addProperty("bucket", CommonUtil.isRBBucketName)
-        parentJson.addProperty("bucketPath", CommonUtil.isRBBucketPath)
-        parentJson.addProperty("idMember", isMemeberID)
-
-        Log.d("GeneratedJSON", parentJson.toString())
-
-        appViewModel!!.SendGenerateResume(parentJson, this@BuildMyResume)
 
     }
 

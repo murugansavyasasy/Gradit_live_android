@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical"
+            android:layout_centerHorizontal="true"
             android:layout_toEndOf="@id/imgback"
             android:layout_height="wrap_content">
             <TextView
@@ -57,6 +58,7 @@
             android:layout_alignParentEnd="true"
             android:layout_width="@dimen/thirty"
             android:id="@+id/lbldelete"
+            android:layout_centerVertical="true"
             android:src="@drawable/red_bin_delete_icon"
             android:layout_height="@dimen/thirty">
 
