@@ -10,7 +10,7 @@
         android:id="@+id/tvCourseName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Course Name"
+        android:text="@string/course_name"
         android:textSize="14sp"
         android:textColor="@android:color/black"
         android:fontFamily="@font/poppins_medium" />
@@ -19,7 +19,7 @@
         android:id="@+id/tvInstitute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Institute Name"
+        android:text="@string/institute_name"
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray"
         android:fontFamily="@font/poppins_regular" />
@@ -28,7 +28,7 @@
         android:id="@+id/tvDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Duration"
+        android:text="@string/duration"
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray"
         android:fontFamily="@font/poppins_regular" />

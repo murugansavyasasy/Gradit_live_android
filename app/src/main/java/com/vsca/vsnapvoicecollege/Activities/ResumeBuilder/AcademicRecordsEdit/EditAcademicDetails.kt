@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,35 +44,37 @@ class EditAcademicDetails : AppCompatActivity() {
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
         binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.update)
 
-        // Get data from intent
-        val backlogs = intent.getStringExtra("backlogs") ?: ""
-        val arrears = intent.getStringExtra("arrears") ?: ""
-        val educationalDetailsJson = intent.getStringExtra("educationalDetails")
+
+//        // Get data from intent
+//        val backlogs = intent.getStringExtra("backlogs") ?: ""
+//        val arrears = intent.getStringExtra("arrears") ?: ""
+//        val educationalDetailsJson = intent.getStringExtra("educationalDetails")
+
+        val academicData = CommonUtil.saveAcademicDetails
+
+        val backlogs = academicData?.backlogs ?: ""
+        val arrears = academicData?.numberOfArrears ?: ""
+        val educationalDetails = academicData?.educationalDetails ?: emptyList()
+        Log.d("AcademicDebug", "Backlogs: ${academicData?.backlogs}")
+        Log.d("AcademicDebug", "No of Arrears: ${academicData?.numberOfArrears}")
+        Log.d("AcademicDebug", "Educational Details Count: ${academicData?.educationalDetails?.size}")
+
 
         originalBacklogs = backlogs
         originalArrears = arrears
+        originalEducationalDetails = educationalDetails
 
         binding.edtBacklogs.setText(backlogs)
         binding.edtArrears.setText(arrears)
 
-        if (!educationalDetailsJson.isNullOrEmpty()) {
-            val gson = Gson()
-            val type = object : TypeToken<List<GetEducationalDetailsData>>() {}.type
-            val educationalDetails =
-                gson.fromJson<List<GetEducationalDetailsData>>(educationalDetailsJson, type)
-
-            originalEducationalDetails = educationalDetails // Save original for comparison
-
-            if (educationalDetails.isNotEmpty()) {
-                educationalDetails.forEach {
-                    addRow(it)
-                }
-            } else {
-                addRow()
+        if (educationalDetails.isNotEmpty()) {
+            educationalDetails.forEach {
+                addRow(it)
             }
         } else {
             addRow()
         }
+
 
         binding.lblAddAnother.setOnClickListener {
             if (validateCurrentRows()) {

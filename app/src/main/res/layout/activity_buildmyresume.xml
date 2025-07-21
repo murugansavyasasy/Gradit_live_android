@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +18,8 @@
             android:id="@+id/imgback"
             android:layout_width="@dimen/thirty"
             android:layout_height="@dimen/thirty"
-            android:src="@drawable/arrow_back" />
+            android:src="@drawable/arrow_back"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/tv_header_title"
@@ -51,31 +53,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty"
                 android:fontFamily="@font/poppins_regular"
-                android:text="Select the details which you want to include \nin the resume"
+                android:text="@string/select_the_details_which_you_want_to_include_nin_the_resume"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/sixteen_sp"
                 android:textStyle="bold" />
 
             <!-- Academic Section -->
             <CheckBox
-                android:id="@+id/cb_academic"
+                android:id="@+id/cbHeaderAcademicRecords"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textStyle="bold"
-                android:button="@drawable/ch_square_check"
+                android:checked="true"
                 android:fontFamily="@font/poppins_regular"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:text="Academic Records"
-                android:checked="true" />
+                android:button="@drawable/ch_square_selector"
+                android:text="@string/academicrecords"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_academic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
@@ -89,12 +89,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textStyle="bold"
-                android:button="@drawable/ch_square_check"
-                android:text="Languages Known"
+                android:checked="true"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:checked="true" />
+                android:button="@drawable/ch_square_selector"
+                android:text="@string/languages_known"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_languages"
@@ -114,12 +114,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_check"
-                android:text="Soft Skills"
-                android:textStyle="bold"
+                android:checked="true"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:checked="true" />
+                android:button="@drawable/ch_square_selector"
+                android:text="@string/soft_skills"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_soft_skills"
@@ -136,22 +136,23 @@
 
             <CheckBox
                 android:id="@+id/cbHeaderInterestArea"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_check"
-                android:text="Areas of Interest"
-                android:textStyle="bold"
+                android:checked="true"
+                android:button="@drawable/ch_square_selector"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:checked="true" />
+                android:text="@string/areas_of_interest"
+                android:textStyle="bold" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_areas_interest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="8dp" />
-
 
             <View
                 android:layout_width="match_parent"
@@ -165,12 +166,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_uncheck"
-                android:text="Projects"
-                android:textStyle="bold"
+                android:checked="true"
+                android:button="@drawable/ch_square_selector"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:checked="true" />
+                android:text="@string/projects"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_projects"
@@ -191,12 +192,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textStyle="bold"
-                android:button="@drawable/ch_square_check"
-                android:text="Internship Experiences"
+                android:checked="true"
+                android:button="@drawable/ch_square_selector"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:checked="true" />
+                android:text="@string/internship_experiences"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_internships"
@@ -217,12 +218,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textStyle="bold"
-                android:button="@drawable/ch_square_check"
-                android:text="Programming Languages"
+                android:checked="true"
+                android:button="@drawable/ch_square_selector"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:checked="true" />
+                android:text="@string/programming_languages"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_programming_languages"
@@ -243,12 +244,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_check"
-                android:text="Tools and Platforms"
-                android:textStyle="bold"
+                android:checked="true"
                 android:minHeight="48dp"
                 android:padding="8dp"
-                android:checked="true" />
+                android:button="@drawable/ch_square_selector"
+                android:text="@string/tools_and_platforms"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_tools_platforms"
@@ -269,12 +270,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_check"
-                android:text="Certifications"
-                android:textStyle="bold"
+                android:checked="true"
                 android:minHeight="48dp"
+                android:button="@drawable/ch_square_selector"
                 android:padding="8dp"
-                android:checked="true" />
+                android:text="@string/certifications"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_certifications"
@@ -282,31 +283,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
 
-
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:layout_marginTop="@dimen/ten"-->
-<!--                android:background="#D1D1D6" />-->
-
-<!--            &lt;!&ndash; Assessments &ndash;&gt;-->
-<!--            <CheckBox-->
-<!--                android:id="@+id/cb_assessments"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:button="@drawable/ch_square_check"-->
-<!--                android:text="Assessments"-->
-<!--                android:textStyle="bold"-->
-<!--                android:minHeight="48dp"-->
-<!--                android:padding="8dp"-->
-<!--                android:checked="true" />-->
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rv_assessments"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp" />-->
 
         </LinearLayout>
     </ScrollView>

@@ -92,6 +92,7 @@ import com.vsca.vsnapvoicecollege.Model.StatusMessageResponse
 import com.vsca.vsnapvoicecollege.Model.StudentAttendancelist
 import com.vsca.vsnapvoicecollege.Model.StudentAttendanceview
 import com.vsca.vsnapvoicecollege.Model.Unblack_student
+import com.vsca.vsnapvoicecollege.Model.UploadResumeApiResponse
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumber
 import com.vsca.vsnapvoicecollege.Model.Verified_OTP
 import com.vsca.vsnapvoicecollege.Model.VersionCheckResposne
@@ -609,15 +610,22 @@ interface ApiInterfaces {
     ): Call<GetResumeBuilderAcademicDetails>
 
 
-
-
     @GET("profile/get-profile/{id}")
     fun getResumeBuilderProfileDetails(
         @Path("id") id: Int
     ): Call<GetResumeBuilderProfileDetails>
 
 
-        @GET(ApiMethods.GetResumeBuilderAcademicDetails)
+    @Multipart
+    @POST("get/uploadresume")
+    fun uploadResume(
+        @Part("idMember") idMember: RequestBody,
+        @Part("bucket") bucket: RequestBody,
+        @Part("bucketPath") bucketPath: RequestBody,
+        @Part file: MultipartBody.Part
+    ): Call<UploadResumeApiResponse>
+
+    @GET(ApiMethods.GetResumeBuilderAcademicDetails)
     fun getResumeBuilderAcademicDetails(
         @Query("idMember") id: Int?
     ): Call<GetResumeBuilderAcademicDetails?>?
@@ -650,12 +658,8 @@ interface ApiInterfaces {
         @Body isJsonObject: JsonObject
     ): Call<ResumeBuilderSaveTitleResponse>
 
-
     @GET(ApiMethods.GetProfileResume)
     fun getProfileResume(
         @Query("idMember") id: Int?
     ): Call<GetProfileResume?>?
-
-
-
     }

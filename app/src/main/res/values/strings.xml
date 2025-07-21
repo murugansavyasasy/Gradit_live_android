@@ -364,6 +364,12 @@
     <string name="to_share_with_company_hrs">to share with company HRs</string>
     <string name="select_a_resume_to_view_and_manage">Select a resume to view and manage</string>
     <string name="default_">Default</string>
+    <string name="tools_and_platforms">Tools and Platforms</string>
+    <string name="select_the_details_which_you_want_to_include_nin_the_resume">Select the details which you want to include \nin the resume</string>
+    <string name="projects">Projects</string>
+    <string name="institute_name">Institute Name</string>
+    <string name="skill">Skill</string>
+    <string name="degree_name">Degree Name</string>
 
 
 </resources>
