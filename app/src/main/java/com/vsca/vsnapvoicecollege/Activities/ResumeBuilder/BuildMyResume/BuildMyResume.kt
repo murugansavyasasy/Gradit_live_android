@@ -15,14 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
+import com.vsca.vsnapvoicecollege.Adapters.PickResumeAdapter
 import com.vsca.vsnapvoicecollege.Adapters.PickThemeTemplateColourAdapter
-import com.vsca.vsnapvoicecollege.Model.EducationFormattedData
-import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
-import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
-import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
-import com.vsca.vsnapvoicecollege.Model.GetResumeTitleData
 import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil

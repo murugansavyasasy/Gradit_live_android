@@ -120,6 +120,21 @@ class ResumePreviewActivity : AppCompatActivity() {
         }
 
 
+
+        appViewModel?.ResumeBuilderDeleteResume!!.observe(this) { response ->
+            if (response != null) {
+                if (response.status) {
+                    CommonUtil.Alert(this,"Success",response.message)
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    CommonUtil.Alert(this,"Failed",response.message)
+                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
         appViewModel?.ResumeBuilderGenerateResume!!.observe(this) { response ->
             if (response != null) {
 
