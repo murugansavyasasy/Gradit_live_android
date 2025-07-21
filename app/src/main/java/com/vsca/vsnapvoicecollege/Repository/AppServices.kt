@@ -76,6 +76,7 @@ import com.vsca.vsnapvoicecollege.Model.Leave_history
 import com.vsca.vsnapvoicecollege.Model.ManageLeave
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
@@ -227,6 +228,7 @@ class AppServices {
     var isSendResumeBuilderGenerateResume: MutableLiveData<ResumeBuilderGenerateResumeResponse?>
     var isSendResumeBuilderSaveTitle: MutableLiveData<ResumeBuilderSaveTitleResponse?>
     var isGetResumeBuilderProfileResume: MutableLiveData<GetProfileResume?>
+    var isResumeBuilderDeleteResume :MutableLiveData<ResumeBuilderDeleteResume?>
 
 
 
@@ -340,6 +342,7 @@ class AppServices {
         isSendResumeBuilderGenerateResume = MutableLiveData()
         isSendResumeBuilderSaveTitle = MutableLiveData()
         isGetResumeBuilderProfileResume = MutableLiveData()
+        isResumeBuilderDeleteResume = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5843,6 +5846,55 @@ class AppServices {
 
     val ResumeBuilderProfileResumeLiveData: LiveData<GetProfileResume?>
         get() = isGetResumeBuilderProfileResume
+
+
+
+
+
+//Delete Resume
+    fun GetResumeBuilderDeleteResumeRequest(id:Int ?, isJsonObject: JsonObject,activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.deleteStudentResume(id!!,isJsonObject)
+            ?.enqueue(object : Callback<ResumeBuilderDeleteResume?> {
+                override fun onResponse(
+                    call: Call<ResumeBuilderDeleteResume?>, response: Response<ResumeBuilderDeleteResume?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isResumeBuilderDeleteResume.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isResumeBuilderDeleteResume.postValue(null)
+                        } else {
+                            isResumeBuilderDeleteResume.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResumeBuilderDeleteResume?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isResumeBuilderDeleteResume.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val ResumeBuilderDeleteResumeLiveData: LiveData<ResumeBuilderDeleteResume?>
+        get() = isResumeBuilderDeleteResume
 
 
 

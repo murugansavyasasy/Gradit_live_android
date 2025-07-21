@@ -78,6 +78,7 @@ import com.vsca.vsnapvoicecollege.Model.MenuResponse
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
 import com.vsca.vsnapvoicecollege.Model.PunchHistoryRes
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
@@ -116,7 +117,9 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.Multipart
@@ -609,8 +612,6 @@ interface ApiInterfaces {
     ): Call<GetResumeBuilderAcademicDetails>
 
 
-
-
     @GET("profile/get-profile/{id}")
     fun getResumeBuilderProfileDetails(
         @Path("id") id: Int
@@ -656,6 +657,11 @@ interface ApiInterfaces {
         @Query("idMember") id: Int?
     ): Call<GetProfileResume?>?
 
+    @HTTP(method = "DELETE", path = "delete/studentresume/{id}", hasBody = true)
+    fun deleteStudentResume(
+        @Path("id") id: Int,
+        @Body body: JsonObject
+    ): Call<ResumeBuilderDeleteResume>
 
 
     }

@@ -1,14 +1,26 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume
 
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DownloadManager
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.pdf.PdfDocument
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +38,8 @@ import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -41,22 +55,31 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.CustomSwitch
+import com.vsca.vsnapvoicecollege.Utils.DownloadImage
+import com.vsca.vsnapvoicecollege.Utils.PdfDownloader
 
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumepreviewBinding
+import java.io.BufferedInputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
+import java.util.concurrent.Executors
 
 
 class ResumePreviewActivity : AppCompatActivity() {
 
     var appViewModel: App? = null
     private lateinit var binding: LayoutResumepreviewBinding
-    var isMemberID=-1
-    var isPDF_URL=""
-    var isScreenName=""
-    var isFileName=""
-    private var savedResumeList: List<GetResumeTitleData> = emptyList()
-
-
+    var isMemberID = -1
+    var isPDF_URL = ""
+    var isScreenName = ""
+    var isFileName = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,47 +88,71 @@ class ResumePreviewActivity : AppCompatActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-        binding.commonBottomResumeBuilder.btnDefault2.text=resources.getString(R.string.download)
-        binding.commonBottomResumeBuilder.btnDefault1.text=resources.getString(R.string.change_template)
-        binding.commonBottomResumeBuilder.imgDefault.visibility=View.VISIBLE
-        isPDF_URL= intent.getStringExtra("TemplateDocumentURL").toString()
-        isMemberID= intent.getIntExtra("MemberID",-1)
-        isScreenName= intent.getStringExtra("ScreenName").toString()
-        isFileName= intent.getStringExtra("FileName").toString()
-        GetProfileResume()
+        binding.commonBottomResumeBuilder.btnDefault2.text = resources.getString(R.string.download)
+        binding.commonBottomResumeBuilder.btnDefault1.text =
+            resources.getString(R.string.change_template)
+        binding.commonBottomResumeBuilder.imgDefault.visibility = View.VISIBLE
+        isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
+        Log.d("isPDF_URL",isPDF_URL)
+        isMemberID = intent.getIntExtra("MemberID", -1)
+        isScreenName = intent.getStringExtra("ScreenName").toString()
+        isFileName = intent.getStringExtra("FileName").toString()
 
 
-        if(isScreenName=="MyResumes"){
-            binding.txtTitle.text="View My Resume"
-            binding.lblPdfName.visibility=View.VISIBLE
-            binding.lblPdfName.text=isFileName
-            binding.lbldelete.visibility=View.VISIBLE
-        }
-        if (isScreenName=="BuildMyResume"){
-            binding.txtTitle.text="Preview My Resume"
-            binding.lblPdfName.visibility=View.GONE
-            binding.lblPdfName.text=""
-            binding.lbldelete.visibility=View.GONE
+        if (isScreenName == "MyResumes") {
+            binding.txtTitle.text = "View My Resume"
+            binding.lblPdfName.visibility = View.VISIBLE
+            binding.lblPdfName.text = isFileName
+            binding.commonBottomResumeBuilder.btnDefault1.visibility = View.GONE
+            binding.lbldelete.visibility = View.VISIBLE
         }
 
-        appViewModel?.ResumeBuilderProfileResume!!.observe(this) { response ->
+        if (isScreenName == "BuildMyResume") {
+            binding.commonBottomResumeBuilder.btnDefault1.visibility = View.VISIBLE
+            binding.txtTitle.text = "Preview My Resume"
+            binding.lblPdfName.visibility = View.GONE
+            binding.lblPdfName.text = ""
+            binding.lbldelete.visibility = View.GONE
+        }
+
+        binding.lbldelete.setOnClickListener{
+            deleteResume()
+        }
+
+
+        appViewModel?.ResumeBuilderGenerateResume!!.observe(this) { response ->
             if (response != null) {
 
                 if (response.status) {
-                    savedResumeList = response.data.resumeTitle
-                    Log.d("savedResumeList",savedResumeList.toString())
-                } else {
-                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+
+                        Log.d("GenerateResume", "Reusme Generattion Scucessful")
+                        Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            else {
+                    Log.d("GenerateResume", "Reusme Generattion Failed")
+                    Toast.makeText(this, response?.message, Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-
 
         val webSettings = binding.webviewDocument.settings
         webSettings.javaScriptEnabled = true
         webSettings.setSupportZoom(true)
         webSettings.builtInZoomControls = true
         webSettings.displayZoomControls = false
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    100
+                )
+                return
+            }
+        }
+
 
         binding.webviewDocument.setBackgroundColor(Color.TRANSPARENT)
         binding.webviewDocument.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
@@ -152,20 +199,25 @@ class ResumePreviewActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        binding.commonBottomResumeBuilder.btnSave.setOnClickListener{
-            showResumeTitleDialog(this,isMemberID,isPDF_URL)
+        binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
+            showResumeTitleDialog(this, isMemberID, isPDF_URL)
         }
 
-        binding.commonBottomResumeBuilder.btnDefault1.setOnClickListener{
-            if (savedResumeList.size>1){
-                showResumeListDialog(this,savedResumeList)
-            }
-            else{
-                Toast.makeText(this, "No Resume Avaiable!", Toast.LENGTH_SHORT).show()
-            }
+        binding.commonBottomResumeBuilder.btnDefault1.setOnClickListener {
+            onBackPressed()
         }
 
     }
+
+    fun deleteResume() {
+
+        val body = JsonObject().apply {
+            addProperty("resumeUrl", isPDF_URL)
+        }
+        appViewModel!!.GetResumeBuilderDeleteResume(isMemberID,body, this@ResumePreviewActivity)
+    }
+
+
 
     fun showResumeTitleDialog(
         activity: ResumePreviewActivity,
@@ -192,6 +244,7 @@ class ResumePreviewActivity : AppCompatActivity() {
         val txtOverlayTitle = dialogView.findViewById<TextView>(R.id.txtOverlayTitle)
         val txtOverlayMessage = dialogView.findViewById<TextView>(R.id.txtOverlayMessage)
         val btnOverlayOk = dialogView.findViewById<Button>(R.id.btnOverlayOk)
+        val btnDownload = dialogView.findViewById<LinearLayout>(R.id.btnDownload)
 
         cardview.visibility = View.VISIBLE
         overlayLayout.visibility = View.GONE
@@ -200,6 +253,10 @@ class ResumePreviewActivity : AppCompatActivity() {
 
         btnClose.setOnClickListener {
             alertDialog.dismiss()
+        }
+
+        btnDownload.setOnClickListener {
+            PdfDownloader(this).downloadPdf(isPDF_URL)
         }
 
         activity.appViewModel?.ResumeBuilderSaveTitle?.observeOnce(activity) { response ->
@@ -261,43 +318,4 @@ class ResumePreviewActivity : AppCompatActivity() {
             }
         })
     }
-
-
-
-    fun showResumeListDialog(
-        activity: Activity,
-        resumeList: List<GetResumeTitleData>
-    ) {
-        val dialogView = LayoutInflater.from(activity).inflate(R.layout.see_my_resume, null)
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(dialogView)
-        val alertDialog = builder.create()
-        alertDialog.setCancelable(false)
-        alertDialog.setCanceledOnTouchOutside(false)
-        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        alertDialog.show()
-
-        val imgClose = dialogView.findViewById<ImageView>(R.id.imgClose)
-        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rcProfileResume)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = ResumeListAdapter(activity, resumeList) {
-            val intent = Intent(activity, ResumePreviewActivity::class.java)
-            intent.putExtra("TemplateDocumentURL", it.url)
-            intent.putExtra("ScreenName","MyResumes")
-            intent.putExtra("FileName",it.title)
-            activity.startActivity(intent)
-        }
-
-        imgClose.setOnClickListener {
-            alertDialog.dismiss()
-        }
-    }
-
-    fun GetProfileResume() {
-        appViewModel!!.GetResumeBuilderProfileResume(31146, this@ResumePreviewActivity)
-    }
-
-
-
-
 }
