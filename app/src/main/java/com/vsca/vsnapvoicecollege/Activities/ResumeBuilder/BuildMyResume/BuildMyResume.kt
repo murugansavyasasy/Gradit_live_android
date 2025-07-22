@@ -100,6 +100,7 @@ class BuildMyResume : AppCompatActivity() {
                         Log.d("GeneratedResumeURl",response.data.get(0).file_url)
                             val intent = Intent(this, ResumePreviewActivity::class.java)
                             intent.putExtra("TemplateDocumentURL",response.data.get(0).file_url)
+                            intent.putExtra("ScreenName","BuildMyResume")
                             intent.putExtra("MemberID",isMemeberID)
                             startActivity(intent)
                         Log.d("GenerateResume", "Reusme Generattion Scucessful")
@@ -166,14 +167,15 @@ class BuildMyResume : AppCompatActivity() {
             .setPositiveButton("Yes") { dialog, _ ->
 //                isGenerateResume()
 
-                //manually pdf
+//                manually pdf
+
                 val intent = Intent(this, ResumePreviewActivity::class.java)
                 intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752813975101.pdf")
                 intent.putExtra("MemberID",31146)
                 intent.putExtra("ScreenName","BuildMyResume")
                 startActivity(intent)
 
-                //manual pdf
+//                manual pdf
 
                 dialog.dismiss()
             }
@@ -266,9 +268,5 @@ class BuildMyResume : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Resume context data is missing", Toast.LENGTH_SHORT).show()
         }
-
-
     }
-
-
 }

@@ -251,15 +251,23 @@ class BuildResumeActivity : AppCompatActivity() {
         }
 
         val formattedInternshipList = isSkillSetData?.internship ?: emptyList()
-
         val formattedProjectList = isSkillSetData?.projects ?: emptyList()
+
+        // Combine address fields into a single string
+        val fullAddress = listOfNotNull(
+            basicDetails?.memberPermanentAddress1,
+            basicDetails?.memberPermanentAddressCity,
+            basicDetails?.memberPermanentAddressState,
+            basicDetails?.memberPermanentAddressPincode,
+            basicDetails?.memberPermanentAddressCountry
+        ).joinToString(", ")
 
         val resumeContext = ResumeContextData(
             memberId = basicDetails?.memberId ?: "",
             name = basicDetails?.memberName ?: "",
             email = basicDetails?.memberstudentEmail ?: "",
             phone = basicDetails?.memberPhoneNumber ?: "",
-            address = basicDetails?.memberPermanentAddress1 ?: "",
+            address = fullAddress,
             skills = skillsList,
             education = formattedEducationList,
             experience = formattedInternshipList,
@@ -276,7 +284,6 @@ class BuildResumeActivity : AppCompatActivity() {
         Log.d("ResumeDebug", "Skills: $skillsList")
         Log.d("ResumeDebug", "Internship: $internshipList")
         Log.d("ResumeDebug", "Projects: $projectList")
-
         Log.d("FULL_RESUME", Gson().toJson(resumeContext))
     }
 }

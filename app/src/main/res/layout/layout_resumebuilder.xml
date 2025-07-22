@@ -721,14 +721,14 @@ android:fontFamily="@font/poppins_medium"
                             android:layout_marginStart="@dimen/ten"
                             android:id="@+id/lnrBackLogs"
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:layout_height="wrap_content">
                             <TextView
                                 android:fontFamily="@font/poppins_regular"
                                 android:textSize="@dimen/twelve_sp"
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/light_gray"
-                                android:text="@string/current_backlogs_colon"
+                                android:text="@string/current_backlogs"
                                 android:layout_height="wrap_content">
                             </TextView>
                             <TextView
@@ -740,7 +740,7 @@ android:fontFamily="@font/poppins_medium"
                                 android:paddingTop="@dimen/two"
                                 android:paddingEnd="@dimen/eight"
                                 android:paddingBottom="@dimen/two"
-                                android:layout_marginStart="@dimen/ten"
+                                android:layout_marginStart="@dimen/five"
                                 android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/twelve_sp">
@@ -752,14 +752,14 @@ android:fontFamily="@font/poppins_medium"
                             android:layout_marginStart="@dimen/ten"
                             android:id="@+id/lnrNoofArrears"
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:layout_height="wrap_content">
                             <TextView
                                 android:fontFamily="@font/poppins_regular"
                                 android:textSize="@dimen/twelve_sp"
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/light_gray"
-                                android:text="@string/num_of_arrears_coloun"
+                                android:text="@string/num_of_arrears"
                                 android:layout_height="wrap_content">
                             </TextView>
                             <TextView
@@ -772,7 +772,7 @@ android:fontFamily="@font/poppins_medium"
                                 android:paddingTop="@dimen/two"
                                 android:paddingEnd="@dimen/eight"
                                 android:paddingBottom="@dimen/two"
-                                android:layout_marginStart="@dimen/fifteen"
+                                android:layout_marginStart="@dimen/five"
                                 android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/twelve_sp">
