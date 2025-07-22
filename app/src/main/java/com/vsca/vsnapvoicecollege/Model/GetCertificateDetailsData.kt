@@ -4,4 +4,5 @@ data class GetCertificateDetailsData (
     var courseName: String,
     var duration: String,
     var institute: String,
+    var isChecked: Boolean = false
 )

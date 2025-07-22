@@ -5454,7 +5454,6 @@ class AppServices {
     }
 
 
-
     //Get Academic Details
     fun GetResumeBuilderAcademicDetailsRequest(id:Int ?, activity: Activity) {
         val progressDialog = CustomLoading.createProgressDialog(activity)

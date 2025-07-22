@@ -24,3 +24,4 @@ data class GetResumeBuilderProfileDetailsData(
     val noOfYear: Int?=null,
     val courseName: String?=null,
     )
+

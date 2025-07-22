@@ -547,7 +547,7 @@ class ResumeBuilder : AppCompatActivity() {
             intent.putExtra("TemplateDocumentURL", it.url)
             intent.putExtra("ScreenName","MyResumes")
             intent.putExtra("FileName",it.title)
-            intent.putExtra("MemberID",31146)
+            intent.putExtra("MemberID",31145)
             activity.startActivity(intent)
         }
 
@@ -567,7 +567,7 @@ class ResumeBuilder : AppCompatActivity() {
     }
 
     fun GetProfileResume() {
-        appViewModel!!.GetResumeBuilderProfileResume(31146, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderProfileResume(31145, this@ResumeBuilder)
     }
 
     override fun onResume() {

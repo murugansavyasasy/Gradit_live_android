@@ -1,7 +1,7 @@
 package com.vsca.vsnapvoicecollege.Model
 
 data class ResumeContextData(
-    val memberId: String,
+    val idMember: String,
     val name: String,
     val email: String,
     val phone: String,
@@ -14,7 +14,7 @@ data class ResumeContextData(
     val certifications: List<GetCertificateDetailsData>? = emptyList(),
     val languages: List<String> = emptyList(),
     val projects: List<GetProjectDetailsData>? = emptyList()
-
 )
+
 
 
