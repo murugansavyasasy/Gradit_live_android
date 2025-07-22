@@ -157,6 +157,21 @@
                     android:text="@string/save"
                     android:textColor="@color/white">
                 </TextView>
+                <TextView
+                    android:id="@+id/btnShare"
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rect_blue_radius"
+                    android:paddingStart="@dimen/thirty_five"
+                    android:paddingTop="@dimen/ten"
+                    android:paddingEnd="@dimen/thirty_five"
+                    android:paddingBottom="@dimen/ten"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginStart="@dimen/ten"
+                    android:text="Share"
+                    android:textColor="@color/white">
+                </TextView>
 
             </LinearLayout>
         </LinearLayout>

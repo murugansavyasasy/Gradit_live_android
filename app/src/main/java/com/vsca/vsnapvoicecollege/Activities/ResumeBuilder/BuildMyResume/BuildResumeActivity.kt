@@ -82,7 +82,6 @@ class BuildResumeActivity : AppCompatActivity() {
 
         academicAdapter = AcademicAdapter(savedAcademicEducationDetails) { selectedItems ->
             selectedAcademicList = selectedItems
-
             val allChecked = selectedItems.size == savedAcademicEducationDetails.size
             binding.cbHeaderAcademicRecords.setOnCheckedChangeListener(null)
             binding.cbHeaderAcademicRecords.isChecked = allChecked
@@ -101,6 +100,11 @@ class BuildResumeActivity : AppCompatActivity() {
             academicAdapter.setAllChecked(isChecked)
         }
 
+        if (savedAcademicEducationDetails.size>0){
+
+        }else{
+
+        }
 
         binding.rvAcademic.layoutManager = GridLayoutManager(this, 2)
         binding.rvAcademic.adapter = academicAdapter
@@ -173,19 +177,19 @@ class BuildResumeActivity : AppCompatActivity() {
         setupRecycler(binding.rvLanguages, languageList, binding.cbHeaderLanguage) {
             languageList = it
         }
-        val softSkillList = parseJsonListString(CommonUtil.isSkillSetDataSending?.softSkill)
-        setupRecycler(
-            recyclerView = binding.rvSoftSkills,
-            items = softSkillList,
-            headerCheckbox = binding.cbHeaderSoftSkills
-        ) {
-            this@BuildResumeActivity.softSkillList = it
-        }
+//        val softSkillList = parseJsonListString(CommonUtil.isSkillSetDataSending?.softSkill)
 //        setupRecycler(
-//            binding.rvSoftSkills,
-//            softSkillList,
-//            binding.cbHeaderSoftSkills
-//        ) { softSkillList = it }
+//            recyclerView = binding.rvSoftSkills,
+//            items = softSkillList,
+//            headerCheckbox = binding.cbHeaderSoftSkills
+//        ) {
+//            selectedSoftSkills = it
+//        }
+        setupRecycler(
+            binding.rvSoftSkills,
+            softSkillList,
+            binding.cbHeaderSoftSkills
+        ) { softSkillList = it }
         setupRecycler(
             binding.rvProgrammingLanguages,
             programmingLanguageList,

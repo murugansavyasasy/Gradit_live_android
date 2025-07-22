@@ -76,15 +76,39 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp">
 
-
         <WebView
             android:background="@android:color/transparent"
             android:overScrollMode="never"
             android:id="@+id/webviewDocument"
             android:layout_width="match_parent"
             android:layerType="software"
+            android:visibility="gone"
             android:layout_margin="@dimen/fifty_five"
             android:layout_height="match_parent" />
+
+
+        <com.otaliastudios.zoom.ZoomLayout
+            android:layout_margin="@dimen/fifty_five"
+            android:id="@+id/zoomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:alignment="center"
+            app:hasClickableChildren="true"
+            app:maxZoom="10"
+            app:minZoom="1"
+            app:overScrollHorizontal="false"
+            app:overScrollVertical="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPdfPages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="always"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="true" />
+        </com.otaliastudios.zoom.ZoomLayout>
+
+
 
         <LinearLayout
             android:id="@+id/lnrZoomOptions"

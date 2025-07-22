@@ -95,6 +95,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     var progressDialog: ProgressDialog? = null
     var fileNameDateTime: String? = null
     var Awsaupladedfilepath: String? = null
+    var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
     var separator = ","
     var fileName: File? = null
     var filename: String? = null
@@ -108,7 +109,6 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     var isVideoToken = ""
 
     private lateinit var binding: ActivityPrincipalRecipientBinding
-    var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

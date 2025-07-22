@@ -5756,20 +5756,20 @@ class AppServices {
 
     //Send SaveTitle
     fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject,activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        val progressDialog = CustomLoading.createProgressDialog(activity)
 
-        progressDialog!!.show()
+  //      progressDialog!!.show()
         RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
             ?.enqueue(object : Callback<ResumeBuilderSaveTitleResponse?> {
                 override fun onResponse(
                     call: Call<ResumeBuilderSaveTitleResponse?>, response: Response<ResumeBuilderSaveTitleResponse?>
                 ) {
-                    progressDialog!!.dismiss()
+                //    progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            progressDialog!!.dismiss()
+                         //   progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
@@ -5777,7 +5777,7 @@ class AppServices {
 
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
+                       //     progressDialog!!.dismiss()
                             isSendResumeBuilderSaveTitle.postValue(null)
                         } else {
                             isSendResumeBuilderSaveTitle.postValue(null)
@@ -5785,7 +5785,7 @@ class AppServices {
                     }
                 }
                 override fun onFailure(call: Call<ResumeBuilderSaveTitleResponse?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                 //   progressDialog!!.dismiss()
                     isSendResumeBuilderSaveTitle.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(

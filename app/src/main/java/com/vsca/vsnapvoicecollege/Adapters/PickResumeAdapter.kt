@@ -1,7 +1,5 @@
-package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume
+package com.vsca.vsnapvoicecollege.Adapters
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
-import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
 import com.vsca.vsnapvoicecollege.R
 

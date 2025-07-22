@@ -15,14 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
+import com.vsca.vsnapvoicecollege.Adapters.PickResumeAdapter
 import com.vsca.vsnapvoicecollege.Adapters.PickThemeTemplateColourAdapter
-import com.vsca.vsnapvoicecollege.Model.EducationFormattedData
-import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
-import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
-import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
-import com.vsca.vsnapvoicecollege.Model.GetResumeTitleData
 import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -105,6 +100,7 @@ class BuildMyResume : AppCompatActivity() {
                         Log.d("GeneratedResumeURl",response.data.get(0).file_url)
                             val intent = Intent(this, ResumePreviewActivity::class.java)
                             intent.putExtra("TemplateDocumentURL",response.data.get(0).file_url)
+                            intent.putExtra("ScreenName","BuildMyResume")
                             intent.putExtra("MemberID",isMemeberID)
                             startActivity(intent)
                         Log.d("GenerateResume", "Reusme Generattion Scucessful")
@@ -169,16 +165,14 @@ class BuildMyResume : AppCompatActivity() {
         builder.setTitle("Confirmation")
             .setMessage(message)
             .setPositiveButton("Yes") { dialog, _ ->
-                isGenerateResume()
-//
-//                //manually pdf
-//                val intent = Intent(this, ResumePreviewActivity::class.java)
-//                intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752813975101.pdf")
-//                intent.putExtra("MemberID",31146)
-//                intent.putExtra("ScreenName","BuildMyResume")
-//                startActivity(intent)
-
-                //manual pdf
+//                isGenerateResume()
+//                manually pdf
+                val intent = Intent(this, ResumePreviewActivity::class.java)
+                intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752813975101.pdf")
+                intent.putExtra("MemberID",31146)
+                intent.putExtra("ScreenName","BuildMyResume")
+                startActivity(intent)
+//                manual pdf
 
                 dialog.dismiss()
             }

@@ -1,12 +1,15 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,12 +20,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
+import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit.EditAcademicDetails
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildMyResume
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildResumeActivity
@@ -43,8 +49,12 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeTitleData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 
 
 class ResumeBuilder : AppCompatActivity() {
@@ -55,7 +65,16 @@ class ResumeBuilder : AppCompatActivity() {
     var eduList: List<GetEducationalDetailsData> = emptyList()
     var appViewModel: App? = null
     private lateinit var binding: LayoutResumebuilderBinding
+    val SELECT_PDF = 8778
     private var savedResumeList: List<GetResumeTitleData> = emptyList()
+
+
+    var uri: Uri? = null
+    var outputDir: File? = null
+    var PDFTempFileWrite: File? = null
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,12 +121,12 @@ class ResumeBuilder : AppCompatActivity() {
                 if (response.status) {
                     if (response.data.size > 0) {
                         isLoadAcademicDetails(response.data[0])
-                        binding.lblEditTwo.text = getString(R.string.txt_edit)
-                        binding.lnrAcademicDetails.visibility = View.VISIBLE
+//                        binding.lblEditTwo.text = getString(R.string.txt_edit)
+//                        binding.lnrAcademicDetails.visibility = View.VISIBLE
                         Log.d("AcademicRespone", response.data.toString())
                     } else {
-                        binding.lnrAcademicDetails.visibility = View.GONE
-                        binding.lblEditTwo.text = getString(R.string.txt_Add)
+//                        binding.lnrAcademicDetails.visibility = View.GONE
+//                        binding.lblEditTwo.text = getString(R.string.txt_Add)
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
@@ -117,17 +136,23 @@ class ResumeBuilder : AppCompatActivity() {
             }
         }
 
+
+        binding.btnUploadResume.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "application/pdf"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+            startActivityForResult(intent, SELECT_PDF)
+        }
+
         appViewModel?.ResumeBuilderSkillSetDetails!!.observe(this) { response ->
             if (response != null) {
                 if (response.status) {
                     if (response.data.size > 0) {
                         isLoadSkillSetDetails(response.data)
-                        binding.lnrSkillSetDetails.visibility = View.VISIBLE
-                        binding.btnEditThree.text = getString(R.string.txt_edit)
+
                         Log.d("AcademicRespone", response.data.toString())
                     } else {
-                        binding.lnrSkillSetDetails.visibility = View.GONE
-                        binding.btnEditThree.text = getString(R.string.txt_Add)
+
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
@@ -143,11 +168,10 @@ class ResumeBuilder : AppCompatActivity() {
         GetProfileResume()
 
 
-        binding.lblViewMyResumes.setOnClickListener{
-            if (savedResumeList.size>0){
-                showResumeListDialog(this,savedResumeList)
-            }
-            else{
+        binding.lblViewMyResumes.setOnClickListener {
+            if (savedResumeList.size > 0) {
+                showResumeListDialog(this, savedResumeList)
+            } else {
                 Toast.makeText(this, "No Resume Avaiable!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -177,7 +201,7 @@ class ResumeBuilder : AppCompatActivity() {
 //        }
 
         binding.lblEditTwo.setOnClickListener {
-            val i = Intent(this,EditAcademicDetails::class.java)
+            val i = Intent(this, EditAcademicDetails::class.java)
             isSaveAcademicDetails()
             this.startActivity(i)
         }
@@ -244,7 +268,7 @@ class ResumeBuilder : AppCompatActivity() {
             educationalDetails = eduList,
         )
 
-        Log.d("academicDetails",academicDetails.toString())
+        Log.d("academicDetails", academicDetails.toString())
 
         Log.d("saveAcademicDetails", "Saving academic details:")
         Log.d("saveAcademicDetails", "Backlogs: ${academicDetails.backlogs}")
@@ -259,7 +283,10 @@ class ResumeBuilder : AppCompatActivity() {
 
         // Save to CommonUtil
         CommonUtil.saveAcademicDetails = academicDetails
-        Log.d("AcademicDetails-----",CommonUtil.saveAcademicDetails!!.educationalDetails.toString())
+        Log.d(
+            "AcademicDetails-----",
+            CommonUtil.saveAcademicDetails!!.educationalDetails.toString()
+        )
 
     }
 
@@ -295,7 +322,6 @@ class ResumeBuilder : AppCompatActivity() {
     }
 
 
-
     private fun isSaveSkillSetData() {
         val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
             idMember = isMemeberId,
@@ -328,28 +354,8 @@ class ResumeBuilder : AppCompatActivity() {
             }
         }
 
-        if (AcademicData.backlogs != "") {
-            binding.lblBackLogs.text = AcademicData.backlogs
-            binding.lblBackLogs.background =
-                getColoredDrawable(binding.root.context, R.color.light_red)
-        } else {
-            binding.lblBackLogs.text = CommonUtil.isIffin
-            binding.lblBackLogs.background =
-                getColoredDrawable(binding.root.context, R.color.very_light_gray)
-        }
-
-        if (AcademicData.numberOfArrears != "") {
-            binding.lblNoofArrears.text = AcademicData.numberOfArrears
-            binding.lblNoofArrears.background =
-                getColoredDrawable(binding.root.context, R.color.light_red)
-        } else {
-            binding.lblNoofArrears.text = CommonUtil.isIffin
-            binding.lblNoofArrears.background =
-                getColoredDrawable(binding.root.context, R.color.very_light_gray)
-        }
-
         Log.d("isEducationItem", isEducationItem.toString())
-        if (isEducationItem.size > 0) {
+        if (isEducationItem.size > 0 || AcademicData.numberOfArrears != ""||AcademicData.backlogs != "") {
             binding.lblEditTwo.text = getString(R.string.txt_edit)
             binding.lnrAcademicDetails.visibility = View.VISIBLE
             binding.rcAcademicDetails.layoutManager = GridLayoutManager(this, 3)
@@ -357,6 +363,27 @@ class ResumeBuilder : AppCompatActivity() {
             binding.rcAcademicDetails.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             binding.rcAcademicDetails.adapter =
                 ResumeBuilderAcademicDetailsAdapter(isEducationItem)
+
+            if (AcademicData.backlogs != "") {
+                binding.lblBackLogs.text = AcademicData.backlogs
+                binding.lblBackLogs.background =
+                    getColoredDrawable(binding.root.context, R.color.light_red)
+            } else {
+                binding.lblBackLogs.text = CommonUtil.isIffin
+                binding.lblBackLogs.background =
+                    getColoredDrawable(binding.root.context, R.color.very_light_gray)
+            }
+
+            if (AcademicData.numberOfArrears != "") {
+                binding.lblNoofArrears.text = AcademicData.numberOfArrears
+                binding.lblNoofArrears.background =
+                    getColoredDrawable(binding.root.context, R.color.light_red)
+            } else {
+                binding.lblNoofArrears.text = CommonUtil.isIffin
+                binding.lblNoofArrears.background =
+                    getColoredDrawable(binding.root.context, R.color.very_light_gray)
+            }
+
         } else {
             binding.lnrAcademicDetails.visibility = View.GONE
             binding.lblEditTwo.text = getString(R.string.txt_Add)
@@ -445,7 +472,7 @@ class ResumeBuilder : AppCompatActivity() {
             binding.lblGender.text = it.memberGender
             binding.lblQualification.text = it.courseName
             binding.lblAddress.text =
-                it.memberPermanentAddress1 + it.memberPermanentAddressCity + it.memberPermanentAddressState + it.memberPermanentAddressCountry
+                it.memberPermanentAddress1 +" "+ it.memberPermanentAddressCity +" "+it.memberPermanentAddressPincode +" "+it.memberPermanentAddressState +" "+ it.memberPermanentAddressCountry
             binding.lblAdmissionNo.text = it.memberAdmissionNo
             binding.lblDepartmentName.text = it.departmentName
             binding.lblYearOfStudy.text = it.semesterName
@@ -455,58 +482,104 @@ class ResumeBuilder : AppCompatActivity() {
 
     private fun isLoadSkillSetDetails(SkillSetData: List<GetResumeBuilderSkillSetDetailsData>) {
         isSkillSetData = SkillSetData.firstOrNull()
-        isSkillSetData?.let {
-            binding.lblLanguageKnown.text = it.languages
-            binding.lblSoftSkills.text = it.softSkill
-            binding.lblAreasofInterest.text = it.areaInterest
-            binding.lblProgrammingLanguages.text = it.programmingLanguage
-            binding.lblToolsandplatformsknown.text = it.toolsPlatform
 
-            if (isSkillSetData!!.internship!!.isNotEmpty()) {
-                binding.rcInternshipExperiences.layoutManager =
-                    object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
-                        override fun canScrollVertically(): Boolean = false
+        val data = isSkillSetData
+
+        if (data != null) {
+            // Check if there is any data to show
+            val hasTextData = listOf(
+                data.languages?.trim(),
+                data.softSkill?.trim(),
+                data.areaInterest?.trim(),
+                data.programmingLanguage?.trim(),
+                data.toolsPlatform?.trim()
+            ).any { !it.isNullOrEmpty() }
+
+            val hasListData = listOf(
+                data.internship,
+                data.certifications,
+                data.projects,
+                data.assessmentDetails
+            ).any { !it.isNullOrEmpty() }
+
+            val hasAnyData = hasTextData || hasListData
+
+            if (hasAnyData) {
+                // Show layout and set edit text
+                binding.lnrSkillSetDetails.visibility = View.VISIBLE
+                binding.btnEditThree.text = getString(R.string.txt_edit)
+
+                // Text fields with fallback
+                binding.lblLanguageKnown.text = data.languages ?: CommonUtil.isIffin
+                binding.lblSoftSkills.text = data.softSkill ?: CommonUtil.isIffin
+                binding.lblAreasofInterest.text = data.areaInterest ?: CommonUtil.isIffin
+                binding.lblProgrammingLanguages.text = data.programmingLanguage ?: CommonUtil.isIffin
+                binding.lblToolsandplatformsknown.text = data.toolsPlatform ?: CommonUtil.isIffin
+
+                // Internship
+                if (!data.internship.isNullOrEmpty()) {
+                    binding.rcInternshipExperiences.apply {
+                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        adapter = ResumeBuilderIntenshipDetailsAdapter(data.internship)
+                        isNestedScrollingEnabled = false
+                        overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                        visibility = View.VISIBLE
                     }
-                binding.rcInternshipExperiences.isNestedScrollingEnabled = false
-                binding.rcInternshipExperiences.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-                binding.rcInternshipExperiences.adapter =
-                    ResumeBuilderIntenshipDetailsAdapter(isSkillSetData!!.internship!!)
+                } else {
+                    binding.rcInternshipExperiences.visibility = View.GONE
+                }
+
+                // Certifications
+                if (!data.certifications.isNullOrEmpty()) {
+                    binding.rcCertifications.apply {
+                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        adapter = ResumeBuilderCertificationDetailsAdapter(data.certifications)
+                        isNestedScrollingEnabled = false
+                        overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                        visibility = View.VISIBLE
+                    }
+                } else {
+                    binding.rcCertifications.visibility = View.GONE
+                }
+
+                // Projects
+                if (!data.projects.isNullOrEmpty()) {
+                    binding.rcProject.apply {
+                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        adapter = ResumeBuilderProjectDetailsAdapter(data.projects)
+                        isNestedScrollingEnabled = false
+                        overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                        visibility = View.VISIBLE
+                    }
+                } else {
+                    binding.rcProject.visibility = View.GONE
+                }
+
+                // Assessment
+                if (!data.assessmentDetails.isNullOrEmpty()) {
+                    binding.rcAssessmentScore.apply {
+                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        adapter = ResumeBuilderAssessmentDetailsAdapter(data.assessmentDetails)
+                        isNestedScrollingEnabled = false
+                        overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                        visibility = View.VISIBLE
+                    }
+                } else {
+                    binding.rcAssessmentScore.visibility = View.GONE
+                }
+
+            } else {
+                // No data means we are hiding the layout
+                binding.lnrSkillSetDetails.visibility = View.GONE
+                binding.btnEditThree.text = getString(R.string.txt_Add)
             }
 
-            if (isSkillSetData!!.certifications!!.isNotEmpty()) {
-                binding.rcCertifications.layoutManager =
-                    object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
-                        override fun canScrollVertically(): Boolean = false
-                    }
-                binding.rcCertifications.isNestedScrollingEnabled = false
-                binding.rcCertifications.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-                binding.rcCertifications.adapter =
-                    ResumeBuilderCertificationDetailsAdapter(isSkillSetData!!.certifications!!)
-            }
-
-            if (isSkillSetData!!.projects!!.isNotEmpty()) {
-                binding.rcProject.layoutManager =
-                    object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
-                        override fun canScrollVertically(): Boolean = false
-                    }
-                binding.rcProject.isNestedScrollingEnabled = false
-                binding.rcProject.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-                binding.rcProject.adapter =
-                    ResumeBuilderProjectDetailsAdapter(isSkillSetData!!.projects!!)
-            }
-
-            if (isSkillSetData!!.assessmentDetails!!.isNotEmpty()) {
-                binding.rcAssessmentScore.layoutManager =
-                    object : LinearLayoutManager(this, RecyclerView.VERTICAL, false) {
-                        override fun canScrollVertically(): Boolean = false
-                    }
-                binding.rcAssessmentScore.isNestedScrollingEnabled = false
-                binding.rcAssessmentScore.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-                binding.rcAssessmentScore.adapter =
-                    ResumeBuilderAssessmentDetailsAdapter(isSkillSetData!!.assessmentDetails!!)
-            }
-
+        } else {
+            // Null object — hide layout
+            binding.lnrSkillSetDetails.visibility = View.GONE
+            binding.btnEditThree.text = getString(R.string.txt_Add)
         }
+
     }
 
     fun GetProfileDetails() {
@@ -529,6 +602,8 @@ class ResumeBuilder : AppCompatActivity() {
         activity: Activity,
         resumeList: List<GetResumeTitleData>
     ) {
+        if (activity.isFinishing || activity.isDestroyed) return
+
         val dialogView = LayoutInflater.from(activity).inflate(R.layout.see_my_resume, null)
         val builder = AlertDialog.Builder(activity)
         builder.setView(dialogView)
@@ -536,13 +611,20 @@ class ResumeBuilder : AppCompatActivity() {
         alertDialog.setCancelable(false)
         alertDialog.setCanceledOnTouchOutside(false)
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        alertDialog.show()
+
+        // Check again before showing
+        if (!activity.isFinishing && !activity.isDestroyed) {
+            alertDialog.show()
+        }
 
         val imgClose = dialogView.findViewById<ImageView>(R.id.imgClose)
         val lblBuildMyResume = dialogView.findViewById<TextView>(R.id.lblBuildMyResume)
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rcProfileResume)
+        val btnUploadResume = dialogView.findViewById<TextView>(R.id.btnUploadResume)
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = ResumeListAdapter(activity, resumeList) {
+            alertDialog.dismiss()
             val intent = Intent(activity, ResumePreviewActivity::class.java)
             intent.putExtra("TemplateDocumentURL", it.url)
             intent.putExtra("ScreenName","MyResumes")
@@ -551,20 +633,33 @@ class ResumeBuilder : AppCompatActivity() {
             activity.startActivity(intent)
         }
 
+        btnUploadResume.setOnClickListener {
+            CommonUtil.SelcetedFileList.clear()
+
+            alertDialog.dismiss() // dismiss before starting file picker
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "application/pdf"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+            activity.startActivityForResult(intent, SELECT_PDF)
+        }
+
         imgClose.setOnClickListener {
             alertDialog.dismiss()
         }
-        lblBuildMyResume.setOnClickListener {
-            saveBasicDetails()
-            isSaveSkillSetData()
-            isSaveAcademicDetails()
-            val i = Intent(this, BuildResumeActivity::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            this.startActivity(i)
-            alertDialog.dismiss()
-        }
 
+        lblBuildMyResume.setOnClickListener {
+            alertDialog.dismiss()
+            if (!activity.isFinishing && !activity.isDestroyed) {
+                saveBasicDetails()
+                isSaveSkillSetData()
+                isSaveAcademicDetails()
+                val i = Intent(activity, BuildResumeActivity::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                activity.startActivity(i)
+            }
+        }
     }
+
 
     fun GetProfileResume() {
         appViewModel!!.GetResumeBuilderProfileResume(31145, this@ResumeBuilder)
@@ -579,5 +674,105 @@ class ResumeBuilder : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
+
+    @SuppressLint("Range")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SELECT_PDF && resultCode == RESULT_OK && data != null) {
+
+            if (resultCode == RESULT_OK) {
+                uri = data.data!!
+                Log.d("uri", uri.toString())
+                val uriString: String = uri.toString()
+
+                var Count: String? = null
+                if (CommonUtil.SelcetedFileList != null) {
+                    Count = CommonUtil.SelcetedFileList.size.toString()
+                    Toast.makeText(this, Count, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, Count, Toast.LENGTH_SHORT).show()
+                }
+
+                if (uriString.startsWith("content://")) {
+                    ReadAndWriteFile(uri, ".pdf")
+                }
+            }
+        }
+
+    }
+
+    fun ReadAndWriteFile(uri: Uri?, type: String) {
+        try {
+            uri?.let {
+                contentResolver?.openInputStream(it).use { `in` ->
+                    if (`in` == null) {
+                        Toast.makeText(this, "Failed to open file", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+
+                    try {
+                        PDFTempFileWrite = File.createTempFile("File_", type, outputDir)
+                        val pdfPath = PDFTempFileWrite?.path ?: ""
+
+                        if (pdfPath.isNotEmpty()) {
+                            CommonUtil.extension = pdfPath.substring(pdfPath.lastIndexOf("."))
+                            Log.d("extensionpdf", CommonUtil.extension!!)
+                            Log.d("PDFTempFileWrite", pdfPath)
+
+                            this.contentResolver?.openOutputStream(Uri.fromFile(PDFTempFileWrite))
+                                .use { out ->
+                                    if (out == null) return
+                                    val buf = ByteArray(1024)
+                                    var len = 0
+                                    while (true) {
+                                        try {
+                                            if (`in`.read(buf).also({ len = it }) <= 0) break
+                                        } catch (e: IOException) {
+                                            e.printStackTrace()
+                                        }
+                                        try {
+                                            out.write(buf, 0, len)
+                                        } catch (e: IOException) {
+                                            e.printStackTrace()
+                                        }
+                                    }
+                                }
+
+
+                            // Add path to list
+                            CommonUtil.SelcetedFileList.add(pdfPath)
+
+                            //  Success - Redirect here
+                            val intent = Intent(this,ResumePreviewActivity::class.java) // replace with your destination activity
+                            intent.putExtra("ScreenName","UploadResume")
+                            intent.putExtra("MemberID",isMemeberId)
+                            startActivity(intent)
+                            finish()
+
+                        } else {
+                            Toast.makeText(this, "Invalid file path", Toast.LENGTH_SHORT).show()
+                        }
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(this, "Error creating file", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } ?: run {
+                Toast.makeText(this, "Invalid file URI", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
 
 }

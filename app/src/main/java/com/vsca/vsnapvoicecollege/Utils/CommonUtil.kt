@@ -30,6 +30,7 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.DexterError
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Model.AttendanceHour
 import com.vsca.vsnapvoicecollege.Model.AttendanceHourEdit
 import com.vsca.vsnapvoicecollege.Model.ExamcreationEdit
@@ -513,6 +514,28 @@ object CommonUtil {
 
         dialog.show()
     }
+
+
+    fun Alert(activity: Activity?, title: String?, msg: String?) {
+        if (activity != null) {
+            val dlg = AlertDialog.Builder(activity)
+            dlg.setTitle(title)
+            dlg.setMessage(msg)
+            dlg.setCancelable(false)
+            dlg.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                // Redirect only if title is "Success"
+                if (title.equals("Success", ignoreCase = true)) {
+                    val intent = Intent(activity, ResumeBuilder::class.java)
+                    activity.startActivity(intent)
+                    activity.finish() // Optional: close current activity
+                }
+            }
+            dlg.create()
+            dlg.show()
+        }
+    }
+
 
 
 
