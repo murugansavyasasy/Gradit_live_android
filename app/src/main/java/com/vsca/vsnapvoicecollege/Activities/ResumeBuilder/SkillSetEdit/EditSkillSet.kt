@@ -68,7 +68,13 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         appViewModel!!.init()
 
         binding.commonBottomResumeBuilder.imgDefault.visibility= View.GONE
-        savedSoftSkillsList = CommonUtil.isSkillSetDataSending?.softSkill?.split(",")?.map { it.trim() } ?: emptyList()
+        savedSoftSkillsList = CommonUtil.isSkillSetDataSending?.softSkill
+            ?.takeIf { it.isNotBlank() }
+            ?.split(",")
+            ?.map { it.trim() }
+            ?.filter { it.isNotEmpty() }
+            ?: emptyList()
+
         savedInternshipList = CommonUtil.isSkillSetDataSending?.internship ?: emptyList()
         savedCertificateList = CommonUtil.isSkillSetDataSending?.certifications ?: emptyList()
         savedAssessmentList = CommonUtil.isSkillSetDataSending?.assessmentDetails ?: emptyList()

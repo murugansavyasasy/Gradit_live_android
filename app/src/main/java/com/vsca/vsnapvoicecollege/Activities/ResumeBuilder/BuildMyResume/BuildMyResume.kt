@@ -263,7 +263,7 @@ class BuildMyResume : AppCompatActivity() {
             appViewModel?.SendGenerateResume(parentJson, this@BuildMyResume)
 
         } else {
-            Toast.makeText(this, "Resume context data is missing", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Some exception occured", Toast.LENGTH_SHORT).show()
         }
     }
 }
