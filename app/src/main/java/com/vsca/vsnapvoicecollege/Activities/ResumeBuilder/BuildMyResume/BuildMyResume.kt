@@ -166,14 +166,6 @@ class BuildMyResume : AppCompatActivity() {
             .setMessage(message)
             .setPositiveButton("Yes") { dialog, _ ->
                 isGenerateResume()
-////                manually pdf
-//                val intent = Intent(this, ResumePreviewActivity::class.java)
-//                intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752813975101.pdf")
-//                intent.putExtra("MemberID",31146)
-//                intent.putExtra("ScreenName","BuildMyResume")
-//                startActivity(intent)
-////                manual pdf
-
                 dialog.dismiss()
             }
             .setNegativeButton("No") { dialog, _ ->

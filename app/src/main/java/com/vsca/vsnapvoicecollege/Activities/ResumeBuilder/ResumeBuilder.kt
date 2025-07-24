@@ -166,11 +166,7 @@ class ResumeBuilder : AppCompatActivity() {
                 Toast.makeText(this, "No Resume Avaiable!", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
         CommonUtil.RequestCameraPermission(this)
-
 
         binding.btnEditOne.setOnClickListener {
             val i = Intent(this, EditBasicDetails::class.java)
@@ -214,8 +210,6 @@ class ResumeBuilder : AppCompatActivity() {
 
     }
 
-
-
     private fun isSaveAcademicDetails() {
         val academicDetails = GetResumeBuilderAcademicDetailsData(
             backlogs = binding.lblBackLogs.text.toString(),
@@ -223,26 +217,9 @@ class ResumeBuilder : AppCompatActivity() {
             educationalDetails = eduList,
         )
 
-        Log.d("academicDetails", academicDetails.toString())
-
-        Log.d("saveAcademicDetails", "Saving academic details:")
-        Log.d("saveAcademicDetails", "Backlogs: ${academicDetails.backlogs}")
-        Log.d("saveAcademicDetails", "Arrears: ${academicDetails.numberOfArrears}")
-        Log.d("saveAcademicDetails", "Arrears: ${academicDetails.educationalDetails}")
-
-        Log.d("academicDetails", "Educational Details:")
-        academicDetails.educationalDetails.forEachIndexed { index, detail ->
-            Log.d("academicDetails", "Item $index: $detail")
-        }
-
 
         // Save to CommonUtil
         CommonUtil.saveAcademicDetails = academicDetails
-        Log.d(
-            "AcademicDetails-----",
-            CommonUtil.saveAcademicDetails!!.educationalDetails.toString()
-        )
-
     }
 
     private fun saveBasicDetails() {
@@ -262,17 +239,6 @@ class ResumeBuilder : AppCompatActivity() {
             memberPermanentAddressCountry = profile?.memberPermanentAddressCountry
         )
 
-        Log.d("saveBasicDetails", "Saving basic details:")
-        Log.d("saveBasicDetails", "ID: ${basicDetails.memberId}")
-        Log.d("saveBasicDetails", "Name: ${basicDetails.memberName}")
-        Log.d("saveBasicDetails", "Phone: ${basicDetails.memberPhoneNumber}")
-        Log.d("saveBasicDetails", "Email: ${basicDetails.memberstudentEmail}")
-        Log.d("saveBasicDetails", "Address1: ${basicDetails.memberPermanentAddress1}")
-        Log.d("saveBasicDetails", "City: ${basicDetails.memberPermanentAddressCity}")
-        Log.d("saveBasicDetails", "State: ${basicDetails.memberPermanentAddressState}")
-        Log.d("saveBasicDetails", "Pincode: ${basicDetails.memberPermanentAddressPincode}")
-        Log.d("saveBasicDetails", "Country: ${basicDetails.memberPermanentAddressCountry}")
-
         CommonUtil.saveBasicDetails = basicDetails
     }
 
@@ -290,8 +256,7 @@ class ResumeBuilder : AppCompatActivity() {
             assessmentDetails = isSkillSetData?.assessmentDetails,
             projects = isSkillSetData?.projects,
         )
-        Log.d("binding.lblLanguageKnown.text",binding.lblLanguageKnown.text.toString())
-        Log.d("binding.lblLanguageKnown.text++++",saveSkillSetData.languages.toString())
+
         //We are Saving all the data in Constant as List Here
         CommonUtil.isSkillSetDataSending = saveSkillSetData
         Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
@@ -311,7 +276,6 @@ class ResumeBuilder : AppCompatActivity() {
             }
         }
 
-        Log.d("isEducationItem", isEducationItem.toString())
         if (isEducationItem.size > 0 || AcademicData.numberOfArrears != ""||AcademicData.backlogs != "") {
             binding.lblEditTwo.text = getString(R.string.txt_edit)
             binding.lnrAcademicDetails.visibility = View.VISIBLE
@@ -544,13 +508,11 @@ class ResumeBuilder : AppCompatActivity() {
     }
 
     fun GetAcademicDetails() {
-//        appViewModel!!.GetResumeBuilderAcademicDetails(CommonUtil.MemberId, this@ResumeBuilder)
         appViewModel!!.GetResumeBuilderAcademicDetails(31145, this@ResumeBuilder)
     }
 
     fun GetSkillSetDetails() {
         isMemeberId = 31145
-        //        appViewModel!!.GetResumeBuilderSkillSetDetails(CommonUtil.MemberId, this@ResumeBuilder)
         appViewModel!!.GetResumeBuilderSkillSetDetails(isMemeberId, this@ResumeBuilder)
     }
 

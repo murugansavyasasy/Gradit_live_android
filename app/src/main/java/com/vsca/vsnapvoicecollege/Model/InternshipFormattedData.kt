@@ -4,5 +4,7 @@ data class InternshipFormattedData(
     val companyName: String,
     val from: String,
     val designation: String,
-    val to: String
+    val to: String,
+    var isChecked: Boolean = false
+
 )

@@ -1,8 +1,10 @@
 package com.vsca.vsnapvoicecollege.Model
 
 data class CertificateFormattedData(
-    val certificateName: String,
+    val courseName: String,
     val institute: String,
-    val duration: String? = null
+    val duration: String? = null,
+    var isChecked: Boolean = false
+
 )
 

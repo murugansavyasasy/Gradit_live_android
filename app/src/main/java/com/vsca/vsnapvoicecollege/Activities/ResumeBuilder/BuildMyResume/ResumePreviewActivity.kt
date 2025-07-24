@@ -107,10 +107,13 @@ class ResumePreviewActivity : AppCompatActivity() {
 
 
         if (isScreenName == "MyResumes") {
-//            binding.zoomLayout.visibility=View.GONE
-//            binding.webviewDocument.visibility=View.VISIBLE
+            binding.scrollView.visibility=View.GONE
+            binding.webviewDocument.visibility=View.VISIBLE
+            binding.lnrZoomOptions.visibility=View.VISIBLE
+
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
+
             binding.commonBottomResumeBuilder.btnDefault2.text =
                 resources.getString(R.string.download)
             binding.txtTitle.text = "View My Resume"
@@ -121,8 +124,10 @@ class ResumePreviewActivity : AppCompatActivity() {
         }
 
         if (isScreenName == "BuildMyResume") {
-//            binding.zoomLayout.visibility=View.GONE
-//            binding.webviewDocument.visibility=View.VISIBLE
+            binding.scrollView.visibility=View.GONE
+            binding.webviewDocument.visibility=View.VISIBLE
+            binding.lnrZoomOptions.visibility=View.VISIBLE
+
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
             binding.commonBottomResumeBuilder.btnDefault2.text = "Save"
@@ -135,7 +140,9 @@ class ResumePreviewActivity : AppCompatActivity() {
         }
 
         if (isScreenName == "UploadResume") {
-
+            binding.scrollView.visibility=View.VISIBLE
+            binding.webviewDocument.visibility=View.GONE
+            binding.lnrZoomOptions.visibility=View.GONE
 
             isPDF_URL=CommonUtil.SelcetedFileList[0]
             Log.d("isPdfUrl",isPDF_URL)
@@ -150,7 +157,18 @@ class ResumePreviewActivity : AppCompatActivity() {
             binding.commonBottomResumeBuilder.btnDefault1.text = "Cancel"
         }
 
+        binding.zoomIn.setOnClickListener {
+            if (isScreenName == "BuildMyResume" || isScreenName == "MyResumes") {
+                binding.webviewDocument.zoomIn()
+            }
+        }
 
+        binding.zoomOut.setOnClickListener {
+            if (isScreenName == "BuildMyResume"||isScreenName == "MyResumes"){
+                binding.webviewDocument.zoomOut()
+            }
+
+        }
 
         binding.lbldelete.setOnClickListener {
             showConfirmationDialog()

@@ -103,24 +103,6 @@ class EditBasicDetails : AppCompatActivity() {
                     currentNotificationStatus != originalNotificationStatus ||
                     CommonUtil.SelcetedFileList.isNotEmpty() ||
                     isImageDeleted
-//            // Validation
-//            if (currentName.isEmpty()) {
-//                binding.edtName.error = "Enter your name"
-//                binding.edtName.requestFocus()
-//                return@setOnClickListener
-//            }
-//
-//            if (currentPhone.length != 10 || !currentPhone.matches(Regex("\\d{10}"))) {
-//                binding.edtPhone.error = "Enter a valid 10-digit phone number"
-//                binding.edtPhone.requestFocus()
-//                return@setOnClickListener
-//            }
-//
-//            if (currentEmail.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(currentEmail).matches()) {
-//                binding.edtEmail.error = "Enter a valid email address"
-//                binding.edtEmail.requestFocus()
-//                return@setOnClickListener
-//            }
 
             if (isChanged) {
                 showConfirmationDialog()
@@ -202,7 +184,6 @@ class EditBasicDetails : AppCompatActivity() {
         Glide.with(this)
             .load(R.drawable.default_profile)
             .into(binding.imgProfile)
-        Log.d("ProfileImage", "Profile photo deleted")
     }
 
     private fun clearProfileImage() {
@@ -214,7 +195,6 @@ class EditBasicDetails : AppCompatActivity() {
         Glide.with(this)
             .load(R.drawable.default_profile)
             .into(binding.imgProfile)
-        Log.d("ProfileImage", "Profile image cleared by user")
     }
 
     private fun checkForChangesBeforeSave() {

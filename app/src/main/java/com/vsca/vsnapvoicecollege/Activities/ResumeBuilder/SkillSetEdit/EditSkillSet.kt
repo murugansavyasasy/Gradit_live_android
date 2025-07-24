@@ -194,45 +194,36 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
             var isChanged = false
 
             if (selectedInternshipList.toSet() != savedInternshipList.toSet()) {
-                Log.d("SkillSetCheck", "Internship changed")
                 isChanged = true
             }
 
             if (selectedCertificateList.toSet() != savedCertificateList.toSet()) {
-                Log.d("SkillSetCheck", "Certificate changed")
                 isChanged = true
             }
 
             if (savedLanguage!=binding.edtLanguageknown.text.toString()) {
-                Log.d("SkillSetCheck", "Language changed")
                 isChanged = true
             }
 
             if (savedToolsAndPlatform!=binding.edtToolsAndPlatform.text.toString()) {
-                Log.d("SkillSetCheck", "ToolsAndPlatform changed")
                 isChanged = true
             }
             if (savedAreaOfInterest!=binding.edtAreaOfInterest.text.toString()) {
-                Log.d("SkillSetCheck", " Area of Intereset changed")
                 isChanged = true
             }
             if (savedProgrammmingLanguage!=binding.edtProgrammingLanguage.text.toString()) {
-                Log.d("SkillSetCheck", " Programming Language changed")
                 isChanged = true
             }
 
             if (selectedAssessmentList.toSet() != savedAssessmentList.toSet()) {
-                Log.d("SkillSetCheck", "Assessment changed")
                 isChanged = true
             }
 
             if (selectedProjectList.toSet() != savedProjectList.toSet()) {
-                Log.d("SkillSetCheck", "Project changed")
                 isChanged = true
             }
 
             if (selectedSoftSkillsList.toSet() != savedSoftSkillsList.toSet()) {
-                Log.d("SkillSetCheck", "SoftSkills changed")
                 isChanged = true
             }
 
@@ -394,32 +385,26 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
 
     override fun onSoftSkillsChanged(selectedSkills: List<String>) {
         selectedSoftSkillsList = selectedSkills
-        Log.d("savedSoftSkillsList",savedSoftSkillsList.toString())
-        Log.d("UpdatedSoftSkillsList",selectedSoftSkillsList.toString())
+
     }
 
     override fun onInternshipListUpdated(updatedList: List<GetInternshipDetailsData>) {
         selectedInternshipList = updatedList
-        Log.d("savedInternshipList",savedInternshipList.toString())
-        Log.d("UpdatedInternshipList",selectedInternshipList.toString())
+
     }
 
     override fun onCertificateListUpdated(updatedCertificateList: List<GetCertificateDetailsData>) {
         selectedCertificateList = updatedCertificateList
-        Log.d("savedCertificateList",savedCertificateList.toString())
-        Log.d("UpdatedCertificateList",selectedCertificateList.toString())
+
     }
 
     override fun onAssessmentListUpdated(updatedAssessmentList: List<GetAssessmentDetailsData>) {
         selectedAssessmentList = updatedAssessmentList
-        Log.d("savedAssessmentList",savedCertificateList.toString())
-        Log.d("UpdatedAssessmentList",selectedAssessmentList.toString())
+
     }
 
     override fun onProjectListUpdated(updatedProjectList: List<GetProjectDetailsData>) {
         selectedProjectList = updatedProjectList
-        Log.d("savedProjectList",savedProjectList.toString())
-        Log.d("UpdatedProjectList",selectedProjectList.toString())
     }
 
 }

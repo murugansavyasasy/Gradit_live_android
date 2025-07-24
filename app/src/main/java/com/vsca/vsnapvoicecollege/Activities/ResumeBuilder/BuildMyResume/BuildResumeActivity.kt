@@ -13,12 +13,15 @@ import com.google.gson.Gson
 import com.vsca.vsnapvoicecollege.Adapters.AcademicAdapter
 import com.vsca.vsnapvoicecollege.Adapters.CertificateAdapter
 import com.vsca.vsnapvoicecollege.Adapters.InternshipAdapter
+import com.vsca.vsnapvoicecollege.Adapters.ProjectAdapter
 import com.vsca.vsnapvoicecollege.Adapters.SkillSetAdapter
 import com.vsca.vsnapvoicecollege.Model.CertificateFormattedData
+import com.vsca.vsnapvoicecollege.Model.CheckProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.EducationFormattedData
 import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.InternshipFormattedData
 import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -27,49 +30,55 @@ import com.vsca.vsnapvoicecollege.databinding.ActivityBuildmyresumeBinding
 
 class BuildResumeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBuildmyresumeBinding
-    private var selectedAcademicList: List<GetEducationalDetailsData> = emptyList()
-    private lateinit var saveCertificateList: List<GetCertificateDetailsData>
+    private var selectedAcademicList: List<EducationFormattedData> = emptyList()
     private var languageList: List<String> = emptyList()
     private var softSkillList: List<String> = emptyList()
     private var programmingLanguageList: List<String> = emptyList()
-    private lateinit var savedAcademicEducationDetails: List<GetEducationalDetailsData>
-    private lateinit var internshipList: List<GetInternshipDetailsData>
-    var selectedinternship: List<GetInternshipDetailsData> = emptyList()
+    private lateinit var savedAcademicEducationDetails: List<EducationFormattedData>
+    private lateinit var savedProjectDetails: List<CheckProjectDetailsData>
+    private var selectedProject: List<CheckProjectDetailsData> = emptyList()
+    private lateinit var internshipList: List<InternshipFormattedData>
+    var selectedinternship: List<InternshipFormattedData> = emptyList()
     private var toolsPlatformList: List<String> = emptyList()
     private var areaInterestList: List<String> = emptyList()
-    private var projectList: List<String> = emptyList()
     private lateinit var academicAdapter: AcademicAdapter
     private lateinit var intershipAdapter: InternshipAdapter
+    private lateinit var projectAdapter: ProjectAdapter
     private lateinit var languageAdapter: SkillSetAdapter
     private lateinit var softSkillAdapter: SkillSetAdapter
-    private var savedCertificates: List<GetCertificateDetailsData> = emptyList()
+    private var savedCertificates: List<CertificateFormattedData> = emptyList()
     private lateinit var certificateAdapter: CertificateAdapter
-    var selectedCertificates: List<GetCertificateDetailsData> = emptyList()
+    var selectedCertificates: List<CertificateFormattedData> = emptyList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBuildmyresumeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        savedCertificates = CommonUtil.isSkillSetDataSending?.certifications!!
-        internshipList = CommonUtil.isSkillSetDataSending?.internship!!
         languageAdapter = SkillSetAdapter(languageList) {}
         binding.rvLanguages.layoutManager = LinearLayoutManager(this)
         binding.rvLanguages.adapter = languageAdapter
         softSkillAdapter = SkillSetAdapter(softSkillList) { }
         binding.rvSoftSkills.layoutManager = LinearLayoutManager(this)
         binding.rvSoftSkills.adapter = softSkillAdapter
-        val academicData = CommonUtil.saveAcademicDetails
-        savedAcademicEducationDetails = academicData?.educationalDetails?.onEach {
-            it.isChecked = true
-        } ?: emptyList()
-        savedCertificates = CommonUtil.isSkillSetDataSending?.certifications?.onEach {
-            it.isChecked = true
-        } ?: emptyList()
 
-        internshipList = CommonUtil.isSkillSetDataSending?.internship?.onEach {
-            it.isChecked = true
-        } ?: emptyList()
+
+        savedAcademicEducationDetails = CommonUtil.saveAcademicDetails?.educationalDetails
+            ?.map { EducationFormattedData(classDegree = it.classDegree,percentage=it.percentage,institution=it.institution,isChecked = true) }
+            ?: emptyList()
+
+        savedCertificates = CommonUtil.isSkillSetDataSending?.certifications
+            ?.map { CertificateFormattedData(courseName = it.courseName,institute=it.institute,duration=it.duration,isChecked = true) }
+            ?: emptyList()
+
+
+        internshipList = CommonUtil.isSkillSetDataSending?.internship
+            ?.map {InternshipFormattedData ( companyName= it.companyName,from=it.from,designation=it.designation,to=it.to,isChecked = true) }
+            ?: emptyList()
+
+        savedProjectDetails = CommonUtil.isSkillSetDataSending?.projects
+            ?.map { CheckProjectDetailsData(title = it.title, isChecked = true) }
+            ?: emptyList()
 
         academicAdapter = AcademicAdapter(savedAcademicEducationDetails) { selectedItems ->
             selectedAcademicList = selectedItems
@@ -80,6 +89,9 @@ class BuildResumeActivity : AppCompatActivity() {
                 academicAdapter.setAllChecked(isChecked)
             }
         }
+        selectedAcademicList=savedAcademicEducationDetails//At initial setting default all as Checked so assigning the original list
+
+
 
         certificateAdapter = CertificateAdapter(savedCertificates) { isSelectedCertifcate ->
             selectedCertificates = isSelectedCertifcate
@@ -90,6 +102,8 @@ class BuildResumeActivity : AppCompatActivity() {
                 certificateAdapter.setAllChecked(isChecked)
             }
         }
+        selectedCertificates=savedCertificates//At initial setting default all as Checked so assigning the original list
+
 
         intershipAdapter = InternshipAdapter(internshipList) { isSelectedIntership ->
             selectedinternship = isSelectedIntership
@@ -100,6 +114,7 @@ class BuildResumeActivity : AppCompatActivity() {
                 intershipAdapter.setAllChecked(isChecked)
             }
         }
+        selectedinternship=internshipList//At initial setting default all as Checked so assigning the original list
 
         binding.rvInternships.layoutManager = LinearLayoutManager(this)
         binding.rvInternships.adapter = intershipAdapter
@@ -108,6 +123,29 @@ class BuildResumeActivity : AppCompatActivity() {
             intershipAdapter.setAllChecked(isChecked)
         }
 
+
+        projectAdapter = ProjectAdapter(savedProjectDetails) { isSelectedProject ->
+            selectedProject = isSelectedProject
+
+            val allChecked = isSelectedProject.size == savedProjectDetails.size
+            binding.cbHeaderProject.setOnCheckedChangeListener(null)
+            binding.cbHeaderProject.isChecked = allChecked
+            binding.cbHeaderProject.setOnCheckedChangeListener { _, isChecked ->
+                projectAdapter.setAllChecked(isChecked)
+            }
+        }
+
+// At initial setting default all as Checked so assigning the original list
+        selectedProject = savedProjectDetails
+
+        binding.rvProjects.layoutManager = LinearLayoutManager(this)
+        binding.rvProjects.adapter = projectAdapter
+
+        binding.cbHeaderProject.setOnCheckedChangeListener { _, isChecked ->
+            projectAdapter.setAllChecked(isChecked)
+        }
+
+
         binding.cbHeaderAcademicRecords.setOnCheckedChangeListener { _, isChecked ->
             academicAdapter.setAllChecked(isChecked)
         }
@@ -115,7 +153,6 @@ class BuildResumeActivity : AppCompatActivity() {
         binding.rvAcademic.layoutManager = GridLayoutManager(this, 2)
         binding.rvAcademic.adapter = academicAdapter
 
-        savedAcademicEducationDetails = academicData?.educationalDetails ?: emptyList()
 
         binding.rvCertifications.layoutManager = LinearLayoutManager(this)
         binding.rvCertifications.adapter = certificateAdapter
@@ -124,11 +161,9 @@ class BuildResumeActivity : AppCompatActivity() {
             certificateAdapter.setAllChecked(isChecked)
         }
 
-        saveCertificateList = CommonUtil.isSkillSetDataSending?.certifications ?: emptyList()
 
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
             isSaveFullResumeData()
-
             val intent = Intent(this, BuildMyResume::class.java)
             startActivity(intent)
         }
@@ -156,9 +191,6 @@ class BuildResumeActivity : AppCompatActivity() {
                 ?.filter { it.isNotBlank() } ?: emptyList()
 
 
-        projectList = CommonUtil.isSkillSetDataSending?.projects?.mapNotNull { it.title?.trim() }
-            ?: emptyList()
-
         setupSectionVisibility()
 
         setupRecycler(
@@ -172,9 +204,7 @@ class BuildResumeActivity : AppCompatActivity() {
             areaInterestList = it
 
         }
-        setupRecycler(binding.rvProjects, projectList, binding.cbHeaderProject, binding.layoutProject) {
-            projectList = it
-        }
+
     }
 
     private fun setupSectionVisibility() {
@@ -200,7 +230,7 @@ class BuildResumeActivity : AppCompatActivity() {
             binding.layoutInterestArea.visibility = View.VISIBLE
         }
         // Projects
-        if (projectList.isNullOrEmpty()) {
+        if (savedProjectDetails.isNullOrEmpty()) {
             binding.layoutProject.visibility = View.GONE
         } else {
             binding.layoutProject.visibility = View.VISIBLE
@@ -263,31 +293,38 @@ class BuildResumeActivity : AppCompatActivity() {
     private fun isSaveFullResumeData() {
 
     val selectedAcademicList = selectedAcademicList.filter { it.isChecked }?.map {
-                    EducationFormattedData(
-                        percentage = it.percentage,
-                        classDegree = it.classDegree,
-                        institution = it.institution
+                    GetEducationalDetailsData(
+                        percentage = it.percentage!!,
+                        classDegree = it.classDegree!!,
+                        institution = it.institution!!
                     )
                 } ?: emptyList()
 
         val selectedCertificates =
-            saveCertificateList?.filter { it.isChecked }?.map {
-                    CertificateFormattedData(
-                        certificateName = it.courseName,
+            selectedCertificates?.filter { it.isChecked }?.map {
+                    GetCertificateDetailsData(
+                        courseName = it.courseName,
                         institute = it.institute,
-                        duration = it.duration
+                        duration = it.duration!!
                     )
                 } ?: emptyList()
 
         val selectedInternshipList =
-            internshipList.filter { it.isChecked }.map {
-                InternshipFormattedData(
+            selectedinternship.filter { it.isChecked }.map {
+                GetInternshipDetailsData(
                     companyName = it.companyName,
                     from = it.from,
                     designation = it.designation,
                     to = it.to
                 )
-            }
+            }?: emptyList()
+
+        val selectedProjectList =
+            selectedProject.filter { it.isChecked }.map {
+                GetProjectDetailsData(
+                    title = it.title
+                )
+            }?: emptyList()
 
         val resumeContext = ResumeContextData(
             idMember = CommonUtil.saveBasicDetails?.memberId ?: "",
@@ -309,7 +346,7 @@ class BuildResumeActivity : AppCompatActivity() {
             softSkill = softSkillList,
             certifications = selectedCertificates,
             languages = languageList,
-            projects = projectList
+            projects = selectedProjectList
         )
         fullResumeData = resumeContext
         val gson = Gson()

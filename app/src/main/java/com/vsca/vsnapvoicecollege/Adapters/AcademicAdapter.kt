@@ -1,3 +1,5 @@
+
+
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.view.LayoutInflater
@@ -6,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.vsca.vsnapvoicecollege.Model.EducationFormattedData
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.R
 
 class AcademicAdapter(
-    private val items: List<GetEducationalDetailsData>,
-    private val onSelectionChanged: (List<GetEducationalDetailsData>) -> Unit
+    private val items: List<EducationFormattedData>,
+    private val onSelectionChanged: (List<EducationFormattedData>) -> Unit
 ) : RecyclerView.Adapter<AcademicAdapter.AcademicViewHolder>() {
 
     inner class AcademicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

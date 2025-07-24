@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
+import com.vsca.vsnapvoicecollege.Model.InternshipFormattedData
 import com.vsca.vsnapvoicecollege.R
 
 class InternshipAdapter(
-    private val items: List<GetInternshipDetailsData>,
-    private val onSelectionChanged: (List<GetInternshipDetailsData>) -> Unit
+    private val items: List<InternshipFormattedData>,
+    private val onSelectionChanged: (List<InternshipFormattedData>) -> Unit
 ) : RecyclerView.Adapter<InternshipAdapter.InternshipViewHolder>() {
 
     inner class InternshipViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

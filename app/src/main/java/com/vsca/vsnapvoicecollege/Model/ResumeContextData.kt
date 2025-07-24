@@ -7,13 +7,13 @@ data class ResumeContextData(
     val phone: String,
     val address: String?=null,
     val skills: List<String> = emptyList(),
-    val education: List<EducationFormattedData> = emptyList(),
-    val experience: List<InternshipFormattedData>,
+    val education: List<GetEducationalDetailsData> = emptyList(),
+    val experience: List<GetInternshipDetailsData>,
     val areainterest: List<String> = emptyList(),
     val softSkill: List<String> = emptyList(),
-    val certifications: List<CertificateFormattedData> = emptyList(),
+    val certifications: List<GetCertificateDetailsData> = emptyList(),
     val languages: List<String> = emptyList(),
-    val projects: List<String> = emptyList()
+    val projects: List<GetProjectDetailsData>
 )
 
 

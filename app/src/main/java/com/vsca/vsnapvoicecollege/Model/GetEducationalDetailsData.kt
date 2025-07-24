@@ -4,5 +4,4 @@ class GetEducationalDetailsData (
     val percentage: String,
     val classDegree: String,
     val institution: String,
-    var isChecked: Boolean = false
 )
