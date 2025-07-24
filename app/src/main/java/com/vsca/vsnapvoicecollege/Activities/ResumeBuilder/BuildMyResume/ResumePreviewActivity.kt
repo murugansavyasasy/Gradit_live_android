@@ -151,34 +151,6 @@ class ResumePreviewActivity : AppCompatActivity() {
         }
 
 
-//        binding.zoomIn.setOnClickListener {
-//            if(isScreenName == "UploadResume") {
-////                binding.zoomLayout.zoomTo(binding.zoomLayout.zoom + 0.25f, true)
-////                currentZoom += zoomStep
-////                binding.globalZoomLayout.zoomTo(currentZoom, true)
-//            }
-//                if (isScreenName == "BuildMyResume"||isScreenName == "MyResumes"){
-//                binding.webviewDocument.zoomIn()
-//            }
-//        }
-
-//        binding.zoomOut.setOnClickListener {
-//
-//            if(isScreenName == "UploadResume") {
-//
-//                //                val currentZoom = binding.zoomLayout.zoom
-////                if (currentZoom > 1f) {
-////                    binding.zoomLayout.zoomTo(currentZoom - 0.25f, true)
-////                }
-//
-//            }
-//
-//            if (isScreenName == "BuildMyResume"||isScreenName == "MyResumes"){
-//            binding.webviewDocument.zoomOut()
-//            }
-//        }
-//
-
 
         binding.lbldelete.setOnClickListener {
             showConfirmationDialog()
