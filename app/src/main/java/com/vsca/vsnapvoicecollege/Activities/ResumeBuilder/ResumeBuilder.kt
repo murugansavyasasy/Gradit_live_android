@@ -58,7 +58,6 @@ import java.io.IOException
 
 
 class ResumeBuilder : AppCompatActivity() {
-
     var isMemeberId = 0
     private val isEducationItem = mutableListOf<GetEducationalDetailsData>()
     var isSkillSetData: GetResumeBuilderSkillSetDetailsData? = null
@@ -68,14 +67,9 @@ class ResumeBuilder : AppCompatActivity() {
     val SELECT_PDF = 8778
     private var savedResumeList: List<GetResumeTitleData> = emptyList()
 
-
     var uri: Uri? = null
     var outputDir: File? = null
     var PDFTempFileWrite: File? = null
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

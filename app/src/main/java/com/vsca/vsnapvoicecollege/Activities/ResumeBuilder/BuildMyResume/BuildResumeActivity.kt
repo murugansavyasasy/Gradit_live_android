@@ -53,7 +53,6 @@ class BuildResumeActivity : AppCompatActivity() {
             ?.map { it.copy(isChecked = true) }
             ?: emptyList()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBuildmyresumeBinding.inflate(layoutInflater)

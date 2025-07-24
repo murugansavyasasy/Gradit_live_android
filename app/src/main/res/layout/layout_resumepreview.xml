@@ -1,6 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:zoom="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -93,7 +91,6 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/fifty_five"
             android:fillViewport="true">
 
 
@@ -105,35 +102,13 @@
                 android:padding="8dp" />
         </ScrollView>
 
-
-        <!--        <com.otaliastudios.zoom.ZoomLayout-->
-        <!--            android:layout_margin="@dimen/fifty_five"-->
-        <!--            android:id="@+id/zoomLayout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            app:alignment="center"-->
-        <!--            app:hasClickableChildren="true"-->
-        <!--            app:maxZoom="10"-->
-        <!--            app:minZoom="1"-->
-        <!--            app:overScrollHorizontal="false"-->
-        <!--            app:overScrollVertical="false">-->
-
-        <!--            <androidx.recyclerview.widget.RecyclerView-->
-        <!--                android:id="@+id/recyclerPdfPages"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:overScrollMode="always"-->
-        <!--                android:scrollbars="vertical"-->
-        <!--                android:nestedScrollingEnabled="true" />-->
-        <!--        </com.otaliastudios.zoom.ZoomLayout>-->
-
-
         <LinearLayout
             android:id="@+id/lnrZoomOptions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="8dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView
