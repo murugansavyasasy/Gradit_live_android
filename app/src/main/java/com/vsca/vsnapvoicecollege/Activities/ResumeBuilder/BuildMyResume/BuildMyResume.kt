@@ -165,14 +165,14 @@ class BuildMyResume : AppCompatActivity() {
         builder.setTitle("Confirmation")
             .setMessage(message)
             .setPositiveButton("Yes") { dialog, _ ->
-//                isGenerateResume()
-//                manually pdf
-                val intent = Intent(this, ResumePreviewActivity::class.java)
-                intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752813975101.pdf")
-                intent.putExtra("MemberID",31146)
-                intent.putExtra("ScreenName","BuildMyResume")
-                startActivity(intent)
-//                manual pdf
+                isGenerateResume()
+////                manually pdf
+//                val intent = Intent(this, ResumePreviewActivity::class.java)
+//                intent.putExtra("TemplateDocumentURL","https://gradit-communication.s3.ap-south-1.amazonaws.com/2025-02-12/7033/Resume_1752813975101.pdf")
+//                intent.putExtra("MemberID",31146)
+//                intent.putExtra("ScreenName","BuildMyResume")
+//                startActivity(intent)
+////                manual pdf
 
                 dialog.dismiss()
             }
@@ -190,6 +190,7 @@ class BuildMyResume : AppCompatActivity() {
 
         val gson = Gson()
         val parentJson = JsonObject()
+
         fullData = CommonUtil.fullResumeData
         isMemeberID=fullData?.idMember?.toIntOrNull()?:-1
 
@@ -259,7 +260,7 @@ class BuildMyResume : AppCompatActivity() {
             parentJson.addProperty("bucketPath", CommonUtil.isRBBucketPath)
             parentJson.addProperty("idMember", isMemeberID)
 
-            Log.d("GeneratedJSON", parentJson.toString())
+            Log.d("GeneratedJSON++++", parentJson.toString())
             appViewModel?.SendGenerateResume(parentJson, this@BuildMyResume)
 
         } else {

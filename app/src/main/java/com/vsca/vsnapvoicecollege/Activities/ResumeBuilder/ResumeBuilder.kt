@@ -329,9 +329,11 @@ class ResumeBuilder : AppCompatActivity() {
             assessmentDetails = isSkillSetData?.assessmentDetails,
             projects = isSkillSetData?.projects,
         )
-        Log.d("isSaveSkillSetData", saveSkillSetData.toString())
+        Log.d("binding.lblLanguageKnown.text",binding.lblLanguageKnown.text.toString())
+        Log.d("binding.lblLanguageKnown.text++++",saveSkillSetData.languages.toString())
         //We are Saving all the data in Constant as List Here
         CommonUtil.isSkillSetDataSending = saveSkillSetData
+        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
     }
 
     private fun isLoadAcademicDetails(AcademicData: GetResumeBuilderAcademicDetailsData) {

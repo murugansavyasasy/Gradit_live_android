@@ -246,7 +246,6 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
             }
         }
 
-
         appViewModel?.ResumeBuilderSoftSkillsDetails!!.observe(this) { response ->
             if (response != null) {
                 if (response.status) {

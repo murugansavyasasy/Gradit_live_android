@@ -85,6 +85,7 @@ object CommonUtil {
     var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null
     var saveBasicDetails: GetResumeBuilderProfileDetailsData? =null
     var saveAcademicDetails : GetResumeBuilderAcademicDetailsData? =null
+
     var fullResumeData: ResumeContextData? = null
     var isRBBucketName = "gradit-communication"
     var isRBBucketPath = "2025-02-12/7033"

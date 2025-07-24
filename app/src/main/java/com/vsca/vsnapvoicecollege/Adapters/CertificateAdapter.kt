@@ -1,63 +1,103 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
-import com.vsca.vsnapvoicecollege.databinding.ItemCertificateBinding
+import com.vsca.vsnapvoicecollege.R
 
 class CertificateAdapter(
-    private val list: List<GetCertificateDetailsData>,
-    private val onCheckedChange: (GetCertificateDetailsData, Boolean) -> Unit,
-    private val onHeaderCheckSync: (Boolean) -> Unit
+    private val items: List<GetCertificateDetailsData>,
+    private val onSelectionChanged: (List<GetCertificateDetailsData>) -> Unit
 ) : RecyclerView.Adapter<CertificateAdapter.CertificateViewHolder>() {
 
-
-    private val checkedItems = mutableSetOf<GetCertificateDetailsData>().apply {
-        addAll(list)
+    inner class CertificateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val cbInstitute: CheckBox = itemView.findViewById(R.id.cbInstitute)
     }
 
-    inner class CertificateViewHolder(val binding: ItemCertificateBinding) :
-        RecyclerView.ViewHolder(binding.root)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CertificateViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemCertificateBinding.inflate(inflater, parent, false)
-        return CertificateViewHolder(binding)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_certificate, parent, false)
+        return CertificateViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CertificateViewHolder, position: Int) {
-        val item = list[position]
-        holder.binding.tvInstitute.text = item.institute
+        val item = items[position]
 
-        holder.binding.cbInstitute.setOnCheckedChangeListener(null)
-        holder.binding.cbInstitute.isChecked = checkedItems.contains(item)
+        holder.cbInstitute.setOnCheckedChangeListener(null)
+        holder.cbInstitute.text = item.institute
+        holder.cbInstitute.isChecked = item.isChecked
 
-        holder.binding.cbInstitute.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                checkedItems.add(item)
-            } else {
-                checkedItems.remove(item)
-            }
-
-            onCheckedChange(item, isChecked)
-            onHeaderCheckSync(checkedItems.size == list.size)
+        holder.cbInstitute.setOnCheckedChangeListener { _, isChecked ->
+            item.isChecked = isChecked
+            onSelectionChanged(items.filter { it.isChecked })
         }
-
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = items.size
 
-    fun setAllChecked(checked: Boolean) {
-        checkedItems.clear()
-        if (checked) {
-            checkedItems.addAll(list)
-        }
+    fun setAllChecked(isChecked: Boolean) {
+        items.forEach { it.isChecked = isChecked }
         notifyDataSetChanged()
-        onHeaderCheckSync(checkedItems.size == list.size)
+        onSelectionChanged(items.filter { it.isChecked })
     }
-
-
-
-    fun getCheckedItems(): List<GetCertificateDetailsData> = checkedItems.toList()
 }
+
+
+
+//package com.vsca.vsnapvoicecollege.Adapters
+//
+//import android.view.LayoutInflater
+//import android.view.View
+//import android.view.ViewGroup
+//import android.widget.CheckBox
+//import android.widget.TextView
+//import androidx.recyclerview.widget.RecyclerView
+//import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
+//import com.vsca.vsnapvoicecollege.R
+//
+//class CertificateAdapter(
+//    private val items: List<GetCertificateDetailsData>,
+//    private val onSelectionChanged: (List<GetCertificateDetailsData>) -> Unit
+//) : RecyclerView.Adapter<CertificateAdapter.CertificateViewHolder>() {
+//
+//    inner class CertificateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//        val cbInstitute: CheckBox = itemView.findViewById(R.id.cbInstitute)
+//        val tvInstitute: TextView = itemView.findViewById(R.id.tvInstitute)
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CertificateViewHolder {
+//        val view = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.item_certificate, parent, false)
+//        return CertificateViewHolder(view)
+//    }
+//
+//    override fun onBindViewHolder(holder: CertificateViewHolder, position: Int) {
+//        val item = items[position]
+//
+//        holder.tvInstitute.text = item.institute
+//
+//        holder.cbInstitute.setOnCheckedChangeListener(null)
+//        holder.cbInstitute.isChecked = item.isChecked
+//
+//        holder.cbInstitute.setOnCheckedChangeListener { _, isChecked ->
+//            item.isChecked = isChecked
+//            onSelectionChanged(items.filter { it.isChecked })
+//        }
+//    }
+//
+//    override fun getItemCount(): Int = items.size
+//
+//    fun setAllChecked(isChecked: Boolean) {
+//        items.forEach { it.isChecked = isChecked }
+//        notifyDataSetChanged()
+//        onSelectionChanged(items.filter { it.isChecked })
+//    }
+//
+//
+//
+//
+//    fun getCheckedItems(): List<GetCertificateDetailsData> = items.filter { it.isChecked }
+//}
