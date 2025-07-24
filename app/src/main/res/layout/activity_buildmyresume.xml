@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
         android:id="@+id/lblBuildMyResumeHeader"
         android:layout_width="match_parent"
@@ -59,279 +58,293 @@
                 android:textStyle="bold" />
 
             <!-- Academic Section -->
-            <CheckBox
-                android:id="@+id/cbHeaderAcademicRecords"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_selector"
-                android:checked="true"
-                android:fontFamily="@font/poppins_semibold"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="@string/academicrecords" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_academic"
+            <LinearLayout
+                android:id="@+id/layoutAcademicRecords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:nestedScrollingEnabled="false" />
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/academicView"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/ten"
-                android:background="#D1D1D6" />
+                <CheckBox
+                    android:id="@+id/cbHeaderAcademicRecords"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="16dp"
+                    android:button="@drawable/ch_square_selector"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/academicrecords" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_academic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:nestedScrollingEnabled="false" />
+
+                <View
+                    android:id="@+id/academicView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="#D1D1D6" />
+            </LinearLayout>
+
+            <!-- Skills Section Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/eight"
-                android:text="@string/skill_set"
-                android:textSize="@dimen/fourteen_sp"
                 android:layout_marginTop="@dimen/eight"
-                android:fontFamily="@font/poppins_semibold"/>
-            <!-- Skill Sets -->
-            <CheckBox
-                android:id="@+id/cbHeaderLanguage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
                 android:fontFamily="@font/poppins_semibold"
-                android:button="@drawable/ch_square_selector"
-                android:checked="true"
-                android:textSize="@dimen/fourteen_sp"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="@string/languages_known" />
+                android:text="@string/skill_set"
+                android:textSize="@dimen/fourteen_sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_languages"
+            <!-- Languages Known -->
+            <LinearLayout
+                android:id="@+id/layoutLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:nestedScrollingEnabled="false" />
+                android:orientation="vertical">
 
+                <CheckBox
+                    android:id="@+id/cbHeaderLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:button="@drawable/ch_square_selector"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/languages_known"
+                    android:textSize="@dimen/fourteen_sp" />
 
-            <View
-                android:id="@+id/languageView"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/ten"
-                android:background="#D1D1D6" />
-
-            <CheckBox
-                android:id="@+id/cbHeaderSoftSkills"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_selector"
-                android:checked="true"
-                android:textSize="@dimen/fourteen_sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="@string/soft_skills" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_soft_skills"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:nestedScrollingEnabled="false" />
-
-
-            <View
-                android:id="@+id/softSkillView"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/ten"
-                android:background="#D1D1D6" />
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_languages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginStart="@dimen/eight"
+                    android:nestedScrollingEnabled="false" />
 
-                    <CheckBox
-                        android:id="@+id/cbHeaderInterestArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/eight"
-                        android:layout_marginTop="16dp"
-                        android:button="@drawable/ch_square_selector"
-                        android:checked="true"
-                        android:textSize="@dimen/fourteen_sp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:minHeight="48dp"
-                        android:padding="8dp"
-                        android:text="@string/areas_of_interest" />
+                <View
+                    android:id="@+id/languageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="#D1D1D6" />
+            </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvAreasInterest"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/eight"
-                        android:nestedScrollingEnabled="false" />
-
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-
-            <View
-                android:id="@+id/areasinterestView"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/ten"
-                android:background="#D1D1D6" />
-
-            <!-- Project Section -->
-            <CheckBox
-                android:id="@+id/cbHeaderProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_selector"
-                android:checked="true"
-                android:textSize="@dimen/fourteen_sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="@string/projects" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_projects"
+            <!-- Soft Skills -->
+            <LinearLayout
+                android:id="@+id/layoutSoftSkills"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:nestedScrollingEnabled="false" />
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/projectsView"
+                <CheckBox
+                    android:id="@+id/cbHeaderSoftSkills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="16dp"
+                    android:button="@drawable/ch_square_selector"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/soft_skills"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_soft_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:nestedScrollingEnabled="false" />
+
+                <View
+                    android:id="@+id/softSkillView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="#D1D1D6" />
+            </LinearLayout>
+
+            <!-- Interest Area -->
+            <LinearLayout
+                android:id="@+id/layoutInterestArea"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/ten"
-                android:background="#D1D1D6" />
-
-
-            <!-- Internship Section -->
-            <CheckBox
-                android:id="@+id/cbHeaderInternship"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_selector"
-                android:checked="true"
-                android:textSize="@dimen/fourteen_sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="@string/internship_experiences" />
+                android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_internships"
+                <CheckBox
+                    android:id="@+id/cbHeaderInterestArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="16dp"
+                    android:button="@drawable/ch_square_selector"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/areas_of_interest"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAreasInterest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:nestedScrollingEnabled="false" />
+
+                <View
+                    android:id="@+id/areasinterestView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="#D1D1D6" />
+            </LinearLayout>
+
+            <!-- Projects -->
+            <LinearLayout
+                android:id="@+id/layoutProject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:nestedScrollingEnabled="false" />
+                android:orientation="vertical">
 
+                <CheckBox
+                    android:id="@+id/cbHeaderProject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="16dp"
+                    android:button="@drawable/ch_square_selector"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/projects"
+                    android:textSize="@dimen/fourteen_sp" />
 
-            <View
-                android:id="@+id/internshipsView"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_projects"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:nestedScrollingEnabled="false" />
+
+                <View
+                    android:id="@+id/projectsView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="#D1D1D6" />
+            </LinearLayout>
+
+            <!-- Internship -->
+            <LinearLayout
+                android:id="@+id/layoutInternship"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/ten"
-                android:background="#D1D1D6" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/cbHeaderInternship"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="16dp"
+                    android:button="@drawable/ch_square_selector"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/internship_experiences"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_internships"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:nestedScrollingEnabled="false" />
+
+                <View
+                    android:id="@+id/internshipsView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="#D1D1D6" />
+            </LinearLayout>
 
             <!-- Programming Languages -->
-            <CheckBox
-                android:id="@+id/cbHeaderProgramming"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_selector"
-                android:checked="true"
-                android:textSize="@dimen/fourteen_sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="@string/programming_languages" />
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutProgramming"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_programming_languages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:nestedScrollingEnabled="false" />
+<!--                <CheckBox-->
+<!--                    android:id="@+id/cbHeaderProgramming"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="@dimen/eight"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:button="@drawable/ch_square_selector"-->
+<!--                    android:checked="true"-->
+<!--                    android:fontFamily="@font/poppins_semibold"-->
+<!--                    android:minHeight="48dp"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:text="@string/programming_languages"-->
+<!--                    android:textSize="@dimen/fourteen_sp" />-->
 
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/rv_programming_languages"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="@dimen/eight"-->
+<!--                    android:nestedScrollingEnabled="false" />-->
 
-            <View
-                android:id="@+id/programmingView"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/ten"
-                android:background="#D1D1D6" />
-
-            <!--            &lt;!&ndash; Tools & Platforms &ndash;&gt;-->
-            <!--            <CheckBox-->
-            <!--                android:id="@+id/cbHeaderToolsPlatform"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="16dp"-->
-            <!--                android:checked="true"-->
-            <!--                android:minHeight="48dp"-->
-            <!--                android:padding="8dp"-->
-            <!--                android:button="@drawable/ch_square_selector"-->
-            <!--                android:text="@string/tools_and_platforms"-->
-            <!--                android:textStyle="bold" />-->
-
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rv_tools_platforms"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:nestedScrollingEnabled="false"/>-->
-
-            <!--            <View-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="1dp"-->
-            <!--                android:layout_marginTop="@dimen/ten"-->
-            <!--                android:background="#D1D1D6" />-->
-
+<!--                <View-->
+<!--                    android:id="@+id/programmingView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_marginTop="@dimen/ten"-->
+<!--                    android:background="#D1D1D6" />-->
+<!--            </LinearLayout>-->
 
             <!-- Certifications -->
-            <CheckBox
-                android:id="@+id/cbHeaderCertificates"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:layout_marginTop="16dp"
-                android:button="@drawable/ch_square_selector"
-                android:checked="true"
-                android:textSize="@dimen/fourteen_sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:text="@string/certifications" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCertifications"
+            <LinearLayout
+                android:id="@+id/layoutCertificates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:nestedScrollingEnabled="false" />
+                android:orientation="vertical">
 
+                <CheckBox
+                    android:id="@+id/cbHeaderCertificates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="16dp"
+                    android:button="@drawable/ch_square_selector"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:minHeight="48dp"
+                    android:padding="8dp"
+                    android:text="@string/certifications"
+                    android:textSize="@dimen/fourteen_sp" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCertifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
