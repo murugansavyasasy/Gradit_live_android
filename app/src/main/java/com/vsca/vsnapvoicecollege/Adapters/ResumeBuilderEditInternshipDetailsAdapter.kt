@@ -1,5 +1,4 @@
 package com.vsca.vsnapvoicecollege.Adapters
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ class ResumeBuilderEditInternshipDetailsAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.resume_builder_editskillset_internship_item, parent, false)
         return InternshipViewHolder(view)
+
     }
 
     override fun onBindViewHolder(holder: InternshipViewHolder, position: Int) {
@@ -91,6 +91,7 @@ class ResumeBuilderEditInternshipDetailsAdapter(
         }
 
     }
+
 
     override fun getItemCount(): Int = internships.size
 

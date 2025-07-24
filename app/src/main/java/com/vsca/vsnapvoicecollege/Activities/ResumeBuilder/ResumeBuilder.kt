@@ -73,10 +73,6 @@ class ResumeBuilder : AppCompatActivity() {
     var outputDir: File? = null
     var PDFTempFileWrite: File? = null
 
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutResumebuilderBinding.inflate(layoutInflater)
@@ -121,12 +117,9 @@ class ResumeBuilder : AppCompatActivity() {
                 if (response.status) {
                     if (response.data.size > 0) {
                         isLoadAcademicDetails(response.data[0])
-//                        binding.lblEditTwo.text = getString(R.string.txt_edit)
-//                        binding.lnrAcademicDetails.visibility = View.VISIBLE
                         Log.d("AcademicRespone", response.data.toString())
                     } else {
-//                        binding.lnrAcademicDetails.visibility = View.GONE
-//                        binding.lblEditTwo.text = getString(R.string.txt_Add)
+
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
@@ -186,19 +179,7 @@ class ResumeBuilder : AppCompatActivity() {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this.startActivity(i)
         }
-//        binding.lblEditTwo.setOnClickListener {
-//            val i = Intent(this, EditAcademicDetails::class.java)
-//            val academicData = appViewModel?.ResumeBuilderAcademicDetails?.value?.data?.firstOrNull()
-//            if (academicData != null) {
-//                i.putExtra("backlogs", academicData.backlogs)
-//                i.putExtra("arrears", academicData.numberOfArrears)
-//
-//                val json = Gson().toJson(academicData.educationalDetails)
-//                i.putExtra("educationalDetails", json)
-//            }
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            startActivityForResult(i, 101)
-//        }
+
 
         binding.lblEditTwo.setOnClickListener {
             val i = Intent(this, EditAcademicDetails::class.java)
@@ -233,32 +214,8 @@ class ResumeBuilder : AppCompatActivity() {
             startActivity(Intent(this, EditBasicDetails::class.java))
         }
 
-
-//        binding.btnEditOne.setOnClickListener {
-//            val i = Intent(this, EditBasicDetails::class.java)
-//            i.putExtra("name", binding.lblName.text.toString())
-//            i.putExtra("phone", binding.lblMobileNo.text.toString())
-//            i.putExtra("email", binding.lblGamilId.text.toString())
-//            Log.d("MemberId1", isMemeberId.toString())
-//            i.putExtra("memberId", isMemeberId)
-//            i.putExtra(
-//                "placementStatus",
-//                binding.lblAvailPlacement.text.toString()
-//            )
-//
-//            i.putExtra(
-//                "image",
-//                appViewModel!!.ResumeBuilderProfileDetails!!.value?.data?.firstOrNull()?.memberImagePath
-//            )
-//           startActivity(i)
-//        }
     }
-//
-//    private fun isSaveAcademicDetails() {
-//        val academicData = GetResumeBuilderAcademicDetails(
-//        )
-//
-//    }
+
 
 
     private fun isSaveAcademicDetails() {
@@ -690,7 +647,6 @@ class ResumeBuilder : AppCompatActivity() {
                 var Count: String? = null
                 if (CommonUtil.SelcetedFileList != null) {
                     Count = CommonUtil.SelcetedFileList.size.toString()
-                    Toast.makeText(this, Count, Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, Count, Toast.LENGTH_SHORT).show()
                 }
@@ -749,7 +705,7 @@ class ResumeBuilder : AppCompatActivity() {
                             intent.putExtra("ScreenName","UploadResume")
                             intent.putExtra("MemberID",isMemeberId)
                             startActivity(intent)
-                            finish()
+//                            finish()
 
                         } else {
                             Toast.makeText(this, "Invalid file path", Toast.LENGTH_SHORT).show()

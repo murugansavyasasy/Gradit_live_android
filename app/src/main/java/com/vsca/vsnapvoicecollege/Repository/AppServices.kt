@@ -5755,47 +5755,95 @@ class AppServices {
 
 
     //Send SaveTitle
-    fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject,activity: Activity) {
-//        val progressDialog = CustomLoading.createProgressDialog(activity)
 
-  //      progressDialog!!.show()
-        RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
-            ?.enqueue(object : Callback<ResumeBuilderSaveTitleResponse?> {
-                override fun onResponse(
-                    call: Call<ResumeBuilderSaveTitleResponse?>, response: Response<ResumeBuilderSaveTitleResponse?>
-                ) {
-                //    progressDialog!!.dismiss()
+    fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject, activity: Activity) {
+        // Ensure everything UI-related runs on main thread
+        activity.runOnUiThread {
+            val progressDialog = CustomLoading.createProgressDialog(activity)
+            progressDialog!!.show()
 
-                    if (response.code() == 200 || response.code() == 201) {
-                        if (response.body() != null) {
+            RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
+                ?.enqueue(object : Callback<ResumeBuilderSaveTitleResponse?> {
+                    override fun onResponse(
+                        call: Call<ResumeBuilderSaveTitleResponse?>,
+                        response: Response<ResumeBuilderSaveTitleResponse?>
+                    ) {
+                        progressDialog.dismiss()
 
-                         //   progressDialog!!.dismiss()
-                            val Status = response.body()!!.status
-                            if (Status == true) {
-
-                                isSendResumeBuilderSaveTitle.postValue(response.body())
-
+                        if (response.code() == 200 || response.code() == 201) {
+                            if (response.body() != null) {
+                                val Status = response.body()!!.status
+                                if (Status == true) {
+                                    isSendResumeBuilderSaveTitle.postValue(response.body())
+                                } else {
+                                    isSendResumeBuilderSaveTitle.postValue(null)
+                                }
+                            } else {
+                                isSendResumeBuilderSaveTitle.postValue(null)
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                       //     progressDialog!!.dismiss()
-                            isSendResumeBuilderSaveTitle.postValue(null)
                         } else {
                             isSendResumeBuilderSaveTitle.postValue(null)
                         }
                     }
-                }
-                override fun onFailure(call: Call<ResumeBuilderSaveTitleResponse?>, t: Throwable) {
-                 //   progressDialog!!.dismiss()
-                    isSendResumeBuilderSaveTitle.postValue(null)
-                    t.printStackTrace()
-                    CommonUtil.ApiAlertFinish(
-                        activity, activity.getString(R.string.txt_no_record_found)
-                    )
-                }
-            })
+
+                    override fun onFailure(call: Call<ResumeBuilderSaveTitleResponse?>, t: Throwable) {
+                        progressDialog.dismiss()
+                        isSendResumeBuilderSaveTitle.postValue(null)
+                        t.printStackTrace()
+                        CommonUtil.ApiAlertFinish(
+                            activity,
+                            activity.getString(R.string.txt_no_record_found)
+                        )
+                    }
+                })
+        }
     }
-    val ResumeBuilderSaveTitleLiveData: LiveData<ResumeBuilderSaveTitleResponse?>
+        val ResumeBuilderSaveTitleLiveData: LiveData<ResumeBuilderSaveTitleResponse?>
         get() = isSendResumeBuilderSaveTitle
+
+
+    //Old source thread exception occurs
+//    fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject,activity: Activity) {
+//        val progressDialog = CustomLoading.createProgressDialog(activity)
+//
+//        progressDialog!!.show()
+//        RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
+//            ?.enqueue(object : Callback<ResumeBuilderSaveTitleResponse?> {
+//                override fun onResponse(
+//                    call: Call<ResumeBuilderSaveTitleResponse?>, response: Response<ResumeBuilderSaveTitleResponse?>
+//                ) {
+//                    progressDialog!!.dismiss()
+//
+//                    if (response.code() == 200 || response.code() == 201) {
+//                        if (response.body() != null) {
+//
+//                            progressDialog!!.dismiss()
+//                            val Status = response.body()!!.status
+//                            if (Status == true) {
+//
+//                                isSendResumeBuilderSaveTitle.postValue(response.body())
+//
+//                            }
+//                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+//                            progressDialog!!.dismiss()
+//                            isSendResumeBuilderSaveTitle.postValue(null)
+//                        } else {
+//                            isSendResumeBuilderSaveTitle.postValue(null)
+//                        }
+//                    }
+//                }
+//                override fun onFailure(call: Call<ResumeBuilderSaveTitleResponse?>, t: Throwable) {
+//                    progressDialog!!.dismiss()
+//                    isSendResumeBuilderSaveTitle.postValue(null)
+//                    t.printStackTrace()
+//                    CommonUtil.ApiAlertFinish(
+//                        activity, activity.getString(R.string.txt_no_record_found)
+//                    )
+//                }
+//            })
+//    }
+//    val ResumeBuilderSaveTitleLiveData: LiveData<ResumeBuilderSaveTitleResponse?>
+//        get() = isSendResumeBuilderSaveTitle
 
 
 

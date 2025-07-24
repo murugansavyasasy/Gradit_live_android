@@ -50,6 +50,7 @@ import com.vsca.vsnapvoicecollege.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 import javax.xml.transform.ErrorListener
@@ -535,6 +536,49 @@ object CommonUtil {
             dlg.show()
         }
     }
+
+
+
+
+
+    fun parseAnyDateToDisplay(dateStr: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val date = inputFormat.parse(dateStr)
+
+            val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
+    fun convertDdMmYyyyToMillis(dateStr: String): Long? {
+        return try {
+            val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            sdf.parse(dateStr)?.time
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun convertMillisToIsoUtc(millis: Long): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        return sdf.format(Date(millis))
+    }
+
+
+    // Parse "dd MMM yyyy" (shown in UI) back to millis for saving
+    fun parseDisplayDateToMillis(displayDate: String): Long? {
+        return try {
+            val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            sdf.parse(displayDate)?.time
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
 
 
