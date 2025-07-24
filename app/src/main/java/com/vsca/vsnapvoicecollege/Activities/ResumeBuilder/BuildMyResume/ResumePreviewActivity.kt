@@ -10,12 +10,18 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.graphics.pdf.PdfRenderer
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -28,6 +34,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -38,6 +45,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.otaliastudios.zoom.ZoomLayout
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.R
@@ -45,6 +53,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.CustomSwitch
 import com.vsca.vsnapvoicecollege.Utils.PdfDownloader
+import com.vsca.vsnapvoicecollege.Utils.ZoomableImageView
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumepreviewBinding
 import kotlinx.coroutines.CoroutineScope
@@ -55,7 +64,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-
+import kotlin.math.max
 
 
 class ResumePreviewActivity : AppCompatActivity() {
@@ -81,6 +90,8 @@ class ResumePreviewActivity : AppCompatActivity() {
     var AWSUploadedFilesList = java.util.ArrayList<String>()
     var Awsuploadedfile = java.util.ArrayList<String>()
 
+    private val zoomableImageViews = mutableListOf<ZoomableImageView>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,8 +115,8 @@ class ResumePreviewActivity : AppCompatActivity() {
 
 
         if (isScreenName == "MyResumes") {
-            binding.zoomLayout.visibility=View.GONE
-            binding.webviewDocument.visibility=View.VISIBLE
+//            binding.zoomLayout.visibility=View.GONE
+//            binding.webviewDocument.visibility=View.VISIBLE
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
             binding.commonBottomResumeBuilder.btnDefault2.text =
@@ -118,8 +129,8 @@ class ResumePreviewActivity : AppCompatActivity() {
         }
 
         if (isScreenName == "BuildMyResume") {
-            binding.zoomLayout.visibility=View.GONE
-            binding.webviewDocument.visibility=View.VISIBLE
+//            binding.zoomLayout.visibility=View.GONE
+//            binding.webviewDocument.visibility=View.VISIBLE
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
             binding.commonBottomResumeBuilder.btnDefault2.text = "Save"
@@ -132,11 +143,15 @@ class ResumePreviewActivity : AppCompatActivity() {
         }
 
         if (isScreenName == "UploadResume") {
-            binding.webviewDocument.visibility=View.GONE
-            binding.zoomLayout.visibility=View.VISIBLE
+//            binding.webviewDocument.visibility=View.GONE
+//            binding.zoomLayout.visibility=View.VISIBLE
             isPDF_URL=CommonUtil.SelcetedFileList[0]
-            pdfViewer = PdfRendererViewer(this, binding.recyclerPdfPages)
-            pdfViewer.loadPdfFromFile(isPDF_URL)
+//            pdfViewer = PdfRendererViewer(this, binding.recyclerPdfPages)
+//            pdfViewer.loadPdfFromFile(isPDF_URL)
+            Log.d("isPdfUrl",isPDF_URL)
+            val fileUri = Uri.fromFile(File(isPDF_URL))
+            renderPdf(fileUri)
+
 
             binding.commonBottomResumeBuilder.btnDefault2.text = "Save"
             binding.txtTitle.text = "Preview My Resume"
@@ -145,31 +160,36 @@ class ResumePreviewActivity : AppCompatActivity() {
             binding.lbldelete.visibility = View.GONE
             binding.commonBottomResumeBuilder.btnDefault1.text = "Cancel"
         }
-        binding.recyclerPdfPages.scrollToPosition(0)
+//        binding.recyclerPdfPages.scrollToPosition(0)
 
 
         binding.zoomIn.setOnClickListener {
-            if(isScreenName == "UploadResume"){
-                binding.zoomLayout.zoomTo(binding.zoomLayout.zoom + 0.25f, true)
+            if(isScreenName == "UploadResume") {
+//                binding.zoomLayout.zoomTo(binding.zoomLayout.zoom + 0.25f, true)
+//                currentZoom += zoomStep
+//                binding.globalZoomLayout.zoomTo(currentZoom, true)
             }
-            if (isScreenName == "BuildMyResume"||isScreenName == "MyResumes"){
+                if (isScreenName == "BuildMyResume"||isScreenName == "MyResumes"){
                 binding.webviewDocument.zoomIn()
             }
         }
 
         binding.zoomOut.setOnClickListener {
-            if(isScreenName == "UploadResume"){
-                val currentZoom = binding.zoomLayout.zoom
-                if (currentZoom > 1f) {
-                    binding.zoomLayout.zoomTo(currentZoom - 0.25f, true)
-                }
+
+            if(isScreenName == "UploadResume") {
+
+                //                val currentZoom = binding.zoomLayout.zoom
+//                if (currentZoom > 1f) {
+//                    binding.zoomLayout.zoomTo(currentZoom - 0.25f, true)
+//                }
 
             }
+
             if (isScreenName == "BuildMyResume"||isScreenName == "MyResumes"){
             binding.webviewDocument.zoomOut()
             }
         }
-
+//
 
 
         binding.lbldelete.setOnClickListener {
@@ -535,4 +555,39 @@ class ResumePreviewActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun renderPdf(uri: Uri) {
+        try {
+            val input = contentResolver.openFileDescriptor(uri, "r") ?: return
+            val pdfRenderer = PdfRenderer(input)
+
+            for (i in 0 until pdfRenderer.pageCount) {
+                val page = pdfRenderer.openPage(i)
+                val bitmap = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
+                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+
+                val zoomableImageView = ZoomableImageView(this)
+                zoomableImageView.setImageBitmap(bitmap)
+                zoomableImageView.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                zoomableImageView.adjustViewBounds = true
+                zoomableImageView.setPadding(8, 8, 8, 8)
+                binding.pdfContainer.addView(zoomableImageView)
+
+                page.close()
+            }
+
+            pdfRenderer.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Failed to load PDF", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
+
+
 }
