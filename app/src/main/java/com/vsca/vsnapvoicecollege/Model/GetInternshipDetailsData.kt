@@ -5,4 +5,6 @@ data class GetInternshipDetailsData (
     var from: String,
     var companyName: String,
     var designation: String,
+    var isChecked: Boolean = false
+
 )

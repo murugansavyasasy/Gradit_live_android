@@ -58,7 +58,6 @@ import java.io.IOException
 
 
 class ResumeBuilder : AppCompatActivity() {
-
     var isMemeberId = 0
     private val isEducationItem = mutableListOf<GetEducationalDetailsData>()
     var isSkillSetData: GetResumeBuilderSkillSetDetailsData? = null
@@ -67,7 +66,6 @@ class ResumeBuilder : AppCompatActivity() {
     private lateinit var binding: LayoutResumebuilderBinding
     val SELECT_PDF = 8778
     private var savedResumeList: List<GetResumeTitleData> = emptyList()
-
 
     var uri: Uri? = null
     var outputDir: File? = null
@@ -292,9 +290,11 @@ class ResumeBuilder : AppCompatActivity() {
             assessmentDetails = isSkillSetData?.assessmentDetails,
             projects = isSkillSetData?.projects,
         )
-        Log.d("isSaveSkillSetData", saveSkillSetData.toString())
+        Log.d("binding.lblLanguageKnown.text",binding.lblLanguageKnown.text.toString())
+        Log.d("binding.lblLanguageKnown.text++++",saveSkillSetData.languages.toString())
         //We are Saving all the data in Constant as List Here
         CommonUtil.isSkillSetDataSending = saveSkillSetData
+        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
     }
 
     private fun isLoadAcademicDetails(AcademicData: GetResumeBuilderAcademicDetailsData) {
