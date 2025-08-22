@@ -12,15 +12,12 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.NestedScrollView
+import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -35,7 +32,6 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityCommunicationVoiceBinding
 import java.io.File
 import java.io.IOException
@@ -92,7 +88,8 @@ class CommunicationVoice : ActionBarActivity() {
         binding.btnConfirm!!.visibility = View.VISIBLE
         
         binding.btnConfirm.setOnClickListener { addreception() }
-        binding.imgrecord.setOnClickListener { imgvoicerecordClick() }
+        binding.imgrecord.setOnClickListener { imgvoicerecordClick()
+        }
         binding.btnCancel.setOnClickListener { onBackPressed() }
         binding.imgPlayPasue.setOnClickListener { recplaypause() }
         binding.LayoutAdvertisement.setOnClickListener { adclick() }
@@ -302,7 +299,6 @@ class CommunicationVoice : ActionBarActivity() {
     fun start_RECORD() {
 
         binding.btnClearR!!.visibility = View.GONE
-
 
         if (mediaPlayer!!.isPlaying) {
             mediaPlayer!!.stop()

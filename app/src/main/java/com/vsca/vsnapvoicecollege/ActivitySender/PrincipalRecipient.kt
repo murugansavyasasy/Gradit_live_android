@@ -3138,8 +3138,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
         Log.d("VoiceSend:req", jsonObject.toString())
 
-        val file: File = File(CommonUtil.futureStudioIconFile!!.getPath())
-        Log.d("FILE_Path", CommonUtil.futureStudioIconFile!!.getPath())
+        val file: File = File(CommonUtil.futureStudioIconFile!!.path)
+        Log.d("FILE_Path", CommonUtil.futureStudioIconFile!!.path)
 
         val requestFile: RequestBody =
             RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
