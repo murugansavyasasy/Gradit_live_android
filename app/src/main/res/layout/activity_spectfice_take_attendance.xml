@@ -271,7 +271,7 @@
         android:layout_below="@+id/rdoGroup"
         android:layout_marginLeft="@dimen/ten"
         android:layout_marginRight="@dimen/ten"
-        android:gravity="center"
+        android:gravity="start"
         android:hint="Enter the topic">
 
     </EditText>
@@ -294,31 +294,41 @@
         android:id="@+id/check_Relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ten"
+        android:layout_marginTop="@dimen/five"
         android:layout_below="@+id/idSV"
         android:layout_gravity="center"
         android:visibility="gone">
 
-        <CheckBox
-            android:id="@+id/ch_all4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/twenty_five"
-            android:buttonTint="@color/clr_principal"
+<!--        <CheckBox-->
+<!--            android:id="@+id/ch_all4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="@dimen/twenty_five"-->
+<!--            android:buttonTint="@color/clr_principal"-->
 
-            ></CheckBox>
+<!--            ></CheckBox>-->
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/ALL4"
+            android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/five"
-            android:layout_toRightOf="@+id/ch_all4"
             android:text=""
             android:textSize="@dimen/fifteen"
 
             >
-
         </TextView>
+        <Spinner
+            android:layout_marginStart="@dimen/three"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/ALL4"
+            android:id="@+id/attendanceCateorySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_black_white_box"
+            ></Spinner>
     </RelativeLayout>
 
 

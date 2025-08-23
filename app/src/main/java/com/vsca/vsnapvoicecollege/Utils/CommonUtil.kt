@@ -81,6 +81,7 @@ object CommonUtil {
     var videofile: String? = null
     val PresentlistStudent: MutableList<String> = ArrayList()
     val AbsendlistStudent: MutableList<String> = ArrayList()
+    val ODlistStudent: MutableList<String> = ArrayList()
     var Onbackpressed = ""
     var iSubjectId = ArrayList<String>()
     var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null
