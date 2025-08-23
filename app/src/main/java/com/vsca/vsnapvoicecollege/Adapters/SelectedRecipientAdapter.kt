@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-
 import com.vsca.vsnapvoicecollege.Interfaces.RecipientCheckListener
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
@@ -47,6 +47,7 @@ class SelectedRecipientAdapter(
         checkClick = checkListener
 
         if (CommonUtil.AttendanceScreen == "AttendanceScreen") {
+
             holder.layoutstudentlist!!.visibility = View.GONE
             holder.con_attendance!!.visibility = View.VISIBLE
             holder.lblStudentname!!.text = data.SelectedName
@@ -54,23 +55,62 @@ class SelectedRecipientAdapter(
             CommonUtil.Absentlistcount = ""
 
             if (CommonUtil.PresentlistStudent.contains(data.SelectedId.toString())) {
-                holder.img_mark_attendance!!.setImageResource(R.drawable.present)
+                holder.switchOD.isChecked = false
+                holder.img_mark_attendance.text = "P"
+                holder.img_mark_attendance!!.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_green)
+            } else if (CommonUtil.AbsendlistStudent.contains(data.SelectedId.toString())) {
+                holder.switchOD.isChecked = false
+                holder.img_mark_attendance.text = "A"
+                holder.img_mark_attendance!!.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_red)
             } else {
-                holder.img_mark_attendance!!.setImageResource(R.drawable.absend_img)
+                holder.switchOD.isChecked = true
+                holder.img_mark_attendance.text = "OD"
+                holder.img_mark_attendance!!.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_yellow)
             }
 
-            holder.img_mark_attendance!!.setOnClickListener {
 
-                if (holder.img_mark_attendance!!.drawable.constantState!! == context.getDrawable(R.drawable.present)!!.constantState
+            holder.switchOD.setOnClickListener {
+                if (holder.switchOD.isChecked) {
+                    holder.img_mark_attendance.setBackgroundResource(R.drawable.round_yellow)
+                    holder.img_mark_attendance.text = "OD"
+                    checkClick?.remove(data)
+                    CommonUtil.PresentlistStudent.remove(data.SelectedId.toString())
+                    CommonUtil.AbsendlistStudent.remove(data.SelectedId.toString())
+                    CommonUtil.OnDutylistStudent.add(data.SelectedId.toString())
+                } else {
+                    checkClick?.remove(data)
+                    holder.img_mark_attendance.text = "A"
+                    holder.img_mark_attendance!!.background =
+                        ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_red)
+                    CommonUtil.PresentlistStudent.remove(data.SelectedId.toString())
+                    CommonUtil.AbsendlistStudent.add(data.SelectedId.toString())
+                    CommonUtil.OnDutylistStudent.remove(data.SelectedId.toString())
+
+                }
+            }
+
+
+            holder.img_mark_attendance!!.setOnClickListener {
+                holder.switchOD.isChecked = false
+                if (holder.img_mark_attendance!!.background.constantState!! == context.getDrawable(R.drawable.round_green)!!.constantState
                 ) {
                     checkClick?.remove(data)
-                    holder.img_mark_attendance!!.setImageResource(R.drawable.absend_img)
+                    holder.img_mark_attendance.text = "A"
+                    holder.img_mark_attendance!!.background =
+                        ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_red)
                     CommonUtil.PresentlistStudent.remove(data.SelectedId.toString())
+                    CommonUtil.OnDutylistStudent.remove(data.SelectedId.toString())
                     CommonUtil.AbsendlistStudent.add(data.SelectedId.toString())
                 } else {
                     checkClick?.add(data)
-                    holder.img_mark_attendance!!.setImageResource(R.drawable.present)
+                    holder.img_mark_attendance.text = "P"
+                    holder.img_mark_attendance!!.background =
+                        ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_green)
                     CommonUtil.AbsendlistStudent.remove(data.SelectedId.toString())
+                    CommonUtil.OnDutylistStudent.remove(data.SelectedId.toString())
                     CommonUtil.PresentlistStudent.add(data.SelectedId.toString())
                 }
             }
@@ -151,7 +191,8 @@ class SelectedRecipientAdapter(
         val lblRegNo: TextView = itemView!!.findViewById(R.id.lblRegNo)!!
         val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutEntireCollege)!!
         val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)!!
-        val img_mark_attendance: ImageView = itemView!!.findViewById(R.id.img_mark_attendance)!!
+        val switchOD: SwitchCompat = itemView!!.findViewById(R.id.switchOD)!!
+        val img_mark_attendance: TextView = itemView!!.findViewById(R.id.img_mark_attendance)!!
 
 
     }
@@ -166,7 +207,6 @@ class SelectedRecipientAdapter(
         isSelectedAll = true
 
         if (CommonUtil.AttendanceScreen == "AttendanceScreen") {
-
             for (i in selectedList) {
                 CommonUtil.AbsendlistStudent.remove(i.SelectedId.toString())
                 CommonUtil.PresentlistStudent.add(i.SelectedId.toString())
@@ -186,7 +226,7 @@ class SelectedRecipientAdapter(
             }
             CommonUtil.SeletedStringdataReplace = seletedStringdata!!.replace(", ", "~")
 
-            if (CommonUtil.seleteddataArrayCheckbox.size > 0) {
+            if (CommonUtil.seleteddataArrayCheckbox.isNotEmpty()) {
                 CommonUtil.receiverid = CommonUtil.SeletedStringdataReplace.toString()
 
                 if (CommonUtil.CollageIDS) {
@@ -210,10 +250,31 @@ class SelectedRecipientAdapter(
         notifyDataSetChanged()
     }
 
+    fun isOnDuty() {
+        if (CommonUtil.AbsendlistStudent.isNotEmpty()) {
+            CommonUtil.AbsendlistStudent.clear()
+            CommonUtil.OnDutylistStudent.clear()
+            CommonUtil.PresentlistStudent.clear()
+            for (i in selectedList) {
+                CommonUtil.AbsendlistStudent.add(i.SelectedId.toString())
+            }
+        } else {
+            CommonUtil.AbsendlistStudent.clear()
+            CommonUtil.OnDutylistStudent.clear()
+            CommonUtil.PresentlistStudent.clear()
+            for (i in selectedList) {
+                CommonUtil.OnDutylistStudent.add(i.SelectedId.toString())
+            }
+            Log.d("CommonUtil_receiverid", CommonUtil.receiverid)
+        }
+
+        notifyDataSetChanged()
+    }
+
     fun unselectall() {
         isSelectedAll = false
 
-        if (CommonUtil.AttendanceScreen.equals("AttendanceScreen")) {
+        if (CommonUtil.AttendanceScreen == "AttendanceScreen") {
             for (i in selectedList) {
                 CommonUtil.AbsendlistStudent.add(i.SelectedId.toString())
                 CommonUtil.PresentlistStudent.remove(i.SelectedId.toString())

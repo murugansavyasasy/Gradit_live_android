@@ -264,7 +264,7 @@ class EditAcademicDetails : AppCompatActivity() {
         }
 
         val request = hashMapOf<String, Any>(
-            "idMember" to 31145,
+            "idMember" to CommonUtil.MemberId,
             "educationalDetails" to educationalDetails,
             "backlogs" to backlogs,
             "numberOfArrears" to arrears

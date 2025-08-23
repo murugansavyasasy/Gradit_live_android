@@ -80,6 +80,7 @@ object CommonUtil {
     var Videofile: Boolean? = null
     var videofile: String? = null
     val PresentlistStudent: MutableList<String> = ArrayList()
+    val OnDutylistStudent: MutableList<String> = ArrayList()
     val AbsendlistStudent: MutableList<String> = ArrayList()
     val ODlistStudent: MutableList<String> = ArrayList()
     var Onbackpressed = ""

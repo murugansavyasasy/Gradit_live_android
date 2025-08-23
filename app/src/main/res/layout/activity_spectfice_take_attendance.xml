@@ -289,54 +289,93 @@
         android:queryHint="Search Student name"
         android:visibility="gone" />
 
-
-    <RelativeLayout
-        android:id="@+id/check_Relative"
+    <LinearLayout
+        android:id="@+id/lytCheckBoxes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/ten"
-        android:layout_marginTop="@dimen/five"
         android:layout_below="@+id/idSV"
-        android:layout_gravity="center"
-        android:visibility="gone">
+        android:weightSum="3"
+        android:layout_marginStart="@dimen/twenty"
+        android:layout_marginEnd="@dimen/twenty"
+        android:layout_height="wrap_content">
 
-<!--        <CheckBox-->
-<!--            android:id="@+id/ch_all4"-->
+        <CheckBox
+            android:id="@+id/chPresent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="Present"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/chAbsent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Absent"
+            android:layout_height="wrap_content">
+
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/chOnDuty"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="OnDuty"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+        </CheckBox>
+
+    </LinearLayout>
+
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/check_Relative"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/ten"-->
+<!--        android:layout_marginTop="@dimen/five"-->
+<!--        android:layout_below="@+id/idSV"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:visibility="">-->
+
+<!--&lt;!&ndash;        <CheckBox&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/ch_all4"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginLeft="@dimen/twenty_five"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:buttonTint="@color/clr_principal"&ndash;&gt;-->
+
+<!--&lt;!&ndash;            ></CheckBox>&ndash;&gt;-->
+
+<!--        <TextView-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:id="@+id/ALL4"-->
+<!--            android:layout_alignParentStart="true"-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="@dimen/twenty_five"-->
-<!--            android:buttonTint="@color/clr_principal"-->
+<!--            android:text=""-->
+<!--            android:textSize="@dimen/fifteen"-->
 
-<!--            ></CheckBox>-->
-
-        <TextView
-            android:layout_centerVertical="true"
-            android:id="@+id/ALL4"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/fifteen"
-
-            >
-        </TextView>
-        <Spinner
-            android:layout_marginStart="@dimen/three"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/ALL4"
-            android:id="@+id/attendanceCateorySpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_black_white_box"
-            ></Spinner>
-    </RelativeLayout>
+<!--            >-->
+<!--        </TextView>-->
+<!--&lt;!&ndash;        <Spinner&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginStart="@dimen/three"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_centerVertical="true"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_toEndOf="@+id/ALL4"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/attendanceCateorySpinner"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:background="@drawable/bg_black_white_box"&ndash;&gt;-->
+<!--&lt;!&ndash;            ></Spinner>&ndash;&gt;-->
+<!--    </RelativeLayout>-->
 
 
     <RelativeLayout
         android:id="@+id/relative_Recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/check_Relative"
+        android:layout_below="@+id/lytCheckBoxes"
         android:layout_marginBottom="70dp">
 
         <TextView

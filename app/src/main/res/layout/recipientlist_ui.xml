@@ -77,20 +77,32 @@
 
         <TextView
             android:id="@+id/lbl_studentname"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:text="StudentName"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginTop="@dimen/fifteen"
+            android:layout_marginEnd="@dimen/fifteen"
+            android:layout_toStartOf="@+id/img_mark_attendance"
             android:textColor="@color/black"
             android:textSize="@dimen/fifteen"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold">
 
-        <ImageView
+        </TextView>
+
+        <TextView
             android:id="@+id/img_mark_attendance"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/present"></ImageView>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five"
+            android:layout_marginEnd="@dimen/fifteen"
+            android:layout_toStartOf="@+id/rlaSwitch"
+            android:background="@drawable/round_green"
+            android:gravity="center"
+            android:text="P"
+            android:textColor="@color/white"
+            android:textSize="@dimen/thirteen_sp"
+            android:textStyle="bold"></TextView>
 
 
         <TextView
@@ -100,31 +112,35 @@
             android:layout_below="@+id/lbl_studentname"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/five"
-            android:text=""
+            android:layout_marginStart="@dimen/ten"
+            android:text="akjefbwiufbwoefb"
             android:textColor="@color/black"
             android:textSize="@dimen/thirteen"
             android:textStyle="normal"></TextView>
 
         <RelativeLayout
+
             android:layout_width="wrap_content"
             android:id="@+id/rlaSwitch"
-            android:layout_below="@+id/lblRegNo"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/fifteen"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchOD"
+                android:layout_marginStart="@dimen/ten"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:layout_centerVertical="true"
+
                 />
             <TextView
                 android:id="@+id/lblOD"
                 android:layout_marginStart="@dimen/five"
-                android:text="Mark as On-Duty"
-                android:layout_toEndOf="@+id/switchOD"
+                android:layout_below="@+id/switchOD"
+                android:layout_marginTop="@dimen/ten"
                 android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
+                android:text="On-Duty"
                 android:layout_height="wrap_content">
 
             </TextView>

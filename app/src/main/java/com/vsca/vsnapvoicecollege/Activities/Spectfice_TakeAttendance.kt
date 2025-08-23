@@ -7,17 +7,9 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.CheckBox
 import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RelativeLayout
 import android.widget.SearchView
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +28,6 @@ import com.vsca.vsnapvoicecollege.SenderModel.Attendance_Edit_Selected
 import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivitySpectficeTakeAttendanceBinding
 import java.util.Locale
 
@@ -47,6 +38,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
     var Attendance_Edit: List<Attendance_edit_List> = ArrayList()
     var AttendanceStatusEditPresent: ArrayList<String> = ArrayList()
     private var AttendanceStatusEditAbsent: ArrayList<String> = ArrayList()
+    private var AttendanceStatusEditOnDuty: ArrayList<String> = ArrayList()
     var AttendanceStatus: String? = null
     var SpecificStudentList: SelectedRecipientAdapter? = null
     var Attendance_Edit_Adapter: Attendance_Edit_Adapter? = null
@@ -153,7 +145,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                             addAttendance = false
                             Getspecificstudentdatasubject()
                         }
-                        binding.checkRelative!!.visibility = View.VISIBLE
+//                        binding.checkRelative!!.visibility = View.VISIBLE
                         binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
                         binding.idSV!!.visibility = View.VISIBLE
                     } else {
@@ -161,7 +153,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                         binding.lblSelectattendance!!.visibility = View.VISIBLE
                         binding.recycleSpecificstudentAttendance!!.visibility = View.GONE
                         binding.idSV!!.visibility = View.GONE
-                        binding.checkRelative!!.visibility = View.GONE
+//                        binding.checkRelative!!.visibility = View.GONE
                     }
                 } else {
                     SeletedHours = binding.edtHours!!.selectedItem.toString()
@@ -169,9 +161,9 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     binding.lblSelectattendance!!.visibility = View.GONE
                     if (AttendanceStatus.equals("AttendanceEdit")) {
                         Attendance_EditStudentList()
-                        binding.checkRelative!!.visibility = View.GONE
+//                        binding.checkRelative!!.visibility = View.GONE
                     } else {
-                        binding.checkRelative!!.visibility = View.VISIBLE
+//                        binding.checkRelative!!.visibility = View.VISIBLE
                     }
                     binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
                     binding.idSV!!.visibility = View.VISIBLE
@@ -180,6 +172,61 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>) {
 
+            }
+        }
+
+        binding.chPresent.setOnClickListener {
+            binding.chAbsent.isChecked = false
+            binding.chOnDuty.isChecked = false
+            if (AttendanceStatus.equals("AttendanceEdit")) {
+                if (binding.chAbsent.isChecked) {
+                    Attendance_Edit_Adapter!!.unselectall()
+                } else {
+                    Attendance_Edit_Adapter!!.selectAll()
+                }
+            } else {
+                CommonUtil.AbsendlistStudent.clear()
+                CommonUtil.OnDutylistStudent.clear()
+                CommonUtil.PresentlistStudent.clear()
+                if (binding.chPresent.isChecked) {
+                    SpecificStudentList!!.selectAll()
+                } else {
+                    SpecificStudentList!!.unselectall()
+                }
+            }
+        }
+
+        binding.chAbsent.setOnClickListener {
+            binding.chPresent.isChecked = false
+            binding.chOnDuty.isChecked = false
+            if (AttendanceStatus.equals("AttendanceEdit")) {
+                if (binding.chAbsent.isChecked) {
+                    Attendance_Edit_Adapter!!.unselectall()
+                } else {
+                    Attendance_Edit_Adapter!!.selectAll()
+                }
+            } else {
+                CommonUtil.AbsendlistStudent.clear()
+                CommonUtil.OnDutylistStudent.clear()
+                CommonUtil.PresentlistStudent.clear()
+                if (binding.chAbsent.isChecked) {
+                    SpecificStudentList!!.unselectall()
+                } else {
+                    SpecificStudentList!!.selectAll()
+                }
+            }
+        }
+
+        binding.chOnDuty.setOnClickListener {
+            binding.chAbsent.isChecked = false
+            binding.chPresent.isChecked = false
+            if (AttendanceStatus.equals("AttendanceEdit")) {
+                Attendance_Edit_Adapter!!.isOnDuty()
+            } else {
+                CommonUtil.AbsendlistStudent.clear()
+                CommonUtil.OnDutylistStudent.clear()
+                CommonUtil.PresentlistStudent.clear()
+                SpecificStudentList!!.isOnDuty()
             }
         }
 
@@ -248,8 +295,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                         val group = RecipientSelected(it.memberid, it.name,it.regno)
                         SelectedRecipientlist.add(group)
                     }
-                    LoadDivisionSpinner()
-                    binding.ALL4!!.text = "Mark all as"
+//                    LoadDivisionSpinner()
                     CommonUtil.PresentlistStudent.clear()
                     for (i in SelectedRecipientlist) {
                         CommonUtil.PresentlistStudent.add(i.SelectedId.toString())
@@ -261,17 +307,19 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                             override fun add(data: RecipientSelected?) {
                                 val groupid = data!!.SelectedId
                                 Log.d("Group_ID", groupid.toString())
-//                                binding.chAll4!!.isChecked = false
-                                binding.ALL4!!.text = "Mark all as"
+                                binding.chPresent.isChecked = false
+                                binding.chAbsent.isChecked = false
+                                binding.chOnDuty.isChecked = false
                             }
 
                             override fun remove(data: RecipientSelected?) {
                                 if (SelectedRecipientlist.size == CommonUtil.AbsendlistStudent.size + 1) {
 //                                    binding.chAll4!!.isChecked = true
-                                    binding.ALL4!!.text = "Mark all as"
                                 } else {
 //                                    binding.chAll4!!.isChecked = false
-                                    binding.ALL4!!.text = "Mark all as"
+                                    binding.chPresent.isChecked = false
+                                    binding.chAbsent.isChecked = false
+                                    binding.chOnDuty.isChecked = false
                                 }
                             }
                         })
@@ -297,6 +345,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
                     CommonUtil.PresentlistStudent.clear()
                     CommonUtil.AbsendlistStudent.clear()
+                    CommonUtil.OnDutylistStudent.clear()
                     Attendance_Edit.forEach {
                         it.memberid
                         it.attendancetype
@@ -316,9 +365,12 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                             AttendanceStatusEditPresent.add(it.memberid)
                             CommonUtil.PresentlistStudent.add(it.memberid)
                         }
-                        else {
+                        else if (it.attendancetype == "Absent"){
                             AttendanceStatusEditAbsent.add(it.memberid)
                             CommonUtil.AbsendlistStudent.add(it.memberid)
+                        }else{
+                            AttendanceStatusEditOnDuty.add(it.memberid)
+                            CommonUtil.OnDutylistStudent.add(it.memberid)
                         }
                     }
                     Attendance_Edit_Adapter = Attendance_Edit_Adapter(
@@ -340,7 +392,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     binding.recycleSpecificstudentAttendance!!.adapter = Attendance_Edit_Adapter
                     binding.recycleSpecificstudentAttendance!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     Attendance_Edit_Adapter!!.notifyDataSetChanged()
-                    LoadDivisionSpinner()
+//                    LoadDivisionSpinner()
 
                 }
             }
@@ -413,61 +465,6 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         })
     }
 
-    private fun LoadDivisionSpinner() {
-        val adapter = ArrayAdapter(this, R.layout.spinner_textview, AttendanceCategory)
-        adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
-        binding.attendanceCateorySpinner!!.adapter = adapter
-
-        binding.attendanceCateorySpinner!!.setSelection(0)
-
-        binding.attendanceCateorySpinner!!.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>, view: View, position: Int, id: Long
-                ) {
-                    selectedAttendanceType = AttendanceCategory[position]
-                    val selectedItem = binding.attendanceCateorySpinner!!.selectedItem.toString()
-                    binding.ALL4!!.text = "Mark all as"
-
-                    if (AttendanceStatus == "AttendanceEdit") {
-                        if ("Absent"==selectedAttendanceType) {
-                            Attendance_Edit_Adapter!!.isAbsentSelected()
-                        }
-                        if("Present"==selectedAttendanceType){
-                            Attendance_Edit_Adapter!!.isPresentSelected()
-                        }
-                        if("On-Duty"==selectedAttendanceType){
-                            Attendance_Edit_Adapter!!.isODSelected()
-                        }
-                    }
-                    else {
-
-                        CommonUtil.AbsendlistStudent.clear()
-                        CommonUtil.PresentlistStudent.clear()
-                        CommonUtil.ODlistStudent.clear()
-                        when (selectedAttendanceType) {
-//                            "Absent" -> {
-//                                SpecificStudentList!!.isAbsentSelected()
-//                            }
-//                            "Present" -> {
-//                                SpecificStudentList!!.isPresentSelected()
-//                            }
-//                            "On-Duty" -> {
-//                                SpecificStudentList!!.isODSelected()
-//                            }
-                        }
-                    }
-
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // Do nothing
-                }
-            }
-    }
-
-
-
     private fun filter(text: String) {
 
         val filteredlist: java.util.ArrayList<RecipientSelected> = java.util.ArrayList()
@@ -532,48 +529,66 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
     }
 
     private fun TakeAttendance(statue: String) {
-        CommonUtil.AttendanceScreen = ""
-        val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_subjectid, CommonUtil.subjectid)
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_date, CommonUtil.Selecteddata)
-        jsonObject.addProperty(ApiRequestNames.Req_processtype, statue)
-        jsonObject.addProperty("title", binding.edtTopic!!.text.toString())
-        jsonObject.addProperty("type", isType)
-        jsonObject.addProperty("attendance_hours", SeletedHours)
 
-        val jsonArrayPresentlist = JsonArray()
 
-        //PRESENT LIST
-
-        for (i in 0 until CommonUtil.PresentlistStudent.size) {
-            val jsonObjectPresentlist = JsonObject()
-
-            jsonObjectPresentlist.addProperty(
-                ApiRequestNames.Req_presentmemberid, CommonUtil.PresentlistStudent[i]
-            )
-            jsonArrayPresentlist.add(jsonObjectPresentlist)
-        }
-
-        //ABSENT LIST
-
-        val ABsendArray = JsonArray()
-
-        for (i in 0 until CommonUtil.AbsendlistStudent.size) {
-            val jsonobjectabsend = JsonObject()
-
-            jsonobjectabsend.addProperty(
-                ApiRequestNames.Req_absentmemberid, CommonUtil.AbsendlistStudent[i]
-            )
-            ABsendArray.add(jsonobjectabsend)
-        }
-
-        jsonObject.add(ApiRequestNames.Req_presentlist, jsonArrayPresentlist)
-        jsonObject.add(ApiRequestNames.Req_absentlist, ABsendArray)
-        appViewModel!!.MarkAttendance(jsonObject, this)
-        Log.d("MarkAttendance", jsonObject.toString())
+        Log.d("++++++++++++isPresent", CommonUtil.PresentlistStudent.size.toString())
+        Log.d("++++++++++++isAbsent", CommonUtil.AbsendlistStudent.size.toString())
+        Log.d("++++++++++++isOnduty", CommonUtil.OnDutylistStudent.size.toString())
+//        CommonUtil.AttendanceScreen = ""
+//        val jsonObject = JsonObject()
+//        jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
+//        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+//        jsonObject.addProperty(ApiRequestNames.Req_subjectid, CommonUtil.subjectid)
+//        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+//        jsonObject.addProperty(ApiRequestNames.Req_date, CommonUtil.Selecteddata)
+//        jsonObject.addProperty(ApiRequestNames.Req_processtype, statue)
+//        jsonObject.addProperty("title", binding.edtTopic!!.text.toString())
+//        jsonObject.addProperty("type", isType)
+//        jsonObject.addProperty("attendance_hours", SeletedHours)
+//
+//        val jsonArrayPresentlist = JsonArray()
+//
+//        //PRESENT LIST
+//
+//        for (i in 0 until CommonUtil.PresentlistStudent.size) {
+//            val jsonObjectPresentlist = JsonObject()
+//
+//            jsonObjectPresentlist.addProperty(
+//                ApiRequestNames.Req_presentmemberid, CommonUtil.PresentlistStudent[i]
+//            )
+//            jsonArrayPresentlist.add(jsonObjectPresentlist)
+//        }
+//
+//        //ABSENT LIST
+//
+//        val ABsendArray = JsonArray()
+//
+//        for (i in 0 until CommonUtil.AbsendlistStudent.size) {
+//            val jsonobjectabsend = JsonObject()
+//
+//            jsonobjectabsend.addProperty(
+//                ApiRequestNames.Req_absentmemberid, CommonUtil.AbsendlistStudent[i]
+//            )
+//            ABsendArray.add(jsonobjectabsend)
+//        }
+//
+//        val OnDutyArray = JsonArray()
+//
+//        for (i in 0 until CommonUtil.OnDutylistStudent.size) {
+//            val jsonobjectOnduty = JsonObject()
+//
+//            jsonobjectOnduty.addProperty(
+//                ApiRequestNames.Req_ondutymemberid, CommonUtil.OnDutylistStudent[i]
+//            )
+//            OnDutyArray.add(jsonobjectOnduty)
+//        }
+//
+//
+//        jsonObject.add(ApiRequestNames.Req_presentlist, jsonArrayPresentlist)
+//        jsonObject.add(ApiRequestNames.Req_absentlist, ABsendArray)
+//        jsonObject.add(ApiRequestNames.Req_ondutylist, OnDutyArray)
+//        appViewModel!!.MarkAttendance(jsonObject, this)
+//        Log.d("MarkAttendance", jsonObject.toString())
 
     }
 
