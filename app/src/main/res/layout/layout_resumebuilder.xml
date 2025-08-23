@@ -198,7 +198,6 @@ android:fontFamily="@font/poppins_medium"
                 android:textSize="@dimen/twelve_sp"
                 android:text="Consented for placements"
                 android:textColor="@color/black">
-
             </TextView>
 
             <LinearLayout

@@ -168,12 +168,6 @@ class ResumeBuilder : AppCompatActivity() {
         }
         CommonUtil.RequestCameraPermission(this)
 
-        binding.btnEditOne.setOnClickListener {
-            val i = Intent(this, EditBasicDetails::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            this.startActivity(i)
-        }
-
 
         binding.lblEditTwo.setOnClickListener {
             val i = Intent(this, EditAcademicDetails::class.java)
@@ -231,7 +225,8 @@ class ResumeBuilder : AppCompatActivity() {
             memberPhoneNumber = binding.lblMobileNo.text.toString(),
             memberstudentEmail = binding.lblGamilId.text.toString(),
             memberPlacementStatus = binding.lblAvailPlacement.text.toString(),
-            memberImagePath = profile?.memberImagePath,
+            memberNotificationStatus =profile?.memberNotificationStatus,
+             memberImagePath = profile?.memberImagePath,
             memberPermanentAddress1 = profile?.memberPermanentAddress1,
             memberPermanentAddressCity = profile?.memberPermanentAddressCity,
             memberPermanentAddressState = profile?.memberPermanentAddressState,
@@ -385,6 +380,27 @@ class ResumeBuilder : AppCompatActivity() {
                     )
                 )
             }
+            if (it.memberNotificationStatus==true){
+                binding.lblConsentedPlacement.text="Consented for placements"
+                binding.lblConsentedPlacement.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.green_tick_icon,
+                    0,
+                    0,
+                    0
+                )
+            }
+            else{
+                binding.lblConsentedPlacement.text="Student opted-out for jobs"
+                binding.lblConsentedPlacement.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.close_icon_two,
+                    0,
+                    0,
+                    0
+                )
+
+            }
+
+
             binding.lblAvailPlacement.background = drawable
             binding.lblAvailPlacement.text = it.memberPlacementStatus
 //            binding.CommonLayout.lblName.text = it.memberNotificationStatus
@@ -504,15 +520,15 @@ class ResumeBuilder : AppCompatActivity() {
     }
 
     fun GetProfileDetails() {
-        appViewModel!!.GetResumeBuilderProfileDetails(31145, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderProfileDetails(CommonUtil.MemberId, this@ResumeBuilder)
     }
 
     fun GetAcademicDetails() {
-        appViewModel!!.GetResumeBuilderAcademicDetails(31145, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderAcademicDetails(CommonUtil.MemberId, this@ResumeBuilder)
     }
 
     fun GetSkillSetDetails() {
-        isMemeberId = 31145
+        isMemeberId = CommonUtil.MemberId
         appViewModel!!.GetResumeBuilderSkillSetDetails(isMemeberId, this@ResumeBuilder)
     }
 
@@ -548,7 +564,7 @@ class ResumeBuilder : AppCompatActivity() {
             intent.putExtra("TemplateDocumentURL", it.url)
             intent.putExtra("ScreenName","MyResumes")
             intent.putExtra("FileName",it.title)
-            intent.putExtra("MemberID",31145)
+            intent.putExtra("MemberID",CommonUtil.MemberId)
             activity.startActivity(intent)
         }
 
@@ -581,7 +597,7 @@ class ResumeBuilder : AppCompatActivity() {
 
 
     fun GetProfileResume() {
-        appViewModel!!.GetResumeBuilderProfileResume(31145, this@ResumeBuilder)
+        appViewModel!!.GetResumeBuilderProfileResume(CommonUtil.MemberId, this@ResumeBuilder)
     }
 
     override fun onResume() {

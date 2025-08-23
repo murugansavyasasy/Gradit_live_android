@@ -55,6 +55,11 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
     private var isType = "General"
     private lateinit var binding: ActivitySpectficeTakeAttendanceBinding
 
+    private val AttendanceCategory = listOf(
+        "Absent", "Present", "On-Duty"
+    )
+    var selectedAttendanceType=""
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +84,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
         val attendanceHours = ArrayList<String>()
         attendanceHours.add(0, "Select hours")
+
+
 
         if (AttendanceStatus.equals("AttendanceEdit")) {
             binding.edtTopic!!.setText(CommonUtil.AttendanceHourEdit[0].title)
@@ -176,28 +183,28 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
-        binding.chAll4!!.setOnClickListener(View.OnClickListener {
-
-            if (AttendanceStatus.equals("AttendanceEdit")) {
-                if (binding.chAll4!!.isChecked) {
-                    Attendance_Edit_Adapter!!.unselectall()
-                    binding.ALL4!!.text = "Mark all as absent"
-                } else {
-                    Attendance_Edit_Adapter!!.selectAll()
-                    binding.ALL4!!.text = "Mark all as absent"
-                }
-            } else {
-                CommonUtil.AbsendlistStudent.clear()
-                CommonUtil.PresentlistStudent.clear()
-                if (binding.chAll4!!.isChecked) {
-                    SpecificStudentList!!.unselectall()
-                    binding.ALL4!!.text = "Mark all as absent"
-                } else {
-                    SpecificStudentList!!.selectAll()
-                    binding.ALL4!!.text = "Mark all as absent"
-                }
-            }
-        })
+//        binding.chAll4!!.setOnClickListener(View.OnClickListener {
+//
+//            if (AttendanceStatus.equals("AttendanceEdit")) {
+//                if (binding.chAll4!!.isChecked) {
+//                    Attendance_Edit_Adapter!!.unselectall()
+//                    binding.ALL4!!.text = "Mark all as"
+//                } else {
+//                    Attendance_Edit_Adapter!!.selectAll()
+//                    binding.ALL4!!.text = "Mark all as"
+//                }
+//            } else {
+//                CommonUtil.AbsendlistStudent.clear()
+//                CommonUtil.PresentlistStudent.clear()
+//                if (binding.chAll4!!.isChecked) {
+//                    SpecificStudentList!!.unselectall()
+//                    binding.ALL4!!.text = "Mark all as"
+//                } else {
+//                    SpecificStudentList!!.selectAll()
+//                    binding.ALL4!!.text = "Mark all as"
+//                }
+//            }
+//        })
 
         appViewModel!!.MarkAttendance!!.observe(this) { response ->
             if (response != null) {
@@ -241,7 +248,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                         val group = RecipientSelected(it.memberid, it.name,it.regno)
                         SelectedRecipientlist.add(group)
                     }
-                    binding.ALL4!!.text = "Mark all as absent"
+                    LoadDivisionSpinner()
+                    binding.ALL4!!.text = "Mark all as"
                     CommonUtil.PresentlistStudent.clear()
                     for (i in SelectedRecipientlist) {
                         CommonUtil.PresentlistStudent.add(i.SelectedId.toString())
@@ -253,17 +261,17 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                             override fun add(data: RecipientSelected?) {
                                 val groupid = data!!.SelectedId
                                 Log.d("Group_ID", groupid.toString())
-                                binding.chAll4!!.isChecked = false
-                                binding.ALL4!!.text = "Mark all as absent"
+//                                binding.chAll4!!.isChecked = false
+                                binding.ALL4!!.text = "Mark all as"
                             }
 
                             override fun remove(data: RecipientSelected?) {
                                 if (SelectedRecipientlist.size == CommonUtil.AbsendlistStudent.size + 1) {
-                                    binding.chAll4!!.isChecked = true
-                                    binding.ALL4!!.text = "Mark all as absent"
+//                                    binding.chAll4!!.isChecked = true
+                                    binding.ALL4!!.text = "Mark all as"
                                 } else {
-                                    binding.chAll4!!.isChecked = false
-                                    binding.ALL4!!.text = "Mark all as absent"
+//                                    binding.chAll4!!.isChecked = false
+                                    binding.ALL4!!.text = "Mark all as"
                                 }
                             }
                         })
@@ -307,7 +315,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                         if (it.attendancetype == "Present") {
                             AttendanceStatusEditPresent.add(it.memberid)
                             CommonUtil.PresentlistStudent.add(it.memberid)
-                        } else {
+                        }
+                        else {
                             AttendanceStatusEditAbsent.add(it.memberid)
                             CommonUtil.AbsendlistStudent.add(it.memberid)
                         }
@@ -331,6 +340,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     binding.recycleSpecificstudentAttendance!!.adapter = Attendance_Edit_Adapter
                     binding.recycleSpecificstudentAttendance!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     Attendance_Edit_Adapter!!.notifyDataSetChanged()
+                    LoadDivisionSpinner()
+
                 }
             }
         }
@@ -401,6 +412,61 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         })
     }
+
+    private fun LoadDivisionSpinner() {
+        val adapter = ArrayAdapter(this, R.layout.spinner_textview, AttendanceCategory)
+        adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
+        binding.attendanceCateorySpinner!!.adapter = adapter
+
+        binding.attendanceCateorySpinner!!.setSelection(0)
+
+        binding.attendanceCateorySpinner!!.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>, view: View, position: Int, id: Long
+                ) {
+                    selectedAttendanceType = AttendanceCategory[position]
+                    val selectedItem = binding.attendanceCateorySpinner!!.selectedItem.toString()
+                    binding.ALL4!!.text = "Mark all as"
+
+                    if (AttendanceStatus == "AttendanceEdit") {
+                        if ("Absent"==selectedAttendanceType) {
+                            Attendance_Edit_Adapter!!.isAbsentSelected()
+                        }
+                        if("Present"==selectedAttendanceType){
+                            Attendance_Edit_Adapter!!.isPresentSelected()
+                        }
+                        if("On-Duty"==selectedAttendanceType){
+                            Attendance_Edit_Adapter!!.isODSelected()
+                        }
+                    }
+                    else {
+
+                        CommonUtil.AbsendlistStudent.clear()
+                        CommonUtil.PresentlistStudent.clear()
+                        CommonUtil.ODlistStudent.clear()
+                        when (selectedAttendanceType) {
+//                            "Absent" -> {
+//                                SpecificStudentList!!.isAbsentSelected()
+//                            }
+//                            "Present" -> {
+//                                SpecificStudentList!!.isPresentSelected()
+//                            }
+//                            "On-Duty" -> {
+//                                SpecificStudentList!!.isODSelected()
+//                            }
+                        }
+                    }
+
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // Do nothing
+                }
+            }
+    }
+
+
 
     private fun filter(text: String) {
 
