@@ -76,6 +76,7 @@ import com.vsca.vsnapvoicecollege.Model.Leave_history
 import com.vsca.vsnapvoicecollege.Model.ManageLeave
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
+import com.vsca.vsnapvoicecollege.Model.PlacementEventResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
@@ -228,6 +229,7 @@ class AppServices {
     var isSendResumeBuilderGenerateResume: MutableLiveData<ResumeBuilderGenerateResumeResponse?>
     var isSendResumeBuilderSaveTitle: MutableLiveData<ResumeBuilderSaveTitleResponse?>
     var isGetResumeBuilderProfileResume: MutableLiveData<GetProfileResume?>
+    var isGetPlacementList: MutableLiveData<PlacementEventResponse?>
     var isResumeBuilderDeleteResume :MutableLiveData<ResumeBuilderDeleteResume?>
 
 
@@ -342,6 +344,7 @@ class AppServices {
         isSendResumeBuilderGenerateResume = MutableLiveData()
         isSendResumeBuilderSaveTitle = MutableLiveData()
         isGetResumeBuilderProfileResume = MutableLiveData()
+        isGetPlacementList = MutableLiveData()
         isResumeBuilderDeleteResume = MutableLiveData()
     }
 
@@ -5894,7 +5897,49 @@ class AppServices {
     val ResumeBuilderProfileResumeLiveData: LiveData<GetProfileResume?>
         get() = isGetResumeBuilderProfileResume
 
+    fun isGetPlacementEvent(id:Int ?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
 
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.isPlacementEvent()
+            ?.enqueue(object : Callback<PlacementEventResponse?> {
+                override fun onResponse(
+                    call: Call<PlacementEventResponse?>, response: Response<PlacementEventResponse?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetPlacementList.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetPlacementList.postValue(null)
+                        } else {
+                            isGetPlacementList.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<PlacementEventResponse?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetPlacementList.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val isPlacementEventResponseLiveData: LiveData<PlacementEventResponse?>
+        get() = isGetPlacementList
 
 
 

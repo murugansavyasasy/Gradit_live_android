@@ -2,8 +2,6 @@ package com.vsca.vsnapvoicecollege.Interfaces
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.AWS.PreSignedUrl
-import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
 import com.vsca.vsnapvoicecollege.Model.AssignmentMark
@@ -77,6 +75,7 @@ import com.vsca.vsnapvoicecollege.Model.ManageLeave
 import com.vsca.vsnapvoicecollege.Model.MenuResponse
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
+import com.vsca.vsnapvoicecollege.Model.PlacementEventResponse
 import com.vsca.vsnapvoicecollege.Model.PunchHistoryRes
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
@@ -117,7 +116,6 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.Header
@@ -655,6 +653,11 @@ interface ApiInterfaces {
     fun getProfileResume(
         @Query("idMember") id: Int?
     ): Call<GetProfileResume?>?
+
+    @GET(ApiMethods.isPlacementEvent)
+    fun isPlacementEvent(
+    ): Call<PlacementEventResponse?>?
+
 
 
     @HTTP(method = "DELETE", path = "delete/studentresume/{id}", hasBody = true)

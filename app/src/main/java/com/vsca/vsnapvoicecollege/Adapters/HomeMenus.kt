@@ -148,6 +148,11 @@ Log.d("isLoadMenu","isLoadMenu")
                 holder.lblMenuName!!.text = data.name
             }
 
+            100 -> {
+                holder.imgMenu!!.setImageResource(R.drawable.placement_icon)
+                holder.lblMenuName!!.text = data.name
+            }
+
             else -> {
                 holder.imgMenu!!.visibility = View.GONE
                 holder.lblMenuName!!.visibility = View.GONE

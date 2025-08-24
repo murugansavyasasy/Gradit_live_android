@@ -228,7 +228,6 @@ class RestClient {
         private var retrofit: Retrofit? = null
         private var resumeRetrofit: Retrofit? = null
         private var okHttpClient: OkHttpClient? = null
-
         private var _apiInterfaces: ApiInterfaces? = null
         private var _resumeApiInterfaces: ApiInterfaces? = null
 

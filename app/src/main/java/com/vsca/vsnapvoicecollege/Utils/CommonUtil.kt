@@ -30,6 +30,7 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.DexterError
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.vsca.vsnapvoicecollege.Activities.PlacementEvent
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Model.AttendanceHour
 import com.vsca.vsnapvoicecollege.Model.AttendanceHourEdit
@@ -291,6 +292,7 @@ object CommonUtil {
     var MenuFeeDetails = true
     var MarkAttendance = true
     var AttendanceReport = true
+    var PlacementEvent = true
 
     var MenuExamination = true
     var MenuAttendance = true

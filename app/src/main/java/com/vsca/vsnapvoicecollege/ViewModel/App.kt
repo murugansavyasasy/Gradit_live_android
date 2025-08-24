@@ -98,6 +98,7 @@ import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
 import com.vsca.vsnapvoicecollege.Model.GetProfileResume
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
+import com.vsca.vsnapvoicecollege.Model.PlacementEventResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
@@ -245,6 +246,7 @@ class App(application: Application) : AndroidViewModel(application) {
     var ResumeBuilderGenerateResume: LiveData<ResumeBuilderGenerateResumeResponse?>? = null
     var ResumeBuilderSaveTitle: LiveData<ResumeBuilderSaveTitleResponse?>? = null
     var ResumeBuilderProfileResume: LiveData<GetProfileResume?>? = null
+    var isPlacementEventResponse: LiveData<PlacementEventResponse?>? = null
     var ResumeBuilderDeleteResume: LiveData<ResumeBuilderDeleteResume?>? = null
 
 
@@ -374,6 +376,7 @@ class App(application: Application) : AndroidViewModel(application) {
         ResumeBuilderGenerateResume = apiRepositories!!.ResumeBuilderGenerateResumeLiveData
         ResumeBuilderSaveTitle = apiRepositories!!.ResumeBuilderSaveTitleLiveData
         ResumeBuilderProfileResume = apiRepositories!!.ResumeBuilderProfileResumeLiveData
+        isPlacementEventResponse = apiRepositories!!.isPlacementEventResponseLiveData
         ResumeBuilderDeleteResume = apiRepositories!!.ResumeBuilderDeleteResumeLiveData
     }
 
@@ -864,6 +867,10 @@ class App(application: Application) : AndroidViewModel(application) {
 
     fun GetResumeBuilderProfileResume(id: Int?, activity: Activity) {
         apiRepositories!!.GetResumeBuilderProfileResumeRequest(id, activity)
+    }
+
+    fun isPlacementEventData(id: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementEvent(id, activity)
     }
 
     fun GetResumeBuilderDeleteResume(id: Int?,isJsonObject: JsonObject, activity: Activity) {

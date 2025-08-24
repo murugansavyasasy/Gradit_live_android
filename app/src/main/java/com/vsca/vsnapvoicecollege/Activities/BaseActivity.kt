@@ -100,32 +100,23 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                     if (status == 1) {
                         UserMenuData = response.data!!
 
-                        /**
+
                         // If you want to add the menu for testing use below code. And don't delete it.
                         if (CommonUtil.Priority.equals("p1")) {
                         val newElements = listOf(
                         MenuDetailsResponse(
-                        21,
-                        "Mark Your Attendance",
-                        "mark_your_attendance",
+                        100,
+                        "Placement Event",
+                        "placement_event",
                         1,
                         1,
-                        21,
-                        2
-                        ),
-                        MenuDetailsResponse(
-                        22,
-                        "Attendance Report",
-                        "attendance_report",
-                        1,
-                        1,
-                        22,
+                        100,
                         2
                         )
                         )
                         UserMenuData.addAll(newElements)
                         }
-                         */
+
 
 
                         for (j in UserMenuData.indices) {
@@ -651,6 +642,15 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         if (data.id == 22) {
             if (CommonUtil.AttendanceReport) {
                 val i: Intent = Intent(this@BaseActivity, StaffWiseAttendanceReports::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(i)
+            }
+        }
+
+        if (data.id == 100) {
+            if (CommonUtil.PlacementEvent) {
+                val i: Intent = Intent(this@BaseActivity, PlacementEvent::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(i)
