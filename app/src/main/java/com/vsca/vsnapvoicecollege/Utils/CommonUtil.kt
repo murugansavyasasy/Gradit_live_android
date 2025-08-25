@@ -630,6 +630,18 @@ object CommonUtil {
     }
 
 
+    fun convertTo12HourFormat(time24: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+            val date: Date? = inputFormat.parse(time24)
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            time24 // return original if parsing fails
+        }
+    }
+
+
 
 
     fun ApiAlert(activity: Activity?, msg: String?) {
@@ -719,8 +731,52 @@ object CommonUtil {
         }
     }
 
+    fun getMonthName(month: Int): String {
+        val months = arrayOf(
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        )
+        return months.getOrNull(month - 1) ?: ""
+    }
 
-    fun isNetworkConnected(activity: Activity): Boolean {
+    fun formatDateForBinding(dateStr: String): Pair<String, String> {
+        return try {
+            // Input format (your API gives ISO string)
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+            val date = inputFormat.parse(dateStr)!!
+
+            // Day (29)
+            val dayFormat = SimpleDateFormat("dd", Locale.getDefault())
+            val day = dayFormat.format(date)
+
+            // Month name (Aug or August)
+            val monthFormat = SimpleDateFormat("MMM", Locale.getDefault())
+            val month = monthFormat.format(date)
+
+            Pair(day, month)
+        } catch (e: Exception) {
+            Pair("", "")
+        }
+    }
+
+
+    fun isoToDisplay(isoDate: String): String {
+        return try {
+            val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            isoFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val date = isoFormat.parse(isoDate)!!
+
+            val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            outputFormat.format(date)
+        } catch (e: Exception) {
+            isoDate // fallback: return original if parsing fails
+        }
+    }
+
+
+        fun isNetworkConnected(activity: Activity): Boolean {
         val cm = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null
     }

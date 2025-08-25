@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Model.PlacementEventData
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
 class EventPlacementAdapter (
     var isPlacementData: List<PlacementEventData>,
@@ -16,11 +17,12 @@ class EventPlacementAdapter (
 ) : RecyclerView.Adapter<EventPlacementAdapter.MyViewHolder>() {
 
 
-    var isCompanyDetailsAdapter: CompanyDetailsAdapter? = null
-    var isSelectionProcessAdapter: SelectionProcessAdapter? = null
+    private lateinit var isCompanyDetailsAdapter: CompanyDetailsAdapter
+    private lateinit var isSelectionProcessAdapter: SelectionProcessAdapter
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
+        val tvDay: TextView = itemView.findViewById(R.id.tvDay)
+        val tvMonth: TextView = itemView.findViewById(R.id.tvMonth)
         val tvEventTag: TextView = itemView!!.findViewById(R.id.tvEventTag)
         val tvTitle: TextView = itemView!!.findViewById(R.id.tvTitle)
         val tvTime: TextView = itemView!!.findViewById(R.id.tvTime)
@@ -43,37 +45,57 @@ class EventPlacementAdapter (
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val data = isPlacementData[position]
+        val data = isPlacementData!![position]
+
+        val (day, month) = CommonUtil.formatDateForBinding(data.eventDate)
+        holder.tvDay.text = day
+        holder.tvMonth.text = month
+
 
         holder.tvTitle!!.text = data.eventTitle
-        holder.tvTime!!.text = data.eventTime
-        holder.tvDescription!!.text = data.eventAbout
-        holder.tvMode!!.text = data.eventMode
-        holder.tvLocation!!.text = data.eventVenue
-        holder.tvCourses!!.text = data.eventEligibleCourse
-        holder.tvCriteria!!.text = data.eventEligibleCriteria
-
-        isCompanyDetailsAdapter = CompanyDetailsAdapter(data.eventCompanyDetails, context)
-        val gridLayoutManager = GridLayoutManager(context, 3)
-        holder.rcyCompanyList!!.layoutManager = gridLayoutManager
-        holder.rcyCompanyList!!.adapter = isCompanyDetailsAdapter
-        isCompanyDetailsAdapter!!.notifyDataSetChanged()
+        holder.tvTime!!.text =CommonUtil.convertTo12HourFormat(data.eventTime)
+        holder.tvDescription!!.text = data.aboutEvent
+        holder.tvMode!!.text = data.modeOfEvent
+        holder.tvLocation!!.text = data.venue
+        holder.tvCourses!!.text = data.eligibleCourses.joinToString(", ")
+        holder.tvCriteria!!.text = data.eligibleCriteria
 
 
-        isSelectionProcessAdapter = SelectionProcessAdapter(data.eventSelectionProcess, context)
-        val isGridLayoutManager = GridLayoutManager(context, 2)
-        holder.rcySelectionProcess!!.layoutManager = isGridLayoutManager
-        holder.rcySelectionProcess!!.adapter = isSelectionProcessAdapter
-        isSelectionProcessAdapter!!.notifyDataSetChanged()
+        val companyList = data.companyDetails ?: emptyList()
+        if (companyList.isNotEmpty()) {
+            isCompanyDetailsAdapter = CompanyDetailsAdapter(companyList, context!!)
+            holder.rcyCompanyList.layoutManager = GridLayoutManager(context, 3)
+            holder.rcyCompanyList.adapter = isCompanyDetailsAdapter
+        } else {
+            holder.rcyCompanyList.adapter = null
+        }
 
+        // ---- SelectionProcessAdapter ----
+        val selectionList = data.selectionProcess ?: emptyList()
+        if (selectionList.isNotEmpty()) {
+            isSelectionProcessAdapter = SelectionProcessAdapter(selectionList, context!!)
+            holder.rcySelectionProcess.layoutManager = GridLayoutManager(context, 2)
+            holder.rcySelectionProcess.adapter = isSelectionProcessAdapter
+        } else {
+            holder.rcySelectionProcess.adapter = null
+        }
 
-
+//        isCompanyDetailsAdapter = CompanyDetailsAdapter(data.companyDetails!!, context)
+//        holder.rcyCompanyList!!.layoutManager = GridLayoutManager(context, 3)
+//        holder.rcyCompanyList!!.adapter = isCompanyDetailsAdapter
+//        isCompanyDetailsAdapter!!.notifyDataSetChanged()
+//
+//
+//        isSelectionProcessAdapter = SelectionProcessAdapter(data.selectionProcess!!, context)
+//        holder.rcySelectionProcess!!.layoutManager = GridLayoutManager(context, 2)
+//        holder.rcySelectionProcess!!.adapter = isSelectionProcessAdapter
+//        isSelectionProcessAdapter!!.notifyDataSetChanged()
 
 
     }
 
     override fun getItemCount(): Int {
-        return isPlacementData.size
+        return isPlacementData!!.size
 
     }
 }

@@ -150,6 +150,10 @@ object ApiMethods {
     const val SendResumeBuilderGenerateResume ="resume/post-resume"
     const val SendResumeBuilderSaveTitle ="resume/saveTitleResume"
     const val GetProfileResume ="get/profileresume"
-    const val isPlacementEvent ="placementEvents/getPlacementAll"
+//    const val isPlacementEvent ="placementEvents/getPlacementAll"
+    const val isPlacementEvent ="students/student-placement-events"
+    const val isPlacementHistoricalEvent ="students/student-placement-events-historical"
+    const val isPlacementCareer ="students/student-career"
+    const val isPlacementHistoricalCareer ="students/student-career-historical"
 
 }

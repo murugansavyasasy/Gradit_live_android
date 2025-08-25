@@ -40,12 +40,12 @@
                     <LinearLayout
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/round_skyblue"
+                        android:background="@drawable/red_circle_bg"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvDay"
+                            android:id="@+id/tvDay1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="12"
@@ -91,7 +91,7 @@
                         android:text="Campus Recruitment Drive Java Architects"
                         android:textColor="@android:color/black"
                         android:textSize="16dp"
-                         />
+                        />
 
 
                     <TextView
@@ -151,16 +151,66 @@
                 android:layout_height="0.5dp"
                 android:layout_marginVertical="5dp"
                 android:background="@android:color/darker_gray" />
-
-
-            <!-- Company RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcyCompanyList"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:weightSum="1"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Scheduled Time"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textColor="@color/clr_gray"
+                        />
 
-            <!-- Divider -->
+                    <TextView
+                        android:id="@+id/tvScheduled_Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="10:00 AM to 12:00 PM"
+                        android:layout_marginTop="@dimen/five"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_semibold"
+                        />
+
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imgRepeat"
+                        android:layout_width="@dimen/fifteen"
+                        android:src="@drawable/repeat_icon"
+                        android:layout_height="@dimen/fifteen">
+
+                    </ImageView>
+
+                    <TextView
+                        android:layout_marginStart="@dimen/five"
+                        android:layout_toEndOf="@+id/imgRepeat"
+                        android:id="@+id/lblRepeatTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Repeats every week Monday and Wednesday until 23 Jun 2025"
+                        android:textSize="12sp"
+                        android:textColor="#FF9500"
+                        android:fontFamily="@font/poppins_regular"
+                        />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -171,7 +221,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Eligible Courses"
+                android:text="Applicable Batches"
                 android:textSize="12sp"
                 android:fontFamily="@font/poppins_regular"
                 android:layout_marginTop="@dimen/ten"
@@ -186,7 +236,7 @@
                 android:layout_marginTop="@dimen/five"
                 android:textSize="12sp"
                 android:fontFamily="@font/poppins_semibold"
-               />
+                />
 
             <!-- Eligibility Criteria -->
             <TextView
@@ -194,7 +244,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fifteen"
                 android:textColor="@color/clr_gray"
-                android:text="Eligibility Criteria"
+                android:text="Trainer Name"
                 android:textSize="12sp"
                 android:fontFamily="@font/poppins_regular"
                 />
@@ -204,27 +254,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five"
-                android:text="CGPA > 7, No standing arrears"
+                android:text="Tiger"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <!-- Selection Process -->
-            <TextView
-                android:id="@+id/tvSelection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fifteen"
-                android:text="Selection Process"
-                android:textSize="12sp"
-                android:fontFamily="@font/poppins_regular"
-                android:textColor="@color/clr_gray"
-                />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcySelectionProcess"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five" />
+
         </LinearLayout>
     </RelativeLayout>
 
@@ -236,13 +271,13 @@
         android:layout_gravity="top|start"
         android:layout_marginStart="20dp"
         android:layout_marginTop="@dimen/five"
-        android:background="@drawable/sky_blue_radious"
+        android:background="@drawable/red_radius_bg"
         android:elevation="10dp"
         android:fontFamily="@font/poppins_medium"
         android:paddingHorizontal="10dp"
         android:paddingVertical="4dp"
-        android:text="Placement Event"
+        android:text="Placement Training"
         android:textColor="@android:color/white"
         android:textSize="10sp"
-         />  <!-- move fully above -->
+        />  <!-- move fully above -->
 </FrameLayout>

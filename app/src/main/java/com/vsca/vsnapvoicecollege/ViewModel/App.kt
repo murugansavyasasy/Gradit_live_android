@@ -95,6 +95,7 @@ import com.vsca.vsnapvoicecollege.SenderModel.GetDivisionResponse
 import com.vsca.vsnapvoicecollege.SenderModel.SenderStatusMessageData
 import androidx.lifecycle.viewModelScope
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
+import com.vsca.vsnapvoicecollege.Model.CareerTrainingResponse
 import com.vsca.vsnapvoicecollege.Model.GetProfileResume
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
@@ -247,6 +248,9 @@ class App(application: Application) : AndroidViewModel(application) {
     var ResumeBuilderSaveTitle: LiveData<ResumeBuilderSaveTitleResponse?>? = null
     var ResumeBuilderProfileResume: LiveData<GetProfileResume?>? = null
     var isPlacementEventResponse: LiveData<PlacementEventResponse?>? = null
+    var isPlacementHistoricalEventResponse: LiveData<PlacementEventResponse?>? = null
+    var isPlacementCareerResponse: LiveData<CareerTrainingResponse?>? = null
+    var isPlacementHistoricalCareerResponse: LiveData<CareerTrainingResponse?>? = null
     var ResumeBuilderDeleteResume: LiveData<ResumeBuilderDeleteResume?>? = null
 
 
@@ -378,6 +382,9 @@ class App(application: Application) : AndroidViewModel(application) {
         ResumeBuilderProfileResume = apiRepositories!!.ResumeBuilderProfileResumeLiveData
         isPlacementEventResponse = apiRepositories!!.isPlacementEventResponseLiveData
         ResumeBuilderDeleteResume = apiRepositories!!.ResumeBuilderDeleteResumeLiveData
+        isPlacementHistoricalEventResponse = apiRepositories!!.isPlacementHistoricalEventLiveData
+        isPlacementHistoricalCareerResponse = apiRepositories!!.isPlacementHistoricalCareerLiveData
+        isPlacementCareerResponse = apiRepositories!!.isPlacementCareerLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -869,8 +876,20 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetResumeBuilderProfileResumeRequest(id, activity)
     }
 
-    fun isPlacementEventData(id: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementEvent(id, activity)
+    fun isPlacementEventData(memberId: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementEvent(memberId, activity)
+    }
+
+    fun isPlacementHistoricalEventData(memberId: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementHistoricalEvent(memberId, activity)
+    }
+
+    fun isPlacementCareerData(departmentname: String?,semesterno: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementCareer(departmentname,semesterno, activity)
+    }
+
+    fun isPlacementHostoricalCareerData(departmentname: String?,semesterno: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementHistoricalCareer(departmentname,semesterno, activity)
     }
 
     fun GetResumeBuilderDeleteResume(id: Int?,isJsonObject: JsonObject, activity: Activity) {

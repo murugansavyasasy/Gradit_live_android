@@ -20,10 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/ten"
-        android:textStyle="bold"
         android:layout_toEndOf="@+id/imgSelection"
         android:text=""
-        android:textSize="@dimen/thirteen_sp">
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="@dimen/twelve_sp">
 
     </TextView>
 
