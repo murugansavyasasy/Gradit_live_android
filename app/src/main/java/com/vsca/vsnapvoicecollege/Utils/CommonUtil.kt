@@ -83,7 +83,7 @@ object CommonUtil {
     val PresentlistStudent: MutableList<String> = ArrayList()
     val OnDutylistStudent: MutableList<String> = ArrayList()
     val AbsendlistStudent: MutableList<String> = ArrayList()
-    val ODlistStudent: MutableList<String> = ArrayList()
+    val isOnLeaveStudentList: MutableList<String> = ArrayList()
     var Onbackpressed = ""
     var iSubjectId = ArrayList<String>()
     var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null

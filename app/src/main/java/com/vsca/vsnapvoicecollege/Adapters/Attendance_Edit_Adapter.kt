@@ -12,6 +12,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.vsca.vsnapvoicecollege.Activities.Spectfice_TakeAttendance
 import com.vsca.vsnapvoicecollege.Interfaces.Attendance_EditClickLisitiner
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.SenderModel.Attendance_Edit_Selected
@@ -45,16 +46,8 @@ class Attendance_Edit_Adapter constructor(
         val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutEntireCollege)!!
         val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)!!
         val switchOD: SwitchCompat = itemView!!.findViewById(R.id.switchOD)!!
+        val switchOnLeave: SwitchCompat = itemView!!.findViewById(R.id.switchOnLeave)!!
         val img_mark_attendance: TextView = itemView!!.findViewById(R.id.img_mark_attendance)!!
-
-//        val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)
-//        val lbl_studentname: TextView = itemView!!.findViewById(R.id.lbl_studentname)
-//        val lbl_RTegNo: TextView = itemView!!.findViewById(R.id.lbl_RTegNo)
-//        val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutstudentlist)
-//
-//        val switchOD: SwitchCompat = itemView!!.findViewById(R.id.switchOD)!!
-//        val img_mark_attendance: TextView = itemView!!.findViewById(R.id.img_mark_attendance)!!
-//
 
     }
 
@@ -76,68 +69,74 @@ class Attendance_Edit_Adapter constructor(
         Position = holder.absoluteAdapterPosition
 
         checkClick = checkListener
-//        holder.lbl_studentname!!.text = data.membername
-//        holder.lbl_RTegNo.text = "Register No : " + data.rollno
-//        CommonUtil.Absentlistcount = ""
-//        holder.layoutstudentlist!!.visibility = View.GONE
-//        holder.con_attendance!!.visibility = View.VISIBLE
-
+        (context as? Spectfice_TakeAttendance)?.updateMasterCheckboxesEdit()
         holder.layoutstudentlist!!.visibility = View.GONE
         holder.con_attendance!!.visibility = View.VISIBLE
         holder.lblStudentname!!.text = data.membername
         holder.lblRegNo!!.text = "Register No : " + data.rollno
         CommonUtil.Absentlistcount = ""
-
         if (data.attendancetype.equals("Absent")) {
             holder.switchOD.isChecked = false
+            holder.switchOnLeave.isChecked =false
             holder.img_mark_attendance.text = "A"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_red)
         } else if (data.attendancetype.equals("Present")) {
             holder.switchOD.isChecked = false
+            holder.switchOnLeave.isChecked =false
             holder.img_mark_attendance.text = "P"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_green)
-        } else {
+        } else if (data.attendancetype.equals("OnDuty")) {
             holder.switchOD.isChecked = true
+            holder.switchOnLeave.isChecked =false
             holder.img_mark_attendance.text = "OD"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_yellow)
+        }else{
+            holder.switchOnLeave.isChecked = true
+            holder.switchOD.isChecked = false
+            holder.img_mark_attendance.text = "L"
+            holder.img_mark_attendance!!.background =
+                ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_blue)
         }
-
 
         if (CommonUtil.PresentlistStudent.contains(data.memberid.toString())) {
             holder.switchOD.isChecked = false
+            holder.switchOnLeave.isChecked = false
             holder.img_mark_attendance.text = "P"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_green)
         } else if (CommonUtil.AbsendlistStudent.contains(data.memberid.toString())) {
             holder.switchOD.isChecked = false
+            holder.switchOnLeave.isChecked = false
             holder.img_mark_attendance.text = "A"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_red)
-        } else {
+        } else if (CommonUtil.isOnLeaveStudentList.contains(data.memberid.toString())) {
+            holder.switchOD.isChecked = false
+            holder.switchOnLeave.isChecked = true
+            holder.img_mark_attendance.text = "L"
+            holder.img_mark_attendance!!.background =
+                ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_blue)
+        } else if (CommonUtil.OnDutylistStudent.contains(data.memberid.toString())) {
             holder.switchOD.isChecked = true
+            holder.switchOnLeave.isChecked = false
             holder.img_mark_attendance.text = "OD"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_yellow)
         }
 
-
-//        if (CommonUtil.PresentlistStudent.contains(data.memberid.toString())) {
-//            holder.img_mark_attendance!!.setImageResource(R.drawable.present)
-//        } else {
-//            holder.img_mark_attendance!!.setImageResource(R.drawable.absend_img)
-//        }
-
-        holder.switchOD.setOnClickListener {
-            if (holder.switchOD.isChecked) {
-                holder.img_mark_attendance.setBackgroundResource(R.drawable.round_yellow)
-                holder.img_mark_attendance.text = "OD"
+        holder.switchOnLeave.setOnClickListener {
+            holder.switchOD.isChecked=false
+            if (holder.switchOnLeave.isChecked) {
+                holder.img_mark_attendance.setBackgroundResource(R.drawable.round_blue)
+                holder.img_mark_attendance.text = "L"
                 checkClick?.remove(data)
                 CommonUtil.PresentlistStudent.remove(data.memberid.toString())
                 CommonUtil.AbsendlistStudent.remove(data.memberid.toString())
-                CommonUtil.OnDutylistStudent.add(data.memberid.toString())
+                CommonUtil.OnDutylistStudent.remove(data.memberid.toString())
+                CommonUtil.isOnLeaveStudentList.add(data.memberid.toString())
             } else {
                 checkClick?.remove(data)
                 holder.img_mark_attendance.text = "A"
@@ -146,12 +145,38 @@ class Attendance_Edit_Adapter constructor(
                 CommonUtil.PresentlistStudent.remove(data.memberid.toString())
                 CommonUtil.AbsendlistStudent.add(data.memberid.toString())
                 CommonUtil.OnDutylistStudent.remove(data.memberid.toString())
-
+                CommonUtil.isOnLeaveStudentList.remove(data.memberid.toString())
             }
+            (context as? Spectfice_TakeAttendance)?.updateMasterCheckboxesEdit()
         }
 
-        holder.img_mark_attendance.setOnClickListener {
+
+        holder.switchOD.setOnClickListener {
+            holder.switchOnLeave.isChecked=false
+            if (holder.switchOD.isChecked) {
+                holder.img_mark_attendance.setBackgroundResource(R.drawable.round_yellow)
+                holder.img_mark_attendance.text = "OD"
+                checkClick?.remove(data)
+                CommonUtil.PresentlistStudent.remove(data.memberid.toString())
+                CommonUtil.AbsendlistStudent.remove(data.memberid.toString())
+                CommonUtil.OnDutylistStudent.add(data.memberid.toString())
+                CommonUtil.isOnLeaveStudentList.remove(data.memberid.toString())
+            } else {
+                checkClick?.remove(data)
+                holder.img_mark_attendance.text = "A"
+                holder.img_mark_attendance!!.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_red)
+                CommonUtil.PresentlistStudent.remove(data.memberid.toString())
+                CommonUtil.AbsendlistStudent.add(data.memberid.toString())
+                CommonUtil.OnDutylistStudent.remove(data.memberid.toString())
+                CommonUtil.isOnLeaveStudentList.remove(data.memberid.toString())
+            }
+            (context as? Spectfice_TakeAttendance)?.updateMasterCheckboxesEdit()
+        }
+
+        holder.img_mark_attendance!!.setOnClickListener {
             holder.switchOD.isChecked = false
+            holder.switchOnLeave.isChecked = false
             if (holder.img_mark_attendance!!.background.constantState!! == context.getDrawable(R.drawable.round_green)!!.constantState
             ) {
                 checkClick?.remove(data)
@@ -161,32 +186,19 @@ class Attendance_Edit_Adapter constructor(
                 CommonUtil.PresentlistStudent.remove(data.memberid.toString())
                 CommonUtil.OnDutylistStudent.remove(data.memberid.toString())
                 CommonUtil.AbsendlistStudent.add(data.memberid.toString())
+                CommonUtil.isOnLeaveStudentList.remove(data.memberid.toString())
             } else {
-                checkClick?.add(data)
+               checkClick?.add(data)
                 holder.img_mark_attendance.text = "P"
                 holder.img_mark_attendance!!.background =
                     ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_green)
                 CommonUtil.AbsendlistStudent.remove(data.memberid.toString())
                 CommonUtil.OnDutylistStudent.remove(data.memberid.toString())
+                CommonUtil.isOnLeaveStudentList.remove(data.memberid.toString())
                 CommonUtil.PresentlistStudent.add(data.memberid.toString())
             }
+            (context as? Spectfice_TakeAttendance)?.updateMasterCheckboxesEdit()
         }
-
-//        holder.img_mark_attendance!!.setOnClickListener {
-//
-//            if (holder.img_mark_attendance!!.drawable.constantState!! == context.getDrawable(R.drawable.present)!!.constantState
-//            ) {
-//                checkClick?.remove(data)
-//                holder.img_mark_attendance!!.setImageResource(R.drawable.absend_img)
-//                CommonUtil.PresentlistStudent.remove(data.memberid.toString())
-//                CommonUtil.AbsendlistStudent.add(data.memberid.toString())
-//            } else {
-//                checkClick?.add(data)
-//                holder.img_mark_attendance!!.setImageResource(R.drawable.present)
-//                CommonUtil.AbsendlistStudent.remove(data.memberid.toString())
-//                CommonUtil.PresentlistStudent.add(data.memberid.toString())
-//            }
-//        }
     }
 
     fun selectAll() {
@@ -195,20 +207,10 @@ class Attendance_Edit_Adapter constructor(
         for (i in selectedList) {
             CommonUtil.PresentlistStudent.add(i.memberid.toString())
         }
+        (context as? Spectfice_TakeAttendance)?.updateMasterCheckboxesEdit()
         CommonUtil.AbsendlistStudent.clear()
         notifyDataSetChanged()
     }
-
-//    fun unselectall() {
-//        isSelectedAll = false
-//
-//        CommonUtil.AbsendlistStudent.clear()
-//        for (i in selectedList) {
-//            CommonUtil.AbsendlistStudent.add(i.memberid.toString())
-//        }
-//        CommonUtil.PresentlistStudent.clear()
-//        notifyDataSetChanged()
-//    }
 
     fun unselectall() {
         isSelectedAll = false
@@ -217,7 +219,7 @@ class Attendance_Edit_Adapter constructor(
             CommonUtil.AbsendlistStudent.add(i.memberid.toString())
             CommonUtil.PresentlistStudent.remove(i.memberid.toString())
         }
-
+        (context as? Spectfice_TakeAttendance)?.updateMasterCheckboxesEdit()
         notifyDataSetChanged()
     }
 
@@ -226,24 +228,40 @@ class Attendance_Edit_Adapter constructor(
         notifyDataSetChanged()
     }
 
-    fun isOnDuty() {
-        if (CommonUtil.AbsendlistStudent.isNotEmpty()) {
-            CommonUtil.AbsendlistStudent.clear()
-            CommonUtil.OnDutylistStudent.clear()
-            CommonUtil.PresentlistStudent.clear()
-            for (i in selectedList) {
-                CommonUtil.AbsendlistStudent.add(i.memberid.toString())
-            }
-        } else {
-            CommonUtil.AbsendlistStudent.clear()
-            CommonUtil.OnDutylistStudent.clear()
-            CommonUtil.PresentlistStudent.clear()
+    fun isOnDuty(isOnDutyChecked: Boolean) {
+
+        CommonUtil.AbsendlistStudent.clear()
+        CommonUtil.OnDutylistStudent.clear()
+        CommonUtil.PresentlistStudent.clear()
+        CommonUtil.isOnLeaveStudentList.clear()
+        if (isOnDutyChecked) {
             for (i in selectedList) {
                 CommonUtil.OnDutylistStudent.add(i.memberid.toString())
             }
-            Log.d("CommonUtil_receiverid", CommonUtil.receiverid)
+        } else {
+            for (i in selectedList) {
+                CommonUtil.AbsendlistStudent.add(i.memberid.toString())
+            }
         }
 
+        notifyDataSetChanged()
+    }
+
+    fun isOnLeave(isOnLeaveChecked: Boolean) {
+
+        CommonUtil.AbsendlistStudent.clear()
+        CommonUtil.OnDutylistStudent.clear()
+        CommonUtil.PresentlistStudent.clear()
+        CommonUtil.isOnLeaveStudentList.clear()
+        if (isOnLeaveChecked) {
+            for (i in selectedList) {
+                CommonUtil.isOnLeaveStudentList.add(i.memberid.toString())
+            }
+        } else {
+            for (i in selectedList) {
+                CommonUtil.AbsendlistStudent.add(i.memberid.toString())
+            }
+        }
         notifyDataSetChanged()
     }
 

@@ -293,7 +293,8 @@
         android:id="@+id/lytCheckBoxes"
         android:layout_width="match_parent"
         android:layout_below="@+id/idSV"
-        android:weightSum="3"
+        android:weightSum="4"
+        android:visibility="gone"
         android:layout_marginStart="@dimen/twenty"
         android:layout_marginEnd="@dimen/twenty"
         android:layout_height="wrap_content">
@@ -304,6 +305,7 @@
             android:layout_weight="1"
             android:text="Present"
             android:gravity="center"
+            android:checked="true"
             android:layout_height="wrap_content">
 
         </CheckBox>
@@ -321,6 +323,16 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:text="OnDuty"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+        </CheckBox>
+
+        <CheckBox
+            android:id="@+id/chOnLeave"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="On Leave"
             android:gravity="center"
             android:layout_height="wrap_content">
 
@@ -394,9 +406,9 @@
             android:id="@+id/recycle_specificstudentAttendance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/twenty_five"
             android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginRight="@dimen/twenty_five"
+            android:layout_marginStart="@dimen/ten"
+            android:layout_marginEnd="@dimen/ten"
             android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
 
     </RelativeLayout>
