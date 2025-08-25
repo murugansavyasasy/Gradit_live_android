@@ -32,7 +32,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:fontFamily="@font/poppins_medium"
-            android:text="Placement Events"
+            android:text="Placement Trainings"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp"
             android:textStyle="normal"
@@ -116,26 +116,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/lblCareerTraining"
-            android:text="Career Training"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/five"
-            android:layout_height="wrap_content">
-
-        </TextView>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcyPlacementEvent"
-            android:layout_below="@+id/lblCareerTraining"
+            android:id="@+id/rcyPlacementTraining"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
         </androidx.recyclerview.widget.RecyclerView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcyHistoricalEvent"
-            android:layout_below="@+id/rcyPlacementEvent"
+            android:id="@+id/rcyHistoricalTraining"
+            android:layout_below="@+id/rcyPlacementTraining"
             android:layout_width="match_parent"
             android:visibility="gone"
             android:layout_height="wrap_content">

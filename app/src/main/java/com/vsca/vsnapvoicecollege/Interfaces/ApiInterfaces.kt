@@ -15,6 +15,7 @@ import com.vsca.vsnapvoicecollege.Model.Attendance_Checking
 import com.vsca.vsnapvoicecollege.Model.Attendance_Edit
 import com.vsca.vsnapvoicecollege.Model.AttendancemardkingResponse
 import com.vsca.vsnapvoicecollege.Model.BlackStudent
+import com.vsca.vsnapvoicecollege.Model.CareerTrainingResponse
 import com.vsca.vsnapvoicecollege.Model.Chat_StaffList
 import com.vsca.vsnapvoicecollege.Model.Chat_Student
 import com.vsca.vsnapvoicecollege.Model.Chat_Text_model
@@ -656,8 +657,27 @@ interface ApiInterfaces {
 
     @GET(ApiMethods.isPlacementEvent)
     fun isPlacementEvent(
+        @Query("memberId") memberId: Int?
     ): Call<PlacementEventResponse?>?
 
+
+    @GET(ApiMethods.isPlacementHistoricalEvent)
+    fun isPlacementHistoricalEvent(
+        @Query("memberId") memberId: Int?
+    ): Call<PlacementEventResponse?>?
+
+    @GET(ApiMethods.isPlacementCareer)
+    fun isPlacementCareer(
+        @Query("departmentname") departmentname: String?,
+        @Query("semesterno") semesterno: Int?,
+    ): Call<CareerTrainingResponse?>?
+
+
+    @GET(ApiMethods.isPlacementHistoricalCareer)
+    fun isPlacementHistoricalCareer(
+        @Query("departmentname") departmentname: String?,
+        @Query("semesterno") semesterno: Int?,
+    ): Call<CareerTrainingResponse?>?
 
 
     @HTTP(method = "DELETE", path = "delete/studentresume/{id}", hasBody = true)

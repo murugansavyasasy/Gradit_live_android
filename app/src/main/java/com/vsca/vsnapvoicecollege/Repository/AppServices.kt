@@ -21,6 +21,7 @@ import com.vsca.vsnapvoicecollege.Model.AttendanceResponse
 import com.vsca.vsnapvoicecollege.Model.Attendance_Edit
 import com.vsca.vsnapvoicecollege.Model.AttendancemardkingResponse
 import com.vsca.vsnapvoicecollege.Model.BlackStudent
+import com.vsca.vsnapvoicecollege.Model.CareerTrainingResponse
 import com.vsca.vsnapvoicecollege.Model.Chat_StaffList
 import com.vsca.vsnapvoicecollege.Model.Chat_Student
 import com.vsca.vsnapvoicecollege.Model.Chat_Text_model
@@ -230,6 +231,8 @@ class AppServices {
     var isSendResumeBuilderSaveTitle: MutableLiveData<ResumeBuilderSaveTitleResponse?>
     var isGetResumeBuilderProfileResume: MutableLiveData<GetProfileResume?>
     var isGetPlacementList: MutableLiveData<PlacementEventResponse?>
+    var isGetHistoricalPlacementList: MutableLiveData<PlacementEventResponse?>//here isGetHistoricalPlacementList Model Class is same as isGetPlacementList
+    var isGetPlacementCareerList: MutableLiveData<CareerTrainingResponse?>
     var isResumeBuilderDeleteResume :MutableLiveData<ResumeBuilderDeleteResume?>
 
 
@@ -345,7 +348,9 @@ class AppServices {
         isSendResumeBuilderSaveTitle = MutableLiveData()
         isGetResumeBuilderProfileResume = MutableLiveData()
         isGetPlacementList = MutableLiveData()
+        isGetHistoricalPlacementList = MutableLiveData()
         isResumeBuilderDeleteResume = MutableLiveData()
+        isGetPlacementCareerList = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5897,11 +5902,11 @@ class AppServices {
     val ResumeBuilderProfileResumeLiveData: LiveData<GetProfileResume?>
         get() = isGetResumeBuilderProfileResume
 
-    fun isGetPlacementEvent(id:Int ?, activity: Activity) {
+    fun isGetPlacementEvent(memberid:Int ?, activity: Activity) {
         val progressDialog = CustomLoading.createProgressDialog(activity)
 
         progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementEvent()
+        RestClient.resumeApiInterfaces.isPlacementEvent(memberid)
             ?.enqueue(object : Callback<PlacementEventResponse?> {
                 override fun onResponse(
                     call: Call<PlacementEventResponse?>, response: Response<PlacementEventResponse?>
@@ -5943,7 +5948,148 @@ class AppServices {
 
 
 
-//Delete Resume
+    fun isGetPlacementHistoricalEvent(memberid:Int ?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.isPlacementHistoricalEvent(memberid)
+            ?.enqueue(object : Callback<PlacementEventResponse?> {
+                override fun onResponse(
+                    call: Call<PlacementEventResponse?>, response: Response<PlacementEventResponse?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetHistoricalPlacementList.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetHistoricalPlacementList.postValue(null)
+                        } else {
+                            isGetHistoricalPlacementList.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<PlacementEventResponse?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetHistoricalPlacementList.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val isPlacementHistoricalEventLiveData: LiveData<PlacementEventResponse?>
+        get() = isGetHistoricalPlacementList
+
+
+
+
+
+      fun isGetPlacementCareer(departmentname: String?,semesterno: Int?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.isPlacementCareer(departmentname,semesterno)
+            ?.enqueue(object : Callback<CareerTrainingResponse?> {
+                override fun onResponse(
+                    call: Call<CareerTrainingResponse?>, response: Response<CareerTrainingResponse?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetPlacementCareerList.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetPlacementCareerList.postValue(null)
+                        } else {
+                            isGetPlacementCareerList.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<CareerTrainingResponse?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetHistoricalPlacementList.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val isPlacementCareerLiveData: LiveData<CareerTrainingResponse?>
+        get() =isGetPlacementCareerList
+
+
+
+    fun isGetPlacementHistoricalCareer(departmentname: String?,semesterno: Int?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+
+        progressDialog!!.show()
+        RestClient.resumeApiInterfaces.isPlacementHistoricalCareer(departmentname,semesterno)
+            ?.enqueue(object : Callback<CareerTrainingResponse?> {
+                override fun onResponse(
+                    call: Call<CareerTrainingResponse?>, response: Response<CareerTrainingResponse?>
+                ) {
+                    progressDialog!!.dismiss()
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+
+                            progressDialog!!.dismiss()
+                            val Status = response.body()!!.status
+                            if (Status == true) {
+
+                                isGetPlacementCareerList.postValue(response.body())
+
+                            }
+                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                            progressDialog!!.dismiss()
+                            isGetPlacementCareerList.postValue(null)
+                        } else {
+                            isGetPlacementCareerList.postValue(null)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<CareerTrainingResponse?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+                    isGetHistoricalPlacementList.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val isPlacementHistoricalCareerLiveData: LiveData<CareerTrainingResponse?>
+        get() =isGetPlacementCareerList
+
+
+
+
+    //Delete Resume
     fun GetResumeBuilderDeleteResumeRequest(id:Int ?, isJsonObject: JsonObject,activity: Activity) {
         val progressDialog = CustomLoading.createProgressDialog(activity)
 

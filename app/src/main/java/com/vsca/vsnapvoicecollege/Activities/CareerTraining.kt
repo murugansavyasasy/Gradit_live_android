@@ -1,83 +1,75 @@
 package com.vsca.vsnapvoicecollege.Activities
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.vsca.vsnapvoicecollege.Adapters.EventPlacementAdapter
-import com.vsca.vsnapvoicecollege.Model.GetPlacementEventData
-import com.vsca.vsnapvoicecollege.Model.PlacementEventData
+import com.vsca.vsnapvoicecollege.Adapters.CareerTrainingAdapter
+import com.vsca.vsnapvoicecollege.Model.CareerTrainingData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.PlacementEventBinding
+import com.vsca.vsnapvoicecollege.databinding.CareerTrainingBinding
 
-class PlacementEvent : BaseActivity<PlacementEventBinding>() {
+class CareerTraining : BaseActivity<CareerTrainingBinding>() {
 
     override var appViewModel: App? = null
-    override fun inflateBinding(): PlacementEventBinding {
-        return PlacementEventBinding.inflate(layoutInflater)
+    override fun inflateBinding(): CareerTrainingBinding {
+        return CareerTrainingBinding.inflate(layoutInflater)
     }
 
-    var isPlacementAdapter: EventPlacementAdapter? = null
+    var isPlacementAdapter: CareerTrainingAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = PlacementEventBinding.inflate(layoutInflater)
+        binding = CareerTrainingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        appViewModel!!.isPlacementEventResponse?.observe(this) { response ->
+        appViewModel!!.isPlacementCareerResponse?.observe(this) { response ->
             if (response != null) {
                 val status = response.status
                 val message = response.message
                 if (status) {
                     binding.ErrorMessage.visibility=View.GONE
-                    binding.rcyPlacementEvent.visibility=View.VISIBLE
+                    binding.rcyPlacementTraining.visibility=View.VISIBLE
                     isLoadData(response.data)
                 }
                 else{
-                    binding.rcyPlacementEvent.visibility=View.GONE
-                    binding.ErrorMessage.visibility=View.VISIBLE
-                   binding.ErrorMessage.text=response.message
-                }
-            }
-            else{
-                binding.rcyPlacementEvent.visibility=View.GONE
-                binding.ErrorMessage.visibility=View.VISIBLE
-                binding.ErrorMessage.text="Some Exception Occured!"
-            }
-        }
-
-        binding.lblCareerTraining.setOnClickListener{
-
-            val intent = Intent(this, CareerTraining::class.java)
-            this.startActivity(intent)
-
-        }
-
-        appViewModel!!.isPlacementHistoricalEventResponse?.observe(this) { response ->
-            if (response != null) {
-                val status = response.status
-                val message = response.message
-                if (status) {
-                    binding.ErrorMessage.visibility=View.GONE
-                    binding.rcyHistoricalEvent.visibility=View.VISIBLE
-                    isLoadHistoricalData(response.data)
-                }
-                else{
-                    binding.rcyHistoricalEvent.visibility=View.GONE
+                    binding.rcyPlacementTraining.visibility=View.GONE
                     binding.ErrorMessage.visibility=View.VISIBLE
                     binding.ErrorMessage.text=response.message
                 }
             }
             else{
-                binding.rcyHistoricalEvent.visibility=View.GONE
+                binding.rcyPlacementTraining.visibility=View.GONE
+                binding.ErrorMessage.visibility=View.VISIBLE
+                binding.ErrorMessage.text="Some Exception Occured!"
+            }
+        }
+
+        appViewModel!!.isPlacementHistoricalCareerResponse?.observe(this) { response ->
+            if (response != null) {
+                val status = response.status
+                val message = response.message
+                if (status) {
+                    binding.ErrorMessage.visibility=View.GONE
+                    binding.rcyPlacementTraining.visibility=View.VISIBLE
+//                    isLoadHistoricalData(response.data)
+                }
+                else{
+                    binding.rcyPlacementTraining.visibility=View.GONE
+                    binding.ErrorMessage.visibility=View.VISIBLE
+                    binding.ErrorMessage.text=response.message
+                }
+            }
+            else{
+                binding.rcyPlacementTraining.visibility=View.GONE
                 binding.ErrorMessage.visibility=View.VISIBLE
                 binding.ErrorMessage.text="Some Exception Occured!"
             }
@@ -92,9 +84,9 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
             binding.tabOneName.setTextColor(ContextCompat.getColor(this, R.color.dark_blue))
             binding.tabTwoName.setTextColor(ContextCompat.getColor(this, R.color.black))
             binding.line2.setBackgroundResource(R.color.light_gray_3)
-            binding.rcyHistoricalEvent.visibility=View.GONE
+            binding.rcyPlacementTraining.visibility=View.GONE
             binding.ErrorMessage.visibility=View.GONE
-            binding.rcyPlacementEvent.visibility=View.VISIBLE
+            binding.rcyPlacementTraining.visibility=View.VISIBLE
 
             isUpcomingEventData()
         }
@@ -106,9 +98,9 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
             binding.tabTwoName.setTextColor(ContextCompat.getColor(this, R.color.dark_blue))
             binding.line2.setBackgroundResource(R.color.dark_blue)
             binding.line1.setBackgroundResource(R.color.light_gray_3)
-            binding.rcyPlacementEvent.visibility=View.GONE
+            binding.rcyPlacementTraining.visibility=View.GONE
             binding.ErrorMessage.visibility=View.GONE
-            binding.rcyHistoricalEvent.visibility=View.VISIBLE
+            binding.rcyPlacementTraining.visibility=View.VISIBLE
             isHistoricalEventData()
         }
 
@@ -120,33 +112,33 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
     }
 
     fun isUpcomingEventData(){
-        appViewModel!!.isPlacementEventData(31140, this)
+        appViewModel!!.isPlacementCareerData("BA",1, this)
     }
 
     fun isHistoricalEventData(){
-        appViewModel!!.isPlacementHistoricalEventData(31140, this)
+        appViewModel!!.isPlacementHostoricalCareerData("BA",1, this)
     }
 
-    fun isLoadData(isPlacementData: List<GetPlacementEventData>) {
+    fun isLoadData(isPlacementData: List<CareerTrainingData>) {
         isPlacementAdapter =
-            EventPlacementAdapter(isPlacementData.get(0).events, this)
+            CareerTrainingAdapter(isPlacementData, this)
         val mLayoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this)
-        binding.rcyPlacementEvent!!.layoutManager = mLayoutManager
-        binding.rcyPlacementEvent!!.adapter = isPlacementAdapter
+        binding.rcyPlacementTraining!!.layoutManager = mLayoutManager
+        binding.rcyPlacementTraining!!.adapter = isPlacementAdapter
         isPlacementAdapter!!.notifyDataSetChanged()
     }
 
-    fun isLoadHistoricalData(isPlacementData: List<GetPlacementEventData>) {
+    fun isLoadHistoricalData(isPlacementData: List<CareerTrainingData>) {
         isPlacementAdapter =
-            EventPlacementAdapter(isPlacementData.get(0).events, this)
+            CareerTrainingAdapter(isPlacementData, this)
         val mLayoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this)
-        binding.rcyHistoricalEvent!!.layoutManager = mLayoutManager
-        binding.rcyHistoricalEvent!!.adapter = isPlacementAdapter
+        binding.rcyPlacementTraining!!.layoutManager = mLayoutManager
+        binding.rcyPlacementTraining!!.adapter = isPlacementAdapter
         isPlacementAdapter!!.notifyDataSetChanged()
     }
 
     override val layoutResourceId: Int
-        get() = R.layout.placement_event
+        get() = R.layout.career_training
 }

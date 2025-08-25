@@ -15,6 +15,7 @@
     </ImageView>
 
     <TextView
+        android:fontFamily="@font/poppins_regular"
         android:id="@+id/lblCompanyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
         android:layout_marginStart="@dimen/ten"
         android:layout_toEndOf="@+id/imgCompanyLogo"
         android:text=""
-        android:textSize="@dimen/thirteen_sp">
+        android:textSize="10sp">
 
     </TextView>
 
