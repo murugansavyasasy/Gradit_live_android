@@ -99,7 +99,7 @@ object CommonUtil {
     var Appid = 1
 
     @JvmField
-    var VersionId = 35
+    var VersionId = 36
 
     // MENU NAME
 
@@ -206,6 +206,7 @@ object CommonUtil {
     var MobileNUmber = ""
     var MemberId = 0
     var CollegeId = 0
+    var deptname = ""
     var Selecteddata = ""
     var leavestartdate = ""
     var leaveenddate = ""
@@ -260,6 +261,7 @@ object CommonUtil {
     var receivertype = ""
     var deptid = ""
     var SemesterId = ""
+    var SemesteName= ""
     var receiverid = ""
     var seletedStringdata = ""
     var seleteddataArraySection = java.util.ArrayList<String>()
@@ -293,6 +295,8 @@ object CommonUtil {
     var MarkAttendance = true
     var AttendanceReport = true
     var PlacementEvent = true
+    var PlacementCareer = true
+    var PlacementTraining = true
 
     var MenuExamination = true
     var MenuAttendance = true

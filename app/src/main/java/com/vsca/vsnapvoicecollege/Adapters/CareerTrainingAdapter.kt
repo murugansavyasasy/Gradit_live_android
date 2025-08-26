@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Model.CareerTrainingData
@@ -18,7 +19,7 @@ class CareerTrainingAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.career_training, parent, false)
+            .inflate(R.layout.career_new_item, parent, false)
         return MyViewHolder(view)
     }
 
@@ -32,6 +33,7 @@ class CareerTrainingAdapter(
         val tvLocation: TextView = itemView.findViewById(R.id.tvLocation)
         val tvScheduledTime: TextView = itemView.findViewById(R.id.tvScheduled_Time)
         val lblRepeatTxt: TextView = itemView.findViewById(R.id.lblRepeatTxt)
+        val rytRepeat: RelativeLayout = itemView.findViewById(R.id.rytRepeat)
         val tvCourses: TextView = itemView.findViewById(R.id.tvCourses)
         val tvCriteria: TextView = itemView.findViewById(R.id.tvCriteria)
         val tvEventTag: TextView = itemView.findViewById(R.id.tvEventTag)
@@ -59,10 +61,10 @@ class CareerTrainingAdapter(
 
         // Repeat info
       if (data.recursiveTraining) {
-          holder.lblRepeatTxt.visibility=View.VISIBLE
+          holder.rytRepeat.visibility=View.VISIBLE
           holder.lblRepeatTxt.text= "Repeats every ${data.repeatTraining} ${data.selectDay} until ${CommonUtil.isoToDisplay(data.repeatUntill)}"
       }else{
-          holder.lblRepeatTxt.visibility=View.GONE
+          holder.rytRepeat.visibility=View.GONE
 
       }
 

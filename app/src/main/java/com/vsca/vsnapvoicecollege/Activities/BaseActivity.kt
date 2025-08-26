@@ -102,20 +102,36 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
 
                         // If you want to add the menu for testing use below code. And don't delete it.
-                        if (CommonUtil.Priority.equals("p1")) {
-                        val newElements = listOf(
-                        MenuDetailsResponse(
-                        100,
-                        "Placement Event",
-                        "placement_event",
-                        1,
-                        1,
-                        100,
-                        2
-                        )
-                        )
-                        UserMenuData.addAll(newElements)
-                        }
+//                        if (CommonUtil.Priority.equals("p4")) {
+//                        val newElements = listOf(
+//                        MenuDetailsResponse(
+//                        100,
+//                        "Placement Event",
+//                        "placement_event",
+//                        1,
+//                        1,
+//                        100,
+//                        2
+//                        ), MenuDetailsResponse(
+//                                101,
+//                                "Placement Career",
+//                                "placement_career",
+//                                1,
+//                                1,
+//                                101,
+//                                2
+//                            ), MenuDetailsResponse(
+//                                102,
+//                                "Resume Builder",
+//                                "resume_builder",
+//                                1,
+//                                1,
+//                                102,
+//                                2
+//                            )
+//                        )
+//                        UserMenuData.addAll(newElements)
+//                        }
 
 
 
@@ -648,9 +664,27 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
         }
 
-        if (data.id == 100) {
+        if (data.id == 24) {
             if (CommonUtil.PlacementEvent) {
                 val i: Intent = Intent(this@BaseActivity, PlacementEvent::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(i)
+            }
+        }
+
+        if (data.id == 25) {
+            if (CommonUtil.PlacementCareer) {
+                val i: Intent = Intent(this@BaseActivity, CareerTraining::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(i)
+            }
+        }
+
+        if (data.id == 23) {
+            if (CommonUtil.PlacementTraining) {
+                val i: Intent = Intent(this@BaseActivity, ResumeBuilder::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(i)
@@ -766,13 +800,13 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             layoutProfile.visibility = View.GONE
         }
 
-        layoutResumeMaker.setOnClickListener {
-            profilePopup!!.dismiss()
-            val i = Intent(activity, ResumeBuilder::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            activity.startActivity(i)
-        }
+//        layoutResumeMaker.setOnClickListener {
+//            profilePopup!!.dismiss()
+//            val i = Intent(activity, ResumeBuilder::class.java)
+//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            activity.startActivity(i)
+//        }
 
 
         layoutProfile.setOnClickListener {

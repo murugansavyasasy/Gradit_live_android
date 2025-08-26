@@ -38,10 +38,8 @@ class HomeMenus constructor(
         menuListener = homeMenuClickListener
         menuListener?.onMenuClick(holder, data)
         Position = holder.absoluteAdapterPosition
-Log.d("isLoadMenu","isLoadMenu")
         holder.imgMenu!!.visibility = View.VISIBLE
         holder.lblMenuName!!.visibility = View.VISIBLE
-
         when (data.id) {
             1 -> {
                 holder.imgMenu!!.setImageResource(R.drawable.home)
@@ -148,8 +146,17 @@ Log.d("isLoadMenu","isLoadMenu")
                 holder.lblMenuName!!.text = data.name
             }
 
-            100 -> {
-                holder.imgMenu!!.setImageResource(R.drawable.placement_icon)
+            23 -> {
+                holder.imgMenu!!.setImageResource(R.drawable.resume_builder)
+                holder.lblMenuName!!.text = data.name
+            }
+            24 -> {
+                holder.imgMenu!!.setImageResource(R.drawable.placement_event)
+                holder.lblMenuName!!.text = data.name
+            }
+
+            25 -> {
+                holder.imgMenu!!.setImageResource(R.drawable.placement_training)
                 holder.lblMenuName!!.text = data.name
             }
 

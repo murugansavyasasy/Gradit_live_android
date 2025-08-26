@@ -167,8 +167,10 @@ class Login : AppCompatActivity() {
             CommonUtil.MemberType = data.get(i).loginas!!
             CommonUtil.CollegeId = data.get(i).colgid
             CommonUtil.DivisionId = data.get(i).divisionId!!
+            CommonUtil.deptname = data.get(i).deptname!!
             CommonUtil.Courseid = data.get(i).courseid!!
             CommonUtil.DepartmentId = data.get(i).deptid!!
+            CommonUtil.SemesteName = data[i].semestername!!
             CommonUtil.YearId = data.get(i).yearid!!
             CommonUtil.isAllowtomakecall = data[i].is_allow_to_make_call
             CommonUtil.SemesterId = data.get(i).semesterid!!

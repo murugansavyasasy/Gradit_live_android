@@ -5914,16 +5914,17 @@ class AppServices {
                     progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-                        if (response.body() != null) {
+//                        if (response.body() != null) {
 
                             progressDialog!!.dismiss()
                             val Status = response.body()!!.status
-                            if (Status == true) {
+                            if (Status) {
 
                                 isGetPlacementList.postValue(response.body())
 
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+//                        }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isGetPlacementList.postValue(null)
                         } else {
@@ -5960,7 +5961,7 @@ class AppServices {
                     progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-                        if (response.body() != null) {
+//                        if (response.body() != null) {
 
                             progressDialog!!.dismiss()
                             val Status = response.body()!!.status
@@ -5969,7 +5970,8 @@ class AppServices {
                                 isGetHistoricalPlacementList.postValue(response.body())
 
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+//                        }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isGetHistoricalPlacementList.postValue(null)
                         } else {
@@ -6008,7 +6010,7 @@ class AppServices {
                     progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-                        if (response.body() != null) {
+//                        if (response.body() != null) {
 
                             progressDialog!!.dismiss()
                             val Status = response.body()!!.status
@@ -6017,7 +6019,8 @@ class AppServices {
                                 isGetPlacementCareerList.postValue(response.body())
 
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+//                        }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isGetPlacementCareerList.postValue(null)
                         } else {
@@ -6054,7 +6057,7 @@ class AppServices {
                     progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-                        if (response.body() != null) {
+//                        if (response.body() != null) {
 
                             progressDialog!!.dismiss()
                             val Status = response.body()!!.status
@@ -6063,7 +6066,8 @@ class AppServices {
                                 isGetPlacementCareerList.postValue(response.body())
 
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+//                        }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isGetPlacementCareerList.postValue(null)
                         } else {

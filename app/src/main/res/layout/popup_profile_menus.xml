@@ -90,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/eight"
             android:padding="@dimen/five"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutProfile">
 
@@ -99,7 +100,7 @@
                 android:layout_height="@dimen/twenty_three"
                 android:layout_marginStart="@dimen/five"
                 android:src="@drawable/ic_user_black"
-                android:visibility="gone"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,6 +112,7 @@
                 android:text="@string/txt_Resume_Maker"
                 android:textColor="@color/white"
                 android:textSize="@dimen/twelve"
+                android:visibility="gone"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imgResume"
                 app:layout_constraintBottom_toBottomOf="parent"

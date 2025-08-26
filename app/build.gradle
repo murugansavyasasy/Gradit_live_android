@@ -18,8 +18,8 @@ android {
         applicationId "com.vsca.vsnapvoicecollege"
         minSdk 24
         targetSdk 35
-        versionCode 55
-        versionName "4.9"
+        versionCode 56
+        versionName "5.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

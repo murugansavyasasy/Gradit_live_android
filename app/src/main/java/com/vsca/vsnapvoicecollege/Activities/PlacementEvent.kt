@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,7 @@ import com.vsca.vsnapvoicecollege.Adapters.EventPlacementAdapter
 import com.vsca.vsnapvoicecollege.Model.GetPlacementEventData
 import com.vsca.vsnapvoicecollege.Model.PlacementEventData
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.PlacementEventBinding
 
@@ -50,25 +52,31 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
             else{
                 binding.rcyPlacementEvent.visibility=View.GONE
                 binding.ErrorMessage.visibility=View.VISIBLE
-                binding.ErrorMessage.text="Some Exception Occured!"
+                binding.ErrorMessage.text="No Record Found"
             }
         }
 
-        binding.lblCareerTraining.setOnClickListener{
-
-            val intent = Intent(this, CareerTraining::class.java)
-            this.startActivity(intent)
-
-        }
+//        binding.lblCareerTraining.setOnClickListener{
+//            val intent = Intent(this, CareerTraining::class.java)
+//            this.startActivity(intent)
+//
+//        }
 
         appViewModel!!.isPlacementHistoricalEventResponse?.observe(this) { response ->
             if (response != null) {
                 val status = response.status
                 val message = response.message
                 if (status) {
-                    binding.ErrorMessage.visibility=View.GONE
-                    binding.rcyHistoricalEvent.visibility=View.VISIBLE
-                    isLoadHistoricalData(response.data)
+                    Log.d("response.data",response.data.size.toString())
+                    if (response.data.isNotEmpty()){
+                        binding.ErrorMessage.visibility=View.GONE
+                        binding.rcyHistoricalEvent.visibility=View.VISIBLE
+                        isLoadHistoricalData(response.data)
+                    }else{
+                        binding.ErrorMessage.visibility=View.VISIBLE
+                        binding.rcyHistoricalEvent.visibility=View.GONE
+                    }
+
                 }
                 else{
                     binding.rcyHistoricalEvent.visibility=View.GONE
@@ -79,7 +87,7 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
             else{
                 binding.rcyHistoricalEvent.visibility=View.GONE
                 binding.ErrorMessage.visibility=View.VISIBLE
-                binding.ErrorMessage.text="Some Exception Occured!"
+                binding.ErrorMessage.text="No Record Found"
             }
         }
 
@@ -120,11 +128,11 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
     }
 
     fun isUpcomingEventData(){
-        appViewModel!!.isPlacementEventData(31140, this)
+        appViewModel!!.isPlacementEventData(CommonUtil.MemberId, this)
     }
 
     fun isHistoricalEventData(){
-        appViewModel!!.isPlacementHistoricalEventData(31140, this)
+        appViewModel!!.isPlacementHistoricalEventData(CommonUtil.MemberId, this)
     }
 
     fun isLoadData(isPlacementData: List<GetPlacementEventData>) {

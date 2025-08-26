@@ -68,8 +68,6 @@ class CommunicationVoice : ActionBarActivity() {
         CommonUtil.SetTheme(this)
         binding = ActivityCommunicationVoiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setContentView(R.layout.activity_communication_voice)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
          setupAudioPlayer()
@@ -93,6 +91,19 @@ class CommunicationVoice : ActionBarActivity() {
         binding.btnCancel.setOnClickListener { onBackPressed() }
         binding.imgPlayPasue.setOnClickListener { recplaypause() }
         binding.LayoutAdvertisement.setOnClickListener { adclick() }
+
+        binding.radioBMsg.setOnClickListener {
+            binding.conHistory!!.visibility = View.GONE
+            binding.Nestedchildlayout!!.visibility = View.VISIBLE
+            binding.btnConfirm!!.visibility = View.VISIBLE
+        }
+
+        binding.radioBHistory.setOnClickListener {
+            binding.btnConfirm!!.visibility = View.GONE
+            binding.conHistory!!.visibility = View.VISIBLE
+            binding.Nestedchildlayout!!.visibility = View.GONE
+            historyOfVoice()
+        }
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
@@ -140,26 +151,8 @@ class CommunicationVoice : ActionBarActivity() {
             }
         })
 
-        binding.radioGroup!!.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.radio_B_msg -> {
-                    binding.conHistory!!.visibility = View.GONE
-                    binding.Nestedchildlayout!!.visibility = View.VISIBLE
-                    binding.btnConfirm!!.visibility = View.VISIBLE
-                }
-
-                R.id.radio_B_history -> {
-                    binding.btnConfirm!!.visibility = View.GONE
-                    binding.conHistory!!.visibility = View.VISIBLE
-                    binding.Nestedchildlayout!!.visibility = View.GONE
-                    historyOfVoice()
-                }
-            }
-        }
-
 
         binding.btnClearR!!.setOnClickListener {
-
             binding.btnClearR!!.visibility = View.GONE
             binding.rytLayoutSeekPlay!!.visibility = View.GONE
             binding.lblRecordTime!!.text = "00:00"

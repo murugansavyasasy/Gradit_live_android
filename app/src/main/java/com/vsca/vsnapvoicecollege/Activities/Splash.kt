@@ -16,7 +16,13 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebView
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
@@ -345,11 +351,13 @@ class Splash : AppCompatActivity() {
             CommonUtil.DivisionId = data[i].divisionId!!
             CommonUtil.Courseid = data[i].courseid!!
             CommonUtil.DepartmentId = data[i].deptid!!
+            CommonUtil.deptname = data[i].deptname!!
             CommonUtil.YearId = data[i].yearid!!
             CommonUtil.isAllowtomakecall = data[i].is_allow_to_make_call!!
             CommonUtil.Collegename = data[i].colgname.toString()
             CommonUtil.CollegeCity = data.get(i).colgcity.toString()
             CommonUtil.SemesterId = data[i].semesterid!!
+            CommonUtil.SemesteName = data[i].semestername!!
             CommonUtil.SectionId = data[i].sectionid!!
             CommonUtil.isParentEnable = data[i].is_parent_target_enabled!!
             CommonUtil.CollegeLogo = data[i].colglogo!!

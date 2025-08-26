@@ -114,21 +114,15 @@
 
         android:layout_below="@+id/toolbarLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/lblCareerTraining"
-            android:text="Career Training"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/five"
-            android:layout_height="wrap_content">
 
-        </TextView>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcyPlacementEvent"
-            android:layout_below="@+id/lblCareerTraining"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/ten"
             android:layout_height="wrap_content"
             >
         </androidx.recyclerview.widget.RecyclerView>
@@ -138,6 +132,7 @@
             android:layout_below="@+id/rcyPlacementEvent"
             android:layout_width="match_parent"
             android:visibility="gone"
+            android:layout_marginTop="@dimen/ten"
             android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
         <TextView

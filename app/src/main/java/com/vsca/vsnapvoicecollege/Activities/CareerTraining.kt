@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Activities
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Adapters.CareerTrainingAdapter
 import com.vsca.vsnapvoicecollege.Model.CareerTrainingData
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.CareerTrainingBinding
 
@@ -36,9 +38,15 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
                 val status = response.status
                 val message = response.message
                 if (status) {
-                    binding.ErrorMessage.visibility=View.GONE
-                    binding.rcyPlacementTraining.visibility=View.VISIBLE
-                    isLoadData(response.data)
+                    if (response.data.isNotEmpty()){
+                        binding.ErrorMessage.visibility=View.GONE
+                        binding.rcyPlacementTraining.visibility=View.VISIBLE
+                        isLoadData(response.data)
+                    }else{
+                        binding.ErrorMessage.visibility=View.VISIBLE
+                        binding.rcyPlacementTraining.visibility=View.GONE
+                    }
+
                 }
                 else{
                     binding.rcyPlacementTraining.visibility=View.GONE
@@ -49,7 +57,7 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
             else{
                 binding.rcyPlacementTraining.visibility=View.GONE
                 binding.ErrorMessage.visibility=View.VISIBLE
-                binding.ErrorMessage.text="Some Exception Occured!"
+                binding.ErrorMessage.text="No Record Found"
             }
         }
 
@@ -58,9 +66,15 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
                 val status = response.status
                 val message = response.message
                 if (status) {
-                    binding.ErrorMessage.visibility=View.GONE
-                    binding.rcyPlacementTraining.visibility=View.VISIBLE
-//                    isLoadHistoricalData(response.data)
+                    if (response.data.isNotEmpty()){
+                        binding.ErrorMessage.visibility=View.GONE
+                        binding.rcyPlacementTraining.visibility=View.VISIBLE
+                        isLoadHistoricalData(response.data)
+                    }else{
+                        binding.ErrorMessage.visibility=View.VISIBLE
+                        binding.rcyPlacementTraining.visibility=View.GONE
+                    }
+
                 }
                 else{
                     binding.rcyPlacementTraining.visibility=View.GONE
@@ -71,7 +85,7 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
             else{
                 binding.rcyPlacementTraining.visibility=View.GONE
                 binding.ErrorMessage.visibility=View.VISIBLE
-                binding.ErrorMessage.text="Some Exception Occured!"
+                binding.ErrorMessage.text="No Record Found"
             }
         }
 
@@ -104,7 +118,6 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
             isHistoricalEventData()
         }
 
-
         binding.imgheaderBack.setOnClickListener {
             onBackPressed()
         }
@@ -112,11 +125,30 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
     }
 
     fun isUpcomingEventData(){
-        appViewModel!!.isPlacementCareerData("BA",1, this)
+        val items =  CommonUtil.SemesteName
+        val isSemeName = items.split(" ")
+
+        val firstName = isSemeName[0]
+        val lastName = isSemeName[1]
+
+        println(firstName)
+        println(lastName)
+        appViewModel!!.isPlacementCareerData(CommonUtil.deptname, lastName.toInt(), this)
     }
 
     fun isHistoricalEventData(){
-        appViewModel!!.isPlacementHostoricalCareerData("BA",1, this)
+
+        val items =  CommonUtil.SemesteName
+        val isSemeName = items.split(" ")
+
+        val firstName = isSemeName[0]
+        val lastName = isSemeName[1]
+
+        println(firstName)
+        println(lastName)
+
+
+        appViewModel!!.isPlacementHostoricalCareerData(CommonUtil.deptname, lastName.toInt(), this)
     }
 
     fun isLoadData(isPlacementData: List<CareerTrainingData>) {

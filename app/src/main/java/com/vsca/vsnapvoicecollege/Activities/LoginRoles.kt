@@ -241,12 +241,14 @@ class LoginRoles : AppCompatActivity() {
         CommonUtil.Collegename = data.colgname!!
         CommonUtil.MemberType = data.loginas!!
         CommonUtil.CollegeId = data.colgid
+        CommonUtil.deptname = data.deptname!!
         CommonUtil.CollegeCity = data.colgcity.toString()
         CommonUtil.DivisionId = data.divisionId!!
         CommonUtil.Courseid = data.courseid!!
         CommonUtil.DepartmentId = data.deptid!!
         CommonUtil.isAllowtomakecall = data.is_allow_to_make_call
         CommonUtil.YearId = data.yearid!!
+        CommonUtil.SemesteName = data.semestername!!
         CommonUtil.SemesterId = data.semesterid!!
         CommonUtil.SectionId = data.sectionid!!
         CommonUtil.isParentEnable = data.is_parent_target_enabled!!
