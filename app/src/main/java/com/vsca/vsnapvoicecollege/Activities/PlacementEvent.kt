@@ -128,11 +128,11 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
     }
 
     fun isUpcomingEventData(){
-        appViewModel!!.isPlacementEventData(CommonUtil.MemberId, this)
+        appViewModel!!.isPlacementEventData(CommonUtil.CollegeId.toString(),CommonUtil.MemberId, this)
     }
 
     fun isHistoricalEventData(){
-        appViewModel!!.isPlacementHistoricalEventData(CommonUtil.MemberId, this)
+        appViewModel!!.isPlacementHistoricalEventData(CommonUtil.CollegeId.toString(),CommonUtil.MemberId, this)
     }
 
     fun isLoadData(isPlacementData: List<GetPlacementEventData>) {

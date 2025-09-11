@@ -5902,11 +5902,11 @@ class AppServices {
     val ResumeBuilderProfileResumeLiveData: LiveData<GetProfileResume?>
         get() = isGetResumeBuilderProfileResume
 
-    fun isGetPlacementEvent(memberid:Int ?, activity: Activity) {
+    fun isGetPlacementEvent(isCollegeId:String,memberid:Int ?, activity: Activity) {
         val progressDialog = CustomLoading.createProgressDialog(activity)
 
         progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementEvent(memberid)
+        RestClient.resumeApiInterfaces.isPlacementEvent(isCollegeId,memberid)
             ?.enqueue(object : Callback<PlacementEventResponse?> {
                 override fun onResponse(
                     call: Call<PlacementEventResponse?>, response: Response<PlacementEventResponse?>
@@ -5949,11 +5949,11 @@ class AppServices {
 
 
 
-    fun isGetPlacementHistoricalEvent(memberid:Int ?, activity: Activity) {
+    fun isGetPlacementHistoricalEvent(isCollegeId:String,memberid:Int ?, activity: Activity) {
         val progressDialog = CustomLoading.createProgressDialog(activity)
 
         progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementHistoricalEvent(memberid)
+        RestClient.resumeApiInterfaces.isPlacementHistoricalEvent(isCollegeId,memberid)
             ?.enqueue(object : Callback<PlacementEventResponse?> {
                 override fun onResponse(
                     call: Call<PlacementEventResponse?>, response: Response<PlacementEventResponse?>
@@ -5998,11 +5998,11 @@ class AppServices {
 
 
 
-      fun isGetPlacementCareer(departmentname: String?,semesterno: Int?, activity: Activity) {
+      fun isGetPlacementCareer(isCollegeId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
         val progressDialog = CustomLoading.createProgressDialog(activity)
 
         progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementCareer(departmentname,semesterno)
+        RestClient.resumeApiInterfaces.isPlacementCareer(isCollegeId,departmentname,semesterno)
             ?.enqueue(object : Callback<CareerTrainingResponse?> {
                 override fun onResponse(
                     call: Call<CareerTrainingResponse?>, response: Response<CareerTrainingResponse?>
@@ -6045,11 +6045,11 @@ class AppServices {
 
 
 
-    fun isGetPlacementHistoricalCareer(departmentname: String?,semesterno: Int?, activity: Activity) {
+    fun isGetPlacementHistoricalCareer(isCollageId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
         val progressDialog = CustomLoading.createProgressDialog(activity)
 
         progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementHistoricalCareer(departmentname,semesterno)
+        RestClient.resumeApiInterfaces.isPlacementHistoricalCareer(isCollageId,departmentname,semesterno)
             ?.enqueue(object : Callback<CareerTrainingResponse?> {
                 override fun onResponse(
                     call: Call<CareerTrainingResponse?>, response: Response<CareerTrainingResponse?>

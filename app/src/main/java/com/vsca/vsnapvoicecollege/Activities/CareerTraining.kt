@@ -133,7 +133,7 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
 
         println(firstName)
         println(lastName)
-        appViewModel!!.isPlacementCareerData(CommonUtil.deptname, lastName.toInt(), this)
+        appViewModel!!.isPlacementCareerData(CommonUtil.CollegeId.toString(),CommonUtil.deptname, lastName.toInt(), this)
     }
 
     fun isHistoricalEventData(){
@@ -148,7 +148,7 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
         println(lastName)
 
 
-        appViewModel!!.isPlacementHostoricalCareerData(CommonUtil.deptname, lastName.toInt(), this)
+        appViewModel!!.isPlacementHostoricalCareerData(CommonUtil.CollegeId.toString(),CommonUtil.deptname, lastName.toInt(), this)
     }
 
     fun isLoadData(isPlacementData: List<CareerTrainingData>) {

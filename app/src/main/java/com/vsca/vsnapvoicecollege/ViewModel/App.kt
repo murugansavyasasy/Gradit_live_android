@@ -876,20 +876,20 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetResumeBuilderProfileResumeRequest(id, activity)
     }
 
-    fun isPlacementEventData(memberId: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementEvent(memberId, activity)
+    fun isPlacementEventData(isCollegeId:String,memberId: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementEvent(isCollegeId,memberId, activity)
     }
 
-    fun isPlacementHistoricalEventData(memberId: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementHistoricalEvent(memberId, activity)
+    fun isPlacementHistoricalEventData(isCollegeId:String,memberId: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementHistoricalEvent(isCollegeId,memberId, activity)
     }
 
-    fun isPlacementCareerData(departmentname: String?,semesterno: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementCareer(departmentname,semesterno, activity)
+    fun isPlacementCareerData(isCollegeId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementCareer(isCollegeId,departmentname,semesterno, activity)
     }
 
-    fun isPlacementHostoricalCareerData(departmentname: String?,semesterno: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementHistoricalCareer(departmentname,semesterno, activity)
+    fun isPlacementHostoricalCareerData(isCollageId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementHistoricalCareer(isCollageId,departmentname,semesterno, activity)
     }
 
     fun GetResumeBuilderDeleteResume(id: Int?,isJsonObject: JsonObject, activity: Activity) {

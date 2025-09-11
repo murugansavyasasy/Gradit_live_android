@@ -304,7 +304,6 @@ class ResumeBuilder : AppCompatActivity() {
             binding.lnrAcademicDetails.visibility = View.GONE
             binding.lblEditTwo.text = getString(R.string.txt_Add)
         }
-
     }
 
     fun getColoredDrawable(context: Context, @ColorRes colorResId: Int): GradientDrawable? {
@@ -397,7 +396,6 @@ class ResumeBuilder : AppCompatActivity() {
                     0,
                     0
                 )
-
             }
 
 
@@ -412,8 +410,8 @@ class ResumeBuilder : AppCompatActivity() {
                 it.memberPermanentAddress1 +" "+ it.memberPermanentAddressCity +" "+it.memberPermanentAddressPincode +" "+it.memberPermanentAddressState +" "+ it.memberPermanentAddressCountry
             binding.lblAdmissionNo.text = it.memberAdmissionNo
             binding.lblDepartmentName.text = it.departmentName
-            binding.lblYearOfStudy.text = it.semesterName
-            binding.lblSemester.text = it.noOfYear.toString()
+            binding.lblYearOfStudy.text =it.noOfYear.toString()
+            binding.lblSemester.text =  it.semesterName
         }
     }
 

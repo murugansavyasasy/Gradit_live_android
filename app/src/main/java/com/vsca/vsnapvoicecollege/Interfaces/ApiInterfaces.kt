@@ -657,17 +657,20 @@ interface ApiInterfaces {
 
     @GET(ApiMethods.isPlacementEvent)
     fun isPlacementEvent(
+        @Query("collegeId") isCollegeId: String?,
         @Query("memberId") memberId: Int?
     ): Call<PlacementEventResponse?>?
 
 
     @GET(ApiMethods.isPlacementHistoricalEvent)
     fun isPlacementHistoricalEvent(
+        @Query("collegeId") isCollegeId: String?,
         @Query("memberId") memberId: Int?
     ): Call<PlacementEventResponse?>?
 
     @GET(ApiMethods.isPlacementCareer)
     fun isPlacementCareer(
+        @Query("collegeId") isCollegeId: String?,
         @Query("departmentname") departmentname: String?,
         @Query("semesterno") semesterno: Int?,
     ): Call<CareerTrainingResponse?>?
@@ -675,6 +678,7 @@ interface ApiInterfaces {
 
     @GET(ApiMethods.isPlacementHistoricalCareer)
     fun isPlacementHistoricalCareer(
+        @Query("collegeId") isCollegeId: String?,
         @Query("departmentname") departmentname: String?,
         @Query("semesterno") semesterno: Int?,
     ): Call<CareerTrainingResponse?>?
