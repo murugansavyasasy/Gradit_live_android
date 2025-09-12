@@ -4,7 +4,6 @@ data class CareerTrainingData(
     val careerId: Int,
     val trainingTitle: String,
     val trainingAbout: String,
-    val trainingType: String?,   // nullable because JSON has null
     val trainingDate: String,
     val modeTraining: String,
     val startTime: String,

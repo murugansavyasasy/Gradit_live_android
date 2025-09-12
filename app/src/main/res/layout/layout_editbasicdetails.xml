@@ -111,7 +111,7 @@
                     style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/your_name"
+                    android:text="@string/your_name_"
                     android:fontFamily="@font/poppins_regular"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp">
@@ -120,17 +120,18 @@
                 </TextView>
 
 
-                <EditText
+                <TextView
                     android:id="@+id/edtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
-                    android:background="@drawable/rect_gray_radius"
+                    android:background="@drawable/rect_gray_radius_3"
+                    android:textColor="@color/light_gray_3"
                     android:inputType="textPersonName"
                     android:padding="@dimen/eight">
 
 
-                </EditText>
+                </TextView>
                 <!--                contact phone-->
                 <TextView
                     style="@style/CustomTextStylePoppinsBold"
@@ -261,7 +262,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five"
-                    android:background="@drawable/rect_gray_radius"
+                    android:background="@drawable/rect_gray_radius_3"
                     android:padding="@dimen/eight">
                 </TextView>
 

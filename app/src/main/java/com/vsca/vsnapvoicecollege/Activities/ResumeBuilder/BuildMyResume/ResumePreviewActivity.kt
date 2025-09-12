@@ -57,6 +57,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLEncoder
 
 
 class ResumePreviewActivity : AppCompatActivity() {
@@ -188,7 +189,7 @@ class ResumePreviewActivity : AppCompatActivity() {
                 PdfDownloader(this).downloadPdf(isPDF_URL)
 
             } else if (isScreenName == "BuildMyResume" || isScreenName == "UploadResume") {
-                showResumeTitleDialog(this, isMemberID, isScreenName)
+                showResumeTitleDialog(this, isMemberID, isPDF_URL)
             }
 
         }

@@ -5400,6 +5400,10 @@ class AppServices {
                                 isGetResumeBuilderProfileDetails.postValue(response.body())
 
                             }
+                            else{
+                                isGetResumeBuilderProfileDetails.postValue(response.body())
+
+                            }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isGetResumeBuilderProfileDetails.postValue(null)
@@ -5484,6 +5488,10 @@ class AppServices {
                                 isGetResumeBuilderAcademicDetails.postValue(response.body())
 
                             }
+                            else{
+                                isGetResumeBuilderAcademicDetails.postValue(response.body())
+
+                            }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isGetResumeBuilderAcademicDetails.postValue(null)
@@ -5560,6 +5568,10 @@ class AppServices {
 
                                 isGetResumeBuilderSkillSetDetails.postValue(response.body())
                             }
+                            else{
+                                isGetResumeBuilderSkillSetDetails.postValue(response.body())
+
+                            }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isGetResumeBuilderSkillSetDetails.postValue(null)
@@ -5601,6 +5613,10 @@ class AppServices {
                             val Status = response.body()!!.status
                             if (Status == true) {
 
+                                isGetResumeBuilderSoftSkillsDetails.postValue(response.body())
+
+                            }
+                            else{
                                 isGetResumeBuilderSoftSkillsDetails.postValue(response.body())
 
                             }
@@ -5649,6 +5665,10 @@ class AppServices {
                                 isSendResumeBuilderEditSkillSetDetails.postValue(response.body())
 
                             }
+                            else{
+                                isSendResumeBuilderEditSkillSetDetails.postValue(response.body())
+
+                            }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                             progressDialog!!.dismiss()
                             isSendResumeBuilderEditSkillSetDetails.postValue(null)
@@ -5689,6 +5709,10 @@ class AppServices {
                             val Status = response.body()!!.status
                             if (Status == true) {
 
+                                isGetResumeBuilderThemeTemplate.postValue(response.body())
+
+                            }
+                            else{
                                 isGetResumeBuilderThemeTemplate.postValue(response.body())
 
                             }
@@ -5739,12 +5763,17 @@ class AppServices {
                                 isSendResumeBuilderGenerateResume.postValue(response.body())
 
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
-                            isSendResumeBuilderGenerateResume.postValue(null)
-                        } else {
-                            isSendResumeBuilderGenerateResume.postValue(null)
+                            else{
+                                isSendResumeBuilderGenerateResume.postValue(response.body())
+
+                            }
                         }
+                    }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        progressDialog!!.dismiss()
+                        isSendResumeBuilderGenerateResume.postValue(null)
+                    } else {
+                        isSendResumeBuilderGenerateResume.postValue(null)
                     }
                 }
                 override fun onFailure(call: Call<ResumeBuilderGenerateResumeResponse?>, t: Throwable) {
@@ -5784,7 +5813,7 @@ class AppServices {
                                 if (Status == true) {
                                     isSendResumeBuilderSaveTitle.postValue(response.body())
                                 } else {
-                                    isSendResumeBuilderSaveTitle.postValue(null)
+                                    isSendResumeBuilderSaveTitle.postValue(response.body())
                                 }
                             } else {
                                 isSendResumeBuilderSaveTitle.postValue(null)
@@ -5879,12 +5908,17 @@ class AppServices {
                                 isGetResumeBuilderProfileResume.postValue(response.body())
 
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
-                            isGetResumeBuilderProfileResume.postValue(null)
-                        } else {
-                            isGetResumeBuilderProfileResume.postValue(null)
+                            else{
+                                isGetResumeBuilderProfileResume.postValue(response.body())
+
+                            }
                         }
+                    }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        progressDialog!!.dismiss()
+                        isGetResumeBuilderProfileResume.postValue(null)
+                    } else {
+                        isGetResumeBuilderProfileResume.postValue(null)
                     }
                 }
 
@@ -5892,9 +5926,9 @@ class AppServices {
                     progressDialog!!.dismiss()
                     isGetResumeBuilderProfileResume.postValue(null)
                     t.printStackTrace()
-                    CommonUtil.ApiAlertFinish(
-                        activity, activity.getString(R.string.txt_no_record_found)
-                    )
+//                    CommonUtil.ApiAlertFinish(
+//                        activity, activity.getString(R.string.txt_no_record_found)
+//                    )
                 }
             })
     }
@@ -5923,13 +5957,18 @@ class AppServices {
                                 isGetPlacementList.postValue(response.body())
 
                             }
-//                        }
+                        else{
+                                isGetPlacementList.postValue(response.body())
+
+                            }
+
+
+                    }
                     else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
-                            isGetPlacementList.postValue(null)
-                        } else {
-                            isGetPlacementList.postValue(null)
-                        }
+                        progressDialog!!.dismiss()
+                        isGetPlacementList.postValue(null)
+                    } else {
+                        isGetPlacementList.postValue(null)
                     }
                 }
 
@@ -5969,14 +6008,17 @@ class AppServices {
 
                                 isGetHistoricalPlacementList.postValue(response.body())
 
+                            } else {
+                                isGetHistoricalPlacementList.postValue(response.body())
                             }
 //                        }
+
+                    }
                     else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
-                            isGetHistoricalPlacementList.postValue(null)
-                        } else {
-                            isGetHistoricalPlacementList.postValue(null)
-                        }
+                        progressDialog!!.dismiss()
+                        isGetHistoricalPlacementList.postValue(null)
+                    } else {
+                        isGetHistoricalPlacementList.postValue(null)
                     }
                 }
 
@@ -6019,13 +6061,18 @@ class AppServices {
                                 isGetPlacementCareerList.postValue(response.body())
 
                             }
+                        else{
+                                isGetPlacementCareerList.postValue(response.body())
+
+                            }
 //                        }
+
+                    }
                     else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
-                            isGetPlacementCareerList.postValue(null)
-                        } else {
-                            isGetPlacementCareerList.postValue(null)
-                        }
+                        progressDialog!!.dismiss()
+                        isGetPlacementCareerList.postValue(null)
+                    } else {
+                        isGetPlacementCareerList.postValue(null)
                     }
                 }
 
@@ -6066,13 +6113,18 @@ class AppServices {
                                 isGetPlacementCareerList.postValue(response.body())
 
                             }
+                        else{
+                                isGetPlacementCareerList.postValue(response.body())
+
+                            }
 //                        }
+
+                    }
                     else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
-                            isGetPlacementCareerList.postValue(null)
-                        } else {
-                            isGetPlacementCareerList.postValue(null)
-                        }
+                        progressDialog!!.dismiss()
+                        isGetPlacementCareerList.postValue(null)
+                    } else {
+                        isGetPlacementCareerList.postValue(null)
                     }
                 }
 
@@ -6115,12 +6167,17 @@ class AppServices {
                                 isResumeBuilderDeleteResume.postValue(response.body())
 
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
-                            isResumeBuilderDeleteResume.postValue(null)
-                        } else {
-                            isResumeBuilderDeleteResume.postValue(null)
+                            else{
+                                isResumeBuilderDeleteResume.postValue(response.body())
+
+                            }
                         }
+                    }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        progressDialog!!.dismiss()
+                        isResumeBuilderDeleteResume.postValue(null)
+                    } else {
+                        isResumeBuilderDeleteResume.postValue(null)
                     }
                 }
 

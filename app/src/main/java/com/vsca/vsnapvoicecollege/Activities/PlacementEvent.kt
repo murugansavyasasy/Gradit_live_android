@@ -62,7 +62,7 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
 //
 //        }
 
-        appViewModel!!.isPlacementHistoricalEventResponse?.observe(this) { response ->
+        appViewModel?.isGetPlacementHistoricalEvent?.observe(this) { response ->
             if (response != null) {
                 val status = response.status
                 val message = response.message
@@ -72,16 +72,22 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
                         binding.ErrorMessage.visibility=View.GONE
                         binding.rcyHistoricalEvent.visibility=View.VISIBLE
                         isLoadHistoricalData(response.data)
+                        Log.d("AAAAAAAAAAAAAAAAAAAAA","SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+
                     }else{
                         binding.ErrorMessage.visibility=View.VISIBLE
                         binding.rcyHistoricalEvent.visibility=View.GONE
+                        binding.ErrorMessage.text=response.message
+                        Log.d("AAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
                     }
-
                 }
                 else{
                     binding.rcyHistoricalEvent.visibility=View.GONE
                     binding.ErrorMessage.visibility=View.VISIBLE
                     binding.ErrorMessage.text=response.message
+                    Log.d("AAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+
+
                 }
             }
             else{
@@ -131,9 +137,10 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
         appViewModel!!.isPlacementEventData(CommonUtil.CollegeId.toString(),CommonUtil.MemberId, this)
     }
 
-    fun isHistoricalEventData(){
-        appViewModel!!.isPlacementHistoricalEventData(CommonUtil.CollegeId.toString(),CommonUtil.MemberId, this)
-    }
+        fun isHistoricalEventData(){
+            appViewModel?.isPlacementHistoricalEventData(CommonUtil.CollegeId.toString(), CommonUtil.MemberId, this)
+
+        }
 
     fun isLoadData(isPlacementData: List<GetPlacementEventData>) {
         isPlacementAdapter =

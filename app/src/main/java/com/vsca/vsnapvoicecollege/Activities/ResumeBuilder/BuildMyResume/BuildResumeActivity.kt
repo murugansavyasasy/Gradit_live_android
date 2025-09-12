@@ -24,6 +24,7 @@ import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.InternshipFormattedData
 import com.vsca.vsnapvoicecollege.Model.ResumeContextData
+import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.fullResumeData
 import com.vsca.vsnapvoicecollege.databinding.ActivityBuildmyresumeBinding
@@ -61,6 +62,8 @@ class BuildResumeActivity : AppCompatActivity() {
         softSkillAdapter = SkillSetAdapter(softSkillList) { }
         binding.rvSoftSkills.layoutManager = LinearLayoutManager(this)
         binding.rvSoftSkills.adapter = softSkillAdapter
+        binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.next_)
+
 
 
         savedAcademicEducationDetails = CommonUtil.saveAcademicDetails?.educationalDetails

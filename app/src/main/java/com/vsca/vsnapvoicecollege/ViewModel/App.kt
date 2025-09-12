@@ -248,7 +248,7 @@ class App(application: Application) : AndroidViewModel(application) {
     var ResumeBuilderSaveTitle: LiveData<ResumeBuilderSaveTitleResponse?>? = null
     var ResumeBuilderProfileResume: LiveData<GetProfileResume?>? = null
     var isPlacementEventResponse: LiveData<PlacementEventResponse?>? = null
-    var isPlacementHistoricalEventResponse: LiveData<PlacementEventResponse?>? = null
+    var isGetPlacementHistoricalEvent: LiveData<PlacementEventResponse?>? = null
     var isPlacementCareerResponse: LiveData<CareerTrainingResponse?>? = null
     var isPlacementHistoricalCareerResponse: LiveData<CareerTrainingResponse?>? = null
     var ResumeBuilderDeleteResume: LiveData<ResumeBuilderDeleteResume?>? = null
@@ -382,7 +382,7 @@ class App(application: Application) : AndroidViewModel(application) {
         ResumeBuilderProfileResume = apiRepositories!!.ResumeBuilderProfileResumeLiveData
         isPlacementEventResponse = apiRepositories!!.isPlacementEventResponseLiveData
         ResumeBuilderDeleteResume = apiRepositories!!.ResumeBuilderDeleteResumeLiveData
-        isPlacementHistoricalEventResponse = apiRepositories!!.isPlacementHistoricalEventLiveData
+        isGetPlacementHistoricalEvent = apiRepositories!!.isPlacementHistoricalEventLiveData
         isPlacementHistoricalCareerResponse = apiRepositories!!.isPlacementHistoricalCareerLiveData
         isPlacementCareerResponse = apiRepositories!!.isPlacementCareerLiveData
     }
@@ -880,9 +880,10 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.isGetPlacementEvent(isCollegeId,memberId, activity)
     }
 
-    fun isPlacementHistoricalEventData(isCollegeId:String,memberId: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementHistoricalEvent(isCollegeId,memberId, activity)
+    fun isPlacementHistoricalEventData(isCollegeId: String, memberId: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementHistoricalEvent(isCollegeId, memberId, activity)
     }
+
 
     fun isPlacementCareerData(isCollegeId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
         apiRepositories!!.isGetPlacementCareer(isCollegeId,departmentname,semesterno, activity)

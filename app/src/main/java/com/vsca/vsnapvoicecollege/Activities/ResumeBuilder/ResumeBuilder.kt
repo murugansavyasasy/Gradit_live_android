@@ -117,7 +117,8 @@ class ResumeBuilder : AppCompatActivity() {
                         isLoadAcademicDetails(response.data[0])
                         Log.d("AcademicRespone", response.data.toString())
                     } else {
-
+                        binding.lnrAcademicDetails.visibility = View.GONE
+                        binding.lblEditTwo.text = getString(R.string.txt_Add)
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
@@ -143,7 +144,8 @@ class ResumeBuilder : AppCompatActivity() {
 
                         Log.d("AcademicRespone", response.data.toString())
                     } else {
-
+                        binding.lnrSkillSetDetails.visibility = View.GONE
+                        binding.btnEditThree.text = getString(R.string.txt_Add)
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
@@ -402,13 +404,13 @@ class ResumeBuilder : AppCompatActivity() {
             binding.lblAvailPlacement.background = drawable
             binding.lblAvailPlacement.text = it.memberPlacementStatus
 //            binding.CommonLayout.lblName.text = it.memberNotificationStatus
-            binding.lblRollno.text = it.memberRegno
+            binding.lblRollno.text = "-"
             binding.lblDOB.text = it.memberDob
             binding.lblGender.text = it.memberGender
             binding.lblQualification.text = it.courseName
             binding.lblAddress.text =
-                it.memberPermanentAddress1 +" "+ it.memberPermanentAddressCity +" "+it.memberPermanentAddressPincode +" "+it.memberPermanentAddressState +" "+ it.memberPermanentAddressCountry
-            binding.lblAdmissionNo.text = it.memberAdmissionNo
+                it.memberPermanentAddress1 +","+ it.memberPermanentAddressCity +","+it.memberPermanentAddressPincode +","+it.memberPermanentAddressState +","+ it.memberPermanentAddressCountry
+            binding.lblAdmissionNo.text = it.memberRegno
             binding.lblDepartmentName.text = it.departmentName
             binding.lblYearOfStudy.text =it.noOfYear.toString()
             binding.lblSemester.text =  it.semesterName
@@ -601,6 +603,7 @@ class ResumeBuilder : AppCompatActivity() {
     override fun onResume() {
         GetProfileDetails()
         GetAcademicDetails()
+        GetProfileResume()
         super.onResume()
     }
 
