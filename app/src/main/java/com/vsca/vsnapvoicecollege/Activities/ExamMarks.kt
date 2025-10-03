@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +47,9 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionBarMethod(this)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
 
         accessBottomViewIcons(

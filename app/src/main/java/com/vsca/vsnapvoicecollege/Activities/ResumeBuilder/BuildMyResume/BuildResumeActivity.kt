@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,6 +57,10 @@ class BuildResumeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBuildmyresumeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
+
         languageAdapter = SkillSetAdapter(languageList) {}
         binding.rvLanguages.layoutManager = LinearLayoutManager(this)
         binding.rvLanguages.adapter = languageAdapter

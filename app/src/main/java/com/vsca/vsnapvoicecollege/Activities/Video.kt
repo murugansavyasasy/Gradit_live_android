@@ -9,6 +9,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -58,6 +59,9 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
         ActionBarMethod(this)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
 
         accessBottomViewIcons(

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 
 import com.google.gson.JsonObject
@@ -33,6 +34,9 @@ class ForgotPassword : AppCompatActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         appViewModel!!.GetOtpNew!!.observe(this) { response ->
             if (response != null) {

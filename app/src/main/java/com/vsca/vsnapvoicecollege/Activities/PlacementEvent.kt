@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,8 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
         super.onCreate(savedInstanceState)
         binding = PlacementEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()

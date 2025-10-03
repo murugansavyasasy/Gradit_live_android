@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import android.widget.ZoomControls
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.vsca.vsnapvoicecollege.R
@@ -60,6 +61,9 @@ class ViewFiles : AppCompatActivity() {
         binding.Fabdownload.setOnClickListener {
             isDownload()
         }
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         val circularProgressDrawable = CircularProgressDrawable(this)
         circularProgressDrawable.strokeWidth = 5f

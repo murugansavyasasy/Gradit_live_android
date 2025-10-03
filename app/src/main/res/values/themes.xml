@@ -59,6 +59,11 @@
         <item name="colorAccent">@color/black</item>
     </style>
 
+    <style name="Prinipal.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Staff" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/clr_teachingstaff</item>

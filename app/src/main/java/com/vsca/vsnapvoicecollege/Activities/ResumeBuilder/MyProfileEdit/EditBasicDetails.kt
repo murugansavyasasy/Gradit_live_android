@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
@@ -72,6 +73,9 @@ class EditBasicDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = LayoutEditbasicdetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.update)
         viewModel = ViewModelProvider(this)[App::class.java]

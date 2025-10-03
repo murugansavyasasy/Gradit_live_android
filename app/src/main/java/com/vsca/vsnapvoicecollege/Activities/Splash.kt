@@ -25,6 +25,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.CountryDetails
@@ -92,6 +93,9 @@ class Splash : AppCompatActivity() {
         authViewModel = ViewModelProvider(this).get(Auth::class.java)
         authViewModel!!.init()
         CommonUtil.MenuListDashboard.clear()
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
       //  CommonUtil.isDeviceTokenApiCalling = true
 
         if (!CommonUtil.isNetworkConnected(this@Splash)) {

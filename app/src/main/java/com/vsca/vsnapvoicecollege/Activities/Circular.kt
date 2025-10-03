@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -61,6 +62,9 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
         ActionBarMethod(this)
 
         CommonUtil.OnMenuClicks("Circular")
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
 
         accessBottomViewIcons(

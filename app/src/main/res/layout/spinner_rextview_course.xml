@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/twenty"
+    android:fitsSystemWindows="true"
     android:layout_marginTop="@dimen/fifty"
     android:background="@drawable/bg_black_white_box"
     android:drawableRight="@drawable/ic_arrow_down"

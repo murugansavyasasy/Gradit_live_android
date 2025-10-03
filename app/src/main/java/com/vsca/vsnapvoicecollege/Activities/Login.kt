@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
@@ -41,6 +42,9 @@ class Login : AppCompatActivity() {
         CommonUtil.MenuListDashboard.clear()
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         binding.txtForgetpassword!!.setOnClickListener {
             GetOtp()

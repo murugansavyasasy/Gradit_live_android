@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.vsca.vsnapvoicecollege.ActivitySender.ImageOrPdf;
 import com.vsca.vsnapvoicecollege.R;
@@ -98,6 +99,9 @@ public class ImageSelectActivity extends HelperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_select);
         //  actionBar = getSupportActionBar();
+        WindowInsetsControllerCompat insetsController =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        insetsController.setAppearanceLightStatusBars(true);
 
         limit = 5;
 

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumberResponse
@@ -39,6 +40,9 @@ private lateinit var binding: ActivityMobileNumberBinding
         authViewModel!!.init()
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         binding.txtNext.setOnClickListener { txt_next() }
 

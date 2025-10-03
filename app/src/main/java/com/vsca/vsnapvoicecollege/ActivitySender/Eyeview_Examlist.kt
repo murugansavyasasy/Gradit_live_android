@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -54,6 +55,9 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionBarMethod(this)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         accessBottomViewIcons(
             binding,

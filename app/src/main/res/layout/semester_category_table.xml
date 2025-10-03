@@ -4,6 +4,7 @@
     android:id="@+id/OverallLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
     android:background="@color/clr_bg_grey_light"
     android:clickable="true">
 

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +55,9 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         if (CommonUtil.menu_readSemCreditPoints.equals("1")) {
             SemesterType()

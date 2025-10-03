@@ -25,6 +25,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -99,6 +100,9 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
         setContentView(binding.root)
         CommonUtil.RequestPermission(this)
         ActionBarMethod(this@DashBoard)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
         CommonUtil.OnMenuClicks("Home")
 
         FirebaseMessaging.getInstance().isAutoInitEnabled = true

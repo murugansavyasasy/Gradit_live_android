@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="@dimen/twenty"
+    android:fitsSystemWindows="true"
     android:layout_height="wrap_content">
 
     <LinearLayout

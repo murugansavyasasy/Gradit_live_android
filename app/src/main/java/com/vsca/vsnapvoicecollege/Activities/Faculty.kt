@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -69,6 +70,9 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
         binding = ActivityFacultyMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ActionBarMethod(this)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
 
         accessBottomViewIcons(

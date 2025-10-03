@@ -18,6 +18,7 @@ import android.view.*
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 
 import com.bumptech.glide.Glide
@@ -77,6 +78,9 @@ class ImageOrPdf: ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
         ActionbarWithoutBottom(this)
          CommonUtil.SelcetedFileList.clear()
         imgRefresh!!.visibility = View.GONE

@@ -13,6 +13,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -39,6 +40,10 @@ class EditAcademicDetails : AppCompatActivity() {
 
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
+
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         // Hide default icon and update button text
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE

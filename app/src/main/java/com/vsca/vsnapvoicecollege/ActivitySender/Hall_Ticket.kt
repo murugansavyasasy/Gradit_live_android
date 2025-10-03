@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,9 @@ class Hall_Ticket : AppCompatActivity() {
          hallTicket()
         CommonUtil.OnMenuClicks("Hallticket")
         arIndicatorView = findViewById(R.id.ar_indicator)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         appViewModel!!.Hallticket!!.observe(this) { response ->
             if (response != null) {

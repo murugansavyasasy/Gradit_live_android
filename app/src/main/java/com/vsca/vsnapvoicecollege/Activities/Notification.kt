@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,9 @@ class Notification : BaseActivity<BottomMenuSwipeBinding>() {
         )
 
         ActionBarMethod(this@Notification)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
         MenuBottomType()
         NotificatonRequest()
         if (CommonUtil.HeaderMenuNotification) {

@@ -32,6 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -134,6 +135,8 @@ class AddAssignment : ActionBarActivity() {
         ActionbarWithoutBottom(this)
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
         imgRefresh!!.visibility = View.GONE
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         ScreenName = intent.getStringExtra("ScreenName")
         AssignmentTitleForward = intent.getStringExtra("AssignmentTitle")

@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.vsca.vsnapvoicecollege.R;
 
@@ -50,6 +51,8 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
 
 
         actionBar = getSupportActionBar();
+        WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        insetsController.setAppearanceLightStatusBars(true);
 //        if (actionBar != null) {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //            actionBar.setHomeAsUpIndicator(R.drawable

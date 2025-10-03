@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -64,6 +65,10 @@ class ApplyLeave : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityApplyLeaveBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()

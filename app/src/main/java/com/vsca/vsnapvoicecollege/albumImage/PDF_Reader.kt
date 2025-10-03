@@ -7,6 +7,7 @@ import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 
 
@@ -19,7 +20,11 @@ class PDF_Reader : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(com.vsca.vsnapvoicecollege.R.layout.activity_pdf_reader)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         webView = findViewById(com.vsca.vsnapvoicecollege.R.id.web_view)
         imgClose = findViewById(com.vsca.vsnapvoicecollege.R.id.imgClose)

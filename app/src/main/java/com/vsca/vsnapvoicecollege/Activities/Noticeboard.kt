@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -58,6 +59,9 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         ActionBarMethod(this@Noticeboard)
 
 
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
+
 
 
         accessBottomViewIcons(
@@ -69,6 +73,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         MenuBottomType()
 
         CommonUtil.OnMenuClicks("Noticeboard")
+
 
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.imgAddPlus.setOnClickListener { imgaddclick() }

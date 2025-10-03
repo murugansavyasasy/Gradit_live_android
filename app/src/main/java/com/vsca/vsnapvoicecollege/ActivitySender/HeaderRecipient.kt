@@ -22,6 +22,7 @@ import android.widget.ListView
 import android.widget.SearchView
  import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -143,6 +144,9 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         CommonUtil.Collageid_ArrayList.clear()
         SendingType = CommonUtil.College
         CommonUtil.CallEnable = "0"
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         val VideoToken = SharedPreference.getVideo_Json(this).toString()
 

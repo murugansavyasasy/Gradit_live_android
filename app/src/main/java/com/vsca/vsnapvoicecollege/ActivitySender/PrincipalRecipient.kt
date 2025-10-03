@@ -13,6 +13,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -118,6 +119,9 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         binding = ActivityPrincipalRecipientBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ActionbarWithoutBottom(this)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()

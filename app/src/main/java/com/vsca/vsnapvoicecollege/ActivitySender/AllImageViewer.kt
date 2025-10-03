@@ -9,6 +9,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.core.view.WindowInsetsControllerCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -39,6 +40,9 @@ class AllImageViewer : ActionBarActivity() {
         binding.lmgback!!.setOnClickListener {
             onBackPressed()
         }
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         binding.imgNxtright!!.setOnClickListener {
             if (CommonUtil.isImageViewList.size > 1) {

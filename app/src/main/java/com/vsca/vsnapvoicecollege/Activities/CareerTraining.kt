@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,8 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         appViewModel!!.isPlacementCareerResponse?.observe(this) { response ->
             if (response != null) {

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +49,9 @@ class BuildMyResume : AppCompatActivity() {
         appViewModel!!.init()
         binding.commonBottomResumeBuilder.btnDefault2.text = resources.getString(R.string.proceed)
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
 
         GetResumeBuilderThemeTemplate()

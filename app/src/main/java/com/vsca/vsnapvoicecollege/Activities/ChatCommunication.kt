@@ -17,6 +17,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,6 +82,16 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionBarMethod(this)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.LayoutBottomMenus) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // push content below the status bar
+            view.setPadding(0, systemBars.top, 0, systemBars.bottom)
+            insets
+        }
+
 
         swipeRefreshLayout = findViewById(R.id.swipyrefreshlayout)
         ReplayType = "2"

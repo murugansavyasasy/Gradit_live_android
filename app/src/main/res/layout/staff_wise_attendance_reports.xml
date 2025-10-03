@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rytParent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/clr_unselected"
-    android:layout_height="match_parent">
+    android:paddingTop="?attr/actionBarSize">
 
     <LinearLayout
         android:id="@+id/lnrTap"
@@ -75,14 +77,14 @@
                     android:paddingLeft="10dp"
                     android:spinnerMode="dropdown" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/imgYearDropDown"-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_alignParentRight="true"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:src="@drawable/ic_drop_down" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imgYearDropDown"-->
+                <!--                    android:layout_width="30dp"-->
+                <!--                    android:layout_height="30dp"-->
+                <!--                    android:layout_alignParentRight="true"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:src="@drawable/ic_drop_down" />-->
 
             </RelativeLayout>
 
@@ -105,14 +107,14 @@
                     android:paddingLeft="10dp"
                     android:spinnerMode="dropdown" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/imgMonthDropDown"-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_alignParentRight="true"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:src="@drawable/ic_drop_down" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imgMonthDropDown"-->
+                <!--                    android:layout_width="30dp"-->
+                <!--                    android:layout_height="30dp"-->
+                <!--                    android:layout_alignParentRight="true"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:src="@drawable/ic_drop_down" />-->
 
             </RelativeLayout>
 
@@ -138,14 +140,14 @@
                 android:paddingLeft="10dp"
                 android:spinnerMode="dropdown" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imgStaffDropDown"-->
-<!--                android:layout_width="30dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_centerVertical="true"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:src="@drawable/ic_drop_down" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/imgStaffDropDown"-->
+            <!--                android:layout_width="30dp"-->
+            <!--                android:layout_height="30dp"-->
+            <!--                android:layout_alignParentRight="true"-->
+            <!--                android:layout_centerVertical="true"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:src="@drawable/ic_drop_down" />-->
 
         </RelativeLayout>
 

@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.CompoundButton
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -72,6 +73,9 @@ class CommunicationVoice : ActionBarActivity() {
         appViewModel!!.init()
          setupAudioPlayer()
         ActionbarWithoutBottom(this)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
         CommonUtil.VoiceType = "0"
         CommonUtil.seleteddataArraySection.clear()
         imgRefresh!!.visibility = View.GONE

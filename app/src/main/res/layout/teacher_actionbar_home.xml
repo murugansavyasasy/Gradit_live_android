@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -21,7 +22,7 @@
         android:layout_marginLeft="4dp"
         android:layout_toEndOf="@+id/actBarDate_ivBack"
         android:text=""
-        android:layout_toRightOf="@+id/actBarDate_ivBack" />
+         />
 
     <TextView
         android:id="@+id/actBar_acSubTitle"

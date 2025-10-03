@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +38,9 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
          ActionbarWithoutBottom(this)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         binding.lblattenSunjectname!!.text=CommonUtil.AttendanceSubjectname
         binding.lblattenStaffname!!.text=CommonUtil.AttendanceStaffname

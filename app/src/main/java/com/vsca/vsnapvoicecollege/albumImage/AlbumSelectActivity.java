@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.vsca.vsnapvoicecollege.R;
 
@@ -50,6 +51,9 @@ public class AlbumSelectActivity extends HelperActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_select);
+
+        WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        insetsController.setAppearanceLightStatusBars(true);
 
         Intent intent = getIntent();
         if (intent == null) {

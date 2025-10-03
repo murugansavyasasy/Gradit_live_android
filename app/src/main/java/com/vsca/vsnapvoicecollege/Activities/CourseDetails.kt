@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,9 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
         binding = CommonRecyclerviewBottomsheetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         accessBottomViewIcons(
             binding,

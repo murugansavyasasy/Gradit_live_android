@@ -23,6 +23,7 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -207,6 +208,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
         ActionbarWithoutBottom(this)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = true
 
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
 

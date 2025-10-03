@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.vsca.vsnapvoicecollege.ActivitySender.CommunicationVoice;
 import com.vsca.vsnapvoicecollege.R;
@@ -92,6 +93,8 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
 
 
         actionBar = getSupportActionBar();
+        WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        insetsController.setAppearanceLightStatusBars(true);
 //        if (actionBar != null) {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //            actionBar.setHomeAsUpIndicator(R.drawable.ic_clear);

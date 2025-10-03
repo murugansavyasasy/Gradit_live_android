@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySender.PunchStaffAttendanceUsingFinger">
+
+    <!-- Custom ActionBar -->
+    <include
+        layout="@layout/teacher_actionbar_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Main Screen -->
+    <include
+        layout="@layout/staff_attendance_finger_print"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
