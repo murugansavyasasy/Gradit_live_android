@@ -5,7 +5,7 @@ object ApiMethods {
     const val Country = "api/AppDetailsBal/Getcountrylist"
     const val VersionCheck = "api/AppDetailsBal/VersionCheck"
     const val Login = "api/AppDetailsBal/LoginFromApp"
-    const val Dashboard = "api/AppDetailsBal/DashboardApi"
+    const val Dashboard = "api/AppDetailsBal/DashboardApi_Live"
 
     // const val UserMenus = "api/AppDetailsBal/GetUsermenu"
     const val UserMenus = "api/AppDetailsBal/GetParentUserMenuWithReadWriteAccess"
