@@ -20,25 +20,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/imgCollegeLogo"
                 android:layout_width="@dimen/eighty"
                 android:layout_height="@dimen/eighty"
-                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/twenty"
                 android:layout_marginTop="@dimen/eight"
                 android:src="@drawable/college_logo" />
 
 
             <RelativeLayout
+                android:layout_toEndOf="@+id/imgCollegeLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/twenty_five"
                 android:layout_toRightOf="@+id/imgCollegeLogo">
 
@@ -129,6 +129,6 @@
                     android:textSize="@dimen/fifteen" />
 
             </RelativeLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

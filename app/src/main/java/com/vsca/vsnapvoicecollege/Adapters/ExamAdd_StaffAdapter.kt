@@ -76,7 +76,7 @@ class ExamAdd_StaffAdapter constructor(data: List<Get_staff_yourclass>, context:
         val txt_semester1: TextView = itemView!!.findViewById(R.id.txt_semester1)
         val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
         val examlist_constrine: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrine)
-        val txt_selectspecfic: TextView = itemView!!.findViewById(R.id.txt_selectspecfic)
+//        val txt_selectspecfic: TextView = itemView!!.findViewById(R.id.txt_selectspecfic)
 
 
     }

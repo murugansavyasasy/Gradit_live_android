@@ -79,6 +79,8 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
 
         binding.CommonLayout.imgAddPlus.setOnClickListener { addVideo() }
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
 
 

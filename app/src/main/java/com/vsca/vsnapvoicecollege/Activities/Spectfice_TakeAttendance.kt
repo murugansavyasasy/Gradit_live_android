@@ -407,7 +407,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                                 it.memberid,
                                 it.attendancetype,
                                 it.membername,
-                                it.rollno
+                                it.rollno,
+                                it.admissionno
                             )
                         SelectedRecipientlistAttendanceEdit.add(group)
 
