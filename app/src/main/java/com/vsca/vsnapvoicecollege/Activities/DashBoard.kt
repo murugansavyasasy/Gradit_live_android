@@ -103,7 +103,7 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
-        findViewById<View>(R.id.OverallLayout).addActionBarMarginIfNeeded()
+//        findViewById<View>(R.id.OverallLayout).addActionBarMarginIfNeeded()
 
         CommonUtil.OnMenuClicks("Home")
 
