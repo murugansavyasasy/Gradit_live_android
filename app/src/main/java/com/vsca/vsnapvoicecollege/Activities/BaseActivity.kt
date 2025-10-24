@@ -99,42 +99,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                     MenuList.clear()
                     if (status == 1) {
                         UserMenuData = response.data!!
-
-
-                        // If you want to add the menu for testing use below code. And don't delete it.
-//                        if (CommonUtil.Priority.equals("p4")) {
-//                        val newElements = listOf(
-//                        MenuDetailsResponse(
-//                        100,
-//                        "Placement Event",
-//                        "placement_event",
-//                        1,
-//                        1,
-//                        100,
-//                        2
-//                        ), MenuDetailsResponse(
-//                                101,
-//                                "Placement Career",
-//                                "placement_career",
-//                                1,
-//                                1,
-//                                101,
-//                                2
-//                            ), MenuDetailsResponse(
-//                                102,
-//                                "Resume Builder",
-//                                "resume_builder",
-//                                1,
-//                                1,
-//                                102,
-//                                2
-//                            )
-//                        )
-//                        UserMenuData.addAll(newElements)
-//                        }
-
-
-
                         for (j in UserMenuData.indices) {
 
                             val id = UserMenuData[j].id

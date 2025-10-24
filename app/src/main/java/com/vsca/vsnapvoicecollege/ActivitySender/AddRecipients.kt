@@ -256,7 +256,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         Viewlinetwo = findViewById(R.id.Viewlinetwo)
         recycle_Staffrecipients = findViewById(R.id.recycle_Staffrecipients)
         txt_selectspecfic = findViewById(R.id.txt_selectspecfic)
-        layoutstudentlist = findViewById(R.id.layoutstudentlist)
+//        layoutstudentlist = findViewById(R.id.layoutstudentlist)
         txt_department = findViewById(R.id.txt_department)
         txt_selectspecfic_YearandSecrion = findViewById(R.id.txt_selectspecfic_YearandSecrion)
         Viewlinethree = findViewById(R.id.Viewlinethree)

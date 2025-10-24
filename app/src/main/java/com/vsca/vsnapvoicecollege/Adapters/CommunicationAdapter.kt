@@ -135,17 +135,10 @@ class CommunicationAdapter(
             holder.lnrplayvoice.visibility = View.GONE
             holder.imgRecentType.setImageResource(R.drawable.dashboard_text)
             holder.imgRecentType.alpha = 0.7f
-            holder.lblRecenttitle.text = modal.description
+            holder.lblRecenttitle.text = modal.msgcontent
             holder.lblRecentPostedby.text = modal.sentby
         }
 
-
-//        if (modal.typename.equals("Text Message")) {
-//            holder.lnrplayvoice.visibility = View.GONE
-//            holder.imgRecentType.setImageResource(R.drawable.dashboard_text)
-//            holder.imgRecentType.alpha = 0.7f
-//            holder.lblRecenttitle.text = modal.msgcontent
-//        }
 
 
         val createdDateTime: String = modal.timing.toString()
@@ -188,9 +181,6 @@ class CommunicationAdapter(
 
         } else {
 
-//            if(ScreenType.equals("Text")) {
-//                holder.lnrplayvoice.visibility = View.VISIBLE
-//            }
             holder.imgArrowdown.setImageResource(R.drawable.ic_arrow_down_blue)
             if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
                 mediaPlayer!!.stop()
@@ -203,14 +193,6 @@ class CommunicationAdapter(
             override fun onClick(view: View) {
                 holder.lnrplayvoice.visibility = View.GONE
                 CommonUtil.DownloadingFile = 0
-
-//                Type = if (modal.isemergency.equals("true")) {
-//                    "emergency"
-//                } else if (modal.isemergency.equals("false")) {
-//                    "voice"
-//                } else {
-//                    ""
-//                }
 
                 if (ScreenType.equals("Text")) {
                     Type = "Text"

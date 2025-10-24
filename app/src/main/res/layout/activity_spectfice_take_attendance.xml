@@ -12,7 +12,8 @@
         android:id="@+id/lbl_Classdetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten">
+        android:layout_marginTop="?attr/actionBarSize"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutMeetingName"
