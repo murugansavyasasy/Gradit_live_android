@@ -123,6 +123,11 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        Log.d("Receipients","Receipients_screenPrinci")
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         isAwsUploadingPreSigned = AwsUploadingPreSigned()

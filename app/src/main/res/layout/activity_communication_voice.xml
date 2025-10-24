@@ -332,7 +332,7 @@
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/hundred"
-                android:layout_height="@dimen/thirty_five"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/twenty"
                 android:layout_marginBottom="@dimen/ten"
@@ -340,6 +340,7 @@
                 android:gravity="center"
                 android:text="@string/txt_cancel"
                 android:textAllCaps="false"
+                android:textSize="@dimen/thirteen"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -350,7 +351,7 @@
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="@dimen/hundred"
-                android:layout_height="@dimen/fourty"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="@dimen/ten"
                 android:layout_marginBottom="@dimen/ten"
@@ -359,6 +360,7 @@
                 android:padding="@dimen/two"
                 android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
+                android:textSize="@dimen/thirteen"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

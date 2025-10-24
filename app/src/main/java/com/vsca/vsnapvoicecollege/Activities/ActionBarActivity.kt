@@ -6,11 +6,13 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.*
@@ -60,7 +62,23 @@ abstract class ActionBarActivity : AppCompatActivity() {
 
     protected abstract val layoutResourceId: Int
 
+    fun View.addActionBarMarginIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 35) {
+            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+            val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
+            typedArray.recycle()
+            (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+                it.topMargin = actionBarHeight
+                layoutParams = it
+            }
+        }
+    }
+
     fun ActionbarWithoutBottom(activity: Activity) {
+
+
+
+
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setCustomView(R.layout.action_bar_layout)

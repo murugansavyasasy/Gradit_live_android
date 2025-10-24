@@ -144,6 +144,9 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         CommonUtil.Collageid_ArrayList.clear()
         SendingType = CommonUtil.College
         CommonUtil.CallEnable = "0"
+        Log.d("Receipients","Receipients_screenHeader")
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true

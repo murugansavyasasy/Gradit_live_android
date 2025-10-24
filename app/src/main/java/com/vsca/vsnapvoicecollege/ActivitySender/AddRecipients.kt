@@ -214,6 +214,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
 
+        Log.d("Receipients","Receipients_screenAdd")
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
+
 
         ch_all = findViewById(R.id.ch_all)
         lblEntireDepartmentlable = findViewById(R.id.lblEntireDepartmentlable)
