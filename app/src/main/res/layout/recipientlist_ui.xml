@@ -114,10 +114,25 @@
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/five"
             android:layout_marginStart="@dimen/ten"
-            android:text="akjefbwiufbwoefb"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/thirteen"
             android:textStyle="normal"></TextView>
+
+        <TextView
+            android:id="@+id/lblAdmissionNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblRegNo"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/five"
+            android:layout_marginStart="@dimen/ten"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="@dimen/thirteen"
+            android:textStyle="normal"></TextView>
+
+
 
         <RelativeLayout
 
@@ -182,7 +197,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_below="@+id/rlaSwitch"
+            android:layout_below="@+id/lblAdmissionNo"
             android:layout_marginLeft="@dimen/ten"
             android:layout_marginTop="@dimen/five"
             android:layout_marginRight="@dimen/twenty_five"

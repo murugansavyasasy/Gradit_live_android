@@ -98,9 +98,10 @@ class AddTextNoticeboard: ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+        ActionbarWithoutBottom(this)
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
-         ActionbarWithoutBottom(this)
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
         CommonUtil.seleteddataArraySection.clear()
         imgRefresh!!.visibility = View.GONE
         binding.Nestedchildlayout!!.visibility = View.VISIBLE

@@ -63,6 +63,9 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
 
         CommonUtil.OnMenuClicks("Text")
         SearchList!!.visibility = View.VISIBLE

@@ -59,6 +59,8 @@ class create_Examination: ActionBarActivity() {
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
         imgRefresh!!.visibility = View.GONE
 
         binding.imgback.setOnClickListener { imgback() }

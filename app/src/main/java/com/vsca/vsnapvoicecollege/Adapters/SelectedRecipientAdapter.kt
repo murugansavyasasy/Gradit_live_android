@@ -52,6 +52,12 @@ class SelectedRecipientAdapter(
             holder.con_attendance!!.visibility = View.VISIBLE
             holder.lblStudentname!!.text = data.SelectedName
             holder.lblRegNo!!.text = "Register No : " + data.isRegNo
+            if (!data.admissionno.isNullOrEmpty()){
+                holder.lblAdmissionNo!!.visibility=View.VISIBLE
+                holder.lblAdmissionNo!!.text = "Admission No : " + data.admissionno
+            }else{
+                holder.lblAdmissionNo!!.visibility=View.GONE
+            }
             CommonUtil.Absentlistcount = ""
 
             if (CommonUtil.PresentlistStudent.contains(data.SelectedId.toString())) {
@@ -232,6 +238,7 @@ class SelectedRecipientAdapter(
         val lblStudentname: TextView = itemView!!.findViewById(R.id.lbl_studentname)!!
         val lblRegNo1: TextView = itemView!!.findViewById(R.id.lblRegNo1)!!
         val lblRegNo: TextView = itemView!!.findViewById(R.id.lblRegNo)!!
+        val lblAdmissionNo: TextView = itemView!!.findViewById(R.id.lblAdmissionNo)!!
         val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutEntireCollege)!!
         val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)!!
         val switchOD: SwitchCompat = itemView!!.findViewById(R.id.switchOD)!!

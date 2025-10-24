@@ -71,6 +71,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
         accessBottomViewIcons(
             binding,
             R.id.img_swipe,

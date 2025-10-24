@@ -73,6 +73,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
 
         accessBottomViewIcons(
@@ -256,7 +258,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                             GetDivisionData!!.forEach {
                                 it.division_id
                                 it.division_name
-                                val divisions = RecipientSelected(it.division_id, it.division_name,"")
+                                val divisions = RecipientSelected(it.division_id, it.division_name,"","")
                                 SelectedRecipientlist.add(divisions)
                             }
                             LoadDivisionSpinner()
@@ -284,7 +286,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                                 it.department_id
                                 it.department_name
                                 val divisions =
-                                    RecipientSelected(it.department_id, it.department_name,"")
+                                    RecipientSelected(it.department_id, it.department_name,"","")
                                 SelectedRecipientlist.add(divisions)
                             }
 

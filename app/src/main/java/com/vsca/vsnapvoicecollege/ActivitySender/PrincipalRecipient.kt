@@ -607,7 +607,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             it.division_id
                             it.division_name
 
-                            val divisions = RecipientSelected(it.division_id, it.division_name, "")
+                            val divisions = RecipientSelected(it.division_id, it.division_name, "","")
                             SelectedRecipientlist.add(divisions)
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Division)) {
@@ -673,7 +673,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             it.groupid
                             it.groupname
 
-                            var group = RecipientSelected(it.groupid, it.groupname, "")
+                            var group = RecipientSelected(it.groupid, it.groupname, "","")
 
                             SelectedRecipientlist.add(group)
                         }
@@ -1545,7 +1545,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     if (GetCourseData!![j].department_name == name) {
                                         val department = RecipientSelected(
                                             GetCourseData!![j].course_id,
-                                            GetCourseData!![j].course_name, ""
+                                            GetCourseData!![j].course_name, "",""
                                         )
                                         FilterCourse.add(department)
                                     }
@@ -1607,7 +1607,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     val department = RecipientSelected(
                                         GetCourseData!![i].course_id,
                                         GetCourseData!![i].course_name,
-                                        ""
+                                        "",""
                                     )
                                     FilterCourse.add(department)
                                     binding.recycleRecipientcourse!!.visibility = View.VISIBLE
@@ -1707,7 +1707,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 if (GetDepartmentData!![i].division_id.toString() == SelectedSpinnerID) {
                                     val department = RecipientSelected(
                                         GetDepartmentData!![i].department_id,
-                                        GetDepartmentData!![i].department_name, ""
+                                        GetDepartmentData!![i].department_name, "",""
                                     )
                                     FilterDepartment.add(department)
                                     binding.recycleRecipientYourclasses!!.visibility = View.VISIBLE
@@ -1747,7 +1747,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                 it.department_id
                                 it.department_name
                                 val divisions =
-                                    RecipientSelected(it.department_id, it.department_name, "")
+                                    RecipientSelected(it.department_id, it.department_name, "","")
                                 SelectedRecipientlist.add(divisions)
                             }
                             binding.chAllDepartment!!.visibility = View.VISIBLE
@@ -1835,7 +1835,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                                     val department = RecipientSelected(
                                         GetCourseData!![i].course_id,
                                         GetCourseData!![i].course_name,
-                                        ""
+                                        "",""
                                     )
                                     FilterDepartment.add(department)
                                     binding.recycleRecipientcourse!!.visibility = View.VISIBLE
@@ -1888,7 +1888,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             GetCourseData!!.forEach {
                                 it.course_id
                                 it.course_name
-                                val department = RecipientSelected(it.course_id, it.course_name, "")
+                                val department = RecipientSelected(it.course_id, it.course_name, "","")
                                 SelectedRecipientlist.add(department)
                             }
                             binding.chAllcourse!!.visibility = View.VISIBLE

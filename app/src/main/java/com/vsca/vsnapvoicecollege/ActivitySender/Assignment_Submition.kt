@@ -53,7 +53,10 @@ class Assignment_Submition : ActionBarActivity() {
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
-        
+
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
          ActionbarWithoutBottom(this)

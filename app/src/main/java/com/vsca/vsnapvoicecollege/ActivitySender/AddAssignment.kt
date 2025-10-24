@@ -137,6 +137,7 @@ class AddAssignment : ActionBarActivity() {
         imgRefresh!!.visibility = View.GONE
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         ScreenName = intent.getStringExtra("ScreenName")
         AssignmentTitleForward = intent.getStringExtra("AssignmentTitle")

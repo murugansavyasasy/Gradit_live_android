@@ -72,6 +72,8 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
         CommonUtil.OnMenuClicks("Voice")
         accessBottomViewIcons(

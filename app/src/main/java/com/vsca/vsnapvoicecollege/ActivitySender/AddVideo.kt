@@ -96,6 +96,8 @@ class AddVideo : ActionBarActivity() {
          ActionbarWithoutBottom(this)
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
         binding.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.btnConfirm.setOnClickListener { btnConfirm() }

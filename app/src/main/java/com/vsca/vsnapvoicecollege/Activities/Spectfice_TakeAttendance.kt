@@ -66,6 +66,9 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
         AttendanceStatus = intent.getStringExtra("EditAttendance")
         Log.d("Attendance_Status", AttendanceStatus.toString())
         CommonUtil.Absentlistcount = ""
@@ -336,7 +339,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     getspecifictuterstudent.forEach {
                         it.memberid
                         it.name
-                        val group = RecipientSelected(it.memberid, it.name, it.regno)
+                        val group = RecipientSelected(it.memberid, it.name, it.regno,it.admissionno)
                         SelectedRecipientlist.add(group)
                     }
                     for (i in SelectedRecipientlist) {

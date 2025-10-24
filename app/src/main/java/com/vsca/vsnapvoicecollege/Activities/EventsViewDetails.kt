@@ -87,6 +87,9 @@ class EventsViewDetails : ActionBarActivity() {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
         binding.btnAddpic.setOnClickListener { btnAddpic() }
         binding.imgEventback.setOnClickListener { super.onBackPressed() }
         binding.LayoutAdvertisement.setOnClickListener { adclick() }

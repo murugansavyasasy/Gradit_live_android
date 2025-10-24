@@ -36,6 +36,7 @@ class AllImageViewer : ActionBarActivity() {
         binding = ActivityAllImageViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
          ActionbarWithoutBottom(this)
+
         isPositionUpdate(isPosition)
         binding.lmgback!!.setOnClickListener {
             onBackPressed()
@@ -43,6 +44,9 @@ class AllImageViewer : ActionBarActivity() {
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
+
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
         binding.imgNxtright!!.setOnClickListener {
             if (CommonUtil.isImageViewList.size > 1) {

@@ -58,6 +58,8 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
         accessBottomViewIcons(
             binding,

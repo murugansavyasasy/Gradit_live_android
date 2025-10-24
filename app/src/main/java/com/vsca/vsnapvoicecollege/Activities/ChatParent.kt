@@ -61,6 +61,9 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
         binding.CommonLayout.layoutTab!!!!.visibility = View.GONE
         CommonUtil.OnMenuClicks("Chat")
         binding.CommonLayout.lblMenuTitle!!.text = "Chat"

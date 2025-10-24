@@ -87,6 +87,9 @@ class SpecificStudent : ActionBarActivity(),
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
 
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         CommonUtil.CallEnable = "0"
@@ -322,7 +325,7 @@ class SpecificStudent : ActionBarActivity(),
                         it.memberid
                         it.name
 
-                        val group = RecipientSelected(it.memberid, it.name, it.regno)
+                        val group = RecipientSelected(it.memberid, it.name, it.regno,it.admissionno)
                         SelectedRecipientlist.add(group)
                     }
 

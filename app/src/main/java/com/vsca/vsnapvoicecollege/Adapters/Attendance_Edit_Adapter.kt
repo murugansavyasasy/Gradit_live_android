@@ -74,6 +74,7 @@ class Attendance_Edit_Adapter constructor(
         holder.con_attendance!!.visibility = View.VISIBLE
         holder.lblStudentname!!.text = data.membername
         holder.lblRegNo!!.text = "Register No : " + data.rollno
+
         CommonUtil.Absentlistcount = ""
         if (data.attendancetype.equals("Absent")) {
             holder.switchOD.isChecked = false

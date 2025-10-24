@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -13,6 +14,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
@@ -734,6 +736,18 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             lblRole.setTextColor(Color.parseColor(getString(R.string.txt_color_parent)))
             lblMemberName.text = CommonUtil.MemberName
             lblRole.text = CommonUtil.MemberType
+        }
+    }
+
+    fun View.addActionBarMarginIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 35) {
+            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+            val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
+            typedArray.recycle()
+            (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+                it.topMargin = actionBarHeight
+                layoutParams = it
+            }
         }
     }
 
