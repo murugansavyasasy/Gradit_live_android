@@ -68,36 +68,78 @@ public class AwsUploadingPreSigned {
         Call<JsonObject> call = apiService.getPreSignedUrl(isBucket, isFileName, bucketPath, String.valueOf(isFileType));
 
         call.enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+//                Log.d("attendance:code-res", response.code() + " - " + response);
+//                try {
+//                    assert response.body() != null;
+//                    JSONObject jsonResponse = new JSONObject(response.body().toString());
+//
+//                    int status = jsonResponse.getInt("status");
+//                    String message = jsonResponse.getString("message");
+//
+//                    JSONObject dataObject = jsonResponse.getJSONObject("data");
+//                    String isPresignedUrl = dataObject.getString("presignedUrl");
+//                    String isFileUrl = dataObject.getString("fileUrl");
+//
+//                    Log.d("UploadInfo", "Presigned URL: " + isPresignedUrl);
+//                    Log.d("UploadInfo", "File URL: " + isFileUrl);
+//                    String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+//                    RestClient.Companion.changeApiBaseUrl(isBaseUrl);
+//                    // Call your upload method
+//                    isAwsUpload(isPresignedUrl, isFilePathUrl, isFileUrl, uploadCallback,activity);
+//
+//                } catch (Exception e) {
+//                    String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+//                    RestClient.Companion.changeApiBaseUrl(isBaseUrl);
+//                    String errorMessage = response.message(); // Get the error message from the response
+//                    Log.e("Response Error", errorMessage != null ? errorMessage : "Unknown error occurred", e);
+//                    uploadCallback.onUploadError(errorMessage);
+//                }
+
+          //  }
+
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 Log.d("attendance:code-res", response.code() + " - " + response);
+
                 try {
-                    assert response.body() != null;
-                    JSONObject jsonResponse = new JSONObject(response.body().toString());
+                    if (response.isSuccessful() && response.body() != null) {
+                        JSONObject jsonResponse = new JSONObject(response.body().toString());
 
-                    int status = jsonResponse.getInt("status");
-                    String message = jsonResponse.getString("message");
+                        int status = jsonResponse.optInt("status", -1);
+                        String message = jsonResponse.optString("message", "");
 
-                    JSONObject dataObject = jsonResponse.getJSONObject("data");
-                    String isPresignedUrl = dataObject.getString("presignedUrl");
-                    String isFileUrl = dataObject.getString("fileUrl");
+                        JSONObject dataObject = jsonResponse.optJSONObject("data");
+                        if (dataObject != null) {
+                            String isPresignedUrl = dataObject.optString("presignedUrl", "");
+                            String isFileUrl = dataObject.optString("fileUrl", "");
 
-                    Log.d("UploadInfo", "Presigned URL: " + isPresignedUrl);
-                    Log.d("UploadInfo", "File URL: " + isFileUrl);
-                    String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
-                    RestClient.Companion.changeApiBaseUrl(isBaseUrl);
-                    // Call your upload method
-                    isAwsUpload(isPresignedUrl, isFilePathUrl, isFileUrl, uploadCallback,activity);
+                            Log.d("UploadInfo", "Presigned URL: " + isPresignedUrl);
+                            Log.d("UploadInfo", "File URL: " + isFileUrl);
 
+                            String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
+                            RestClient.Companion.changeApiBaseUrl(isBaseUrl);
+
+                            // Start AWS upload
+                            isAwsUpload(isPresignedUrl, isFilePathUrl, isFileUrl, uploadCallback, activity);
+                        } else {
+                            uploadCallback.onUploadError("Invalid data in response");
+                        }
+                    } else {
+                        // Response is not successful or body is null
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Empty error body";
+                        Log.e("ResponseError", "HTTP " + response.code() + " - " + errorBody);
+                        uploadCallback.onUploadError("Server error: " + response.code());
+                    }
                 } catch (Exception e) {
                     String isBaseUrl = SharedPreference.INSTANCE.getSH_Baseurl(activity);
                     RestClient.Companion.changeApiBaseUrl(isBaseUrl);
-                    String errorMessage = response.message(); // Get the error message from the response
-                    Log.e("Response Error", errorMessage != null ? errorMessage : "Unknown error occurred", e);
-                    uploadCallback.onUploadError(errorMessage);
+                    Log.e("ResponseException", "Error parsing response", e);
+                    uploadCallback.onUploadError(e.getMessage());
                 }
-
             }
+
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {

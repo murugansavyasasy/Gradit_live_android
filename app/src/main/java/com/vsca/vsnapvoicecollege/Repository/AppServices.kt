@@ -3834,7 +3834,7 @@ class AppServices {
 
 
     fun Examcreation(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Examcreation(jsonObject)
             ?.enqueue(object : Callback<ExamCreation_dataclass?> {
@@ -3886,7 +3886,7 @@ class AppServices {
 
 
     fun ExamEdit(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.ExamEditdata(jsonObject)
             ?.enqueue(object : Callback<ExamCreation_dataclass?> {
@@ -3936,7 +3936,7 @@ class AppServices {
         get() = ExamCreationEdit
 
     fun ExamSectionDelete(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.ExamDeleteSection(jsonObject)
             ?.enqueue(object : Callback<ExamCreation_dataclass?> {
@@ -3986,7 +3986,7 @@ class AppServices {
         get() = ExamDeleteSection
 
     fun Examview(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Examview(jsonObject)
             ?.enqueue(object : Callback<Examlist_viewmodel?> {
@@ -4037,7 +4037,7 @@ class AppServices {
 
 
     fun ExamviewSubjecr(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.ExamviewSubjectList(jsonObject)
             ?.enqueue(object : Callback<ExamSubjectList?> {
@@ -4084,7 +4084,7 @@ class AppServices {
 
 
     fun Examdeletedata(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Examdelete(jsonObject)
             ?.enqueue(object : Callback<ExamDelete?> {
@@ -4135,7 +4135,7 @@ class AppServices {
 
 
     fun TakeAttendance(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Markattendance(jsonObject)
             ?.enqueue(object : Callback<AttendanceMark?> {
@@ -4186,7 +4186,7 @@ class AppServices {
 
 
     fun VideoEntireSend(jsonObject: JsonObject?, activity: Activity) {
-//        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        //val progressDialog = CustomLoading.createProgressDialog(activity)
 //        //progressDialog!!.show()
         RestClient.apiInterfaces.Videoentiresend(jsonObject)
             ?.enqueue(object : Callback<VideoEntireSend?> {
@@ -4237,7 +4237,7 @@ class AppServices {
 
 
     fun VideoParticulerSend(jsonObject: JsonObject?, activity: Activity) {
-//        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        //val progressDialog = CustomLoading.createProgressDialog(activity)
 //        //progressDialog!!.show()
         RestClient.apiInterfaces.VideoParticulersend(jsonObject)
             ?.enqueue(object : Callback<VideoParticulerSend?> {
@@ -4288,7 +4288,7 @@ class AppServices {
 
 
     fun EventpicUpdate(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Eventphotoupdate(jsonObject)
             ?.enqueue(object : Callback<EventpicUpdate?> {
@@ -4339,7 +4339,7 @@ class AppServices {
 
 
     fun ExamEditorDeleteSection(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.ExamEditOrDelete(jsonObject)
             ?.enqueue(object : Callback<Examlist_viewmodel?> {
@@ -4390,7 +4390,7 @@ class AppServices {
 
 
     fun AssignmentForward(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Assignmentforword(jsonObject)
             ?.enqueue(object : Callback<Assignment_Forward?> {
@@ -4644,7 +4644,7 @@ class AppServices {
 
 
     fun Assignmentsubmit(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Assignmentsubmit(jsonObject)
             ?.enqueue(object : Callback<Assignment_Submit?> {
@@ -4690,7 +4690,7 @@ class AppServices {
 
 
     fun AssignmentsubmitSender(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Assignmentsubmitbtnsender(jsonObject)
             ?.enqueue(object : Callback<Assignment_Submittion?> {
@@ -4735,7 +4735,7 @@ class AppServices {
 
 
     fun GetSubmittedAssignmentForStudents(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.GetSubmittedAssignmentForStudents(jsonObject)
             ?.enqueue(object : Callback<Assignment_Submittion?> {
@@ -4781,7 +4781,7 @@ class AppServices {
 
 
     fun AttendanceEdit(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.AttendanceEditList(jsonObject)
             ?.enqueue(object : Callback<Attendance_Edit?> {
@@ -4827,7 +4827,7 @@ class AppServices {
 
 
     fun AssignmentcontentView(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Assignmentcotentview(jsonObject)
             ?.enqueue(object : Callback<AssignmentContent_View?> {
@@ -4873,7 +4873,7 @@ class AppServices {
 
 
     fun BlackStudent(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.BlackStudent(jsonObject)
             ?.enqueue(object : Callback<BlackStudent?> {
@@ -4919,7 +4919,7 @@ class AppServices {
 
 
     fun UnBlackStudent(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.UnBlackStudent(jsonObject)
             ?.enqueue(object : Callback<Unblack_student?> {
@@ -4964,7 +4964,7 @@ class AppServices {
         get() = UnBlackStudent
 
     fun VideoSendTuter(jsonObject: JsonObject?, activity: Activity) {
-//        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        //val progressDialog = CustomLoading.createProgressDialog(activity)
 //        //progressDialog!!.show()
         RestClient.apiInterfaces.VideoSendtuter(jsonObject)
             ?.enqueue(object : Callback<VideoSendTuter?> {
@@ -5010,7 +5010,7 @@ class AppServices {
 
 
     fun GetOpt(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.GetOtp(jsonObject)
             ?.enqueue(object : Callback<ExampleJson2KtKotlin?> {
@@ -5056,7 +5056,7 @@ class AppServices {
 
 
     fun VerifirdOtp(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.Otpverify(jsonObject)
             ?.enqueue(object : Callback<Verified_OTP?> {
@@ -5102,7 +5102,7 @@ class AppServices {
 
 
     fun CreateNewPassword(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+      //  //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.CreareNewPassword(jsonObject)
             ?.enqueue(object : Callback<NewPassWordCreate?> {
@@ -5148,7 +5148,7 @@ class AppServices {
 
 
     fun Tuterimageorpdfsend(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.imgageandpdfTuterSend(jsonObject)
             ?.enqueue(object : Callback<ImageorpdfsendTuter?> {
@@ -5193,7 +5193,7 @@ class AppServices {
         get() = Pdf_andImagesendTuter
 
     fun Texthistory(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog.show()
         RestClient.apiInterfaces.GetTextMessageHistory(jsonObject)
             ?.enqueue(object : Callback<textHistory?> {
@@ -5237,7 +5237,7 @@ class AppServices {
 
 
     fun Voicehistory(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog.show()
         RestClient.apiInterfaces.GetVoiceMessageHistory(jsonObject)
             ?.enqueue(object : Callback<voicehistory?> {
@@ -5279,7 +5279,7 @@ class AppServices {
         get() = VoiceHistory_
 
     fun CollageListdata(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog!!.show()
         RestClient.apiInterfaces.HeaderCollagelist(jsonObject)
             ?.enqueue(object : Callback<CollageList?> {
@@ -5325,7 +5325,7 @@ class AppServices {
 
 
     fun GetHallticketdata(jsonObject: JsonObject?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         //progressDialog.show()
         RestClient.Companion.apiInterfaces.Get_hallticket(jsonObject)
             ?.enqueue(object : Callback<Hallticket?> {
@@ -5380,7 +5380,7 @@ class AppServices {
 
 
     fun GetResumeBuilderProfileDetailsRequest(id:Int ?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderProfileDetails(id!!)
@@ -5428,7 +5428,7 @@ class AppServices {
         get() = isGetResumeBuilderProfileDetails
 
     fun addEditProfile(isJsonObject: JsonObject, activity: Activity) {
-//        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        //val progressDialog = CustomLoading.createProgressDialog(activity)
 //        progressDialog?.show()
 
         Log.d("addEditProfile", "Request URL: http://192.168.5.107:3002/api/profile/add-edit-profile")
@@ -5468,7 +5468,7 @@ class AppServices {
 
     //Get Academic Details
     fun GetResumeBuilderAcademicDetailsRequest(id:Int ?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderAcademicDetails(id!!)
@@ -5519,7 +5519,7 @@ class AppServices {
         get() = _resumeBuilderAcademicAddEditResponse
 
     fun addEditAcademicDetails(request: HashMap<String, Any>, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
         progressDialog?.show()
 
         RestClient.resumeApiInterfaces.addEditAcademic(request)
@@ -5551,7 +5551,7 @@ class AppServices {
 
     //Get SkillSet Details
     fun GetResumeBuilderSkillSetDetailsRequest(id:Int ?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderSkillSetDetails(id!!)
@@ -5596,7 +5596,7 @@ class AppServices {
 
     //Get SoftSkills Details
     fun GetResumeBuilderSoftSkillsRequest(activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderSoftSkillsDetails()
@@ -5645,7 +5645,7 @@ class AppServices {
 
     //EditSkillSetDetails
     fun SendResumeBuilderEditSoftSkillsRequest(isJsonObject: JsonObject,activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.SendSkillSetDetails(isJsonObject)
@@ -5692,7 +5692,7 @@ class AppServices {
 
     //Get Theme Tempalate Details
     fun GetResumeBuilderThemeTemplateRequest(activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderThemeTemplateDetails()
@@ -5743,7 +5743,7 @@ class AppServices {
 
     //Generate Resume
     fun SendResumeBuilderGenerateResumeRequest(isJsonObject: JsonObject,activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.SendGenerateResume(isJsonObject)
@@ -5796,7 +5796,7 @@ class AppServices {
     fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject, activity: Activity) {
         // Ensure everything UI-related runs on main thread
         activity.runOnUiThread {
-            val progressDialog = CustomLoading.createProgressDialog(activity)
+            //val progressDialog = CustomLoading.createProgressDialog(activity)
             //progressDialog!!.show()
 
             RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
@@ -5841,7 +5841,7 @@ class AppServices {
 
     //Old source thread exception occurs
 //    fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject,activity: Activity) {
-//        val progressDialog = CustomLoading.createProgressDialog(activity)
+//        //val progressDialog = CustomLoading.createProgressDialog(activity)
 //
 //        //progressDialog!!.show()
 //        RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
@@ -5888,7 +5888,7 @@ class AppServices {
 
     //Get Profile Resume
     fun GetResumeBuilderProfileResumeRequest(id:Int ?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getProfileResume(id)
@@ -5937,7 +5937,7 @@ class AppServices {
         get() = isGetResumeBuilderProfileResume
 
     fun isGetPlacementEvent(isCollegeId:String,memberid:Int ?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.isPlacementEvent(isCollegeId,memberid)
@@ -5989,7 +5989,7 @@ class AppServices {
 
 
     fun isGetPlacementHistoricalEvent(isCollegeId:String,memberid:Int ?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.isPlacementHistoricalEvent(isCollegeId,memberid)
@@ -6041,7 +6041,7 @@ class AppServices {
 
 
       fun isGetPlacementCareer(isCollegeId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.isPlacementCareer(isCollegeId,departmentname,semesterno)
@@ -6093,7 +6093,7 @@ class AppServices {
 
 
     fun isGetPlacementHistoricalCareer(isCollageId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.isPlacementHistoricalCareer(isCollageId,departmentname,semesterno)
@@ -6147,7 +6147,7 @@ class AppServices {
 
     //Delete Resume
     fun GetResumeBuilderDeleteResumeRequest(id:Int ?, isJsonObject: JsonObject,activity: Activity) {
-        val progressDialog = CustomLoading.createProgressDialog(activity)
+        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.deleteStudentResume(id!!,isJsonObject)

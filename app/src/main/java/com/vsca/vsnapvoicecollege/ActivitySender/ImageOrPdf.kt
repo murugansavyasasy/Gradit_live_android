@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -33,6 +34,7 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuDescription
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuTitle
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.extension
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
@@ -40,6 +42,7 @@ import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityImageOrPdfBinding
 import java.io.File
 import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -295,56 +298,161 @@ class ImageOrPdf: ActionBarActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode != Activity.RESULT_CANCELED) {
+        if (resultCode == Activity.RESULT_CANCELED) return
 
-            if (requestCode == REQUEST_Camera) {
-                CommonUtil.SelcetedFileList.add(imageFilePath!!)
-                Log.d("imageFilePath", imageFilePath.toString())
+        when (requestCode) {
 
-                CommonUtil.SelcetedFileList.forEach {
-                    var path = it
-                    if (CommonUtil.SelcetedFileList != null) {
-                        Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                        binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
-                        binding.lbltotalfile!!.visibility = View.VISIBLE
-                    } else {
-                        binding.lbltotalfile!!.visibility = View.GONE
+            REQUEST_Camera -> {
+                imageFilePath?.let {
+                    CommonUtil.SelcetedFileList.add(it)
+                    Log.d("imageFilePath", it)
+                    updateFileCountUI()
+                }
+            }
 
+            REQUEST_GAllery -> {
+                data?.let {
+                    val images = it.getStringArrayListExtra("images")
+                    if (images != null) {
+                        CommonUtil.SelcetedFileList = images
+                        Log.d("SelectedFileListSize", CommonUtil.SelcetedFileList.size.toString())
+                        Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
+                        updateFileCountUI()
                     }
                 }
+            }
 
-            } else if (requestCode == REQUEST_GAllery) {
-                if (data != null) {
-                    CommonUtil.SelcetedFileList = data.getStringArrayListExtra("images")!!
-                    Log.d("SelectedFileListSize", CommonUtil.SelcetedFileList.size.toString())
-                    Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
+            SELECT_PDF -> {
+                if (resultCode == RESULT_OK && data != null) {
+                    CommonUtil.SelcetedFileList.clear()
 
-                    CommonUtil.SelcetedFileList.forEach {
-                        var path = it
-                        if (CommonUtil.SelcetedFileList != null) {
-                            Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                            binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
-                            binding.lbltotalfile!!.visibility = View.VISIBLE
-                        } else {
-                            binding.lbltotalfile!!.visibility = View.GONE
-
+                    // Handle multiple PDF selection
+                    if (data.clipData != null) {
+                        val count = data.clipData!!.itemCount
+                        for (i in 0 until count) {
+                            val fileUri = data.clipData!!.getItemAt(i).uri
+                            Log.d("PDFPicker", "Selected PDF URI: $fileUri")
+                            ReadAndWriteFile(fileUri, ".pdf")
                         }
                     }
-                }
-            } else if (requestCode == SELECT_PDF && resultCode == RESULT_OK && data != null) {
-
-                if (resultCode == RESULT_OK) {
-                    uri = data.data!!
-                    Log.d("uri", uri.toString())
-                    val uriString: String = uri.toString()
-                    if (uriString.startsWith("content://")) {
-                        var myCursor: Cursor? = null
-                        ReadAndWriteFile(uri, ".pdf")
+                    // Handle single PDF selection
+                    else if (data.data != null) {
+                        val fileUri = data.data!!
+                        Log.d("PDFPicker", "Single PDF URI: $fileUri")
+                        ReadAndWriteFile(fileUri, ".pdf")
                     }
+
+                    updateFileCountUI()
                 }
             }
         }
     }
+
+//    fun ReadAndWriteFile(uri: Uri, extension: String) {
+//        val fileName = getFileNameFromUri(uri)
+//        val inputStream = contentResolver.openInputStream(uri)
+//        val file = File(cacheDir, fileName)
+//        val outputStream = FileOutputStream(file)
+//
+//        inputStream?.use { input ->
+//            outputStream.use { output ->
+//                input.copyTo(output)
+//            }
+//        }
+//
+//        CommonUtil.SelcetedFileList.add(file.absolutePath)
+//    }
+
+    /**
+     * Get file name from content Uri
+     */
+    fun getFileNameFromUri(uri: Uri): String {
+        var result: String? = null
+        if (uri.scheme == "content") {
+            val cursor = contentResolver.query(uri, null, null, null, null)
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    result = it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.path
+            val cut = result?.lastIndexOf('/')
+            if (cut != -1 && cut != null) {
+                result = result?.substring(cut + 1)
+            }
+        }
+        return result ?: "unknown_file$extension"
+    }
+
+
+//    @SuppressLint("LongLogTag")
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (resultCode != Activity.RESULT_CANCELED) {
+//
+//            if (requestCode == REQUEST_Camera) {
+//                CommonUtil.SelcetedFileList.add(imageFilePath!!)
+//                Log.d("imageFilePath", imageFilePath.toString())
+//
+//                CommonUtil.SelcetedFileList.forEach {
+//                    var path = it
+//                    if (CommonUtil.SelcetedFileList != null) {
+//                        Totalfile = CommonUtil.SelcetedFileList.size.toString()
+//                        binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+//                        binding.lbltotalfile!!.visibility = View.VISIBLE
+//                    } else {
+//                        binding.lbltotalfile!!.visibility = View.GONE
+//
+//                    }
+//                }
+//
+//            } else if (requestCode == REQUEST_GAllery) {
+//                if (data != null) {
+//                    CommonUtil.SelcetedFileList = data.getStringArrayListExtra("images")!!
+//                    Log.d("SelectedFileListSize", CommonUtil.SelcetedFileList.size.toString())
+//                    Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
+//
+//                    CommonUtil.SelcetedFileList.forEach {
+//                        var path = it
+//                        if (CommonUtil.SelcetedFileList != null) {
+//                            Totalfile = CommonUtil.SelcetedFileList.size.toString()
+//                            binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+//                            binding.lbltotalfile!!.visibility = View.VISIBLE
+//                        } else {
+//                            binding.lbltotalfile!!.visibility = View.GONE
+//
+//                        }
+//                    }
+//                }
+//            } else if (requestCode == SELECT_PDF && resultCode == RESULT_OK && data != null) {
+//
+//                if (resultCode == RESULT_OK) {
+//                    uri = data.data!!
+//                    Log.d("uri", uri.toString())
+//                    val uriString: String = uri.toString()
+//                    if (uriString.startsWith("content://")) {
+//                        var myCursor: Cursor? = null
+//                        ReadAndWriteFile(uri, ".pdf")
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+//    private fun updateFileCountUI() {
+//        if (CommonUtil.SelcetedFileList.isNotEmpty()) {
+//            Totalfile = CommonUtil.SelcetedFileList.size.toString()
+//            binding.lbltotalfile?.apply {
+//                text = "Number of Files : $Totalfile"
+//                visibility = View.VISIBLE
+//            }
+//        } else {
+//            binding.lbltotalfile?.visibility = View.GONE
+//        }
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -365,57 +473,96 @@ class ImageOrPdf: ActionBarActivity() {
     }
 
     fun ReadAndWriteFile(uri: Uri?, type: String) {
+        if (uri == null) return
+
         try {
-            uri?.let {
-                this.contentResolver?.openInputStream(it).use { `in` ->
-                    if (`in` == null) return
-                    try {
-                        PDFTempFileWrite = File.createTempFile("File_", type, outputDir)
-                        var pdfPath: String = PDFTempFileWrite?.path!!
-                        CommonUtil.extension =
-                            pdfPath.substring(pdfPath.lastIndexOf("."))
-                        Log.d("extensionpdf", CommonUtil.extension!!)
-                        Log.d("PDFTempFileWrite", PDFTempFileWrite.toString())
-                        CommonUtil.SelcetedFileList.add(pdfPath)
-                        CommonUtil.SelcetedFileList.forEach {
-                            var path = it
-                            if (CommonUtil.SelcetedFileList != null) {
-                                Totalfile = CommonUtil.SelcetedFileList.size.toString()
-                                binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
-                                binding.lbltotalfile!!.visibility = View.VISIBLE
-                            } else {
-                                binding.lbltotalfile!!.visibility = View.GONE
+            val inputStream = contentResolver.openInputStream(uri) ?: return
+            PDFTempFileWrite = File.createTempFile("File_", type, outputDir)
+            val pdfPath = PDFTempFileWrite!!.absolutePath
 
-                            }
-                        }
-
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                    this.contentResolver?.openOutputStream(Uri.fromFile(PDFTempFileWrite))
-                        .use { out ->
-                            if (out == null) return
-                            val buf = ByteArray(1024)
-                            var len = 0
-                            while (true) {
-                                try {
-                                    if (`in`.read(buf).also({ len = it }) <= 0) break
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
-                                try {
-                                    out.write(buf, 0, len)
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
-                            }
-                        }
+            inputStream.use { input ->
+                FileOutputStream(PDFTempFileWrite!!).use { output ->
+                    input.copyTo(output)
                 }
             }
-        } catch (e: FileNotFoundException) {
+
+            CommonUtil.SelcetedFileList.add(pdfPath)
+            Log.d("PDFTempFileWrite", pdfPath)
+            Log.d("extensionpdf", File(pdfPath).extension)
+
+        } catch (e: Exception) {
             e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
+            Log.e("ReadAndWriteFile", "Error reading file: ${e.message}")
         }
     }
+
+    /**
+     * Updates the label showing number of selected files
+     */
+    private fun updateFileCountUI() {
+        if (CommonUtil.SelcetedFileList.isNotEmpty()) {
+            Totalfile = CommonUtil.SelcetedFileList.size.toString()
+            binding.lbltotalfile?.apply {
+                text = "Number of Files : $Totalfile"
+                visibility = View.VISIBLE
+            }
+        } else {
+            binding.lbltotalfile?.visibility = View.GONE
+        }
+    }
+
+//    fun ReadAndWriteFile(uri: Uri?, type: String) {
+//        try {
+//            uri?.let {
+//                this.contentResolver?.openInputStream(it).use { `in` ->
+//                    if (`in` == null) return
+//                    try {
+//                        PDFTempFileWrite = File.createTempFile("File_", type, outputDir)
+//                        var pdfPath: String = PDFTempFileWrite?.path!!
+//                        CommonUtil.extension =
+//                            pdfPath.substring(pdfPath.lastIndexOf("."))
+//                        Log.d("extensionpdf", CommonUtil.extension!!)
+//                        Log.d("PDFTempFileWrite", PDFTempFileWrite.toString())
+//                        CommonUtil.SelcetedFileList.add(pdfPath)
+//                        CommonUtil.SelcetedFileList.forEach {
+//                            var path = it
+//                            if (CommonUtil.SelcetedFileList != null) {
+//                                Totalfile = CommonUtil.SelcetedFileList.size.toString()
+//                                binding.lbltotalfile!!.text = "Number of Files : " + Totalfile
+//                                binding.lbltotalfile!!.visibility = View.VISIBLE
+//                            } else {
+//                                binding.lbltotalfile!!.visibility = View.GONE
+//
+//                            }
+//                        }
+//
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//                    }
+//                    this.contentResolver?.openOutputStream(Uri.fromFile(PDFTempFileWrite))
+//                        .use { out ->
+//                            if (out == null) return
+//                            val buf = ByteArray(1024)
+//                            var len = 0
+//                            while (true) {
+//                                try {
+//                                    if (`in`.read(buf).also({ len = it }) <= 0) break
+//                                } catch (e: IOException) {
+//                                    e.printStackTrace()
+//                                }
+//                                try {
+//                                    out.write(buf, 0, len)
+//                                } catch (e: IOException) {
+//                                    e.printStackTrace()
+//                                }
+//                            }
+//                        }
+//                }
+//            }
+//        } catch (e: FileNotFoundException) {
+//            e.printStackTrace()
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//    }
 }
