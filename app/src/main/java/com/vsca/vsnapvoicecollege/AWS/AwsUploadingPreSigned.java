@@ -72,6 +72,7 @@ public class AwsUploadingPreSigned {
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 Log.d("attendance:code-res", response.code() + " - " + response);
                 try {
+                    assert response.body() != null;
                     JSONObject jsonResponse = new JSONObject(response.body().toString());
 
                     int status = jsonResponse.getInt("status");

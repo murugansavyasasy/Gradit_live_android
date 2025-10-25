@@ -1798,18 +1798,18 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
 
 
         val FileNameArray = JsonArray()
-        if (!CommonUtil.urlFromS3.equals(null)) {
+//        if (!CommonUtil.urlFromS3.equals(null)) {
             for (i in AWSUploadedFilesList.indices) {
                 val FileNameobject = JsonObject()
                 FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
-                if (CommonUtil.urlFromS3!!.contains(".pdf")) {
+                if (AWSUploadedFilesList.get(0).contains(".pdf")) {
                     FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
                 } else {
                     FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
                 }
                 FileNameArray.add(FileNameobject)
             }
-        }
+//        }
         jsonObject.add("files", FileNameArray)
 
         appViewModel!!.NoticeBoardsmssending(jsonObject, this)
@@ -1862,7 +1862,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
 
-        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
+//        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
+        if (AWSUploadedFilesList.get(0).contains(".pdf")) {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "3")
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "2")

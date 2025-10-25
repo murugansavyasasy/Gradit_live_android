@@ -163,7 +163,7 @@ object CommonUtil {
     var minimumdate = ""
     var maxmumdate = ""
     var LeavetypeEdit = ""
-    var urlFromS3: String? = null
+//    var urlFromS3: String? = null
     var VoiceType = ""
     var AssignmentType = ""
     var courseType = ""
