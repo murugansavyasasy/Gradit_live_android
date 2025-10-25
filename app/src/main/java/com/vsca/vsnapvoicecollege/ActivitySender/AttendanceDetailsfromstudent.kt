@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.WindowInsetsControllerCompat
@@ -41,6 +42,8 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
         binding.lblattenSunjectname!!.text=CommonUtil.AttendanceSubjectname
         binding.lblattenStaffname!!.text=CommonUtil.AttendanceStaffname
