@@ -4,5 +4,6 @@ data class Attendance_edit_List(
     val attendancetype: String,
     val memberid: String,
     val membername: String,
-    val rollno: String
+    val rollno: String,
+    val admissionno: String,
 )

@@ -6,6 +6,7 @@ class Attendance_Edit_Selected(
     val memberid: String?,
     var attendancetype: String?,
     var membername: String?,
-    var rollno: String?
-) :
+    var rollno: String?,
+    val admissionno: String?,
+    ) :
     Serializable
