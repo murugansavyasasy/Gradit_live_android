@@ -82,6 +82,36 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         val attendanceHours = ArrayList<String>()
         attendanceHours.add(0, "Select hours")
 
+        val filterCaterotyType = listOf("AdmisNo ASC","AdmisNo DSC","Name Z-A","Name A-Z","Roll ASC","Roll DSC")
+
+        val filterAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            filterCaterotyType
+        )
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.filter.adapter = filterAdapter
+
+        binding.filter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selected = filterCaterotyType[position]
+
+                if (CommonUtil.isAttendanceType == "Edit") {
+                    sortEditList(selected)
+                } else {
+                    sortList(selected)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+
 
 
         if (AttendanceStatus.equals("AttendanceEdit")) {
@@ -156,11 +186,13 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 //                        binding.checkRelative!!.visibility = View.VISIBLE
                         binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
                         binding.idSV!!.visibility = View.VISIBLE
+                        binding.lnrFilter!!.visibility = View.VISIBLE
                     } else {
                         binding.lblhours!!.text = "Choose hour to edit"
                         binding.lblSelectattendance!!.visibility = View.VISIBLE
                         binding.recycleSpecificstudentAttendance!!.visibility = View.GONE
                         binding.idSV!!.visibility = View.GONE
+                        binding.lnrFilter!!.visibility = View.GONE
 //                        binding.checkRelative!!.visibility = View.GONE
                     }
                 } else {
@@ -175,6 +207,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     }
                     binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
                     binding.idSV!!.visibility = View.VISIBLE
+                    binding.lnrFilter!!.visibility = View.VISIBLE
                 }
             }
 
@@ -512,6 +545,13 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
+                if (msg.isEmpty()){
+                    binding.lytCheckBoxes.visibility=View.VISIBLE
+                }
+                else{
+                    binding.lytCheckBoxes.visibility=View.GONE
+                }
+
                 if (CommonUtil.isAttendanceType == "Edit") {
                     filterEdit(msg)
                 } else {
@@ -547,33 +587,95 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
         for (item in SelectedRecipientlist) {
             if (item.SelectedName!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))||item.admissionno!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))||item.isRegNo!!.lowercase(Locale.getDefault())
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
                 filteredlist.add(item)
             }
         }
+
         if (filteredlist.isEmpty()) {
-            CommonUtil.Toast(this, "No Result")
-        } else {
+
+            binding.lnrFilter.visibility=View.GONE
             SpecificStudentList!!.filterList(filteredlist, false)
+            CommonUtil.Toast(this, "No Result")
+        }
+        else {
+            binding.lnrFilter.visibility=View.VISIBLE
+            SpecificStudentList!!.filterList(filteredlist, false)
+
         }
     }
 
+    private fun sortEditList(option: String) {
+        val sortedList = when (option) {
+            "AdmisNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.admissionno?.toIntOrNull() }
+            "AdmisNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.admissionno?.toIntOrNull() }
+            "Name A-Z" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.membername?.lowercase() }
+            "Name Z-A" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.membername?.lowercase() }
+            "Roll ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.rollno?.toIntOrNull() }
+            "Roll DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.rollno?.toIntOrNull() }
+            else -> SelectedRecipientlistAttendanceEdit
+        }
+
+        SelectedRecipientlistAttendanceEdit.clear()
+        SelectedRecipientlistAttendanceEdit.addAll(sortedList)
+
+        if(binding.idSV.query.isNotEmpty()){
+            filterEdit(binding.idSV.query.toString())
+        }
+        else{
+            Attendance_Edit_Adapter?.filterList(ArrayList(sortedList), false)
+        }
+    }
+
+    private fun sortList(option: String) {
+        val sortedList = when (option) {
+            "AdmisNo ASC" -> SelectedRecipientlist.sortedBy { it.admissionno?.toIntOrNull() }
+            "AdmisNo DSC" -> SelectedRecipientlist.sortedByDescending { it.admissionno?.toIntOrNull() }
+            "Name A-Z" -> SelectedRecipientlist.sortedBy { it.SelectedName?.lowercase() }
+            "Name Z-A" -> SelectedRecipientlist.sortedByDescending { it.SelectedName?.lowercase() }
+            "Roll ASC" -> SelectedRecipientlist.sortedBy { it.isRegNo?.toIntOrNull() }
+            "Roll DSC" -> SelectedRecipientlist.sortedByDescending { it.isRegNo?.toIntOrNull() }
+            else -> SelectedRecipientlist
+        }
+        SelectedRecipientlist.clear()
+        SelectedRecipientlist.addAll(sortedList)
+
+        if (binding.idSV.query.isNotEmpty()){
+            filter(binding.idSV.query.toString())
+        }
+        else{
+            SpecificStudentList?.filterList(ArrayList(sortedList), false)
+        }
+
+    }
+
+
+
 
     private fun filterEdit(text: String) {
+
 
         val filteredlist: java.util.ArrayList<Attendance_Edit_Selected> = java.util.ArrayList()
 
         for (item in SelectedRecipientlistAttendanceEdit) {
             if (item.membername!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))||item.rollno!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))||item.admissionno!!.lowercase(Locale.getDefault())
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
                 filteredlist.add(item)
             }
         }
+        Log.d("filteredlist",filteredlist.toString())
         if (filteredlist.isEmpty()) {
-
+            binding.lnrFilter.visibility=View.GONE
+            Attendance_Edit_Adapter!!.filterList(filteredlist, false)
+            CommonUtil.Toast(this, "No Result")
         } else {
+            binding.lnrFilter.visibility=View.VISIBLE
             Attendance_Edit_Adapter!!.filterList(filteredlist, false)
 
         }

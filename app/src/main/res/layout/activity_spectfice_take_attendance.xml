@@ -278,27 +278,67 @@
 
     </EditText>
 
-    <SearchView
-        android:id="@+id/idSV"
+    <LinearLayout
+        android:id="@+id/lnrFilterSearch"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/thirty"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/edtTopic"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:weightSum="1"
         android:layout_marginBottom="8dp"
-        android:background="@color/cardview_light_background"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search Student name"
-        android:visibility="gone" />
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_weight="0.4"
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/lnrFilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imgSort"
+                android:layout_width="@dimen/twenty"
+                android:layout_height="@dimen/twenty"
+                android:layout_marginStart="@dimen/five"
+                android:src="@drawable/filter_icon">
+
+            </ImageView>
+
+            <Spinner
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:background="@null"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <SearchView
+            android:layout_weight="0.6"
+            android:id="@+id/idSV"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/thirty"
+            android:layout_marginStart="@dimen/three"
+            android:background="@color/cardview_light_background"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search Student name"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+
 
     <LinearLayout
         android:id="@+id/lytCheckBoxes"
         android:layout_width="match_parent"
-        android:layout_below="@+id/idSV"
+        android:layout_below="@+id/lnrFilterSearch"
         android:weightSum="4"
         android:visibility="gone"
-        android:layout_marginStart="@dimen/twenty"
-        android:layout_marginEnd="@dimen/twenty"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/fifteen"
+        android:layout_marginEnd="@dimen/fifteen"
         android:layout_height="wrap_content">
 
         <CheckBox
