@@ -608,7 +608,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             binding.chHeader!!.isChecked = false
             binding.txtCheckBoxtext!!.text = CommonUtil.Select_All
             typeOfCategory = ""
-            binding.lnrStaff!!.visibility = View.GONE
+            binding.lnrStaff!!.visibility = View.VISIBLE
 
             binding.lblEntireDepartmentlable!!.setBackgroundResource(R.drawable.bg_available_outline_red)
             binding.lblEntireDepartmentlable!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))

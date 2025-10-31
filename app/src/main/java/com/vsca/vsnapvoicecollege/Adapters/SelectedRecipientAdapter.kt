@@ -169,7 +169,7 @@ class SelectedRecipientAdapter(
             holder.lblRegNo1.visibility = View.VISIBLE
             holder.con_attendance.visibility = View.GONE
             holder.lblDocumentName.text = data.SelectedName
-            holder.lblRegNo1.text = "Register No : " + data.isRegNo
+//            holder.lblRegNo1.text = "Register No : " + data.isRegNo
             holder.chbox.isChecked = CommonUtil.receiverid.contains(data.SelectedId.toString())
 
             if (CommonUtil.Priority == "p1" || CommonUtil.Priority == "p7") {

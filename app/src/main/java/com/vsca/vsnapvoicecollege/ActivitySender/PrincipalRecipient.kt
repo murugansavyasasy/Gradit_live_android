@@ -2677,7 +2677,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         CommonUtil.DepartmentChooseIds.clear()
         binding.txtSelectspecficStudent!!.visibility = View.GONE
         binding.idSV!!.visibility = View.GONE
-        binding.lnrStaff!!.visibility = View.GONE
+        binding.lnrStaff!!.visibility = View.VISIBLE
         CommonUtil.receiverid = ""
         GetGroup()
         binding.chBoxAll!!.isChecked = false
