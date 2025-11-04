@@ -82,7 +82,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         val attendanceHours = ArrayList<String>()
         attendanceHours.add(0, "Select hours")
 
-        val filterCaterotyType = listOf("AdmisNo ASC","AdmisNo DSC","Name Z-A","Name A-Z","Roll ASC","Roll DSC")
+        val filterCaterotyType = listOf("AdmisNo ASC","AdmisNo DSC","Name Z-A","Name A-Z","RegNo ASC","RegNo DSC")
 
         val filterAdapter = ArrayAdapter(
             this,
@@ -111,8 +111,9 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-
-
+        binding.lnrFilter.setOnClickListener {
+            binding.filter.performClick()
+        }
 
         if (AttendanceStatus.equals("AttendanceEdit")) {
             binding.edtTopic!!.setText(CommonUtil.AttendanceHourEdit[0].title)
@@ -614,8 +615,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             "AdmisNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.admissionno?.toIntOrNull() }
             "Name A-Z" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.membername?.lowercase() }
             "Name Z-A" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.membername?.lowercase() }
-            "Roll ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.rollno?.toIntOrNull() }
-            "Roll DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.rollno?.toIntOrNull() }
+            "RegNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.rollno?.toIntOrNull() }
+            "RegNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.rollno?.toIntOrNull() }
             else -> SelectedRecipientlistAttendanceEdit
         }
 
@@ -636,8 +637,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             "AdmisNo DSC" -> SelectedRecipientlist.sortedByDescending { it.admissionno?.toIntOrNull() }
             "Name A-Z" -> SelectedRecipientlist.sortedBy { it.SelectedName?.lowercase() }
             "Name Z-A" -> SelectedRecipientlist.sortedByDescending { it.SelectedName?.lowercase() }
-            "Roll ASC" -> SelectedRecipientlist.sortedBy { it.isRegNo?.toIntOrNull() }
-            "Roll DSC" -> SelectedRecipientlist.sortedByDescending { it.isRegNo?.toIntOrNull() }
+            "RegNo ASC" -> SelectedRecipientlist.sortedBy { it.isRegNo?.toIntOrNull() }
+            "RegNo DSC" -> SelectedRecipientlist.sortedByDescending { it.isRegNo?.toIntOrNull() }
             else -> SelectedRecipientlist
         }
         SelectedRecipientlist.clear()
