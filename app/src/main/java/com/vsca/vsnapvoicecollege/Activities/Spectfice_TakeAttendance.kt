@@ -82,7 +82,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         val attendanceHours = ArrayList<String>()
         attendanceHours.add(0, "Select hours")
 
-        val filterCaterotyType = listOf("AdmisNo ASC","AdmisNo DSC","Name Z-A","Name A-Z","RegNo ASC","RegNo DSC")
+        val filterCaterotyType = listOf("Name A-Z","Name Z-A","RegNo ASC","RegNo DSC","AdmisNo ASC","AdmisNo DSC")
 
         val filterAdapter = ArrayAdapter(
             this,
@@ -412,6 +412,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                         80
                     )
                     SpecificStudentList!!.notifyDataSetChanged()
+
+                    sortEditList("Name A-Z")
                 }
             }
         }
@@ -487,6 +489,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                         80
                     )
                     Attendance_Edit_Adapter!!.notifyDataSetChanged()
+                    sortList("Name A-Z")
 
                 }
             }
@@ -609,49 +612,144 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         }
     }
 
+    private fun <T> compareValuesAsc(selector: (T) -> String?): Comparator<T> {
+        return Comparator { a, b ->
+            val first = selector(a)?.trim().orEmpty()
+            val second = selector(b)?.trim().orEmpty()
+
+            if (first.isEmpty() && second.isEmpty()) return@Comparator 0
+            if (first.isEmpty()) return@Comparator 1  // empty last in ASC
+            if (second.isEmpty()) return@Comparator -1
+
+            naturalCompare(first, second)
+        }
+    }
+
+    private fun <T> compareValuesDesc(selector: (T) -> String?): Comparator<T> {
+        return Comparator { a, b ->
+            val first = selector(a)?.trim().orEmpty()
+            val second = selector(b)?.trim().orEmpty()
+
+            if (first.isEmpty() && second.isEmpty()) return@Comparator 0
+            if (first.isEmpty()) return@Comparator -1 // empty first in DSC
+            if (second.isEmpty()) return@Comparator 1
+
+            -naturalCompare(first, second)
+        }
+    }
+
+    /** Natural alphanumeric comparator — handles numbers + letters gracefully */
+    private fun naturalCompare(a: String, b: String): Int {
+        val regex = Regex("(\\d+|\\D+)")
+        val aParts = regex.findAll(a).map { it.value }.toList()
+        val bParts = regex.findAll(b).map { it.value }.toList()
+
+        for (i in 0 until minOf(aParts.size, bParts.size)) {
+            val partA = aParts[i]
+            val partB = bParts[i]
+
+            val numA = partA.toIntOrNull()
+            val numB = partB.toIntOrNull()
+
+            val cmp = when {
+                numA != null && numB != null -> numA.compareTo(numB)
+                numA == null && numB == null -> partA.lowercase().compareTo(partB.lowercase())
+                else -> if (numA != null) -1 else 1 // numbers come before strings
+            }
+
+            if (cmp != 0) return cmp
+        }
+
+        return aParts.size.compareTo(bParts.size)
+    }
+
+
     private fun sortEditList(option: String) {
         val sortedList = when (option) {
-            "AdmisNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.admissionno?.toIntOrNull() }
-            "AdmisNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.admissionno?.toIntOrNull() }
+            "AdmisNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedWith(compareValuesAsc { it.admissionno })
+            "AdmisNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedWith(compareValuesDesc { it.admissionno })
             "Name A-Z" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.membername?.lowercase() }
             "Name Z-A" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.membername?.lowercase() }
-            "RegNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.rollno?.toIntOrNull() }
-            "RegNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.rollno?.toIntOrNull() }
+            "RegNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedWith(compareValuesAsc { it.rollno })
+            "RegNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedWith(compareValuesDesc { it.rollno })
             else -> SelectedRecipientlistAttendanceEdit
         }
 
         SelectedRecipientlistAttendanceEdit.clear()
         SelectedRecipientlistAttendanceEdit.addAll(sortedList)
 
-        if(binding.idSV.query.isNotEmpty()){
+        if (binding.idSV.query.isNotEmpty()) {
             filterEdit(binding.idSV.query.toString())
-        }
-        else{
+        } else {
             Attendance_Edit_Adapter?.filterList(ArrayList(sortedList), false)
         }
     }
 
     private fun sortList(option: String) {
         val sortedList = when (option) {
-            "AdmisNo ASC" -> SelectedRecipientlist.sortedBy { it.admissionno?.toIntOrNull() }
-            "AdmisNo DSC" -> SelectedRecipientlist.sortedByDescending { it.admissionno?.toIntOrNull() }
+            "AdmisNo ASC" -> SelectedRecipientlist.sortedWith(compareValuesAsc { it.admissionno })
+            "AdmisNo DSC" -> SelectedRecipientlist.sortedWith(compareValuesDesc { it.admissionno })
             "Name A-Z" -> SelectedRecipientlist.sortedBy { it.SelectedName?.lowercase() }
             "Name Z-A" -> SelectedRecipientlist.sortedByDescending { it.SelectedName?.lowercase() }
-            "RegNo ASC" -> SelectedRecipientlist.sortedBy { it.isRegNo?.toIntOrNull() }
-            "RegNo DSC" -> SelectedRecipientlist.sortedByDescending { it.isRegNo?.toIntOrNull() }
+            "RegNo ASC" -> SelectedRecipientlist.sortedWith(compareValuesAsc { it.isRegNo })
+            "RegNo DSC" -> SelectedRecipientlist.sortedWith(compareValuesDesc { it.isRegNo })
             else -> SelectedRecipientlist
         }
+
         SelectedRecipientlist.clear()
         SelectedRecipientlist.addAll(sortedList)
 
-        if (binding.idSV.query.isNotEmpty()){
+        if (binding.idSV.query.isNotEmpty()) {
             filter(binding.idSV.query.toString())
-        }
-        else{
+        } else {
             SpecificStudentList?.filterList(ArrayList(sortedList), false)
         }
-
     }
+
+
+//    private fun sortEditList(option: String) {
+//        val sortedList = when (option) {
+//            "AdmisNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.admissionno}
+//            "AdmisNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.admissionno}
+//            "Name A-Z" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.membername?.lowercase() }
+//            "Name Z-A" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.membername?.lowercase() }
+//            "RegNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.rollno }
+//            "RegNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.rollno }
+//            else -> SelectedRecipientlistAttendanceEdit
+//        }
+//
+//        SelectedRecipientlistAttendanceEdit.clear()
+//        SelectedRecipientlistAttendanceEdit.addAll(sortedList)
+//
+//        if(binding.idSV.query.isNotEmpty()){
+//            filterEdit(binding.idSV.query.toString())
+//        }
+//        else{
+//            Attendance_Edit_Adapter?.filterList(ArrayList(sortedList), false)
+//        }
+//    }
+//
+//    private fun sortList(option: String) {
+//        val sortedList = when (option) {
+//            "AdmisNo ASC" -> SelectedRecipientlist.sortedBy { it.admissionno?.toIntOrNull() }
+//            "AdmisNo DSC" -> SelectedRecipientlist.sortedByDescending { it.admissionno?.toIntOrNull() }
+//            "Name A-Z" -> SelectedRecipientlist.sortedBy { it.SelectedName?.lowercase() }
+//            "Name Z-A" -> SelectedRecipientlist.sortedByDescending { it.SelectedName?.lowercase() }
+//            "RegNo ASC" -> SelectedRecipientlist.sortedBy { it.isRegNo?.toIntOrNull() }
+//            "RegNo DSC" -> SelectedRecipientlist.sortedByDescending { it.isRegNo?.toIntOrNull() }
+//            else -> SelectedRecipientlist
+//        }
+//        SelectedRecipientlist.clear()
+//        SelectedRecipientlist.addAll(sortedList)
+//
+//        if (binding.idSV.query.isNotEmpty()){
+//            filter(binding.idSV.query.toString())
+//        }
+//        else{
+//            SpecificStudentList?.filterList(ArrayList(sortedList), false)
+//        }
+//
+//    }
 
 
 
