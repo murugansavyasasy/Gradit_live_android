@@ -2666,6 +2666,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         binding.chboxParents!!.isChecked = false
         binding.chboxStaff!!.isChecked = false
         binding.chboxAll!!.isChecked = false
+        binding.chboxStaff!!.visibility = View.VISIBLE//san
         Card_name = if (binding.lblGroups!!.text.toString().equals(CommonUtil.Groups)) {
             CommonUtil.Groups
         } else {
