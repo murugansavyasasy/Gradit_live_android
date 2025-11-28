@@ -6,6 +6,8 @@ plugins {
 }
 
 android {
+
+    ndkVersion "28.0.12433566"
     compileSdk 35
     namespace "com.vsca.vsnapvoicecollege"
     defaultConfig {
@@ -18,7 +20,7 @@ android {
         applicationId "com.vsca.vsnapvoicecollege"
         minSdk 24
         targetSdk 35
-        versionCode 59
+        versionCode 61
         versionName "5.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

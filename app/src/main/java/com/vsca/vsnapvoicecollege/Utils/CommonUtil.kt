@@ -99,7 +99,7 @@ object CommonUtil {
     var Appid = 1
 
     @JvmField
-    var VersionId = 39
+    var VersionId = 40
 
     // MENU NAME
 
