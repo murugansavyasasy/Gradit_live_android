@@ -407,7 +407,7 @@
             android:name=".ActivitySender.AddLocationForAttendance"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Prinipal"
+            android:theme="@style/Prinipal.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ActivitySender.ViewExistingLocations"
