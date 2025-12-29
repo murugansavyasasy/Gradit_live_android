@@ -42,7 +42,10 @@ import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderCertificationDetailsAdap
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderIntenshipDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderProjectDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeListAdapter
+import com.vsca.vsnapvoicecollege.Model.FilePath
+import com.vsca.vsnapvoicecollege.Model.GetAssessmentDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
+import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetailsData
@@ -134,6 +137,8 @@ class ResumeBuilder : AppCompatActivity() {
         }
 
 
+
+
         binding.btnUploadResume.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "application/pdf"
@@ -141,12 +146,14 @@ class ResumeBuilder : AppCompatActivity() {
             startActivityForResult(intent, SELECT_PDF)
         }
 
+
+
+
         appViewModel?.ResumeBuilderSkillSetDetails!!.observe(this) { response ->
             if (response != null) {
                 if (response.status) {
                     if (response.data.size > 0) {
                         isLoadSkillSetDetails(response.data)
-
                         Log.d("AcademicRespone", response.data.toString())
                     } else {
                         binding.lnrSkillSetDetails.visibility = View.GONE
@@ -212,12 +219,58 @@ class ResumeBuilder : AppCompatActivity() {
     }
 
     private fun isSaveAcademicDetails() {
+
+//
+//
+//        val academicDetails = GetResumeBuilderAcademicDetailsData(
+//            backlogs = binding.lblBackLogs.text.toString(),
+//            numberOfArrears = binding.lblNoofArrears.text.toString(),
+//            educationalDetails = eduList,
+//        )
+//
+//
+//        // Save to CommonUtil
+//        CommonUtil.saveAcademicDetails = academicDetails
+
+
+        // Prepare hardcoded file path list
+        val hardcodedFilePath = mutableListOf(
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7043/09-12-2025/IMG_1765258373926.jpg",
+                type = "IMAGE"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7043/09-12-2025/IMG_1765258373926.jpg",
+                type = "IMAGE"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7043/09-12-2025/IMG_1765258373926.jpg",
+                type = "IMAGE"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7044/19-12-2025/file_example_PPT_250kB.ppt",
+                type = "PPT"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7044/19-12-2025/file_example_XLS_10.xls",
+                type = "EXCEL"
+            )
+        )
+
+        val updatedEduList = eduList.map { edu ->
+            edu.copy(
+                file_path = hardcodedFilePath.map { it.copy() }.toMutableList()
+            )
+        }
+
+
+
         val academicDetails = GetResumeBuilderAcademicDetailsData(
             backlogs = binding.lblBackLogs.text.toString(),
             numberOfArrears = binding.lblNoofArrears.text.toString(),
-            educationalDetails = eduList,
-        )
+            educationalDetails = updatedEduList
 
+        )
 
         // Save to CommonUtil
         CommonUtil.saveAcademicDetails = academicDetails
@@ -246,22 +299,90 @@ class ResumeBuilder : AppCompatActivity() {
 
 
     private fun isSaveSkillSetData() {
+//        val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
+//            idMember = isMemeberId,
+//            languages = binding.lblLanguageKnown.text.toString(),
+//            softSkill = binding.lblSoftSkills.text.toString(),
+//            areaInterest = binding.lblAreasofInterest.text.toString(),
+//            internship = isSkillSetData?.internship,
+//            programmingLanguage = binding.lblProgrammingLanguages.text.toString(),
+//            toolsPlatform = binding.lblToolsandplatformsknown.text.toString(),
+//            certifications = isSkillSetData?.certifications,
+//            assessmentDetails = isSkillSetData?.assessmentDetails,
+//            projects = isSkillSetData?.projects,
+//        )
+//
+//        //We are Saving all the data in Constant as List Here
+//        CommonUtil.isSkillSetDataSending = saveSkillSetData
+//        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
+//        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.internship.toString())
+
+
+
+        ////
+
+
+        // Prepare hardcoded file path list
+        val hardcodedFilePath = mutableListOf(
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7043/09-12-2025/IMG_1765258373926.jpg",
+                type = "IMAGE"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7043/09-12-2025/IMG_1765258373926.jpg",
+                type = "IMAGE"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7043/09-12-2025/IMG_1765258373926.jpg",
+                type = "IMAGE"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7044/19-12-2025/file_example_PPT_250kB.ppt",
+                type = "PPT"
+            ),
+            FilePath(
+                url = "https://schoolchimes-activities.s3.ap-south-1.amazonaws.com/files/7044/19-12-2025/file_example_XLS_10.xls",
+                type = "EXCEL"
+            )
+        )
+
+        // Inject file_path into nested lists
+        val updatedInternship = isSkillSetData?.internship?.map { it.copy(
+            file_path = hardcodedFilePath.toMutableList()
+        )}
+
+        val updatedCertificates = isSkillSetData?.certifications?.map { it.copy(
+            file_path = hardcodedFilePath.toMutableList()
+        )}
+
+        val updatedAssessments = isSkillSetData?.assessmentDetails?.map { it.copy(
+            file_path = hardcodedFilePath.toMutableList()
+        )}
+
+        val updatedProjects = isSkillSetData?.projects?.map { it.copy(
+            file_path = hardcodedFilePath.toMutableList()
+        )}
+
+        // Build final object
         val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
             idMember = isMemeberId,
             languages = binding.lblLanguageKnown.text.toString(),
             softSkill = binding.lblSoftSkills.text.toString(),
             areaInterest = binding.lblAreasofInterest.text.toString(),
-            internship = isSkillSetData?.internship,
+            internship = updatedInternship,
             programmingLanguage = binding.lblProgrammingLanguages.text.toString(),
             toolsPlatform = binding.lblToolsandplatformsknown.text.toString(),
-            certifications = isSkillSetData?.certifications,
-            assessmentDetails = isSkillSetData?.assessmentDetails,
-            projects = isSkillSetData?.projects,
+            certifications = updatedCertificates,
+            assessmentDetails = updatedAssessments,
+            projects = updatedProjects
         )
 
-        //We are Saving all the data in Constant as List Here
+        // Save globally for reuse
         CommonUtil.isSkillSetDataSending = saveSkillSetData
-        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
+
+        Log.d("isComingData", CommonUtil.isSkillSetDataSending!!.languages.toString())
+        Log.d("isComingData", CommonUtil.isSkillSetDataSending!!.internship.toString())
+
     }
 
     private fun isLoadAcademicDetails(AcademicData: GetResumeBuilderAcademicDetailsData) {

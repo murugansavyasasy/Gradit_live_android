@@ -1,5 +1,7 @@
 package com.vsca.vsnapvoicecollege.Interfaces
 
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.AttachmentHolder
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.EditSkillSet
 import com.vsca.vsnapvoicecollege.Model.GetAssessmentDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
@@ -11,5 +13,15 @@ interface OnSoftSkillSelectedListener {
     fun onCertificateListUpdated(updatedCertificateList: List<GetCertificateDetailsData>)
     fun onAssessmentListUpdated(updatedAssessmentList: List<GetAssessmentDetailsData>)
     fun onProjectListUpdated(updatedProjectList: List<GetProjectDetailsData>)
+
+//    fun onAttachmentPick(
+//        position: Int,
+//        item: MutableList<GetInternshipDetailsData>?,
+//    )
+fun onAttachmentPick(
+    source: EditSkillSet.AttachmentSource,
+    position: Int,
+    list: MutableList<out AttachmentHolder>
+)
 
 }

@@ -272,7 +272,6 @@ android:textSize="@dimen/sixteen_sp"
                     android:background="@color/light_gray"></View>
 
                 <TextView
-                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
