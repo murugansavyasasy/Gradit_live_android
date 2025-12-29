@@ -53,9 +53,6 @@ import java.util.Locale
 class EditAcademicDetails : AppCompatActivity() {
 
 
-
-
-
     // Holds current adapter's list (internship / certificate / project)
     private var attachmentList: MutableList<AttachmentHolder> = mutableListOf()
 
@@ -66,9 +63,6 @@ class EditAcademicDetails : AppCompatActivity() {
     private var attachmentSource: AttachmentSource? = null
 
     private var selectedRowView: View? = null
-
-
-
 
 
     val REQUEST_Camera = 1
@@ -89,10 +83,6 @@ class EditAcademicDetails : AppCompatActivity() {
     var filename: String? = null
 
 
-
-
-
-
     //
     private var appViewModel: App? = null
     private lateinit var binding: LayoutEditacademicdetailsBinding
@@ -100,7 +90,7 @@ class EditAcademicDetails : AppCompatActivity() {
     private var originalBacklogs: String = ""
     private var originalArrears: String = ""
     private var originalEducationalDetails: List<GetEducationalDetailsData> = listOf()
-    var memberId=""
+    var memberId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +121,10 @@ class EditAcademicDetails : AppCompatActivity() {
         val educationalDetails = academicData?.educationalDetails ?: emptyList()
         Log.d("AcademicDebug", "Backlogs: ${academicData?.backlogs}")
         Log.d("AcademicDebug", "No of Arrears: ${academicData?.numberOfArrears}")
-        Log.d("AcademicDebug", "Educational Details Count: ${academicData?.educationalDetails?.size}")
+        Log.d(
+            "AcademicDebug",
+            "Educational Details Count: ${academicData?.educationalDetails?.size}"
+        )
 
 
         originalBacklogs = backlogs
@@ -363,7 +356,10 @@ class EditAcademicDetails : AppCompatActivity() {
                 attachments.removeAt(removePos)
                 // Notify RecyclerView adapter safely
                 (rcyAttachment.adapter as AttachmentAdapter).notifyItemRemoved(removePos)
-                (rcyAttachment.adapter as AttachmentAdapter).notifyItemRangeChanged(removePos, attachments.size)
+                (rcyAttachment.adapter as AttachmentAdapter).notifyItemRangeChanged(
+                    removePos,
+                    attachments.size
+                )
             }
 
             rcyAttachment.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
@@ -400,9 +396,6 @@ class EditAcademicDetails : AppCompatActivity() {
 
         binding.containerLayout.addView(rowView)
     }
-
-
-
 
 
     private fun saveAcademicDetails() {
@@ -444,13 +437,28 @@ class EditAcademicDetails : AppCompatActivity() {
             )
         }
 
+        educationalDetails.forEachIndexed { index, detail ->
+            val filePaths = detail["file_path"] as? List<*>
+
+            filePaths?.forEachIndexed { i, path ->
+                Log.d("FilePathOnly", "Item $index → File[$i] = $path")
+            }
+        }
+
+
+
+
         val request = hashMapOf<String, Any>(
             "idMember" to CommonUtil.MemberId,
             "educationalDetails" to educationalDetails,
             "backlogs" to backlogs,
             "numberOfArrears" to arrears
         )
-        Log.d("FInalAcademicList",request.toString())
+
+
+
+
+        Log.d("FInalAcademicList", request.toString())
 
         appViewModel?.AddEditAcademicDetails(request, this)
     }
@@ -491,10 +499,6 @@ class EditAcademicDetails : AppCompatActivity() {
 //
 
 
-
-
-
-
     fun ChooseFile() {
 
         Log.d("popup", "test")
@@ -514,7 +518,7 @@ class EditAcademicDetails : AppCompatActivity() {
         val popClose = dialog.findViewById<ImageView>(R.id.popClose)
         val lblDocumentFile = dialog.findViewById<TextView>(R.id.lblDocumentFile)
 
-        lblDocumentFile.text="Documents"
+        lblDocumentFile.text = "Documents"
 
         val container = FilePopup?.contentView?.parent as View
         val wm = this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -622,7 +626,8 @@ class EditAcademicDetails : AppCompatActivity() {
         }
 
         if (holder.attachments.size >= MAX_FILES_PER_QUESTION) {
-            Toast.makeText(this, "Only $MAX_FILES_PER_QUESTION files allowed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Only $MAX_FILES_PER_QUESTION files allowed", Toast.LENGTH_SHORT)
+                .show()
             return
         }
 
@@ -630,7 +635,6 @@ class EditAcademicDetails : AppCompatActivity() {
         holder.recyclerView.visibility = View.VISIBLE
         holder.adapter.notifyItemInserted(holder.attachments.size - 1)
     }
-
 
 
     @SuppressLint("LongLogTag")
@@ -675,10 +679,6 @@ class EditAcademicDetails : AppCompatActivity() {
     }
 
 
-
-
-
-
     private fun canAddAttachment(
         item: AttachmentHolder,
         newType: FileType
@@ -697,8 +697,6 @@ class EditAcademicDetails : AppCompatActivity() {
 
         return true
     }
-
-
 
 
     @SuppressLint("Range")
@@ -721,6 +719,7 @@ class EditAcademicDetails : AppCompatActivity() {
         }
         return result ?: ""
     }
+
     @Throws(IOException::class)
     fun createImageFile(): File? {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
@@ -736,7 +735,6 @@ class EditAcademicDetails : AppCompatActivity() {
     }
 
 
-
     /**
      * Updates the label showing number of selected files
      */
@@ -745,22 +743,14 @@ class EditAcademicDetails : AppCompatActivity() {
             Totalfile = CommonUtil.SelcetedFileList.size.toString()
             Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
 
-        }
-        else{
+        } else {
             Totalfile = CommonUtil.SelcetedFileList.size.toString()
             Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
         }
     }
 
 
-
-
-
-
-
-
 }
-
 
 
 //package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/rlaEditAcademicHeader"
@@ -26,8 +26,8 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/ten"
             android:layout_toEndOf="@id/imgback"
-            android:text="Edit Profile"
             android:fontFamily="@font/poppins_regular"
+            android:text="Edit Profile"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp" />
 
@@ -63,17 +63,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtAcademicTitle"
                 android:layout_marginStart="@dimen/fifteen"
-                android:layout_marginEnd="@dimen/fifteen"
                 android:layout_marginTop="@dimen/ten"
+                android:layout_marginEnd="@dimen/fifteen"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/zero"
-                    android:weightSum="1">
-                </LinearLayout>
+                    android:orientation="horizontal"
+                    android:weightSum="1"></LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/containerLayout"
@@ -84,12 +83,12 @@
 
                 <TextView
                     android:id="@+id/lblAddAnother"
+                    style="@style/CustomTextStylePoppinsMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ten"
-                    android:text="+ Add another"
                     android:fontFamily="@font/poppins_regular"
-                    style="@style/CustomTextStylePoppinsMedium"
+                    android:text="+ Add another"
                     android:textColor="@color/light_blue2"
                     android:textSize="@dimen/fourteen" />
 
@@ -110,10 +109,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/viewOne"
-                android:fontFamily="@font/poppins_regular"
                 android:layout_marginStart="@dimen/fifteen"
-                android:layout_marginEnd="@dimen/fifteen"
                 android:layout_marginTop="@dimen/ten"
+                android:layout_marginEnd="@dimen/fifteen"
+                android:fontFamily="@font/poppins_regular"
                 android:text="Backlogs and Arrears"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/sixteen_sp" />
@@ -124,29 +123,29 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lblBacklogsAndArrears"
                 android:layout_marginStart="@dimen/fifteen"
-                android:layout_marginEnd="@dimen/fifteen"
                 android:layout_marginTop="@dimen/ten"
+                android:layout_marginEnd="@dimen/fifteen"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
                 <TextView
+                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Current Backlogs"
                     android:fontFamily="@font/poppins_regular"
-                    style="@style/CustomTextStylePoppinsBold"
+                    android:text="Current Backlogs"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp" />
 
                 <TextView
+                    style="@style/CustomTextStylePoppinsBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five"
                     android:layout_weight="0.5"
                     android:fontFamily="@font/poppins_regular"
-                    android:layout_marginStart="@dimen/five"
                     android:text="Number of Arrears"
-                    style="@style/CustomTextStylePoppinsBold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fourteen_sp" />
 
@@ -163,23 +162,23 @@
                     android:id="@+id/edtBacklogs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:layout_marginStart="@dimen/five"
+                    android:layout_weight="0.5"
                     android:background="@drawable/rect_gray_radius"
+                    android:hint="Enter"
                     android:inputType="number"
-                    android:padding="@dimen/eight"
-                    android:hint="Enter" />
+                    android:padding="@dimen/eight" />
 
                 <EditText
                     android:id="@+id/edtArrears"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:layout_marginStart="@dimen/five"
+                    android:layout_weight="0.5"
                     android:background="@drawable/rect_gray_radius"
+                    android:hint="Enter"
                     android:inputType="number"
-                    android:padding="@dimen/eight"
-                    android:hint="Enter" />
+                    android:padding="@dimen/eight" />
 
             </LinearLayout>
 
