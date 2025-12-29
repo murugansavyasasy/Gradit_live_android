@@ -525,6 +525,11 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         builder.setTitle("Confirmation")
             .setMessage(message)
             .setPositiveButton("Yes") { dialog, _ ->
+
+                Log.d("AfterValidationFinalInternshipListForSubmit", selectedInternshipList.toString())
+                Log.d("AfterValidationFinalsCertificateListForSubmit", selectedCertificateList.toString())
+                Log.d("FinalAssessmentListForSubmit", selectedAssessmentList.toString())
+                Log.d("FinalselectedProjectForSubmit", selectedProjectList.toString())
                 UpdateEditSkillSetDetails()
                 dialog.dismiss()
                 val intent = Intent(this, ResumeBuilder::class.java)
@@ -561,9 +566,38 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
 
 
 
+    private fun <T : AttachmentHolder> normalizeAttachmentList(list: List<T>): List<T> {
+        return list.map { item ->
+            @Suppress("UNCHECKED_CAST")
+            when (item) {
+                is GetInternshipDetailsData -> item.copy(
+                    file_path = item.file_path?.map { it.copy() }?.toMutableList()
+                ) as T
+
+                is GetCertificateDetailsData -> item.copy(
+                    file_path = item.file_path?.map { it.copy() }?.toMutableList()
+                ) as T
+
+                is GetAssessmentDetailsData -> item.copy(
+                    file_path = item.file_path?.map { it.copy() }?.toMutableList()
+                ) as T
+
+                is GetProjectDetailsData -> item.copy(
+                    file_path = item.file_path?.map { it.copy() }?.toMutableList()
+                ) as T
+
+                else -> item
+            }
+        }
+    }
+
+
     fun UpdateEditSkillSetDetails() {
         val jsonObject = JsonObject()
         val gson = Gson()
+
+
+
 
         val softSkillsArray = JsonArray()
         selectedSoftSkillsList.forEach {
@@ -582,22 +616,22 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
             toolandplatformArray.add(toolandplatform)
         }
         val internshipArray = JsonArray()
-        selectedInternshipList.forEach {
+        normalizeAttachmentList(selectedInternshipList).forEach {
             val internshipJson = gson.toJsonTree(it).asJsonObject
             internshipArray.add(internshipJson)
         }
         val certificationArray = JsonArray()
-        selectedCertificateList.forEach {
+        normalizeAttachmentList(selectedCertificateList).forEach {
             val certificationJson = gson.toJsonTree(it).asJsonObject
             certificationArray.add(certificationJson)
         }
         val assessmentDetailsArray = JsonArray()
-        selectedAssessmentList.forEach {
+        normalizeAttachmentList(selectedAssessmentList).forEach {
             val assessmentDetailsJson = gson.toJsonTree(it).asJsonObject
             assessmentDetailsArray.add(assessmentDetailsJson)
         }
         val projectsArray = JsonArray()
-        selectedProjectList.forEach {
+        normalizeAttachmentList(selectedProjectList).forEach {
             val projectsJson = gson.toJsonTree(it).asJsonObject
             projectsArray.add(projectsJson)
         }
