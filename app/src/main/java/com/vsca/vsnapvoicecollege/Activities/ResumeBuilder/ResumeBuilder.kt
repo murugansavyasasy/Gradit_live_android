@@ -264,7 +264,6 @@ class ResumeBuilder : AppCompatActivity() {
         }
 
 
-
         val academicDetails = GetResumeBuilderAcademicDetailsData(
             backlogs = binding.lblBackLogs.text.toString(),
             numberOfArrears = binding.lblNoofArrears.text.toString(),
@@ -285,8 +284,8 @@ class ResumeBuilder : AppCompatActivity() {
             memberPhoneNumber = binding.lblMobileNo.text.toString(),
             memberstudentEmail = binding.lblGamilId.text.toString(),
             memberPlacementStatus = binding.lblAvailPlacement.text.toString(),
-            memberNotificationStatus =profile?.memberNotificationStatus,
-             memberImagePath = profile?.memberImagePath,
+            memberNotificationStatus = profile?.memberNotificationStatus,
+            memberImagePath = profile?.memberImagePath,
             memberPermanentAddress1 = profile?.memberPermanentAddress1,
             memberPermanentAddressCity = profile?.memberPermanentAddressCity,
             memberPermanentAddressState = profile?.memberPermanentAddressState,
@@ -318,7 +317,6 @@ class ResumeBuilder : AppCompatActivity() {
 //        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.internship.toString())
 
 
-
         ////
 
 
@@ -347,21 +345,29 @@ class ResumeBuilder : AppCompatActivity() {
         )
 
         // Inject file_path into nested lists
-        val updatedInternship = isSkillSetData?.internship?.map { it.copy(
-            file_path = hardcodedFilePath.toMutableList()
-        )}
+        val updatedInternship = isSkillSetData?.internship?.map {
+            it.copy(
+                file_path = hardcodedFilePath.toMutableList()
+            )
+        }
 
-        val updatedCertificates = isSkillSetData?.certifications?.map { it.copy(
-            file_path = hardcodedFilePath.toMutableList()
-        )}
+        val updatedCertificates = isSkillSetData?.certifications?.map {
+            it.copy(
+                file_path = hardcodedFilePath.toMutableList()
+            )
+        }
 
-        val updatedAssessments = isSkillSetData?.assessmentDetails?.map { it.copy(
-            file_path = hardcodedFilePath.toMutableList()
-        )}
+        val updatedAssessments = isSkillSetData?.assessmentDetails?.map {
+            it.copy(
+                file_path = hardcodedFilePath.toMutableList()
+            )
+        }
 
-        val updatedProjects = isSkillSetData?.projects?.map { it.copy(
-            file_path = hardcodedFilePath.toMutableList()
-        )}
+        val updatedProjects = isSkillSetData?.projects?.map {
+            it.copy(
+                file_path = hardcodedFilePath.toMutableList()
+            )
+        }
 
         // Build final object
         val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
@@ -399,7 +405,7 @@ class ResumeBuilder : AppCompatActivity() {
             }
         }
 
-        if (isEducationItem.size > 0 || AcademicData.numberOfArrears != ""||AcademicData.backlogs != "") {
+        if (isEducationItem.size > 0 || AcademicData.numberOfArrears != "" || AcademicData.backlogs != "") {
             binding.lblEditTwo.text = getString(R.string.txt_edit)
             binding.lnrAcademicDetails.visibility = View.VISIBLE
             binding.rcAcademicDetails.layoutManager = GridLayoutManager(this, 3)
@@ -507,17 +513,16 @@ class ResumeBuilder : AppCompatActivity() {
                     )
                 )
             }
-            if (it.memberNotificationStatus==true){
-                binding.lblConsentedPlacement.text="Consented for placements"
+            if (it.memberNotificationStatus == true) {
+                binding.lblConsentedPlacement.text = "Consented for placements"
                 binding.lblConsentedPlacement.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.green_tick_icon,
                     0,
                     0,
                     0
                 )
-            }
-            else{
-                binding.lblConsentedPlacement.text="Student opted-out for jobs"
+            } else {
+                binding.lblConsentedPlacement.text = "Student opted-out for jobs"
                 binding.lblConsentedPlacement.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.close_icon_two,
                     0,
@@ -535,11 +540,11 @@ class ResumeBuilder : AppCompatActivity() {
             binding.lblGender.text = it.memberGender
             binding.lblQualification.text = it.courseName
             binding.lblAddress.text =
-                it.memberPermanentAddress1 +","+ it.memberPermanentAddressCity +","+it.memberPermanentAddressPincode +","+it.memberPermanentAddressState +","+ it.memberPermanentAddressCountry
+                it.memberPermanentAddress1 + "," + it.memberPermanentAddressCity + "," + it.memberPermanentAddressPincode + "," + it.memberPermanentAddressState + "," + it.memberPermanentAddressCountry
             binding.lblAdmissionNo.text = it.memberRegno
             binding.lblDepartmentName.text = it.departmentName
-            binding.lblYearOfStudy.text =it.noOfYear.toString()
-            binding.lblSemester.text =  it.semesterName
+            binding.lblYearOfStudy.text = it.noOfYear.toString()
+            binding.lblSemester.text = it.semesterName
         }
     }
 
@@ -576,13 +581,15 @@ class ResumeBuilder : AppCompatActivity() {
                 binding.lblLanguageKnown.text = data.languages ?: CommonUtil.isIffin
                 binding.lblSoftSkills.text = data.softSkill ?: CommonUtil.isIffin
                 binding.lblAreasofInterest.text = data.areaInterest ?: CommonUtil.isIffin
-                binding.lblProgrammingLanguages.text = data.programmingLanguage ?: CommonUtil.isIffin
+                binding.lblProgrammingLanguages.text =
+                    data.programmingLanguage ?: CommonUtil.isIffin
                 binding.lblToolsandplatformsknown.text = data.toolsPlatform ?: CommonUtil.isIffin
 
                 // Internship
                 if (!data.internship.isNullOrEmpty()) {
                     binding.rcInternshipExperiences.apply {
-                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
                         adapter = ResumeBuilderIntenshipDetailsAdapter(data.internship)
                         isNestedScrollingEnabled = false
                         overScrollMode = RecyclerView.OVER_SCROLL_NEVER
@@ -595,7 +602,8 @@ class ResumeBuilder : AppCompatActivity() {
                 // Certifications
                 if (!data.certifications.isNullOrEmpty()) {
                     binding.rcCertifications.apply {
-                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
                         adapter = ResumeBuilderCertificationDetailsAdapter(data.certifications)
                         isNestedScrollingEnabled = false
                         overScrollMode = RecyclerView.OVER_SCROLL_NEVER
@@ -608,7 +616,8 @@ class ResumeBuilder : AppCompatActivity() {
                 // Projects
                 if (!data.projects.isNullOrEmpty()) {
                     binding.rcProject.apply {
-                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
                         adapter = ResumeBuilderProjectDetailsAdapter(data.projects)
                         isNestedScrollingEnabled = false
                         overScrollMode = RecyclerView.OVER_SCROLL_NEVER
@@ -621,7 +630,8 @@ class ResumeBuilder : AppCompatActivity() {
                 // Assessment
                 if (!data.assessmentDetails.isNullOrEmpty()) {
                     binding.rcAssessmentScore.apply {
-                        layoutManager = LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this@ResumeBuilder, RecyclerView.VERTICAL, false)
                         adapter = ResumeBuilderAssessmentDetailsAdapter(data.assessmentDetails)
                         isNestedScrollingEnabled = false
                         overScrollMode = RecyclerView.OVER_SCROLL_NEVER
@@ -688,9 +698,9 @@ class ResumeBuilder : AppCompatActivity() {
             alertDialog.dismiss()
             val intent = Intent(activity, ResumePreviewActivity::class.java)
             intent.putExtra("TemplateDocumentURL", it.url)
-            intent.putExtra("ScreenName","MyResumes")
-            intent.putExtra("FileName",it.title)
-            intent.putExtra("MemberID",CommonUtil.MemberId)
+            intent.putExtra("ScreenName", "MyResumes")
+            intent.putExtra("FileName", it.title)
+            intent.putExtra("MemberID", CommonUtil.MemberId)
             activity.startActivity(intent)
         }
 
@@ -806,9 +816,12 @@ class ResumeBuilder : AppCompatActivity() {
                             CommonUtil.SelcetedFileList.add(pdfPath)
 
                             //  Success - Redirect here
-                            val intent = Intent(this,ResumePreviewActivity::class.java) // replace with your destination activity
-                            intent.putExtra("ScreenName","UploadResume")
-                            intent.putExtra("MemberID",isMemeberId)
+                            val intent = Intent(
+                                this,
+                                ResumePreviewActivity::class.java
+                            ) // replace with your destination activity
+                            intent.putExtra("ScreenName", "UploadResume")
+                            intent.putExtra("MemberID", isMemeberId)
                             startActivity(intent)
 //                            finish()
 
@@ -832,8 +845,6 @@ class ResumeBuilder : AppCompatActivity() {
             Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show()
         }
     }
-
-
 
 
 }
