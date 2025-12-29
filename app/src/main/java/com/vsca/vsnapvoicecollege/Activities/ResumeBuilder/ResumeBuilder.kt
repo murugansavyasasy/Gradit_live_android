@@ -220,16 +220,36 @@ class ResumeBuilder : AppCompatActivity() {
 
     private fun isSaveAcademicDetails() {
 
+//
+//
+//        val academicDetails = GetResumeBuilderAcademicDetailsData(
+//            backlogs = binding.lblBackLogs.text.toString(),
+//            numberOfArrears = binding.lblNoofArrears.text.toString(),
+//            educationalDetails = eduList,
+//        )
+//
+//
+//        // Save to CommonUtil
+//        CommonUtil.saveAcademicDetails = academicDetails
+
+
+        val updatedEduList = eduList.map { edu ->
+            edu.copy(
+                file_path = mutableListOf()
+            )
+        }
+
+
+
         val academicDetails = GetResumeBuilderAcademicDetailsData(
             backlogs = binding.lblBackLogs.text.toString(),
             numberOfArrears = binding.lblNoofArrears.text.toString(),
-            educationalDetails = eduList,
-        )
+            educationalDetails = updatedEduList
 
+        )
 
         // Save to CommonUtil
         CommonUtil.saveAcademicDetails = academicDetails
-
     }
 
     private fun saveBasicDetails() {
@@ -255,23 +275,66 @@ class ResumeBuilder : AppCompatActivity() {
 
 
     private fun isSaveSkillSetData() {
+//        val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
+//            idMember = isMemeberId,
+//            languages = binding.lblLanguageKnown.text.toString(),
+//            softSkill = binding.lblSoftSkills.text.toString(),
+//            areaInterest = binding.lblAreasofInterest.text.toString(),
+//            internship = isSkillSetData?.internship,
+//            programmingLanguage = binding.lblProgrammingLanguages.text.toString(),
+//            toolsPlatform = binding.lblToolsandplatformsknown.text.toString(),
+//            certifications = isSkillSetData?.certifications,
+//            assessmentDetails = isSkillSetData?.assessmentDetails,
+//            projects = isSkillSetData?.projects,
+//        )
+//
+//        //We are Saving all the data in Constant as List Here
+//        CommonUtil.isSkillSetDataSending = saveSkillSetData
+//        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
+//        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.internship.toString())
+
+
+
+        ////
+
+
+
+        // Inject file_path into nested lists
+        val updatedInternship = isSkillSetData?.internship?.map { it.copy(
+            file_path = mutableListOf()
+        )}
+
+        val updatedCertificates = isSkillSetData?.certifications?.map { it.copy(
+            file_path =mutableListOf()
+        )}
+
+        val updatedAssessments = isSkillSetData?.assessmentDetails?.map { it.copy(
+            file_path = mutableListOf()
+        )}
+
+        val updatedProjects = isSkillSetData?.projects?.map { it.copy(
+            file_path = mutableListOf()
+        )}
+
+        // Build final object
         val saveSkillSetData = GetResumeBuilderSkillSetDetailsData(
             idMember = isMemeberId,
             languages = binding.lblLanguageKnown.text.toString(),
             softSkill = binding.lblSoftSkills.text.toString(),
             areaInterest = binding.lblAreasofInterest.text.toString(),
-            internship = isSkillSetData?.internship,
+            internship = updatedInternship,
             programmingLanguage = binding.lblProgrammingLanguages.text.toString(),
             toolsPlatform = binding.lblToolsandplatformsknown.text.toString(),
-            certifications = isSkillSetData?.certifications,
-            assessmentDetails = isSkillSetData?.assessmentDetails,
-            projects = isSkillSetData?.projects,
+            certifications = updatedCertificates,
+            assessmentDetails = updatedAssessments,
+            projects = updatedProjects
         )
 
-        //We are Saving all the data in Constant as List Here
+        // Save globally for reuse
         CommonUtil.isSkillSetDataSending = saveSkillSetData
-        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
-        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.internship.toString())
+
+        Log.d("isComingData", CommonUtil.isSkillSetDataSending!!.languages.toString())
+        Log.d("isComingData", CommonUtil.isSkillSetDataSending!!.internship.toString())
 
     }
 
