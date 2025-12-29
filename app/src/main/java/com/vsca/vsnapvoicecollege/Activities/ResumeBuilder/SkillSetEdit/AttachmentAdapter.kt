@@ -114,15 +114,22 @@ class AttachmentAdapter(
                     }
                     else {
                         Log.d("Files","Local_DOCUMENT")
+                        Log.d("FilesURL",item.url)
 
                         val uri = if (item.url.startsWith("content://")) {
                             Uri.parse(item.url)
                         } else {
+//                            FileProvider.getUriForFile(
+//                                context,
+//                                "${context.packageName}.fileprovider",
+//                                File(item.url)
+//                            )
                             FileProvider.getUriForFile(
                                 context,
-                                "${context.packageName}.fileprovider",
+                                "${context.packageName}.provider",
                                 File(item.url)
                             )
+
                         }
 
                         val mimeType = getMimeTypeFromUri(uri)

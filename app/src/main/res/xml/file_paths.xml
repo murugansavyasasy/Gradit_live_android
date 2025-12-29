@@ -12,4 +12,8 @@
         path="." />
     <cache-path name="cache" path="." />
 
+    <external-path
+        name="college_images"
+        path="Android/data/com.vsca.vsnapvoicecollege/files/Pictures" />
+
 </paths>
