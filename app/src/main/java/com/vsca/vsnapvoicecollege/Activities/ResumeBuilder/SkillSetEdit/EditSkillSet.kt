@@ -196,7 +196,7 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         savedToolsAndPlatform = CommonUtil.isSkillSetDataSending?.toolsPlatform.toString()
         savedProgrammmingLanguage = CommonUtil.isSkillSetDataSending?.programmingLanguage.toString()
         savedAreaOfInterest = CommonUtil.isSkillSetDataSending?.areaInterest.toString()
-        savedMemberID = CommonUtil.isSkillSetDataSending?.idMember!!
+        savedMemberID = CommonUtil.isSkillSetDataSending?.idMember?:-1
         Log.d("savedMemberID", savedMemberID.toString())
 
         Log.d("savedInternshipList", CommonUtil.isSkillSetDataSending.toString())
@@ -536,6 +536,8 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
 
         builder.create().show()
     }
+
+
 
     private fun uploadAttachmentList(
         list: List<out AttachmentHolder>,
