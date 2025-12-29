@@ -9,6 +9,6 @@ enum class FileType {
     IMAGE, PDF, DOC, DOCX, EXCEL, PPT, TXT, VIDEO, AUDIO, OTHER
 }
 data class FilePath(
-    val url: String,
+    var url: String,
     val type: String
 )
