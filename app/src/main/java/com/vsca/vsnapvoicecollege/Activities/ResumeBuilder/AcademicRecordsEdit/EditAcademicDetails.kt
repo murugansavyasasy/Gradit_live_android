@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -32,6 +33,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
+import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.AttachmentAdapter
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.AttachmentHolder
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.EditSkillSet.AttachmentSource
@@ -45,6 +48,7 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -63,8 +67,6 @@ class EditAcademicDetails : AppCompatActivity() {
     private var attachmentSource: AttachmentSource? = null
 
     private var selectedRowView: View? = null
-
-
     val REQUEST_Camera = 1
     val SELECT_DOCUMENT = 101
 
@@ -73,6 +75,9 @@ class EditAcademicDetails : AppCompatActivity() {
 
     private val MAX_FILES_PER_QUESTION = 10
     private val MAX_VIDEO_PER_QUESTION = 2
+
+    private var uploadDialog: AlertDialog? = null
+    private lateinit var txtProgress: TextView
     var Totalfile: String? = null
 
     var imageFilePath: String? = null
@@ -122,8 +127,7 @@ class EditAcademicDetails : AppCompatActivity() {
         Log.d("AcademicDebug", "Backlogs: ${academicData?.backlogs}")
         Log.d("AcademicDebug", "No of Arrears: ${academicData?.numberOfArrears}")
         Log.d(
-            "AcademicDebug",
-            "Educational Details Count: ${academicData?.educationalDetails?.size}"
+            "AcademicDebug", "Educational Details Count: ${academicData?.educationalDetails?.size}"
         )
 
 
@@ -222,7 +226,6 @@ class EditAcademicDetails : AppCompatActivity() {
         return true
     }
 
-
     private fun isDataChanged(): Boolean {
 
         val currentBacklogs = binding.edtBacklogs.text.toString().trim()
@@ -250,11 +253,7 @@ class EditAcademicDetails : AppCompatActivity() {
             val original = originalEducationalDetails[i]
 
             // Text field check
-            if (
-                classDegree != original.classDegree ||
-                percentage != original.percentage ||
-                institution != original.institution
-            ) return true
+            if (classDegree != original.classDegree || percentage != original.percentage || institution != original.institution) return true
 
             // Attachment size check
             if (holder.attachments.size != original.file_path.size) return true
@@ -263,50 +262,13 @@ class EditAcademicDetails : AppCompatActivity() {
             holder.attachments.forEachIndexed { index, currentFile ->
                 val originalFile = original.file_path[index]
 
-                if (
-                    currentFile.url != originalFile.url ||
-                    currentFile.type != originalFile.type
-                ) {
+                if (currentFile.url != originalFile.url || currentFile.type != originalFile.type) {
                     return true
                 }
             }
         }
-
         return false
     }
-
-//    private fun isDataChanged(): Boolean {
-//        val currentBacklogs = binding.edtBacklogs.text.toString().trim()
-//        val currentArrears = binding.edtArrears.text.toString().trim()
-//
-//        if (currentBacklogs != originalBacklogs || currentArrears != originalArrears) return true
-//
-//        if (binding.containerLayout.childCount != originalEducationalDetails.size) return true
-//
-//        for (i in 0 until binding.containerLayout.childCount) {
-//            val row = binding.containerLayout.getChildAt(i)
-//            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
-//            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
-//            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
-//
-//            val classDegree = edtClassDegree.text.toString().trim()
-//            val percentage = edtPercentage.text.toString().trim()
-//            val institution = edtInstitution.text.toString().trim()
-//
-//            val originalItem = originalEducationalDetails.getOrNull(i)
-//            if (originalItem == null) return true
-//
-//            if (classDegree != originalItem.classDegree ||
-//                percentage != originalItem.percentage ||
-//                institution != originalItem.institution
-//            ) {
-//                return true
-//            }
-//
-//        }
-//
-//        return false
-//    }
 
     private fun showSaveConfirmationDialog() {
         val builder = android.app.AlertDialog.Builder(this)
@@ -357,8 +319,7 @@ class EditAcademicDetails : AppCompatActivity() {
                 // Notify RecyclerView adapter safely
                 (rcyAttachment.adapter as AttachmentAdapter).notifyItemRemoved(removePos)
                 (rcyAttachment.adapter as AttachmentAdapter).notifyItemRangeChanged(
-                    removePos,
-                    attachments.size
+                    removePos, attachments.size
                 )
             }
 
@@ -366,8 +327,7 @@ class EditAcademicDetails : AppCompatActivity() {
         }
 
 
-        rcyAttachment.layoutManager =
-            GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
+        rcyAttachment.layoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
         rcyAttachment.adapter = adapter
         rcyAttachment.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
 
@@ -397,7 +357,6 @@ class EditAcademicDetails : AppCompatActivity() {
         binding.containerLayout.addView(rowView)
     }
 
-
     private fun saveAcademicDetails() {
 
         val backlogs = binding.edtBacklogs.text.toString().trim()
@@ -406,29 +365,25 @@ class EditAcademicDetails : AppCompatActivity() {
         val educationalDetails = mutableListOf<Map<String, Any>>()
 
         for (i in 0 until binding.containerLayout.childCount) {
-
             val row = binding.containerLayout.getChildAt(i)
-
-            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
-            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
-            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
-
             val holder = row.tag as AcademicRowHolder
 
-            val classDegree = edtClassDegree.text.toString().trim()
-            val percentage = edtPercentage.text.toString().trim()
-            val institution = edtInstitution.text.toString().trim()
+            val classDegree =
+                row.findViewById<EditText>(R.id.edtClassDegree).text.toString().trim()
+            val percentage =
+                row.findViewById<EditText>(R.id.edtPercentage).text.toString().trim()
+            val institution =
+                row.findViewById<EditText>(R.id.edtInstitution).text.toString().trim()
 
-            // Convert attachments
             val filePathList = holder.attachments.map { file ->
-                mapOf(
+                mutableMapOf(
                     "url" to file.url,
                     "type" to file.type
                 )
-            }
+            }.toMutableList()
 
             educationalDetails.add(
-                mapOf(
+                mutableMapOf(
                     "classDegree" to classDegree,
                     "percentage" to percentage,
                     "institution" to institution,
@@ -437,17 +392,19 @@ class EditAcademicDetails : AppCompatActivity() {
             )
         }
 
-        educationalDetails.forEachIndexed { index, detail ->
-            val filePaths = detail["file_path"] as? List<*>
+        normalizeAcademicFileUrls(educationalDetails)
 
-            filePaths?.forEachIndexed { i, path ->
-                Log.d("FilePathOnly", "Item $index → File[$i] = $path")
-            }
-        }
+        uploadAcademicFilesThenSubmit(
+            educationalDetails,
+            backlogs,
+            arrears
+        )
+    }
 
 
-
-
+    private fun submitAcademicApi(
+        educationalDetails: List<Map<String, Any>>, backlogs: String, arrears: String
+    ) {
         val request = hashMapOf<String, Any>(
             "idMember" to CommonUtil.MemberId,
             "educationalDetails" to educationalDetails,
@@ -455,49 +412,177 @@ class EditAcademicDetails : AppCompatActivity() {
             "numberOfArrears" to arrears
         )
 
-
-
-
-        Log.d("FInalAcademicList", request.toString())
-
+        Log.d("FinalAcademicList", request.toString())
         appViewModel?.AddEditAcademicDetails(request, this)
     }
 
-//    private fun saveAcademicDetails() {
-//        val backlogs = binding.edtBacklogs.text.toString().trim()
-//        val arrears = binding.edtArrears.text.toString().trim()
-//
-//        val educationalDetails = mutableListOf<Map<String, String>>()
-//
-//        for (i in 0 until binding.containerLayout.childCount) {
-//            val row = binding.containerLayout.getChildAt(i)
-//            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
-//            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
-//            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
-//
-//            val classDegree = edtClassDegree.text.toString().trim()
-//            val percentage = edtPercentage.text.toString().trim()
-//            val institution = edtInstitution.text.toString().trim()
-//
-//            educationalDetails.add(
-//                mapOf(
-//                    "classDegree" to classDegree,
-//                    "percentage" to percentage,
-//                    "institution" to institution
-//                )
-//            )
-//        }
-//
-//        val request = hashMapOf<String, Any>(
-//            "idMember" to CommonUtil.MemberId,
-//            "educationalDetails" to educationalDetails,
-//            "backlogs" to backlogs,
-//            "numberOfArrears" to arrears
-//        )
-//        appViewModel?.AddEditAcademicDetails(request, this)
-//    }
-//
+    private fun updateAcademicAwsUrl(
+        educationalDetails: MutableList<Map<String, Any>>, localPath: String, awsUrl: String
+    ) {
+        educationalDetails.forEach { detail ->
+            val files = detail["file_path"] as? MutableList<Map<String, String>> ?: return@forEach
 
+            files.forEachIndexed { index, file ->
+                if (file["url"] == localPath) {
+                    files[index] = file.toMutableMap().apply {
+                        put("url", awsUrl)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun collectAcademicPendingFiles(
+        context: Context, educationalDetails: List<Map<String, Any>>
+    ): List<String> {
+
+        val pending = mutableListOf<String>()
+
+        educationalDetails.forEach { detail ->
+            val files = detail["file_path"] as? List<Map<String, String>> ?: return@forEach
+
+            files.forEach { file ->
+                val url = file["url"] ?: return@forEach
+                if (!url.startsWith("http", true)) {
+                    val normalized = normalizePath(context, url)
+                    pending.add(normalized)
+                }
+            }
+        }
+        return pending
+    }
+
+    private fun normalizePath(context: Context, path: String): String {
+        return when {
+            path.startsWith("content://") -> {
+                copyUriToCacheFile(context, Uri.parse(path))
+            }
+
+            path.startsWith("file://") -> {
+                Uri.parse(path).path ?: path
+            }
+
+            else -> path
+        }
+    }
+
+    private fun copyUriToCacheFile(context: Context, uri: Uri): String {
+        val fileName = getFileName(uri)
+        val file = File(context.cacheDir, fileName)
+
+        context.contentResolver.openInputStream(uri)?.use { input ->
+            FileOutputStream(file).use { output ->
+                input.copyTo(output)
+            }
+        }
+        return file.absolutePath
+    }
+
+
+    private fun uploadAcademicFilesThenSubmit(
+        educationalDetails: MutableList<Map<String, Any>>, backlogs: String, arrears: String
+    ) {
+        val awsUploader = AwsUploadingPreSigned()
+
+        val pendingFiles = collectAcademicPendingFiles(this, educationalDetails)
+
+        if (pendingFiles.isEmpty()) {
+            submitAcademicApi(educationalDetails, backlogs, arrears)
+            return
+        }
+
+        var completed = 0
+        val total = pendingFiles.size
+
+        showUploadProgressDialog(total)
+
+        pendingFiles.forEach { localPath ->
+
+            awsUploader.getPreSignedUrl(
+                this, localPath, "", object : UploadCallback {
+
+                    override fun onUploadSuccess(message: String?, fileUrl: String?) {
+
+                        updateAcademicAwsUrl(
+                            educationalDetails, localPath, fileUrl ?: ""
+                        )
+
+                        completed++
+                        updateUploadProgress(completed, total)
+
+                        if (completed == total) {
+                            dismissUploadDialog()
+                            submitAcademicApi(educationalDetails, backlogs, arrears)
+                        }
+                    }
+
+                    override fun onUploadError(error: String?) {
+                        Log.e("AWS_UPLOAD", error ?: "Upload failed")
+
+                        completed++
+                        updateUploadProgress(completed, total)
+
+                        if (completed == total) {
+                            dismissUploadDialog()
+                            submitAcademicApi(educationalDetails, backlogs, arrears)
+                        }
+                    }
+                })
+        }
+    }
+
+    private fun normalizeAcademicFileUrls(
+        educationalDetails: MutableList<Map<String, Any>>
+    ) {
+        educationalDetails.forEach { detail ->
+
+            val files =
+                detail["file_path"] as? MutableList<MutableMap<String, String>>
+                    ?: return@forEach
+
+            files.forEachIndexed { index, file ->
+
+                val url = file["url"] ?: return@forEachIndexed
+
+                if (url.startsWith("content://")) {
+
+                    val realPath = copyUriToCacheFile(
+                        this,
+                        Uri.parse(url)
+                    )
+
+                    files[index] = file.toMutableMap().apply {
+                        put("url", realPath)
+                    }
+                }
+
+                if (url.startsWith("file://")) {
+                    files[index] = file.toMutableMap().apply {
+                        put("url", Uri.parse(url).path ?: url)
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun showUploadProgressDialog(total: Int) {
+        val view = layoutInflater.inflate(R.layout.dialog_upload_progress, null)
+        txtProgress = view.findViewById(R.id.txtProgress)
+        txtProgress.text = "Please wait… Uploading....."
+
+        uploadDialog = AlertDialog.Builder(this).setView(view).setCancelable(false).create()
+
+        uploadDialog?.show()
+    }
+
+    private fun updateUploadProgress(done: Int, total: Int) {
+        txtProgress.text = "Please wait… Uploading....."
+    }
+
+    private fun dismissUploadDialog() {
+        uploadDialog?.dismiss()
+    }
 
     fun ChooseFile() {
 
@@ -581,8 +666,7 @@ class EditAcademicDetails : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
                 type = "*/*"
                 putExtra(
-                    Intent.EXTRA_MIME_TYPES,
-                    arrayOf(
+                    Intent.EXTRA_MIME_TYPES, arrayOf(
                         "application/pdf",
                         "application/msword",
                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -663,8 +747,7 @@ class EditAcademicDetails : AppCompatActivity() {
 
             // DOCUMENT
             SELECT_DOCUMENT -> {
-                val itemCount = data?.clipData?.itemCount
-                    ?: if (data?.data != null) 1 else 0
+                val itemCount = data?.clipData?.itemCount ?: if (data?.data != null) 1 else 0
 
                 for (i in 0 until itemCount) {
                     val uri = data?.clipData?.getItemAt(i)?.uri ?: data?.data ?: continue
@@ -680,24 +763,20 @@ class EditAcademicDetails : AppCompatActivity() {
 
 
     private fun canAddAttachment(
-        item: AttachmentHolder,
-        newType: FileType
+        item: AttachmentHolder, newType: FileType
     ): Boolean {
 
         val attachments = item.file_path ?: return true
 
         if (attachments.size >= MAX_FILES_PER_QUESTION) {
             Toast.makeText(
-                this,
-                "Only $MAX_FILES_PER_QUESTION files allowed",
-                Toast.LENGTH_SHORT
+                this, "Only $MAX_FILES_PER_QUESTION files allowed", Toast.LENGTH_SHORT
             ).show()
             return false
         }
 
         return true
     }
-
 
     @SuppressLint("Range")
     private fun getFileName(uri: Uri): String {
@@ -748,287 +827,4 @@ class EditAcademicDetails : AppCompatActivity() {
             Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
         }
     }
-
-
 }
-
-
-//package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit
-//
-//import android.app.Activity
-//import android.os.Bundle
-//import android.util.Log
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.ArrayAdapter
-//import android.widget.EditText
-//import android.widget.LinearLayout
-//import android.widget.Spinner
-//import android.widget.TextView
-//import android.widget.Toast
-//import androidx.appcompat.app.AppCompatActivity
-//import androidx.core.view.WindowInsetsControllerCompat
-//import androidx.lifecycle.ViewModelProvider
-//import com.google.gson.Gson
-//import com.google.gson.reflect.TypeToken
-//import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
-//import com.vsca.vsnapvoicecollege.R
-//import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-//import com.vsca.vsnapvoicecollege.ViewModel.App
-//import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
-//
-//class EditAcademicDetails : AppCompatActivity() {
-//
-//    private var appViewModel: App? = null
-//    private lateinit var binding: LayoutEditacademicdetailsBinding
-//
-//    private var originalBacklogs: String = ""
-//    private var originalArrears: String = ""
-//    private var originalEducationalDetails: List<GetEducationalDetailsData> = listOf()
-//    var memberId=""
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        binding = LayoutEditacademicdetailsBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        appViewModel = ViewModelProvider(this)[App::class.java]
-//        appViewModel!!.init()
-//
-//
-//        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-//        insetsController.isAppearanceLightStatusBars = true
-//
-//        // Hide default icon and update button text
-//        binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
-//        binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.update)
-//
-//
-////        // Get data from intent
-////        val backlogs = intent.getStringExtra("backlogs") ?: ""
-////        val arrears = intent.getStringExtra("arrears") ?: ""
-////        val educationalDetailsJson = intent.getStringExtra("educationalDetails")
-//
-//        val academicData = CommonUtil.saveAcademicDetails
-//
-//        val backlogs = academicData?.backlogs ?: ""
-//        val arrears = academicData?.numberOfArrears ?: ""
-//        val educationalDetails = academicData?.educationalDetails ?: emptyList()
-//        Log.d("AcademicDebug", "Backlogs: ${academicData?.backlogs}")
-//        Log.d("AcademicDebug", "No of Arrears: ${academicData?.numberOfArrears}")
-//        Log.d("AcademicDebug", "Educational Details Count: ${academicData?.educationalDetails?.size}")
-//
-//
-//        originalBacklogs = backlogs
-//        originalArrears = arrears
-//        originalEducationalDetails = educationalDetails
-//
-//        binding.edtBacklogs.setText(backlogs)
-//        binding.edtArrears.setText(arrears)
-//
-//        if (educationalDetails.isNotEmpty()) {
-//            educationalDetails.forEach {
-//                addRow(it)
-//            }
-//        } else {
-//            addRow()
-//        }
-//
-//
-//        binding.lblAddAnother.setOnClickListener {
-//            if (validateCurrentRows()) {
-//                addRow()
-//            }
-//        }
-//
-//        binding.imgback.setOnClickListener {
-//            onBackPressed()
-//        }
-//        binding.commonBottomResumeBuilder.btnDefault1.setOnClickListener {
-//            finish()
-//        }
-//
-//        // Observe save response
-//        appViewModel?.resumeBuilderAcademicAddEditResponse?.observe(this) { response ->
-//            if (response != null && response.status) {
-//                Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show()
-//                setResult(Activity.RESULT_OK)
-//                finish()
-//            } else {
-//                Toast.makeText(this, "Save failed, please try again.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
-//            if (!validateCurrentRows()) {
-//                return@setOnClickListener
-//            }
-//
-//            if (isDataChanged()) {
-//                showSaveConfirmationDialog()
-//            } else {
-//                showNoChangesDialog()
-//            }
-//        }
-//    }
-//
-//    private fun validateCurrentRows(): Boolean {
-//        for (i in 0 until binding.containerLayout.childCount) {
-//            val row = binding.containerLayout.getChildAt(i)
-//            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
-//            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
-//            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
-//
-//            val classDegree = edtClassDegree.text.toString().trim()
-//            val percentage = edtPercentage.text.toString().trim()
-//            val institution = edtInstitution.text.toString().trim()
-//
-//            if (classDegree.isEmpty()) {
-//                edtClassDegree.error = "Enter class/degree"
-//                edtClassDegree.requestFocus()
-//                return false
-//            }
-//
-//            if (percentage.isEmpty()) {
-//                edtPercentage.error = "Enter % of marks"
-//                edtPercentage.requestFocus()
-//                return false
-//            }
-//
-//            if (institution.isEmpty()) {
-//                edtInstitution.error = "Enter institution/school name"
-//                edtInstitution.requestFocus()
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//
-//
-//    private fun isDataChanged(): Boolean {
-//        val currentBacklogs = binding.edtBacklogs.text.toString().trim()
-//        val currentArrears = binding.edtArrears.text.toString().trim()
-//
-//        if (currentBacklogs != originalBacklogs || currentArrears != originalArrears) return true
-//
-//        if (binding.containerLayout.childCount != originalEducationalDetails.size) return true
-//
-//        for (i in 0 until binding.containerLayout.childCount) {
-//            val row = binding.containerLayout.getChildAt(i)
-//            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
-//            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
-//            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
-//
-//            val classDegree = edtClassDegree.text.toString().trim()
-//            val percentage = edtPercentage.text.toString().trim()
-//            val institution = edtInstitution.text.toString().trim()
-//
-//            val originalItem = originalEducationalDetails.getOrNull(i)
-//            if (originalItem == null) return true
-//
-//            if (classDegree != originalItem.classDegree ||
-//                percentage != originalItem.percentage ||
-//                institution != originalItem.institution
-//            ) {
-//                return true
-//            }
-//        }
-//
-//        return false
-//    }
-//
-//    private fun showSaveConfirmationDialog() {
-//        val builder = android.app.AlertDialog.Builder(this)
-//        builder.setTitle("Confirm Save")
-//        builder.setMessage("Are you sure you want to save these changes?")
-//        builder.setPositiveButton("Yes") { dialog, _ ->
-//            saveAcademicDetails()
-//            dialog.dismiss()
-//        }
-//        builder.setNegativeButton("No") { dialog, _ ->
-//            dialog.dismiss()
-//        }
-//        builder.show()
-//    }
-//
-//    private fun showNoChangesDialog() {
-//        val builder = android.app.AlertDialog.Builder(this)
-//        builder.setTitle("No Changes Detected")
-//        builder.setMessage("No changes found. Exit without saving?")
-//        builder.setPositiveButton("Yes") { dialog, _ ->
-//            finish()
-//        }
-//        builder.setNegativeButton("No") { dialog, _ ->
-//            dialog.dismiss()
-//        }
-//        builder.show()
-//    }
-//
-//    private fun addRow(item: GetEducationalDetailsData? = null) {
-//        val rowView = LayoutInflater.from(this)
-//            .inflate(R.layout.item_qualification, binding.containerLayout, false)
-//
-//        val edtClassDegree = rowView.findViewById<EditText>(R.id.edtClassDegree)
-//        val edtPercentage = rowView.findViewById<EditText>(R.id.edtPercentage)
-//        val edtInstitution = rowView.findViewById<EditText>(R.id.edtInstitution)
-//        val imgRemove = rowView.findViewById<View>(R.id.imgRemove)
-//
-//        imgRemove.setOnClickListener {
-//            if (binding.containerLayout.childCount > 1) {
-//                binding.containerLayout.removeView(rowView)
-//            } else {
-//                Toast.makeText(this, "At least one entry is required.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        // Pre-fill if editing existing data
-//        item?.let {
-//            edtClassDegree.setText(it.classDegree)
-//            edtPercentage.setText(it.percentage)
-//            edtInstitution.setText(it.institution)
-//        }
-//
-//        val layoutParams = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.MATCH_PARENT,
-//            LinearLayout.LayoutParams.WRAP_CONTENT
-//        )
-//        layoutParams.topMargin = resources.getDimensionPixelSize(R.dimen.ten)
-//        rowView.layoutParams = layoutParams
-//
-//        binding.containerLayout.addView(rowView)
-//    }
-//
-//
-//    private fun saveAcademicDetails() {
-//        val backlogs = binding.edtBacklogs.text.toString().trim()
-//        val arrears = binding.edtArrears.text.toString().trim()
-//
-//        val educationalDetails = mutableListOf<Map<String, String>>()
-//
-//        for (i in 0 until binding.containerLayout.childCount) {
-//            val row = binding.containerLayout.getChildAt(i)
-//            val edtClassDegree = row.findViewById<EditText>(R.id.edtClassDegree)
-//            val edtPercentage = row.findViewById<EditText>(R.id.edtPercentage)
-//            val edtInstitution = row.findViewById<EditText>(R.id.edtInstitution)
-//
-//            val classDegree = edtClassDegree.text.toString().trim()
-//            val percentage = edtPercentage.text.toString().trim()
-//            val institution = edtInstitution.text.toString().trim()
-//
-//            educationalDetails.add(
-//                mapOf(
-//                    "classDegree" to classDegree,
-//                    "percentage" to percentage,
-//                    "institution" to institution
-//                )
-//            )
-//        }
-//
-//        val request = hashMapOf<String, Any>(
-//            "idMember" to CommonUtil.MemberId,
-//            "educationalDetails" to educationalDetails,
-//            "backlogs" to backlogs,
-//            "numberOfArrears" to arrears
-//        )
-//        appViewModel?.AddEditAcademicDetails(request, this)
-//    }
-//}
