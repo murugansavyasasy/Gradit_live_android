@@ -1,6 +1,6 @@
 package com.vsca.vsnapvoicecollege.Model
 
-class GetResumeBuilderSkillSetDetailsData (
+data class GetResumeBuilderSkillSetDetailsData (
     val id: Int?=null,
     val languages: String?=null,
     val softSkill: String?=null,

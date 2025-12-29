@@ -34,6 +34,7 @@ import com.vsca.vsnapvoicecollege.Activities.PlacementEvent
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Model.AttendanceHour
 import com.vsca.vsnapvoicecollege.Model.AttendanceHourEdit
+import com.vsca.vsnapvoicecollege.Model.CommonFileData
 import com.vsca.vsnapvoicecollege.Model.ExamcreationEdit
 import com.vsca.vsnapvoicecollege.Model.Examination_Creation
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetailsData
@@ -61,7 +62,26 @@ import javax.xml.transform.ErrorListener
 object CommonUtil {
 
 
-     var imgSwipe: ImageView? = null
+
+    var isVimeoToken = "8d74d8bf6b5742d39971cc7d3ffbb51a"
+    var isVimeoUrl = "https://api.vimeo.com/me/videos"
+    var isFileLimit = 0
+    var AUDIO = "AUDIO"
+    var DOCUMENT = "DOCUMENT"
+    var VIDEO = "VIDEO"
+    var IMAGE = "IMAGE"
+    var Remaining = 10
+    var commonFileList: MutableList<CommonFileData> = mutableListOf()
+    var selectedFileIndex: Int = -1
+
+
+
+
+
+
+//
+
+    var imgSwipe: ImageView? = null
      var btnContinue: Button? = null
      var layoutBottomCurve: ConstraintLayout? = null
      var recyclerMenusBottom: RecyclerView? = null
@@ -85,6 +105,8 @@ object CommonUtil {
     val AbsendlistStudent: MutableList<String> = ArrayList()
     val isOnLeaveStudentList: MutableList<String> = ArrayList()
     var Onbackpressed = ""
+    var isQuizQuestionPickCount = 0
+
     var iSubjectId = ArrayList<String>()
     var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null
     var saveBasicDetails: GetResumeBuilderProfileDetailsData? =null

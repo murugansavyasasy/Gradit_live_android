@@ -1,8 +1,20 @@
 package com.vsca.vsnapvoicecollege.Model
 
-data class GetInternshipDetailsData (
-    var to: String,
-    var from: String,
+import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.AttachmentHolder
+
+
+//data class GetInternshipDetailsData (
+//    var to: String,
+//    var from: String,
+//    var companyName: String,
+//    var designation: String,
+//    var file_path: MutableList<FilePath>? = mutableListOf()
+//)
+
+data class GetInternshipDetailsData(
     var companyName: String,
     var designation: String,
-)
+    var from: String,
+    var to: String,
+    override var file_path: MutableList<FilePath>? = mutableListOf()
+) : AttachmentHolder

@@ -66,6 +66,7 @@
         android:text="@string/duration"
         android:textColor="@color/black"
         android:textSize="@dimen/fourteen_sp" />
+
     <EditText
         android:layout_marginTop="@dimen/five"
         android:id="@+id/edtDuration"
@@ -76,6 +77,26 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rect_gray_radius"
         android:padding="@dimen/eight" />
+
+    <TextView
+        android:id="@+id/lblQuestionPick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:text="Add Attachment"
+        android:textColor="@color/btn_clr_blue"
+        android:textSize="@dimen/thirteen_sp">
+
+    </TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcyAttachment"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:nestedScrollingEnabled="false"
+        android:overScrollMode="never" />
 
 
 </LinearLayout>
