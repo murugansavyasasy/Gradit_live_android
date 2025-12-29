@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -72,7 +73,11 @@ import java.util.Locale
 import kotlin.compareTo
 import kotlin.toString
 
-class EditSkillSet : AppCompatActivity(), OnSoftSkillSelectedListener {
+class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
+
+    private  val PERMISSION_REQUEST_CODE = 1001
+    private  val SETTINGS_REQUEST_CODE = 1002
+
 
 
     enum class AttachmentSource {
@@ -799,7 +804,120 @@ class EditSkillSet : AppCompatActivity(), OnSoftSkillSelectedListener {
         attachmentSource = source
         attachmentPosition = position
         attachmentList = list.toMutableList()
-        ChooseFile()
+//        ChooseFile()
+        logPermissionStatus("BeforeChooseFile")
+        openFilePickerWithPermission()
+
+    }
+
+
+    private fun openFilePickerWithPermission(fromSettings: Boolean = false) {
+
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO
+            )
+        } else {
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+
+        val deniedPermissions = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        // ✅ All granted
+        if (deniedPermissions.isEmpty()) {
+            ChooseFile()
+            return
+        }
+
+        // 👇 NEW: user returned from settings but still denied
+        if (fromSettings) {
+            Toast.makeText(
+                this,
+                "Please enable permissions to select files",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val shouldShowRationale = deniedPermissions.any {
+            ActivityCompat.shouldShowRequestPermissionRationale(this, it)
+        }
+
+        if (shouldShowRationale) {
+            ActivityCompat.requestPermissions(
+                this,
+                permissions,
+                PERMISSION_REQUEST_CODE
+            )
+        } else {
+            val intent = Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.fromParts("package", packageName, null)
+            )
+            startActivityForResult(intent, SETTINGS_REQUEST_CODE)
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            logPermissionStatus("AfterPermissionRequest")
+            openFilePickerWithPermission()
+        }
+    }
+
+    private fun logPermissionStatus(tag: String = "PermissionCheck") {
+
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            listOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO
+            )
+        } else {
+            listOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+
+        Log.d(tag, "---------- Permission Status ----------")
+
+        permissions.forEach { permission ->
+
+            val granted = ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
+
+            val canAskAgain = ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                permission
+            )
+
+            val status = when {
+                granted -> "GRANTED ✅"
+                !canAskAgain -> "DENIED (Don't ask again) ❌"
+                else -> "DENIED ❌"
+            }
+
+            Log.d(tag, "$permission → $status")
+        }
+
+        Log.d(tag, "-------------------------------------")
     }
 
 
@@ -954,6 +1072,12 @@ class EditSkillSet : AppCompatActivity(), OnSoftSkillSelectedListener {
     @SuppressLint("LongLogTag")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        // Handle return from Settings FIRST
+        if (requestCode == SETTINGS_REQUEST_CODE) {
+            logPermissionStatus("AfterSettingsReturn")
+            openFilePickerWithPermission(fromSettings = true)
+            return
+        }
         if (resultCode != Activity.RESULT_OK) return
 
         when (requestCode) {
