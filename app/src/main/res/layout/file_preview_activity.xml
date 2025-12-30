@@ -63,6 +63,7 @@
             android:layout_marginEnd="@dimen/ten"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/five"
+            android:tint="@color/black"
             android:src="@drawable/ic_more_vert"
             android:visibility="gone" />
 

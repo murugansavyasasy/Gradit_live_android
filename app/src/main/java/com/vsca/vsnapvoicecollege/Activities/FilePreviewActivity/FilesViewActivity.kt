@@ -73,6 +73,10 @@ class FilesViewActivity : AppCompatActivity()  {
                 updateNavButtons()
             }
         }
+        binding.imgMoreOptions.setOnClickListener {
+            showFileOptions(isFilesList[currentPosition].path)
+        }
+
         binding.lnrPrevious!!.setOnClickListener {
             if (currentPosition > 0) {
                 currentPosition--
@@ -84,22 +88,22 @@ class FilesViewActivity : AppCompatActivity()  {
 
         isFilesList.clear()
 
-//        if (CommonUtil.commonFileList.isNotEmpty()) {
-//            Log.d("commonFileList", CommonUtil.commonFileList.toString())
-//            val first = CommonUtil.commonFileList[0]
+        if (CommonUtil.commonFileList.isNotEmpty()) {
+            Log.d("commonFileList", CommonUtil.commonFileList.toString())
+            val first = CommonUtil.commonFileList[0]
 //            if (first.type != FileType.VIDEO.toString()
 //                && !first.path.startsWith("content://")
 //                && !first.path.contains("amazonaws.")
 //            ) {
 //                CommonUtil.commonFileList.removeAt(0)
 //            }
-//
-//            if (first.path.contains("amazonaws.") || first.type == FileType.VIDEO.toString()) {
-//                binding.imgMoreOptions.visibility = View.VISIBLE
-//            } else {
-//                binding.imgMoreOptions.visibility = View.GONE
-//            }
-//        }
+
+            if (first.path.contains("amazonaws.") || first.type == FileType.VIDEO.toString()) {
+                binding.imgMoreOptions.visibility = View.VISIBLE
+            } else {
+                binding.imgMoreOptions.visibility = View.GONE
+            }
+        }
 
 
         for (i in CommonUtil.commonFileList.indices) {
@@ -193,6 +197,21 @@ class FilesViewActivity : AppCompatActivity()  {
         binding.lnrPrevious.visibility = if (currentPosition > 0) View.VISIBLE else View.GONE
         binding.lnrNext.visibility =
             if (currentPosition < isFilesList.size - 1) View.VISIBLE else View.GONE
+
+        val currentItem = isFilesList.getOrNull(currentPosition)
+
+        binding.imgMoreOptions.visibility =
+            if (
+                currentItem != null &&
+                (
+                        currentItem.path.contains("amazonaws.", ignoreCase = true) ||
+                                currentItem.type == FileType.VIDEO.toString()
+                        )
+            ) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
     }
 
 
@@ -386,7 +405,7 @@ class FilesViewActivity : AppCompatActivity()  {
                 }
                 val uri = FileProvider.getUriForFile(
                     this@FilesViewActivity,
-                    "$packageName.fileprovider",
+                    "$packageName.provider",
                     file
                 )
                 val mimeType =
