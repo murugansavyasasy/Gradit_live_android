@@ -496,7 +496,9 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         return this.copy(file_path = this.file_path?.map { it.copy() }?.toMutableList())
     }
 
-    private fun showUploadProgressDialog() {
+private fun showUploadProgressDialog() {
+    runOnUiThread {
+        if (uploadDialog?.isShowing == true) return@runOnUiThread
 
         val builder = AlertDialog.Builder(this)
         builder.setCancelable(false)
@@ -512,30 +514,36 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
 
         uploadDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
+}
 
 
-    private fun showConfirmationDialog() {
+
+private fun showConfirmationDialog() {
+    runOnUiThread {
         val builder = AlertDialog.Builder(this)
 
-        val message = buildString {
-            append("Are you sure you want to save?")
-        }
+        val message = "Are you sure you want to save?"
 
-        builder.setTitle("Confirmation").setMessage(message).setPositiveButton("Yes") { dialog, _ ->
-            totalUploadCount = calculateTotalUploadCount()
-            completedUploadCount = 0
+        builder.setTitle("Confirmation")
+            .setMessage(message)
+            .setPositiveButton("Yes") { dialog, _ ->
+                totalUploadCount = calculateTotalUploadCount()
+                completedUploadCount = 0
 
-            if (totalUploadCount > 0) {
-                showUploadProgressDialog()
+                if (totalUploadCount > 0) {
+                    showUploadProgressDialog()
+                }
+                uploadAllAttachmentsThenSubmit()
+                dialog.dismiss()
             }
-            uploadAllAttachmentsThenSubmit()
-            dialog.dismiss()
-        }.setNegativeButton("No") { dialog, _ ->
-            dialog.dismiss()
-        }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
 
         builder.create().show()
     }
+}
+
 
 
 
@@ -586,29 +594,42 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         }
     }
 
+
+
     private fun onSingleUploadFinished(
         onComplete: () -> Unit,
         totalInThisList: Int,
         completedInThisList: Int
     ) {
-        completedUploadCount++
+        runOnUiThread {
 
-        val percent =
-            ((completedUploadCount * 100f) / totalUploadCount).toInt()
+            completedUploadCount++
 
-        uploadDialog?.findViewById<TextView>(R.id.txtProgress)?.text =
-            "Please wait… Uploading...."
+            val percent =
+                ((completedUploadCount * 100f) / totalUploadCount).toInt()
 
-        if (completedInThisList == totalInThisList) {
-            onComplete()
+            uploadDialog
+                ?.findViewById<TextView>(R.id.txtProgress)
+                ?.text = "Please wait… Uploading...."
+
+            if (completedInThisList == totalInThisList) {
+                onComplete()
+            }
         }
     }
 
 
-    private fun dismissUploadDialog() {
-        uploadDialog?.dismiss()
-        uploadDialog = null
+
+private fun dismissUploadDialog() {
+    runOnUiThread {
+        if (uploadDialog?.isShowing == true) {
+            uploadDialog?.dismiss()
+            uploadDialog = null
+
+        }
     }
+}
+
 
     private fun calculateTotalUploadCount(): Int {
         var count = 0

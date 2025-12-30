@@ -489,33 +489,41 @@ class EditAcademicDetails : AppCompatActivity() {
         return file.absolutePath
     }
 
-
     private fun uploadAcademicFilesThenSubmit(
-        educationalDetails: MutableList<Map<String, Any>>, backlogs: String, arrears: String
+        educationalDetails: MutableList<Map<String, Any>>,
+        backlogs: String,
+        arrears: String
     ) {
         val awsUploader = AwsUploadingPreSigned()
-
         val pendingFiles = collectAcademicPendingFiles(this, educationalDetails)
 
         if (pendingFiles.isEmpty()) {
-            submitAcademicApi(educationalDetails, backlogs, arrears)
+            runOnUiThread {
+                submitAcademicApi(educationalDetails, backlogs, arrears)
+            }
             return
         }
 
         var completed = 0
         val total = pendingFiles.size
 
+        // ✅ SAFE dialog show
         showUploadProgressDialog(total)
 
         pendingFiles.forEach { localPath ->
 
             awsUploader.getPreSignedUrl(
-                this, localPath, "", object : UploadCallback {
+                this,
+                localPath,
+                "",
+                object : UploadCallback {
 
                     override fun onUploadSuccess(message: String?, fileUrl: String?) {
 
                         updateAcademicAwsUrl(
-                            educationalDetails, localPath, fileUrl ?: ""
+                            educationalDetails,
+                            localPath,
+                            fileUrl ?: ""
                         )
 
                         completed++
@@ -523,7 +531,14 @@ class EditAcademicDetails : AppCompatActivity() {
 
                         if (completed == total) {
                             dismissUploadDialog()
-                            submitAcademicApi(educationalDetails, backlogs, arrears)
+
+                            runOnUiThread {
+                                submitAcademicApi(
+                                    educationalDetails,
+                                    backlogs,
+                                    arrears
+                                )
+                            }
                         }
                     }
 
@@ -535,12 +550,23 @@ class EditAcademicDetails : AppCompatActivity() {
 
                         if (completed == total) {
                             dismissUploadDialog()
-                            submitAcademicApi(educationalDetails, backlogs, arrears)
+
+                            runOnUiThread {
+                                submitAcademicApi(
+                                    educationalDetails,
+                                    backlogs,
+                                    arrears
+                                )
+                            }
                         }
                     }
-                })
+                }
+            )
         }
     }
+
+
+
 
     private fun normalizeAcademicFileUrls(
         educationalDetails: MutableList<Map<String, Any>>
@@ -577,23 +603,38 @@ class EditAcademicDetails : AppCompatActivity() {
     }
 
 
-    private fun showUploadProgressDialog(total: Int) {
+
+private fun showUploadProgressDialog(total: Int) {
+    runOnUiThread {
         val view = layoutInflater.inflate(R.layout.dialog_upload_progress, null)
         txtProgress = view.findViewById(R.id.txtProgress)
-        txtProgress.text = "Please wait… Uploading....."
+        txtProgress.text = "Please wait… Uploading..... 0/$total"
 
-        uploadDialog = AlertDialog.Builder(this).setView(view).setCancelable(false).create()
+        uploadDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .setCancelable(false)
+            .create()
 
         uploadDialog?.show()
     }
+}
+
+
 
     private fun updateUploadProgress(done: Int, total: Int) {
-        txtProgress.text = "Please wait… Uploading....."
+        runOnUiThread {
+            txtProgress?.text = "Please wait… Uploading....."
+        }
     }
 
-    private fun dismissUploadDialog() {
-        uploadDialog?.dismiss()
+private fun dismissUploadDialog() {
+    runOnUiThread {
+        if (uploadDialog?.isShowing == true) {
+            uploadDialog?.dismiss()
+        }
     }
+}
+
 
     fun ChooseFile() {
 
