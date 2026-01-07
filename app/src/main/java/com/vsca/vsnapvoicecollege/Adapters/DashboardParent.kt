@@ -35,7 +35,6 @@ class DashboardParent constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-
         val modal: DashboardOverall = categoriesModalArrayList.get(position)
         Log.d("menutype", modal.menuHeadings)
 

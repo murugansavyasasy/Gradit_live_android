@@ -19,7 +19,6 @@ import android.widget.SeekBar
 import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.vsca.vsnapvoicecollege.ActivitySender.AddRecipients
 import com.vsca.vsnapvoicecollege.ActivitySender.HeaderRecipient
 import com.vsca.vsnapvoicecollege.ActivitySender.PrincipalRecipient

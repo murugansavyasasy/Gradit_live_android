@@ -121,12 +121,6 @@ class EditAcademicDetails : AppCompatActivity() {
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
         binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.update)
 
-
-//        // Get data from intent
-//        val backlogs = intent.getStringExtra("backlogs") ?: ""
-//        val arrears = intent.getStringExtra("arrears") ?: ""
-//        val educationalDetailsJson = intent.getStringExtra("educationalDetails")
-
         val academicData = CommonUtil.saveAcademicDetails
 
         val backlogs = academicData?.backlogs ?: ""

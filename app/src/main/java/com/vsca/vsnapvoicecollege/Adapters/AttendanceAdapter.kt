@@ -47,12 +47,12 @@ class AttendanceAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = attendacelist[position]
 
-        holder.crd_attendance!!.visibility = View.VISIBLE
-        holder.tblattendance!!.visibility = View.GONE
-        holder.txtSubject!!.text = data.subjectname
-        holder.lblstaffName!!.text = data.staff_name
-        holder.txt24hours!!.text = data.attended_hour
-        holder.txt12hours!!.text = data.absent_hour
+        holder.crd_attendance.visibility = View.VISIBLE
+        holder.tblattendance.visibility = View.GONE
+        holder.txtSubject.text = data.subjectname
+        holder.lblstaffName.text = data.staff_name
+        holder.txt24hours.text = data.attended_hour
+        holder.txt12hours.text = data.absent_hour
 
         if (data.percentage == "" || data.percentage == null) {
             holder.lblatten_presentage!!.visibility = View.GONE

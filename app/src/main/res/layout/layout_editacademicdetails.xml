@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/ten"
             android:layout_toEndOf="@id/imgback"
             android:fontFamily="@font/poppins_regular"
-            android:text="Edit Profile"
+            android:text="Edit Academic Records"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp" />
 

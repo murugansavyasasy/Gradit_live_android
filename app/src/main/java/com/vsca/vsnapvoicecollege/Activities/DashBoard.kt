@@ -755,91 +755,6 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 //        super.onResume()
 //    }
 
-
-    private fun checkIfContactsExist() {
-
-        exist_Count = 0
-        val contentResolver: ContentResolver = this@DashBoard.getContentResolver()
-        val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-        val projection = arrayOf(ContactsContract.PhoneLookup._ID)
-        val selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?"
-        val selectionArguments = arrayOf<String>(contact_display_name)
-        Log.d("contact_display_name", contact_display_name.toString())
-        val cursor = contentResolver.query(uri, projection, selection, selectionArguments, null)
-        exist_Count = cursor!!.count
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-            }
-        }
-        Contact_Count = 0
-        for (i in contacts.indices) {
-            val number: String = contacts[i]
-            if (number != null) {
-                val lookupUri = Uri.withAppendedPath(
-                    ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number)
-                )
-                val mPhoneNumberProjection = arrayOf(ContactsContract.PhoneLookup.DISPLAY_NAME)
-                val cur: Cursor? = this@DashBoard.getContentResolver()
-                    .query(lookupUri, mPhoneNumberProjection, null, null, null)
-                try {
-                    if (cur!!.moveToFirst()) {
-                        Contact_Count = Contact_Count + 1
-                        val indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
-                        Display_Name = cur.getString(indexName)
-                        if (Display_Name != contact_display_name) {
-                            Contact_Count = Contact_Count - 1
-                        }
-                    }
-                } finally {
-                    if (cur != null) cur.close()
-                }
-            }
-        }
-        if (contacts.size != Contact_Count) {
-            if (exist_Count == 0 || exist_Count < contacts.size) {
-                contactSaveContent()
-            }
-        }
-    }
-
-    private fun contactSaveContent() {
-
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView = inflater.inflate(R.layout.save_contact_alert, null)
-        val popupWindow = PopupWindow(
-            popupView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            true
-        )
-
-        popupWindow.showAtLocation(binding.OverallLayout, Gravity.CENTER, 0, 0)
-        val container = popupWindow.contentView.parent as View
-        val wm = getSystemService(WINDOW_SERVICE) as WindowManager
-        val p = container.layoutParams as WindowManager.LayoutParams
-        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
-        p.dimAmount = 0.5f
-        wm.updateViewLayout(container, p)
-
-        val btnSaveContact = popupView.findViewById<View>(R.id.btnSaveContact) as TextView
-        val imgClose = popupView.findViewById<View>(R.id.imgClose) as ImageView
-        val lblHeader = popupView.findViewById<View>(R.id.lblHeader) as TextView
-        val lblContent = popupView.findViewById<View>(R.id.lblContent) as TextView
-        lblHeader.text = contact_alert_title
-        lblContent.text = contact_alert_Content
-        btnSaveContact.text = contact_button
-        btnSaveContact.setOnClickListener {
-            try {
-                popupWindow.dismiss()
-                saveContacts()
-            } catch (e: Exception) {
-                Log.d("failure_popup_error", e.toString())
-            }
-        }
-        imgClose.setOnClickListener { popupWindow.dismiss() }
-    }
-
-
     private fun saveContacts() {
         try {
             // Check if WRITE_CONTACTS permission is granted
@@ -904,4 +819,78 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
             Log.e("SaveContactsError", "Error saving contacts: ${e.message}")
         }
     }
+
+    private fun contactSaveContent() {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.save_contact_alert, null)
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.showAtLocation(binding.OverallLayout, Gravity.CENTER, 0, 0)
+
+        val container = popupWindow.contentView.parent as View
+        val wm = getSystemService(WINDOW_SERVICE) as WindowManager
+        val p = container.layoutParams as WindowManager.LayoutParams
+        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
+        p.dimAmount = 0.5f
+        wm.updateViewLayout(container, p)
+
+        val btnSaveContact = popupView.findViewById<TextView>(R.id.btnSaveContact)
+        val imgClose = popupView.findViewById<ImageView>(R.id.imgClose)
+        val lblHeader = popupView.findViewById<TextView>(R.id.lblHeader)
+        val lblContent = popupView.findViewById<TextView>(R.id.lblContent)
+
+        lblHeader.text = contact_alert_title
+        lblContent.text = contact_alert_Content
+        btnSaveContact.text = contact_button
+
+        btnSaveContact.setOnClickListener {
+            popupWindow.dismiss()
+            saveContacts()
+        }
+
+        imgClose.setOnClickListener {
+            popupWindow.dismiss()
+        }
+    }
+
+    private fun checkIfContactsExist() {
+
+        if (contacts.isEmpty()) return
+
+        var shouldShowPopup = false
+
+        for (number in contacts) {
+            if (number.isNotBlank() && !isContactNumberExists(number)) {
+                shouldShowPopup = true
+                break
+            }
+        }
+
+        if (shouldShowPopup) {
+            contactSaveContent()
+        }
+    }
+
+    private fun isContactNumberExists(phoneNumber: String): Boolean {
+
+        val lookupUri = Uri.withAppendedPath(
+            ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+            Uri.encode(phoneNumber)
+        )
+
+        val projection = arrayOf(ContactsContract.PhoneLookup._ID)
+
+        contentResolver.query(lookupUri, projection, null, null, null)?.use { cursor ->
+            return cursor.moveToFirst()
+        }
+
+        return false
+    }
+
 }

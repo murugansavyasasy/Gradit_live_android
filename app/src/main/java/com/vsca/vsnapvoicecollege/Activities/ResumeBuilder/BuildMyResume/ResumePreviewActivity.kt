@@ -428,14 +428,16 @@ class ResumePreviewActivity : AppCompatActivity() {
         builder.create().show()
     }
 
-    fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: Observer<T>) {
-        observe(owner, object : Observer<T> {
-            override fun onChanged(t: T?) {
-                removeObserver(this)
-                observer.onChanged(t)
-            }
-        })
+    fun <T> LiveData<T>.observeOnce(
+        owner: LifecycleOwner,
+        onChange: (T) -> Unit
+    ) {
+        observe(owner) { value ->
+            removeObservers(owner)
+            onChange(value)
+        }
     }
+
 
 
 

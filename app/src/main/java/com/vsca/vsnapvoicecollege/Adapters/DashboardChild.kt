@@ -101,7 +101,16 @@ class DashboardChild(
             CommonUtil.MenuIDCircular = menuid
 
             holder.LayoutCicular.setOnClickListener {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (6 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readCircular = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCircular = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val i: Intent = Intent(context, Circular::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 context.startActivity(i)
             }
 
@@ -120,10 +129,14 @@ class DashboardChild(
                         pdfUri = Uri.parse(Imagefileurl)
                         val i: Intent = Intent(context, PDF_Reader::class.java)
                         i.putExtra("PdfView", pdfUri.toString())
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         context.startActivity(i)
                     } else {
                         val i: Intent = Intent(context, ViewFiles::class.java)
                         i.putExtra("images", Imagefileurl)
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         context.startActivity(i)
 
                     }
@@ -133,6 +146,8 @@ class DashboardChild(
                         CommonUtil.Multipleiamge.add(modal.FilepathList.get(k))
                     }
                     val i: Intent = Intent(context, Assignment_MultipleFileView::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     context.startActivity(i)
                 }
             }
@@ -158,7 +173,15 @@ class DashboardChild(
             val menuid = BaseActivity.EventsMenuID
             CommonUtil.MenuIDEvents = menuid
             holder.UpcomingEvent.setOnClickListener {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (8 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readEvent = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeEvent = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
                 val i: Intent = Intent(context, Events::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 context.startActivity(i)
             }
         } else if ((type == "Chat")) {
@@ -188,7 +211,15 @@ class DashboardChild(
                 val menuid = BaseActivity.ChatMenuID
                 CommonUtil.MenuIDChat = menuid
                 holder.imgarrowchat.setOnClickListener {
+                    for (i in CommonUtil.MenuListDashboard.indices){
+                        if (11 == CommonUtil.MenuListDashboard.get(i).id){
+                            CommonUtil.menu_readChat = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                            CommonUtil.menu_writeChat = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                        }
+                    }
                     val i: Intent = Intent(context, ChatParent::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     context.startActivity(i)
                 }
             }
@@ -322,6 +353,8 @@ class DashboardChild(
                     } else {
                         holder.lnrAssignmentAttachment!!.visibility = View.VISIBLE
                         val i: Intent = Intent(context, ViewFiles::class.java)
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         i.putExtra("images", Imagefileurl)
                         context.startActivity(i)
                     }
@@ -335,6 +368,8 @@ class DashboardChild(
                     }
 
                     val i: Intent = Intent(context, Assignment_MultipleFileView::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     context.startActivity(i)
 
                 }
@@ -349,9 +384,17 @@ class DashboardChild(
             holder.lbldate.text = modal.submissiondate
 
             val menuid = BaseActivity.AssignmentMenuID
-            CommonUtil.MenuIDEvents = menuid
+            CommonUtil.MenuIDAssignment = menuid
             holder.Assignment.setOnClickListener({
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (5 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readAssignment = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeAssignment = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
                 val i: Intent = Intent(context, Assignment::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 context.startActivity(i)
             })
 
@@ -374,7 +417,15 @@ class DashboardChild(
             var menuid = BaseActivity.NoticeboardMenuID
             CommonUtil.MenuIDNoticeboard = menuid
             holder.lnrImageView.setOnClickListener({
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (7 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
                 val i: Intent = Intent(context, Noticeboard::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 context.startActivity(i)
             })
 
@@ -419,7 +470,15 @@ class DashboardChild(
                 val menuid = BaseActivity.AttendanceMeuID
                 CommonUtil.MenuIdAttendance = menuid
                 holder.lnrImageView.setOnClickListener({
+                    for (i in CommonUtil.MenuListDashboard.indices){
+                        if (4 == CommonUtil.MenuListDashboard.get(i).id){
+                            CommonUtil.menu_readAttendance = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                            CommonUtil.menu_writeAttendance = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                        }
+                    }
                     val i: Intent = Intent(context, Attendance::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     context.startActivity(i)
                 })
             }

@@ -77,8 +77,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         insetsController.isAppearanceLightStatusBars = true
         findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
-
-
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
         binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
@@ -116,7 +114,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         CommonUtil.EventEdit = "Edit"
 
         if (CommonUtil.EventStatus.equals("Past")) {
-
             bottomsheetStateCollpased()
             EventType = false
             if (CommonUtil.menu_readEvent.equals("1")) {
@@ -127,12 +124,12 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
 
         } else {
-
             bottomsheetStateCollpased()
             TabDepartmentColor()
             EventType = true
 
             if (CommonUtil.menu_readEvent == "1") {
+                Log.d("isComing","isComing")
                 EventRequest(EventType)
             }
 
