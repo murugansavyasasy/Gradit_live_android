@@ -121,7 +121,7 @@ object CommonUtil {
     var Appid = 1
 
     @JvmField
-    var VersionId = 40
+    var VersionId = 41
 
     // MENU NAME
 
@@ -501,6 +501,82 @@ object CommonUtil {
     private val REQUEST_CODE_APP_SETTINGS = 101
 
 //    var isBioMetricEnable: Int = 0
+
+
+    fun convertDateToDashFormat12(dateStr: String?): String? {
+        if (dateStr.isNullOrBlank()) return null
+
+        val inputFormats = listOf("dd/MM/yyyy", "dd-MM-yyyy") // support common inputs
+        val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+
+        for (format in inputFormats) {
+            try {
+                val sdf = SimpleDateFormat(format, Locale.ENGLISH).apply { isLenient = false }
+                val parsedDate = sdf.parse(dateStr.trim())
+                if (parsedDate != null) {
+                    return outputFormat.format(parsedDate)
+                }
+            } catch (_: Exception) {
+                // ignore and try next format
+            }
+        }
+        return null // invalid date
+    }
+
+
+
+    fun showDatePickerWithExistingDate2(
+        context: Context,
+        existingDateStr: String?,
+        minDate: Long? = null,
+        onDateSelected: (String, Long) -> Unit
+    ) {
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).apply {
+            isLenient = false
+        }
+
+        if (!existingDateStr.isNullOrBlank()) {
+            try {
+                val parsedDate = dateFormat.parse(existingDateStr.trim())
+                parsedDate?.let {
+                    calendar.time = it
+                }
+            } catch (e: Exception) {
+                Log.w(
+                    "DatePicker",
+                    "Invalid date: $existingDateStr → Falling back to current date"
+                )
+            }
+        }
+
+        val dialog = DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+
+                val selectedCalendar = Calendar.getInstance().apply {
+                    set(Calendar.YEAR, year)
+                    set(Calendar.MONTH, month)
+                    set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                }
+
+                val finalDate = dateFormat.format(selectedCalendar.time)
+                onDateSelected(finalDate, selectedCalendar.timeInMillis)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        minDate?.let {
+            dialog.datePicker.minDate = it
+        }
+
+        dialog.show()
+    }
+
+
+
 
 
     //Date Picker

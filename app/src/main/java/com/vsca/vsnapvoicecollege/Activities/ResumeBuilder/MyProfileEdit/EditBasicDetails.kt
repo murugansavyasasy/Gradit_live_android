@@ -57,6 +57,8 @@ class EditBasicDetails : AppCompatActivity() {
     var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
 
     private var originalName: String = ""
+    private var originalDOB: String = ""
+    private var originalAddress: String = ""
     private var originalPhone: String = ""
     private var originalEmail: String = ""
     private var originalPlacementStatus: String = ""
@@ -93,16 +95,34 @@ class EditBasicDetails : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.edtDOB.setOnClickListener {
+
+            val existingDate = CommonUtil.convertDateToDashFormat12(binding.edtDOB.text.toString())
+
+            CommonUtil.showDatePickerWithExistingDate2(
+                context = this@EditBasicDetails,
+                existingDateStr = existingDate, // always in dd-MM-yyyy
+                minDate = null
+            ) { pickedDate, _ ->
+                binding.edtDOB.setText(pickedDate) // 19-12-2026
+            }
+        }
+
+
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
             val currentName = binding.edtName.text.toString().trim()
             val currentPhone = binding.edtPhone.text.toString().trim()
             val currentEmail = binding.edtEmail.text.toString().trim()
+            val currentAddress = binding.edtAddress.text.toString().trim()
+            val currentDOB = binding.edtDOB.text.toString().trim()
             val currentPlacementStatus = binding.edtPlacementStatus.text.toString().trim()
             val currentNotificationStatus = binding.customSwitch.isChecked()
 
             val isChanged = currentName != originalName ||
                     currentPhone != originalPhone ||
                     currentEmail != originalEmail ||
+                    currentAddress != originalAddress ||
+                    currentDOB != originalDOB ||
                     currentPlacementStatus != originalPlacementStatus ||
                     currentNotificationStatus != originalNotificationStatus ||
                     CommonUtil.SelcetedFileList.isNotEmpty() ||
@@ -128,6 +148,16 @@ class EditBasicDetails : AppCompatActivity() {
         val name = CommonUtil.saveBasicDetails?.memberName ?: ""
         val phone = CommonUtil.saveBasicDetails?.memberPhoneNumber ?: ""
         val email = CommonUtil.saveBasicDetails?.memberstudentEmail ?: ""
+        val dob = CommonUtil.saveBasicDetails?.memberDob ?:""
+        val changeedDOB=CommonUtil.convertDateToDashFormat12(dob)
+        Log.d("Selected_Dob", CommonUtil.saveBasicDetails?.memberDob ?:"")
+
+        val address =
+            (CommonUtil.saveBasicDetails?.memberPermanentAddress1 ?: "") + "," +
+            (CommonUtil.saveBasicDetails?.memberPermanentAddressCity ?: "") + "," +
+                    (CommonUtil.saveBasicDetails?.memberPermanentAddressPincode ?: "") + "," +
+                    (CommonUtil.saveBasicDetails?.memberPermanentAddressState ?: "") + "," +
+                    (CommonUtil.saveBasicDetails?.memberPermanentAddressCountry ?: "")
         val isPlacement =  CommonUtil.saveBasicDetails?.memberPlacementStatus ?: ""
         val isNotificationStatus =  CommonUtil.saveBasicDetails?.memberNotificationStatus ?: false
         Log.d("DEBUG", "Got notificationStatus: $isNotificationStatus")
@@ -137,12 +167,16 @@ class EditBasicDetails : AppCompatActivity() {
         Log.d("MemberId2", memberId)
 
         originalName = name
+        originalDOB =changeedDOB.toString()
+        originalAddress = address
         originalPhone = phone
         originalEmail = email
         originalPlacementStatus = isPlacement
         originalNotificationStatus = isNotificationStatus
 
         binding.edtName.setText(name)
+        binding.edtAddress.setText(address)
+        binding.edtDOB.setText(changeedDOB)
         binding.edtPhone.setText(phone)
         binding.edtEmail.setText(email)
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
@@ -205,11 +239,15 @@ class EditBasicDetails : AppCompatActivity() {
         val currentName = binding.edtName.text.toString().trim()
         val currentPhone = binding.edtPhone.text.toString().trim()
         val currentEmail = binding.edtEmail.text.toString().trim()
+        val currentDOB = binding.edtDOB.text.toString().trim()
+        val currentAddress = binding.edtAddress.text.toString().trim()
         val currentPlacementStatus = binding.edtPlacementStatus.text.toString().trim()
         val currentNotificationStatus = binding.customSwitch.isChecked()
         val isSame = currentName == originalName &&
                 currentPhone == originalPhone &&
                 currentEmail == originalEmail &&
+                currentDOB==originalDOB&&
+                currentAddress==originalAddress&&
                 currentPlacementStatus == originalPlacementStatus &&
                 currentNotificationStatus == originalNotificationStatus &&
                 CommonUtil.SelcetedFileList.isEmpty() &&
@@ -225,11 +263,15 @@ class EditBasicDetails : AppCompatActivity() {
         val currentName = binding.edtName.text.toString().trim()
         val currentPhone = binding.edtPhone.text.toString().trim()
         val currentEmail = binding.edtEmail.text.toString().trim()
+        val currentDOB = binding.edtDOB.text.toString().trim()
+        val currentAddress = binding.edtAddress.text.toString().trim()
         val currentPlacementStatus = binding.edtPlacementStatus.text.toString().trim()
         val currentNotificationStatus = binding.customSwitch.isChecked()
         val isSame = currentName == originalName &&
                 currentPhone == originalPhone &&
                 currentEmail == originalEmail &&
+                currentDOB==originalDOB&&
+                currentAddress==originalAddress&&
                 currentPlacementStatus == originalPlacementStatus &&
                 currentNotificationStatus == originalNotificationStatus &&
                 CommonUtil.SelcetedFileList.isEmpty() &&
@@ -455,6 +497,11 @@ class EditBasicDetails : AppCompatActivity() {
         val updatedName = binding.edtName.text.toString().trim()
         val updatedPhone = binding.edtPhone.text.toString().trim()
         val updatedEmail = binding.edtEmail.text.toString().trim()
+        val updatetDOB = binding.edtDOB.text.toString().trim()
+        val updateAddress = binding.edtAddress.text.toString().trim()
+        Log.d("isSaveDataRequest", updatetDOB)
+        Log.d("isSaveDataRequest", updateAddress)
+
 
         var isProfileImage = ""
         if (Awsuploadedfile.size > 0) {
@@ -469,6 +516,8 @@ class EditBasicDetails : AppCompatActivity() {
             addProperty("idMember", memberId)
             addProperty("imagePath", isProfileImage)
             addProperty("memberName", updatedName)
+            addProperty("dob", updatetDOB)
+            addProperty("residentialAddressLine1", updateAddress)
             addProperty("notificationPlacement", binding.customSwitch.isChecked())
             addProperty("placementStatus", "Placed")
             addProperty("primaryMobileNo", updatedPhone)

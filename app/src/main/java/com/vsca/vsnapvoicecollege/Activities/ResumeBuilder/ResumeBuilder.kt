@@ -234,6 +234,7 @@ class ResumeBuilder : AppCompatActivity() {
         val basicDetails = GetResumeBuilderProfileDetailsData(
             memberId = isMemeberId.toString(),
             memberName = binding.lblName.text.toString(),
+            memberDob = profile?.memberDob?:"",
             memberPhoneNumber = binding.lblMobileNo.text.toString(),
             memberstudentEmail = binding.lblGamilId.text.toString(),
             memberPlacementStatus = binding.lblAvailPlacement.text.toString(),

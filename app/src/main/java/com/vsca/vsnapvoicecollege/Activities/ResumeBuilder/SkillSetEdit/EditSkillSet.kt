@@ -727,6 +727,33 @@ private fun dismissUploadDialog() {
         }
     }
 
+    fun GetInternshipDetailsData.toJson(): JsonObject =
+        JsonObject().apply {
+            addProperty("companyName", companyName)
+            addProperty("designation", designation)
+            addProperty("from", from)
+            addProperty("to", to)
+        }
+
+    fun GetCertificateDetailsData.toJson(): JsonObject =
+        JsonObject().apply {
+            addProperty("courseName", courseName)
+            addProperty("duration", duration)
+            addProperty("institute", institute)
+        }
+
+    fun GetAssessmentDetailsData.toJson(): JsonObject =
+        JsonObject().apply {
+            addProperty("assessment", assessment)
+            addProperty("score", score)
+        }
+
+    fun GetProjectDetailsData.toJson(): JsonObject =
+        JsonObject().apply {
+            addProperty("title", title)
+        }
+
+
     fun UpdateEditSkillSetDetails() {
         val jsonObject = JsonObject()
         val gson = Gson()
@@ -751,26 +778,48 @@ private fun dismissUploadDialog() {
             .forEach { toolandplatform ->
                 toolandplatformArray.add(toolandplatform)
             }
+        //no need to add filepath
+
+//        val internshipArray = JsonArray()
+//        normalizeAttachmentList(selectedInternshipList).forEach {
+//            val internshipJson = gson.toJsonTree(it).asJsonObject
+//            internshipArray.add(internshipJson)
+//        }
+//        val certificationArray = JsonArray()
+//        normalizeAttachmentList(selectedCertificateList).forEach {
+//            val certificationJson = gson.toJsonTree(it).asJsonObject
+//            certificationArray.add(certificationJson)
+//        }
+//        val assessmentDetailsArray = JsonArray()
+//        normalizeAttachmentList(selectedAssessmentList).forEach {
+//            val assessmentDetailsJson = gson.toJsonTree(it).asJsonObject
+//            assessmentDetailsArray.add(assessmentDetailsJson)
+//        }
+//        val projectsArray = JsonArray()
+//        normalizeAttachmentList(selectedProjectList).forEach {
+//            val projectsJson = gson.toJsonTree(it).asJsonObject
+//            projectsArray.add(projectsJson)
+//        }
+
+        //no need to add filepath
+
         val internshipArray = JsonArray()
-        normalizeAttachmentList(selectedInternshipList).forEach {
-            val internshipJson = gson.toJsonTree(it).asJsonObject
-            internshipArray.add(internshipJson)
-        }
+        normalizeAttachmentList(selectedInternshipList)
+            .forEach { internshipArray.add(it.toJson()) }
+
         val certificationArray = JsonArray()
-        normalizeAttachmentList(selectedCertificateList).forEach {
-            val certificationJson = gson.toJsonTree(it).asJsonObject
-            certificationArray.add(certificationJson)
-        }
+        normalizeAttachmentList(selectedCertificateList)
+            .forEach { certificationArray.add(it.toJson()) }
+
         val assessmentDetailsArray = JsonArray()
-        normalizeAttachmentList(selectedAssessmentList).forEach {
-            val assessmentDetailsJson = gson.toJsonTree(it).asJsonObject
-            assessmentDetailsArray.add(assessmentDetailsJson)
-        }
+        normalizeAttachmentList(selectedAssessmentList)
+            .forEach { assessmentDetailsArray.add(it.toJson()) }
+
         val projectsArray = JsonArray()
-        normalizeAttachmentList(selectedProjectList).forEach {
-            val projectsJson = gson.toJsonTree(it).asJsonObject
-            projectsArray.add(projectsJson)
-        }
+        normalizeAttachmentList(selectedProjectList)
+            .forEach { projectsArray.add(it.toJson()) }
+
+
 
         jsonObject.addProperty("idMember", savedMemberID)
         jsonObject.addProperty("languages", binding.edtLanguageknown.text.toString())

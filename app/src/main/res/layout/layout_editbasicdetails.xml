@@ -184,6 +184,66 @@
 
 
                 </EditText>
+
+                <TextView
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/date_of_birth"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp">
+
+
+                </TextView>
+
+
+                <TextView
+                    android:id="@+id/edtDOB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:hint="DD-MM-YYYY"
+                    android:maxLength="10"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp"
+                    android:background="@drawable/rect_gray_radius"
+                    android:inputType="textEmailAddress"
+                    android:drawableEnd="@drawable/calendar_icon"
+                    android:layout_marginEnd="@dimen/ten"
+                    android:padding="@dimen/eight">
+
+
+                </TextView>
+
+                <TextView
+                    style="@style/CustomTextStylePoppinsBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/address"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fourteen_sp">
+
+
+                </TextView>
+
+
+                <EditText
+                    android:id="@+id/edtAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:background="@drawable/rect_gray_radius"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/eight">
+
+
+                </EditText>
+
             </LinearLayout>
 
 

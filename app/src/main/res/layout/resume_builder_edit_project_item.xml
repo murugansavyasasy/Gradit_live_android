@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ten"
         android:text="Add Attachment"
+        android:visibility="gone"
         android:textColor="@color/btn_clr_blue"
         android:textSize="@dimen/thirteen_sp">
 

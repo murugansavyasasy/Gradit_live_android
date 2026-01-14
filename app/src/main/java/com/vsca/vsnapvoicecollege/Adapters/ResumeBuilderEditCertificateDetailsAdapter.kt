@@ -63,6 +63,7 @@ class ResumeBuilderEditCertificateDetailsAdapter(
             }
         }
 
+        holder.lblQuestionPick.visibility= View.GONE
         holder.lblQuestionPick.setOnClickListener {
             val pos = holder.bindingAdapterPosition
             if (pos != RecyclerView.NO_POSITION) {

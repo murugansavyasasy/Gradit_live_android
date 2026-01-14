@@ -143,7 +143,7 @@ class EditAcademicDetails : AppCompatActivity() {
                 classDegree = edu.classDegree,
                 percentage = edu.percentage,
                 institution = edu.institution,
-                file_path = edu.file_path.map { it.copy() }.toMutableList()
+                file_path = edu.file_path?.map { it.copy() }?.toMutableList()?:mutableListOf()
             )
         }
 
@@ -258,11 +258,11 @@ class EditAcademicDetails : AppCompatActivity() {
             if (classDegree != original.classDegree || percentage != original.percentage || institution != original.institution) return true
 
             // Attachment size check
-            if (holder.attachments.size != original.file_path.size) return true
+            if (holder.attachments.size != original.file_path!!.size) return true
 
             //Attachment content check
             holder.attachments.forEachIndexed { index, currentFile ->
-                val originalFile = original.file_path[index]
+                val originalFile = original.file_path!![index]
 
                 if (currentFile.url != originalFile.url || currentFile.type != originalFile.type) {
                     return true
@@ -602,7 +602,7 @@ private fun showUploadProgressDialog(total: Int) {
     runOnUiThread {
         val view = layoutInflater.inflate(R.layout.dialog_upload_progress, null)
         txtProgress = view.findViewById(R.id.txtProgress)
-        txtProgress.text = "Please wait… Uploading..... 0/$total"
+        txtProgress.text = "Please wait… Uploading...."
 
         uploadDialog = AlertDialog.Builder(this)
             .setView(view)
