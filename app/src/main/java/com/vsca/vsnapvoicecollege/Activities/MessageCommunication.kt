@@ -406,7 +406,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         val jsonObject = JsonObject()
         run {
 
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
 
             if (readtype) {
@@ -418,9 +418,9 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             }
 
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
+                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
             } else {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
+                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
             }
 
             appViewModel!!.getCommunicationListTextbyType(jsonObject, this)

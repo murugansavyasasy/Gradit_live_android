@@ -284,8 +284,8 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         val jsonObject = JsonObject()
         run {
 
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
             appViewModel!!.getVideoList(jsonObject, this)
             Log.d("VideoRequest:", jsonObject.toString())

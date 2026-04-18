@@ -296,8 +296,8 @@ class ApplyLeave : ActionBarActivity() {
     private fun Manageleavesend(Proccesstype: String, LeaveTypeID: String) {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId?.toString()?:"")
 
 
         if (Proccesstype.equals("add")) {
@@ -441,8 +441,8 @@ class ApplyLeave : ActionBarActivity() {
     fun Leavetype() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
         appViewModel!!.getLeaveType(jsonObject, this)
         Log.d("LeavetypeRequest:", jsonObject.toString())
 

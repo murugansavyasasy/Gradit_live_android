@@ -311,7 +311,7 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
     private fun SemesterType() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid)
+        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid.toIntOrNull() ?: 0)
         appViewModel!!.getSmesterType(jsonObject, this)
         Log.d("SemsterType:", jsonObject.toString())
     }

@@ -232,12 +232,12 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         }
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("CollegeId", SchoolID);
-        jsonObjectSchool.addProperty("userId", StaffID);
+        jsonObjectSchool.addProperty("CollegeId",(SchoolID != null && !SchoolID.isEmpty()) ? Integer.parseInt(SchoolID) : 0);
+        jsonObjectSchool.addProperty("userId",(StaffID != null && !StaffID.isEmpty()) ? Integer.parseInt(StaffID) : 0 );
         jsonObjectSchool.addProperty("location", txtLocationName.getText().toString());
-        jsonObjectSchool.addProperty("latitude", current_latitude);
-        jsonObjectSchool.addProperty("longitude", current_longitude);
-        jsonObjectSchool.addProperty("distance", distance);
+        jsonObjectSchool.addProperty("latitude", String.valueOf(current_latitude));
+        jsonObjectSchool.addProperty("longitude", String.valueOf(current_longitude));
+        jsonObjectSchool.addProperty("distance", distance != null ? distance : "");
         Log.d("location_add_request", jsonObjectSchool.toString());
         Call<JsonArray> call = RestClient.Companion.getApiInterfaces().addBiometricLocation(jsonObjectSchool);
         call.enqueue(new Callback<JsonArray>() {

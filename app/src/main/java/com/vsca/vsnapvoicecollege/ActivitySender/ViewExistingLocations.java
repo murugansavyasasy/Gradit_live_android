@@ -205,10 +205,11 @@ public class ViewExistingLocations extends AppCompatActivity {
         if (!ViewExistingLocations.this.isFinishing()) mProgressDialog.show();
 
         JsonObject jsonObjectSchool = new JsonObject();
+        jsonObjectSchool.addProperty("CollegeId", (SchoolID != null && !SchoolID.isEmpty()) ? Integer.parseInt(SchoolID) : 0);
         jsonObjectSchool.addProperty("biometric_location_id", id);
         jsonObjectSchool.addProperty("location", locationName);
         jsonObjectSchool.addProperty("distance", distance);
-        jsonObjectSchool.addProperty("userId", StaffID);
+        jsonObjectSchool.addProperty("userId", (StaffID != null && !StaffID.isEmpty()) ? Integer.parseInt(StaffID) : 0);
         Log.d("location_update_request", jsonObjectSchool.toString());
         Call<JsonArray> call = RestClient.Companion.getApiInterfaces().updateLocation(jsonObjectSchool);
         call.enqueue(new Callback<JsonArray>() {
@@ -282,7 +283,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         if (!ViewExistingLocations.this.isFinishing()) mProgressDialog.show();
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("CollegeId", SchoolID);
+        jsonObjectSchool.addProperty("CollegeId", (SchoolID != null && !SchoolID.isEmpty()) ? Integer.parseInt(SchoolID) : 0);
         jsonObjectSchool.addProperty("locationId", item.getId());
         Log.d("location_remove_request", jsonObjectSchool.toString());
         Call<JsonArray> call = RestClient.Companion.getApiInterfaces().removeLocation(jsonObjectSchool);

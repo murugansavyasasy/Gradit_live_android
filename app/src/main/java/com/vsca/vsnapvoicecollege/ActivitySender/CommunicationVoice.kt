@@ -255,9 +255,9 @@ class CommunicationVoice : ActionBarActivity() {
     private fun historyOfVoice() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
         appViewModel!!._VoiceHistoryData(jsonObject, this)
         Log.d("_VoiceHistoryData:", jsonObject.toString())
 

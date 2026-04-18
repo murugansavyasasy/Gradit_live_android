@@ -379,8 +379,8 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
     private fun ExamListRequest(type: Boolean) {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
 
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority.equals(
@@ -389,13 +389,13 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                     "p3"
                 )
             ) {
-                jsonObject.addProperty(ApiRequestNames.Req_sectionid, 0)
+                jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0" )
             } else {
                 jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
             }
 
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
+                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
             } else {
                 jsonObject.addProperty(ApiRequestNames.Req_appid, "1")
             }

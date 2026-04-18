@@ -64,7 +64,16 @@ class DashboardParent constructor(
             val menuid = BaseActivity.NoticeboardMenuID
             Log.d("MenuID", menuid)
             CommonUtil.MenuIDNoticeboard = menuid
+
             holder.lblViewAll.setOnClickListener {
+
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (7 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val i: Intent = Intent(context, Noticeboard::class.java)
                 context.startActivity(i)
             }
@@ -78,14 +87,22 @@ class DashboardParent constructor(
             holder.recyclerDashboardTitle.adapter = adapter
             adapter.notifyDataSetChanged()
 
+
             holder.lblViewAll.setOnClickListener {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (4 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readAttendance = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeAttendance = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.AttendanceMeuID
                 CommonUtil.MenuIdAttendance = menuid
                 val i: Intent = Intent(context, Attendance::class.java)
                 context.startActivity(i)
             }
 
-        } else if ((modal.menuHeadings == "Circular")) {
+        } else if ((modal.menuHeadings == "Circular")){
             val adapter: DashboardChild = DashboardChild(modal.menusubitemlist, context, "Circular")
             val linearLayoutManager: LinearLayoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -96,7 +113,16 @@ class DashboardParent constructor(
             val menuid = BaseActivity.CircularMenuID
             Log.d("CircularMenuID", menuid)
             CommonUtil.MenuIDCircular = menuid
+
+
             holder.lblViewAll.setOnClickListener {
+
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (6 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readCircular = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCircular = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
 
                 val i: Intent = Intent(context, Circular::class.java)
                 context.startActivity(i)
@@ -113,7 +139,15 @@ class DashboardParent constructor(
             val menuid = BaseActivity.ChatMenuID
             Log.d("ChatMenuID", menuid)
             CommonUtil.MenuIDChat = menuid
+
             holder.lblViewAll.setOnClickListener {
+
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (11 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readChat = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeChat = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
 
                 val i: Intent = Intent(context, ChatParent::class.java)
                 context.startActivity(i)
@@ -131,7 +165,15 @@ class DashboardParent constructor(
             val menuid = BaseActivity.EventsMenuID
             Log.d("EventsMenuID", menuid)
             CommonUtil.MenuIDEvents = menuid
+
+
             holder.lblViewAll.setOnClickListener {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (8 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readEvent = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeEvent = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
 
                 val i: Intent = Intent(context, Events::class.java)
                 context.startActivity(i)
@@ -150,6 +192,12 @@ class DashboardParent constructor(
             CommonUtil.MenuIDAssignment = menuid
 
             holder.lblViewAll.setOnClickListener {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (5 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readAssignment = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeAssignment = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
 
                 val i: Intent = Intent(context, Assignment::class.java)
                 context.startActivity(i)
@@ -166,6 +214,14 @@ class DashboardParent constructor(
             adapter.notifyDataSetChanged()
 
             holder.lblViewAll.setOnClickListener {
+
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (16 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readCommunication = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCommunication = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.CommunicationMenuID
                 CommonUtil.MenuIDCommunication = menuid
                 val i: Intent = Intent(context, Communication::class.java)
@@ -190,6 +246,14 @@ class DashboardParent constructor(
             adapter.notifyDataSetChanged()
 
             holder.lblViewAll.setOnClickListener {
+
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (16 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readCommunication = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCommunication = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 var menuid = BaseActivity.CommunicationMenuID
                 CommonUtil.MenuIDCommunication = menuid
                 val i: Intent = Intent(context, Communication::class.java)

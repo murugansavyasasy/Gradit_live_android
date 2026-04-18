@@ -482,8 +482,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun GetDivisionRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
         appViewModel!!.getDivision(jsonObject, this)
         Log.d("GetDivisionRequest", jsonObject.toString())
     }
@@ -491,8 +491,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun GetDepartmentRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_div_id, SelectedSpinnerID)
         appViewModel!!.getDepartment(jsonObject, this)
         Log.d("GetDepartmentRequest", jsonObject.toString())
@@ -502,8 +502,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_deptid, SelectedSpinnerIDdepart)
         jsonObject.addProperty(ApiRequestNames.Req_course_id, SelectedSpinnerID)
@@ -530,8 +530,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun FacultyRequeststaffandhod() {
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_deptid, CommonUtil.DepartmentId)
 
@@ -544,8 +544,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun FacultyRequeststaff() {
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_deptid, CommonUtil.DepartmentId)
 

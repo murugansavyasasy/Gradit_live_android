@@ -215,7 +215,7 @@
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/NestedScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/Viewlineone"
                     android:layout_marginBottom="@dimen/five"
                     android:visibility="gone"
@@ -331,7 +331,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycleRecipients"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/ch_all1"
                             android:layout_marginStart="@dimen/twenty"
                             android:layout_marginTop="@dimen/five"

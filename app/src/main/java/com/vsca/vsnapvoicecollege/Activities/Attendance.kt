@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ import com.vsca.vsnapvoicecollege.Model.*
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
@@ -40,6 +42,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     var isAttendanceType = "Attendance"
 
     var GetAttendanceData: List<AttendanceData> = ArrayList()
+    var isProgressDialog:ProgressDialog?=null
     var LeaveHistoryLiveData: ArrayList<LeaveHistoryData> = ArrayList()
     var StudentAttendance: ArrayList<StudentAttendance> = ArrayList()
     var LeaveHistoryprincipleLiveData: List<DataXXXX> = ArrayList()
@@ -67,6 +70,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionBarMethod(this)
+        isProgressDialog= CustomLoading.createProgressDialog(this)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
@@ -469,6 +473,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         appViewModel!!.Getattendance!!.observe(this) { response ->
             if (response != null) {
+                isProgressDialog?.dismiss()
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
@@ -532,6 +537,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     }
 
     private fun attendanceGet() {
+        isProgressDialog?.show()
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
@@ -544,8 +550,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     private fun GetLeaveHistory() {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-            jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
             appViewModel!!.getleaveHistory(jsonObject, this)
             Log.d("LeaveHistoryRequest:", jsonObject.toString())
         }

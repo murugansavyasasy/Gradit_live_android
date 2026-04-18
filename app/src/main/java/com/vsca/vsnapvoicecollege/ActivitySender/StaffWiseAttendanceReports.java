@@ -257,11 +257,11 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
         JsonObject jsonObjectSchool = new JsonObject();
         if (cardType.equals("DayWise")) {
-            jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
+            jsonObjectSchool.addProperty("userId", CommonUtil.INSTANCE.getMemberId());
             jsonObjectSchool.addProperty("attendance_month", "");
             jsonObjectSchool.addProperty("attendance_dt", formattedDate);
         } else {
-            jsonObjectSchool.addProperty("UserId", selectedStaffID);
+            jsonObjectSchool.addProperty("userId", selectedStaffID);
             jsonObjectSchool.addProperty("attendance_month", monthID);
             jsonObjectSchool.addProperty("attendance_dt", "");
 
@@ -367,7 +367,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         mProgressDialog.show();
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("userId", CommonUtil.INSTANCE.getMemberId());
+        jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
         jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
         jsonObjectSchool.addProperty("fromdate", item.getDate());
         jsonObjectSchool.addProperty("todate", item.getDate());
@@ -511,7 +511,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
             txtSearch.setVisibility(View.VISIBLE);
             txtSearch.setText("");
 
-            btnTodaysReport.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
+            btnTodaysReport.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_primary_principal));
             btnMonthWiseReports.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
             btnTodaysReport.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
             btnMonthWiseReports.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
@@ -527,7 +527,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
             loadYearsSpinner();
 
-            btnMonthWiseReports.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
+            btnMonthWiseReports.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_primary_principal));
             btnTodaysReport.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
             btnMonthWiseReports.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
             btnTodaysReport.setTextColor(ContextCompat.getColor(this, R.color.clr_black));

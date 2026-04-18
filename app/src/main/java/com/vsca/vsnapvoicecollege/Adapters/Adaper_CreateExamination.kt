@@ -53,8 +53,10 @@ class Adaper_CreateExamination(private val data: ArrayList<sectionnamelist>, con
         if (CommonUtil.EditButtonclick.equals("ExamEdit")) {
 
             if (CommonUtil.SectionID_Exam.equals(data.sectionid)) {
+                holder.constrineFirst.visibility= View.VISIBLE
 
             } else {
+                holder.constrineFirst.visibility= View.GONE
                 holder.constrineFirst!!.setBackgroundColor(R.color.clr_light_pink)
             }
 
