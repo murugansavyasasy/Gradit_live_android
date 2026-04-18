@@ -297,8 +297,8 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         val jsonObject = JsonObject()
         run {
 
-            jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.MemberId)
-            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
             appViewModel!!.getStaffDetailsForApp(jsonObject, this)
             Log.d("ChatStaff:", jsonObject.toString())
         }

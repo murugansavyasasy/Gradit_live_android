@@ -24,6 +24,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -144,6 +145,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         lateinit var SearchView: SearchView
         lateinit var Viewlinefour: View
         lateinit var lnrStaff: LinearLayout
+        lateinit var rytBottomView: RelativeLayout
     }
 
     var isVideoToken = ""
@@ -273,6 +275,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         SearchView = findViewById(R.id.idSV)
         Viewlinefour = findViewById(R.id.Viewlinefour)
         lnrStaff = findViewById(R.id.lnrStaff)
+        rytBottomView = findViewById(R.id.rytBottomView)
 
 
         CommonUtil.DepartmentChooseIds.clear()
@@ -803,10 +806,14 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 txt_selectspecfic!!.visibility = View.VISIBLE
 
             } else {
+
+
+
                 txt_mydepartment!!.visibility = View.VISIBLE
                 txt_onandoff!!.visibility = View.GONE
                 txt_myclass!!.visibility = View.VISIBLE
                 txt_selectspecfic!!.visibility = View.GONE
+                rytBottomView.visibility= View.GONE
             }
 
             lblEntireDepartmentlable!!.visibility = View.GONE
@@ -1023,7 +1030,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
 
         txt_mydepartment!!.setOnClickListener {
-
+            rytBottomView.visibility= View.VISIBLE
             My_Department = "Yes"
             if (ScreenName.equals(CommonUtil.CommunicationVoice)) {
                 if (CommonUtil.isAllowtomakecall == 1) {
@@ -1057,6 +1064,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
 
         txt_myclass!!.setOnClickListener {
+            rytBottomView.visibility= View.VISIBLE
             if (ScreenName.equals(CommonUtil.CommunicationVoice)) {
                 if (CommonUtil.isAllowtomakecall == 1) {
                     txt_onandoff!!.visibility = View.VISIBLE
@@ -7113,6 +7121,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 txt_myclass!!.visibility = View.VISIBLE
                 txt_mydepartment!!.visibility = View.VISIBLE
                 txt_onandoff!!.visibility = View.GONE
+                rytBottomView.visibility= View.GONE
             }
             lblEntireDepartmentlable!!.visibility = View.GONE
             LayoutRecipient!!.visibility = View.GONE
@@ -7145,6 +7154,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 txt_department!!.visibility = View.VISIBLE
                 Viewlinethree!!.visibility = View.VISIBLE
                 txt_myclass!!.visibility = View.VISIBLE
+                rytBottomView.visibility= View.GONE
                 txt_mydepartment!!.visibility = View.VISIBLE
                 txt_onandoff!!.visibility = View.GONE
             }
@@ -7179,8 +7189,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun GetDivisionRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
         appViewModel!!.getDivision(jsonObject, this)
         Log.d("GetDivisionRequest", jsonObject.toString())
     }
@@ -7281,8 +7291,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun GetDepartmentRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_div_id, SelectedSpinnerID)
         appViewModel!!.getDepartment(jsonObject, this)
         Log.d("GetDepartmentRequest", jsonObject.toString())
@@ -7334,8 +7344,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VoiceToEntireCollegeRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_filetype, "1")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -7351,8 +7361,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun SendVoiceToParticulerHistory() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)
@@ -7891,8 +7901,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendEntire() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -7913,8 +7923,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendParticuler() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -9041,8 +9051,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -9155,8 +9165,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         mProgressDialog.show()
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)

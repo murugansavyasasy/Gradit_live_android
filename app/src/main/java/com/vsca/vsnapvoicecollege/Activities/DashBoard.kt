@@ -23,6 +23,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -86,7 +87,21 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
     var Success: String? = null
     var isPermission = true
 
-    private var shouldInitAfterPermission = false
+
+
+    private var isPermissionDialogShowing = false
+
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+
+            val deniedPermissions = permissions.filter { !it.value }.keys
+
+            if (deniedPermissions.isEmpty()) {
+                MenuBottomType()
+                DashBoardRequest()
+                UserMenuRequest(this)
+            }
+        }
 
     override fun inflateBinding(): BottomMenuSwipeBinding {
         return BottomMenuSwipeBinding.inflate(layoutInflater)
@@ -665,16 +680,43 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
     }
 
     private fun showPermissionSettingsDialog() {
+Log.d("isComing","isComing")
+        if (isPermissionDialogShowing) return
+        isPermissionDialogShowing = true
 
         AlertDialog.Builder(this)
             .setTitle("Permission Required")
             .setMessage("Some permissions were permanently denied. Please enable them in app settings.")
-            .setPositiveButton("Go to Settings") { _, _ ->
+            .setCancelable(false)
+            .setPositiveButton("Go to Settings") { dialog, _ ->
+
+                dialog.dismiss()
+                isPermissionDialogShowing = false
+
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = Uri.parse("package:$packageName")
                 startActivity(intent)
             }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+                isPermissionDialogShowing = false
+            }
             .show()
+    }
+
+    private fun isPermissionPermanentlyDenied(): Boolean {
+
+        return getRequiredPermissions().any { permission ->
+
+            ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED &&
+                    !ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+        }
+    }
+
+    private fun hasAllPermissions(): Boolean {
+        return getRequiredPermissions().all {
+            ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
+        }
     }
 
     override fun onResume() {
@@ -683,78 +725,63 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
         if (hasAllPermissions()) {
             MenuBottomType()
             DashBoardRequest()
+
         } else {
-            shouldInitAfterPermission = true
-            if (isPermission) {
-                isPermission = false
+
+            if (isPermissionPermanentlyDenied()) {
                 showPermissionSettingsDialog()
-            }
-//            CommonUtil.RequestPermission(this)
-        }
-    }
-
-    private fun hasAllPermissions(): Boolean {
-        val requiredPermissions =
-            if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5" || CommonUtil.Priority == "p6") {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    listOf(
-                        Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_VIDEO,
-                        Manifest.permission.READ_MEDIA_AUDIO,
-                        Manifest.permission.POST_NOTIFICATIONS,
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.INTERNET
-                    )
-                } else {
-                    listOf(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.RECORD_AUDIO
-                    )
-                }
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    listOf(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_VIDEO,
-                        Manifest.permission.READ_MEDIA_AUDIO,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    )
-                } else {
-                    listOf(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.INTERNET
-                    )
-                }
+                permissionLauncher.launch(getRequiredPermissions())
             }
-
-        return requiredPermissions.all {
-            ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
         }
     }
 
+    private fun getRequiredPermissions(): Array<String> {
 
-//    override fun onResume() {
-//        CommonUtil.RequestPermission(this)
-//        MenuBottomType()
-//        DashBoardRequest()
-//        super.onResume()
-//    }
+        return if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5" || CommonUtil.Priority == "p6") {
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS
+                )
+            } else {
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO
+                )
+            }
+
+        } else {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            } else {
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO
+                )
+            }
+
+        }
+    }
     private fun saveContacts() {
         try {
             // Check if WRITE_CONTACTS permission is granted

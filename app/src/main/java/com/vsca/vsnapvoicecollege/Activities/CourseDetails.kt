@@ -54,6 +54,7 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
             R.id.img_swipe,
             R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
         )
+        UserMenuRequest(this)
         MenuBottomType()
 
 
@@ -75,7 +76,6 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                     val status = response.status
                     val message = response.message
                     if (status == 1) {
-                        UserMenuRequest(this@CourseDetails)
                         GetExamAppiccationData = response.data!!
 
                         examlistSize = GetExamAppiccationData.size

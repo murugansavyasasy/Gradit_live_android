@@ -516,7 +516,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
+        jsonObjectSchool.addProperty("userId", CommonUtil.INSTANCE.getMemberId());
         jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
         jsonObjectSchool.addProperty("attendance_month", monthID);
         jsonObjectSchool.addProperty("attendance_dt", "");
@@ -710,9 +710,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         }
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("UserId", String.valueOf(CommonUtil.INSTANCE.getMemberId()));
+        jsonObjectSchool.addProperty("UserId", CommonUtil.INSTANCE.getMemberId());
         jsonObjectSchool.addProperty("staff_or_student", "staff");
-        jsonObjectSchool.addProperty("CollegeId", String.valueOf(CommonUtil.INSTANCE.getCollegeId()));
+        jsonObjectSchool.addProperty("CollegeId", CommonUtil.INSTANCE.getCollegeId());
         jsonObjectSchool.addProperty("deviceId", deviceId);
         jsonObjectSchool.addProperty("punch_type", punch_type);
         jsonObjectSchool.addProperty("device_model", fullDeviceInfo);
@@ -932,9 +932,17 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("locationsLists", String.valueOf(locationsList.size()));
         Boolean locationIsNearBy = false;
         for (int i = 0; i < locationsList.size(); i++) {
-            Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
-            Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
-            int distance = Integer.parseInt(locationsList.get(i).getDistance());
+//            Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
+//            Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
+//            int distance = Integer.parseInt(locationsList.get(i).getDistance());
+            String latStr = locationsList.get(i).getLatitude();
+            String longStr = locationsList.get(i).getLongitude();
+            String distStr = locationsList.get(i).getDistance();
+
+            double staff_lat = (latStr != null && !latStr.isEmpty()) ? Double.parseDouble(latStr) : 0.0;
+            double staff_long = (longStr != null && !longStr.isEmpty()) ? Double.parseDouble(longStr) : 0.0;
+            int distance = (distStr != null && !distStr.isEmpty()) ? Integer.parseInt(distStr) : 0;
+
             float resultsof = LocationDistanceCalculator.calculateDistance(latitude, longitude, staff_lat, staff_long);
             Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
             if (resultsof <= (float) distance) {

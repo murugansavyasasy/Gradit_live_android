@@ -52,6 +52,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
         holder.rytOverAll!!.setOnClickListener {
 
             if (data.module_type.equals("Videos")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (10 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readVideo = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeVideo = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
                 val menuid = BaseActivity.VideoMenuID
                 Log.d("VideoMenuID", menuid)
                 CommonUtil.MenuIDVideo = menuid
@@ -59,6 +65,13 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Circular")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (6 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readCircular = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCircular = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.CircularMenuID
                 Log.d("CircularMenuID", menuid)
                 CommonUtil.MenuIDCircular = menuid
@@ -66,6 +79,13 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Communication")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (16 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readCommunication = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCommunication = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.CommunicationMenuID
                 Log.d("CommunicationMenuID", menuid)
                 CommonUtil.MenuIDCommunication = menuid
@@ -73,6 +93,13 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Events")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (8 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readEvent = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeEvent = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.EventsMenuID
                 Log.d("EventsMenuID", menuid)
                 CommonUtil.MenuIDEvents = menuid
@@ -80,6 +107,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Notice board")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (7 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
                 val menuid = BaseActivity.NoticeboardMenuID
                 Log.d("NoticeboardMenuID", menuid)
                 CommonUtil.MenuIDNoticeboard = menuid
@@ -87,6 +120,13 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Assignments")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (5 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readAssignment = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeAssignment = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.AssignmentMenuID
                 Log.d("AssignmentMenuID", menuid)
                 CommonUtil.MenuIDAssignment = menuid
@@ -95,6 +135,13 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
 
 
             } else if (data.module_type.equals("Chat")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (11 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readChat = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeChat = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.ChatMenuID
                 Log.d("ChatMenuID", menuid)
                 CommonUtil.MenuIDChat = menuid
@@ -109,6 +156,13 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Examination")) {
+                for (i in CommonUtil.MenuListDashboard.indices){
+                    if (3 == CommonUtil.MenuListDashboard.get(i).id){
+                        CommonUtil.menu_readExamination = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeExamination = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                    }
+                }
+
                 val menuid = BaseActivity.ExamMenuID
                 Log.d("ExamMenuID", menuid)
                 CommonUtil.MenuIDExamination = menuid

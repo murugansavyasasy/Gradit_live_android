@@ -1516,8 +1516,8 @@ class SpecificStudent : ActionBarActivity(),
     private fun VideosendParticuler() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -2137,8 +2137,8 @@ class SpecificStudent : ActionBarActivity(),
     private fun VoiceHistoryEntireSend() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)
@@ -2146,7 +2146,7 @@ class SpecificStudent : ActionBarActivity(),
         jsonObject.addProperty(ApiRequestNames.Req_isStaff, isStaff)
         jsonObject.addProperty(ApiRequestNames.Req_isParent, isParent)
         jsonObject.addProperty(ApiRequestNames.Req_filetype, "1")
-        jsonObject.addProperty("forwarding_voice_id", CommonUtil.voiceHeadedId)
+        jsonObject.addProperty("forwarding_voice_id", CommonUtil.voiceHeadedId?.toString()?:"")
         appViewModel!!.SendVoiceToEntireHistory(jsonObject, this)
         Log.d("VoiceToEntireHistory", jsonObject.toString())
     }
@@ -2165,6 +2165,8 @@ class SpecificStudent : ActionBarActivity(),
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_receviedit, CommonUtil.receiverid)
         jsonObject.addProperty("forwarding_voice_id", CommonUtil.voiceHeadedId)
+        jsonObject.addProperty("subjectid", "")
+
         appViewModel!!.SendVoiceToParticulerHistory(jsonObject, this)
         Log.d("VoiceToEntireHistory", jsonObject.toString())
     }
@@ -2179,8 +2181,8 @@ class SpecificStudent : ActionBarActivity(),
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -2290,8 +2292,8 @@ class SpecificStudent : ActionBarActivity(),
         mProgressDialog.show()
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
