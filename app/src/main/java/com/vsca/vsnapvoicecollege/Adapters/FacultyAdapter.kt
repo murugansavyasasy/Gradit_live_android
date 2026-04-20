@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.ChatParent
 import com.vsca.vsnapvoicecollege.Model.GetFacultyListDetails
 import com.vsca.vsnapvoicecollege.R
@@ -60,6 +62,17 @@ class FacultyAdapter constructor(data: List<GetFacultyListDetails>, context: Con
         }
 
         holder.btn_intreact!!.setOnClickListener {
+            val menuid = BaseActivity.ChatMenuID
+            Log.d("ChatMenuID", menuid)
+            CommonUtil.MenuIDChat = menuid
+
+            for (i in CommonUtil.MenuListDashboard.indices){
+                if (11 == CommonUtil.MenuListDashboard.get(i).id){
+                    CommonUtil.menu_readChat = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                    CommonUtil.menu_writeChat = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                }
+            }
+
             var i: Intent = Intent(context, ChatParent::class.java)
             context.startActivity(i)
         }

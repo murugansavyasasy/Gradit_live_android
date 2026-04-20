@@ -222,7 +222,7 @@ class Leavehistory_principleAdapter(
         val jsonObject = JsonObject()
 
         jsonObject.addProperty("leaveid", CommonUtil.applicationid)
-        jsonObject.addProperty("userid", CommonUtil.MemberId)
+        jsonObject.addProperty("userid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("processtype", type)
         Log.d("jsonoblect", jsonObject.toString())
 

@@ -516,8 +516,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun StudentFacultyRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_AppId, CommonUtil.SenderAppId)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_semesterid, SemesterId)
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, SectionId)

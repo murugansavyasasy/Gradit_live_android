@@ -81,7 +81,7 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
         run {
             jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            jsonObject.addProperty(ApiRequestNames.Req_subjectid, CommonUtil.AttendanceSubjectId)
+            jsonObject.addProperty(ApiRequestNames.Req_subjectid, CommonUtil.AttendanceSubjectId.toIntOrNull()?:0)
             jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
             jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.AttendanceStaffid)
             appViewModel!!.DetailsforspecificstudentAttendance(jsonObject, this)

@@ -1236,7 +1236,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         fun AppReadStatus(activity: Activity?, msgtype: String, detailsId: String) {
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_msgtype, msgtype)
             jsonObject.addProperty(ApiRequestNames.Req_detailsid, detailsId)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
@@ -1246,7 +1246,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         fun AppReadStatusContext(activity: Context?, msgtype: String, detailsId: String) {
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_msgtype, msgtype)
             jsonObject.addProperty(ApiRequestNames.Req_detailsid, detailsId)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
@@ -1257,7 +1257,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         fun OverAllMenuCountRequest(activity: Activity?, menuid: String) {
 
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
 
             if (menuid == "8") {
                 jsonObject.addProperty(ApiRequestNames.Req_menuid, "9")
@@ -1265,18 +1265,18 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 jsonObject.addProperty(ApiRequestNames.Req_menuid, menuid)
             }
 
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
             if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3" || CommonUtil.Priority.equals(
                     "p6"
                 )
             ) {
-                jsonObject.addProperty(ApiRequestNames.Req_departmentid, 0)
-                jsonObject.addProperty(ApiRequestNames.Req_sectionid, 0)
+                jsonObject.addProperty(ApiRequestNames.Req_departmentid, "0")
+                jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
             } else {
                 jsonObject.addProperty(ApiRequestNames.Req_departmentid, CommonUtil.DepartmentId)
                 jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
             }
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
             appviewModelbase!!.getOverAllMenuCount(jsonObject, activity)
             Log.d("OverAllMenuCount_Req:", jsonObject.toString())
@@ -1365,9 +1365,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     fun UserMenuRequest(activity: Activity?) {
         if (CommonUtil.MenuListDashboard.isEmpty()) {
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
             dashboardViewModel!!.getUsermenus(jsonObject, activity)
             Log.d("UserMenus_Request", jsonObject.toString())
         }else{

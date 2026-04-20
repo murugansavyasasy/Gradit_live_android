@@ -265,7 +265,7 @@ class create_Examination: ActionBarActivity() {
     private fun SemesterRequest() {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_appid, "1")
             jsonObject.addProperty(ApiRequestNames.Req_semesterid, CommonUtil.semesterid)
 
@@ -300,11 +300,11 @@ class create_Examination: ActionBarActivity() {
 
             jsonObject.addProperty(
                 ApiRequestNames.Req_collegeid,
-                CommonUtil.Examination_Creation[k].collegeid
+                CommonUtil.Examination_Creation[k].collegeid?.toString()?:""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_staffid,
-                CommonUtil.Examination_Creation[k].staffid
+                CommonUtil.Examination_Creation[k].staffid?.toString()?:""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_examid,
@@ -422,11 +422,11 @@ class create_Examination: ActionBarActivity() {
 
             jsonObject.addProperty(
                 ApiRequestNames.Req_colgid,
-                CommonUtil.ExamcreationEdit.get(k).collegeid
+                CommonUtil.ExamcreationEdit.get(k).collegeid?.toString()?:""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_userid,
-                CommonUtil.ExamcreationEdit.get(k).staffid
+                CommonUtil.ExamcreationEdit.get(k).staffid?.toString()?:""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_Examid,

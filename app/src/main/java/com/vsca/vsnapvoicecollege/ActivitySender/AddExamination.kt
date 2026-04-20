@@ -870,8 +870,8 @@ class AddExamination : ActionBarActivity() {
 
     private fun GetyearandsectionRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_idcourse, SelectedSpinnerIDcousre)
         appViewModel!!.getyearsndsection(jsonObject, this)
         Log.d("Gety&sectionRequeat", jsonObject.toString())
@@ -879,8 +879,8 @@ class AddExamination : ActionBarActivity() {
 
     private fun GetyearandhodRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_idcourse, SelectedSpinnerIDcousre)
         appViewModel!!.getyearsndsection(jsonObject, this)
         Log.d("Gety&sectionRequeat", jsonObject.toString())

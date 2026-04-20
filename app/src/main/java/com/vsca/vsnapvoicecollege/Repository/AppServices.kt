@@ -2889,7 +2889,7 @@ class AppServices {
         get() = imageorpdfparticuler
 
     fun Assignmentsenddata(jsonObject: JsonObject?, activity: Activity) {
-//        //var progressDialog = CustomLoading.createProgressDialog(activity)
+//        //var progressDialog = CustomLoading.createPrvogressDialog(activity)
 //        //progressDialog!!.show()
         RestClient.apiInterfaces.Assignmentsend(jsonObject)
             ?.enqueue(object : Callback<Assignmentsent?> {

@@ -206,8 +206,8 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
 
     private fun CourseDetailsRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.DepartmentId)
         jsonObject.addProperty(ApiRequestNames.Req_sem_id, CommonUtil.SemesterId)
         jsonObject.addProperty(ApiRequestNames.Req_section_id, CommonUtil.SectionId)
@@ -217,9 +217,9 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
 
     private fun ExamApplicationDetails() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid)
+        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid?.toIntOrNull()?:0)
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, CommonUtil.SemesterId)
+        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, CommonUtil.SemesterId?.toIntOrNull()?:0)
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         appViewModel!!.getExamApplication(jsonObject, this@CourseDetails)
         Log.d("GetExamAppDetRequest:", jsonObject.toString())

@@ -154,8 +154,8 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
     private fun ExamMarkListRequest() {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_studentid, CommonUtil.MemberId)
-            jsonObject.addProperty(ApiRequestNames.Req_examheaderid, ExamHeaderID)
+            jsonObject.addProperty(ApiRequestNames.Req_studentid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_examheaderid, ExamHeaderID?:"")
 
             appViewModel!!.getStudentExamMarklist(jsonObject, this)
             Log.d("ExamMarksRequest:", jsonObject.toString())

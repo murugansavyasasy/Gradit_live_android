@@ -131,7 +131,7 @@ class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: C
         val jsonObject = JsonObject()
 
         jsonObject.addProperty("assignmentid", CommonUtil.Assignmentid)
-        jsonObject.addProperty("processby", CommonUtil.MemberId)
+        jsonObject.addProperty("processby", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("studentid", subjectdata.studentid)
         jsonObject.addProperty("assignmentdetailsid", subjectdata.assignmentdetailsid)
         jsonObject.addProperty("marks", holder.textInputEditText!!.text.toString())

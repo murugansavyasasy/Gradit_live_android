@@ -86,8 +86,8 @@ class Notification : BaseActivity<BottomMenuSwipeBinding>() {
 
     private fun NotificatonRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
         dashboardViewModel!!.getNotifications(jsonObject, this@Notification)
         Log.d("NotificationRequest:", jsonObject.toString())
     }

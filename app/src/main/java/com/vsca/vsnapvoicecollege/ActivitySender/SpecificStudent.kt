@@ -907,7 +907,7 @@ class SpecificStudent : ActionBarActivity(),
     private fun getspecificstudentdata() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.deptid)
@@ -1536,8 +1536,8 @@ class SpecificStudent : ActionBarActivity(),
     private fun VideosendParticulerTuter() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
@@ -1592,8 +1592,8 @@ class SpecificStudent : ActionBarActivity(),
             jsonObject.addProperty(ApiRequestNames.Req_eventid, "0")
         }
 
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
@@ -1617,11 +1617,11 @@ class SpecificStudent : ActionBarActivity(),
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -1712,11 +1712,11 @@ class SpecificStudent : ActionBarActivity(),
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -1802,12 +1802,12 @@ class SpecificStudent : ActionBarActivity(),
     private fun NoticeBoardSMSsending() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -2153,8 +2153,8 @@ class SpecificStudent : ActionBarActivity(),
 
     private fun SendVoiceToParticulerHistory() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)

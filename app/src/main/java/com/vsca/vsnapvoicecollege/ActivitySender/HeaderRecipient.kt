@@ -1721,8 +1721,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
     private fun SendVoiceToParticulerHistory() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)
@@ -1780,7 +1780,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         val jsonObject = JsonObject()
 
         if (collegeEntire) {
-            jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_colgid, CollegeId_s)
         }
@@ -1790,7 +1790,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -1829,11 +1829,11 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         }
 
         if (collegeEntire) {
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_collegeid, CollegeId_s)
         }
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)

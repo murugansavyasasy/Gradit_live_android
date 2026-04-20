@@ -199,8 +199,8 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
         val jsonObject = JsonObject()
 
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid)
-        jsonObject.addProperty(ApiRequestNames.Req_i_category_id, categoryID)
+        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid?.toIntOrNull() ?: 0)
+        jsonObject.addProperty(ApiRequestNames.Req_i_category_id, categoryID?.toIntOrNull() ?: 0)
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         appViewModel!!.getCategoryWiseCredit(jsonObject, this)
         Log.d("CategroyWiseCreditRes:", jsonObject.toString())

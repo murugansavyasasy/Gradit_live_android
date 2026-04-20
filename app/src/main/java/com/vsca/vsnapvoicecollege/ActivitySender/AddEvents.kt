@@ -391,8 +391,8 @@ class AddEvents: ActionBarActivity() {
         val jsonObject = JsonObject()
 
         jsonObject.addProperty(ApiRequestNames.Req_eventid, CommonUtil.EventParticulerId)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)

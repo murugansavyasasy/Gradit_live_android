@@ -308,8 +308,8 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_Examid, CommonUtil.headerid)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         appViewModel!!.Examview(jsonObject, this)
         Log.d("GetExamview", jsonObject.toString())
     }
@@ -318,8 +318,8 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_Examid, CommonUtil.headerid)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         appViewModel!!.ExamEditANDdELETE(jsonObject, this)
         Log.d("ExamEditANDdELETE", jsonObject.toString())
     }

@@ -640,8 +640,8 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 
     private fun DashBoardRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         dashboardViewModel!!.dashboard(jsonObject, this@DashBoard)
         Log.d("DahsboardRequest:", jsonObject.toString())

@@ -163,9 +163,9 @@ class Assignment_Submition : ActionBarActivity() {
 
     private fun Assignmentsubmited() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_assignmentid, CommonUtil.Assignmentid)
-        jsonObject.addProperty("submissiontype", CommonUtil.isSubmitted)
+        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_assignmentid, CommonUtil.Assignmentid.toIntOrNull()?:0)
+        jsonObject.addProperty("submissiontype", CommonUtil.isSubmitted.toIntOrNull()?:0)
         appviewModelbase!!.Assignmentsubmitedsender(jsonObject, this)
         Log.d("jsonObject:", jsonObject.toString())
 
@@ -173,7 +173,7 @@ class Assignment_Submition : ActionBarActivity() {
 
     private fun AssignmentsubmitedForStudent() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_assignmentid, CommonUtil.Assignmentid)
         appviewModelbase!!.AssignmentsubmitedforStudent(jsonObject, this)
         Log.d("jsonObject:", jsonObject.toString())

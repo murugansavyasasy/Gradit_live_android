@@ -90,9 +90,9 @@ class Hall_Ticket : AppCompatActivity() {
 
     private fun hallTicket() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid)
+        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid.toIntOrNull()?:0)
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, CommonUtil.semesterid)
+        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, CommonUtil.semesterid.toIntOrNull()?:0)
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         appViewModel!!.getHallticket(jsonObject, this@Hall_Ticket)
         Log.d("hallTicket:", jsonObject.toString())

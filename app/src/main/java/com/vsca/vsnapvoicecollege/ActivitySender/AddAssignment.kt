@@ -421,7 +421,7 @@ class AddAssignment : ActionBarActivity() {
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_assignmentid, CommonUtil.Assignmentid)
         jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)

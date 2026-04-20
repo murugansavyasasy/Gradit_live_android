@@ -454,9 +454,9 @@ class AddTextNoticeboard: ActionBarActivity() {
 
     private fun historyOfText() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString())
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString())
         appViewModel!!.textHistoryData(jsonObject, this)
         Log.d("_TextHistoryData:", jsonObject.toString())
     }

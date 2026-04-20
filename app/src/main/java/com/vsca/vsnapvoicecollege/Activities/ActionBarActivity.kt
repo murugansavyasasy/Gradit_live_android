@@ -402,7 +402,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
 
     fun AppReadStatusActionbar(activity: Activity?, msgtype: String, detailsId: String) {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_msgtype, msgtype)
         jsonObject.addProperty(ApiRequestNames.Req_detailsid, detailsId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)

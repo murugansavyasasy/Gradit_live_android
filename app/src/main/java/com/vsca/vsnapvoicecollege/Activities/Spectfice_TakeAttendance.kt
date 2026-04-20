@@ -784,7 +784,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_yearid, CommonUtil.YearId)
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.subjectid)

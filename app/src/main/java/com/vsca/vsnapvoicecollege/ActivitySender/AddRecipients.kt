@@ -7262,7 +7262,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun getspecificstudentdata() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.deptid)
@@ -7309,8 +7309,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
     private fun GetyearandsectionRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_idcourse, SelectedSpinnerIDhod)
         appViewModel!!.getyearsndsectionList(jsonObject, this)
         Log.d("Gety&sectionRequeat", jsonObject.toString())
@@ -7326,8 +7326,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun SmsToEntireCollegeRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_filetype, "1")
         jsonObject.addProperty(ApiRequestNames.Req_MessageContent, CommonUtil.MenuTitle)
@@ -7433,12 +7433,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun NoticeBoardSMSsending() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -7472,12 +7472,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun NoticeBoardSMSsendingHOD() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, "3")
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.DepartmentId)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -7534,8 +7534,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
             jsonObject.addProperty(ApiRequestNames.Req_eventid, "0")
         }
 
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
@@ -7730,11 +7730,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun AssignmentsendEntireSection() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -7807,11 +7807,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -7946,8 +7946,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendEntireTuter() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -7968,8 +7968,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendParticulerTuter() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
@@ -7987,8 +7987,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
     private fun Attendancemarking() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, recivertype)
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -8939,8 +8939,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         mProgressDialog.show()
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)

@@ -278,8 +278,8 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
     private fun SemesterWiseRequest(SemesterID: String) {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid)
-        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, SemesterID)
+        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid?.toIntOrNull() ?: 0)
+        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, SemesterID?.toIntOrNull() ?: 0)
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         if (SemesterID.equals("-5")) {
             appViewModel!!.getSemesterWiseCreditAll(jsonObject, this)

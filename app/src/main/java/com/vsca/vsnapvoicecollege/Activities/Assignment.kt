@@ -416,22 +416,22 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     fun OverAllMenuCountRequestAssignment(activity: Activity?, menuid: String) {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_menuid, menuid)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
 
         if (CommonUtil.Priority == "p1") {
-            jsonObject.addProperty(ApiRequestNames.Req_departmentid, 0)
-            jsonObject.addProperty(ApiRequestNames.Req_sectionid, 0)
+            jsonObject.addProperty(ApiRequestNames.Req_departmentid, "0")
+            jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_departmentid, CommonUtil.DepartmentId)
             jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
         }
 
         if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
         } else {
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
         }
 
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)

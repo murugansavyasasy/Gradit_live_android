@@ -1277,9 +1277,8 @@ class DashboardChild(
         val jsonObject = JsonObject()
 
         jsonObject.addProperty("leaveid", Leaveid)
-        jsonObject.addProperty("userid", CommonUtil.MemberId)
+        jsonObject.addProperty("userid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("processtype", processtype)
-
         Log.d("jsonoblect", jsonObject.toString())
 
         RestClient.apiInterfaces.Leave_Reject(jsonObject)

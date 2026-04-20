@@ -508,7 +508,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_Attendancedate, SelectedDate)
             jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
             appViewModel!!.getAttendanceReceiver(jsonObject, this)
@@ -539,8 +539,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     private fun attendanceGet() {
         isProgressDialog?.show()
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.dateAttendance, SelectedDate)
         appViewModel!!.AttendanceGettingStaff(jsonObject, this)
         Log.d("GetStaffRequest", jsonObject.toString())
@@ -560,8 +560,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     private fun GetLeaveptincipleHistory() {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-            jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
+            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
             appViewModel!!.Leavehistortprinciple(jsonObject, this)
             Log.d("LeaveHistoryRequest:", jsonObject.toString())
         }

@@ -698,12 +698,12 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         if (isrefresh!!) {
-            jsonObject.addProperty(ApiRequestNames.Req_offset, Offset)
+            jsonObject.addProperty(ApiRequestNames.Req_offset, Offset?.toString())
         } else {
             Offset = 0
-            jsonObject.addProperty(ApiRequestNames.Req_offset, 0)
+            jsonObject.addProperty(ApiRequestNames.Req_offset, "0")
         }
-        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString())
         jsonObject.addProperty(ApiRequestNames.Req_limit, "10")
         jsonObject.addProperty(ApiRequestNames.Req_section_id, CommonUtil.SectionId)
         jsonObject.addProperty(ApiRequestNames.Req_subject_id, CommonUtil.subjectid)
@@ -733,7 +733,7 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_answer, CommonUtil.Textedit)
-        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_question_id, CommonUtil.Questionid)
         jsonObject.addProperty(ApiRequestNames.Req_is_changeanswer, CommonUtil.changeanswer)
         jsonObject.addProperty(ApiRequestNames.Req_reply_type, replaytype)
@@ -746,8 +746,8 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.studentid)
-        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
 
         appViewModel!!.StudentBlack(jsonObject, this)
         Log.d("StudentBlack", jsonObject.toString())
@@ -757,8 +757,8 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.studentid)
-        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
 
         appViewModel!!.StudentUnBlack(jsonObject, this)
         Log.d("UnStudentBlack", jsonObject.toString())
