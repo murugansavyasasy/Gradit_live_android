@@ -7263,7 +7263,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.deptid)
         jsonObject.addProperty(ApiRequestNames.Req_yearid, CommonUtil.YearId)
@@ -9610,11 +9610,20 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun isUploadAWS() {
         progressDialog = CustomLoading.createProgressDialog(this)
         progressDialog!!.show()
-        Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
-        for (i in CommonUtil.SelcetedFileList.indices) {
-            AwsUploadingFile(
-                CommonUtil.SelcetedFileList.get(i)
-            )
+        if (FileType.equals("TEXT")) {
+            if (ScreenName.equals(CommonUtil.New_Assignment)) {
+                CommonUtil.receivertype = "1"
+                AssignmentsendEntireSection()
+            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
+                CommonUtil.receivertype = "1"
+                Assignmentforward()
+            }
+        } else {
+            for (i in CommonUtil.SelcetedFileList.indices) {
+                AwsUploadingFile(
+                    CommonUtil.SelcetedFileList.get(i)
+                )
+            }
         }
     }
 

@@ -193,8 +193,8 @@ class LeaveHistoryAdapter(
 
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_applicationid, CommonUtil.LeaveApplicationID)
         jsonObject.addProperty(ApiRequestNames.Req_leavetypeid, "")
         jsonObject.addProperty(ApiRequestNames.Req_leavefromdate, CommonUtil.leavestartdate)

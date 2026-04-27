@@ -444,25 +444,25 @@ interface ApiInterfaces {
     @POST(ApiMethods.VideoParticulerSend)
     fun VideoParticulersend(@Body jsonObject: JsonObject?): Call<VideoParticulerSend?>?
 
-    @POST("/api/AppDetailsBal/ExamCreation")
+    @POST("api/AppDetailsBal/ExamCreation")
     fun Examdeletedata(@Body jsonObject: JsonObject?): Call<ExamDelete?>?
 
-    @POST("/api/AppDetailsBal/ManageLeaveRequest")
+    @POST("api/AppDetailsBal/ManageLeaveRequest")
     fun GetleaveApproidapi(@Body jsonObject: JsonObject?): Call<LeaveRequest?>?
 
-    @POST("/api/AppDetailsBal/ManageLeaveapplication")
+    @POST("api/AppDetailsBal/ManageLeaveapplication")
     fun LeaveApplicatinDelete(@Body jsonObject: JsonObject?): Call<LeaveApplicationDelete?>?
 
-    @POST("/api/AppDetailsBal/ManageNoticeBoard")
+    @POST("api/AppDetailsBal/ManageNoticeBoard")
     fun DeleteNoticeboarddata(@Body jsonObject: JsonObject?): Call<Delete_noticeboard?>?
 
-    @POST("/api/AppDetailsBal/AssignmentDelete")
+    @POST("api/AppDetailsBal/AssignmentDelete")
     fun AssignmentDelete(@Body jsonObject: JsonObject?): Call<Delete_noticeboard?>?
 
-    @POST("/api/AppDetailsBal/AddMarksForAssignment")
+    @POST("api/AppDetailsBal/AddMarksForAssignment")
     fun AssignmentMark(@Body jsonObject: JsonObject?): Call<AssignmentMark?>?
 
-    @POST("/api/AppDetailsBal/ManageLeaveRequest")
+    @POST("api/AppDetailsBal/ManageLeaveRequest")
     fun Leave_Reject(@Body jsonObject: JsonObject?): Call<Delete_noticeboard?>?
 
     @POST(ApiMethods.TakeAttendance)

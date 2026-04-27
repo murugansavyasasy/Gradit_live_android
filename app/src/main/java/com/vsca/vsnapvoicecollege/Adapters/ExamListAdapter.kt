@@ -267,10 +267,10 @@ class ExamListAdapter constructor(
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty("examid", CommonUtil.headerid)
         jsonObject.addProperty("examname", CommonUtil.Examname)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("startdate", "")
         jsonObject.addProperty("enddate", "")
         jsonObject.addProperty("processtype", "delete")
