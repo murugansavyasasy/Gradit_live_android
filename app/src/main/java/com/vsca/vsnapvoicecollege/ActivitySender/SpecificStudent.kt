@@ -908,7 +908,7 @@ class SpecificStudent : ActionBarActivity(),
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.deptid)
         jsonObject.addProperty(ApiRequestNames.Req_yearid, CommonUtil.YearId)
@@ -917,6 +917,8 @@ class SpecificStudent : ActionBarActivity(),
 
         appViewModel!!.getspecificstudentdata(jsonObject, this)
         Log.d("getTutorSpecificRequest", jsonObject.toString())
+        Log.d("isComing", "Coming1")
+
     }
 
     private fun getspecificstudentdatasubject() {

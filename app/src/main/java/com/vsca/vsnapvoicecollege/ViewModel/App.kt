@@ -613,7 +613,7 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.Gettuter(jsonObject, activity!!)
     }
 
-    fun getspecificstudentdata(jsonObject: JsonObject?, activity: Activity?) {
+    fun getspecificstudentdata (jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.Getspecificstudentdata(jsonObject, activity!!)
     }
 

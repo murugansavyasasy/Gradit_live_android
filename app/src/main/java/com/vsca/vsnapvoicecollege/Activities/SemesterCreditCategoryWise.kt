@@ -223,19 +223,21 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
     private fun SetSpinnerValue() {
         binding.layoutDropdown!!.setOnClickListener {
             if (!countryOpen) {
-                binding.layoutDropdown!!.visibility = View.VISIBLE
+//                binding.layoutDropdown!!.visibility = View.VISIBLE
                 binding.viewLine!!.visibility = View.VISIBLE
                 binding.imgDropdown!!.setImageResource(R.drawable.ic_arraow_up)
                 countryOpen = true
-                binding.Layoutoverall!!.visibility = View.GONE
+                binding.Layoutoverall!!.visibility = View.VISIBLE
+                binding.lnrRadioGroup!!.visibility = View.VISIBLE
 
                 Log.d("Open", countryOpen.toString())
             } else {
-                binding.layoutDropdown!!.visibility = View.GONE
+//                binding.layoutDropdown!!.visibility = View.GONE
                 binding.viewLine!!.visibility = View.GONE
                 binding.imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
                 countryOpen = false
-                binding.Layoutoverall!!.visibility = View.GONE
+//                binding.Layoutoverall!!.visibility = View.GONE
+                binding.lnrRadioGroup!!.visibility = View.GONE
                 Log.d("Close", countryOpen.toString())
 
             }
@@ -264,12 +266,13 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                 val semestername = list.semseter_name
                 selectedCategoryID = list.semester_id
                 binding.lblCategoryName!!.text = semestername
-                binding.layoutDropdown!!.visibility = View.GONE
+                binding.layoutDropdown!!.visibility = View.VISIBLE
                 binding.viewLine!!.visibility = View.GONE
                 binding.imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
                 binding.Layoutoverall!!.visibility = View.VISIBLE
                 countryOpen = false
                 SemesterWiseRequest(selectedCategoryID!!)
+                binding.lnrRadioGroup!!.visibility = View.GONE
 
             }
         }

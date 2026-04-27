@@ -3362,143 +3362,6 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             })
     }
 
-//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-//
-//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-//        val s3Uploader1Obj: S3Uploader1
-//        s3Uploader1Obj = S3Uploader1(activity)
-//        pathIndex = pathind!!
-//
-//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-//            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
-//            Log.d("uploadFilePath", uploadFilePath.toString())
-//            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-//            if (extension == ".pdf") {
-//                contentType = ".pdf"
-//            } else {
-//                contentType = ".jpg"
-//            }
-//            break
-//        }
-//
-//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-//            Log.d("test", uploadFilePath!!)
-//            if (uploadFilePath != null) {
-//                progressDialog = CustomLoading.createProgressDialog(this)
-//
-//                progressDialog!!.show()
-//                fileNameDateTime =
-//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
-//                fileNameDateTime = "File_" + fileNameDateTime
-//                Log.d("filenamedatetime", fileNameDateTime.toString())
-//                s3Uploader1Obj.initUpload(
-//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-//                )
-//
-//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
-//                    override fun onUploadSuccess(response: String?) {
-//                        if (response!!.equals("Success")) {
-//
-//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-//                                this@PrincipalRecipient,
-//                                CommonUtil.CollegeId.toString(),
-//                                uploadFilePath,
-//                                fileNameDateTime
-//                            )
-//
-//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-//
-//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-//
-//
-//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-//
-//
-//                                fileName = File(uploadFilePath)
-//
-//                                filename = fileName!!.name
-//                                AWSUploadedFilesList.add(
-//                                    AWSUploadedFiles(
-//                                        CommonUtil.urlFromS3!!, filename, contentType
-//                                    )
-//                                )
-//
-//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-//                                awsFileUpload(activity, pathIndex + 1)
-//
-//
-//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-//                                    progressDialog!!.dismiss()
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onUploadError(response: String?) {
-//                        progressDialog!!.dismiss()
-//                    }
-//                })
-//            }
-//
-//        } else {
-//
-//            if (ScreenName.equals(CommonUtil.Image_Pdf)) {
-//                if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-//                    ImageOrPdfsendentire()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-//                    ImageOrPdfsendparticuler()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-//                    ImageOrPdfsendparticuler()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-//                    ImageOrPdfsendparticuler()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-//                    if (binding.txtSelectspecficStudent!!.visibility == View.VISIBLE) {
-//                        if (SpinningText.equals(CommonUtil.Subjects)) {
-//                            ImageOrPdfsendparticuler()
-//                        } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                            ImageOrPdfsendparticulerTuter()
-//                        }
-//                    } else {
-//                        CommonUtil.receivertype = "7"
-//                        if (SpinningText.equals(CommonUtil.Subjects)) {
-//                            ImageOrPdfsendparticuler()
-//                        } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                            ImageOrPdfsendparticulerTuter()
-//                        }
-//                    }
-//                } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-//                    ImageOrPdfsendparticuler()
-//                }
-//            } else if (ScreenName.equals(CommonUtil.New_Assignment)) {
-//                CommonUtil.receivertype = "1"
-//                AssignmentsendEntireSection()
-//            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
-//                CommonUtil.receivertype = "1"
-//                Assignmentforward()
-//
-//
-//            } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
-//                if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-//                    NoticeBoardSMSsending()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-//                    NoticeBoardSMSsending()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-//                    NoticeBoardSMSsending()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-//                    NoticeBoardSMSsending()
-//                } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-//                    if (SpinningText.equals(CommonUtil.Subjects)) {
-//                        NoticeBoardSMSsending()
-//                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                        NoticeBoardSMSsendingTuter()
-//                    }
-//                } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-//                    NoticeBoardSMSsending()
-//                }
-//            }
-//        }
-//    }
 
     fun SendButtonAPi() {
 
@@ -4599,6 +4462,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                         CommonUtil.Yes
                     ) { _, _ ->
 //                        awsFileUpload(this, pathIndex)
+                        Log.d("isComing","isComingThis")
                         isUploadAWS()
 
                     }
@@ -5211,12 +5075,28 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     private fun isUploadAWS() {
         progressDialog = CustomLoading.createProgressDialog(this)
         progressDialog!!.show()
-        Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
-        for (i in CommonUtil.SelcetedFileList.indices) {
-            AwsUploadingFile(
-                CommonUtil.SelcetedFileList.get(i)
-            )
+        if (FileType.equals("TEXT")) {
+            if (ScreenName.equals(CommonUtil.New_Assignment)) {
+                CommonUtil.receivertype = "1"
+                AssignmentsendEntireSection()
+            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
+                CommonUtil.receivertype = "1"
+                Assignmentforward()
+            }
+        }else {
+            for (i in CommonUtil.SelcetedFileList.indices) {
+                AwsUploadingFile(
+                    CommonUtil.SelcetedFileList.get(i)
+                )
+            }
         }
+
+//        Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
+//        for (i in CommonUtil.SelcetedFileList.indices) {
+//            AwsUploadingFile(
+//                CommonUtil.SelcetedFileList.get(i)
+//            )
+//        }
     }
 
     private fun AwsUploadingFile(

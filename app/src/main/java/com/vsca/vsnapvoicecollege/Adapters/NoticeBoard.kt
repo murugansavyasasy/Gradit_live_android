@@ -206,10 +206,10 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
 
         jsonObject.addProperty("noticeboardid", CommonUtil.Noticeboardid)
         jsonObject.addProperty("processtype", type)
-        jsonObject.addProperty("colgid", CommonUtil.CollegeId)
+        jsonObject.addProperty("colgid", CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty("topic", "")
         jsonObject.addProperty("description", "")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("Callertype", "")
         jsonObject.addProperty("receiveridlist", "")
         jsonObject.addProperty("isstudent", "")

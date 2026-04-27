@@ -328,11 +328,11 @@ class AssignmentAdapter(data: List<GetAssignmentDetails>, context: Context) :
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId)
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty("deptid", "1")
         jsonObject.addProperty("courseid", "")
         jsonObject.addProperty("yearid", "")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId)
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", "")
         jsonObject.addProperty("subjectid", "")
