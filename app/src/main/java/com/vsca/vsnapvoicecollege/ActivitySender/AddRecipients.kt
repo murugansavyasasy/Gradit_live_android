@@ -1691,7 +1691,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.groupid
                             it.groupname
 
-                            val group = RecipientSelected(it.groupid, it.groupname, "","")
+                            val group = RecipientSelected(it.groupid?.toString()?:"", it.groupname, "","")
 
                             SelectedRecipientlist.add(group)
                         }

@@ -673,7 +673,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                             it.groupid
                             it.groupname
 
-                            var group = RecipientSelected(it.groupid, it.groupname, "","")
+                            var group = RecipientSelected(it.groupid?.toString()?:"", it.groupname, "","")
 
                             SelectedRecipientlist.add(group)
                         }

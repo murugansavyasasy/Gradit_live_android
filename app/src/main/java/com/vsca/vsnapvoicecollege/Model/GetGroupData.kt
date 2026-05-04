@@ -7,7 +7,7 @@ class GetGroupData {
 
     @SerializedName("groupid")
     @Expose
-    var groupid: String? = null
+    var groupid: Int? = null
 
     @SerializedName("groupname")
     @Expose
