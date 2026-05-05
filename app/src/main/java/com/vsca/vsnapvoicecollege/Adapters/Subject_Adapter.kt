@@ -88,6 +88,7 @@ class Subject_Adapter(data: List<Get_staff_yourclass>, context: Context) :
                     CommonUtil.semester_ = data.semestername.toString()
                     CommonUtil.section_ = data.sectionname.toString()
                     CommonUtil.courseName_ = data.coursename.toString()
+                    CommonUtil.deptid = data.departmentid.toString()
                 } else {
                     CommonUtil.DepartmentChooseIds.remove(data.sectionid.toString())
                     CommonUtil.seleteddataArraySection.remove(data.sectionid.toString())

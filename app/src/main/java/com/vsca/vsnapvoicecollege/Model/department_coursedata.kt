@@ -15,5 +15,8 @@ class department_coursedata {
     @SerializedName("course_id")
     var course_id: String? = null
 
+    @SerializedName("department_id")
+    var department_id: String? = null
+
 
 }

@@ -674,49 +674,66 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 
             if (showSettingsDialog && !alreadyShown) {
                 prefs.edit().putBoolean("settings_dialog_shown", true).apply()
+                Log.d("isComing","111111111111111")
+
                 showPermissionSettingsDialog()
             }
         }
     }
 
     private fun showPermissionSettingsDialog() {
-Log.d("isComing","isComing")
         if (isPermissionDialogShowing) return
         isPermissionDialogShowing = true
 
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this)
             .setTitle("Permission Required")
             .setMessage("Some permissions were permanently denied. Please enable them in app settings.")
-            .setCancelable(false)
-            .setPositiveButton("Go to Settings") { dialog, _ ->
-
-                dialog.dismiss()
+            .setCancelable(false) // disables back press
+            .setPositiveButton("Go to Settings") { d, _ ->
+                d.dismiss()
                 isPermissionDialogShowing = false
 
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = Uri.parse("package:$packageName")
                 startActivity(intent)
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-                isPermissionDialogShowing = false
-            }
-            .show()
+            .create()
+
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
     }
 
     private fun isPermissionPermanentlyDenied(): Boolean {
-
         return getRequiredPermissions().any { permission ->
-
             ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED &&
-                    !ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+                    !ActivityCompat.shouldShowRequestPermissionRationale(this, permission) &&
+                    wasPermissionRequested()
         }
     }
+
+//    private fun isPermissionPermanentlyDenied(): Boolean {
+//
+//        return getRequiredPermissions().any { permission ->
+//
+//            ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED &&
+//                    !ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+//        }
+//    }
 
     private fun hasAllPermissions(): Boolean {
         return getRequiredPermissions().all {
             ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
         }
+    }
+
+    private fun wasPermissionRequested(): Boolean {
+        val pref = getSharedPreferences("perm_pref", MODE_PRIVATE)
+        return pref.getBoolean("requested", false)
+    }
+
+    private fun setPermissionRequested() {
+        val pref = getSharedPreferences("perm_pref", MODE_PRIVATE)
+        pref.edit().putBoolean("requested", true).apply()
     }
 
     override fun onResume() {
@@ -725,16 +742,35 @@ Log.d("isComing","isComing")
         if (hasAllPermissions()) {
             MenuBottomType()
             DashBoardRequest()
-
         } else {
-
             if (isPermissionPermanentlyDenied()) {
+                Log.d("isComing","PERMANENT DENIED")
                 showPermissionSettingsDialog()
             } else {
                 permissionLauncher.launch(getRequiredPermissions())
+                setPermissionRequested()
             }
         }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//
+//        if (hasAllPermissions()) {
+//            MenuBottomType()
+//            DashBoardRequest()
+//
+//        } else {
+//
+//            if (isPermissionPermanentlyDenied()) {
+//                Log.d("isComing","222222222222222")
+//
+//                showPermissionSettingsDialog()
+//            } else {
+//                permissionLauncher.launch(getRequiredPermissions())
+//            }
+//        }
+//    }
 
     private fun getRequiredPermissions(): Array<String> {
 

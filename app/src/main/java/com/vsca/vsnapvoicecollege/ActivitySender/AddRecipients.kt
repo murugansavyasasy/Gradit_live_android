@@ -2522,6 +2522,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     recycleyearandsection!!.visibility = View.VISIBLE
                     txt_selectspecfic_YearandSecrion!!.visibility = View.VISIBLE
                     SelectedSpinnerIDhod = Getcoursedepartment!![position - 1].course_id
+                    CommonUtil.Courseid=Getcoursedepartment!![position - 1].course_id?:""
+                    CommonUtil.deptid=Getcoursedepartment!![position - 1].department_id?:""
 
                     Getcoursedepartment!![position - 1].course_name?.let {
                         Log.d("spinning data", it)
