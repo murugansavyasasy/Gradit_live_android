@@ -217,7 +217,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                             GridLayoutManager(applicationContext, 4)
                         CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
                         CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-                        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+//                        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
                         CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
                         CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
                     } else {
@@ -310,7 +310,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 GridLayoutManager(applicationContext, 4)
             CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
             CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+//            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
             CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
             CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
 
@@ -1459,7 +1459,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             GridLayoutManager(applicationContext, 4)
         CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
         CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+//        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
         CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
         CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
     }
