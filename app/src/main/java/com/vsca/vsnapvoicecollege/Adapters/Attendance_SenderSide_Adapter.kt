@@ -73,6 +73,7 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
             CommonUtil.SectionNmaeAttendance = data.sectionname.toString()
             CommonUtil.AttendanceHour.clear()
             CommonUtil.AttendanceHour.addAll(data.add_hours)
+            CommonUtil.isAttendanceHrsOrPeriodType =data.attendance_type?:""
             CommonUtil.isAttendanceType = "Take"
             AttendanceStatus = "Attendance"
             CommonUtil.AttendanceScreen = "AttendanceScreen"
@@ -102,6 +103,7 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
             CommonUtil.SectionNmaeAttendance = data.sectionname
             CommonUtil.AttendanceHourEdit.clear()
             CommonUtil.AttendanceHourEdit.addAll(data.edit_hours)
+            CommonUtil.isAttendanceHrsOrPeriodType =data.attendance_type?:""
 
             val i: Intent = Intent(context, Spectfice_TakeAttendance::class.java)
             AttendanceStatus = "AttendanceEdit"

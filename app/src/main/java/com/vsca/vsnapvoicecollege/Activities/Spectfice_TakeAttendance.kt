@@ -41,6 +41,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
     var SpecificStudentList: SelectedRecipientAdapter? = null
     var Attendance_Edit_Adapter: Attendance_Edit_Adapter? = null
     var SeletedHours = ""
+    var selectedPeriod = ""
     var addAttendance: Boolean = true
     private var isType = "General"
     private lateinit var binding: ActivitySpectficeTakeAttendanceBinding
@@ -67,6 +68,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         insetsController.isAppearanceLightStatusBars = true
 
         findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        Log.d("SelectedDate",CommonUtil.Selecteddata)
+
 
 
         AttendanceStatus = intent.getStringExtra("EditAttendance")
@@ -80,7 +83,12 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         imgRefresh!!.visibility = View.GONE
 
         val attendanceHours = ArrayList<String>()
-        attendanceHours.add(0, "Select hours")
+        if (CommonUtil.isAttendanceHrsOrPeriodType=="nth"){
+            attendanceHours.add(0, "Select period")
+        }
+        else{
+            attendanceHours.add(0, "Select hour")
+        }
 
         val filterCaterotyType = listOf("Name A-Z","Name Z-A","RegNo ASC","RegNo DSC","AdmisNo ASC","AdmisNo DSC")
 
@@ -137,19 +145,73 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
+//        if (AttendanceStatus.equals("AttendanceEdit")) {
+//            for (i in CommonUtil.AttendanceHourEdit.indices) {
+//                attendanceHours.addAll(listOf(CommonUtil.AttendanceHourEdit[i].hour.toString()))
+//            }
+//            val adaptersection = ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
+//            binding.edtHours!!.adapter = adaptersection
+//        } else {
+//            for (i in CommonUtil.AttendanceHour.indices) {
+//                if (CommonUtil.isAttendanceHrsOrPeriodType=="nth"){
+//                    attendanceHours.addAll(listOf(CommonUtil.AttendanceHour[i].period.toString()))
+//                }
+//                else{
+//                    attendanceHours.addAll(listOf(CommonUtil.AttendanceHour[i].hour.toString()))
+//                }
+////                attendanceHours.addAll(listOf(CommonUtil.AttendanceHour[i].hour.toString()))
+//            }
+//            val adaptersection = ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
+//            binding.edtHours!!.adapter = adaptersection
+//        }
+
         if (AttendanceStatus.equals("AttendanceEdit")) {
+
             for (i in CommonUtil.AttendanceHourEdit.indices) {
-                attendanceHours.addAll(listOf(CommonUtil.AttendanceHourEdit[i].hour.toString()))
+
+                if (CommonUtil.isAttendanceHrsOrPeriodType == "nth") {
+
+                    attendanceHours.add(
+                        CommonUtil.AttendanceHourEdit[i].period.toString()
+                    )
+
+                } else {
+
+                    attendanceHours.add(
+                        CommonUtil.AttendanceHourEdit[i].hour.toString()
+                    )
+                }
             }
-            val adaptersection = ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
+
+            val adaptersection =
+                ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
+
             binding.edtHours!!.adapter = adaptersection
+
         } else {
+
             for (i in CommonUtil.AttendanceHour.indices) {
-                attendanceHours.addAll(listOf(CommonUtil.AttendanceHour[i].hour.toString()))
+
+                if (CommonUtil.isAttendanceHrsOrPeriodType == "nth") {
+
+                    attendanceHours.add(
+                        CommonUtil.AttendanceHour[i].period.toString()
+                    )
+
+                } else {
+
+                    attendanceHours.add(
+                        CommonUtil.AttendanceHour[i].hour.toString()
+                    )
+                }
             }
-            val adaptersection = ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
+
+            val adaptersection =
+                ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
+
             binding.edtHours!!.adapter = adaptersection
         }
+
         binding.rdobtnPractical!!.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
             if (binding.rdobtnPractical!!.isChecked) {
                 isType = "Practical"
@@ -168,6 +230,55 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
+//        binding.edtHours!!.onItemSelectedListener = object :
+//            AdapterView.OnItemSelectedListener {
+//
+//            override fun onItemSelected(
+//                parent: AdapterView<*>,
+//                view: View,
+//                position: Int,
+//                id: Long
+//            ) {
+//                if (position == 0) {
+//                    SeletedHours = binding.edtHours!!.selectedItem.toString()
+//                    if (!AttendanceStatus.equals("AttendanceEdit")) {
+//                        if (addAttendance) {
+//                            addAttendance = false
+//                            Getspecificstudentdatasubject()
+//                        }
+////                        binding.checkRelative!!.visibility = View.VISIBLE
+//                        binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
+//                        binding.idSV!!.visibility = View.VISIBLE
+//                        binding.lnrFilter!!.visibility = View.VISIBLE
+//                    } else {
+//                        binding.lblhours!!.text = "Choose hour to edit"
+//                        binding.lblSelectattendance!!.visibility = View.VISIBLE
+//                        binding.recycleSpecificstudentAttendance!!.visibility = View.GONE
+//                        binding.idSV!!.visibility = View.GONE
+//                        binding.lnrFilter!!.visibility = View.GONE
+////                        binding.checkRelative!!.visibility = View.GONE
+//                    }
+//                } else {
+//                    SeletedHours = binding.edtHours!!.selectedItem.toString()
+//                    SelectedRecipientlistAttendanceEdit.clear()
+//                    binding.lblSelectattendance!!.visibility = View.GONE
+//                    if (AttendanceStatus.equals("AttendanceEdit")) {
+//                        Attendance_EditStudentList()
+////                        binding.checkRelative!!.visibility = View.GONE
+//                    } else {
+////                        binding.checkRelative!!.visibility = View.VISIBLE
+//                    }
+//                    binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
+//                    binding.idSV!!.visibility = View.VISIBLE
+//                    binding.lnrFilter!!.visibility = View.VISIBLE
+//                }
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//
+//            }
+//        }
+
         binding.edtHours!!.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
 
@@ -177,35 +288,83 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                 position: Int,
                 id: Long
             ) {
+
                 if (position == 0) {
-                    SeletedHours = binding.edtHours!!.selectedItem.toString()
+
+                    SeletedHours = ""
+                    selectedPeriod = ""
+
                     if (!AttendanceStatus.equals("AttendanceEdit")) {
+
                         if (addAttendance) {
                             addAttendance = false
                             Getspecificstudentdatasubject()
                         }
+
 //                        binding.checkRelative!!.visibility = View.VISIBLE
+
                         binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
                         binding.idSV!!.visibility = View.VISIBLE
                         binding.lnrFilter!!.visibility = View.VISIBLE
+
                     } else {
-                        binding.lblhours!!.text = "Choose hour to edit"
+
+                        if (CommonUtil.isAttendanceHrsOrPeriodType=="nth"){
+                            binding.lblhours!!.text = "Choose period to edit"
+                        }
+                        else{
+                            binding.lblhours!!.text = "Choose hour to edit"
+                        }
+
                         binding.lblSelectattendance!!.visibility = View.VISIBLE
                         binding.recycleSpecificstudentAttendance!!.visibility = View.GONE
                         binding.idSV!!.visibility = View.GONE
                         binding.lnrFilter!!.visibility = View.GONE
+
 //                        binding.checkRelative!!.visibility = View.GONE
                     }
+
                 } else {
-                    SeletedHours = binding.edtHours!!.selectedItem.toString()
-                    SelectedRecipientlistAttendanceEdit.clear()
-                    binding.lblSelectattendance!!.visibility = View.GONE
+
                     if (AttendanceStatus.equals("AttendanceEdit")) {
-                        Attendance_EditStudentList()
-//                        binding.checkRelative!!.visibility = View.GONE
+
+                        val selectedData =
+                            CommonUtil.AttendanceHourEdit[position - 1]
+
+                        // SAVE BOTH VALUES
+                        SeletedHours = selectedData.hour.toString()
+                        selectedPeriod =
+                            selectedData.period?.toString() ?: ""
+
                     } else {
+
+                        val selectedData =
+                            CommonUtil.AttendanceHour[position - 1]
+
+                        // SAVE BOTH VALUES
+                        SeletedHours = selectedData.hour.toString()
+                        selectedPeriod =
+                            selectedData.period?.toString() ?: ""
+                    }
+
+                    Log.d("SelectedHour", SeletedHours)
+                    Log.d("SelectedPeriod", selectedPeriod)
+
+                    SelectedRecipientlistAttendanceEdit.clear()
+
+                    binding.lblSelectattendance!!.visibility = View.GONE
+
+                    if (AttendanceStatus.equals("AttendanceEdit")) {
+
+                        Attendance_EditStudentList()
+
+//                        binding.checkRelative!!.visibility = View.GONE
+
+                    } else {
+
 //                        binding.checkRelative!!.visibility = View.VISIBLE
                     }
+
                     binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
                     binding.idSV!!.visibility = View.VISIBLE
                     binding.lnrFilter!!.visibility = View.VISIBLE
@@ -495,38 +654,96 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
+//        binding.btnTakeattendance!!.setOnClickListener {
+//
+//            if (!SeletedHours.equals("Select hours")) {
+//                CommonUtil.Absentlistcount = CommonUtil.AbsendlistStudent.size.toString()
+//                if (AttendanceStatus.equals("AttendanceEdit")) {
+//                    val dlg = this@Spectfice_TakeAttendance.let { AlertDialog.Builder(it) }
+//                    dlg.setTitle("Number of students absent marked for : " + CommonUtil.Absentlistcount)
+//                    dlg.setMessage("Click ok to confirm")
+//                    dlg.setPositiveButton(
+//                        CommonUtil.OK,
+//                        DialogInterface.OnClickListener { dialog, which ->
+//                            TakeAttendance("edit")
+//                            SeletedHours = ""
+//                        })
+//                    dlg.setNegativeButton(
+//                        CommonUtil.CANCEL,
+//                        DialogInterface.OnClickListener { dialog, which ->
+//
+//                        })
+//                    dlg.setCancelable(false)
+//                    dlg.create()
+//                    dlg.show()
+//                } else {
+//                    val dlg = this@Spectfice_TakeAttendance.let { AlertDialog.Builder(it) }
+//                    dlg.setTitle("Number of students absent marked for :" + CommonUtil.Absentlistcount)
+//                    dlg.setMessage("Click ok to confirm")
+//                    dlg.setPositiveButton(
+//                        CommonUtil.OK,
+//                        DialogInterface.OnClickListener { dialog, which ->
+//                            TakeAttendance("add")
+//                            SeletedHours = ""
+//                        })
+//                    dlg.setNegativeButton(
+//                        CommonUtil.CANCEL,
+//                        DialogInterface.OnClickListener { dialog, which ->
+//
+//                        })
+//
+//                    dlg.setCancelable(false)
+//                    dlg.create()
+//                    dlg.show()
+//
+//                }
+//            } else {
+//                CommonUtil.ApiAlert(this, "Please select attendance hour")
+//            }
+//        }
+
         binding.btnTakeattendance!!.setOnClickListener {
 
-            if (!SeletedHours.equals("Select hours")) {
-                CommonUtil.Absentlistcount = CommonUtil.AbsendlistStudent.size.toString()
-                if (AttendanceStatus.equals("AttendanceEdit")) {
-                    val dlg = this@Spectfice_TakeAttendance.let { AlertDialog.Builder(it) }
-                    dlg.setTitle("Number of students absent marked for : " + CommonUtil.Absentlistcount)
-                    dlg.setMessage("Click ok to confirm")
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            TakeAttendance("edit")
-                            SeletedHours = ""
-                        })
-                    dlg.setNegativeButton(
-                        CommonUtil.CANCEL,
-                        DialogInterface.OnClickListener { dialog, which ->
-
-                        })
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+            val defaultSelection =
+                if (CommonUtil.isAttendanceHrsOrPeriodType == "nth") {
+                    "Select period"
                 } else {
-                    val dlg = this@Spectfice_TakeAttendance.let { AlertDialog.Builder(it) }
-                    dlg.setTitle("Number of students absent marked for :" + CommonUtil.Absentlistcount)
+                    "Select hour"
+                }
+
+            if (
+                SeletedHours.isNotEmpty() &&
+                selectedPeriod.isNotEmpty() &&
+                binding.edtHours!!.selectedItem.toString() != defaultSelection
+            ) {
+
+                CommonUtil.Absentlistcount =
+                    CommonUtil.AbsendlistStudent.size.toString()
+
+                if (AttendanceStatus.equals("AttendanceEdit")) {
+
+                    val dlg =
+                        this@Spectfice_TakeAttendance.let {
+                            AlertDialog.Builder(it)
+                        }
+
+                    dlg.setTitle(
+                        "Number of students absent marked for : " +
+                                CommonUtil.Absentlistcount
+                    )
+
                     dlg.setMessage("Click ok to confirm")
+
                     dlg.setPositiveButton(
                         CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
-                            TakeAttendance("add")
+
+                            TakeAttendance("edit")
+
                             SeletedHours = ""
+                            selectedPeriod = ""
                         })
+
                     dlg.setNegativeButton(
                         CommonUtil.CANCEL,
                         DialogInterface.OnClickListener { dialog, which ->
@@ -537,9 +754,57 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     dlg.create()
                     dlg.show()
 
+                } else {
+
+                    val dlg =
+                        this@Spectfice_TakeAttendance.let {
+                            AlertDialog.Builder(it)
+                        }
+
+                    dlg.setTitle(
+                        "Number of students absent marked for :" +
+                                CommonUtil.Absentlistcount
+                    )
+
+                    dlg.setMessage("Click ok to confirm")
+
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
+                        DialogInterface.OnClickListener { dialog, which ->
+
+                            TakeAttendance("add")
+
+                            SeletedHours = ""
+                            selectedPeriod = ""
+                        })
+
+                    dlg.setNegativeButton(
+                        CommonUtil.CANCEL,
+                        DialogInterface.OnClickListener { dialog, which ->
+
+                        })
+
+                    dlg.setCancelable(false)
+                    dlg.create()
+                    dlg.show()
                 }
+
             } else {
-                CommonUtil.ApiAlert(this, "Please select attendance hour")
+
+                if (CommonUtil.isAttendanceHrsOrPeriodType == "nth") {
+
+                    CommonUtil.ApiAlert(
+                        this,
+                        "Please select attendance period"
+                    )
+
+                } else {
+
+                    CommonUtil.ApiAlert(
+                        this,
+                        "Please select attendance hour"
+                    )
+                }
             }
         }
         binding.idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -801,6 +1066,10 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         jsonObject.addProperty(ApiRequestNames.Req_subjectid, CommonUtil.subjectid)
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
         jsonObject.addProperty("attendancehour", SeletedHours)
+        jsonObject.addProperty("period", selectedPeriod)
+        Log.d("SelectedDate",CommonUtil.Selecteddata)
+        jsonObject.addProperty("date", CommonUtil.Selecteddata)
+        jsonObject.addProperty("attn_type", CommonUtil.isAttendanceHrsOrPeriodType)
         appViewModel!!.Attendance_Edit(jsonObject, this)
         Log.d("AttendanceEdit", jsonObject.toString())
     }
@@ -823,6 +1092,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         jsonObject.addProperty("title", binding.edtTopic!!.text.toString())
         jsonObject.addProperty("type", isType)
         jsonObject.addProperty("attendance_hours", SeletedHours)
+        jsonObject.addProperty("period", selectedPeriod)
+        jsonObject.addProperty("attn_type", CommonUtil.isAttendanceHrsOrPeriodType)
 
         val jsonArrayPresentlist = JsonArray()
 

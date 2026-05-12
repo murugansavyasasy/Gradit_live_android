@@ -212,6 +212,7 @@ object CommonUtil {
     var ExamEditStartdate = ""
     var ExamEditEnddate = ""
     var isAttendanceType = ""
+    var isAttendanceHrsOrPeriodType = ""
 
     var isShortlisted = "Shortlisted"
     var isAvailable = "Available"
