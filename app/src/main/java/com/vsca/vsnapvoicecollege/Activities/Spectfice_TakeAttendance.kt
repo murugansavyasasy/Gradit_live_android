@@ -593,14 +593,14 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     binding.lytCheckBoxes.visibility = View.VISIBLE
                     Attendance_Edit.forEach {
                         it.memberid
-                        it.attendancetype
+                        it.attendancetype?:""
                         it.membername
                         it.rollno
 
                         val group =
                             Attendance_Edit_Selected(
                                 it.memberid,
-                                it.attendancetype,
+                                it.attendancetype?:"",
                                 it.membername,
                                 it.rollno,
                                 it.admissionno

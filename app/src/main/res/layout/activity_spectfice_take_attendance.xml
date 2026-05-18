@@ -206,6 +206,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/con_spinner"
+                android:background="@drawable/gray_radius"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten"
