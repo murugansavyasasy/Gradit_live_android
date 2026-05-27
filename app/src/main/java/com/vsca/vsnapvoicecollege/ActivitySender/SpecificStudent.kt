@@ -372,6 +372,7 @@ class SpecificStudent : ActionBarActivity(),
                     binding.recycleSpecific!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     SpecificStudentList!!.notifyDataSetChanged()
                 } else {
+                    CommonUtil.ApiAlert(this, response.message?:"Something went wrong")
 
                     binding.idSV!!.visibility = View.GONE
                     binding.recycleSpecific!!.visibility = View.GONE
@@ -379,7 +380,7 @@ class SpecificStudent : ActionBarActivity(),
                     binding.txtChBoxAll!!.visibility = View.GONE
                 }
             } else {
-
+                CommonUtil.ApiAlert(this, response?.message?:"Something went wrong")
                 binding.idSV!!.visibility = View.GONE
                 binding.chBoxAll!!.visibility = View.GONE
                 binding.txtChBoxAll!!.visibility = View.GONE

@@ -42,7 +42,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     var isAttendanceType = "Attendance"
 
     var GetAttendanceData: List<AttendanceData> = ArrayList()
-    var isProgressDialog:ProgressDialog?=null
+//    var isProgressDialog:ProgressDialog?=null
     var LeaveHistoryLiveData: ArrayList<LeaveHistoryData> = ArrayList()
     var StudentAttendance: ArrayList<StudentAttendance> = ArrayList()
     var LeaveHistoryprincipleLiveData: List<DataXXXX> = ArrayList()
@@ -70,7 +70,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionBarMethod(this)
-        isProgressDialog= CustomLoading.createProgressDialog(this)
+//        isProgressDialog= CustomLoading.createProgressDialog(this)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
@@ -473,7 +473,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         appViewModel!!.Getattendance!!.observe(this) { response ->
             if (response != null) {
-                isProgressDialog?.dismiss()
+//                isProgressDialog?.dismiss()
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
@@ -537,7 +537,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     }
 
     private fun attendanceGet() {
-        isProgressDialog?.show()
+//        isProgressDialog?.show()
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")

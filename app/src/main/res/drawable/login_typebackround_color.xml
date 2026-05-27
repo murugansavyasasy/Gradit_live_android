@@ -30,7 +30,7 @@
                 android:left="0dp"
                 android:right="0dp"
                 android:top="0dp" />
-            <solid android:color="#50CCCCCC" />
+            <solid android:color="#000" />
             <corners android:radius="10dp" />
         </shape>
     </item>
@@ -42,7 +42,7 @@
                 android:left="0.1dp"
                 android:right="0.1dp"
                 android:top="0dp" />
-            <solid android:color="#60CCCCCC" />
+            <solid android:color="#000" />
             <corners android:radius="10dp" />
         </shape>
     </item>

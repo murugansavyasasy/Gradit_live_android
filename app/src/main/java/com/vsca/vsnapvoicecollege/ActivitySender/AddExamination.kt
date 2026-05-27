@@ -214,6 +214,18 @@ class AddExamination : ActionBarActivity() {
                         val i: Intent = Intent(this, create_Examination::class.java)
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        CommonUtil.Examination_Creation.add(
+                            Examination_Creation(
+                                CommonUtil.CollegeId,
+                                CommonUtil.enddate,
+                                "0", CommonUtil.Examname,
+                                "add",
+                                CommonUtil.MemberId,
+                                CommonUtil.startdate,
+                                CommonUtil.deptidExam,
+                                CommonUtil.Sectiondetail_ExamCreation
+                            )
+                        )
                         startActivity(i)
                     }
 

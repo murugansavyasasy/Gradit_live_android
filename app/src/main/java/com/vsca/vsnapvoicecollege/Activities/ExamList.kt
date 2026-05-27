@@ -149,9 +149,9 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    if (CommonUtil.menu_readExamination.equals("1")) {
-                        ExamListRequest(ExamType)
-                    }
+//                    if (CommonUtil.menu_readExamination.equals("1")) {
+//                        ExamListRequest(ExamType)
+//                    }
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
                     } else {
@@ -300,6 +300,10 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                 UserMenuRequest(this)
                 NoDataFound()
             }
+        }
+
+        if (CommonUtil.menu_readExamination.equals("1")) {
+            ExamListRequest(ExamType)
         }
 
         imgRefresh!!.setOnClickListener(View.OnClickListener {

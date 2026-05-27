@@ -61,6 +61,7 @@ class LoginChooseRoles(
         if (Priority_type.equals(data.priority)) {
 
             holder.rytOverAll!!.visibility = View.VISIBLE
+            holder.viewDiv!!.visibility = View.VISIBLE
             holder.lblMemberName!!.text = data.membername
             holder.lblCollegeName!!.text = data.colgname
             holder.viewline1!!.visibility = View.GONE
@@ -93,6 +94,7 @@ class LoginChooseRoles(
 
         } else {
             holder.rytOverAll!!.visibility = View.GONE
+            holder.viewDiv!!.visibility = View.GONE
         }
 
 //        if (data.colglogo == null || data.colglogo!!.isEmpty()) {
@@ -129,6 +131,7 @@ class LoginChooseRoles(
         val lbl_Deptname: TextView = itemView!!.findViewById(R.id.lbl_Deptname)!!
         val lblCoursenname: TextView = itemView!!.findViewById(R.id.lblCoursenname)!!
         val rytOverAll: RelativeLayout = itemView!!.findViewById(R.id.rytOverAll)!!
+        val viewDiv: View = itemView!!.findViewById(R.id.viewDiv)!!
 
 
     }

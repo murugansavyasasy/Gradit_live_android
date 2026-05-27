@@ -3784,13 +3784,12 @@ class AppServices {
 
     fun examsectionandsubject(jsonObject: JsonObject?, activity: Activity) {
         progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+        progressDialog!!.show()
         RestClient.apiInterfaces.Examsectionandsubject(jsonObject)
             ?.enqueue(object : Callback<Section_and_Subject?> {
                 override fun onResponse(
                     call: Call<Section_and_Subject?>, response: Response<Section_and_Subject?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getyearandsection",
                         response.code().toString() + " - " + response.toString()
@@ -3799,7 +3798,7 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
+                            progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -3809,17 +3808,19 @@ class AppServices {
                             } else {
                                 sectionandsubject.postValue(response.body())
                             }
-                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
-                            sectionandsubject.postValue(null)
-                        } else {
-                            sectionandsubject.postValue(null)
                         }
+                    }
+                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        progressDialog!!.dismiss()
+                        sectionandsubject.postValue(null)
+                    } else {
+                        progressDialog!!.dismiss()
+                        sectionandsubject.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<Section_and_Subject?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
+                    progressDialog!!.dismiss()
                     sectionandsubject.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(

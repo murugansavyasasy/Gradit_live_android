@@ -1185,6 +1185,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     recycle_specificstudent!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     SpecificStudentList!!.notifyDataSetChanged()
                 } else {
+                    CommonUtil.ApiAlert(this, response?.message?:"Something went wrong")
 
                     SearchView!!.visibility = View.GONE
                     recycle_specificstudent!!.visibility = View.GONE
@@ -1192,6 +1193,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     ALL4!!.visibility = View.GONE
                 }
             } else {
+                CommonUtil.ApiAlert(this, response?.message?:"Something went wrong")
 
                 SearchView!!.visibility = View.GONE
                 ch_all4!!.visibility = View.GONE
