@@ -7,7 +7,10 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
@@ -45,15 +48,36 @@ class Otp : AppCompatActivity() {
             binding.txtOtpVerification!!!!.text = CommonUtil.OptMessege
         }
 
-        if (CommonUtil.ivrnumbers.isNotEmpty()) {
-            binding.txtHelpline!!.text = CommonUtil.ivrnumbers[0]
+        binding.llHelplineNumbers.removeAllViews()
+
+        CommonUtil.ivrnumbers.forEach { number ->
+
+            val textView = TextView(this@Otp).apply {
+                text = number
+                textSize = 16f
+                setPadding(0, 8, 0, 8)
+                setTextColor(ContextCompat.getColor(this@Otp, R.color.black))
+
+                setOnClickListener {
+                    val intent = Intent(Intent.ACTION_DIAL).apply {
+                        data = Uri.parse("tel:$number")
+                    }
+                    startActivity(intent)
+                }
+            }
+
+            binding.llHelplineNumbers.addView(textView)
         }
 
-        binding.lnrDialhelpline!!.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel:" + CommonUtil.ivrnumbers[0])
-            startActivity(intent)
-        }
+//        if (CommonUtil.ivrnumbers.isNotEmpty()) {
+//            binding.txtHelpline!!.text = CommonUtil.ivrnumbers[0]
+//        }
+
+//        binding.lnrDialhelpline!!.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_DIAL)
+//            intent.data = Uri.parse("tel:" + CommonUtil.ivrnumbers[0])
+//            startActivity(intent)
+//        }
         val mobileNumber = CommonUtil.MobileNUmber.drop(7)
         binding.txtNumberlable!!.text =
             "We have sent a 4-digit verification code to" + "  " + "+91*******" + mobileNumber

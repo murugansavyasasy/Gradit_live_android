@@ -310,17 +310,6 @@ class Splash : AppCompatActivity() {
         val webview = layout.findViewById<WebView>(R.id.webview)
         val btnTerms = layout.findViewById<Button>(R.id.btnTermsAndCondition)
 
-//        val progressDialog = CustomLoading.createProgressDialog(this@Splash)
-//        webview.webChromeClient = object : WebChromeClient() {
-//            override fun onProgressChanged(view: WebView, progress: Int) {
-//                progressDialog.show()
-//                setProgress(progress * 100)
-//                if (progress == 100) {
-//                    progressDialog.dismiss()
-//                }
-//            }
-//        }
-
         webview.webViewClient = MyWebViewClient(this@Splash)
         webview.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
         val webSettings = webview.settings

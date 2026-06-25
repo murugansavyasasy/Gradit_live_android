@@ -62,7 +62,6 @@ import javax.xml.transform.ErrorListener
 object CommonUtil {
 
 
-
     var isVimeoToken = "8d74d8bf6b5742d39971cc7d3ffbb51a"
     var isVimeoUrl = "https://api.vimeo.com/me/videos"
     var isFileLimit = 0
@@ -73,22 +72,14 @@ object CommonUtil {
     var Remaining = 10
     var commonFileList: MutableList<CommonFileData> = mutableListOf()
     var selectedFileIndex: Int = -1
-
-
-
-
-
-
-//
-
     var imgSwipe: ImageView? = null
-     var btnContinue: Button? = null
-     var layoutBottomCurve: ConstraintLayout? = null
-     var recyclerMenusBottom: RecyclerView? = null
-     var llBottomSheet: LinearLayout? = null
-     var layoutDepartment: ConstraintLayout? = null
-     var layoutCollege: ConstraintLayout? = null
-     var imgAddPlus: ImageView? = null
+    var btnContinue: Button? = null
+    var layoutBottomCurve: ConstraintLayout? = null
+    var recyclerMenusBottom: RecyclerView? = null
+    var llBottomSheet: LinearLayout? = null
+    var layoutDepartment: ConstraintLayout? = null
+    var layoutCollege: ConstraintLayout? = null
+    var imgAddPlus: ImageView? = null
 
 
     @kotlin.jvm.JvmField
@@ -109,8 +100,8 @@ object CommonUtil {
 
     var iSubjectId = ArrayList<String>()
     var isSkillSetDataSending: GetResumeBuilderSkillSetDetailsData? = null
-    var saveBasicDetails: GetResumeBuilderProfileDetailsData? =null
-    var saveAcademicDetails : GetResumeBuilderAcademicDetailsData? =null
+    var saveBasicDetails: GetResumeBuilderProfileDetailsData? = null
+    var saveAcademicDetails: GetResumeBuilderAcademicDetailsData? = null
 
     var fullResumeData: ResumeContextData? = null
     var isRBBucketName = "gradit-communication"
@@ -121,7 +112,7 @@ object CommonUtil {
     var Appid = 1
 
     @JvmField
-    var VersionId = 44
+    var VersionId = 45
 
     // MENU NAME
 
@@ -185,7 +176,8 @@ object CommonUtil {
     var minimumdate = ""
     var maxmumdate = ""
     var LeavetypeEdit = ""
-//    var urlFromS3: String? = null
+
+    //    var urlFromS3: String? = null
     var VoiceType = ""
     var AssignmentType = ""
     var courseType = ""
@@ -284,7 +276,7 @@ object CommonUtil {
     var receivertype = ""
     var deptid = ""
     var SemesterId = ""
-    var SemesteName= ""
+    var SemesteName = ""
     var receiverid = ""
     var seletedStringdata = ""
     var seleteddataArraySection = java.util.ArrayList<String>()
@@ -379,7 +371,9 @@ object CommonUtil {
     var SeletedStringdataReplace: String? = null
     var isExamName: String? = ""
     var isForgotMobileNumber = ""
-    var ivrnumbers = java.util.ArrayList<String>()
+//    var ivrnumbers = java.util.ArrayList<String>()
+var ivrnumbers: ArrayList<String> = arrayListOf()
+
     var menu_readHome = ""
     var menu_writeHome = ""
     var menu_readCommunication = ""
@@ -497,7 +491,8 @@ object CommonUtil {
     var ScreenNameEvent = "ScreenNameEvent"
     var Event_Edit = "Event_Edit"
     var Image_Pdf = "New Image/Pdf"
-    var TermsNConditionUrl = "https://gradit.voicesnap.com/Home/TermsAndConditions"
+//    var TermsNConditionUrl = "https://gradit.voicesnap.com/Home/TermsAndConditions"
+    var TermsNConditionUrl = "https://www.thegradit.com/termsandconditions.html"
     var isDeviceTokenApiCalling: Boolean? = true
     private val REQUEST_CODE_APP_SETTINGS = 101
 
@@ -523,7 +518,6 @@ object CommonUtil {
         }
         return null // invalid date
     }
-
 
 
     fun showDatePickerWithExistingDate2(
@@ -577,9 +571,6 @@ object CommonUtil {
     }
 
 
-
-
-
     //Date Picker
     fun showDatePickerWithExistingDate(
         context: Context,
@@ -611,7 +602,8 @@ object CommonUtil {
                 set(y, m, d)
             }
 
-            val pickedDate = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).format(selectedCalendar.time)
+            val pickedDate =
+                SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).format(selectedCalendar.time)
             val millis = selectedCalendar.timeInMillis
 
             onDateSelected(pickedDate, millis)
@@ -644,9 +636,6 @@ object CommonUtil {
             dlg.show()
         }
     }
-
-
-
 
 
     fun parseAnyDateToDisplay(dateStr: String): String {
@@ -688,9 +677,6 @@ object CommonUtil {
     }
 
 
-
-
-
     //Date Convert From "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" to "dd MMM yyyy"
     fun convertTimeStampToCustomFormat(isDateFormat: String): String {
         return try {
@@ -719,7 +705,7 @@ object CommonUtil {
     }
 
 
-    fun SucessAlert(activity: Activity?,title:String?, msg: String?) {
+    fun SucessAlert(activity: Activity?, title: String?, msg: String?) {
         if (activity != null && !activity.isFinishing) {
             val builder = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.Header))
             builder.setTitle(title)
@@ -743,8 +729,6 @@ object CommonUtil {
             time24 // return original if parsing fails
         }
     }
-
-
 
 
     fun ApiAlert(activity: Activity?, msg: String?) {
@@ -879,7 +863,7 @@ object CommonUtil {
     }
 
 
-        fun isNetworkConnected(activity: Activity): Boolean {
+    fun isNetworkConnected(activity: Activity): Boolean {
         val cm = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null
     }
@@ -887,61 +871,62 @@ object CommonUtil {
 
     @SuppressLint("StaticFieldLeak")
     fun RequestPermission(activity: Activity?) {
-        val permissions: List<String> = if (Priority.equals("p4") || Priority.equals("p5") || Priority.equals("p6")) {
-            Log.d("testPriority", Priority)
+        val permissions: List<String> =
+            if (Priority.equals("p4") || Priority.equals("p5") || Priority.equals("p6")) {
+                Log.d("testPriority", Priority)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                listOf(
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.WRITE_CONTACTS,
-                    Manifest.permission.INTERNET
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    listOf(
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.POST_NOTIFICATIONS,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.INTERNET
+                    )
+                } else {
+                    listOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.RECORD_AUDIO
+                    )
+                }
             } else {
-                listOf(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.WRITE_CONTACTS,
-                    Manifest.permission.INTERNET,
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.RECORD_AUDIO
-                )
-            }
-        } else {
-            Log.d("testPriorityElse", Priority)
+                Log.d("testPriorityElse", Priority)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                listOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.INTERNET,
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
-            } else {
-                listOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.INTERNET
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    listOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
+                } else {
+                    listOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.INTERNET
+                    )
+                }
             }
-        }
 
         // Check for missing permissions
         val permissionsToRequest = mutableListOf<String>()
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(activity!!, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    activity!!,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 permissionsToRequest.add(permission)
             }
         }
@@ -954,83 +939,6 @@ object CommonUtil {
             // Proceed with app functionality here
         }
     }
-
-
-//    fun RequestPermission(activity: Activity?) {
-//
-//        if (Priority.equals("p4") || Priority.equals("p5") || Priority.equals("p6")) {
-//            Log.d("testPriority", Priority)
-//
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-//
-//                Dexter.withActivity(activity).withPermissions(
-//                    Manifest.permission.READ_MEDIA_IMAGES,
-//                    Manifest.permission.READ_MEDIA_VIDEO,
-//                    Manifest.permission.READ_MEDIA_AUDIO,
-//                    Manifest.permission.INTERNET,
-//                    Manifest.permission.POST_NOTIFICATIONS
-//                )
-//            } else {
-//                Dexter.withActivity(activity).withPermissions(
-//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                    Manifest.permission.READ_EXTERNAL_STORAGE,
-//                    Manifest.permission.ACCESS_NETWORK_STATE,
-//                    Manifest.permission.INTERNET
-//                )
-//            }
-//        } else {
-//            Log.d("testPriorutyelse", Priority)
-//
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-//                Dexter.withActivity(activity).withPermissions(
-//                    Manifest.permission.CAMERA,
-//                    Manifest.permission.READ_MEDIA_IMAGES,
-//                    Manifest.permission.READ_MEDIA_VIDEO,
-//                    Manifest.permission.READ_MEDIA_AUDIO,
-//                    Manifest.permission.RECORD_AUDIO,
-//                    Manifest.permission.ACCESS_NETWORK_STATE,
-//                    Manifest.permission.INTERNET,
-//                    Manifest.permission.POST_NOTIFICATIONS
-//                )
-//            } else {
-//                Dexter.withActivity(activity).withPermissions(
-//                    Manifest.permission.CAMERA,
-//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                    Manifest.permission.READ_EXTERNAL_STORAGE,
-//                    Manifest.permission.RECORD_AUDIO,
-//                    Manifest.permission.ACCESS_NETWORK_STATE,
-//                    Manifest.permission.INTERNET
-//                )
-//            }
-//        }.withListener(object : MultiplePermissionsListener {
-//            override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-//                if (report.areAllPermissionsGranted()) {
-//                    Log.d("permission", "granted")
-//                } else {
-//                    Log.d("permission", "failed")
-//                    activity!!.finishAffinity()
-//                }
-//            }
-//
-//            override fun onPermissionRationaleShouldBeShown(
-//                permissions: List<PermissionRequest>, token: PermissionToken
-//            ) {
-//                token.continuePermissionRequest()
-//            }
-//        }).withErrorListener { }.onSameThread().check()
-//    }
-
-//    private fun showPermissionSettingsDialog() {
-//        android.app.AlertDialog.Builder(this)
-//            .setTitle("Permission Required")
-//            .setMessage("Some permissions were permanently denied. Please enable them in app settings.")
-//            .setPositiveButton("Go to Settings") { _, _ ->
-//                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-//                intent.data = Uri.parse("package:$packageName")
-//                startActivity(intent)
-//            }
-//            .show()
-//    }
 
     fun RequestCameraPermission(activity: Activity?) {
         Dexter.withActivity(activity).withPermissions(

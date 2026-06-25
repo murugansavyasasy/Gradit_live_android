@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -28,6 +29,8 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
@@ -123,6 +126,10 @@ class AddAssignment : ActionBarActivity() {
     var AssignmentType: String? = null
     var AssignmentDescription: String? = null
     private lateinit var binding: AddImageNewBinding
+
+
+    private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private var pickVideoLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -287,60 +294,147 @@ class AddAssignment : ActionBarActivity() {
             popupMenu.show()
         }
 
-    }
 
+        pickImagesLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.PickMultipleVisualMedia(10)
+            ) { uris ->
 
-    val selectImagesActivityResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data: Intent? = result.data
+                if (uris.isEmpty()) return@registerForActivityResult
 
-                //If multiple image selected
-                if (data?.clipData != null) {
-                    val count = data.clipData?.itemCount ?: 0
+                CommonUtil.SelcetedFileList.clear()
 
-                    for (i in 0 until count) {
-                        val imageUri: Uri? = data.clipData?.getItemAt(i)?.uri
-                        val file = getImageFromUri(imageUri)
-                        file?.let {
-                            CommonUtil.SelcetedFileList.add(it.absolutePath)
-                            Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
-                            var Count: String? = null
-                            if (CommonUtil.SelcetedFileList != null) {
-                                Count = CommonUtil.SelcetedFileList.size.toString()
-                                binding.lblFileselectedstate!!.visibility = View.VISIBLE
-                                binding.lblFileselectedstate!!.text = "Number of file selected : " + Count
-                            } else {
-                                binding.lblFileselectedstate!!.visibility = View.GONE
-                            }
+                uris.forEach { uri ->
 
-                        }
+                    val file = getImageFromUri(uri)
+
+                    file?.let {
+                        CommonUtil.SelcetedFileList.add(it.absolutePath)
                     }
                 }
 
-                //If single image selected
-                else if (data?.data != null) {
-                    CommonUtil.SelcetedFileList.clear()
+                Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
 
-                    val imageUri: Uri? = data.data
-                    val file = getImageFromUri(imageUri)
-                    file?.let {
-                        CommonUtil.SelcetedFileList.add(it.absolutePath)
-                        Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
-                        var Count: String? = null
-                        if (CommonUtil.SelcetedFileList != null) {
-                            Count = CommonUtil.SelcetedFileList.size.toString()
-                            binding.lblFileselectedstate!!.visibility = View.VISIBLE
-                            binding.lblFileselectedstate!!.setText("Nmber of file selected : " + Count)
+                if (CommonUtil.SelcetedFileList.isNotEmpty()) {
+                    binding.lblFileselectedstate?.visibility = View.VISIBLE
+                    binding.lblFileselectedstate?.text =
+                        "Number of file selected : ${CommonUtil.SelcetedFileList.size}"
+                } else {
+                    binding.lblFileselectedstate?.visibility = View.GONE
+                }
+            }
 
-                        } else {
-                            binding.lblFileselectedstate!!.visibility = View.GONE
+        pickVideoLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.PickMultipleVisualMedia(2)
+            ) { uris ->
 
-                        }
+                if (uris.isEmpty()) return@registerForActivityResult
+
+                uris.forEach { uri ->
+
+                    val filePath = getPathFromUri(uri)
+                        videofile = filePath?.path.toString()
+
+                        Log.d("video file", videofile.toString())
+
+                        VimeoVideoUpload(this, videofile!!)
+                }
+            }
+
+    }
+
+    private fun getPathFromUri(uri: Uri): File? {
+        return try {
+            val fileName = getFileName(uri) ?: "temp_file"
+            val file = File(cacheDir, fileName)
+
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                file.outputStream().use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun getFileName(uri: Uri): String {
+        var fileName: String? = null
+
+        if (uri.scheme.equals("content", ignoreCase = true)) {
+            val projection = arrayOf(OpenableColumns.DISPLAY_NAME)
+
+            contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (columnIndex != -1) {
+                        fileName = cursor.getString(columnIndex)
                     }
                 }
             }
         }
+
+        if (fileName.isNullOrEmpty()) {
+            fileName = uri.lastPathSegment
+            fileName = fileName?.substringAfterLast("/")
+        }
+
+        return fileName ?: "temp_file_${System.currentTimeMillis()}"
+    }
+
+//    val selectImagesActivityResult =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == RESULT_OK) {
+//                val data: Intent? = result.data
+//
+//                //If multiple image selected
+//                if (data?.clipData != null) {
+//                    val count = data.clipData?.itemCount ?: 0
+//
+//                    for (i in 0 until count) {
+//                        val imageUri: Uri? = data.clipData?.getItemAt(i)?.uri
+//                        val file = getImageFromUri(imageUri)
+//                        file?.let {
+//                            CommonUtil.SelcetedFileList.add(it.absolutePath)
+//                            Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
+//                            var Count: String? = null
+//                            if (CommonUtil.SelcetedFileList != null) {
+//                                Count = CommonUtil.SelcetedFileList.size.toString()
+//                                binding.lblFileselectedstate!!.visibility = View.VISIBLE
+//                                binding.lblFileselectedstate!!.text = "Number of file selected : " + Count
+//                            } else {
+//                                binding.lblFileselectedstate!!.visibility = View.GONE
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                //If single image selected
+//                else if (data?.data != null) {
+//                    CommonUtil.SelcetedFileList.clear()
+//
+//                    val imageUri: Uri? = data.data
+//                    val file = getImageFromUri(imageUri)
+//                    file?.let {
+//                        CommonUtil.SelcetedFileList.add(it.absolutePath)
+//                        Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
+//                        var Count: String? = null
+//                        if (CommonUtil.SelcetedFileList != null) {
+//                            Count = CommonUtil.SelcetedFileList.size.toString()
+//                            binding.lblFileselectedstate!!.visibility = View.VISIBLE
+//                            binding.lblFileselectedstate!!.setText("Nmber of file selected : " + Count)
+//
+//                        } else {
+//                            binding.lblFileselectedstate!!.visibility = View.GONE
+//
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
     fun EditText.enableScrollText() {
         overScrollMode = View.OVER_SCROLL_ALWAYS
@@ -352,7 +446,7 @@ class AddAssignment : ActionBarActivity() {
                     view.parent.requestDisallowInterceptTouchEvent(true)
                     when (event.action and MotionEvent.ACTION_MASK) {
                         MotionEvent.ACTION_UP -> view.parent.requestDisallowInterceptTouchEvent(
-                            false
+                             false
                         )
                     }
                 }
@@ -506,13 +600,23 @@ class AddAssignment : ActionBarActivity() {
             }
             LayoutGallery.setOnClickListener {
 
+//                FileType = "IMAGE"
+//                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//                intent.addCategory(Intent.CATEGORY_OPENABLE)
+//                intent.type = "image/*"
+//                selectImagesActivityResult.launch(intent)
+//                FilePopup!!.dismiss()
+
                 FileType = "IMAGE"
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "image/*"
-                selectImagesActivityResult.launch(intent)
-                FilePopup!!.dismiss()
+
+                pickImagesLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+
+                FilePopup?.dismiss()
             }
 
             LayoutDocuments.setOnClickListener({
@@ -548,20 +652,31 @@ class AddAssignment : ActionBarActivity() {
 
             filename = binding.lblUploadFiles.toString()
             if (binding.lblUploadFiles!!.text.equals("Upload Image")) {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "image/*"
-                selectImagesActivityResult.launch(intent)
+                    pickImagesLauncher?.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
+                    )
+//                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//                intent.addCategory(Intent.CATEGORY_OPENABLE)
+//                intent.type = "image/*"
+//                selectImagesActivityResult.launch(intent)
+
             } else if (binding.lblUploadFiles!!.text.equals("Upload Pdf")) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "application/pdf"
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
                 startActivityForResult(intent, SELECT_PDF)
             } else if (binding.lblUploadFiles!!.text.equals("Upload Video")) {
-                val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
-                intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                startActivityForResult(intent1, SELECT_VIDEO)
+                pickVideoLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.VideoOnly
+                    )
+                )
+//                val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
+//                intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//                startActivityForResult(intent1, SELECT_VIDEO)
             }
         }
     }

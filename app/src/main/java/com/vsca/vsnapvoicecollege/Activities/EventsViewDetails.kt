@@ -3,13 +3,21 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.ContentResolver
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
+import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
@@ -36,6 +44,7 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.ActivityEventsBinding
+import org.apache.commons.io.FileUtils
 import java.io.File
 import java.util.*
 
@@ -72,6 +81,9 @@ class EventsViewDetails : ActionBarActivity() {
     val REQUEST_GAllery = 2
     private lateinit var binding: ActivityEventsBinding
     var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
+
+    private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private var pickVideoLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -255,13 +267,99 @@ class EventsViewDetails : ActionBarActivity() {
             startActivity(intent1)
 
         }
+
+        pickImagesLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.PickMultipleVisualMedia(10)
+            ) { uris ->
+
+                if (uris.isEmpty()) return@registerForActivityResult
+
+                CommonUtil.SelcetedFileList.clear()
+
+                uris.forEach { uri ->
+
+                    val file = getImageFromUri(uri)
+
+                    file?.let {
+                        CommonUtil.SelcetedFileList.add(it.absolutePath)
+                    }
+                }
+
+                if (!CommonUtil.SelcetedFileList.isEmpty()) {
+
+                    val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@EventsViewDetails)
+                    alertDialog.setTitle(CommonUtil.Info)
+                    alertDialog.setMessage("Are you want to Upload the Image?")
+                    alertDialog.setPositiveButton(
+                        CommonUtil.Yes
+                    ) { _, _ ->
+
+                        isUploadAWS()
+
+                    }
+                    alertDialog.setNegativeButton(
+                        CommonUtil.OK
+                    ) { _, _ -> }
+                    val alert: AlertDialog = alertDialog.create()
+                    alert.setCanceledOnTouchOutside(false)
+                    alert.show()
+                } else {
+                    Toast.makeText(this, "Select The Image", Toast.LENGTH_SHORT).show()
+                }
+
+                Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
+
+            }
+    }
+
+    private fun getImageFromUri(imageUri: Uri?): File? {
+        imageUri?.let { uri ->
+            val mimeType = getMimeType(this@EventsViewDetails, uri)
+            mimeType?.let {
+                val file = createTmpFileFromUri(this, imageUri, "temp_image", ".$it")
+                file?.let { Log.d("image Url = ", file.absolutePath) }
+                return file
+            }
+        }
+        return null
+    }
+
+    private fun getMimeType(context: Context, uri: Uri): String? {
+        val extension: String? = if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
+            val mime = MimeTypeMap.getSingleton()
+            mime.getExtensionFromMimeType(context.contentResolver.getType(uri))
+        } else {
+            MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+        }
+        return extension
+    }
+
+    private fun createTmpFileFromUri(
+        context: Context, uri: Uri, fileName: String, mimeType: String
+    ): File? {
+        return try {
+            val stream = context.contentResolver.openInputStream(uri)
+            val file = File.createTempFile(fileName, mimeType, cacheDir)
+
+            FileUtils.copyInputStreamToFile(stream, file)
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     fun btnAddpic() {
 
-        val intent1 = Intent(this, AlbumSelectActivity::class.java)
-        intent1.putExtra("Gallery", "Images")
-        startActivityForResult(intent1, REQUEST_GAllery)
+        pickImagesLauncher?.launch(
+            PickVisualMediaRequest(
+                ActivityResultContracts.PickVisualMedia.ImageOnly
+            )
+        )
+//        val intent1 = Intent(this, AlbumSelectActivity::class.java)
+//        intent1.putExtra("Gallery", "Images")
+//        startActivityForResult(intent1, REQUEST_GAllery)
 
     }
 

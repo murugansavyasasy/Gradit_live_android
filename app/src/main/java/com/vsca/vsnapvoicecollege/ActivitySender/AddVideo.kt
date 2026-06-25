@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -18,6 +19,9 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowInsetsControllerCompat
@@ -85,6 +89,8 @@ class AddVideo : ActionBarActivity() {
     var Videofile: Boolean? = null
     private lateinit var binding: ActivityAddVideoBinding
 
+    private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private var pickVideoLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
@@ -151,6 +157,66 @@ class AddVideo : ActionBarActivity() {
                 CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
             }
         }
+
+        pickVideoLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.PickMultipleVisualMedia(2)
+            ) { uris ->
+
+                if (uris.isEmpty()) return@registerForActivityResult
+
+                uris.forEach { uri ->
+
+                    val filePath = getPathFromUri(uri)
+                    videofile = filePath?.path.toString()
+
+                    Log.d("video file", videofile.toString())
+                    CommonUtil.videofile = videofile
+                    binding.txtSelected!!.visibility = View.VISIBLE
+                    Log.d("video file", CommonUtil.videofile.toString())
+                }
+            }
+    }
+
+    private fun getPathFromUri(uri: Uri): File? {
+        return try {
+            val fileName = getFileName(uri) ?: "temp_file"
+            val file = File(cacheDir, fileName)
+
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                file.outputStream().use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun getFileName(uri: Uri): String {
+        var fileName: String? = null
+
+        if (uri.scheme.equals("content", ignoreCase = true)) {
+            val projection = arrayOf(OpenableColumns.DISPLAY_NAME)
+
+            contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (columnIndex != -1) {
+                        fileName = cursor.getString(columnIndex)
+                    }
+                }
+            }
+        }
+
+        if (fileName.isNullOrEmpty()) {
+            fileName = uri.lastPathSegment
+            fileName = fileName?.substringAfterLast("/")
+        }
+
+        return fileName ?: "temp_file_${System.currentTimeMillis()}"
     }
 
     private fun AdForCollegeApi() {
@@ -192,10 +258,15 @@ class AddVideo : ActionBarActivity() {
         videoAdapter = VideoContentAdapter(videoContentlist, this)
         ryccontent.adapter = videoAdapter
         btnAgree.setOnClickListener {
+            pickVideoLauncher?.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.VideoOnly
+                )
+            )
             popupWindow.dismiss()
-            val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
-            intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-            startActivityForResult(intent1, SELECT_VIDEO)
+//            val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
+//            intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+//            startActivityForResult(intent1, SELECT_VIDEO)
         }
     }
 

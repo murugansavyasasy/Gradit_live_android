@@ -4,6 +4,7 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -16,7 +17,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.webkit.MimeTypeMap
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.view.WindowInsetsControllerCompat
@@ -40,6 +45,7 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityImageOrPdfBinding
+import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -72,6 +78,8 @@ class ImageOrPdf: ActionBarActivity() {
     var ScreenName: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     private lateinit var binding: ActivityImageOrPdfBinding
+    private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private var pickVideoLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,8 +168,67 @@ class ImageOrPdf: ActionBarActivity() {
             }
         }
 
+        pickImagesLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.PickMultipleVisualMedia(10)
+            ) { uris ->
+
+                if (uris.isEmpty()) return@registerForActivityResult
+
+                CommonUtil.SelcetedFileList.clear()
+
+                uris.forEach { uri ->
+
+                    val file = getImageFromUri(uri)
+
+                    file?.let {
+                        CommonUtil.SelcetedFileList.add(it.absolutePath)
+                    }
+                    updateFileCountUI()
+                }
+
+                Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
+            }
+
         binding.txtImgpdfdescription!!.addTextChangedListener(mTextEditorWatcher)
         binding.txtImgpdfdescription!!.enableScrollText()
+    }
+
+    private fun getImageFromUri(imageUri: Uri?): File? {
+        imageUri?.let { uri ->
+            val mimeType = getMimeType(this@ImageOrPdf, uri)
+            mimeType?.let {
+                val file = createTmpFileFromUri(this, imageUri, "temp_image", ".$it")
+                file?.let { Log.d("image Url = ", file.absolutePath) }
+                return file
+            }
+        }
+        return null
+    }
+
+    private fun getMimeType(context: Context, uri: Uri): String? {
+        val extension: String? = if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
+            val mime = MimeTypeMap.getSingleton()
+            mime.getExtensionFromMimeType(context.contentResolver.getType(uri))
+        } else {
+            MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+        }
+        return extension
+    }
+
+    private fun createTmpFileFromUri(
+        context: Context, uri: Uri, fileName: String, mimeType: String
+    ): File? {
+        return try {
+            val stream = context.contentResolver.openInputStream(uri)
+            val file = File.createTempFile(fileName, mimeType, cacheDir)
+
+            FileUtils.copyInputStreamToFile(stream, file)
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     private fun AdForCollegeApi() {
@@ -213,10 +280,20 @@ class ImageOrPdf: ActionBarActivity() {
         LayoutGallery.setOnClickListener {
             CommonUtil.SelcetedFileList.clear()
 
-            val intent1 = Intent(this, AlbumSelectActivity::class.java)
-            intent1.putExtra("Gallery", "Images")
-            startActivityForResult(intent1, REQUEST_GAllery)
-            FilePopup!!.dismiss()
+//            FileType = "IMAGE"
+
+            pickImagesLauncher?.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+
+            FilePopup?.dismiss()
+
+//            val intent1 = Intent(this, AlbumSelectActivity::class.java)
+//            intent1.putExtra("Gallery", "Images")
+//            startActivityForResult(intent1, REQUEST_GAllery)
+//            FilePopup!!.dismiss()
         }
 
         LayoutCamera.setOnClickListener {

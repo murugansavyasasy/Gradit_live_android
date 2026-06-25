@@ -674,7 +674,6 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 
             if (showSettingsDialog && !alreadyShown) {
                 prefs.edit().putBoolean("settings_dialog_shown", true).apply()
-                Log.d("isComing","111111111111111")
 
                 showPermissionSettingsDialog()
             }
@@ -763,7 +762,6 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 //        } else {
 //
 //            if (isPermissionPermanentlyDenied()) {
-//                Log.d("isComing","222222222222222")
 //
 //                showPermissionSettingsDialog()
 //            } else {
@@ -778,8 +776,6 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arrayOf(
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO,
                     Manifest.permission.READ_MEDIA_AUDIO,
                     Manifest.permission.POST_NOTIFICATIONS,
                     Manifest.permission.READ_CONTACTS,
@@ -801,8 +797,6 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arrayOf(
                     Manifest.permission.CAMERA,
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO,
                     Manifest.permission.READ_MEDIA_AUDIO,
                     Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.POST_NOTIFICATIONS

@@ -43,7 +43,13 @@ class ForgotPassword : AppCompatActivity() {
                 status = response.Status
                 message = response.Message
                 if (status == 1) {
-                    CommonUtil.ivrnumbers = response.data.get(0).ivrnumbers
+                    // Assign API response
+                    CommonUtil.ivrnumbers = response.data[0].ivrnumbers
+
+                    Log.d("IVR", "Size: ${CommonUtil.ivrnumbers.size}")
+                    CommonUtil.ivrnumbers.forEachIndexed { index, number ->
+                        Log.d("IVR", "[$index] = $number")
+                    }
                     Log.d("ivrNumbers", CommonUtil.ivrnumbers.toString())
                     lblcontent!!.text = message
 

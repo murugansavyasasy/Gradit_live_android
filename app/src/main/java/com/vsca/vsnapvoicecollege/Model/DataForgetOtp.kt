@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class DataForgetOtp(
 
-    @SerializedName("ivrnumbers") var ivrnumbers: ArrayList<String> = arrayListOf()
-
+    @SerializedName("ivrnumbers")
+var ivrnumbers: ArrayList<String> = arrayListOf()
 )

@@ -254,8 +254,12 @@ class FilesViewActivity : AppCompatActivity()  {
 
                 R.id.action_download -> {
                     if (url.contains("vimeo.com/video/")) fetchAndDownloadVimeoVideo(url)
-                    else if (checkStoragePermission()) downloadFile(url)
-                    else requestStoragePermission()
+                    else if (
+                        checkStoragePermission()
+                        )
+                        downloadFile(url)
+                    else true
+                        //requestStoragePermission()
                     true
                 }
 
@@ -437,24 +441,12 @@ class FilesViewActivity : AppCompatActivity()  {
     }
 
     private fun checkStoragePermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_MEDIA_IMAGES
-            ) == PackageManager.PERMISSION_GRANTED
-        } else {
+        return true
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
-        }
-    }
 
-    private fun requestStoragePermission() {
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
-        else arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        ActivityCompat.requestPermissions(this, permission, 101)
     }
 
     data class VimeoDownload(

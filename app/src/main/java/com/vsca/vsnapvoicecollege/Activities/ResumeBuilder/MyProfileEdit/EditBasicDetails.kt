@@ -4,6 +4,7 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.MyProfileEdit
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -16,12 +17,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -33,6 +39,7 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditbasicdetailsBinding
+import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -70,6 +77,7 @@ class EditBasicDetails : AppCompatActivity() {
     var separator = ","
     var fileName: File? = null
     var filename: String? = null
+    private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +115,28 @@ class EditBasicDetails : AppCompatActivity() {
                 binding.edtDOB.setText(pickedDate) // 19-12-2026
             }
         }
+
+        pickImagesLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.PickMultipleVisualMedia(10)
+            ) { uris ->
+                if (uris.isEmpty()) return@registerForActivityResult
+
+                CommonUtil.SelcetedFileList.clear()
+
+                uris.forEach { uri ->
+                    val file = uriToFile(uri)
+
+                    Log.d("FILE", file?.absolutePath ?: "null")
+
+                    file?.let {
+                        CommonUtil.SelcetedFileList.add(it.absolutePath)
+                    }
+                }
+
+                Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
+
+            }
 
 
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
@@ -198,6 +228,26 @@ class EditBasicDetails : AppCompatActivity() {
             finish()
         }
         binding.customSwitch.setChecked(isNotificationStatus)
+    }
+
+    private fun uriToFile(uri: Uri): File? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+
+            val file = File(
+                cacheDir,
+                "image_${System.currentTimeMillis()}.jpg"
+            )
+
+            file.outputStream().use { output ->
+                inputStream.copyTo(output)
+            }
+
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     private fun showDeleteImageConfirmationDialog() {
@@ -353,10 +403,19 @@ class EditBasicDetails : AppCompatActivity() {
             popupWindow?.dismiss()
         }
         LayoutGallery.setOnClickListener {
-            val galleryIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE)
+
+            pickImagesLauncher?.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+
             popupWindow?.dismiss()
+
+//            val galleryIntent =
+//                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//            startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE)
+//            popupWindow?.dismiss()
         }
 
         LayoutCamera.setOnClickListener {
@@ -455,6 +514,7 @@ class EditBasicDetails : AppCompatActivity() {
     }
 
     private fun getPathFromUri(uri: Uri): String? {
+        Log.d("isThis is my uri",uri.toString())
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = contentResolver.query(uri, projection, null, null, null)

@@ -28,6 +28,9 @@ import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -104,6 +107,7 @@ class EditAcademicDetails : AppCompatActivity() {
     private var originalArrears: String = ""
     private var originalEducationalDetails: List<GetEducationalDetailsData> = listOf()
     var memberId = ""
+    private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,6 +151,28 @@ class EditAcademicDetails : AppCompatActivity() {
             )
         }
 
+
+        pickImagesLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.PickMultipleVisualMedia(10)
+            ) { uris ->
+
+                if (uris.isEmpty()) return@registerForActivityResult
+
+                CommonUtil.SelcetedFileList.clear()
+
+                uris.forEach { uri ->
+
+                    val file = uriToFile(uri)
+
+                    file?.let {
+                        CommonUtil.SelcetedFileList.add(it.absolutePath)
+                        addPath(Uri.fromFile(it), FileType.IMAGE)
+                    }
+                }
+                updateFileCountUI()
+                attachmentPosition = RecyclerView.NO_POSITION
+            }
 
         binding.edtBacklogs.setText(backlogs)
         binding.edtArrears.setText(arrears)
@@ -193,6 +219,26 @@ class EditAcademicDetails : AppCompatActivity() {
             } else {
                 showNoChangesDialog()
             }
+        }
+    }
+
+    private fun uriToFile(uri: Uri): File? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+
+            val file = File(
+                cacheDir,
+                "image_${System.currentTimeMillis()}.jpg"
+            )
+
+            file.outputStream().use { output ->
+                inputStream.copyTo(output)
+            }
+
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 
@@ -662,13 +708,22 @@ private fun dismissUploadDialog() {
             FilePopup?.dismiss()
         }
         LayoutGallery.setOnClickListener {
+
+            pickImagesLauncher?.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+
+            FilePopup?.dismiss()
+
 //            CommonUtil.SelcetedFileList.clear()
 
-            val intent1 = Intent(this, AlbumSelectActivity::class.java)
-            intent1.putExtra("Gallery", "Images")
-            startActivityForResult(intent1, REQUEST_GAllery)
-            FilePopup!!.dismiss()
-            Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
+//            val intent1 = Intent(this, AlbumSelectActivity::class.java)
+//            intent1.putExtra("Gallery", "Images")
+//            startActivityForResult(intent1, REQUEST_GAllery)
+//            FilePopup!!.dismiss()
+//            Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
 
         }
 
@@ -817,9 +872,7 @@ private fun dismissUploadDialog() {
 
         val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             listOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_VIDEO
+                Manifest.permission.CAMERA
             )
         } else {
             listOf(
@@ -870,9 +923,7 @@ private fun dismissUploadDialog() {
 
         val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_VIDEO
+                Manifest.permission.CAMERA
             )
         } else {
             arrayOf(
