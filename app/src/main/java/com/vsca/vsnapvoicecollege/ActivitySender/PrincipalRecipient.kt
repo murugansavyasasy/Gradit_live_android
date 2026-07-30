@@ -1442,7 +1442,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         when (SearchType) {
             "DivisionPositionnotZero" -> {
                 for (item in FilterDepartment) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }
@@ -1450,7 +1450,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
             "DivisionPositionZero" -> {
                 for (item in SelectedRecipientlist) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }
@@ -1458,7 +1458,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
             "CourseAll" -> {
                 for (item in SelectedRecipientlist) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }
@@ -1466,7 +1466,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
             "CourseParticular" -> {
                 for (item in FilterDepartment) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }
@@ -1474,7 +1474,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
             "DepartmentCourse" -> {
                 for (item in FilterDepartment) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }
@@ -1482,7 +1482,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
 
             "ParticularDepartment" -> {
                 for (item in FilterDepartment) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }

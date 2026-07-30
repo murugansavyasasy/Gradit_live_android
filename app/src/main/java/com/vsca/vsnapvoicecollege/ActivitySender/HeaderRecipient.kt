@@ -1284,7 +1284,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         when (SearchType) {
             "FilterType" -> {
                 for (item in FilterDepartment) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }
@@ -1292,7 +1292,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
 
             "DivisionPositionZero" -> {
                 for (item in SelectedRecipientlist) {
-                    if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+                    if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                         filteredlist.add(item)
                     }
                 }

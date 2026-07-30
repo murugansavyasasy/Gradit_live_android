@@ -894,7 +894,7 @@ class SpecificStudent : ActionBarActivity(),
         val filteredlist: java.util.ArrayList<RecipientSelected> = java.util.ArrayList()
 
         for (item in SelectedRecipientlist) {
-            if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+            if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                 filteredlist.add(item)
             }
         }

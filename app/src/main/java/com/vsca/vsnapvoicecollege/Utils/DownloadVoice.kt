@@ -50,20 +50,6 @@ object DownloadVoice {
                     Log.d("DOWNLOADING...", "server contacted and has file")
 
                     object : AsyncTask<Void?, Void?, Boolean>() {
-                        protected fun doInBackground(vararg voids: Void): Boolean {
-                            val writtenToDisk = writeResponseBodyToDisk(
-                                activity!!,
-                                response.body(),
-                                folder,
-                                fileName
-                            )
-                            Log.d(
-                                "DOWNLOADING...DOINBA",
-                                "file download was a success? $writtenToDisk"
-                            )
-
-                            return writtenToDisk
-                        }
 
                         override fun onPostExecute(status: Boolean) {
                             super.onPostExecute(status)

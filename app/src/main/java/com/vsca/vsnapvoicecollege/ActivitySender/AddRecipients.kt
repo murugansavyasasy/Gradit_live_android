@@ -2361,7 +2361,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         val filteredlist: ArrayList<RecipientSelected> = ArrayList()
 
         for (item in SelectedRecipientlist) {
-            if (item.SelectedName!!.toLowerCase().contains(text.toLowerCase())) {
+            if (item.SelectedName!!.lowercase().contains(text.lowercase())) {
                 filteredlist.add(item)
             }
         }
