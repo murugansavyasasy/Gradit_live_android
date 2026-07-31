@@ -166,8 +166,8 @@ class AppServices {
 
     var SMSEntireCollegetutorandsubjectLiveData: MutableLiveData<SenderStatusMessageData?>
     var SMSParticularTypeLiveData: MutableLiveData<SenderStatusMessageData?>
-    var Noticeboardsmssend: MutableLiveData<NoticeBoardSMSsend>
-    var Eventsenddata: MutableLiveData<Evendsenddata>
+    var Noticeboardsmssend: MutableLiveData<NoticeBoardSMSsend?>
+    var Eventsenddata: MutableLiveData<Evendsenddata?>
     var Groupdata: MutableLiveData<GetGrouplist?>
     var Subjectpdata: MutableLiveData<staffsubject_list?>
     var GetAttendanceForStaff: MutableLiveData<GetAttendance?>
@@ -178,14 +178,14 @@ class AppServices {
     var sublectspecificstudent: MutableLiveData<specificStudentdata?>
     var coursedepartment: MutableLiveData<department_course?>
     var Yearandsection: MutableLiveData<Yearandsection?>
-    var ImageorPdf: MutableLiveData<ImageORpdfsend>
-    var imageorpdfparticuler: MutableLiveData<ImageORpdfsend>
-    var Assignmentdata: MutableLiveData<Assignmentsent>
-    var AssignmentdataForwardText: MutableLiveData<Assignmentsent>
+    var ImageorPdf: MutableLiveData<ImageORpdfsend?>
+    var imageorpdfparticuler: MutableLiveData<ImageORpdfsend?>
+    var Assignmentdata: MutableLiveData<Assignmentsent?>
+    var AssignmentdataForwardText: MutableLiveData<Assignmentsent?>
 
-    var Attendancemark: MutableLiveData<AttendancemardkingResponse>
-    var Manageleavesentdata: MutableLiveData<ManageLeave>
-    var Leavehistoryprinciple: MutableLiveData<Leave_history>
+    var Attendancemark: MutableLiveData<AttendancemardkingResponse?>
+    var Manageleavesentdata: MutableLiveData<ManageLeave?>
+    var Leavehistoryprinciple: MutableLiveData<Leave_history?>
     var LeaveRequest: MutableLiveData<LeaveRequest>
     var sectionandsubject: MutableLiveData<Section_and_Subject?>
     var Examcreation: MutableLiveData<ExamCreation_dataclass?>
