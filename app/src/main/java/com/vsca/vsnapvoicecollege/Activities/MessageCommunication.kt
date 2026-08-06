@@ -72,10 +72,11 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
-        MenuBottomType()
+//        MenuBottomType()
         TabDepartmentColor()
 
 
@@ -292,7 +293,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     }
 
     fun departmentClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         TabDepartmentColor()
         CommunicationType = true
         if (CommonUtil.menu_readCommunicationText == "1") {
@@ -315,7 +316,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     }
 
     fun collegeClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         CommunicationType = false
         if (CommonUtil.menu_readCommunicationText == "1") {
             CommunicationRequest(CommunicationType)

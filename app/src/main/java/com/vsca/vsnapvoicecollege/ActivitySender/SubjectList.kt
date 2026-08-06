@@ -69,7 +69,7 @@ override fun inflateBinding(): SubjectListviewBinding {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
          ActionBarMethod(this)
-        MenuBottomType()
+//        MenuBottomType()
 
         binding.CommonLayout.imgback.setOnClickListener { onBackPressed() }
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }

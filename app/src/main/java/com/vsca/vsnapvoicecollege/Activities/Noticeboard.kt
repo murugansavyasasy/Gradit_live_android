@@ -68,11 +68,12 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
 
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
         TabDepartmentColor()
-        MenuBottomType()
+//        MenuBottomType()
 
         CommonUtil.OnMenuClicks("Noticeboard")
 
@@ -242,7 +243,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    bottomsheetStateCollpased()
+//                    bottomsheetStateCollpased()
                 }
             }
         })
@@ -370,7 +371,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         TabDepartmentColor()
         NoticeboardType = true
         if (CommonUtil.menu_readNoticeBoard.equals("1")) {
@@ -379,7 +380,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         NoticeboardType = false
         if (CommonUtil.menu_readNoticeBoard.equals("1")) {
             NoticeboardRequest(NoticeboardType)

@@ -98,12 +98,14 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
         ReplayType = "2"
         CommonUtil.OnMenuClicks("ChatCommunication")
 
+
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
-        MenuBottomType()
+//        MenuBottomType()
         UserMenuRequest(this)
 
 

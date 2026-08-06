@@ -3,7 +3,6 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +15,6 @@ import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityLoginRolesBinding
 
 class LoginRoles : AppCompatActivity() {
@@ -220,7 +218,7 @@ class LoginRoles : AppCompatActivity() {
 
                         override fun onClick(view: View) {
                             SetLoginData(data)
-                            val i: Intent = Intent(this@LoginRoles, DashBoard::class.java)
+                            val i: Intent = Intent(this@LoginRoles, DashBoardActivityRewamp::class.java)
                             startActivity(i)
                         }
                     })

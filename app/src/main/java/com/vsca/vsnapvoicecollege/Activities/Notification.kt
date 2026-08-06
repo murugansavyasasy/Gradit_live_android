@@ -35,8 +35,9 @@ class Notification : BaseActivity<BottomMenuSwipeBinding>() {
 
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
 
         ActionBarMethod(this@Notification)
@@ -46,7 +47,7 @@ class Notification : BaseActivity<BottomMenuSwipeBinding>() {
 //        findViewById<View>(R.id.OverallLayout).addActionBarMarginIfNeeded()
 
 
-        MenuBottomType()
+//        MenuBottomType()
         NotificatonRequest()
         if (CommonUtil.HeaderMenuNotification) {
             imgNotification!!.isEnabled = false

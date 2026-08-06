@@ -53,15 +53,11 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
 
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve,
-            R.id.recyclermenusbottom,
-            R.id.swipeUpMenus,
             R.id.LayoutDepartment,
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-        MenuBottomType()
+//        MenuBottomType()
 
         CommonUtil.OnMenuClicks("CategoryCredit")
 

@@ -67,10 +67,11 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
-        MenuBottomType()
+//        MenuBottomType()
         TabDepartmentColor()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
@@ -114,7 +115,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         CommonUtil.EventEdit = "Edit"
 
         if (CommonUtil.EventStatus.equals("Past")) {
-            bottomsheetStateCollpased()
+//            bottomsheetStateCollpased()
             EventType = false
             if (CommonUtil.menu_readEvent.equals("1")) {
                 EventRequest(EventType)
@@ -124,7 +125,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
 
         } else {
-            bottomsheetStateCollpased()
+//            bottomsheetStateCollpased()
             TabDepartmentColor()
             EventType = true
 
@@ -134,7 +135,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             }
 
             CommonUtil.EventEdit = "Edit"
-            bottomsheetStateCollpased()
+//            bottomsheetStateCollpased()
         }
 
         appViewModel!!.AdvertisementLiveData?.observe(this,
@@ -471,21 +472,21 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     fun departmentClick() {
 
         CommonUtil.EventStatus = "Upcoming"
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         TabDepartmentColor()
         EventType = true
         if (CommonUtil.menu_readEvent.equals("1")) {
             EventRequest(EventType)
         }
         CommonUtil.EventEdit = "Edit"
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
 
     }
 
     fun collegeClick() {
 
         CommonUtil.EventStatus = "Past"
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         EventType = false
         if (CommonUtil.menu_readEvent.equals("1")) {
             EventRequest(EventType)

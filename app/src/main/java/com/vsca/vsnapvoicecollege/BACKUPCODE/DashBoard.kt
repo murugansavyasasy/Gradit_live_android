@@ -97,7 +97,7 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
             val deniedPermissions = permissions.filter { !it.value }.keys
 
             if (deniedPermissions.isEmpty()) {
-                MenuBottomType()
+//                MenuBottomType()
                 DashBoardRequest()
                 UserMenuRequest(this)
             }
@@ -125,10 +125,10 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus,0, 0, 0
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
-
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -739,7 +739,7 @@ class DashBoard : BaseActivity<BottomMenuSwipeBinding>(){
         super.onResume()
 
         if (hasAllPermissions()) {
-            MenuBottomType()
+//            MenuBottomType()
             DashBoardRequest()
         } else {
             if (isPermissionPermanentlyDenied()) {

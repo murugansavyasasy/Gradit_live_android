@@ -78,15 +78,11 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
         CommonUtil.OnMenuClicks("Voice")
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve,
-            R.id.recyclermenusbottom,
-            R.id.swipeUpMenus,
             R.id.LayoutDepartment,
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-        MenuBottomType()
+//        MenuBottomType()
         TabDepartmentColor()
         UserMenuRequest(this)
 
@@ -414,7 +410,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
     }
 
     fun departmentClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         TabDepartmentColor()
         CommunicationType = true
         if (CommonUtil.menu_readCommunication == "1") {
@@ -442,7 +438,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
 
     fun collegeClick() {
         //   imgAddPlus!!.visibility = View.GONE
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         CommunicationType = false
         if (CommonUtil.menu_readCommunication == "1") {
             CommunicationRequest(CommunicationType)

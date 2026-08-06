@@ -71,10 +71,6 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
 
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve,
-            R.id.recyclermenusbottom,
-            R.id.swipeUpMenus,
             R.id.LayoutDepartment,
             R.id.LayoutCollege,
             R.id.imgAddPlus
@@ -82,7 +78,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
 
 
         CommonUtil.RequestCameraPermission(this)
-        MenuBottomType()
+//        MenuBottomType()
 
         if (CommonUtil.menu_readAssignment.equals("1")) {
             OverAllMenuCountRequestAssignment(this, CommonUtil.MenuIDAssignment!!)
@@ -365,7 +361,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         AssignmentType = true
         if (CommonUtil.menu_readAssignment.equals("1")) {
             AssignmentRequest(AssignmentType)
@@ -375,12 +371,12 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         AssignmentType = false
         if (CommonUtil.menu_readAssignment.equals("1")) {
             AssignmentRequest(AssignmentType)
         }
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         TabCollegeColor()
         CommonUtil.pastExam = "1"
 

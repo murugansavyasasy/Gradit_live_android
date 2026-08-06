@@ -76,6 +76,21 @@ class DashboardChild(
         Position = position
         Log.d("Dashboardtype", type)
 
+        if (type == "Emergency Notification") {
+            val screenWidth = holder.itemView.context.resources.displayMetrics.widthPixels
+            val params = holder.itemView.layoutParams
+
+            params.width = (screenWidth * 0.75f).toInt()
+            holder.itemView.layoutParams = params
+
+
+        } else {
+            val params = holder.itemView.layoutParams
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT
+            holder.itemView.layoutParams = params
+
+        }
+
         if ((type == "Circular")) {
 
 
@@ -483,17 +498,18 @@ class DashboardChild(
                 })
             }
 
-        } else if ((type == "Emergency Notification")) {
+        }
+        else if ((type == "Emergency Notification")) {
             holder.lnrImageView.visibility = GONE
             holder.LayoutAd.visibility = GONE
             holder.LayoutCicular.visibility = GONE
             holder.lnrEmgVoice.visibility = VISIBLE
 
-            isemergencyExpanded = position == mExpandedPosition
+//            isemergencyExpanded = position == mExpandedPosition
 
-            holder.lnrEmergencyVoice.visibility = if (isemergencyExpanded!!) VISIBLE else GONE
-            holder.lnrEmgVoice.isActivated = isemergencyExpanded!!
-            holder.lnrEmgVoice.visibility = VISIBLE
+//            holder.lnrEmergencyVoice.visibility = if (isemergencyExpanded!!) VISIBLE else GONE
+//            holder.lnrEmgVoice.isActivated = isemergencyExpanded!!
+            holder.lnrEmergencyVoice.visibility = VISIBLE
 
             val voiceduration = modal.duration
             val minutes = (voiceduration % 3600) / 60
@@ -509,177 +525,179 @@ class DashboardChild(
             val time = splitDate[1]
             holder.lblVoiceTime.text = time
 
-            holder.rytEmgVoice.setOnClickListener(object : OnClickListener {
-                override fun onClick(view: View) {
-                    mExpandedPosition = if (isemergencyExpanded!!) -1 else position
-                    notifyDataSetChanged()
-                    holder.rytSeekbarlayout.visibility = VISIBLE
-                    CommonUtil.DownloadingFileDashboard = 0
+            holder.rytSeekbarlayout.visibility = VISIBLE
+            CommonUtil.DownloadingFileDashboard = 0
 
-                    msgcontent = modal.voiceFilepath
-                    path = modal.voiceFilepath
-                    Log.d("filepath", path.toString())
-                    var filename: String = modal.MsgId!! + "_" + "Gradit.mp3"
-                    path = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        context.applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
-                    } else {
-                        Environment.getExternalStorageDirectory().path
+            msgcontent = modal.voiceFilepath
+            path = modal.voiceFilepath
+            Log.d("filepath", path.toString())
+            var filename: String = modal.MsgId!! + "_" + "Gradit.mp3"
+            path = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                context.applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.path
+            } else {
+                Environment.getExternalStorageDirectory().path
+            }
+
+            val dir = File(path, VOICE_FOLDER)
+            val file = File(dir, filename)
+
+            if (file.exists()) {
+
+                holder.rytSeekbarlayout.visibility = VISIBLE
+                CommonUtil.CommunicationisExpandAdapter = false
+
+                SetUpAudioPlayer(holder)
+                fetchPathUrl(modal)
+
+//                mExpandedPosition = if (isemergencyExpanded!!) -1 else position
+//                notifyDataSetChanged()
+
+                Log.d("FileExist", "exist")
+                mediaPlayer!!.setOnCompletionListener(OnCompletionListener {
+                    holder.imgEmgplaypause.setImageResource(R.drawable.ic_play)
+
+                    Log.d("SeekCompleteion", "stop")
+                    mediaPlayer!!.seekTo(0)
+                })
+
+                holder.emergencyseekbar.setOnSeekBarChangeListener(object :
+                    OnSeekBarChangeListener {
+                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                    override fun onProgressChanged(
+                        seekBar: SeekBar, progress: Int, fromUser: Boolean
+                    ) {
+
                     }
-                    val dir = File(path, VOICE_FOLDER)
-                    val file = File(dir, filename)
+                })
 
-                    if (file.exists()) {
+                Log.d("FetchSong", "END***************************************")
+                holder.imgEmgplaypause.setOnClickListener(object : OnClickListener {
+                    override fun onClick(view: View) {
+                        mediaFileLengthInMilliseconds =
+                            mediaPlayer!!.duration // gets the song length in milliseconds from URL
 
-                        holder.rytSeekbarlayout.visibility = VISIBLE
-                        CommonUtil.CommunicationisExpandAdapter = false
 
-                        SetUpAudioPlayer(holder)
-                        fetchPathUrl(modal)
-
-                        mExpandedPosition = if (isemergencyExpanded!!) -1 else position
-                        notifyDataSetChanged()
-
-                        Log.d("FileExist", "exist")
-                        mediaPlayer!!.setOnCompletionListener(OnCompletionListener {
+                        if (!mediaPlayer!!.isPlaying) {
+                            mediaPlayer!!.start()
+                            holder.imgEmgplaypause.setImageResource(R.drawable.ic_pause)
+                        } else {
+                            mediaPlayer!!.pause()
                             holder.imgEmgplaypause.setImageResource(R.drawable.ic_play)
-
-                            Log.d("SeekCompleteion", "stop")
-                            mediaPlayer!!.seekTo(0)
-                        })
-
-                        holder.emergencyseekbar.setOnSeekBarChangeListener(object :
-                            OnSeekBarChangeListener {
-                            override fun onStopTrackingTouch(seekBar: SeekBar) {}
-                            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-                            override fun onProgressChanged(
-                                seekBar: SeekBar, progress: Int, fromUser: Boolean
-                            ) {
-
-                            }
-                        })
-
-                        Log.d("FetchSong", "END***************************************")
-                        holder.imgEmgplaypause.setOnClickListener(object : OnClickListener {
-                            override fun onClick(view: View) {
-                                mediaFileLengthInMilliseconds =
-                                    mediaPlayer!!.duration // gets the song length in milliseconds from URL
-
-
-                                if (!mediaPlayer!!.isPlaying) {
-                                    mediaPlayer!!.start()
-                                    holder.imgEmgplaypause.setImageResource(R.drawable.ic_pause)
-                                } else {
-                                    mediaPlayer!!.pause()
-                                    holder.imgEmgplaypause.setImageResource(R.drawable.ic_play)
-                                }
-                                primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
-                            }
-
-                            private fun primarySeekBarProgressUpdater(fileLength: Int) {
-                                val iProgress =
-                                    ((mediaPlayer!!.currentPosition.toFloat() / fileLength) * 100).toInt()
-                                holder.emergencyseekbar.progress = iProgress
-                                if (mediaPlayer!!.isPlaying) {
-                                    val notification: Runnable = object : Runnable {
-                                        override fun run() {
-                                            holder.lblEmgfromduration.text = milliSecondsToTimer(
-                                                mediaPlayer!!.currentPosition.toLong()
-                                            )
-                                            primarySeekBarProgressUpdater(fileLength)
-                                        }
-                                    }
-                                    handler.postDelayed(notification, 1000)
-                                }
-                            }
-                        })
-
-                    } else {
-
-                        Log.d("FileExist", "notexist")
-
-                        holder.imgEmgplaypause.setOnClickListener(object : OnClickListener {
-
-                            override fun onClick(view: View) {
-
-
-                                Log.d("isDownload", CommonUtil.DownloadingFileDashboard.toString())
-                                if (CommonUtil.DownloadingFileDashboard != 1 && CommonUtil.DownloadingFileDashboard != 2) {
-                                    Log.d(
-                                        "isDownload",
-                                        CommonUtil.DownloadingFileDashboard.toString()
-                                    )
-
-                                    DownloadVoice.downloadSampleFile(
-                                        context,
-                                        modal.voiceFilepath!!,
-                                        VOICE_FOLDER,
-                                        filename,
-                                        holder,
-                                        true
-                                    )
-
-                                } else {
-
-                                    if (CommonUtil.DownloadingFileDashboard != 2) {
-                                        SetUpAudioPlayer(holder)
-                                        fetchPathUrl(modal)
-
-                                    }
-
-                                    CommonUtil.DownloadingFileDashboard = 2
-
-                                    mediaFileLengthInMilliseconds = mediaPlayer!!.duration
-
-                                    if (!mediaPlayer!!.isPlaying) {
-                                        mediaPlayer!!.start()
-                                        holder.imgEmgplaypause.setImageResource(R.drawable.ic_pause)
-                                    } else {
-                                        mediaPlayer!!.pause()
-                                        holder.imgEmgplaypause.setImageResource(R.drawable.ic_play)
-                                    }
-                                }
-
-                                primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
-
-                            }
-
-                            private fun primarySeekBarProgressUpdater(fileLength: Int) {
-                                val iProgress =
-                                    ((mediaPlayer!!.currentPosition.toFloat() / fileLength) * 100).toInt()
-                                holder.emergencyseekbar.progress = iProgress
-                                if (mediaPlayer!!.isPlaying) {
-                                    val notification: Runnable = object : Runnable {
-                                        override fun run() {
-
-                                            holder.lblEmgfromduration.text =
-                                                milliSecondsToTimer(mediaPlayer!!.currentPosition.toLong())
-                                            primarySeekBarProgressUpdater(fileLength)
-                                        }
-                                    }
-                                    handler.postDelayed(notification, 1000)
-                                }
-                            }
-                        })
-                    }
-
-                    holder.emergencyseekbar.setOnSeekBarChangeListener(object :
-                        OnSeekBarChangeListener {
-                        override fun onStopTrackingTouch(seekBar: SeekBar) {}
-                        override fun onStartTrackingTouch(seekBar: SeekBar) {}
-                        override fun onProgressChanged(
-                            seekBar: SeekBar, progress: Int, fromUser: Boolean
-                        ) {
-
-
                         }
-                    })
-
-                    mediaPlayer!!.setOnCompletionListener {
-                        holder.imgEmgplaypause.setImageResource(R.drawable.ic_play)
-                        mediaPlayer!!.seekTo(0)
+                        primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
                     }
+
+                    private fun primarySeekBarProgressUpdater(fileLength: Int) {
+                        val iProgress =
+                            ((mediaPlayer!!.currentPosition.toFloat() / fileLength) * 100).toInt()
+                        holder.emergencyseekbar.progress = iProgress
+                        if (mediaPlayer!!.isPlaying) {
+                            val notification: Runnable = object : Runnable {
+                                override fun run() {
+                                    holder.lblEmgfromduration.text = milliSecondsToTimer(
+                                        mediaPlayer!!.currentPosition.toLong()
+                                    )
+                                    primarySeekBarProgressUpdater(fileLength)
+                                }
+                            }
+                            handler.postDelayed(notification, 1000)
+                        }
+                    }
+                })
+
+            } else {
+
+                Log.d("FileExist", "notexist")
+
+                holder.imgEmgplaypause.setOnClickListener(object : OnClickListener {
+
+                    override fun onClick(view: View) {
+
+
+                        Log.d("isDownload", CommonUtil.DownloadingFileDashboard.toString())
+                        if (CommonUtil.DownloadingFileDashboard != 1 && CommonUtil.DownloadingFileDashboard != 2) {
+                            Log.d(
+                                "isDownload",
+                                CommonUtil.DownloadingFileDashboard.toString()
+                            )
+
+                            DownloadVoice.downloadSampleFile(
+                                context,
+                                modal.voiceFilepath!!,
+                                VOICE_FOLDER,
+                                filename,
+                                holder,
+                                true
+                            )
+
+                        } else {
+
+                            if (CommonUtil.DownloadingFileDashboard != 2) {
+                                SetUpAudioPlayer(holder)
+                                fetchPathUrl(modal)
+
+                            }
+
+                            CommonUtil.DownloadingFileDashboard = 2
+
+                            mediaFileLengthInMilliseconds = mediaPlayer!!.duration
+
+                            if (!mediaPlayer!!.isPlaying) {
+                                mediaPlayer!!.start()
+                                holder.imgEmgplaypause.setImageResource(R.drawable.ic_pause)
+                            } else {
+                                mediaPlayer!!.pause()
+                                holder.imgEmgplaypause.setImageResource(R.drawable.ic_play)
+                            }
+                        }
+
+                        primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds)
+
+                    }
+
+                    private fun primarySeekBarProgressUpdater(fileLength: Int) {
+                        val iProgress =
+                            ((mediaPlayer!!.currentPosition.toFloat() / fileLength) * 100).toInt()
+                        holder.emergencyseekbar.progress = iProgress
+                        if (mediaPlayer!!.isPlaying) {
+                            val notification: Runnable = object : Runnable {
+                                override fun run() {
+
+                                    holder.lblEmgfromduration.text =
+                                        milliSecondsToTimer(mediaPlayer!!.currentPosition.toLong())
+                                    primarySeekBarProgressUpdater(fileLength)
+                                }
+                            }
+                            handler.postDelayed(notification, 1000)
+                        }
+                    }
+                })
+            }
+
+            holder.emergencyseekbar.setOnSeekBarChangeListener(object :
+                OnSeekBarChangeListener {
+                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                override fun onProgressChanged(
+                    seekBar: SeekBar, progress: Int, fromUser: Boolean
+                ) {
+
+
                 }
             })
+
+            mediaPlayer!!.setOnCompletionListener {
+                holder.imgEmgplaypause.setImageResource(R.drawable.ic_play)
+                mediaPlayer!!.seekTo(0)
+            }
+
+//            holder.rytEmgVoice.setOnClickListener(object : OnClickListener {
+//                override fun onClick(view: View) {
+////                    mExpandedPosition = if (isemergencyExpanded!!) -1 else position
+////                    notifyDataSetChanged()
+//                }
+//            })
 
         } else if ((type == "Recent Notifications")) {
 
@@ -1114,6 +1132,7 @@ class DashboardChild(
         var lblsubjectnameAttendance: TextView
         var lblattendancestatus: TextView
         var lnrattendance: RelativeLayout
+        var constHeader: ConstraintLayout
 
         init {
 
@@ -1214,6 +1233,7 @@ class DashboardChild(
             imgRecentType = itemView.findViewById(R.id.imgRecentType)
             lblNoDataFound = itemView.findViewById(R.id.lblNoDataFound)
             rytSeekbarlayout = itemView.findViewById(R.id.rytSeekbarlayout)
+            constHeader = itemView.findViewById(R.id.constHeader)
         }
     }
 
