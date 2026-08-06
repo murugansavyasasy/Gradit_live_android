@@ -87,10 +87,12 @@ abstract class ActionBarActivity : AppCompatActivity() {
         val layoutUserDetails = view.findViewById<View>(R.id.layoutUserDetails) as ConstraintLayout
         val lblRole = view.findViewById<View>(R.id.lblRole) as TextView
         val imgMan = view.findViewById<View>(R.id.imgProfile) as ImageView
+        val imgBack = view.findViewById<View>(R.id.imgBack) as ImageView
         imgNotification = view.findViewById<View>(R.id.imgNotification) as ImageView
         imgRefresh = view.findViewById<View>(R.id.imgRefresh) as ImageView
         val imgCollegeLogo = view.findViewById<View>(R.id.imgCollegeLogo) as ImageView
         val constAction = view.findViewById<View>(R.id.constAction) as ConstraintLayout
+        Log.d("LogoImage",CommonUtil.CollegeLogo.toString())
         if (CommonUtil.CollegeLogo == null || CommonUtil.CollegeLogo.isEmpty()) {
             Glide.with(activity)
                 .load(R.drawable.dummy_college_icon)
@@ -110,6 +112,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
         }
 
         imgMan.setOnClickListener { ProfilePopUp(activity) }
+        imgBack.setOnClickListener { onBackPressed() }
         imgCollegeLogo.setOnClickListener { IntentToChangeRole(activity) }
         layoutUserDetails.setOnClickListener { IntentToChangeRole(activity) }
 

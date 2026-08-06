@@ -665,6 +665,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         val lblRole = view.findViewById<View>(R.id.lblRole) as TextView
         val imgMan = view.findViewById<View>(R.id.imgProfile) as ImageView
+        val imgBack = view.findViewById<View>(R.id.imgBack) as ImageView
         SearchList = view.findViewById<View>(R.id.imgSearch) as ImageView
         Search = view.findViewById<View>(R.id.Search) as ConstraintLayout
         idSV = view.findViewById<View>(R.id.idSV) as SearchView
@@ -678,7 +679,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgCollegeLogo)
         } else {
             Glide.with(activity).load(CommonUtil.CollegeLogo)
-                .diskCacheStrategy(DiskCacheStrategy.ALL).into(imgCollegeLogo)
+                .placeholder(R.drawable.dummy_college_icon)
+                .error(R.drawable.dummy_college_icon)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imgCollegeLogo)
         }
         imgNotification!!.setOnClickListener {
             CommonUtil.HeaderMenuNotification = true
@@ -688,6 +692,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
 
         imgMan.setOnClickListener { ProfilePopUp(activity) }
+        imgBack.setOnClickListener { activity.onBackPressed() }
         imgCollegeLogo.setOnClickListener { IntentToChangeRole(activity) }
         layoutUserDetails.setOnClickListener { IntentToChangeRole(activity) }
         if (CommonUtil.Priority == "p1") {
