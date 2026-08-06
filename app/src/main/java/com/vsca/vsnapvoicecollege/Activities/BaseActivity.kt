@@ -64,10 +64,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected abstract fun inflateBinding(): VB
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+//    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     open var appViewModel: App? = null
-    var menuadapter: HomeMenus? = null
+//    var menuadapter: HomeMenus? = null
     var UserMenuData: ArrayList<MenuDetailsResponse> = ArrayList()
     var MenuList: ArrayList<MenuDetailsResponse> = ArrayList()
     var OverAllMenuCountData: List<GetOverAllCountDetails> = ArrayList()
@@ -135,7 +135,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                             )
                         }
 
-                        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
+//                        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
                         for (k in MenuList.indices) {
 
                             CommonUtil.UserMenuListId.add(MenuList.get(k).id)
@@ -200,26 +200,26 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                                 isFeeDetails = MenuList[k].id.toString()
                             }
                         }
-                        menuadapter =
-                            HomeMenus(applicationContext, MenuList, object : HomeMenuClickListener {
-                                override fun onMenuClick(
-                                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-                                ) {
-                                    holder.LayoutHome.setOnClickListener {
-                                        ParticularMenuClick(
-                                            data
-                                        )
-                                    }
-                                }
-                            })
+//                        menuadapter =
+//                            HomeMenus(applicationContext, MenuList, object : HomeMenuClickListener {
+//                                override fun onMenuClick(
+//                                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
+//                                ) {
+//                                    holder.LayoutHome.setOnClickListener {
+//                                        ParticularMenuClick(
+//                                            data
+//                                        )
+//                                    }
+//                                }
+//                            })
 
-                        val mLayoutManager: RecyclerView.LayoutManager =
-                            GridLayoutManager(applicationContext, 4)
-                        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-                        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+//                        val mLayoutManager: RecyclerView.LayoutManager =
+//                            GridLayoutManager(applicationContext, 4)
+//                        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+//                        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
 //                        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-                        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-                        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
+//                        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+//                        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
                     } else {
                         CommonUtil.ApiAlertContext(applicationContext, message)
                     }
@@ -229,7 +229,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         } else {
 
             Log.d("MenuArrayList", "isNotEmpty")
-            CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
+//            CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
 
             for (k in CommonUtil.MenuListDashboard.indices) {
 
@@ -294,25 +294,25 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 }
             }
 
-            menuadapter = HomeMenus(
-                applicationContext,
-                CommonUtil.MenuListDashboard,
-                object : HomeMenuClickListener {
-                    override fun onMenuClick(
-                        holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-                    ) {
-                        holder.LayoutHome!!.setOnClickListener {
-                            ParticularMenuClick(data)
-                        }
-                    }
-                })
-            val mLayoutManager: RecyclerView.LayoutManager =
-                GridLayoutManager(applicationContext, 4)
-            CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-            CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-//            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-            CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-            CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
+//            menuadapter = HomeMenus(
+//                applicationContext,
+//                CommonUtil.MenuListDashboard,
+//                object : HomeMenuClickListener {
+//                    override fun onMenuClick(
+//                        holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
+//                    ) {
+//                        holder.LayoutHome!!.setOnClickListener {
+//                            ParticularMenuClick(data)
+//                        }
+//                    }
+////                })
+//            val mLayoutManager: RecyclerView.LayoutManager =
+//                GridLayoutManager(applicationContext, 4)
+//            CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+//            CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+////            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+//            CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+//            CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
 
         }
 
@@ -348,25 +348,14 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected fun <T : ViewBinding> accessBottomViewIcons(
         binding: T,
-        imgSwipeId: Int,
-        layoutBottomCurveId: Int,
-        recyclerMenusBottomId: Int,
-        llBottomSheetId: Int,
         layoutDepartmentId: Int,
         layoutCollegeId: Int,
         imgAddPlusId: Int
     ) {
-        CommonUtil.imgSwipe = binding.root.findViewById(imgSwipeId)
-        CommonUtil.layoutBottomCurve = binding.root.findViewById(layoutBottomCurveId)
-        CommonUtil.recyclerMenusBottom = binding.root.findViewById(recyclerMenusBottomId)
-        CommonUtil.llBottomSheet = binding.root.findViewById(llBottomSheetId)
+
         CommonUtil.layoutDepartment = binding.root.findViewById(layoutDepartmentId)
         CommonUtil.layoutCollege = binding.root.findViewById(layoutCollegeId)
         CommonUtil.imgAddPlus = binding.root.findViewById(imgAddPlusId)
-
-        CommonUtil.recyclerMenusBottom!!.visibility = View.VISIBLE
-//        CommonUtil.layoutBottomCurve!!.visibility = View.INVISIBLE
-
     }
 
 
@@ -397,7 +386,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             CommonUtil.menu_readHome = data.is_read_enabled.toString()
             CommonUtil.menu_writeHome = data.is_write_enabled.toString()
             if (CommonUtil.MenuDashboardHome) {
-                val i: Intent = Intent(this@BaseActivity, DashBoard::class.java)
+                val i: Intent = Intent(this@BaseActivity, DashBoardActivityRewamp::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(i)
@@ -659,7 +648,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     fun check() {
-        val intents = Intent(this@BaseActivity, DashBoard::class.java)
+        val intents = Intent(this@BaseActivity, DashBoardActivityRewamp::class.java)
         startActivity(intents)
     }
 
@@ -905,64 +894,64 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         activity.startActivity(i)
     }
 
-    fun MenuBottomType() {
+//    fun MenuBottomType() {
+//
+//        Log.d("BottomMenu", "BottomMenu")
+//        when (CommonUtil.Priority) {
+//            "p1" -> {
+//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_prinicipal_bottom_card)
+//            }
+//
+//            "p2", "p3" -> {
+//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
+//            }
+//
+//            "p4" -> {
+//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_student_bottom_card)
+//            }
+//
+//            "p5" -> {
+//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_parent_bottom_card)
+//            }
+//
+//            "p6" -> {
+//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
+//            }
+//
+//            "p7" -> {
+//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_header_bottom_card)
+//            }
+//        }
+//
+//        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
+//        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//
+//                if (newState == 3) {
+//                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowdown_white)
+//
+//                } else if (newState == 4) {
+//                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowup_white)
+//                }
+//            }
+//
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+//        })
+//    }
 
-        Log.d("BottomMenu", "BottomMenu")
-        when (CommonUtil.Priority) {
-            "p1" -> {
-                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_prinicipal_bottom_card)
-            }
+//    fun bottomsheetStateCollpased() {
+//        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+//            Log.d("expanded", "expanded")
+//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//        }
+//    }
 
-            "p2", "p3" -> {
-                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
-            }
-
-            "p4" -> {
-                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_student_bottom_card)
-            }
-
-            "p5" -> {
-                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_parent_bottom_card)
-            }
-
-            "p6" -> {
-                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
-            }
-
-            "p7" -> {
-                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_header_bottom_card)
-            }
-        }
-
-        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-
-                if (newState == 3) {
-                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowdown_white)
-
-                } else if (newState == 4) {
-                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowup_white)
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        })
-    }
-
-    fun bottomsheetStateCollpased() {
-        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-            Log.d("expanded", "expanded")
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-    }
-
-    fun bottomsheetStateHidden() {
-        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-            Log.d("hidden", "hidden")
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        }
-    }
+//    fun bottomsheetStateHidden() {
+//        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+//            Log.d("hidden", "hidden")
+//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+//        }
+//    }
 
     fun ClearCache(activity: Activity) {
         try {
@@ -1080,10 +1069,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     override fun onResume() {
-        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
-        if (::bottomSheetBehavior.isInitialized) {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
+//        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
+//        if (::bottomSheetBehavior.isInitialized) {
+//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//        }
 
         super.onResume()
     }
@@ -1378,7 +1367,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     private fun isMenuUpdate(){
 
         Log.d("MenuArrayList", "isNotEmpty")
-        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
+//        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
 
         for (k in CommonUtil.MenuListDashboard.indices) {
 
@@ -1443,24 +1432,24 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
         }
 
-        menuadapter = HomeMenus(
-            applicationContext,
-            CommonUtil.MenuListDashboard,
-            object : HomeMenuClickListener {
-                override fun onMenuClick(
-                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-                ) {
-                    holder.LayoutHome!!.setOnClickListener {
-                        ParticularMenuClick(data)
-                    }
-                }
-            })
-        val mLayoutManager: RecyclerView.LayoutManager =
-            GridLayoutManager(applicationContext, 4)
-        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-//        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
+//        menuadapter = HomeMenus(
+//            applicationContext,
+//            CommonUtil.MenuListDashboard,
+//            object : HomeMenuClickListener {
+//                override fun onMenuClick(
+//                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
+//                ) {
+//                    holder.LayoutHome!!.setOnClickListener {
+//                        ParticularMenuClick(data)
+//                    }
+//                }
+//            })
+//        val mLayoutManager: RecyclerView.LayoutManager =
+//            GridLayoutManager(applicationContext, 4)
+//        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+//        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+////        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+//        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+//        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
     }
 }

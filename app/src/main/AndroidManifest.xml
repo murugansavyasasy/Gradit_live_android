@@ -146,7 +146,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".Activities.DashBoard"
+            android:name=".Activities.DashBoardActivityRewamp"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Prinipal"

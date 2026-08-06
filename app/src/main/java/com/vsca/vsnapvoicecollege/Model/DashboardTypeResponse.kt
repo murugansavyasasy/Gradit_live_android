@@ -17,4 +17,6 @@ class DashboardTypeResponse {
     @SerializedName("data")
     var data: List<DashboardDetailsDataResponse>? = null
 
+    var DashboardMenuData: List<MenuDetailsResponse>? = null
+
 }

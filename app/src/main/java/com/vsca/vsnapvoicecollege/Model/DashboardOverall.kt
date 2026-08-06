@@ -3,5 +3,7 @@ package com.vsca.vsnapvoicecollege.Model
 
 class DashboardOverall(
     var menuHeadings: String,
-    var menusubitemlist: ArrayList<DashboardSubItems>
+    var menusubitemlist: ArrayList<DashboardSubItems>?,
+    var DashboardMenuData: List<MenuDetailsResponse>? = null
+
 )

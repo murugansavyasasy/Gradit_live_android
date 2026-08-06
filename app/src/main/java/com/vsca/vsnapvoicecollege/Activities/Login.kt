@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
@@ -18,7 +17,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityLoginBinding
 
 class Login : AppCompatActivity() {
@@ -77,7 +75,7 @@ class Login : AppCompatActivity() {
                             startActivity(i)
                             finishAffinity()
                         } else {
-                            val i = Intent(this@Login, DashBoard::class.java)
+                            val i = Intent(this@Login, DashBoardActivityRewamp::class.java)
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(i)

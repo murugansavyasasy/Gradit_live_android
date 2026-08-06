@@ -69,13 +69,13 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
         findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
-
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
-        MenuBottomType()
+//        MenuBottomType()
         TabDepartmentColor()
 
         SearchList!!.visibility = View.VISIBLE
@@ -365,7 +365,7 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         CircularType = true
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)
@@ -374,7 +374,7 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         CircularType = false
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)

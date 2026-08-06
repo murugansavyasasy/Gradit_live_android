@@ -74,7 +74,7 @@ object CommonUtil {
     var selectedFileIndex: Int = -1
     var imgSwipe: ImageView? = null
     var btnContinue: Button? = null
-    var layoutBottomCurve: ConstraintLayout? = null
+//    var layoutBottomCurve: ConstraintLayout? = null
     var recyclerMenusBottom: RecyclerView? = null
     var llBottomSheet: LinearLayout? = null
     var layoutDepartment: ConstraintLayout? = null

@@ -20,16 +20,8 @@
             android:layout_marginStart="@dimen/fifteen"
             android:layout_marginEnd="@dimen/fifteen"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/hundred">
+           >
         </include>
 
-        <include
-            layout="@layout/bottom_menu_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="120dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"></include>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

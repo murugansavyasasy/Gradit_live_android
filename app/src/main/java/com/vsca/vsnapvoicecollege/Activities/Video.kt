@@ -64,13 +64,15 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         insetsController.isAppearanceLightStatusBars = true
 
 
+
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
         TabDepartmentColor()
-        MenuBottomType()
+//        MenuBottomType()
 
         binding.CommonLayout.layoutTab!!.visibility = View.GONE
         binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_Video)

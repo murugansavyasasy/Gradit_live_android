@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
 import com.vsca.vsnapvoicecollege.Interfaces.HomeMenuClickListener
@@ -34,17 +35,20 @@ class HomeMenus constructor(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         val data: MenuDetailsResponse = menulist.get(position)
         menuListener = homeMenuClickListener
         menuListener?.onMenuClick(holder, data)
         Position = holder.absoluteAdapterPosition
         holder.imgMenu!!.visibility = View.VISIBLE
         holder.lblMenuName!!.visibility = View.VISIBLE
+        holder.MenuHeader!!.visibility = View.VISIBLE
         when (data.id) {
-            1 -> {
-                holder.imgMenu!!.setImageResource(R.drawable.home)
-                holder.lblMenuName!!.text = data.name
-            }
+//            1 -> {
+//                holder.MenuHeader!!.visibility = View.GONE
+////                holder.imgMenu!!.setImageResource(R.drawable.home)
+////                holder.lblMenuName!!.text = data.name
+//            }
 
             11 -> {
                 holder.imgMenu!!.setImageResource(R.drawable.attendancenew)
@@ -161,6 +165,7 @@ class HomeMenus constructor(
             }
 
             else -> {
+                holder.MenuHeader!!.visibility = View.GONE
                 holder.imgMenu!!.visibility = View.GONE
                 holder.lblMenuName!!.visibility = View.GONE
             }
@@ -176,6 +181,7 @@ class HomeMenus constructor(
         val lblMenuName: TextView = itemView!!.findViewById(R.id.lblMenuName)
         val imgMenu: CircleImageView = itemView!!.findViewById(R.id.imgMenu)
         val LayoutHome: RelativeLayout = itemView!!.findViewById(R.id.LayoutHome)
+        val MenuHeader: ConstraintLayout = itemView!!.findViewById(R.id.MenuHeader)
 
 
     }

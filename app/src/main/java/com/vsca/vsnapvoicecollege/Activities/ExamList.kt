@@ -73,13 +73,15 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
         CommonUtil.OnMenuClicks("ExamList")
 
 
+
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve, R.id.recyclermenusbottom, R.id.swipeUpMenus, R.id.LayoutDepartment, R.id.LayoutCollege, R.id.imgAddPlus
+            R.id.LayoutDepartment,
+            R.id.LayoutCollege,
+            R.id.imgAddPlus
         )
         TabDepartmentColor()
-        MenuBottomType()
+//        MenuBottomType()
 
         binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_exam)
         binding.CommonLayout.lblDepartment!!.setText(R.string.txt_upcoming)
@@ -427,19 +429,19 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         TabDepartmentColor()
         ExamType = true
         if (CommonUtil.menu_readExamination == "1") {
             ExamListRequest(ExamType)
             OverAllMenuCountRequest(this, CommonUtil.MenuIDExamination!!)
         }
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         type = ""
     }
 
     fun collegeClick() {
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         ExamType = false
         GetExamListData.clear()
         GetExampastListData.clear()
@@ -449,7 +451,7 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
         }
         TabCollegeColor()
         type = "Past"
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
     }
 
     override fun onBackPressed() {

@@ -79,17 +79,13 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         accessBottomViewIcons(
             binding,
-            R.id.img_swipe,
-            R.id.layoutbottomCurve,
-            R.id.recyclermenusbottom,
-            R.id.swipeUpMenus,
             R.id.LayoutDepartment,
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
         UserMenuRequest(this)
         TabDepartmentColor()
-        MenuBottomType()
+//        MenuBottomType()
 
         val selectedDate: Long = binding.CommonLayout.CalendarView!!.date
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
@@ -135,7 +131,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
 
-            bottomsheetStateCollpased()
+//            bottomsheetStateCollpased()
             TabCollegeColor()
             binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
             binding.CommonLayout.LayoutNoAttendanceData!!.visibility = View.GONE
@@ -591,7 +587,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         CommonUtil.AttendanceStatus = ""
         binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
         binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
 
         if (CommonUtil.menu_readAttendance.equals("1")) {
 
@@ -630,7 +626,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
         AttendanceScreen = "Leave_History"
         CommonUtil.AttendanceStatus = ""
-        bottomsheetStateCollpased()
+//        bottomsheetStateCollpased()
         TabCollegeColor()
         binding.CommonLayout.LayoutNoAttendanceData!!.visibility = View.GONE
         binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
