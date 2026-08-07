@@ -83,7 +83,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-        UserMenuRequest(this)
+//        UserMenuRequest(this)
         TabDepartmentColor()
 //        MenuBottomType()
 
@@ -333,7 +333,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
             if (response != null) {
                 val status = response.Status
                 val message = response.Message
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 AdForCollegeApi()
                 if (status == 1) {
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
@@ -473,7 +473,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     AdForCollegeApi()
                     attendanceGet = response.data
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE

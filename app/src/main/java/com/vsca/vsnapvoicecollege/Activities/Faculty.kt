@@ -126,7 +126,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                     val message = response.message
                     GetSemesterSectionData.clear()
 
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
 
                     if (status == 1) {
 
@@ -203,7 +203,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                             binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                         }
                     } else {
-                        UserMenuRequest(this)
+//                        UserMenuRequest(this)
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
@@ -218,7 +218,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     if (status == 1) {
 
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
@@ -238,7 +238,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                         binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
@@ -310,7 +310,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     if (status == 1) {
 
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
@@ -328,7 +328,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                         binding.Facultylayout.recyclerCommon1!!.visibility = View.GONE
                     }
                 } else {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
@@ -344,7 +344,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     if (status == 1) {
 
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
@@ -362,7 +362,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                         binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }

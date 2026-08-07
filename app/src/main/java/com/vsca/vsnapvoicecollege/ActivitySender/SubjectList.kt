@@ -106,7 +106,7 @@ override fun inflateBinding(): SubjectListviewBinding {
             if (response != null) {
                 val status = response.Status
                 val message = response.Message
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 AdForCollegeApi()
 
                 if (status == 1) {

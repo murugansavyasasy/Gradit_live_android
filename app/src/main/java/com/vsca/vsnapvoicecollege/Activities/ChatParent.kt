@@ -132,7 +132,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
 
                     if (status == 1) {
                         AdForCollegeApi()
@@ -188,7 +188,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     }
                 } else {
 
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
@@ -207,7 +207,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                 if (response != null) {
                     val status = response.Status
                     val message = response.Message
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
 
                     if (status == 1) {
                         GetStaffchatData = response.data
@@ -258,7 +258,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     }
                 } else {
 
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 

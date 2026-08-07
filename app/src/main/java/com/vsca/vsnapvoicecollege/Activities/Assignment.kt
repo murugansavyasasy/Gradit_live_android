@@ -177,9 +177,9 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                UserMenuRequest(this@Assignment)
+//                UserMenuRequest(this@Assignment)
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     AdForCollegeApi()
                     if (AssignmentType) {
                         GetAssignmentData = response.data!!

@@ -101,7 +101,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>(){
 //                DashBoardRequest()
 //                UserMenuRequest(this)
 //                MenuBottomType()
-                UserMenuRequest(this)
+                CommonUtil.MenuListDashboard.clear()
+                UserMenuRequest(this) {
+                    DashBoardRequest()
+                }
                 DashBoardRequest()
             }
         }
@@ -164,7 +167,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>(){
                 val status = response.Status
                 val message = response.Message
                 if (status == "1") {
-                    UserMenuRequest(this@DashBoardActivityRewamp)
+//                    UserMenuRequest(this@DashBoardActivityRewamp)
 
                     ContectNumber = response.data
                     for (i in ContectNumber.indices) {
@@ -248,6 +251,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>(){
             dashboardAssignmentList.clear()
             dashboardEmergencyVoicelist.clear()
             if (Success.equals("Success")) {
+                CommonUtil.MenuListDashboard.clear()
                 UserMenuRequest(this)
                 DashBoardRequest()
                 Success = ""
@@ -279,382 +283,675 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>(){
     override val layoutResourceId: Int
         protected get() = R.layout.bottom_menu_swipe
 
+//    private fun SetDashboardValues() {
+//        dashboardOverallList.clear()
+//        val start = System.nanoTime()
+//
+//        for (i in DashboardData.indices) {
+//            category = DashboardData[i].type
+//            order = DashboardData[i].order
+//            Log.d("Categories", category!!)
+//            if (category == "Ad" && order == 1) {
+//                adimageList1.clear()
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val addimage = DashboardDetails[j].add_image
+//                    val adBackgroundImage = DashboardDetails[j].background_image
+//                    CommonUtil.CommonAdvertisement = DashboardDetails[j].background_image!!
+//                    CommonUtil.CommonAdImageSmall = DashboardDetails[j].add_image.toString()
+//                    val Adurl = DashboardDetails[j].add_url
+//                    val Id = 1
+//                    adimageList1.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+//                }
+//            }
+//
+//            if (category == "Ad" && order == 2) {
+//                adimageList2.clear()
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val addimage = DashboardDetails[j].background_image
+//                    val adBackgroundImage = DashboardDetails[j].background_image
+//                    val Id = 1
+//                    val Adurl = DashboardDetails[j].add_url
+//
+//                    adimageList2.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+//                }
+//            }
+//
+//            if (category == "Ad" && order == 4) {
+//                adimageList4.clear()
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val addimage = DashboardDetails[j].background_image
+//                    val adBackgroundImage = DashboardDetails[j].background_image
+//                    val Adurl = DashboardDetails[j].add_url
+//                    val Id = 1
+//                    adimageList4.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+//                }
+//            }
+//
+//            if (category == "DashBoard_Menu") {
+//                dashboardMenuItems = ArrayList(DashboardData[i].DashboardMenuData?:emptyList())
+//            }
+//
+//            if (category == "Circular") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val description = DashboardDetails[j].description
+//                    val title = DashboardDetails[j].title
+//                    val createddate = DashboardDetails[j].createddate
+//                    val createdtime = DashboardDetails[j].createdtime
+//                    val filepaths = DashboardDetails[j].filepaths
+//                    dashboardCircularlist.add(
+//                        DashboardSubItems(
+//                            title,
+//                            description,
+//                            createddate,
+//                            createdtime,
+//                            filepaths as ArrayList<String>
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Upcoming Events") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val EventTitle = DashboardDetails[j].eventtopic
+//                    val Eventtime = DashboardDetails[j].eventtime
+//                    val Eventdate = DashboardDetails[j].eventdate
+//                    val ideventid = DashboardDetails[j].ideventdetails
+//                    dashboardEventlist.add(
+//                        DashboardSubItems(
+//                            EventTitle, Eventtime, Eventdate, ideventid
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Chat") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val coursename = DashboardDetails[j].coursename
+//                    val departmentname = DashboardDetails[j].departmentname
+//                    val yearname = DashboardDetails[j].yearname
+//                    val sectionname = DashboardDetails[j].sectionname
+//                    val studentname = DashboardDetails[j].studentname
+//                    val question = DashboardDetails[j].question
+//                    val createdonchat = DashboardDetails[j].createdon
+//                    val dummy = DashboardDetails[j].yearname
+//                    val message = DashboardDetails[j].message
+//
+//                    dashboardChatlist.add(
+//                        DashboardSubItems(
+//                            coursename,
+//                            departmentname,
+//                            yearname,
+//                            sectionname,
+//                            studentname,
+//                            question,
+//                            createdonchat,
+//                            dummy,
+//                            message
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Leave Request") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val leaveapplicationid = DashboardDetails[j].leaveapplicationid
+//                    val studentid = DashboardDetails[j].studentid
+//                    val membername = DashboardDetails[j].membername
+//                    val coursename = DashboardDetails[j].coursename
+//                    val departmentname = DashboardDetails[j].departmentname
+//                    val yearname = DashboardDetails[j].yearname
+//                    val sectionname = DashboardDetails[j].sectionname
+//                    val reason = DashboardDetails[j].reason
+//                    val fromdate = DashboardDetails[j].fromdate
+//                    val todate = DashboardDetails[j].todate
+//                    val leavestatus = DashboardDetails[j].leavestatus
+//                    val noofdays = DashboardDetails[j].noofdays
+//                    val appliedon = DashboardDetails[j].appliedon
+//                    val message = DashboardDetails[j].message
+//
+//                    dashboardLeaveRequestlist.add(
+//                        DashboardSubItems(
+//                            leaveapplicationid,
+//                            studentid,
+//                            membername,
+//                            coursename,
+//                            departmentname,
+//                            yearname,
+//                            sectionname,
+//                            reason,
+//                            fromdate,
+//                            todate,
+//                            leavestatus,
+//                            noofdays,
+//                            appliedon,
+//                            message
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Assignments") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val idassignmentdetails = DashboardDetails[j].idassignmentdetails
+//                    val assignmenttopic = DashboardDetails[j].assignmenttopic
+//                    val assignmentdescription = DashboardDetails[j].assignmentdescription
+//                    val submissiondate = DashboardDetails[j].submissiondate
+//                    val filepath = DashboardDetails[j].submissiondate
+//                    val filepathassignment = DashboardDetails[j].filepaths
+//                    val filetype = DashboardDetails[j].file_type
+//
+//                    dashboardAssignmentList.add(
+//                        DashboardSubItems(
+//                            idassignmentdetails,
+//                            assignmenttopic,
+//                            assignmentdescription,
+//                            submissiondate,
+//                            filepath,
+//                            filetype,
+//                            filepathassignment as ArrayList<String>
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Notice Board") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val description = DashboardDetails[j].topicbody
+//                    val title = DashboardDetails[j].topicheading
+//                    val createddate = DashboardDetails[j].createddate
+//                    val createdtime = DashboardDetails[j].createdtime
+//                    dashboardNoticeboardlist.add(
+//                        DashboardSubItems(
+//                            title, "", description, createddate, createdtime, "", category
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Emergency Notification") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val description = DashboardDetails[j].description
+//                    val VoiceFilepath = DashboardDetails[j].voicefilepath
+//                    val membername = DashboardDetails[j].membername
+//                    val duration = DashboardDetails[j].duration
+//                    val createdon = DashboardDetails[j].createdon
+//                    val detailsid = DashboardDetails[j].detailsid
+//                    dashboardEmergencyVoicelist.add(
+//                        DashboardSubItems(
+//                            description,
+//                            VoiceFilepath,
+//                            membername,
+//                            duration,
+//                            createdon,
+//                            category,
+//                            detailsid
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Recent Notifications") {
+//                DashboardDetails = DashboardData[i].data!!
+//                for (j in DashboardDetails.indices) {
+//                    val description = DashboardDetails[j].description
+//                    val content = DashboardDetails[j].content
+//                    val membername = DashboardDetails[j].sentbyname
+//                    val duration = DashboardDetails[j].duration
+//                    val createdon = DashboardDetails[j].createdondate
+//                    val recentType = DashboardDetails[j].typ
+//                    val Createdontime = DashboardDetails[j].createdontime
+//                    val detailsID = DashboardDetails[j].id
+//
+//                    dashboardRecentVoicelist.add(
+//                        DashboardSubItems(
+//                            description,
+//                            membername,
+//                            recentType,
+//                            createdon,
+//                            Createdontime,
+//                            content,
+//                            duration,
+//                            category,
+//                            detailsID
+//                        )
+//                    )
+//                }
+//            }
+//
+//            if (category == "Attendance") {
+//
+//                DashboardDetails = DashboardData[i].data!!
+//
+//                for (k in DashboardDetails.indices) {
+//
+//                    val attendancetype = DashboardDetails[k].attendancetype
+//                    val subjectName = DashboardDetails[k].subjectname
+//                    val attendancedate = DashboardDetails[k].attendancedate
+//                    val message = DashboardDetails[k].message
+//                    val Subjectname = DashboardDetails[k].subjectname
+//                    dashboardAttendancetlist.add(
+//                        DashboardSubItems(
+//                            subjectName, attendancetype, attendancedate, message, Subjectname
+//                        )
+//                    )
+//                }
+//            }
+//
+//            //Setting into adapter
+//
+//            if (category == "Ad" && order == 1) {
+//                dashboardOverallList.add(DashboardOverall(category!!, adimageList1))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            }
+//            if (category == "Ad" && order == 2) {
+//                dashboardOverallList.add(DashboardOverall(category!!, adimageList2))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            }
+//            if (category == "Ad" && order == 4) {
+//                dashboardOverallList.add(DashboardOverall(category!!, adimageList4))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Notice Board") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardNoticeboardlist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            }
+//            else if (category == "DashBoard_Menu") {
+//                Log.d("DataComing121123113",dashboardMenuItems.toString())
+//                Log.d("DataComing121123113",dashboardMenuItems.size.toString())
+//                dashboardOverallList.add(DashboardOverall(category!!, DashboardMenuData = dashboardMenuItems, menusubitemlist = null))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            }
+//            else if (category == "Circular") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardCircularlist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Leave Request") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardLeaveRequestlist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Upcoming Events") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardEventlist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Assignments") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardAssignmentList))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Chat") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardChatlist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Emergency Notification") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardEmergencyVoicelist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Recent Notifications") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardRecentVoicelist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            } else if (category == "Attendance") {
+//                dashboardOverallList.add(DashboardOverall(category!!, dashboardAttendancetlist))
+//                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+//                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+//                binding.idRVCategories!!.layoutManager = mLayoutManager
+//                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+//                binding.idRVCategories!!.adapter = adapter
+//                adapter!!.notifyDataSetChanged()
+//            }
+//        }
+//        val end = System.nanoTime()
+//        val seconds = (end - start) / 1_000_000_000.0
+//        Log.d("ExecutionTime", "Total execution: $seconds seconds")
+//
+//    }
+
     private fun SetDashboardValues() {
         dashboardOverallList.clear()
-        for (i in DashboardData.indices) {
-            category = DashboardData[i].type
-            order = DashboardData[i].order
+        val start = System.nanoTime()
+
+        for (dashboardItem in DashboardData) {
+            category = dashboardItem.type
+            order = dashboardItem.order
             Log.d("Categories", category!!)
-            if (category == "Ad" && order == 1) {
-                adimageList1.clear()
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val addimage = DashboardDetails[j].add_image
-                    val adBackgroundImage = DashboardDetails[j].background_image
-                    CommonUtil.CommonAdvertisement = DashboardDetails[j].background_image!!
-                    CommonUtil.CommonAdImageSmall = DashboardDetails[j].add_image.toString()
-                    val Adurl = DashboardDetails[j].add_url
-                    val Id = 1
-                    adimageList1.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+
+            when (category) {
+                "Ad" -> when (order) {
+                    1 -> {
+                        adimageList1.clear()
+                        DashboardDetails = dashboardItem.data!!
+                        for (item in DashboardDetails) {
+                            val addimage = item.add_image
+                            val adBackgroundImage = item.background_image
+                            CommonUtil.CommonAdvertisement = item.background_image!!
+                            CommonUtil.CommonAdImageSmall = item.add_image.toString()
+                            val Adurl = item.add_url
+                            val Id = 1
+                            adimageList1.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+                        }
+                        dashboardOverallList.add(DashboardOverall(category!!, adimageList1))
+                    }
+                    2 -> {
+                        adimageList2.clear()
+                        DashboardDetails = dashboardItem.data!!
+                        for (item in DashboardDetails) {
+                            val addimage = item.background_image
+                            val adBackgroundImage = item.background_image
+                            val Id = 1
+                            val Adurl = item.add_url
+                            adimageList2.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+                        }
+                        dashboardOverallList.add(DashboardOverall(category!!, adimageList2))
+                    }
+                    4 -> {
+                        adimageList4.clear()
+                        DashboardDetails = dashboardItem.data!!
+                        for (item in DashboardDetails) {
+                            val addimage = item.background_image
+                            val adBackgroundImage = item.background_image
+                            val Adurl = item.add_url
+                            val Id = 1
+                            adimageList4.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+                        }
+                        dashboardOverallList.add(DashboardOverall(category!!, adimageList4))
+                    }
                 }
-            }
-
-            if (category == "Ad" && order == 2) {
-                adimageList2.clear()
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val addimage = DashboardDetails[j].background_image
-                    val adBackgroundImage = DashboardDetails[j].background_image
-                    val Id = 1
-                    val Adurl = DashboardDetails[j].add_url
-
-                    adimageList2.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
-                }
-            }
-
-            if (category == "Ad" && order == 4) {
-                adimageList4.clear()
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val addimage = DashboardDetails[j].background_image
-                    val adBackgroundImage = DashboardDetails[j].background_image
-                    val Adurl = DashboardDetails[j].add_url
-                    val Id = 1
-                    adimageList4.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
-                }
-            }
-
-            if (category == "DashBoard_Menu") {
-                dashboardMenuItems = ArrayList(DashboardData[i].DashboardMenuData?:emptyList())
-            }
-
-            if (category == "Circular") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val description = DashboardDetails[j].description
-                    val title = DashboardDetails[j].title
-                    val createddate = DashboardDetails[j].createddate
-                    val createdtime = DashboardDetails[j].createdtime
-                    val filepaths = DashboardDetails[j].filepaths
-                    dashboardCircularlist.add(
-                        DashboardSubItems(
-                            title,
-                            description,
-                            createddate,
-                            createdtime,
-                            filepaths as ArrayList<String>
+                "DashBoard_Menu" -> {
+                    dashboardMenuItems = ArrayList(dashboardItem.DashboardMenuData ?: emptyList())
+                    Log.d("DataComing121123113", dashboardMenuItems.toString())
+                    Log.d("DataComing121123113", dashboardMenuItems.size.toString())
+                    dashboardOverallList.add(
+                        DashboardOverall(
+                            category!!,
+                            DashboardMenuData = dashboardMenuItems,
+                            menusubitemlist = null
                         )
                     )
                 }
-            }
-
-            if (category == "Upcoming Events") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val EventTitle = DashboardDetails[j].eventtopic
-                    val Eventtime = DashboardDetails[j].eventtime
-                    val Eventdate = DashboardDetails[j].eventdate
-                    val ideventid = DashboardDetails[j].ideventdetails
-                    dashboardEventlist.add(
-                        DashboardSubItems(
-                            EventTitle, Eventtime, Eventdate, ideventid
+                "Circular" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val description = item.description
+                        val title = item.title
+                        val createddate = item.createddate
+                        val createdtime = item.createdtime
+                        val filepaths = item.filepaths
+                        dashboardCircularlist.add(
+                            DashboardSubItems(
+                                title,
+                                description,
+                                createddate,
+                                createdtime,
+                                filepaths as ArrayList<String>
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardCircularlist))
                 }
-            }
-
-            if (category == "Chat") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val coursename = DashboardDetails[j].coursename
-                    val departmentname = DashboardDetails[j].departmentname
-                    val yearname = DashboardDetails[j].yearname
-                    val sectionname = DashboardDetails[j].sectionname
-                    val studentname = DashboardDetails[j].studentname
-                    val question = DashboardDetails[j].question
-                    val createdonchat = DashboardDetails[j].createdon
-                    val dummy = DashboardDetails[j].yearname
-                    val message = DashboardDetails[j].message
-
-                    dashboardChatlist.add(
-                        DashboardSubItems(
-                            coursename,
-                            departmentname,
-                            yearname,
-                            sectionname,
-                            studentname,
-                            question,
-                            createdonchat,
-                            dummy,
-                            message
+                "Upcoming Events" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val EventTitle = item.eventtopic
+                        val Eventtime = item.eventtime
+                        val Eventdate = item.eventdate
+                        val ideventid = item.ideventdetails
+                        dashboardEventlist.add(
+                            DashboardSubItems(
+                                EventTitle, Eventtime, Eventdate, ideventid
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardEventlist))
                 }
-            }
-
-            if (category == "Leave Request") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val leaveapplicationid = DashboardDetails[j].leaveapplicationid
-                    val studentid = DashboardDetails[j].studentid
-                    val membername = DashboardDetails[j].membername
-                    val coursename = DashboardDetails[j].coursename
-                    val departmentname = DashboardDetails[j].departmentname
-                    val yearname = DashboardDetails[j].yearname
-                    val sectionname = DashboardDetails[j].sectionname
-                    val reason = DashboardDetails[j].reason
-                    val fromdate = DashboardDetails[j].fromdate
-                    val todate = DashboardDetails[j].todate
-                    val leavestatus = DashboardDetails[j].leavestatus
-                    val noofdays = DashboardDetails[j].noofdays
-                    val appliedon = DashboardDetails[j].appliedon
-                    val message = DashboardDetails[j].message
-
-                    dashboardLeaveRequestlist.add(
-                        DashboardSubItems(
-                            leaveapplicationid,
-                            studentid,
-                            membername,
-                            coursename,
-                            departmentname,
-                            yearname,
-                            sectionname,
-                            reason,
-                            fromdate,
-                            todate,
-                            leavestatus,
-                            noofdays,
-                            appliedon,
-                            message
+                "Chat" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val coursename = item.coursename
+                        val departmentname = item.departmentname
+                        val yearname = item.yearname
+                        val sectionname = item.sectionname
+                        val studentname = item.studentname
+                        val question = item.question
+                        val createdonchat = item.createdon
+                        val dummy = item.yearname
+                        val message = item.message
+                        dashboardChatlist.add(
+                            DashboardSubItems(
+                                coursename,
+                                departmentname,
+                                yearname,
+                                sectionname,
+                                studentname,
+                                question,
+                                createdonchat,
+                                dummy,
+                                message
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardChatlist))
                 }
-            }
-
-            if (category == "Assignments") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val idassignmentdetails = DashboardDetails[j].idassignmentdetails
-                    val assignmenttopic = DashboardDetails[j].assignmenttopic
-                    val assignmentdescription = DashboardDetails[j].assignmentdescription
-                    val submissiondate = DashboardDetails[j].submissiondate
-                    val filepath = DashboardDetails[j].submissiondate
-                    val filepathassignment = DashboardDetails[j].filepaths
-                    val filetype = DashboardDetails[j].file_type
-
-                    dashboardAssignmentList.add(
-                        DashboardSubItems(
-                            idassignmentdetails,
-                            assignmenttopic,
-                            assignmentdescription,
-                            submissiondate,
-                            filepath,
-                            filetype,
-                            filepathassignment as ArrayList<String>
+                "Leave Request" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val leaveapplicationid = item.leaveapplicationid
+                        val studentid = item.studentid
+                        val membername = item.membername
+                        val coursename = item.coursename
+                        val departmentname = item.departmentname
+                        val yearname = item.yearname
+                        val sectionname = item.sectionname
+                        val reason = item.reason
+                        val fromdate = item.fromdate
+                        val todate = item.todate
+                        val leavestatus = item.leavestatus
+                        val noofdays = item.noofdays
+                        val appliedon = item.appliedon
+                        val message = item.message
+                        dashboardLeaveRequestlist.add(
+                            DashboardSubItems(
+                                leaveapplicationid,
+                                studentid,
+                                membername,
+                                coursename,
+                                departmentname,
+                                yearname,
+                                sectionname,
+                                reason,
+                                fromdate,
+                                todate,
+                                leavestatus,
+                                noofdays,
+                                appliedon,
+                                message
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardLeaveRequestlist))
                 }
-            }
-
-            if (category == "Notice Board") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val description = DashboardDetails[j].topicbody
-                    val title = DashboardDetails[j].topicheading
-                    val createddate = DashboardDetails[j].createddate
-                    val createdtime = DashboardDetails[j].createdtime
-                    dashboardNoticeboardlist.add(
-                        DashboardSubItems(
-                            title, "", description, createddate, createdtime, "", category
+                "Assignments" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val idassignmentdetails = item.idassignmentdetails
+                        val assignmenttopic = item.assignmenttopic
+                        val assignmentdescription = item.assignmentdescription
+                        val submissiondate = item.submissiondate
+                        val filepath = item.submissiondate
+                        val filepathassignment = item.filepaths
+                        val filetype = item.file_type
+                        dashboardAssignmentList.add(
+                            DashboardSubItems(
+                                idassignmentdetails,
+                                assignmenttopic,
+                                assignmentdescription,
+                                submissiondate,
+                                filepath,
+                                filetype,
+                                filepathassignment as ArrayList<String>
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardAssignmentList))
                 }
-            }
-
-            if (category == "Emergency Notification") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val description = DashboardDetails[j].description
-                    val VoiceFilepath = DashboardDetails[j].voicefilepath
-                    val membername = DashboardDetails[j].membername
-                    val duration = DashboardDetails[j].duration
-                    val createdon = DashboardDetails[j].createdon
-                    val detailsid = DashboardDetails[j].detailsid
-                    dashboardEmergencyVoicelist.add(
-                        DashboardSubItems(
-                            description,
-                            VoiceFilepath,
-                            membername,
-                            duration,
-                            createdon,
-                            category,
-                            detailsid
+                "Notice Board" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val description = item.topicbody
+                        val title = item.topicheading
+                        val createddate = item.createddate
+                        val createdtime = item.createdtime
+                        dashboardNoticeboardlist.add(
+                            DashboardSubItems(
+                                title, "", description, createddate, createdtime, "", category
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardNoticeboardlist))
                 }
-            }
-
-            if (category == "Recent Notifications") {
-                DashboardDetails = DashboardData[i].data!!
-                for (j in DashboardDetails.indices) {
-                    val description = DashboardDetails[j].description
-                    val content = DashboardDetails[j].content
-                    val membername = DashboardDetails[j].sentbyname
-                    val duration = DashboardDetails[j].duration
-                    val createdon = DashboardDetails[j].createdondate
-                    val recentType = DashboardDetails[j].typ
-                    val Createdontime = DashboardDetails[j].createdontime
-                    val detailsID = DashboardDetails[j].id
-
-                    dashboardRecentVoicelist.add(
-                        DashboardSubItems(
-                            description,
-                            membername,
-                            recentType,
-                            createdon,
-                            Createdontime,
-                            content,
-                            duration,
-                            category,
-                            detailsID
+                "Emergency Notification" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val description = item.description
+                        val VoiceFilepath = item.voicefilepath
+                        val membername = item.membername
+                        val duration = item.duration
+                        val createdon = item.createdon
+                        val detailsid = item.detailsid
+                        dashboardEmergencyVoicelist.add(
+                            DashboardSubItems(
+                                description,
+                                VoiceFilepath,
+                                membername,
+                                duration,
+                                createdon,
+                                category,
+                                detailsid
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardEmergencyVoicelist))
                 }
-            }
-
-            if (category == "Attendance") {
-
-                DashboardDetails = DashboardData[i].data!!
-
-                for (k in DashboardDetails.indices) {
-
-                    val attendancetype = DashboardDetails[k].attendancetype
-                    val subjectName = DashboardDetails[k].subjectname
-                    val attendancedate = DashboardDetails[k].attendancedate
-                    val message = DashboardDetails[k].message
-                    val Subjectname = DashboardDetails[k].subjectname
-                    dashboardAttendancetlist.add(
-                        DashboardSubItems(
-                            subjectName, attendancetype, attendancedate, message, Subjectname
+                "Recent Notifications" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val description = item.description
+                        val content = item.content
+                        val membername = item.sentbyname
+                        val duration = item.duration
+                        val createdon = item.createdondate
+                        val recentType = item.typ
+                        val Createdontime = item.createdontime
+                        val detailsID = item.id
+                        dashboardRecentVoicelist.add(
+                            DashboardSubItems(
+                                description,
+                                membername,
+                                recentType,
+                                createdon,
+                                Createdontime,
+                                content,
+                                duration,
+                                category,
+                                detailsID
+                            )
                         )
-                    )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardRecentVoicelist))
                 }
-            }
-
-            //Setting into adapter
-
-            if (category == "Ad" && order == 1) {
-                dashboardOverallList.add(DashboardOverall(category!!, adimageList1))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            }
-            if (category == "Ad" && order == 2) {
-                dashboardOverallList.add(DashboardOverall(category!!, adimageList2))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            }
-            if (category == "Ad" && order == 4) {
-                dashboardOverallList.add(DashboardOverall(category!!, adimageList4))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Notice Board") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardNoticeboardlist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            }
-            else if (category == "DashBoard_Menu") {
-                Log.d("DataComing121123113",dashboardMenuItems.toString())
-                Log.d("DataComing121123113",dashboardMenuItems.size.toString())
-                dashboardOverallList.add(DashboardOverall(category!!, DashboardMenuData = dashboardMenuItems, menusubitemlist = null))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            }
-            else if (category == "Circular") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardCircularlist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Leave Request") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardLeaveRequestlist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Upcoming Events") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardEventlist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Assignments") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardAssignmentList))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Chat") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardChatlist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Emergency Notification") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardEmergencyVoicelist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Recent Notifications") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardRecentVoicelist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
-            } else if (category == "Attendance") {
-                dashboardOverallList.add(DashboardOverall(category!!, dashboardAttendancetlist))
-                adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-                val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
-                binding.idRVCategories!!.layoutManager = mLayoutManager
-                binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
-                binding.idRVCategories!!.adapter = adapter
-                adapter!!.notifyDataSetChanged()
+                "Attendance" -> {
+                    DashboardDetails = dashboardItem.data!!
+                    for (item in DashboardDetails) {
+                        val attendancetype = item.attendancetype
+                        val subjectName = item.subjectname
+                        val attendancedate = item.attendancedate
+                        val message = item.message
+                        val Subjectname = item.subjectname
+                        dashboardAttendancetlist.add(
+                            DashboardSubItems(
+                                subjectName, attendancetype, attendancedate, message, Subjectname
+                            )
+                        )
+                    }
+                    dashboardOverallList.add(DashboardOverall(category!!, dashboardAttendancetlist))
+                }
             }
         }
+
+        adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+        val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+        binding.idRVCategories!!.layoutManager = mLayoutManager
+//    binding.idRVCategories!!.itemAnimator = DefaultItemAnimator()
+        binding.idRVCategories.apply {
+            setHasFixedSize(true)
+            itemAnimator = null
+        }
+        binding.idRVCategories!!.adapter = adapter
+        adapter!!.notifyDataSetChanged()
+
+        val end = System.nanoTime()
+        val seconds = (end - start) / 1_000_000_000.0
+        Log.d("ExecutionTime", "Total execution: $seconds seconds")
     }
 
     private fun getContactPermission() {
@@ -778,6 +1075,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>(){
 
         if (hasAllPermissions()) {
 //            MenuBottomType()
+            CommonUtil.MenuListDashboard.clear()
             UserMenuRequest(this)
             DashBoardRequest()
         } else {

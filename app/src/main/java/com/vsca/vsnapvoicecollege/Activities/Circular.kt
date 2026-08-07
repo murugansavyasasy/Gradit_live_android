@@ -179,12 +179,12 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 if (status == 1) {
                     if (CommonUtil.menu_readCircular.equals("1")) {
                         OverAllMenuCountRequest(this, CommonUtil.MenuIDCircular!!)
                     }
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
 
                     if (CircularType) {
                         GetCircularData = response.data!!

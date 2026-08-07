@@ -55,7 +55,7 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-        UserMenuRequest(this)
+//        UserMenuRequest(this)
 //        MenuBottomType()
 
 

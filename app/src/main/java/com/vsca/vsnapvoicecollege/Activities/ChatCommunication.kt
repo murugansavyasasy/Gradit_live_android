@@ -106,7 +106,7 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
             R.id.imgAddPlus
         )
 //        MenuBottomType()
-        UserMenuRequest(this)
+//        UserMenuRequest(this)
 
 
         binding.CommonLayout.imgheaderBack.setOnClickListener { imgheaderBack() }

@@ -164,7 +164,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                 if (CommonUtil.menu_readCommunicationText.equals("1")) {
                     OverAllMenuCountRequest(this, CommonUtil.MenuIDCommunicationText!!)
                 }
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 if (status == 1) {
                     if (CommunicationType) {
                         GetCommunicationdata = response.data!!
@@ -238,13 +238,13 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                         }
                     }
                 } else {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     NoDataFound()
 
                 }
 
             } else {
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 NoDataFound()
             }
         }
