@@ -70,6 +70,13 @@
             android:visibility="visible"
             app:cardElevation="0dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerDashboardTitle"
                 android:layout_width="match_parent"
