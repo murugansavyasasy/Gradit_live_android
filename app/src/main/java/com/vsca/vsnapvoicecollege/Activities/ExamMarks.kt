@@ -100,7 +100,7 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
                 val status = response.status
                 val message = response.message
 
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
 
                 if (status == 1) {
                     GetStudentExamMarks = response.data!!
@@ -130,7 +130,7 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
                     binding.LayoutExamMarks.recyclerCommon!!.visibility = View.GONE
                 }
             } else {
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 binding.LayoutExamMarks.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.LayoutExamMarks.recyclerCommon!!.visibility = View.GONE
             }

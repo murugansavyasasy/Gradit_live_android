@@ -73,7 +73,7 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
                 GetCategoryCreditData.clear()
 
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     GetCategoryCreditData = response.data!!
 
                     var listSize = GetCategoryCreditData.size
@@ -114,7 +114,7 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     GetCategoryTypeData = response.data!!
                     SetSpinnerValue()
 

@@ -84,7 +84,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
         )
 //        MenuBottomType()
         TabDepartmentColor()
-        UserMenuRequest(this)
+//        UserMenuRequest(this)
 
         binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_communication)
         binding.CommonLayout.lblDepartment!!.setText(R.string.txt_unread)
@@ -185,7 +185,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 if (CommonUtil.menu_readCommunication.equals("1")) {
                     OverAllMenuCountRequest(this, CommonUtil.MenuIDCommunication!!)
                 }
@@ -269,13 +269,13 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
                         }
                     }
                 } else {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     NoDataFound()
 
                 }
 
             } else {
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 NoDataFound()
             }
         }
@@ -483,7 +483,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
     }
 
     override fun menucountcallback(responseBody: MenuDetailsResponse) {
-        UserMenuRequest(this)
+//        UserMenuRequest(this)
     }
 
     override fun onResume() {

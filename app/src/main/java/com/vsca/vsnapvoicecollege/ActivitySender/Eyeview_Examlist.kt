@@ -68,7 +68,7 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
             R.id.imgAddPlus
         )
 //        MenuBottomType()
-        UserMenuRequest(this)
+//        UserMenuRequest(this)
 
         CommonUtil.ExamcreationEdit.clear()
         CommonUtil.SubjectExamcreationEDIT.clear()

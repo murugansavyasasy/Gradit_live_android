@@ -85,7 +85,7 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                 GetSemesterCreditWiseData.clear()
                 GetSemesterAllListData.clear()
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     SemAllCreditList.clear()
                     GetSemesterCreditWiseAllData = response.data!!
                     var listSize = GetSemesterCreditWiseAllData.size
@@ -163,7 +163,7 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                 GetSemesterCreditWiseData.clear()
 
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     GetSemesterCreditWiseData = response.data!!
 
                     var listSize = GetSemesterCreditWiseData.size
@@ -204,7 +204,7 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     GetSemesterTypeData = response.data!!
                     SetSpinnerValue()
 

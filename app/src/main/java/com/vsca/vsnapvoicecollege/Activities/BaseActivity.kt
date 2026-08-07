@@ -71,6 +71,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     var UserMenuData: ArrayList<MenuDetailsResponse> = ArrayList()
     var MenuList: ArrayList<MenuDetailsResponse> = ArrayList()
     var OverAllMenuCountData: List<GetOverAllCountDetails> = ArrayList()
+    private var onUserMenuCompleted: (() -> Unit)? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,9 +91,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
 //        btnContinue!!.setOnClickListener { check() }
 
-        if (CommonUtil.MenuListDashboard.isEmpty()) {
-
-            Log.d("MenuArrayList", "Empty")
+//        if (CommonUtil.MenuListDashboard.isEmpty()) {
+//
+//            Log.d("MenuArrayList", "Empty")
 
             dashboardViewModel!!.userMenuLiveData!!.observe(this) { response ->
                 if (response != null) {
@@ -200,6 +201,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                                 isFeeDetails = MenuList[k].id.toString()
                             }
                         }
+
+                        onUserMenuCompleted?.invoke()
+                        onUserMenuCompleted = null
 //                        menuadapter =
 //                            HomeMenus(applicationContext, MenuList, object : HomeMenuClickListener {
 //                                override fun onMenuClick(
@@ -221,100 +225,107 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 //                        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
 //                        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
                     } else {
+
                         CommonUtil.ApiAlertContext(applicationContext, message)
+                        onUserMenuCompleted?.invoke()
+                        onUserMenuCompleted = null
                     }
                 }
-            }
-
-        } else {
-
-            Log.d("MenuArrayList", "isNotEmpty")
-//            CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
-
-            for (k in CommonUtil.MenuListDashboard.indices) {
-
-                CommonUtil.UserMenuListId.add(CommonUtil.MenuListDashboard.get(k).id)
-
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Home)) {
-                    DashboardHomeMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                    Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
-                }
-
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Chat)) {
-                    ChatMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                    Log.d("Chat", ChatMenuID)
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Communication)) {
-                    CommunicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                    Log.d("communicationmenu", CommunicationMenuID)
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Examination)) {
-                    ExamMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                    Log.d("ExamMenuID", ExamMenuID)
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Attendance)) {
-                    AttendanceMeuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                    Log.d("AttendanceMeuID", AttendanceMeuID)
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Assignment)) {
-                    AssignmentMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Circular)) {
-                    CircularMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
-                    NoticeboardMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard.get(k).menu_slug.equals(CommonUtil.Events)) {
-                    EventsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Faculty)) {
-                    FacultyMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Video)) {
-                    VideoMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Course_Details)) {
-                    CourseDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Category_Credit_Points)) {
-                    CategoryDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
-                    SemesterCreditMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Exam_Application_Details)) {
-                    ExamApplicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Hall_Ticket)) {
-                    Hall_TicketId = CommonUtil.MenuListDashboard.get(k).id.toString()
-                }
-                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.FeeDetails)) {
-                    isFeeDetails = CommonUtil.MenuListDashboard.get(k).id.toString()
+                else{
+                    onUserMenuCompleted?.invoke()
+                    onUserMenuCompleted = null
                 }
             }
 
-//            menuadapter = HomeMenus(
-//                applicationContext,
-//                CommonUtil.MenuListDashboard,
-//                object : HomeMenuClickListener {
-//                    override fun onMenuClick(
-//                        holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-//                    ) {
-//                        holder.LayoutHome!!.setOnClickListener {
-//                            ParticularMenuClick(data)
-//                        }
-//                    }
-////                })
-//            val mLayoutManager: RecyclerView.LayoutManager =
-//                GridLayoutManager(applicationContext, 4)
-//            CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-//            CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-////            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-//            CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-//            CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
-
-        }
+//        } else {
+//
+//            Log.d("MenuArrayList", "isNotEmpty")
+////            CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
+//
+//            for (k in CommonUtil.MenuListDashboard.indices) {
+//
+//                CommonUtil.UserMenuListId.add(CommonUtil.MenuListDashboard.get(k).id)
+//
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Home)) {
+//                    DashboardHomeMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                    Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
+//                }
+//
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Chat)) {
+//                    ChatMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                    Log.d("Chat", ChatMenuID)
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Communication)) {
+//                    CommunicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                    Log.d("communicationmenu", CommunicationMenuID)
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Examination)) {
+//                    ExamMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                    Log.d("ExamMenuID", ExamMenuID)
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Attendance)) {
+//                    AttendanceMeuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                    Log.d("AttendanceMeuID", AttendanceMeuID)
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Assignment)) {
+//                    AssignmentMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Circular)) {
+//                    CircularMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
+//                    NoticeboardMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard.get(k).menu_slug.equals(CommonUtil.Events)) {
+//                    EventsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Faculty)) {
+//                    FacultyMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Video)) {
+//                    VideoMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Course_Details)) {
+//                    CourseDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Category_Credit_Points)) {
+//                    CategoryDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
+//                    SemesterCreditMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Exam_Application_Details)) {
+//                    ExamApplicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Hall_Ticket)) {
+//                    Hall_TicketId = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.FeeDetails)) {
+//                    isFeeDetails = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                }
+//            }
+//
+////            menuadapter = HomeMenus(
+////                applicationContext,
+////                CommonUtil.MenuListDashboard,
+////                object : HomeMenuClickListener {
+////                    override fun onMenuClick(
+////                        holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
+////                    ) {
+////                        holder.LayoutHome!!.setOnClickListener {
+////                            ParticularMenuClick(data)
+////                        }
+////                    }
+//////                })
+////            val mLayoutManager: RecyclerView.LayoutManager =
+////                GridLayoutManager(applicationContext, 4)
+////            CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+////            CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+//////            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+////            CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+////            CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
+//
+//        }
 
         appviewModelbase!!.appreadstatusresponseLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -1356,105 +1367,109 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
-    fun UserMenuRequest(activity: Activity?) {
+    fun UserMenuRequest(activity: Activity?,
+                        onCompleted: (() -> Unit)? = null
+    ) {
         if (CommonUtil.MenuListDashboard.isEmpty()) {
+            onUserMenuCompleted = onCompleted
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
             jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
             dashboardViewModel!!.getUsermenus(jsonObject, activity)
             Log.d("UserMenus_Request", jsonObject.toString())
-        }else{
-            isMenuUpdate()
         }
+//        else{
+//            isMenuUpdate()
+//        }
     }
 
-    private fun isMenuUpdate(){
-
-        Log.d("MenuArrayList", "isNotEmpty")
-//        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
-
-        for (k in CommonUtil.MenuListDashboard.indices) {
-
-            CommonUtil.UserMenuListId.add(CommonUtil.MenuListDashboard.get(k).id)
-
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Home)) {
-                DashboardHomeMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
-            }
-
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Chat)) {
-                ChatMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                Log.d("Chat", ChatMenuID)
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Communication)) {
-                CommunicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                Log.d("communicationmenu", CommunicationMenuID)
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Examination)) {
-                ExamMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                Log.d("ExamMenuID", ExamMenuID)
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Attendance)) {
-                AttendanceMeuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-                Log.d("AttendanceMeuID", AttendanceMeuID)
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Assignment)) {
-                AssignmentMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Circular)) {
-                CircularMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
-                NoticeboardMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard.get(k).menu_slug.equals(CommonUtil.Events)) {
-                EventsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Faculty)) {
-                FacultyMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Video)) {
-                VideoMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Course_Details)) {
-                CourseDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Category_Credit_Points)) {
-                CategoryDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
-                SemesterCreditMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Exam_Application_Details)) {
-                ExamApplicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Hall_Ticket)) {
-                Hall_TicketId = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.FeeDetails)) {
-                isFeeDetails = CommonUtil.MenuListDashboard.get(k).id.toString()
-            }
-        }
-
-//        menuadapter = HomeMenus(
-//            applicationContext,
-//            CommonUtil.MenuListDashboard,
-//            object : HomeMenuClickListener {
-//                override fun onMenuClick(
-//                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-//                ) {
-//                    holder.LayoutHome!!.setOnClickListener {
-//                        ParticularMenuClick(data)
-//                    }
-//                }
-//            })
-//        val mLayoutManager: RecyclerView.LayoutManager =
-//            GridLayoutManager(applicationContext, 4)
-//        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-//        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-////        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-//        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-//        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
-    }
+//    private fun isMenuUpdate(){
+//
+//        Log.d("MenuArrayList", "isNotEmpty")
+////        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
+//
+//        for (k in CommonUtil.MenuListDashboard.indices) {
+//
+//            CommonUtil.UserMenuListId.add(CommonUtil.MenuListDashboard.get(k).id)
+//
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Home)) {
+//                DashboardHomeMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
+//            }
+//
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Chat)) {
+//                ChatMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                Log.d("Chat", ChatMenuID)
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Communication)) {
+//                CommunicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                Log.d("communicationmenu", CommunicationMenuID)
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Examination)) {
+//                ExamMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                Log.d("ExamMenuID", ExamMenuID)
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Attendance)) {
+//                AttendanceMeuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//                Log.d("AttendanceMeuID", AttendanceMeuID)
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Assignment)) {
+//                AssignmentMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Circular)) {
+//                CircularMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
+//                NoticeboardMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard.get(k).menu_slug.equals(CommonUtil.Events)) {
+//                EventsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Faculty)) {
+//                FacultyMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Video)) {
+//                VideoMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Course_Details)) {
+//                CourseDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Category_Credit_Points)) {
+//                CategoryDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
+//                SemesterCreditMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Exam_Application_Details)) {
+//                ExamApplicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Hall_Ticket)) {
+//                Hall_TicketId = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.FeeDetails)) {
+//                isFeeDetails = CommonUtil.MenuListDashboard.get(k).id.toString()
+//            }
+//        }
+//
+////        menuadapter = HomeMenus(
+////            applicationContext,
+////            CommonUtil.MenuListDashboard,
+////            object : HomeMenuClickListener {
+////                override fun onMenuClick(
+////                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
+////                ) {
+////                    holder.LayoutHome!!.setOnClickListener {
+////                        ParticularMenuClick(data)
+////                    }
+////                }
+////            })
+////        val mLayoutManager: RecyclerView.LayoutManager =
+////            GridLayoutManager(applicationContext, 4)
+////        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
+////        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
+//////        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
+////        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
+////        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
+//    }
 }

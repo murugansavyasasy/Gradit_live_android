@@ -76,7 +76,7 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
         )
        // ActionBarMethod(this)
 //        MenuBottomType()
-        UserMenuRequest(this)
+//        UserMenuRequest(this)
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -178,7 +178,7 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     AdForCollegeApi()
 
                     AssignmentContent_ViewData = response.data

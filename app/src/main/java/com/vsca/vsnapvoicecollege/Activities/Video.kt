@@ -167,7 +167,7 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 AdForCollegeApi()
                 if (status == 1) {
                     GetVideoListData = response.data!!

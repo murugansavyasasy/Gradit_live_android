@@ -171,7 +171,7 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 if (status == 1) {
                     if (ExamType) {
                         GetExamListData = response.data!!
@@ -299,7 +299,7 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                     }
                 }
             } else {
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 NoDataFound()
             }
         }

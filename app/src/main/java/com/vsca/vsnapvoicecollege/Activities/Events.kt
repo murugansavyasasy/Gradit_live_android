@@ -185,7 +185,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                 CommonUtil.EventParticulerId = ""
                 val status = response.status
                 val message = response.message
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 if (status == 1) {
 
                     if (CommonUtil.menu_readEvent.equals("1")) {
@@ -297,7 +297,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     if (CommonUtil.menu_readEvent.equals("1")) {
                         OverAllMenuCountRequest(this, "8")
                     }
-                    UserMenuRequest(this)
+//                    UserMenuRequest(this)
                     if (EventType) {
                         NoDataFound()
                         GetEvetnsData = response.data!!
@@ -341,7 +341,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     }
                 }
             } else {
-                UserMenuRequest(this)
+//                UserMenuRequest(this)
                 NoDataFound()
             }
         }

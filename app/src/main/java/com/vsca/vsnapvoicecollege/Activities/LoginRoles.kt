@@ -38,6 +38,8 @@ class LoginRoles : AppCompatActivity() {
 
 
         binding.txtStudent!!.setOnClickListener {
+            CommonUtil.MenuListDashboard.clear()
+
 
             rolesadapter!!._LoginClick("p4")
             binding.txtStudent!!.background = resources.getDrawable(R.drawable.login_typebackround_color)
@@ -52,6 +54,9 @@ class LoginRoles : AppCompatActivity() {
         }
 
         binding.txtParent!!.setOnClickListener {
+            CommonUtil.MenuListDashboard.clear()
+
+
 
             if (binding.txtParent!!.text.equals(CommonUtil.Non_Teaching_staff)) {
 
@@ -72,6 +77,8 @@ class LoginRoles : AppCompatActivity() {
         }
 
         binding.txtPrinciple!!.setOnClickListener {
+
+            CommonUtil.MenuListDashboard.clear()
 
             if (binding.txtPrinciple!!.text.equals(CommonUtil._staff)) {
 
@@ -217,6 +224,7 @@ class LoginRoles : AppCompatActivity() {
                     holder.rytOverAll!!.setOnClickListener(object : View.OnClickListener {
 
                         override fun onClick(view: View) {
+                            CommonUtil.MenuListDashboard.clear()
                             SetLoginData(data)
                             val i: Intent = Intent(this@LoginRoles, DashBoardActivityRewamp::class.java)
                             startActivity(i)
