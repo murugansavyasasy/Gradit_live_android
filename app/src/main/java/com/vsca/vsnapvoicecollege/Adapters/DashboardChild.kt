@@ -17,6 +17,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
@@ -150,7 +151,7 @@ class DashboardChild(
             4 -> R.drawable.attendance to data.name
             5 -> R.drawable.assignment to data.name
             6 -> R.drawable.circular to context.getString(R.string.txt_img_pdf)
-            7 -> R.drawable.noticeboard to data.name
+            7 -> R.drawable.noticeboard  to data.name
             8 -> R.drawable.events to data.name
             9 -> R.drawable.faculy_menu to data.name
             10 -> R.drawable.video to data.name
@@ -171,6 +172,10 @@ class DashboardChild(
         if (iconRes != null && label != null) {
             holder.imgMenu.setImageResource(iconRes)
             holder.lblMenuName.text = label
+
+            // Apply priority-based colors
+            applyMenuColors(holder)
+
         } else {
             holder.MenuHeader.visibility = View.GONE
             holder.imgMenu.visibility = View.GONE
@@ -259,6 +264,25 @@ class DashboardChild(
                 }
             }
         }
+    }
+    private fun applyMenuColors(holder: MenuViewHolder) {
+
+        val colorRes = when (CommonUtil.Priority) {
+            "p1" -> R.color.clr_principal
+            "p2", "p3", "p6" -> R.color.clr_teachingstaff
+            "p4" -> R.color.clr_receiver
+            "p5" -> R.color.clr_parent
+            "p7" -> R.color.cle_lightorang
+            else -> R.color.black
+        }
+
+        val color = ContextCompat.getColor(context, colorRes)
+
+        // CircleImageView border
+        holder.imgMenu.borderColor = color
+
+        // Menu text
+        holder.lblMenuName.setTextColor(color)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

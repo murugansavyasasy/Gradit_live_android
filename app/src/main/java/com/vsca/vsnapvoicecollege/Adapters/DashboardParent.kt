@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.vsca.vsnapvoicecollege.Activities.*
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.ActivitySender.Hall_Ticket
@@ -28,6 +29,11 @@ class DashboardParent constructor(
     // Shared pool for all child recyclers
     private val sharedViewPool = RecyclerView.RecycledViewPool()
 
+    companion object {
+        private const val MENU_COLUMNS = 4
+        private const val MENU_ROWS = 3
+    }
+
     init {
         // CRITICAL: Menu grid shows ~20 items but default pool is 5.
         // Increase so ALL menu ViewHolders survive recycling.
@@ -35,11 +41,14 @@ class DashboardParent constructor(
         sharedViewPool.setMaxRecycledViews(DashboardChild.TYPE_DASHBOARD, 9)
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context)
             .inflate(R.layout.dashboard_parent_design, parent, false)
         return ViewHolder(view)
     }
+
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val modal = categoriesModalArrayList[position]
@@ -85,6 +94,15 @@ class DashboardParent constructor(
                 holder.recyclerDashboardTitle.adapter = null
                 holder.recyclerDashboardTitle.layoutManager = null
                 holder.currentChildType = null
+
+                holder.recyclerDashboardTitle.visibility = View.VISIBLE
+                holder.viewPagerDashboardMenu.visibility = View.GONE
+                holder.lblSwipeForMore.visibility = View.GONE
+
+                holder.pageChangeCallback?.let {
+                    holder.viewPagerDashboardMenu.unregisterOnPageChangeCallback(it)
+                    holder.pageChangeCallback = null
+                }
             }
         }
 
@@ -158,31 +176,131 @@ class DashboardParent constructor(
     }
 
     private fun bindDashboardMenu(holder: ViewHolder, modal: DashboardOverall) {
-        val filteredMenu = (modal.DashboardMenuData ?: emptyList()).filter { it.id != 1 }
+        holder.recyclerDashboardTitle.visibility = View.GONE
+        holder.viewPagerDashboardMenu.visibility = View.VISIBLE
 
-        if (holder.currentChildType != "Menu") {
-            // First time: create GridLayoutManager + adapter
-            holder.recyclerDashboardTitle.layoutManager = GridLayoutManager(context, 4)
-            holder.recyclerDashboardTitle.setRecycledViewPool(sharedViewPool)
-            holder.recyclerDashboardTitle.setHasFixedSize(true)
+        val menuList = (modal.DashboardMenuData ?: emptyList()).filter { it.id != 1 }
 
-            holder.childAdapter = DashboardChild(
-                context = context,
-                type = "Menu",
-                menuList = filteredMenu,
-                onMenuClick = { data -> ParticularMenuClick(data) }
-            )
-            holder.recyclerDashboardTitle.adapter = holder.childAdapter
-            holder.currentChildType = "Menu"
-        } else {
-            // CRITICAL: Only update if data actually changed (prevents rebind on every scroll)
-            val currentSize = holder.childAdapter?.itemCount ?: 0
-            if (currentSize != filteredMenu.size) {
-                holder.childAdapter?.updateMenuList(filteredMenu)
+        if (menuList.isEmpty()) {
+            holder.viewPagerDashboardMenu.visibility = View.GONE
+            holder.lblSwipeForMore.visibility = View.GONE
+            return
+        }
+
+        // Clean up any stale callback from a recycled holder
+        holder.pageChangeCallback?.let { holder.viewPagerDashboardMenu.unregisterOnPageChangeCallback(it) }
+        holder.pageChangeCallback = null
+
+        val lp = holder.viewPagerDashboardMenu.layoutParams
+        lp.height = calculateMenuGridHeight(menuList)
+        holder.viewPagerDashboardMenu.layoutParams = lp
+
+        val pagerAdapter = DashboardMenuPagerAdapter(
+            context = holder.itemView.context,
+            menuList = menuList,
+            onMenuClick = { data -> ParticularMenuClick(data) }
+        )
+
+        holder.viewPagerDashboardMenu.adapter = pagerAdapter
+        holder.viewPagerDashboardMenu.offscreenPageLimit = 1
+
+        // Initial hint state
+        val totalPages = pagerAdapter.itemCount
+        holder.lblSwipeForMore.visibility = if (totalPages > 1) View.VISIBLE else View.GONE
+
+        // Dynamic hide when user reaches the last page
+        if (totalPages > 1) {
+            val callback = object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    // Show hint if there IS a next page; hide if this is the last page
+                    holder.lblSwipeForMore.visibility =
+                        if (position < totalPages - 1) View.VISIBLE else View.GONE
+                }
             }
-            // If size is same, we assume data hasn't changed — no notifyDataSetChanged needed
+            holder.pageChangeCallback = callback
+            holder.viewPagerDashboardMenu.registerOnPageChangeCallback(callback)
         }
     }
+//    private fun bindDashboardMenu(holder: ViewHolder, modal: DashboardOverall) {
+//        holder.recyclerDashboardTitle.visibility = View.GONE
+//        holder.viewPagerDashboardMenu.visibility = View.VISIBLE
+//        holder.lblSwipeForMore.visibility = View.GONE   // default hidden
+//
+//        val menuList = (modal.DashboardMenuData ?: emptyList()).filter { it.id != 1 }
+//
+//        if (menuList.isEmpty()) {
+//            holder.viewPagerDashboardMenu.visibility = View.GONE
+//            return
+//        }
+//
+//        val lp = holder.viewPagerDashboardMenu.layoutParams
+//        lp.height = calculateMenuGridHeight(menuList)
+//        holder.viewPagerDashboardMenu.layoutParams = lp
+//
+//        val pagerAdapter = DashboardMenuPagerAdapter(
+//            context = holder.itemView.context,
+//            menuList = menuList,
+//            onMenuClick = { data -> ParticularMenuClick(data) }
+//        )
+//
+//        holder.viewPagerDashboardMenu.adapter = pagerAdapter
+//        holder.viewPagerDashboardMenu.offscreenPageLimit = 1
+//
+//        // Show hint only when there is more than one page (i.e. > 12 items)
+//        if (pagerAdapter.itemCount > 1) {
+//            holder.lblSwipeForMore.visibility = View.VISIBLE
+//        }
+//    }
+//
+//
+//    private fun bindDashboardMenu(holder: ViewHolder, modal: DashboardOverall) {
+//        // Show pager, hide the default list for this section
+//        holder.recyclerDashboardTitle.visibility = View.GONE
+//        holder.viewPagerDashboardMenu.visibility = View.VISIBLE
+//
+//        val menuList = (modal.DashboardMenuData ?: emptyList()).filter { it.id != 1 }
+//
+//        if (menuList.isEmpty()) {
+//            holder.viewPagerDashboardMenu.visibility = View.GONE
+//            return
+//        }
+//
+//        val pagerAdapter = DashboardMenuPagerAdapter(
+//            context = holder.itemView.context,
+//            menuList = menuList,
+//            onMenuClick = { data -> ParticularMenuClick(data) }
+//        )
+//
+//        holder.viewPagerDashboardMenu.adapter = pagerAdapter
+//        holder.viewPagerDashboardMenu.offscreenPageLimit = 1
+//    }
+//
+//    private fun bindDashboardMenu(holder: ViewHolder, modal: DashboardOverall) {
+//        val filteredMenu = (modal.DashboardMenuData ?: emptyList()).filter { it.id != 1 }
+//
+//        if (holder.currentChildType != "Menu") {
+//            // First time: create GridLayoutManager + adapter
+//            holder.recyclerDashboardTitle.layoutManager = GridLayoutManager(context, 4)
+//            holder.recyclerDashboardTitle.setRecycledViewPool(sharedViewPool)
+//            holder.recyclerDashboardTitle.setHasFixedSize(true)
+//
+//            holder.childAdapter = DashboardChild(
+//                context = context,
+//                type = "Menu",
+//                menuList = filteredMenu,
+//                onMenuClick = { data -> ParticularMenuClick(data) }
+//            )
+//            holder.recyclerDashboardTitle.adapter = holder.childAdapter
+//            holder.currentChildType = "Menu"
+//        } else {
+//            // CRITICAL: Only update if data actually changed (prevents rebind on every scroll)
+//            val currentSize = holder.childAdapter?.itemCount ?: 0
+//            if (currentSize != filteredMenu.size) {
+//                holder.childAdapter?.updateMenuList(filteredMenu)
+//            }
+//            // If size is same, we assume data hasn't changed — no notifyDataSetChanged needed
+//        }
+//    }
 
     private fun reuseChildAdapter(
         holder: ViewHolder,
@@ -190,6 +308,16 @@ class DashboardParent constructor(
         expectedType: String,
         orientation: Int
     ) {
+        holder.recyclerDashboardTitle.visibility = View.VISIBLE
+        holder.viewPagerDashboardMenu.visibility = View.GONE
+        holder.lblSwipeForMore.visibility = View.GONE   // <-- ADD
+
+        holder.pageChangeCallback?.let {
+            holder.viewPagerDashboardMenu.unregisterOnPageChangeCallback(it)
+            holder.pageChangeCallback = null
+        }
+
+
         val dataList = modal.menusubitemlist ?: arrayListOf()
 
         if (holder.currentChildType != expectedType) {
@@ -351,6 +479,35 @@ class DashboardParent constructor(
         }
     }
 
+    private fun calculateMenuGridHeight(menuList: List<MenuDetailsResponse>): Int {
+        if (menuList.isEmpty()) return 0
+
+        val density = context.resources.displayMetrics.density
+
+        // 1. Inflate off-screen
+        val itemView = LayoutInflater.from(context)
+            .inflate(R.layout.home_menu_list_design, null, false)
+
+        // 2. Find and set the longest name so we measure worst-case wrapping
+        val longestName = menuList.maxByOrNull { it.name?.length ?: 0 }?.name ?: "Menu"
+        itemView.findViewById<TextView>(R.id.lblMenuName).text = longestName
+
+        // 3. Measure width = screen / 4 columns, minus page padding (4dp each side)
+        val screenWidth = context.resources.displayMetrics.widthPixels
+        val pagePaddingPx = (8 * density).toInt()   // 4dp * 2 sides
+        val columnWidth = (screenWidth - pagePaddingPx) / MENU_COLUMNS
+
+        itemView.measure(
+            View.MeasureSpec.makeMeasureSpec(columnWidth, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+
+        // 4. Height for 3 rows + 12dp safety margin for font-scale variations
+        val singleItemHeight = itemView.measuredHeight
+        val safetyPx = (12 * density).toInt()
+        return (singleItemHeight * MENU_ROWS) + safetyPx
+    }
+
     private fun launch(clazz: Class<*>) {
         val intent = Intent(context, clazz).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -366,9 +523,16 @@ class DashboardParent constructor(
         val lblViewAll: TextView = itemView.findViewById(R.id.lblViewAll)
         val lblNoRecords: TextView = itemView.findViewById(R.id.lblNoRecords)
         val idCVCategory: CardView = itemView.findViewById(R.id.idCVCategory)
+        val viewPagerDashboardMenu: androidx.viewpager2.widget.ViewPager2 =
+            itemView.findViewById(R.id.viewPagerDashboardMenu)
+        val lblSwipeForMore: TextView = itemView.findViewById(R.id.lblSwipeForMore)
+
+        var pageChangeCallback: ViewPager2.OnPageChangeCallback? = null
+
 
         // Cache child adapter so we don't create a new one on every scroll
         var childAdapter: DashboardChild? = null
+
         var currentChildType: String? = null
     }
 }

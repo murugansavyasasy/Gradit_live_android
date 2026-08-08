@@ -74,13 +74,34 @@
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerDashboardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPagerDashboardMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:visibility="gone"
+                    android:clipToPadding="false" />
+                <TextView
+                    android:id="@+id/lblSwipeForMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_marginBottom="@dimen/eight"
+                    android:text="Swipe for more menu >>"
+                    android:textColor="@color/clr_black"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/eleve_sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerDashboardTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+
+
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

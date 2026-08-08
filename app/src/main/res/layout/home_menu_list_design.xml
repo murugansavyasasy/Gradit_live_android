@@ -24,8 +24,9 @@
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_user_grey"
-            CircleImageView:civ_border_color="#FF000000"
-            CircleImageView:civ_border_width="5dp"
+            app:civ_border_color="#000000"
+            app:civ_border_width="1dp"
+            android:padding="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,9 +37,12 @@
             android:layout_below="@+id/imgMenu"
             android:layout_centerInParent="true"
             android:text="Home"
+            android:layout_marginTop="@dimen/three"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="@dimen/ten"
+            android:textSize="@dimen/eleve_sp"
             android:textStyle="normal" />
 
 
