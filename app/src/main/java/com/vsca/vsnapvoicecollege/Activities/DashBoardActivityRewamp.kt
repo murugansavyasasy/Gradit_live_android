@@ -118,7 +118,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         binding = BottomMenuSwipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         CommonUtil.RequestPermission(this)
-        ActionBarMethod(this@DashBoardActivityRewamp)
+        ActionBarMethod(this@DashBoardActivityRewamp,true)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true

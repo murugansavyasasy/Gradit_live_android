@@ -204,26 +204,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
                         onUserMenuCompleted?.invoke()
                         onUserMenuCompleted = null
-//                        menuadapter =
-//                            HomeMenus(applicationContext, MenuList, object : HomeMenuClickListener {
-//                                override fun onMenuClick(
-//                                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-//                                ) {
-//                                    holder.LayoutHome.setOnClickListener {
-//                                        ParticularMenuClick(
-//                                            data
-//                                        )
-//                                    }
-//                                }
-//                            })
 
-//                        val mLayoutManager: RecyclerView.LayoutManager =
-//                            GridLayoutManager(applicationContext, 4)
-//                        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-//                        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-//                        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-//                        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-//                        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
                     } else {
 
                         CommonUtil.ApiAlertContext(applicationContext, message)
@@ -236,96 +217,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                     onUserMenuCompleted = null
                 }
             }
-
-//        } else {
-//
-//            Log.d("MenuArrayList", "isNotEmpty")
-////            CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
-//
-//            for (k in CommonUtil.MenuListDashboard.indices) {
-//
-//                CommonUtil.UserMenuListId.add(CommonUtil.MenuListDashboard.get(k).id)
-//
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Home)) {
-//                    DashboardHomeMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                    Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
-//                }
-//
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Chat)) {
-//                    ChatMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                    Log.d("Chat", ChatMenuID)
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Communication)) {
-//                    CommunicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                    Log.d("communicationmenu", CommunicationMenuID)
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Examination)) {
-//                    ExamMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                    Log.d("ExamMenuID", ExamMenuID)
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Attendance)) {
-//                    AttendanceMeuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                    Log.d("AttendanceMeuID", AttendanceMeuID)
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Assignment)) {
-//                    AssignmentMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Circular)) {
-//                    CircularMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
-//                    NoticeboardMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard.get(k).menu_slug.equals(CommonUtil.Events)) {
-//                    EventsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Faculty)) {
-//                    FacultyMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Video)) {
-//                    VideoMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Course_Details)) {
-//                    CourseDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Category_Credit_Points)) {
-//                    CategoryDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
-//                    SemesterCreditMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Exam_Application_Details)) {
-//                    ExamApplicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Hall_Ticket)) {
-//                    Hall_TicketId = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//                if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.FeeDetails)) {
-//                    isFeeDetails = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                }
-//            }
-//
-////            menuadapter = HomeMenus(
-////                applicationContext,
-////                CommonUtil.MenuListDashboard,
-////                object : HomeMenuClickListener {
-////                    override fun onMenuClick(
-////                        holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-////                    ) {
-////                        holder.LayoutHome!!.setOnClickListener {
-////                            ParticularMenuClick(data)
-////                        }
-////                    }
-//////                })
-////            val mLayoutManager: RecyclerView.LayoutManager =
-////                GridLayoutManager(applicationContext, 4)
-////            CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-////            CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-//////            CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-////            CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-////            CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
-//
-//        }
 
         appviewModelbase!!.appreadstatusresponseLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -390,274 +281,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
-    private fun ParticularMenuClick(data: MenuDetailsResponse) {
-
-        CommonUtil.EventStatus = "Upcoming"
-        if (data.id == 1) {
-            CommonUtil.menu_readHome = data.is_read_enabled.toString()
-            CommonUtil.menu_writeHome = data.is_write_enabled.toString()
-            if (CommonUtil.MenuDashboardHome) {
-                val i: Intent = Intent(this@BaseActivity, DashBoardActivityRewamp::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-//        if (data.id == 2) {
-//            CommonUtil.MenuIDCommunication = data.id.toString()
-//            CommonUtil.menu_readCommunication = data.is_read_enabled.toString()
-//            CommonUtil.menu_writeCommunication = data.is_write_enabled.toString()
-//            if (CommonUtil.MenuCommunication) {
-//                val i: Intent = Intent(this@BaseActivity, Communication::class.java)
-//                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                startActivity(i)
-//            }
-//        }
-
-        if (data.id == 3) {
-            CommonUtil.menu_readExamination = data.is_read_enabled.toString()
-            CommonUtil.menu_writeExamination = data.is_write_enabled.toString()
-            CommonUtil.MenuIDExamination = data.id.toString()
-            if (CommonUtil.MenuExamination) {
-                val i: Intent = Intent(this@BaseActivity, ExamList::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 4) {
-            CommonUtil.MenuIdAttendance = data.id.toString()
-            CommonUtil.menu_readAttendance = data.is_read_enabled.toString()
-            CommonUtil.menu_writeAttendance = data.is_write_enabled.toString()
-            if (CommonUtil.MenuAttendance) {
-                val i: Intent = Intent(this@BaseActivity, Attendance::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 5) {
-            CommonUtil.MenuIDAssignment = data.id.toString()
-            CommonUtil.menu_readAssignment = data.is_read_enabled.toString()
-            CommonUtil.menu_writeAssignment = data.is_write_enabled.toString()
-            if (CommonUtil.MenuAssignment) {
-                val i: Intent = Intent(this@BaseActivity, Assignment::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-        if (data.id == 6) {
-            CommonUtil.MenuIDCircular = data.id.toString()
-            CommonUtil.menu_readCircular = data.is_read_enabled.toString()
-            CommonUtil.menu_writeCircular = data.is_write_enabled.toString()
-            if (CommonUtil.MenuCircular) {
-                val i: Intent = Intent(this@BaseActivity, Circular::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 7) {
-            CommonUtil.MenuIDNoticeboard = data.id.toString()
-            CommonUtil.menu_readNoticeBoard = data.is_read_enabled.toString()
-            CommonUtil.menu_writeNoticeBoard = data.is_write_enabled.toString()
-            if (CommonUtil.MenuNoticeBoard) {
-                val i: Intent = Intent(this@BaseActivity, Noticeboard::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 8) {
-            CommonUtil.MenuIDEvents = data.id.toString()
-            CommonUtil.menu_readEvent = data.is_read_enabled.toString()
-            CommonUtil.menu_writeEvent = data.is_write_enabled.toString()
-            if (CommonUtil.MenuEvents) {
-                val i: Intent = Intent(this@BaseActivity, Events::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 9) {
-            CommonUtil.menu_readFaculty = data.is_read_enabled.toString()
-            CommonUtil.menu_writeFaculty = data.is_write_enabled.toString()
-            if (CommonUtil.MenuFaculty) {
-                val i: Intent = Intent(this@BaseActivity, Faculty::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 10) {
-            CommonUtil.menu_readVideo = data.is_read_enabled.toString()
-            CommonUtil.menu_writeVideo = data.is_write_enabled.toString()
-            CommonUtil.MenuIDVideo = data.id.toString()
-            if (CommonUtil.MenuVideo) {
-                val i: Intent = Intent(this@BaseActivity, Video::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 11) {
-            CommonUtil.menu_readChat = data.is_read_enabled.toString()
-            CommonUtil.menu_writeChat = data.is_write_enabled.toString()
-            CommonUtil.MenuIDChat = data.id.toString()
-            if (CommonUtil.MenuChat) {
-                val i: Intent = Intent(this@BaseActivity, ChatParent::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-        if (data.id == 12) {
-            CommonUtil.menu_readCourseDetails = data.is_read_enabled.toString()
-            CommonUtil.menu_writeCourseDetails = data.is_write_enabled.toString()
-            if (CommonUtil.MenuCourseDetails) {
-                CommonUtil.parentMenuCourseExam = 0
-                val i: Intent = Intent(this@BaseActivity, CourseDetails::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 13) {
-            CommonUtil.menu_readCategoryCreditPoints = data.is_read_enabled.toString()
-            CommonUtil.menu_writeCategoryCreditPoints = data.is_write_enabled.toString()
-            if (CommonUtil.MenuCategoryCredit) {
-                val i: Intent = Intent(this@BaseActivity, CategoryCreditWise::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 14) {
-            CommonUtil.menu_readSemCreditPoints = data.is_read_enabled.toString()
-            CommonUtil.menu_writeSemCreditPoints = data.is_write_enabled.toString()
-            if (CommonUtil.MenuSemCredit) {
-                val i: Intent = Intent(this@BaseActivity, SemesterCreditCategoryWise::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-        if (data.id == 15) {
-            CommonUtil.menu_readExamApplicationDetails = data.is_read_enabled.toString()
-            CommonUtil.menu_writeExamApplicationDetails = data.is_write_enabled.toString()
-            if (CommonUtil.MenuExamDetails) {
-                CommonUtil.parentMenuCourseExam = 1
-                val i: Intent = Intent(this@BaseActivity, CourseDetails::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 19) {
-            CommonUtil.menu_readHallTicker = data.is_read_enabled.toString()
-            CommonUtil.menu_writeHallTicker = data.is_write_enabled.toString()
-            if (CommonUtil.MenuHallTicket) {
-
-                val i: Intent = Intent(this@BaseActivity, Hall_Ticket::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 16) {
-            CommonUtil.MenuIDCommunication = data.id.toString()
-            CommonUtil.menu_readCommunication = data.is_read_enabled.toString()
-            CommonUtil.menu_writeCommunication = data.is_write_enabled.toString()
-            if (CommonUtil.MenuCommunication) {
-                val i: Intent = Intent(this@BaseActivity, Communication::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 17) {
-            CommonUtil.MenuIDCommunicationText = data.id.toString()
-            CommonUtil.menu_readCommunicationText = data.is_read_enabled.toString()
-            CommonUtil.menu_writeCommunicationText = data.is_write_enabled.toString()
-            if (CommonUtil.MenuText) {
-                val i: Intent = Intent(this@BaseActivity, MessageCommunication::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-        if (data.id == 20) {
-            if (CommonUtil.MenuFeeDetails) {
-                val i: Intent = Intent(this@BaseActivity, FeeDetails::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 21) {
-            CommonUtil.menu_writeMarkAttendance = data.is_write_enabled.toString()
-            if (CommonUtil.MarkAttendance) {
-                val i: Intent =
-                    Intent(this@BaseActivity, PunchStaffAttendanceUsingFinger::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 22) {
-            if (CommonUtil.AttendanceReport) {
-                val i: Intent = Intent(this@BaseActivity, StaffWiseAttendanceReports::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 24) {
-            if (CommonUtil.PlacementEvent) {
-                val i: Intent = Intent(this@BaseActivity, PlacementEvent::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 25) {
-            if (CommonUtil.PlacementCareer) {
-                val i: Intent = Intent(this@BaseActivity, CareerTraining::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-
-        if (data.id == 23) {
-            if (CommonUtil.PlacementTraining) {
-                val i: Intent = Intent(this@BaseActivity, ResumeBuilder::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            }
-        }
-    }
-
     fun check() {
         val intents = Intent(this@BaseActivity, DashBoardActivityRewamp::class.java)
         startActivity(intents)
@@ -665,7 +288,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected abstract val layoutResourceId: Int
 
-    fun ActionBarMethod(activity: Activity) {
+    fun ActionBarMethod(activity: Activity,
+                        hideBackButton: Boolean = false
+    ) {
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setCustomView(R.layout.action_bar_layout)
@@ -701,7 +326,11 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(i)
         }
-
+        imgBack.visibility= View.VISIBLE
+        Log.d("ActivityName", "Current Activity: ${activity::class.java.simpleName}")
+        if (hideBackButton){
+             imgBack.visibility= View.GONE
+        }
         imgMan.setOnClickListener { ProfilePopUp(activity) }
         imgBack.setOnClickListener { activity.onBackPressed() }
         imgCollegeLogo.setOnClickListener { IntentToChangeRole(activity) }
