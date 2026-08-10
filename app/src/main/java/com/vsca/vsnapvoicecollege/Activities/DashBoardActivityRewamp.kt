@@ -103,7 +103,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                 UserMenuRequest(this) {
                     DashBoardRequest()
                 }
-                DashBoardRequest()
+//                DashBoardRequest()
             }
         }
 
@@ -261,7 +261,6 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
     private fun processDashboardData() {
         dashboardOverallList.clear()
-        val start = System.nanoTime()
 
         for (dashboardItem in DashboardData) {
             category = dashboardItem.type
@@ -529,10 +528,6 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                 }
             }
         }
-
-        val end = System.nanoTime()
-        val seconds = (end - start) / 1_000_000_000.0
-        Log.d("ExecutionTime", "Total execution: $seconds seconds")
     }
 
     private fun bindAdapter() {

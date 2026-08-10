@@ -74,11 +74,10 @@ abstract class ActionBarActivity : AppCompatActivity() {
         }
     }
 
-    fun ActionbarWithoutBottom(activity: Activity) {
+    fun ActionbarWithoutBottom(activity: Activity,
+                               hideBackButton: Boolean = false
 
-
-
-
+    ) {
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setCustomView(R.layout.action_bar_layout)
@@ -99,8 +98,9 @@ abstract class ActionBarActivity : AppCompatActivity() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgCollegeLogo)
         } else {
-            Glide.with(activity)
-                .load(CommonUtil.CollegeLogo)
+            Glide.with(activity).load(CommonUtil.CollegeLogo)
+                .placeholder(R.drawable.dummy_college_icon)
+                .error(R.drawable.dummy_college_icon)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgCollegeLogo)
         }
@@ -112,6 +112,11 @@ abstract class ActionBarActivity : AppCompatActivity() {
         }
 
         imgMan.setOnClickListener { ProfilePopUp(activity) }
+        imgBack.visibility= View.VISIBLE
+        Log.d("ActivityName", "Current Activity: ${activity::class.java.simpleName}")
+        if (hideBackButton){
+            imgBack.visibility= View.GONE
+        }
         imgBack.setOnClickListener { onBackPressed() }
         imgCollegeLogo.setOnClickListener { IntentToChangeRole(activity) }
         layoutUserDetails.setOnClickListener { IntentToChangeRole(activity) }

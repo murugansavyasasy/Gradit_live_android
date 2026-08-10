@@ -74,7 +74,7 @@ class ApplyLeave : ActionBarActivity() {
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this,hideBackButton=true)
         imgRefresh!!.visibility = View.GONE
 
         binding.txtNoofDays!!.isEnabled = false

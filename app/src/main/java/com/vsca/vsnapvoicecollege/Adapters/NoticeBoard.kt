@@ -233,7 +233,7 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
                             alertDialog.setTitle("Info")
                             alertDialog.setMessage(response)
                             alertDialog.setPositiveButton(
-                                "yes"
+                                "Ok"
                             ) { _, _ ->
                                 val i: Intent = Intent(context, Noticeboard::class.java)
                                 i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -243,9 +243,6 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
 //                                notifyDataSetChanged()
                             }
 
-                            alertDialog.setNegativeButton(
-                                "No"
-                            ) { _, _ -> }
                             val alert: AlertDialog = alertDialog.create()
                             alert.setCanceledOnTouchOutside(false)
                             alert.show()

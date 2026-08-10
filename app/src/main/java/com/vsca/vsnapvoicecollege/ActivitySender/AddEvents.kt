@@ -69,13 +69,14 @@ class AddEvents: ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this,hideBackButton=true)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
         findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         imgRefresh!!.visibility = View.GONE
+        binding.lblMenuTitle.text="New Event"
 
 
         eventsdata = intent.getSerializableExtra("EventsData") as? GetEventDetailsData

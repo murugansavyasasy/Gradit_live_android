@@ -81,7 +81,7 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
         super.onCreate(savedInstanceState)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionBarMethod(this)
+        ActionBarMethod(this,hideBackButton=true)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 

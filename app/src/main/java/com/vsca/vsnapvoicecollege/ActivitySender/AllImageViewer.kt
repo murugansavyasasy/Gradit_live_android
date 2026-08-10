@@ -35,7 +35,7 @@ class AllImageViewer : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAllImageViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         ActionbarWithoutBottom(this)
+         ActionbarWithoutBottom(this,hideBackButton=true)
 
         isPositionUpdate(isPosition)
         binding.lmgback!!.setOnClickListener {

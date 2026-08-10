@@ -91,10 +91,9 @@ class EventsViewDetails : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ActionbarWithoutBottom(this@EventsViewDetails)
+        ActionbarWithoutBottom(this@EventsViewDetails,hideBackButton=true)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true

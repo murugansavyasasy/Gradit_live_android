@@ -64,7 +64,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected abstract fun inflateBinding(): VB
 
-//    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     open var appViewModel: App? = null
 //    var menuadapter: HomeMenus? = null
@@ -85,15 +84,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
-//        CommonUtil.layoutBottomCurve!!.visibility = View.INVISIBLE
         dashboardViewModel = ViewModelProvider(this)[Dashboards::class.java]
         dashboardViewModel!!.init()
 
-//        btnContinue!!.setOnClickListener { check() }
-
-//        if (CommonUtil.MenuListDashboard.isEmpty()) {
-//
-//            Log.d("MenuArrayList", "Empty")
 
             dashboardViewModel!!.userMenuLiveData!!.observe(this) { response ->
                 if (response != null) {
@@ -412,14 +405,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             layoutProfile.visibility = View.GONE
         }
 
-//        layoutResumeMaker.setOnClickListener {
-//            profilePopup!!.dismiss()
-//            val i = Intent(activity, ResumeBuilder::class.java)
-//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            activity.startActivity(i)
-//        }
-
 
         layoutProfile.setOnClickListener {
             profilePopup!!.dismiss()
@@ -539,65 +524,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         activity.startActivity(i)
     }
 
-//    fun MenuBottomType() {
-//
-//        Log.d("BottomMenu", "BottomMenu")
-//        when (CommonUtil.Priority) {
-//            "p1" -> {
-//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_prinicipal_bottom_card)
-//            }
-//
-//            "p2", "p3" -> {
-//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
-//            }
-//
-//            "p4" -> {
-//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_student_bottom_card)
-//            }
-//
-//            "p5" -> {
-//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_parent_bottom_card)
-//            }
-//
-//            "p6" -> {
-//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_staff_bottom_card)
-//            }
-//
-//            "p7" -> {
-//                CommonUtil.layoutBottomCurve!!.setBackgroundResource(R.drawable.img_header_bottom_card)
-//            }
-//        }
-//
-//        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
-//        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//
-//                if (newState == 3) {
-//                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowdown_white)
-//
-//                } else if (newState == 4) {
-//                    CommonUtil.imgSwipe!!.setImageResource(R.drawable.ic_arrowup_white)
-//                }
-//            }
-//
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-//        })
-//    }
-
-//    fun bottomsheetStateCollpased() {
-//        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-//            Log.d("expanded", "expanded")
-//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//        }
-//    }
-
-//    fun bottomsheetStateHidden() {
-//        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-//            Log.d("hidden", "hidden")
-//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-//        }
-//    }
-
     fun ClearCache(activity: Activity) {
         try {
             val dir = activity.cacheDir
@@ -714,10 +640,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     override fun onResume() {
-//        bottomSheetBehavior = BottomSheetBehavior.from(CommonUtil.llBottomSheet!!)
-//        if (::bottomSheetBehavior.isInitialized) {
-//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//        }
 
         super.onResume()
     }
@@ -857,16 +779,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             Log.d("ChangePasswordRequest", jsonObject.toString())
         }
 
-//        fun UserMenuRequest(activity: Activity?) {
-//            if (CommonUtil.MenuListDashboard.isEmpty()) {
-//                val jsonObject = JsonObject()
-//                jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
-//                jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-//                jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId)
-//                dashboardViewModel!!.getUsermenus(jsonObject, activity)
-//                Log.d("UserMenus_Request", jsonObject.toString())
-//            }
-//        }
 
         fun AppReadStatus(activity: Activity?, msgtype: String, detailsId: String) {
             val jsonObject = JsonObject()
@@ -1008,97 +920,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             dashboardViewModel!!.getUsermenus(jsonObject, activity)
             Log.d("UserMenus_Request", jsonObject.toString())
         }
-//        else{
-//            isMenuUpdate()
-//        }
     }
 
-//    private fun isMenuUpdate(){
-//
-//        Log.d("MenuArrayList", "isNotEmpty")
-////        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
-//
-//        for (k in CommonUtil.MenuListDashboard.indices) {
-//
-//            CommonUtil.UserMenuListId.add(CommonUtil.MenuListDashboard.get(k).id)
-//
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Home)) {
-//                DashboardHomeMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
-//            }
-//
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Chat)) {
-//                ChatMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                Log.d("Chat", ChatMenuID)
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Communication)) {
-//                CommunicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                Log.d("communicationmenu", CommunicationMenuID)
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Examination)) {
-//                ExamMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                Log.d("ExamMenuID", ExamMenuID)
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Attendance)) {
-//                AttendanceMeuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//                Log.d("AttendanceMeuID", AttendanceMeuID)
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Assignment)) {
-//                AssignmentMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Circular)) {
-//                CircularMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
-//                NoticeboardMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard.get(k).menu_slug.equals(CommonUtil.Events)) {
-//                EventsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Faculty)) {
-//                FacultyMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Video)) {
-//                VideoMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Course_Details)) {
-//                CourseDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Category_Credit_Points)) {
-//                CategoryDetailsMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
-//                SemesterCreditMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Exam_Application_Details)) {
-//                ExamApplicationMenuID = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.Hall_Ticket)) {
-//                Hall_TicketId = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//            if (CommonUtil.MenuListDashboard[k].menu_slug.equals(CommonUtil.FeeDetails)) {
-//                isFeeDetails = CommonUtil.MenuListDashboard.get(k).id.toString()
-//            }
-//        }
-//
-////        menuadapter = HomeMenus(
-////            applicationContext,
-////            CommonUtil.MenuListDashboard,
-////            object : HomeMenuClickListener {
-////                override fun onMenuClick(
-////                    holder: HomeMenus.MyViewHolder, data: MenuDetailsResponse
-////                ) {
-////                    holder.LayoutHome!!.setOnClickListener {
-////                        ParticularMenuClick(data)
-////                    }
-////                }
-////            })
-////        val mLayoutManager: RecyclerView.LayoutManager =
-////            GridLayoutManager(applicationContext, 4)
-////        CommonUtil.recyclerMenusBottom!!.layoutManager = mLayoutManager
-////        CommonUtil.recyclerMenusBottom!!.isNestedScrollingEnabled = false
-//////        CommonUtil.recyclerMenusBottom!!.addItemDecoration(GridSpacingItemDecoration(4, false))
-////        CommonUtil.recyclerMenusBottom!!.itemAnimator = DefaultItemAnimator()
-////        CommonUtil.recyclerMenusBottom!!.adapter = menuadapter
-//    }
 }

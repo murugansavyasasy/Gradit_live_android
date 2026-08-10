@@ -59,7 +59,7 @@ class Assignment_Submition : ActionBarActivity() {
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         ActionbarWithoutBottom(this)
+         ActionbarWithoutBottom(this,hideBackButton=true)
 
         binding.imgImagePdfback!!.setOnClickListener {
             super.onBackPressed()

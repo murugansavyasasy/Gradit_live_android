@@ -65,6 +65,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     String SchoolID = "", StaffID = "";
 
     ImageView gifImageView;
+    ImageView imgBack;
     EditText txtLocationName, txtMeters;
     TextView lblAddress, lbllatLong, btnPickLocation, btnAddLocation, btnEnableLocation;
     LinearLayout lnrAddressLayout;
@@ -102,6 +103,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
 
         gifImageView = (ImageView) findViewById(R.id.gifImageView);
+        imgBack = (ImageView) findViewById(R.id.imgBack);
         txtLocationName = (EditText) findViewById(R.id.txtLocationName);
         txtMeters = (EditText) findViewById(R.id.txtMeters);
         lblAddress = (TextView) findViewById(R.id.lblAddress);
@@ -134,6 +136,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         btnEnableLocation.setOnClickListener(this);
         btnViewLocations.setOnClickListener(this);
 
+
         txtMeters.setEnabled(false);
         ArrayAdapter ad = new ArrayAdapter(this, R.layout.spinner_textview, Metres);
         ad.setDropDownViewResource(R.layout.dropdown_spinner);
@@ -162,6 +165,10 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
                 .asGif()
                 .load(R.drawable.map_location) // Replace with your GIF resource
                 .into(gifImageView);
+
+        imgBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
 
     }

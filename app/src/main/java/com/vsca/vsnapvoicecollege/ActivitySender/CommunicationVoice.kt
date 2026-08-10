@@ -72,7 +72,7 @@ class CommunicationVoice : ActionBarActivity() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
          setupAudioPlayer()
-        ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this,hideBackButton = true)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true

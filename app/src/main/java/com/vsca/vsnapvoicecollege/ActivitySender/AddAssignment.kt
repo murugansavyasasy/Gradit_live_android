@@ -139,7 +139,7 @@ class AddAssignment : ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this,hideBackButton=true)
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
         imgRefresh!!.visibility = View.GONE
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
