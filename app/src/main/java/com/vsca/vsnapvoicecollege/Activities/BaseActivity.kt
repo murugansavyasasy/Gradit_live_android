@@ -262,7 +262,27 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             dlg.setPositiveButton(CommonUtil.OK) { dialog, which ->
 
                 if (value) {
-                    changePassword!!.dismiss()
+                    profilePopup?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
+
+                    popupWebview?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
+
+                    changePassword?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
+
+                    profilePopup = null
+                    popupWebview = null
+                    changePassword = null
                     val i = Intent(activity, Login::class.java)
                     startActivity(i)
                     finishAffinity()
@@ -407,7 +427,27 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
 
         layoutProfile.setOnClickListener {
-            profilePopup!!.dismiss()
+            profilePopup?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            popupWebview?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            changePassword?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            profilePopup = null
+            popupWebview = null
+            changePassword = null
             CommonUtil.parentMenuCourseExam = 2
             val i = Intent(activity, CourseDetails::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -459,7 +499,27 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         val btnSubmit = view.findViewById<View>(R.id.btnSubmit) as Button
         val imgClose = view.findViewById<View>(R.id.imgClose) as ImageView
         imgClose.setOnClickListener {
-            changePassword!!.dismiss()
+            profilePopup?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            popupWebview?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            changePassword?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            profilePopup = null
+            popupWebview = null
+            changePassword = null
         }
         imgconfirmpassword.setOnClickListener {
             passwordHideandShow(txtConfirmPassword, imgconfirmpassword)
@@ -544,7 +604,27 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         builder.setCancelable(false)
         builder.setPositiveButton(CommonUtil.OK) { dialog, which ->
             if (value) {
-                profilePopup!!.dismiss()
+                profilePopup?.let {
+                    if (it.isShowing) {
+                        it.dismiss()
+                    }
+                }
+
+                popupWebview?.let {
+                    if (it.isShowing) {
+                        it.dismiss()
+                    }
+                }
+
+                changePassword?.let {
+                    if (it.isShowing) {
+                        it.dismiss()
+                    }
+                }
+
+                profilePopup = null
+                popupWebview = null
+                changePassword = null
             }
         }
         builder.create().show()
@@ -587,7 +667,30 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 lblMenuHeaderName.setText(R.string.txt_terms_amp_condition)
             }
         }
-        imgBack.setOnClickListener { popupWebview!!.dismiss() }
+        imgBack.setOnClickListener {
+
+            profilePopup?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            popupWebview?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            changePassword?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            profilePopup = null
+            popupWebview = null
+            changePassword = null
+        }
         val progressDialog = CustomLoading.createProgressDialog(activity)
         webview.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
@@ -685,7 +788,27 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             builder.setCancelable(false)
             builder.setPositiveButton(CommonUtil.Yes) { dialog, which ->
                 if (value == 1) {
-                    profilePopup!!.dismiss()
+                    profilePopup?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
+
+                    popupWebview?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
+
+                    changePassword?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
+
+                    profilePopup = null
+                    popupWebview = null
+                    changePassword = null
                 }
                 SharedPreference.clearShLogin(activity)
                 CommonUtil.Priority = ""
@@ -737,7 +860,31 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             viewLine.visibility = View.VISIBLE
             lblMenuHeaderName.setText(R.string.txt_ad)
 
-            imgBack.setOnClickListener { popupWebview!!.dismiss() }
+            imgBack.setOnClickListener {
+
+                profilePopup?.let {
+                    if (it.isShowing) {
+                        it.dismiss()
+                    }
+                }
+
+                popupWebview?.let {
+                    if (it.isShowing) {
+                        it.dismiss()
+                    }
+                }
+
+                changePassword?.let {
+                    if (it.isShowing) {
+                        it.dismiss()
+                    }
+                }
+
+                profilePopup = null
+                popupWebview = null
+                changePassword = null
+
+            }
             val progressDialog = CustomLoading.createProgressDialog(activity)
 
             webview.webViewClient = MyWebViewClientContext(activity)

@@ -51,7 +51,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
-
 class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
     var exist_Count = 0
@@ -89,21 +88,43 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
     var Success: String? = null
     var isPermission = true
 
-
-
     private var isPermissionDialogShowing = false
+    private var isPermissionRequestInProgress = false
+
+    // In-memory tracking of which permissions have been requested in this activity instance
+    private val requestedPermissions = mutableSetOf<String>()
+
+    companion object {
+        private const val KEY_REQUESTED_PERMS = "requested_permissions"
+        private const val TAG = "DashBoardPerm"
+    }
 
     private val permissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
 
+            isPermissionRequestInProgress = false
             val deniedPermissions = permissions.filter { !it.value }.keys
+
+            Log.d(TAG, "Launcher result. Denied: $deniedPermissions")
 
             if (deniedPermissions.isEmpty()) {
                 CommonUtil.MenuListDashboard.clear()
+                dashboardOverallList.clear()
                 UserMenuRequest(this) {
                     DashBoardRequest()
                 }
-//                DashBoardRequest()
+            } else {
+                // Check individually: which denied permissions are permanently denied
+                val permanentlyDenied = deniedPermissions.filter { permission ->
+                    !ActivityCompat.shouldShowRequestPermissionRationale(this, permission) &&
+                            requestedPermissions.contains(permission)
+                }
+
+                Log.d(TAG, "Permanently denied: $permanentlyDenied")
+
+                if (permanentlyDenied.isNotEmpty()) {
+                    showPermissionSettingsDialog()
+                }
             }
         }
 
@@ -111,14 +132,18 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         return BottomMenuSwipeBinding.inflate(layoutInflater)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Restore requested permissions after rotation
+        savedInstanceState?.getStringArrayList(KEY_REQUESTED_PERMS)?.let {
+            requestedPermissions.addAll(it)
+        }
+
         CommonUtil.SetTheme(this)
         binding = BottomMenuSwipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        CommonUtil.RequestPermission(this)
-        ActionBarMethod(this@DashBoardActivityRewamp,true)
+        ActionBarMethod(this@DashBoardActivityRewamp, true)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
@@ -132,7 +157,6 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -252,11 +276,17 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
             dashboardEmergencyVoicelist.clear()
             if (Success.equals("Success")) {
                 CommonUtil.MenuListDashboard.clear()
+                dashboardOverallList.clear()
                 UserMenuRequest(this)
                 DashBoardRequest()
                 Success = ""
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putStringArrayList(KEY_REQUESTED_PERMS, ArrayList(requestedPermissions))
     }
 
     private fun processDashboardData() {
@@ -587,8 +617,8 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
     private fun DashBoardRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         dashboardViewModel!!.dashboard(jsonObject, this@DashBoardActivityRewamp)
         Log.d("DahsboardRequest:", jsonObject.toString())
@@ -601,26 +631,15 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == 101) {
-            var showSettingsDialog = false
-
-            for (i in permissions.indices) {
-                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                    val permission = permissions[i]
-                    val shouldShowRationale =
-                        ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
-                    if (!shouldShowRationale) {
-                        showSettingsDialog = true
-                    }
+        if (requestCode == 100 || requestCode == 101) {
+            val permanentlyDenied = permissions.indices
+                .filter { i -> grantResults[i] == PackageManager.PERMISSION_DENIED }
+                .map { permissions[it] }
+                .filter { permission ->
+                    !ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
                 }
-            }
 
-            val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
-            val alreadyShown = prefs.getBoolean("settings_dialog_shown", false)
-
-            if (showSettingsDialog && !alreadyShown) {
-                prefs.edit().putBoolean("settings_dialog_shown", true).apply()
-
+            if (permanentlyDenied.isNotEmpty()) {
                 showPermissionSettingsDialog()
             }
         }
@@ -648,58 +667,79 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         dialog.show()
     }
 
-    private fun isPermissionPermanentlyDenied(): Boolean {
-        return getRequiredPermissions().any { permission ->
-            ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED &&
-                    !ActivityCompat.shouldShowRequestPermissionRationale(this, permission) &&
-                    wasPermissionRequested()
-        }
-    }
-
     private fun hasAllPermissions(): Boolean {
         return getRequiredPermissions().all {
             ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
         }
     }
 
-    private fun wasPermissionRequested(): Boolean {
-        val pref = getSharedPreferences("perm_pref", MODE_PRIVATE)
-        return pref.getBoolean("requested", false)
-    }
-
-    private fun setPermissionRequested() {
-        val pref = getSharedPreferences("perm_pref", MODE_PRIVATE)
-        pref.edit().putBoolean("requested", true).apply()
-    }
-
     override fun onResume() {
         super.onResume()
 
+        Log.d(TAG, "onResume. Priority=${CommonUtil.Priority} inProgress=$isPermissionRequestInProgress")
+
         if (hasAllPermissions()) {
+            Log.d(TAG, "All permissions granted.")
             CommonUtil.MenuListDashboard.clear()
+            dashboardOverallList.clear()
             UserMenuRequest(this)
             DashBoardRequest()
-        } else {
-            if (isPermissionPermanentlyDenied()) {
-                Log.d("isComing","PERMANENT DENIED")
-                showPermissionSettingsDialog()
-            } else {
-                permissionLauncher.launch(getRequiredPermissions())
-                setPermissionRequested()
-            }
+            return
+        }
+
+        // Don't re-launch while settings dialog is already visible
+        if (isPermissionDialogShowing) {
+            Log.d(TAG, "Dialog already showing. Skipping.")
+            return
+        }
+
+        // Don't re-launch while system permission dialog is already open
+        if (isPermissionRequestInProgress) {
+            Log.d(TAG, "Permission request already in progress. Skipping.")
+            return
+        }
+
+        val requiredPerms = getRequiredPermissions()
+        Log.d(TAG, "Required permissions: ${requiredPerms.toList()}")
+
+        val deniedPerms = requiredPerms.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+        Log.d(TAG, "Denied permissions: $deniedPerms")
+
+        // Only ask permissions that:
+        // - show rationale (user denied once, can ask again), OR
+        // - have never been requested in this activity instance
+        val askablePerms = deniedPerms.filter {
+            val showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, it)
+            val neverRequested = !requestedPermissions.contains(it)
+            Log.d(TAG, "Permission=$it rationale=$showRationale neverRequested=$neverRequested")
+            showRationale || neverRequested
+        }
+
+        Log.d(TAG, "Askable permissions: $askablePerms")
+
+        if (askablePerms.isNotEmpty()) {
+            requestedPermissions.addAll(askablePerms)
+            isPermissionRequestInProgress = true
+            permissionLauncher.launch(askablePerms.toTypedArray())
+        } else if (deniedPerms.isNotEmpty()) {
+            // All denied permissions are permanently denied; don't launch (avoids blink)
+            Log.d(TAG, "All denied permissions are permanently denied. Showing settings dialog.")
+            showPermissionSettingsDialog()
         }
     }
 
     private fun getRequiredPermissions(): Array<String> {
-
-        return if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5" || CommonUtil.Priority == "p6") {
-
+        val perms = if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arrayOf(
                     Manifest.permission.READ_MEDIA_AUDIO,
                     Manifest.permission.POST_NOTIFICATIONS,
                     Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.WRITE_CONTACTS
+                    Manifest.permission.WRITE_CONTACTS,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO
                 )
             } else {
                 arrayOf(
@@ -711,27 +751,37 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     Manifest.permission.RECORD_AUDIO
                 )
             }
-
         } else {
-
+            // P1, P2, P3, P6
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.CAMERA,
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS,
                     Manifest.permission.READ_MEDIA_AUDIO,
                     Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             } else {
                 arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.CAMERA,
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.RECORD_AUDIO
                 )
             }
-
         }
+
+        Log.d("isPermission+++++", "Priority=${CommonUtil.Priority} SDK=${Build.VERSION.SDK_INT} Perms=${perms.toList()}")
+        return perms
     }
+
     private fun saveContacts() {
         try {
             if (ActivityCompat.checkSelfPermission(
