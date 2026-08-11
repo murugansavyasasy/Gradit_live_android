@@ -920,6 +920,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             dashboardViewModel!!.getUsermenus(jsonObject, activity)
             Log.d("UserMenus_Request", jsonObject.toString())
         }
+        else{
+            onUserMenuCompleted?.invoke()
+            onUserMenuCompleted = null
+        }
     }
 
 }

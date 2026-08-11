@@ -3,6 +3,8 @@ package com.vsca.vsnapvoicecollege.Adapters
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -144,28 +146,28 @@ class DashboardChild(
         holder.MenuHeader.visibility = View.VISIBLE
 
         val (iconRes, label) = when (data.id) {
-            11 -> R.drawable.attendancenew to data.name
-            17 -> R.drawable.chat to data.name
-            16 -> R.drawable.communication to data.name
-            3 -> R.drawable.exam to data.name
-            4 -> R.drawable.attendance to data.name
-            5 -> R.drawable.assignment to data.name
-            6 -> R.drawable.circular to context.getString(R.string.txt_img_pdf)
-            7 -> R.drawable.noticeboard  to data.name
-            8 -> R.drawable.events to data.name
-            9 -> R.drawable.faculy_menu to data.name
-            10 -> R.drawable.video to data.name
-            12 -> R.drawable.bg_circle_course_details to data.name
-            13 -> R.drawable.bg_circle_category_credit to data.name
-            14 -> R.drawable.bg_circle_sem_credit to data.name
-            15 -> R.drawable.bg_circle_exam_applications to data.name
-            19 -> R.drawable.exam_hall_ticket to data.name
-            20 -> R.drawable.fee_details to data.name
-            21 -> R.drawable.biometric_attendance to data.name
-            22 -> R.drawable.attendance_report to data.name
-            23 -> R.drawable.resume_builder to data.name
-            24 -> R.drawable.placement_event to data.name
-            25 -> R.drawable.placement_training to data.name
+            11 -> R.drawable.discussion_board_icon_new to data.name
+            17 -> R.drawable.text_message_icon_new to data.name
+            16 -> R.drawable.voice_message_icon_new to data.name
+            3 -> R.drawable.exam_icon_new to data.name
+            4 -> R.drawable.attendance_icon_new to data.name
+            5 -> R.drawable.assignment_icon_new to data.name
+            6 -> R.drawable.circular_icon_new to context.getString(R.string.txt_img_pdf)
+            7 -> R.drawable.noticeboard_icon_new  to data.name
+            8 -> R.drawable.events_icon_new to data.name
+            9 -> R.drawable.faculty_icon_new to data.name
+            10 -> R.drawable.video_icon_new to data.name
+            12 -> R.drawable.course_detail_icon_new to data.name
+            13 -> R.drawable.category_credit_point_icon_new to data.name
+            14 -> R.drawable.semester_credit_points_icon_new to data.name
+            15 -> R.drawable.exam_application_details_icon_new to data.name
+            19 -> R.drawable.hall_ticket_icon_new to data.name
+            20 -> R.drawable.fee_details_icon_new to data.name
+            21 -> R.drawable.biometric_attendance_icon_new to data.name
+            22 -> R.drawable.attendance_report_icon_new to data.name
+            23 -> R.drawable.resume_builder_icon_new to data.name
+            24 -> R.drawable.placement_events_icon_new to data.name
+            25 -> R.drawable.placement_traning_icon_new to data.name
             else -> null to null
         }
 
@@ -278,10 +280,10 @@ class DashboardChild(
 
         val color = ContextCompat.getColor(context, colorRes)
 
-        // CircleImageView border
-        holder.imgMenu.borderColor = color
+        // Icon color
+        holder.imgMenu.setColorFilter(color, PorterDuff.Mode.SRC_IN)
 
-        // Menu text
+        // Text color
         holder.lblMenuName.setTextColor(color)
     }
 
@@ -1013,7 +1015,7 @@ class DashboardChild(
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val lblMenuName: TextView = itemView.findViewById(R.id.lblMenuName)
-        val imgMenu: CircleImageView = itemView.findViewById(R.id.imgMenu)
+        val imgMenu: ImageView = itemView.findViewById(R.id.imgMenu)
         val LayoutHome: RelativeLayout = itemView.findViewById(R.id.LayoutHome)
         val MenuHeader: ConstraintLayout = itemView.findViewById(R.id.MenuHeader)
     }
