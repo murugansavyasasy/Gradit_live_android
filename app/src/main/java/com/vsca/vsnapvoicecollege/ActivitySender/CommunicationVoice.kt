@@ -512,7 +512,6 @@ class CommunicationVoice : ActionBarActivity() {
         PreviousAddId = PreviousAddId + 1
         AdForCollegeApi()
         super.onResume()
-        super.onResume()
         this.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 

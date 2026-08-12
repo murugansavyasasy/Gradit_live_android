@@ -47,6 +47,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.DeviceType
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
@@ -247,10 +248,19 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     DashboardData = dashboardList
 
                     lifecycleScope.launch(Dispatchers.Default) {
-                        processDashboardData()
+
+                        async {
+                            processDashboardData()
+                        }.await()
+
                         withContext(Dispatchers.Main) {
-                            bindAdapter()
-                            getContectNumberSave()
+                            async {
+                                bindAdapter()
+                            }.await()
+
+                            async {
+                                getContectNumberSave()
+                            }.await()
                         }
                     }
                 } else {
@@ -274,12 +284,22 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
             dashboardAttendanceList!!.clear()
             dashboardAssignmentList.clear()
             dashboardEmergencyVoicelist.clear()
-            if (Success.equals("Success")) {
-                CommonUtil.MenuListDashboard.clear()
-                dashboardOverallList.clear()
-                UserMenuRequest(this)
-                DashBoardRequest()
-                Success = ""
+            if (Success == "Success") {
+
+                lifecycleScope.launch {
+
+                    CommonUtil.MenuListDashboard.clear()
+                    dashboardOverallList.clear()
+
+                    // Wait for UserMenuRequest to complete
+                    UserMenuRequest(this@DashBoardActivityRewamp)
+
+                    // Then start Dashboard API
+                    DashBoardRequest()
+
+                    // Both completed
+                    Success = ""
+                }
             }
         })
     }
@@ -680,10 +700,21 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
         if (hasAllPermissions()) {
             Log.d(TAG, "All permissions granted.")
-            CommonUtil.MenuListDashboard.clear()
-            dashboardOverallList.clear()
-            UserMenuRequest(this)
-            DashBoardRequest()
+
+            lifecycleScope.launch {
+
+                // 1. Clear old data
+                CommonUtil.MenuListDashboard.clear()
+                dashboardOverallList.clear()
+
+                // 2. Wait for UserMenuRequest to finish
+                UserMenuRequest(this@DashBoardActivityRewamp)
+
+                // 3. After UserMenuRequest completes,
+                //    execute DashBoardRequest
+                DashBoardRequest()
+            }
+
             return
         }
 

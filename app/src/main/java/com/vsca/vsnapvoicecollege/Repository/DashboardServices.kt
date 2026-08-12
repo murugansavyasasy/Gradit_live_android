@@ -56,6 +56,8 @@ class DashboardServices {
                             activity.getString(R.string.txt_no_record_found)
                         )
                     } else {
+                        progressDialog!!.dismiss()
+
                         CommonUtil.ApiAlertFinish(
                             activity, activity.getString(R.string.txt_no_record_found)
                         )
@@ -77,6 +79,8 @@ class DashboardServices {
         get() = DashboardResposneMutableLiveData
 
     fun GetUsermenu(jsonObject: JsonObject?, activity: Activity) {
+        progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog!!.show()
 
         RestClient.Companion.apiInterfaces.GetUsermenu(jsonObject)
             ?.enqueue(object : Callback<MenuResponse?> {
@@ -84,8 +88,11 @@ class DashboardServices {
                     call: Call<MenuResponse?>,
                     response: Response<MenuResponse?>
                 ) {
+
                     Log.d("MenuResponse", response.code().toString() + " - " + response.toString())
                     if (response.code() == 200 || response.code() == 201) {
+                        progressDialog!!.dismiss()
+
                         if (response.body() != null) {
                             val status = response.body()!!.status
                             if (status == 1) {
@@ -95,8 +102,12 @@ class DashboardServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        progressDialog!!.dismiss()
+
 
                     } else {
+                        progressDialog!!.dismiss()
+
                         CommonUtil.ApiAlertFinish(
                             activity,
                             activity.getString(R.string.txt_no_record_found)
@@ -105,6 +116,8 @@ class DashboardServices {
                 }
 
                 override fun onFailure(call: Call<MenuResponse?>, t: Throwable) {
+                    progressDialog!!.dismiss()
+
                     UserMenuMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(

@@ -317,8 +317,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     }
 
     private fun AdForCollegeApi() {
-
-
         var mobilenumber = SharedPreference.getSH_MobileNumber(this)
         var devicetoken = SharedPreference.getSH_DeviceToken(this)
         val jsonObject = JsonObject()
