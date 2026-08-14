@@ -184,16 +184,19 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                         semesterCreditsAdapter!!.notifyDataSetChanged()
 
                     } else {
+                        binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
 
                 } else {
+                    binding.lblNoRecordsFound!!.text=response.message
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.idRVCategories!!.visibility = View.GONE
                 }
 
             } else {
+                binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
             }
@@ -210,9 +213,11 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
 
                 } else {
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.lblNoRecordsFound!!.text=response.message
                     binding.idRVCategories!!.visibility = View.GONE
                 }
             } else {
+                binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
             }

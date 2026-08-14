@@ -353,11 +353,16 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                     attendanceAdapter!!.notifyDataSetChanged()
 
                 } else {
+                    CommonUtil.ApiAlert(
+                        this, response.Message
+                    )
+                    binding.CommonLayout.lblNoDataFound!!.text=response.Message
                     binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
                     binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                 }
             } else {
+                binding.CommonLayout.lblNoDataFound!!.text=getString(R.string.error_null_cursor)
                 binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
             }
         }
@@ -400,16 +405,20 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
                 } else {
                     if (isAttendanceType.equals("Attendance")) {
+                        binding.CommonLayout.lblNoDataFound!!.text=response.message
                         binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                     } else {
+                        binding.CommonLayout.lblNoDataFound!!.text=response.message
                         binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                     }
 
                 }
             } else {
                 if (isAttendanceType == "Attendance") {
+                    binding.CommonLayout.lblNoDataFound!!.text=getString(R.string.error_null_cursor)
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                 } else {
+                    binding.CommonLayout.lblNoDataFound!!.text=getString(R.string.error_null_cursor)
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                 }
             }
@@ -456,6 +465,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         binding.CommonLayout.lblNoDataFound.visibility = View.GONE
                     } else {
                         binding.CommonLayout.lblNoDataFound.visibility = View.VISIBLE
+                        binding.CommonLayout.lblNoDataFound.text =response.Message
+
                     }
                 }
             } else {
@@ -463,6 +474,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                     binding.CommonLayout.lblNoDataFound.visibility = View.GONE
                 } else {
                     binding.CommonLayout.lblNoDataFound.visibility = View.VISIBLE
+                    binding.CommonLayout.lblNoDataFound.text =getString(R.string.error_null_cursor)
+
                 }
             }
         }
@@ -492,7 +505,16 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         80
                     )
                 }
+
+                else{
+                    binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
+                    CommonUtil.ApiAlert(
+                        this, response.Message
+                    )
+                }
             } else {
+                binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
+
                 CommonUtil.ApiAlert(
                     this, "Subject or Section Not allocated / Students not allocated to the section"
                 )

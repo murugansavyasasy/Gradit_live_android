@@ -27,7 +27,7 @@ class DashboardServices {
     var GetNotificationMutableLiveData: MutableLiveData<GetNotificationsResponse?>
 
     fun DashBoard(jsonObject: JsonObject?, activity: Activity) {
-        progressDialog = CustomLoading.createProgressDialog(activity)
+        val progressDialog = CustomLoading.createProgressDialog(activity)
         progressDialog!!.show()
         RestClient.Companion.apiInterfaces.Dashboard(jsonObject)
             ?.enqueue(object : Callback<DashBoardResponse?> {
@@ -79,7 +79,7 @@ class DashboardServices {
         get() = DashboardResposneMutableLiveData
 
     fun GetUsermenu(jsonObject: JsonObject?, activity: Activity) {
-        progressDialog = CustomLoading.createProgressDialog(activity)
+        val progressDialog = CustomLoading.createProgressDialog(activity)
         progressDialog!!.show()
 
         RestClient.Companion.apiInterfaces.GetUsermenu(jsonObject)

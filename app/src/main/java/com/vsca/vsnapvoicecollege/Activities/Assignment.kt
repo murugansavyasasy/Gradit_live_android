@@ -201,6 +201,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             assignmentadapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                         }
@@ -224,20 +225,24 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             assignmentadapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                         }
                     }
                 } else {
                     if (AssignmentType) {
+                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
                         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     } else {
+                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
                         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     }
                 }
             } else {
+                binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                 binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
             }

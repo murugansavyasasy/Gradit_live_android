@@ -61,6 +61,8 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
+        binding.imgheaderBack.setOnClickListener { onBackPressed() }
+
         if (CommonUtil.parentMenuCourseExam == 1) {
             binding.idRVCategories!!.setBackgroundColor(Color.parseColor("#f2f2f2"))
             binding.lblMenuHeaderName!!.setText(R.string.txt_exam_app_details)
@@ -69,8 +71,6 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
             if (CommonUtil.menu_readExamApplicationDetails.equals("1")) {
                 ExamApplicationDetails()
             }
-
-            binding.imgheaderBack.setOnClickListener { onBackPressed() }
 
             appViewModel!!.examApplicationResponseLiveData?.observe(this) { response ->
                 if (response != null) {
@@ -97,15 +97,18 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                             binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
+                            binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.idRVCategories!!.visibility = View.GONE
 
                         }
                     } else {
+                        binding.lblNoRecordsFound!!.text=response.message
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
+                    binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.idRVCategories!!.visibility = View.GONE
                 }
@@ -125,7 +128,7 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                     val status = response.status
                     val message = response.message
                     if (status == 1) {
-                        UserMenuRequest(this@CourseDetails)
+//                        UserMenuRequest(this@CourseDetails)
                         GetCourseDetailsData = response.data!!
                         CourseListSize = GetCourseDetailsData.size
 
@@ -142,15 +145,18 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                             binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
+                            binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.idRVCategories!!.visibility = View.GONE
                         }
                     } else {
+                        binding.lblNoRecordsFound!!.text=response.message
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                     binding.idRVCategories!!.visibility = View.GONE
                 }
             }
@@ -166,7 +172,7 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                     val status = response.status
                     val message = response.message
                     if (status == 1) {
-                        UserMenuRequest(this@CourseDetails)
+//                        UserMenuRequest(this@CourseDetails)
                         GetProfileData = response.data!!
                         if (GetProfileData.size > 0) {
                             binding.lblNoRecordsFound!!.visibility = View.GONE
@@ -181,15 +187,18 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                             binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
+                            binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.idRVCategories!!.visibility = View.GONE
                         }
 
                     } else {
+                        binding.lblNoRecordsFound!!.text=response.message
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
+                    binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.idRVCategories!!.visibility = View.GONE
                 }

@@ -91,6 +91,8 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
         binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
 
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
+        binding.CommonLayout.lblMenuTitle!!.text = "Image/Pdf"
+
 
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)
@@ -205,6 +207,7 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             circularadapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     } else {
@@ -227,17 +230,21 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             circularadapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
                 } else {
                     if (CircularType) {
+                        binding.CommonLayout.lblNoRecordsFound.text=response.message
                         NoDataFound()
                     } else {
+                        binding.CommonLayout.lblNoRecordsFound.text=response.message
                         NoDataFound()
                     }
                 }
             } else {
+                binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.error_null_cursor)
                 NoDataFound()
             }
         }

@@ -93,16 +93,19 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
                         categorycreditAdapter!!.notifyDataSetChanged()
                     } else {
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                        binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                         binding.idRVCategories!!.visibility = View.GONE
                         binding.LayoutTable!!.visibility = View.GONE
 
                     }
                 } else {
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.lblNoRecordsFound!!.text=response.message
                     binding.idRVCategories!!.visibility = View.GONE
                     binding.LayoutTable!!.visibility = View.GONE
                 }
             } else {
+                binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
                 binding.LayoutTable!!.visibility = View.GONE
@@ -121,10 +124,12 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
                 } else {
 
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
+                    binding.lblNoRecordsFound!!.text=response.message
                     binding.idRVCategories!!.visibility = View.GONE
                     binding.LayoutTable!!.visibility = View.GONE
                 }
             } else {
+                binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
                 binding.LayoutTable!!.visibility = View.GONE

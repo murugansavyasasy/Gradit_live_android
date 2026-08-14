@@ -334,210 +334,211 @@
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/lnrEmgVoice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/five"
-            android:layout_marginRight="@dimen/two"
-            android:background="@drawable/bg_emergency_notification_light_card"
-            android:orientation="vertical"
             android:visibility="gone"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="@dimen/eight"
+            app:cardElevation="@dimen/three"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <RelativeLayout
-                android:id="@+id/rytEmgVoice"
+            <LinearLayout
+                android:padding="@dimen/ten"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
 
-                <ImageView
-                    android:id="@+id/imgclndar"
-                    android:layout_width="@dimen/twenty"
-                    android:layout_height="@dimen/twenty"
-                    android:layout_marginLeft="@dimen/ten"
-                    android:layout_marginTop="@dimen/five"
-                    android:layout_toLeftOf="@+id/lblVoiceDate"
-                    android:padding="@dimen/three"
-                    android:tint="@color/clr_emergency_red"
-                    android:src="@drawable/ic_calendar_white" />
+                <RelativeLayout
+                    android:id="@+id/rytEmgVoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/lblVoiceDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/five"
-                    android:layout_marginRight="@dimen/ten"
-                    android:gravity="right"
-                    android:padding="@dimen/three"
-                    android:text=""
-                    android:textColor="@color/clr_emergency_red"
-                    android:textSize="@dimen/twelve" />
+                    <LinearLayout
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical"
+                        android:layout_toEndOf="@+id/lnrHeaderDetails"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:gravity="end"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/lblVoiceDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/clr_black"
+                            android:textSize="@dimen/thirteen_sp" />
 
-                <TextView
-                    android:id="@+id/lblVoiceTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblVoiceDate"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/twelve"
-                    android:gravity="right"
-                    android:text=""
-                    android:textColor="@color/clr_emergency_red"
-                    android:textSize="@dimen/twelve"
-                    android:visibility="visible" />
+                        <TextView
+                            android:id="@+id/lblVoiceTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:alpha="0.7"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twelve_sp"
+                            android:visibility="visible" />
+                    </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imgEmgLogo"
-                    android:layout_width="@dimen/thirty"
-                    android:layout_height="@dimen/thirty"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="@dimen/twelve"
-                    android:layout_marginTop="@dimen/ten"
-                    android:src="@drawable/dashboard_voice" />
+                    <ImageView
+
+                        android:id="@+id/imgEmgLogo"
+                        android:layout_width="@dimen/thirty"
+                        android:layout_height="@dimen/thirty"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/five"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="@dimen/twelve"
+                        android:background="@drawable/circle_menu_background"
+                        android:src="@drawable/microphone_icon_new_3" />
+
+                    <LinearLayout
+                        android:layout_marginHorizontal="@dimen/five"
+                        android:id="@+id/lnrHeaderDetails"
+                        android:layout_toEndOf="@+id/imgEmgLogo"
+                        android:layout_marginLeft="@dimen/three"
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:paddingHorizontal="@dimen/five"
+                            android:paddingVertical="@dimen/two"
+                            android:textColor="@color/clear_red"
+                            android:text="emergency"
+                            android:textSize="@dimen/twelve_sp"
+                            android:background="@drawable/bg_light_red_rounded"
+                            android:layout_height="wrap_content">
+
+                        </TextView>
+
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/five"
+                            android:id="@+id/lnrPostedby"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/ten"
+                            >
+
+                            <TextView
+                                android:id="@+id/lblPostby"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Posted by : "
+                                android:textColor="@color/clr_black"
+                                android:textSize="12dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/lblPostedBy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sample Prnicipal"
+                                android:textColor="@color/clr_emergency_red"
+                                android:textSize="12dp"
+                                android:textStyle="" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/lblVoicetitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/three"
-                    android:layout_marginTop="@dimen/fifteen"
-                    android:layout_toLeftOf="@+id/imgclndar"
-                    android:layout_toRightOf="@id/imgEmgLogo"
                     android:padding="@dimen/one"
                     android:text=""
-                    android:textColor="@color/clr_emergency_red"
+                    android:layout_marginHorizontal="@dimen/three"
+                    android:layout_marginVertical="@dimen/ten"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/twelve"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/lblVoicedescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/imgEmgLogo"
-                    android:layout_marginLeft="@dimen/twelve"
-                    android:layout_marginTop="@dimen/five"
-                    android:layout_marginBottom="@dimen/seven"
-                    android:text=""
-                    android:textColor="@color/clr_emergency_red"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/lnrEmergencyVoice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/three"
-                android:orientation="vertical"
-                >
-
-
-                <RelativeLayout
-                    android:id="@+id/rytSeekbarlayout"
+                <LinearLayout
+                    android:id="@+id/lnrEmergencyVoice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/twenty"
-                    android:layout_marginEnd="@dimen/eighteen"
-                    android:layout_marginBottom="@dimen/five"
-                    android:visibility="gone">
+                    android:layout_marginRight="@dimen/three"
+                    android:orientation="vertical"
+                    >
 
-                    <ImageView
-                        android:id="@+id/imgEmgplaypause"
-                        android:layout_width="@dimen/thirty_two"
-                        android:layout_height="@dimen/thirty_two"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="@dimen/eight"
-                        android:tint="@color/clr_emergency_red"
-                        android:src="@drawable/ic_play" />
 
-                    <SeekBar
-                        android:id="@+id/emergencyseekbar"
+                    <RelativeLayout
+                        android:background="@drawable/bg_emergency_voice_white_2"
+                        android:id="@+id/rytSeekbarlayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toLeftOf="@+id/lnrVoiceSeconds"
-                        android:layout_toRightOf="@+id/imgEmgplaypause"
-                        android:indeterminate="false"
-                        android:progressTint="@color/clr_emergency_red"
-                        android:thumbTint="@color/clr_emergency_red" />
+                        android:layout_marginStart="@dimen/five"
+                        android:layout_marginEnd="@dimen/five"
+                        android:layout_marginBottom="@dimen/five"
+                        android:visibility="gone">
 
-                    <LinearLayout
-                        android:id="@+id/lnrVoiceSeconds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="@dimen/ten">
+                        <ImageView
+                            android:id="@+id/imgEmgplaypause"
+                            android:layout_width="@dimen/thirty_two"
+                            android:layout_height="@dimen/thirty_two"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="@dimen/eight"
+                            android:src="@drawable/ic_play" />
 
-                        <TextView
-                            android:id="@+id/lblEmgfromduration"
+                        <SeekBar
+                            android:id="@+id/emergencyseekbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_toLeftOf="@+id/lnrVoiceSeconds"
+                            android:layout_toRightOf="@+id/imgEmgplaypause"
+                            android:indeterminate="false"
+                            android:progressTint="@color/clr_emergency_red"
+                            android:thumbTint="@color/clr_emergency_red" />
+
+                        <LinearLayout
+                            android:id="@+id/lnrVoiceSeconds"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="00:00"
-                            android:textColor="@color/clr_emergency_red"
-                            android:textSize="10dp"
-                            android:textStyle="normal" />
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="@dimen/ten">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" / "
-                            android:textColor="@color/clr_emergency_red"
-                            android:textSize="10dp" />
+                            <TextView
+                                android:id="@+id/lblEmgfromduration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="00:00"
+                                android:textColor="@color/clr_black"
+                                android:textSize="10dp"
+                                android:textStyle="normal" />
 
-                        <TextView
-                            android:id="@+id/lblTotalDuration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="02:10"
-                            android:textColor="@color/clr_emergency_red"
-                            android:textSize="10dp" />
-                    </LinearLayout>
-                </RelativeLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" / "
+                                android:textColor="@color/clr_black"
+                                android:textSize="10dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_marginVertical="@dimen/five"
-                    android:layout_marginHorizontal="@dimen/ten"
-                    android:alpha="0.3"
-                    android:background="@color/clr_emergency_red"
-                    android:visibility="visible" />
-
-                <LinearLayout
-                    android:id="@+id/lnrPostedby"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginRight="@dimen/ten"
-                    android:layout_marginBottom="@dimen/ten">
-
-                    <TextView
-                        android:id="@+id/lblPostby"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Posted by : "
-                        android:textColor="@color/clr_black"
-                        android:textSize="12dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/lblPostedBy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/five"
-                        android:text="Sample Prnicipal"
-                        android:textColor="@color/clr_emergency_red"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/lblTotalDuration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="02:10"
+                                android:textColor="@color/clr_black"
+                                android:textSize="10dp" />
+                        </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
 
         <LinearLayout
             android:id="@+id/lnrRecentNotifications"

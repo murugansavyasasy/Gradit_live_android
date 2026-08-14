@@ -234,6 +234,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                             binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             eventsAdapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
 
@@ -289,6 +290,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                             binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             eventsAdapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
@@ -299,6 +301,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     }
 //                    UserMenuRequest(this)
                     if (EventType) {
+                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
                         NoDataFound()
                         GetEvetnsData = response.data!!
                         val size = GetEvetnsData.size
@@ -320,6 +323,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                         }
 
                     } else {
+                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
 
                         NoDataFound()
                         GetEvetnsData = response.data!!
@@ -343,6 +347,8 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             } else {
 //                UserMenuRequest(this)
                 NoDataFound()
+                binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+
             }
         }
 

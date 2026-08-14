@@ -170,6 +170,15 @@ class DashboardParent constructor(
                 CommonUtil.MenuIDCommunication = BaseActivity.CommunicationMenuID
                 context.startActivity(Intent(context, Communication::class.java))
             }
+
+            "Attendance" -> holder.lblViewAll.setOnClickListener {
+                setMenuPermissions(4) { r, w ->
+                    CommonUtil.menu_readAttendance = r
+                    CommonUtil.menu_writeAttendance = w
+                }
+                CommonUtil.MenuIdAttendance = BaseActivity.AttendanceMeuID
+                context.startActivity(Intent(context, Attendance::class.java))
+            }
             else -> holder.lblViewAll.setOnClickListener(null)
         }
     }

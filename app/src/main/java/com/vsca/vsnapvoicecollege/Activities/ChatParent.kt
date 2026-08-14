@@ -181,12 +181,15 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                         binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
                         binding.CommonLayout.recyclerCommon!!.adapter = chatAdapter
                     } else {
+                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message
 
                         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
                     }
                 } else {
+                    binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+
 
 //                    UserMenuRequest(this)
                     binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE

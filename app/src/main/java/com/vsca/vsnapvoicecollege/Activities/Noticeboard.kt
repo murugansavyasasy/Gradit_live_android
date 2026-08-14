@@ -165,7 +165,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                UserMenuRequest(this@Noticeboard)
+//                UserMenuRequest(this@Noticeboard)
                 if (CommonUtil.menu_readNoticeBoard.equals("1")) {
                     OverAllMenuCountRequest(this, CommonUtil.MenuIDNoticeboard!!)
                 }
@@ -192,6 +192,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             noticeboardAdapter!!.notifyDataSetChanged()
 
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     } else {
@@ -214,13 +215,16 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             noticeboardAdapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
                 } else {
+                    binding.CommonLayout.lblNoRecordsFound!!.text=response.message
                     NoDataFound()
                 }
             } else {
+                binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
                 NoDataFound()
             }
         }

@@ -47,7 +47,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.DeviceType
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
@@ -90,6 +89,8 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
     var isPermission = true
 
     private var isPermissionDialogShowing = false
+    private var permissionsJustGranted = false        // <-- ADD THIS
+
     private var isPermissionRequestInProgress = false
 
     // In-memory tracking of which permissions have been requested in this activity instance
@@ -109,8 +110,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
             Log.d(TAG, "Launcher result. Denied: $deniedPermissions")
 
             if (deniedPermissions.isEmpty()) {
+                permissionsJustGranted = true
+
                 CommonUtil.MenuListDashboard.clear()
-                dashboardOverallList.clear()
+//                dashboardOverallList.clear()
                 UserMenuRequest(this) {
                     DashBoardRequest()
                 }
@@ -234,6 +237,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     val dashboardList = response.data?.toMutableList() ?: mutableListOf()
 
                     val menuSection = DashboardTypeResponse().apply {
+                        Log.d("Coming","Coming")
                         type = "DashBoard_Menu"
                         order = 1000
                         DashboardMenuData = CommonUtil.MenuListDashboard
@@ -248,19 +252,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     DashboardData = dashboardList
 
                     lifecycleScope.launch(Dispatchers.Default) {
-
-                        async {
-                            processDashboardData()
-                        }.await()
-
+                        processDashboardData()
                         withContext(Dispatchers.Main) {
-                            async {
-                                bindAdapter()
-                            }.await()
-
-                            async {
-                                getContectNumberSave()
-                            }.await()
+                            bindAdapter()
+                            getContectNumberSave()
                         }
                     }
                 } else {
@@ -284,22 +279,12 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
             dashboardAttendanceList!!.clear()
             dashboardAssignmentList.clear()
             dashboardEmergencyVoicelist.clear()
-            if (Success == "Success") {
-
-                lifecycleScope.launch {
-
-                    CommonUtil.MenuListDashboard.clear()
-                    dashboardOverallList.clear()
-
-                    // Wait for UserMenuRequest to complete
-                    UserMenuRequest(this@DashBoardActivityRewamp)
-
-                    // Then start Dashboard API
-                    DashBoardRequest()
-
-                    // Both completed
-                    Success = ""
-                }
+            if (Success.equals("Success")) {
+                CommonUtil.MenuListDashboard.clear()
+//                dashboardOverallList.clear()
+                UserMenuRequest(this)
+                DashBoardRequest()
+                Success = ""
             }
         })
     }
@@ -695,36 +680,29 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
     override fun onResume() {
         super.onResume()
-
         Log.d(TAG, "onResume. Priority=${CommonUtil.Priority} inProgress=$isPermissionRequestInProgress")
 
-        if (hasAllPermissions()) {
-            Log.d(TAG, "All permissions granted.")
-
-            lifecycleScope.launch {
-
-                // 1. Clear old data
-                CommonUtil.MenuListDashboard.clear()
-                dashboardOverallList.clear()
-
-                // 2. Wait for UserMenuRequest to finish
-                UserMenuRequest(this@DashBoardActivityRewamp)
-
-                // 3. After UserMenuRequest completes,
-                //    execute DashBoardRequest
-                DashBoardRequest()
-            }
-
+        // If permissions were just granted by the launcher, skip the onResume API calls
+        // because the launcher already triggered them. This prevents double binding.
+        if (permissionsJustGranted) {                       // <-- ADD THIS BLOCK
+            Log.d(TAG, "Permissions just granted, skipping onResume API calls.")
+            permissionsJustGranted = false
             return
         }
 
-        // Don't re-launch while settings dialog is already visible
+        if (hasAllPermissions()) {
+            Log.d(TAG, "All permissions granted.")
+            CommonUtil.MenuListDashboard.clear()
+            UserMenuRequest(this)
+            DashBoardRequest()
+            return
+        }
+
         if (isPermissionDialogShowing) {
             Log.d(TAG, "Dialog already showing. Skipping.")
             return
         }
 
-        // Don't re-launch while system permission dialog is already open
         if (isPermissionRequestInProgress) {
             Log.d(TAG, "Permission request already in progress. Skipping.")
             return
@@ -738,9 +716,6 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         }
         Log.d(TAG, "Denied permissions: $deniedPerms")
 
-        // Only ask permissions that:
-        // - show rationale (user denied once, can ask again), OR
-        // - have never been requested in this activity instance
         val askablePerms = deniedPerms.filter {
             val showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, it)
             val neverRequested = !requestedPermissions.contains(it)
@@ -755,10 +730,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
             isPermissionRequestInProgress = true
             permissionLauncher.launch(askablePerms.toTypedArray())
         } else if (deniedPerms.isNotEmpty()) {
-            // All denied permissions are permanently denied; don't launch (avoids blink)
             Log.d(TAG, "All denied permissions are permanently denied. Showing settings dialog.")
             showPermissionSettingsDialog()
         }
+
     }
 
     private fun getRequiredPermissions(): Array<String> {

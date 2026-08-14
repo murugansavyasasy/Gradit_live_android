@@ -22,6 +22,7 @@ import com.vsca.vsnapvoicecollege.Model.LeaveRequest
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.RestClient
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import retrofit2.Call
 import retrofit2.Callback
@@ -226,6 +227,9 @@ class Leavehistory_principleAdapter(
         jsonObject.addProperty("processtype", type)
         Log.d("jsonoblect", jsonObject.toString())
 
+        var progressDialog = CustomLoading.createProgressDialog(context)
+        progressDialog!!.show()
+
         RestClient.apiInterfaces.GetleaveApproidapi(jsonObject)
             ?.enqueue(object : Callback<LeaveRequest?> {
                 override fun onResponse(
@@ -233,7 +237,10 @@ class Leavehistory_principleAdapter(
                     response: Response<LeaveRequest?>
                 ) {
                     if (response.code() == 200 || response.code() == 201) {
+
                         if (response.body() != null) {
+                            progressDialog!!.dismiss()
+
                             val response = response.body()!!.Message
                             Log.d("message", response)
 
@@ -254,12 +261,19 @@ class Leavehistory_principleAdapter(
                         }
 
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        progressDialog!!.dismiss()
+
                         Log.d("resonsemessage", response.message().toString())
+
+                    }
+                    else{
+                        progressDialog!!.dismiss()
 
                     }
                 }
 
                 override fun onFailure(call: Call<LeaveRequest?>, t: Throwable) {
+                    progressDialog!!.dismiss()
 
                 }
 

@@ -1111,6 +1111,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     recycle_specificstudent!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     specificStudent_adapter!!.notifyDataSetChanged()
                 }
+                else{
+                    CommonUtil.ApiAlert(
+                        this, response.message
+                    )
+                }
             }
         }
 

@@ -230,6 +230,7 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                             binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             examAdapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     } else {
@@ -288,18 +289,23 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                             binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             examAdapter!!.notifyDataSetChanged()
                         } else {
+                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
                 } else {
                     if (ExamType) {
+                        binding.CommonLayout.lblNoRecordsFound.text=response.message?:getString(R.string.txt_no_data_found)
                         NoDataFound()
                     } else {
+                        binding.CommonLayout.lblNoRecordsFound.text=response.message?:getString(R.string.txt_no_data_found)
                         NoDataFound()
                     }
                 }
             } else {
 //                UserMenuRequest(this)
+                binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.error_null_cursor)
+
                 NoDataFound()
             }
         }
