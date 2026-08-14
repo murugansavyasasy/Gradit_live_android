@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="match_parent"
         android:background="@color/clr_white"
+        android:layout_marginTop="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
