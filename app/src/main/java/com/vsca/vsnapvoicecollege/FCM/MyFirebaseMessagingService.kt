@@ -1,0 +1,1058 @@
+package com.vsca.vsnapvoicecollege.FCM
+
+import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.View
+import android.widget.RemoteViews
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
+import androidx.core.content.ContextCompat
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
+import com.vs.schoolmessenger.FCM.DismissReceiver
+import com.vs.schoolmessenger.FCM.NotificationCallScreen
+import com.vs.schoolmessenger.FCM.NotificationDismissService
+import com.vs.schoolmessenger.FCM.RingtonePlayer
+import com.vsca.vsnapvoicecollege.Activities.Splash
+import com.vsca.vsnapvoicecollege.R
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
+
+class MyFirebaseMessagingService : FirebaseMessagingService() {
+
+    companion object {
+        private const val TAG = "MyFirebaseMessaging"
+        private const val CHANNEL_ID = "fcm_default_channel"
+        private const val CHANNEL_NAME = "Custom Notifications"
+        private const val CALL_CHANNEL_ID = "fcm_call_channel"
+        private const val CALL_CHANNEL_NAME = "Incoming Calls"
+
+        val handler = Handler(Looper.getMainLooper())
+
+        val activeMissedTimers = HashMap<String, Runnable>()
+    }
+
+    object isUserAnswered {
+        var isNotificationOpened = false
+    }
+
+    private var isEmergency: String? = null
+
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+
+        Log.d(TAG, "onMessageReceived called")
+        if (remoteMessage.data.isNotEmpty()) {
+            Log.d("FCM_PAYLOAD", "FCM Payload: ${remoteMessage.data}")
+            Log.d("FCM_PAYLOAD", "FCM remoteMessage: $remoteMessage")
+        }
+
+        // Example: Extract fields safely
+        val title = remoteMessage.data["title"] ?: "Gradit"
+        val body =
+            remoteMessage.data["body"] ?: "You have a new message"
+        val tone = remoteMessage.data["tone"] ?: "normal"
+        val type = remoteMessage.data["type"] ?: "normal"
+        val isVoiceUrl = remoteMessage.data["url"] ?: "normal"
+        val isWelcomeUrl = remoteMessage.data["welcome"] ?: "normal"
+        val imageUrl = remoteMessage.data["imageurl"] ?: "Default"
+        val msgId =
+            remoteMessage.data["id"] ?: ""  // Separate top-level msg_id from payload
+        var msgInfo: String? = null
+        Log.d("isNotificationType", remoteMessage.data["type"].toString())
+        if (!type.equals("isCall")) {
+            Log.d("msg_info", "msg_info")
+            msgInfo = remoteMessage.data["msg_info"] ?: ""
+        }
+
+        val receiver_id = remoteMessage.data["receiverid"] ?: ""
+        val circular_id = remoteMessage.data["circular_id"] ?: ""
+        val retrycount = remoteMessage.data["retrycount"] ?: ""
+        val ei1 = remoteMessage.data["ei1"] ?: ""
+        val ei2 = remoteMessage.data["ei2"] ?: ""
+        val ei3 = remoteMessage.data["ei3"] ?: ""
+        val ei4 = remoteMessage.data["ei4"] ?: ""
+        val ei5 = remoteMessage.data["ei5"] ?: ""
+        val role = remoteMessage.data["role"] ?: ""
+        val school_logo = remoteMessage.data["school_logo"] ?: ""
+        isEmergency = remoteMessage.data["emergency"] ?: ""
+        val member_name = remoteMessage.data["member_name"] ?: ""
+        val school_name = remoteMessage.data["school_name"] ?: ""
+        val call_title = remoteMessage.data["call_title"] ?: ""
+
+        // Optional: Parse nested msg_info JSON if it's in valid JSON format
+        try {
+            if (type.equals("isCall")) {
+                clearOldNotification(circular_id)
+                if (!RingtonePlayer.isPlaying()) {
+                    RingtonePlayer.start(this)
+                }
+                if (isEmergency == "1") {
+                    showCallNotification(
+                        school_logo,
+                        title,
+                        body,
+                        receiver_id.toString(),
+                        isWelcomeUrl,
+                        isVoiceUrl,
+                        ei1,
+                        ei2,
+                        ei3,
+                        ei4,
+                        ei5,
+                        school_name,
+                        member_name,
+                        call_title,
+                        role,
+                        circular_id,
+                        retrycount
+                    )
+                } else {
+                    sendNotificationCall(
+                        school_logo,
+                        title,
+                        body,
+                        receiver_id.toString(),
+                        isWelcomeUrl,
+                        isVoiceUrl,
+                        ei1,
+                        ei2,
+                        ei3,
+                        ei4,
+                        ei5,
+                        school_name,
+                        member_name,
+                        call_title,
+                        role,
+                        circular_id,
+                        retrycount
+                    )
+                }
+
+
+            } else {
+
+                val json = JSONObject(msgInfo)
+                val menuId = json.optString("menu_id")
+                val menuName = json.optString("menu_name")
+                val receiver_type = json.optString("receiver_type")
+                val receiver_id = json.optString("receiverid")
+                val header_id = json.optString("header_id")
+                val institute_id = json.optString("institute_id")
+                sendNotification(
+                    title,
+                    body,
+                    tone,
+                    imageUrl,
+                    menuName,
+                    menuId.toIntOrNull() ?: 0,
+                    header_id,  // Pass as String
+                    msgId.toIntOrNull() ?: 0,  // Pass top-level msg_id separately if needed
+                    receiver_type,
+                    receiver_id,
+                    institute_id
+                )
+
+                Log.d(
+                    "FCM_MSG_INFO",
+                    "Parsed msg_info -> menu_id: $menuId, menu_name: $menuName, receiver_type: $receiver_type"
+                )
+            }
+
+        } catch (e: Exception) {
+            Log.e("FCM", "Error parsing msg_info: ${e.message}")
+        }
+    }
+
+    private fun getNotificationId(circularId: String): Int {
+        return circularId.hashCode()
+    }
+
+    private fun clearOldNotification(circularId: String) {
+        try {
+            val notificationId = getNotificationId(circularId)
+
+            NotificationManagerCompat.from(this)
+                .cancel(notificationId)
+
+            Log.d(
+                "FCM_NOTIFICATION",
+                "Old notification removed : $circularId"
+            )
+        } catch (e: Exception) {
+            Log.e(
+                "FCM_NOTIFICATION",
+                "Clear notification error : ${e.message}"
+            )
+        }
+    }
+
+
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.d(TAG, "New FCM Token: $token")
+    }
+
+    private fun sendNotificationCall(
+        school_logo: String,
+        title: String,
+        body: String,
+        receiver_id: String,
+        isWelcomeUrl: String,
+        isVoiceUrl: String,
+        ei1: String,
+        ei2: String,
+        ei3: String,
+        ei4: String,
+        ei5: String,
+        school_name: String,
+        member_name: String,
+        call_title: String,
+        role: String,
+        circular_id: String,
+        retrycount: String
+    ) {
+        // Check for notification permission (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.e(TAG, "Notification permission not granted")
+                return
+            }
+        }
+        Log.d("Received_Call", "notification_call")
+        // Create Intent for notification tap
+        val intent = Intent(this, NotificationCallScreen::class.java).apply {
+            putExtra("menu_name", title)
+            putExtra("isNotificationId", "")
+            putExtra("isReceiverId", receiver_id)
+            putExtra(retrycount, retrycount)
+            putExtra("circularId", circular_id)
+            putExtra(ei1, ei1)
+            putExtra(ei2, ei2)
+            putExtra(ei3, ei3)
+            putExtra(ei4, ei4)
+            putExtra(ei5, ei5)
+            putExtra(role, role)
+            putExtra("menuId", "")
+            putExtra(school_name, school_name)
+            putExtra(member_name, member_name)
+            putExtra(call_title, call_title)
+            putExtra("isVoiceUrlNotifi", isVoiceUrl)
+            putExtra("isWelcomeUrlNotifi", isWelcomeUrl)
+            putExtra("isEmergencyCall", isEmergency)
+            putExtra("notification_id", 1001)
+            putExtra("launch_source", "ANSWER")
+            putExtra("school_logo", school_logo)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+
+
+        val uniqueID = (receiver_id + circular_id).hashCode()
+        val requestCode = uniqueID.takeIf { it != 0 } ?: System.currentTimeMillis().toInt()
+        val pendingIntent = PendingIntent.getActivity(
+            this, requestCode, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        // Create notification channel
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val soundUri = Uri.parse("android.resource://${packageName}/raw/call_notification")
+            val channel = NotificationChannel(
+                CALL_CHANNEL_ID,
+                CALL_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Channel for custom notifications"
+                setSound(null, null)
+                enableLights(true)
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            }
+            manager.createNotificationChannel(channel)
+            Log.d(TAG, "Notification channel created")
+        }
+        // Try simple notification first to isolate RemoteViews issues
+        val builder = NotificationCompat.Builder(this, CALL_CHANNEL_ID)
+            .setSmallIcon(R.drawable.gradit_logo)
+            .setContentTitle(title ?: "Gradit")
+            .setContentText(body ?: "You have a new message")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_CALL)
+            .setFullScreenIntent(pendingIntent, true)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setSound(null)
+            .setDeleteIntent(createDeleteIntent()) // Add delete intent for dismissal
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+
+        try {
+            val remoteView = RemoteViews(packageName, R.layout.custom_call_notification).apply {
+                setTextViewText(R.id.notification_title, title ?: "School Chimes")
+                setTextViewText(
+                    R.id.lblContent,
+                    body ?: "InComingCall"
+                ) // NEW: Set body text too
+                // Optional: Set button visibilities if dynamic
+                // setViewVisibility(R.id.imgDecline, View.VISIBLE) // e.g., show/hide based on state
+            }
+            // Use DecoratedCustomViewStyle for custom layout support, but set both views to the SAME RemoteViews
+            // to prevent expansion (no down arrow will show, as expanded state is identical to collapsed)
+            builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                .setCustomContentView(remoteView)
+                .setCustomBigContentView(remoteView) // Key fix: Same view for big content prevents expansion chevron
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting up custom notification: ${e.message}")
+            // Fallback to basic notification without custom views if RemoteViews fails
+            builder.setStyle(
+                NotificationCompat.BigTextStyle().bigText(body ?: "InComingCall")
+            )
+        }
+        try {
+
+            val notificationId =
+                uniqueID.takeIf { it != 0 } ?: (0..999999).random()
+
+            manager.notify(notificationId, builder.build())
+
+            isUserAnswered.isNotificationOpened = false
+
+            Handler(Looper.getMainLooper()).postDelayed({
+
+                if (isUserAnswered.isNotificationOpened) {
+
+                    Log.d(
+                        "MISSED_CALL",
+                        "User attended call, no missed notification"
+                    )
+
+                    return@postDelayed
+                }
+
+                Log.d(
+                    "MISSED_CALL",
+                    "User did not attend call"
+                )
+
+                try {
+
+                    // Stop ringtone
+                    RingtonePlayer.stop()
+
+                    // Remove incoming call notification
+                    manager.cancel(notificationId)
+
+                    NotificationManagerCompat
+                        .from(this)
+                        .cancel(notificationId)
+
+                    // Show missed notification
+                    showMissedNotificationForNormalCall(
+                        title,
+                        body,
+                        receiver_id,
+                        isWelcomeUrl,
+                        isVoiceUrl,
+                        ei1,
+                        ei2,
+                        ei3,
+                        ei4,
+                        ei5,
+                        school_name,
+                        member_name,
+                        call_title,
+                        role,
+                        circular_id,
+                        retrycount,
+                        school_logo
+                    )
+
+                } catch (e: Exception) {
+
+                    Log.e(
+                        "MISSED_CALL",
+                        e.message ?: "Missed notification error"
+                    )
+                }
+
+            }, 30000)
+
+            Log.d(
+                TAG,
+                "Notification sent successfully"
+            )
+
+            Log.d(TAG, "Notification sent successfully")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to send notification: ${e.message}")
+        }
+    }
+
+    private fun createDeleteIntent(): PendingIntent {
+        val intent = Intent(this, NotificationDismissService::class.java)
+        intent.action = "NOTIFICATION_DISMISSED"
+
+        return PendingIntent.getService(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
+    private fun showCallNotification(
+        school_logo: String,
+        title: String,
+        body: String,
+        receiver_id: String,
+        isWelcomeUrl: String,
+        isVoiceUrl: String,
+        ei1: String,
+        ei2: String,
+        ei3: String,
+        ei4: String,
+        ei5: String,
+        school_name: String,
+        member_name: String,
+        call_title: String,
+        role: String,
+        circular_id: String,
+        retrycount: String
+    ) {
+
+        val answerIntent = Intent(
+            this,
+            NotificationCallScreen::class.java
+        ).apply {
+            putExtra("menu_name", title)
+            putExtra("id", "")
+            putExtra("isReceiverId", receiver_id)
+            putExtra(retrycount, retrycount)
+            putExtra("circularId", circular_id)
+            putExtra(ei1, ei1)
+            putExtra(ei2, ei2)
+            putExtra(ei3, ei3)
+            putExtra(ei4, ei4)
+            putExtra(ei5, ei5)
+            putExtra(role, role)
+            putExtra("menuId", "")
+            putExtra(school_name, school_name)
+            putExtra(member_name, member_name)
+            putExtra(call_title, call_title)
+            putExtra("url", isVoiceUrl)
+            putExtra("welcome", isWelcomeUrl)
+            putExtra("notification_id", 1001)
+            putExtra("is_missed_announcement", false)
+            putExtra("launch_source", "ANSWER")
+            putExtra("isEmergencyCall", isEmergency)
+            putExtra("school_logo", school_logo)
+
+        }
+
+        val fullScreenIntent = Intent(
+            this,
+            NotificationCallScreen::class.java
+        ).apply {
+            putExtra("menu_name", title)
+            putExtra("id", "")
+            putExtra("isReceiverId", receiver_id)
+            putExtra("retry_count", retrycount)
+            putExtra("circularId", circular_id)
+            putExtra("ei1", ei1)
+            putExtra("ei2", ei2)
+            putExtra("ei3", ei3)
+            putExtra("ei4", ei4)
+            putExtra("ei5", ei5)
+            putExtra("role", role)
+            putExtra("menuId", "")
+            putExtra("school_name", school_name)
+            putExtra("member_name", member_name)
+            putExtra("call_title", call_title)
+            putExtra("url", isVoiceUrl)
+            putExtra("welcome", isWelcomeUrl)
+            putExtra("notification_id", 1001)
+            putExtra("is_missed_announcement", false)
+            putExtra("launch_source", "FULL_SCREEN")
+            putExtra("isEmergencyCall", isEmergency)
+            putExtra("school_logo", school_logo)
+
+        }
+
+        val answerPendingIntent =
+            PendingIntent.getActivity(
+                this,
+                1001,
+                answerIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+            )
+
+        val fullScreenPendingIntent =
+            PendingIntent.getActivity(
+                this,
+                1002,
+                fullScreenIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+            )
+
+        val dismissIntent =
+            Intent(this, DismissReceiver::class.java).apply {
+                putExtra("menu_name", title)
+                putExtra("isNotificationId", "")
+                putExtra("isReceiverId", receiver_id)
+                putExtra(retrycount, retrycount)
+                putExtra("circularId", circular_id)
+                putExtra(ei1, ei1)
+                putExtra(ei2, ei2)
+                putExtra(ei3, ei3)
+                putExtra(ei4, ei4)
+                putExtra(ei5, ei5)
+                putExtra(role, role)
+                putExtra("menuId", "")
+                putExtra(school_name, school_name)
+                putExtra(member_name, member_name)
+                putExtra(call_title, call_title)
+                putExtra("url", isVoiceUrl)
+                putExtra("welcome", isWelcomeUrl)
+                putExtra("notification_id", 1001)
+                putExtra("isEmergencyCall", isEmergency)
+                putExtra("school_logo", school_logo)
+            }
+
+        val dismissPendingIntent =
+            PendingIntent.getBroadcast(
+                this,
+                1002,
+                dismissIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+            )
+
+        val person = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Person.Builder()
+                .setName("Calling from your school")
+                .build()
+        } else {
+            TODO("VERSION.SDK_INT < P")
+        }
+
+        val notification =
+            NotificationCompat.Builder(
+                this,
+                "notification_school_chimes"
+            )
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("Important announcement from your school")
+                .setContentText(title)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOngoing(false)
+                .setSound(null)
+                .setStyle(
+                    NotificationCompat.CallStyle
+                        .forIncomingCall(
+                            person,
+                            dismissPendingIntent,
+                            answerPendingIntent
+                        )
+                )
+                .setContentIntent(answerPendingIntent)
+                .setDeleteIntent(dismissPendingIntent)
+                .setAutoCancel(true)
+
+
+                .setFullScreenIntent(
+                    fullScreenPendingIntent,
+                    true
+                )
+
+        val notificationId = getNotificationId(circular_id)
+
+        NotificationManagerCompat
+            .from(this)
+            .notify(notificationId, notification.build())
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (!isUserAnswered.isNotificationOpened) {
+                startMissedAnnouncementTimer(
+                    title,
+                    body,
+                    receiver_id.toString(),
+                    isWelcomeUrl,
+                    isVoiceUrl,
+                    ei1,
+                    ei2,
+                    ei3,
+                    ei4,
+                    ei5,
+                    school_name,
+                    member_name,
+                    call_title,
+                    role,
+                    circular_id,
+                    retrycount,
+                    school_logo
+                )
+            }
+        }, 30000)
+    }
+
+    private fun startMissedAnnouncementTimer(
+        title: String,
+        body: String,
+        receiver_id: String,
+        isWelcomeUrl: String,
+        isVoiceUrl: String,
+        ei1: String,
+        ei2: String,
+        ei3: String,
+        ei4: String,
+        ei5: String,
+        school_name: String,
+        member_name: String,
+        call_title: String,
+        role: String,
+        circular_id: String,
+        retrycount: String,
+        school_logo: String
+    ) {
+
+        Log.e("MISSED_CALL", "30 Seconds Completed")
+        isUserAnswered.isNotificationOpened = false
+        try {
+            // Stop ringtone
+            RingtonePlayer.stop()
+
+        } catch (_: Exception) {
+        }
+
+        val notificationManager =
+            NotificationManagerCompat.from(this)
+
+        val notificationService =
+            getSystemService(NOTIFICATION_SERVICE)
+                    as NotificationManager
+
+        try {
+
+            // Remove incoming notification
+            notificationManager.cancel(1001)
+            notificationService.cancel(1001)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                notificationService.activeNotifications.forEach {
+                    if (it.id == 1001) {
+                        notificationService.cancel(it.id)
+                    }
+                }
+            }
+
+        } catch (_: Exception) {
+        }
+
+        Log.e("MISSED_CALL", "Showing Missed Notification")
+        if (!isUserAnswered.isNotificationOpened) {
+            showMissedAnnouncement(
+                title,
+                body,
+                receiver_id,
+                isWelcomeUrl,
+                isVoiceUrl,
+                ei1,
+                ei2,
+                ei3,
+                ei4,
+                ei5,
+                school_name,
+                member_name,
+                call_title,
+                role,
+                circular_id,
+                retrycount,
+                school_logo
+            )
+        }
+    }
+
+    private fun showMissedAnnouncement(
+        title: String,
+        body: String,
+        receiver_id: String,
+        isWelcomeUrl: String,
+        isVoiceUrl: String,
+        ei1: String,
+        ei2: String,
+        ei3: String,
+        ei4: String,
+        ei5: String,
+        school_name: String,
+        member_name: String,
+        call_title: String,
+        role: String,
+        circular_id: String,
+        retrycount: String,
+        school_logo: String
+    ) {
+        RingtonePlayer.stop()
+
+        val intent = Intent(
+            this,
+            NotificationCallScreen::class.java
+        ).apply {
+
+            putExtra("menu_name", title)
+            putExtra("id", "")
+            putExtra("isReceiverId", receiver_id)
+            putExtra(retrycount, retrycount)
+            putExtra("circularId", circular_id)
+            putExtra(ei1, ei1)
+            putExtra(ei2, ei2)
+            putExtra(ei3, ei3)
+            putExtra(ei4, ei4)
+            putExtra(ei5, ei5)
+            putExtra(role, role)
+            putExtra("menuId", "")
+            putExtra(school_name, school_name)
+            putExtra(member_name, member_name)
+            putExtra(call_title, call_title)
+            putExtra("url", isVoiceUrl)
+            putExtra("welcome", isWelcomeUrl)
+            putExtra(
+                "is_missed_announcement",
+                true
+            )
+            putExtra("notification_id", 2001)
+            putExtra("launch_source", "MISSED")
+            putExtra("isEmergencyCall", isEmergency)
+            putExtra("school_logo", school_logo)
+
+
+        }
+
+        val pendingIntent =
+            PendingIntent.getActivity(
+                this,
+                2001,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+            )
+
+        val notification =
+            NotificationCompat.Builder(
+                this,
+                "notification_school_chimes"
+            )
+                .setSmallIcon(
+                    R.drawable.ic_call
+                )
+                .setContentTitle(
+                    "Missed School Announcement"
+                )
+                .setContentText(
+                    title
+                )
+                .setPriority(
+                    NotificationCompat.PRIORITY_HIGH
+                )
+                .setAutoCancel(true)
+                .setContentIntent(
+                    pendingIntent
+                )
+                .setSound(null)
+                .build()
+
+        val notificationId = getNotificationId(circular_id)
+
+        NotificationManagerCompat
+            .from(this)
+            .notify(notificationId, notification)
+    }
+
+    private fun sendNotification(
+        title: String?,
+        messageBody: String?,
+        tone: String?,
+        imageUrl: String?,
+        menu_name: String,
+        menuId: Int,
+        headerId: String, // Changed to String
+        msgId: Int, // Top-level msg_id from payload
+        receiverType: String,
+        receiverId: String,
+        instituteId: String
+    ) {
+        // Check for notification permission (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.e(TAG, "Notification permission not granted")
+                return
+            }
+        }
+        // Create Intent for notification tap
+        val intent = Intent(this, Splash::class.java).apply {
+            putExtra(menu_name, menu_name)
+            putExtra("menu_id", menuId)
+            putExtra("msg_id", msgId)
+            putExtra("header_id", headerId)
+            putExtra("receiver_type", receiverType)
+            putExtra("receiverid", receiverId)
+            putExtra("institute_id", instituteId)
+            putExtra("fromNotification", true)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+        val uniqueID = (receiverId + headerId).hashCode()
+        val requestCode = uniqueID.takeIf { it != 0 } ?: System.currentTimeMillis().toInt()
+        val pendingIntent = PendingIntent.getActivity(
+            this, requestCode, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val message = Uri.parse("android.resource://${packageName}/raw/message")
+        val emergency_message = Uri.parse("android.resource://${packageName}/raw/emergencyvoice")
+        var notificationSound: Uri? = null
+        if (tone.equals("normal")) {
+            notificationSound = message
+        } else if (tone.equals("emergency_voice")) {
+            notificationSound = emergency_message
+        }
+        // Create notification channel
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Channel for custom notifications"
+                enableLights(true)
+                enableVibration(true)
+                setSound(notificationSound, audioAttributes) // ✅ Custom tone for this channel
+            }
+            manager.createNotificationChannel(channel)
+            Log.d(TAG, "Notification channel created")
+        }
+        // Download image bitmap early (shared for both views)
+        var bitmap: Bitmap? = null
+        if (!imageUrl.isNullOrEmpty()) {
+            try {
+                val url = URL(imageUrl)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.doInput = true
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+                connection.connect()
+                val input = connection.inputStream
+                bitmap = BitmapFactory.decodeStream(input)
+                input.close()
+                connection.disconnect()
+                Log.d(TAG, "Image downloaded successfully")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to download image: ${e.message}")
+            }
+        }
+
+        // Create collapsed RemoteViews (1 line for body with ellipsis)
+        val remoteViewCollapsed = RemoteViews(packageName, R.layout.custom_notification).apply {
+            setTextViewText(R.id.notification_title, title ?: "Gradit")
+            setTextViewText(
+                R.id.notification_body,
+                messageBody ?: "You have a new message from your college"
+            )
+            setInt(R.id.notification_body, "setMaxLines", 1) // Show only 1 line initially
+            // Handle image for collapsed (will hide if no space)
+            if (bitmap != null) {
+                setImageViewBitmap(R.id.notification_imageview, bitmap)
+                setViewVisibility(R.id.notification_imageview, View.VISIBLE)
+            } else {
+                setViewVisibility(R.id.notification_imageview, View.GONE)
+            }
+        }
+
+        // Create expanded RemoteViews (up to 5 lines for body)
+        val remoteViewExpanded = RemoteViews(packageName, R.layout.custom_notification).apply {
+            setTextViewText(R.id.notification_title, title ?: "Gradit")
+            setTextViewText(
+                R.id.notification_body,
+                messageBody ?: "You have a new message from your college"
+            )
+            setInt(R.id.notification_body, "setMaxLines", 100) // Show full multi-line content
+            // Handle image for expanded (always visible if present)
+            if (bitmap != null) {
+                setImageViewBitmap(R.id.notification_imageview, bitmap)
+                setViewVisibility(R.id.notification_imageview, View.VISIBLE)
+            } else {
+                setViewVisibility(R.id.notification_imageview, View.GONE)
+            }
+        }
+
+        // Build notification with separate views for collapsed/expanded states
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.gradit_logo)
+            .setContentTitle(title ?: "Gradit")
+            .setContentText(
+                messageBody ?: "You have a new message from your college"
+            ) // Fallback text
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setCustomContentView(remoteViewCollapsed) // Collapsed state
+            .setCustomBigContentView(remoteViewExpanded) // Expanded state
+
+        // Handle custom notification with RemoteViews
+        try {
+            val remoteView = RemoteViews(packageName, R.layout.custom_notification).apply {
+                setTextViewText(R.id.notification_title, title ?: "Gradit")
+                setTextViewText(
+                    R.id.notification_body,
+                    messageBody ?: "You have a new message from your college"
+                )
+            }
+
+            // Handle image download
+            var bitmap: Bitmap? = null
+            if (!imageUrl.isNullOrEmpty()) {
+                try {
+                    val url = URL(imageUrl)
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.doInput = true
+                    connection.connectTimeout = 5000
+                    connection.readTimeout = 5000
+                    connection.connect()
+                    val input = connection.inputStream
+                    bitmap = BitmapFactory.decodeStream(input)
+                    input.close()
+                    connection.disconnect()
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to download image: ${e.message}")
+                }
+            }
+
+            if (bitmap != null) {
+                remoteView.setImageViewBitmap(R.id.notification_imageview, bitmap)
+                remoteView.setViewVisibility(R.id.notification_imageview, View.VISIBLE)
+                Log.d(TAG, "Image set in notification")
+            } else {
+                remoteView.setViewVisibility(R.id.notification_imageview, View.GONE)
+                Log.d(TAG, "No image set in notification")
+            }
+
+            builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                .setCustomContentView(remoteView)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting up custom notification: ${e.message}")
+        }
+
+        try {
+            val uniqueID = (receiverId + headerId).hashCode()
+            val notificationId = uniqueID ?: (0..999999).random()
+            manager.notify(notificationId, builder.build())
+            Log.d(TAG, "Expandable notification sent successfully")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to send notification: ${e.message}")
+        }
+    }
+
+    private fun showMissedNotificationForNormalCall(
+        title: String,
+        body: String,
+        receiver_id: String,
+        isWelcomeUrl: String,
+        isVoiceUrl: String,
+        ei1: String,
+        ei2: String,
+        ei3: String,
+        ei4: String,
+        ei5: String,
+        school_name: String,
+        member_name: String,
+        call_title: String,
+        role: String,
+        circular_id: String,
+        retrycount: String,
+        school_logo: String
+    ) {
+
+
+        NotificationManagerCompat
+            .from(this)
+            .cancel((circular_id).hashCode())
+
+        val intent = Intent(
+            this,
+            NotificationCallScreen::class.java
+        ).apply {
+
+            putExtra("menu_name", title)
+            putExtra("isReceiverId", receiver_id)
+            putExtra(retrycount, retrycount)
+            putExtra("circularId", circular_id)
+            putExtra(ei1, ei1)
+            putExtra(ei2, ei2)
+            putExtra(ei3, ei3)
+            putExtra(ei4, ei4)
+            putExtra(ei5, ei5)
+            putExtra(role, role)
+            putExtra(school_name, school_name)
+            putExtra(member_name, member_name)
+            putExtra(call_title, call_title)
+            putExtra("url", isVoiceUrl)
+            putExtra("welcome", isWelcomeUrl)
+
+            putExtra("is_missed_announcement", true)
+            putExtra("launch_source", "MISSED")
+            putExtra("launch_source", 1001)
+            putExtra("isEmergencyCall", "0")
+            putExtra("school_logo", school_logo)
+
+        }
+
+        val pendingIntent =
+            PendingIntent.getActivity(
+                this,
+                2001,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+            )
+
+        val notification =
+            NotificationCompat.Builder(
+                this,
+                CALL_CHANNEL_ID
+            )
+                .setSmallIcon(R.drawable.gradit_logo)
+                .setContentTitle("Missed College Announcement")
+                .setContentText(title)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build()
+
+        val notificationId = getNotificationId(circular_id)
+
+        NotificationManagerCompat
+            .from(this)
+            .notify(notificationId, notification)
+    }
+}

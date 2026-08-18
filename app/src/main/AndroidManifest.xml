@@ -26,6 +26,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -452,12 +456,41 @@
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
         <service
-            android:name=".Services.FirebaseNotificationService"
+            android:name=".FCM.FirebaseNotificationService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+
+
+<!--        <receiver-->
+<!--            android:name=".Utils.MySMSBroadcastReceiver"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+<!--        <receiver android:name=".Parent.Noticeboard.Adapter.ReminderBroadcastReceiver" />-->
+
+<!--        <service-->
+<!--            android:name=".FCM.NotificationDismissService"-->
+<!--            android:exported="false" />-->
+
+<!--        <service-->
+<!--            android:name=".FCM.MyFirebaseMessagingService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+<!--        <receiver-->
+<!--            android:name=".FCM.DismissReceiver"-->
+<!--            android:exported="false"/>-->
+
+
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Interfaces
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.FCM.StatusMessageModel
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
 import com.vsca.vsnapvoicecollege.Model.AssignmentMark
@@ -689,5 +690,11 @@ interface ApiInterfaces {
         @Path("id") id: Int,
         @Body body: JsonObject
     ): Call<ResumeBuilderDeleteResume>
+
+
+    @POST("comm/api/voice/update-notification-call-log")
+    fun updateNotificationCallLog(
+        @Body jsonObject: JsonObject
+    ): Call<StatusMessageModel?>?
 
     }

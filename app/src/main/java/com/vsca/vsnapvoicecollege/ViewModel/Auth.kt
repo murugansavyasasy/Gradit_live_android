@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.FCM.StatusMessageModel
 import com.vsca.vsnapvoicecollege.Model.CountryDetailsResponse
 import com.vsca.vsnapvoicecollege.Model.LoginResponse
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumber
@@ -28,12 +29,17 @@ class Auth(application: Application) : AndroidViewModel(application) {
     var Mobilenumber: LiveData<ValidateMobileNumber?>? = null
         private set
 
+    var isUpdateNotificationCallLog: LiveData<StatusMessageModel?>? = null
+        private set
+
     fun init() {
         apiRepositories = AuthServices()
         countryDetailsResponseLiveData = apiRepositories!!.countryLiveData
         versionCheckLiveData = apiRepositories!!.versionCheckLiveData
         loginResposneLiveData = apiRepositories!!.loginResponseLiveData
         Mobilenumber = apiRepositories!!.VerificationMobilenumber
+        isUpdateNotificationCallLog = apiRepositories!!.isUpdateNotificationCallLogLiveData
+
     }
 
     fun getcountryList(activity: Activity?) {
@@ -50,5 +56,9 @@ class Auth(application: Application) : AndroidViewModel(application) {
 
     fun VerifityMobile(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.MobilenumberVerification(jsonObject, activity)
+    }
+
+    fun isUpdateNotificationCalllog(jsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.isUpdateNotificationCallLog(jsonObject, activity)
     }
 }

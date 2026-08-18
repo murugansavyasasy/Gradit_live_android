@@ -151,6 +151,11 @@ object SharedPreference {
             .getString(SH_MobileNumber, "")
     }
 
+    fun getSH_MobileNumber(activity: Context): String? {
+        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
+            .getString(SH_MobileNumber, "")
+    }
+
     fun getSH_Help(activity: Activity): String? {
         return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
             .getString(SH_Help, "")

@@ -2,9 +2,13 @@ package com.vsca.vsnapvoicecollege.Repository
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.FCM.ErrorResponse
+import com.vsca.vsnapvoicecollege.FCM.StatusMessageModel
 import com.vsca.vsnapvoicecollege.Model.CountryDetailsResponse
 import com.vsca.vsnapvoicecollege.Model.LoginResponse
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumber
@@ -23,6 +27,9 @@ class AuthServices {
     var versionCheckResposneMutableLiveData: MutableLiveData<VersionCheckResposne?>
     var LoginResposneMutableLiveData: MutableLiveData<LoginResponse?>
     var MobileNumber: MutableLiveData<ValidateMobileNumber?>
+
+    var isUpdateNotificationCallLog: MutableLiveData<StatusMessageModel?>
+
 
     fun GetCountryList(appid: Int, activity: Activity?) {
 //        var progressDialog = CustomLoading.createProgressDialog(activity)
@@ -199,11 +206,49 @@ class AuthServices {
     val VerificationMobilenumber: LiveData<ValidateMobileNumber?>
         get() = MobileNumber
 
+
+
+    fun isUpdateNotificationCallLog(jsonObject: JsonObject, activity: Activity) {
+        RestClient.apiInterfaces.updateNotificationCallLog(jsonObject)
+            ?.enqueue(object : Callback<StatusMessageModel?> {
+                override fun onResponse(
+                    call: Call<StatusMessageModel?>,
+                    response: Response<StatusMessageModel?>
+                ) {
+                    Log.d(
+                        "isGetCountryList",
+                        response.code().toString() + " - " + response.toString()
+                    )
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
+                            val status = response.body()!!.status
+                            isUpdateNotificationCallLog.postValue(response.body())
+                        }
+                    } else {
+                        val errorBodyString = response.errorBody()?.string()
+                        val gson = Gson()
+                        val errorModel = gson.fromJson(errorBodyString, ErrorResponse::class.java)
+                        Toast.makeText(activity, errorModel.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<StatusMessageModel?>, t: Throwable) {
+                    isUpdateNotificationCallLog.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isUpdateNotificationCallLogLiveData: LiveData<StatusMessageModel?>
+        get() = isUpdateNotificationCallLog
+
+
     init {
         client_auth = RestClient()
         countryDetailsMutableLiveData = MutableLiveData()
         versionCheckResposneMutableLiveData = MutableLiveData()
         LoginResposneMutableLiveData = MutableLiveData()
         MobileNumber = MutableLiveData()
+        isUpdateNotificationCallLog = MutableLiveData()
     }
 }
