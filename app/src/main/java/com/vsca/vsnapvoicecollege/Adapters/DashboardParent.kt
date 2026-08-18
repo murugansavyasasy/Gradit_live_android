@@ -64,7 +64,8 @@ class DashboardParent constructor(
             }
             "DashBoard_Menu" -> {
                 holder.category.text = "Menu"
-                holder.lblViewAll.visibility = View.INVISIBLE
+                holder.category.visibility= View.GONE
+                holder.lblViewAll.visibility = View.GONE
             }
             else -> {
                 holder.category.text = modal.menuHeadings

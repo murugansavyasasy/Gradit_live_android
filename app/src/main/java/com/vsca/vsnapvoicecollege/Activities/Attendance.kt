@@ -29,7 +29,6 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceBinding
-import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
