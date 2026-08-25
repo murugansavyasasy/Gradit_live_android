@@ -11,12 +11,16 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebView
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -96,7 +100,7 @@ class Splash : AppCompatActivity() {
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = true
-      //  CommonUtil.isDeviceTokenApiCalling = true
+        //  CommonUtil.isDeviceTokenApiCalling = true
 
         if (!CommonUtil.isNetworkConnected(this@Splash)) {
             progressDialog!!.dismiss()
@@ -298,6 +302,58 @@ class Splash : AppCompatActivity() {
         builder.create().show()
     }
 
+    private fun getFlagEmoji(country: String?): String {
+        val flagMap = mapOf(
+            "united kingdom" to "\uD83C\uDDEC\uD83C\uDDE7",
+            "uk" to "\uD83C\uDDEC\uD83C\uDDE7",
+            "united states" to "\uD83C\uDDFA\uD83C\uDDF8",
+            "usa" to "\uD83C\uDDFA\uD83C\uDDF8",
+            "canada" to "\uD83C\uDDE8\uD83C\uDDE6",
+            "australia" to "\uD83C\uDDE6\uD83C\uDDFA",
+            "india" to "\uD83C\uDDEE\uD83C\uDDF3",
+            "pakistan" to "\uD83C\uDDF5\uD83C\uDDF0",
+            "new zealand" to "\uD83C\uDDF3\uD83C\uDDFF",
+            "ireland" to "\uD83C\uDDEE\uD83C\uDDEA",
+            "germany" to "\uD83C\uDDE9\uD83C\uDDEA",
+            "france" to "\uD83C\uDDEB\uD83C\uDDF7",
+            "uae" to "\uD83C\uDDE6\uD83C\uDDEA",
+            "united arab emirates" to "\uD83C\uDDE6\uD83C\uDDEA",
+            "singapore" to "\uD83C\uDDF8\uD83C\uDDEC"
+        )
+        return flagMap[country?.trim()?.lowercase()] ?: "\uD83C\uDF0D"
+    }
+
+    private fun buildCountryRadioButton(country: CountryDetails, id: Int): RadioButton {
+
+        val rb = RadioButton(this@Splash)
+
+        rb.id = id
+        rb.text = "  ${getFlagEmoji(country.country)}   ${country.country}"
+        rb.textSize = 15f
+        rb.setTextColor(resources.getColor(R.color.clr_light_black))
+        rb.layoutDirection = View.LAYOUT_DIRECTION_LTR
+        rb.gravity = Gravity.CENTER_VERTICAL
+
+        // Hide the default leading indicator; we draw our own at the end.
+        rb.buttonDrawable = null
+
+        val radioIndicator = resources.getDrawable(R.drawable.radio_country_selector)
+        val indicatorSizePx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 22f, resources.displayMetrics
+        ).toInt()
+        radioIndicator.setBounds(0, 0, indicatorSizePx, indicatorSizePx)
+        rb.setCompoundDrawables(null, null, radioIndicator, null)
+
+        val paddingPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics
+        ).toInt()
+        rb.setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+        rb.compoundDrawablePadding = paddingPx
+
+        return rb
+    }
+
+
     @SuppressLint("SetJavaScriptEnabled")
     private fun TermsAndConditions() {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -368,36 +424,23 @@ class Splash : AppCompatActivity() {
         )
         countryPopup!!.contentView = layout
         countryPopup!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-        val layoutDropdown = layout.findViewById<ConstraintLayout>(R.id.layoutDropdown)
-        val lnrRadioGroup = layout.findViewById<LinearLayout>(R.id.lnrRadioGroup)
-        val imgDropdown = layout.findViewById<ImageView>(R.id.imgDropdown)
-        val lblCountryName = layout.findViewById<TextView>(R.id.lblCountryName)
-        val viewLine = layout.findViewById<View>(R.id.viewLine)
+
+        val btnBack = layout.findViewById<ImageView>(R.id.btnBack)
+        val edtSearchCountry = layout.findViewById<EditText>(R.id.edtSearchCountry)
+        val txtTermsCountry = layout.findViewById<TextView>(R.id.txtTermsCountry)
         rg = layout.findViewById<View>(R.id.RadioGroup) as RadioGroup
         btnNext = layout.findViewById(R.id.btnNext)
-        layoutDropdown.setOnClickListener {
-            if (!countryOpen) {
-                lnrRadioGroup.visibility = View.VISIBLE
-                viewLine.visibility = View.VISIBLE
-                imgDropdown.setImageResource(R.drawable.ic_arraow_up)
-                countryOpen = true
-            } else {
-                lnrRadioGroup.visibility = View.GONE
-                viewLine.visibility = View.GONE
-                imgDropdown.setImageResource(R.drawable.ic_arrow_down)
-                countryOpen = false
-            }
+
+
+        btnBack.setOnClickListener {
+            countryPopup!!.dismiss()
+            finish()
         }
 
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(android.R.attr.state_enabled)
-            ), intArrayOf(
-                Color.GRAY,  // disabled
-                Color.GREEN // enabled
-            )
-        )
+        txtTermsCountry.setOnClickListener {
+            TermsAndConditions()
+        }
+
         for (i in CountryData.indices) {
             baseurl = CountryData[i].baseurl
             countryid = CountryData[i].countryid
@@ -405,39 +448,46 @@ class Splash : AppCompatActivity() {
             mobilelength = CountryData[i].mobilenumberlen
             countryCode = CountryData[i].countyCode
             idapplication = CountryData[i].idapplication
-            val rb = RadioButton(this@Splash)
-            val selectedvalue =
-                " " + "+" + CountryData[i].countyCode + "  " + CountryData[i].country
-            rb.text = selectedvalue
-            rb.textSize = 18f
-            rb.setTextColor(resources.getColor(R.color.clr_black))
-            rb.buttonTintList = colorStateList
-            rb.layoutDirection = View.LAYOUT_DIRECTION_LTR
-            rb.id = i
-            selectedradioValue = rb.text.toString()
+
+            val list = CountryData[i]
+            val rb = buildCountryRadioButton(list, i)
+            selectedradioValue = " " + "+" + list.countyCode + "  " + list.country
 
             val params = RadioGroup.LayoutParams(
                 RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT
             )
             rg!!.addView(rb, params)
-            rb.setOnClickListener {
-                val list = CountryData[i]
-                val countryname = list.country
-                lblCountryName.text = countryname
-                lnrRadioGroup.visibility = View.GONE
-                viewLine.visibility = View.GONE
-                countryOpen = false
 
-                imgDropdown.setImageResource(R.drawable.ic_arrow_down)
+            rb.setOnClickListener {
                 btnNext!!.isEnabled = true
                 btnNext!!.isClickable = true
-                btnNext!!.setBackgroundResource(R.drawable.bg_btn_green)
+                btnNext!!.setBackgroundResource(R.drawable.bg_btn_blue)
                 btnNext!!.setTextColor(Color.parseColor("#FFFFFF"))
             }
         }
 
+        edtSearchCountry.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s?.toString().orEmpty().trim().lowercase()
+
+                for (i in CountryData.indices) {
+                    val row = rg?.findViewById<RadioButton>(i) ?: continue
+                    val matches = query.isEmpty() ||
+                            (CountryData[i].country?.lowercase()?.contains(query) == true)
+                    row.visibility = if (matches) View.VISIBLE else View.GONE
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         btnNext!!.setOnClickListener {
             val selectedPosition = rg!!.checkedRadioButtonId
+            if (selectedPosition == -1) {
+                return@setOnClickListener
+            }
             val list = CountryData[selectedPosition]
             val BASE_URL = list.baseurl
             Log.d("BASEURL", BASE_URL!!)
