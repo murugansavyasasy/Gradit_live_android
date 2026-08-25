@@ -1,149 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/countryChooseRoot"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="#F3F5F8">
 
-    <ImageView
-        android:id="@+id/ImgSplashlog"
-        android:layout_width="@dimen/one_sixty"
-        android:layout_height="@dimen/one_sixty"
-        android:layout_marginTop="@dimen/sixty"
-        android:src="@drawable/gradit_logo"
+    <View
+        android:id="@+id/topHeader"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:background="@drawable/bg_select_country_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lblchoose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/eight"
-        android:text="@string/txt_choose_your_Country"
-        android:textSize="@dimen/twenty"
-        android:textStyle="bold"
-        android:layout_marginStart="@dimen/thirty_five"
-        android:textColor="@color/clr_light_black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ImgSplashlog">
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/lblCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/eight"
-        android:text="Country"
-        android:textColor="@color/black"
-        android:textSize="@dimen/twenty_three"
-        android:visibility="gone"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@id/lblchoose"
-        app:layout_constraintTop_toBottomOf="@id/lblchoose">
-
-    </TextView>
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_back_button"
+        android:clickable="true"
+        android:contentDescription="@string/txt_back"
+        android:focusable="true"
+        android:padding="13dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/LayoutCountry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/thirty_five"
-        android:layout_marginTop="@dimen/fourty"
-        android:layout_marginEnd="@dimen/fourty"
-        android:layout_marginBottom="@dimen/ten"
-        android:background="@drawable/bg_black_white_box"
-        app:layout_constraintLeft_toLeftOf="@id/lblCountry"
-        app:layout_constraintTop_toBottomOf="@id/lblCountry">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutDropdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/five"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/lblCountryName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center"
-                android:padding="@dimen/ten"
-                android:text="@string/txt_select_country"
-                android:textAlignment="center"
-                android:textColor="@color/transparent"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="normal"
-                android:visibility="visible"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imgDropdown"
-                android:layout_width="@dimen/twenty_three"
-                android:layout_height="@dimen/twenty_three"
-                android:layout_marginEnd="@dimen/twenty"
-                android:src="@drawable/ic_arrow_down"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/viewLine"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/one"
-            android:background="@color/clr_light_black"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="@id/layoutDropdown"
-            app:layout_constraintTop_toBottomOf="@id/layoutDropdown" />
-
-        <LinearLayout
-            android:id="@+id/lnrRadioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/two"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="@id/viewLine"
-            app:layout_constraintTop_toBottomOf="@id/viewLine">
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/five"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <RadioGroup
-                    android:id="@+id/RadioGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/three" />
-            </ScrollView>
-
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnNext"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/fourty"
-        android:layout_marginBottom="@dimen/eighty"
-        android:layout_marginStart="@dimen/hundred"
-        android:layout_marginEnd="@dimen/hundred"
-        android:enabled="false"
-        android:gravity="center"
-        android:text="Next"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_btn_grey"
+        android:id="@+id/contentPanel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/bg_country_choose_panel"
+        android:paddingStart="16dp"
+        android:paddingTop="30dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="@dimen/twenty"></androidx.appcompat.widget.AppCompatButton>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgCountryLogo"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@drawable/gradit_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblchoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Select Country"
+            android:textColor="@color/clr_light_black"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgCountryLogo" />
+
+        <TextView
+            android:id="@+id/lblCountrySubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Where are you planning to study?"
+            android:textColor="#8A8F98"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblchoose" />
+
+        <TextView
+            android:id="@+id/lblCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/eight"
+            android:text="Country"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twenty_three"
+            android:visibility="gone"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@id/lblCountrySubtitle"
+            app:layout_constraintTop_toBottomOf="@id/lblCountrySubtitle">
+
+        </TextView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/searchContainer"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_search_field_rounded"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblCountry">
+
+            <ImageView
+                android:id="@+id/imgSearchIcon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="14dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_search_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edtSearchCountry"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="Search Country"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:singleLine="true"
+                android:textColor="@color/clr_light_black"
+                android:textColorHint="#8A8F98"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgSearchIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:id="@+id/scrollCountries"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="14dp"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@id/btnNext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchContainer">
+
+            <RadioGroup
+                android:id="@+id/RadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </ScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/bg_btn_grey"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/txtTermsCountry"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTermsCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Terms &amp; Conditions"
+            android:textColor="#8A8F98"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
