@@ -101,8 +101,9 @@ public class ImageSelectActivity extends HelperActivity {
         //  actionBar = getSupportActionBar();
         WindowInsetsControllerCompat insetsController =
                 new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-        insetsController.setAppearanceLightStatusBars(true);
-
+//        insetsController.setAppearanceLightStatusBars(true);
+        insetsController.setAppearanceLightStatusBars(false);
+        insetsController.setAppearanceLightNavigationBars(false);
         limit = 5;
 
         Intent intent = getIntent();

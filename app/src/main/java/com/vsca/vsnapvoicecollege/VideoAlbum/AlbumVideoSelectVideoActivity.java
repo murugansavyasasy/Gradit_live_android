@@ -52,7 +52,9 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
 
         actionBar = getSupportActionBar();
         WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-        insetsController.setAppearanceLightStatusBars(true);
+//        insetsController.setAppearanceLightStatusBars(true);
+        insetsController.setAppearanceLightStatusBars(false);
+        insetsController.setAppearanceLightNavigationBars(false);
 //        if (actionBar != null) {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //            actionBar.setHomeAsUpIndicator(R.drawable

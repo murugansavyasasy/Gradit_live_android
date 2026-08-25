@@ -37,12 +37,15 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
+
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryCreditWiseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()

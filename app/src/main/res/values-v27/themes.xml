@@ -31,6 +31,7 @@
     </style>
 
 
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/transparent</item>
         <item name="colorPrimaryDark">@color/transparent</item>
@@ -75,6 +76,9 @@
         <item name="colorPrimaryDark">@color/clr_principal</item>
         <item name="android:statusBarColor">@color/clr_principal</item>
         <item name="android:navigationBarColor">@color/clr_principal</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+
         <item name="colorAccent">@color/black</item>
 
     </style>
@@ -87,16 +91,22 @@
     <style name="Student" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/clr_receiver</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">@color/clr_receiver</item>
         <item name="android:navigationBarColor">@color/clr_receiver</item>
         <item name="colorAccent">@color/black</item>
     </style>
+
+
 
     <style name="ParentNonTeahingStaff" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/clr_teachingstaff</item>
         <item name="android:statusBarColor">@color/clr_teachingstaff</item>
         <item name="android:navigationBarColor">@color/clr_teachingstaff</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="colorAccent">@color/black</item>
     </style>
 
@@ -105,6 +115,8 @@
         <item name="colorPrimaryDark">@color/clr_parent</item>
         <item name="android:statusBarColor">@color/clr_parent</item>
         <item name="android:navigationBarColor">@color/clr_parent</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="colorAccent">@color/black</item>
     </style>
 
@@ -114,24 +126,10 @@
         <item name="colorPrimaryDark">@color/clr_teachingstaff</item>
         <item name="android:statusBarColor">@color/clr_teachingstaff</item>
         <item name="android:navigationBarColor">@color/clr_teachingstaff</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="colorAccent">@color/black</item>
 
-    </style>
-
-    <style name="CustomProgressBar" parent="android:Widget.ProgressBar.Horizontal">
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/attendanceprogressbar</item>
-        <item name="android:minHeight">10dip</item>
-        <item name="android:maxHeight">20dip</item>
-    </style>
-
-
-    <style name="Header" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/cle_lightorang</item>
-        <item name="android:statusBarColor">@color/cle_lightorang</item>
-        <item name="android:navigationBarColor">@color/cle_lightorang</item>
-        <item name="colorAccent">@color/black</item>
     </style>
 
     <style name="Prinipal_NoActionBar_" parent="Prinipal">
@@ -164,7 +162,23 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CustomProgressBar" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/attendanceprogressbar</item>
+        <item name="android:minHeight">10dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
 
+
+    <style name="Header" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/cle_lightorang</item>
+        <item name="android:statusBarColor">@color/cle_lightorang</item>
+        <item name="android:navigationBarColor">@color/cle_lightorang</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorAccent">@color/black</item>
+    </style>
 
 
     <style name="AppthemeWhitw" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -180,7 +194,7 @@
     </style>
 
     <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
-<!--        <item name="android:textColor">@color/black</item>-->
+        <!--        <item name="android:textColor">@color/black</item>-->
         <item name="android:textColor">@drawable/date_text_color</item>
 
 
@@ -260,7 +274,7 @@
     </style>
 
 
-<!--    New Feature-->
+    <!--    New Feature-->
     <style name="HintTextStyle" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">16sp</item>
     </style>

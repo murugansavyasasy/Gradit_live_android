@@ -91,7 +91,7 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
             view.setPadding(0, systemBars.top, 0, systemBars.bottom)
             insets
         }
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         swipeRefreshLayout = findViewById(R.id.swipyrefreshlayout)

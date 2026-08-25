@@ -97,7 +97,9 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
         WindowInsetsControllerCompat insetsController =
                 new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-        insetsController.setAppearanceLightStatusBars(true);
+//        insetsController.setAppearanceLightStatusBars(true);
+        insetsController.setAppearanceLightStatusBars(false);
+        insetsController.setAppearanceLightNavigationBars(false);
 
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");

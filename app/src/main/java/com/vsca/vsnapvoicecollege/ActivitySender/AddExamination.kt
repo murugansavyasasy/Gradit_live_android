@@ -84,9 +84,10 @@ class AddExamination : ActionBarActivity() {
          ActionbarWithoutBottom(this,hideBackButton=true)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         imgRefresh!!.visibility = View.GONE
 

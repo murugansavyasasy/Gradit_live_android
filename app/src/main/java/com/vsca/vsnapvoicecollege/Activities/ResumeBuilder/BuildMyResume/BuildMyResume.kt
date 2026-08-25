@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Adapters.PickResumeAdapter
 import com.vsca.vsnapvoicecollege.Adapters.PickThemeTemplateColourAdapter
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
@@ -25,12 +26,16 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutBuildmyresumeBinding
+import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 
 
-class BuildMyResume : AppCompatActivity() {
+class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
 
-    var appViewModel: App? = null
-    private lateinit var binding: LayoutBuildmyresumeBinding
+    override var appViewModel: App? = null
+
+    override fun inflateBinding(): LayoutBuildmyresumeBinding {
+        return LayoutBuildmyresumeBinding.inflate(layoutInflater)
+    }
     private var selectedImageItem: GetResumeBuilderThemeTemplateImage? = null
     private lateinit var pickThemeTemplateColourAdapter: PickThemeTemplateColourAdapter
     private lateinit var pickResumeAdapter: PickResumeAdapter
@@ -40,6 +45,7 @@ class BuildMyResume : AppCompatActivity() {
     private var fullData: ResumeContextData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
 
 
@@ -51,7 +57,8 @@ class BuildMyResume : AppCompatActivity() {
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
 
         GetResumeBuilderThemeTemplate()
@@ -263,4 +270,8 @@ class BuildMyResume : AppCompatActivity() {
             Toast.makeText(this, "Some exception occured", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+    override val layoutResourceId: Int
+        get() = R.layout.layout_buildmyresume
 }

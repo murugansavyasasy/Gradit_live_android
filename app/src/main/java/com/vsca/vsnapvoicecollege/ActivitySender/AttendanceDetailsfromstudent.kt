@@ -41,8 +41,9 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
         appViewModel!!.init()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         binding.lblattenSunjectname!!.text=CommonUtil.AttendanceSubjectname

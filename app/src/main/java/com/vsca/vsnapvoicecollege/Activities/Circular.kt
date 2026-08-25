@@ -64,9 +64,10 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
         CommonUtil.OnMenuClicks("Circular")
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         accessBottomViewIcons(

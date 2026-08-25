@@ -82,7 +82,9 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
         WindowInsetsControllerCompat insetsController =
                 new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-        insetsController.setAppearanceLightStatusBars(true);
+//        insetsController.setAppearanceLightStatusBars(true);
+        insetsController.setAppearanceLightStatusBars(false);
+        insetsController.setAppearanceLightNavigationBars(false);
 
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Attendance Report");
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");

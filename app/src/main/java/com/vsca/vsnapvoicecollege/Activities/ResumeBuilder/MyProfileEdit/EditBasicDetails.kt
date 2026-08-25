@@ -34,11 +34,13 @@ import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditbasicdetailsBinding
+import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.IOException
@@ -46,10 +48,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class EditBasicDetails : AppCompatActivity() {
+class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
 
-    private lateinit var viewModel: App
-    private lateinit var binding: LayoutEditbasicdetailsBinding
+    override var appViewModel: App? = null
+
+    override fun inflateBinding(): LayoutEditbasicdetailsBinding {
+        return LayoutEditbasicdetailsBinding.inflate(layoutInflater)
+    }
 
     private val REQUEST_IMAGE_CAPTURE = 101
     private val REQUEST_PICK_IMAGE = 102
@@ -80,16 +85,18 @@ class EditBasicDetails : AppCompatActivity() {
     private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
         binding = LayoutEditbasicdetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         binding.commonBottomResumeBuilder.btnDefault2.text = getString(R.string.update)
-        viewModel = ViewModelProvider(this)[App::class.java]
-        viewModel.init()
+        appViewModel = ViewModelProvider(this)[App::class.java]
+        appViewModel!!.init()
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
         binding.commonBottomResumeBuilder.btnDefault1.setOnClickListener {
             checkForChangesBeforeExit()
@@ -216,7 +223,7 @@ class EditBasicDetails : AppCompatActivity() {
             .error(R.drawable.default_profile)
             .into(binding.imgProfile)
 
-        viewModel.addEditProfileLiveData.observe(this) { response ->
+        appViewModel!!.addEditProfileLiveData.observe(this) { response ->
             Log.d("addEditProfile", "API Response: $response")
             Awsuploadedfile.clear()
             Log.d(
@@ -584,8 +591,11 @@ class EditBasicDetails : AppCompatActivity() {
             addProperty("studentEmail", updatedEmail)
         }
         Log.d("isSaveDataRequest", jsonObject.toString())
-        viewModel.addEditProfile(jsonObject, this@EditBasicDetails)
+        appViewModel!!.addEditProfile(jsonObject, this@EditBasicDetails)
     }
+
+    override val layoutResourceId: Int
+        get() = R.layout.layout_editbasicdetails
 }
 
 

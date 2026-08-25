@@ -24,7 +24,8 @@ class VideoPlay : AppCompatActivity() {
         setContentView(binding.root)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
         val VideoID = intent.getStringExtra("iframe")
 
         if (VideoID != null) {

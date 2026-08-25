@@ -65,9 +65,9 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         ActionbarWithoutBottom(this)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
         Log.d("SelectedDate",CommonUtil.Selecteddata)
 
 

@@ -386,17 +386,17 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
-    fun View.addActionBarMarginIfNeeded() {
-        if (Build.VERSION.SDK_INT >= 35) {
-            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
-            val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
-            typedArray.recycle()
-            (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
-                it.topMargin = actionBarHeight
-                layoutParams = it
-            }
-        }
-    }
+//    fun View.addActionBarMarginIfNeeded() {
+//        if (Build.VERSION.SDK_INT >= 35) {
+//            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+//            val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
+//            typedArray.recycle()
+//            (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+//                it.topMargin = actionBarHeight
+//                layoutParams = it
+//            }
+//        }
+//    }
 
 
     private fun ProfilePopUp(activity: Activity) {

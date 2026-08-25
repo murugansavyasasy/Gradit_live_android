@@ -60,7 +60,8 @@ class FilesViewActivity : AppCompatActivity()  {
 
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
 
         binding.imgBack!!.setOnClickListener {

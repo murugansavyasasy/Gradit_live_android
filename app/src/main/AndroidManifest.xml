@@ -80,7 +80,8 @@
             android:exported="false" />
         <activity
             android:name=".Activities.MobileNumber"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".ActivitySender.Hall_Ticket"
             android:exported="false"

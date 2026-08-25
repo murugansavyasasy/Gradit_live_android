@@ -44,6 +44,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.AttachmentAdapter
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.AttachmentHolder
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.EditSkillSet.AttachmentSource
@@ -56,6 +57,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
+import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -63,8 +65,13 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class EditAcademicDetails : AppCompatActivity() {
+class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
 
+    override var appViewModel: App? = null
+
+    override fun inflateBinding(): LayoutEditacademicdetailsBinding {
+        return LayoutEditacademicdetailsBinding.inflate(layoutInflater)
+    }
 
     private  val PERMISSION_REQUEST_CODE = 1001
     private  val SETTINGS_REQUEST_CODE = 1002
@@ -100,8 +107,7 @@ class EditAcademicDetails : AppCompatActivity() {
 
 
     //
-    private var appViewModel: App? = null
-    private lateinit var binding: LayoutEditacademicdetailsBinding
+
 
     private var originalBacklogs: String = ""
     private var originalArrears: String = ""
@@ -110,6 +116,7 @@ class EditAcademicDetails : AppCompatActivity() {
     private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
         binding = LayoutEditacademicdetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -119,7 +126,8 @@ class EditAcademicDetails : AppCompatActivity() {
 
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         // Hide default icon and update button text
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
@@ -1036,4 +1044,8 @@ private fun dismissUploadDialog() {
             Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
         }
     }
+
+
+    override val layoutResourceId: Int
+        get() = R.layout.layout_editacademicdetails
 }

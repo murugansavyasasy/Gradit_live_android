@@ -75,8 +75,9 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         TabDepartmentColor()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }

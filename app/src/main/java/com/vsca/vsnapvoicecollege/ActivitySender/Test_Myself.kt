@@ -18,7 +18,8 @@ class Test_Myself : AppCompatActivity() {
         setContentView(R.layout.activity_test_myself)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
 
 //        btnUpload!!.setOnClickListener {

@@ -28,11 +28,13 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
         binding = PlacementEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
@@ -75,21 +77,17 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
                         binding.ErrorMessage.visibility=View.GONE
                         binding.rcyHistoricalEvent.visibility=View.VISIBLE
                         isLoadHistoricalData(response.data)
-                        Log.d("AAAAAAAAAAAAAAAAAAAAA","SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 
                     }else{
                         binding.ErrorMessage.visibility=View.VISIBLE
                         binding.rcyHistoricalEvent.visibility=View.GONE
                         binding.ErrorMessage.text=response.message
-                        Log.d("AAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
                     }
                 }
                 else{
                     binding.rcyHistoricalEvent.visibility=View.GONE
                     binding.ErrorMessage.visibility=View.VISIBLE
                     binding.ErrorMessage.text=response.message
-                    Log.d("AAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-
 
                 }
             }

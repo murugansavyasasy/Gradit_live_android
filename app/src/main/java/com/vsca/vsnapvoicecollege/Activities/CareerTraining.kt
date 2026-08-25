@@ -27,6 +27,8 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
+
         super.onCreate(savedInstanceState)
         binding = CareerTrainingBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,7 +36,8 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         appViewModel!!.isPlacementCareerResponse?.observe(this) { response ->
             if (response != null) {

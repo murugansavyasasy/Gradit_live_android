@@ -61,7 +61,8 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
         appViewModel!!.init()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         Assignmnetview = intent.getStringExtra("Assignment")
 

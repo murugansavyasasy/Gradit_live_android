@@ -137,20 +137,20 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        CommonUtil.SetTheme(this)
 
+        super.onCreate(savedInstanceState)
         // Restore requested permissions after rotation
         savedInstanceState?.getStringArrayList(KEY_REQUESTED_PERMS)?.let {
             requestedPermissions.addAll(it)
         }
-
-        CommonUtil.SetTheme(this)
         binding = BottomMenuSwipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ActionBarMethod(this@DashBoardActivityRewamp, true)
-
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+
 
         CommonUtil.OnMenuClicks("Home")
 

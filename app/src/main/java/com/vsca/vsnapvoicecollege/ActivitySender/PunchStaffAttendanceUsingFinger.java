@@ -159,7 +159,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
         WindowInsetsControllerCompat insetsController =
                 new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-        insetsController.setAppearanceLightStatusBars(true);
+//        insetsController.setAppearanceLightStatusBars(true);
+        insetsController.setAppearanceLightStatusBars(false);
+        insetsController.setAppearanceLightNavigationBars(false);
 
         if (CommonUtil.INSTANCE.getMenu_writeMarkAttendance().equals("1")) {
             rytAddLocation.setVisibility(View.VISIBLE);

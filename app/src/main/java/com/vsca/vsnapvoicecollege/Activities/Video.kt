@@ -61,7 +61,8 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         ActionBarMethod(this)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
 
 
@@ -81,7 +82,7 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
 
         binding.CommonLayout.imgAddPlus.setOnClickListener { addVideo() }
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
 

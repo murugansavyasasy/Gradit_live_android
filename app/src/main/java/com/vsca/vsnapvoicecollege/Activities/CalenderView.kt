@@ -17,8 +17,8 @@ class CalenderView : AppCompatActivity() {
         setContentView(R.layout.activity_caleander_view)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         val collapsibleCalendar = findViewById<CollapsibleCalendar>(R.id.calendarView)
 

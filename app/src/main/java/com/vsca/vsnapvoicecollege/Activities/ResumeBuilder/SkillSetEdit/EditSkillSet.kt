@@ -45,6 +45,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderEditAsssessmentDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderEditCertificateDetailsAdapter
@@ -64,6 +65,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditskillsetBinding
+import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -73,7 +75,12 @@ import java.util.Locale
 import kotlin.compareTo
 import kotlin.toString
 
-class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
+class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelectedListener {
+    override var appViewModel: App? = null
+
+    override fun inflateBinding(): LayoutEditskillsetBinding {
+        return LayoutEditskillsetBinding.inflate(layoutInflater)
+    }
 
     private  val PERMISSION_REQUEST_CODE = 1001
     private  val SETTINGS_REQUEST_CODE = 1002
@@ -127,8 +134,7 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
     ///
 
 
-    var appViewModel: App? = null
-    private lateinit var binding: LayoutEditskillsetBinding
+
     var savedSoftSkillsList: List<String> = emptyList()
     var selectedSoftSkillsList: List<String> = emptyList()
     var savedLanguage = ""
@@ -156,6 +162,7 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
         binding = LayoutEditskillsetBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -163,7 +170,8 @@ class EditSkillSet : AppCompatActivity(),OnSoftSkillSelectedListener {
         appViewModel!!.init()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
         savedSoftSkillsList =
@@ -1275,4 +1283,8 @@ private fun dismissUploadDialog() {
             Totalfile = CommonUtil.SelcetedFileList.size.toString()
         }
     }
+
+
+    override val layoutResourceId: Int
+        get() = R.layout.layout_editskillset
 }

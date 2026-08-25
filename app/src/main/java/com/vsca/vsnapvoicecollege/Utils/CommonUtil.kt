@@ -7,6 +7,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
@@ -960,33 +961,82 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
         }).withErrorListener { }.onSameThread().check()
     }
 
-    fun SetTheme(activity: Activity) {
+
+    fun SetTheme(activity: Activity, noActionBar: Boolean = false) {
+
         when (Priority) {
+
             "p1" -> {
-                activity.setTheme(R.style.Prinipal)
+                activity.setTheme(
+                    if (noActionBar) R.style.Prinipal_NoActionBar_
+                    else R.style.Prinipal
+                )
             }
 
             "p2", "p3" -> {
-                activity.setTheme(R.style.Staff)
+                activity.setTheme(
+                    if (noActionBar) R.style.Staff_NoActionBar
+                    else R.style.Staff
+                )
             }
 
             "p4" -> {
-                activity.setTheme(R.style.Student)
+                activity.setTheme(
+                    if (noActionBar) R.style.Student_NoActionBar
+                    else R.style.Student
+                )
             }
 
             "p5" -> {
-                activity.setTheme(R.style.Parent)
+                activity.setTheme(
+                    if (noActionBar) R.style.Parent_NoActionBar
+                    else R.style.Parent
+                )
             }
 
             "p6" -> {
-                activity.setTheme(R.style.ParentNonTeahingStaff)
+                activity.setTheme(
+                    if (noActionBar) R.style.ParentNonTeahingStaff_NoActionBar
+                    else R.style.ParentNonTeahingStaff
+                )
             }
 
             "p7" -> {
-                activity.setTheme(R.style.Header)
+                activity.setTheme(
+                    if (noActionBar) R.style.Header_NoActionBar
+                    else R.style.Header
+                )
             }
         }
     }
+
+//    fun SetTheme(activity: Activity) {
+//        when (Priority) {
+//            "p1" -> {
+//                activity.setTheme(R.style.Prinipal)
+//            }
+//
+//            "p2", "p3" -> {
+//                activity.setTheme(R.style.Staff)
+//            }
+//
+//            "p4" -> {
+//                activity.setTheme(R.style.Student)
+//            }
+//
+//            "p5" -> {
+//                activity.setTheme(R.style.Parent)
+//            }
+//
+//            "p6" -> {
+//                activity.setTheme(R.style.ParentNonTeahingStaff)
+//            }
+//
+//            "p7" -> {
+//                activity.setTheme(R.style.Header)
+//            }
+//        }
+//    }
 
     fun OnBackSetBottomMenuClickTrue() {
 

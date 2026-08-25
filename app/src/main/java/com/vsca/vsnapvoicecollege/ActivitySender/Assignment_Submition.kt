@@ -52,9 +52,10 @@ class Assignment_Submition : ActionBarActivity() {
         setContentView(binding.root)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         appViewModel = ViewModelProvider(this).get(App::class.java)

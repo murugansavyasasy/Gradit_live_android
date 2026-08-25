@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Adapters.AcademicAdapter
 import com.vsca.vsnapvoicecollege.Adapters.CertificateAdapter
 import com.vsca.vsnapvoicecollege.Adapters.InternshipAdapter
@@ -28,10 +29,16 @@ import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.fullResumeData
+import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityBuildmyresumeBinding
+import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 
-class BuildResumeActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityBuildmyresumeBinding
+class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
+    override var appViewModel: App? = null
+
+    override fun inflateBinding(): ActivityBuildmyresumeBinding {
+        return ActivityBuildmyresumeBinding.inflate(layoutInflater)
+    }
     private var selectedAcademicList: List<EducationFormattedData> = emptyList()
     private var languageList: List<String> = emptyList()
     private var softSkillList: List<String> = emptyList()
@@ -54,12 +61,14 @@ class BuildResumeActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
         binding = ActivityBuildmyresumeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         languageAdapter = SkillSetAdapter(languageList) {}
         binding.rvLanguages.layoutManager = LinearLayoutManager(this)
@@ -360,4 +369,6 @@ class BuildResumeActivity : AppCompatActivity() {
         val gson = Gson()
         Log.d("RESUME_JSON", gson.toJson(resumeContext))
     }
+    override val layoutResourceId: Int
+        get() = R.layout.activity_buildmyresume
 }

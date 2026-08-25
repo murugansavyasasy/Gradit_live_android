@@ -48,6 +48,7 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
         binding = ActivitySemesterCreditTableBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -57,7 +58,8 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
         appViewModel!!.init()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         if (CommonUtil.menu_readSemCreditPoints.equals("1")) {
             SemesterType()

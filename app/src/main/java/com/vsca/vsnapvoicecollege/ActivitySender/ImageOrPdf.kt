@@ -91,9 +91,10 @@ class ImageOrPdf: ActionBarActivity() {
         appViewModel!!.init()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
         ActionbarWithoutBottom(this,hideBackButton=true)
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         CommonUtil.SelcetedFileList.clear()
         imgRefresh!!.visibility = View.GONE

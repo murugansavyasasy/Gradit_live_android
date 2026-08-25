@@ -62,8 +62,9 @@ override fun inflateBinding(): SubjectListviewBinding {
         super.onCreate(savedInstanceState)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         appViewModel = ViewModelProvider(this).get(App::class.java)

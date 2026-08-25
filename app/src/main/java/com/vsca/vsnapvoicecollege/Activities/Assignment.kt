@@ -64,8 +64,9 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         appViewModel!!.init()
         ActionBarMethod(this@Assignment)
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
 

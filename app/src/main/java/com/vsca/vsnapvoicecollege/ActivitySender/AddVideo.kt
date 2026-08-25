@@ -101,8 +101,9 @@ class AddVideo : ActionBarActivity() {
         appViewModel!!.init()
          ActionbarWithoutBottom(this,hideBackButton=true)
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         binding.LayoutAdvertisement.setOnClickListener { adclick() }

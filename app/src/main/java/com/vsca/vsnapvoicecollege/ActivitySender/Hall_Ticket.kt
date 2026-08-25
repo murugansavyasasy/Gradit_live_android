@@ -36,6 +36,8 @@ class Hall_Ticket : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
+
         super.onCreate(savedInstanceState)
          binding = ActivityHallTicketBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -46,7 +48,8 @@ class Hall_Ticket : AppCompatActivity() {
         arIndicatorView = findViewById(R.id.ar_indicator)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         appViewModel!!.Hallticket!!.observe(this) { response ->
             if (response != null) {

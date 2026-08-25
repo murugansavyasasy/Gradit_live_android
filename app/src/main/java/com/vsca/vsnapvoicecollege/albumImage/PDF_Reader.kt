@@ -24,7 +24,8 @@ class PDF_Reader : AppCompatActivity() {
         setContentView(com.vsca.vsnapvoicecollege.R.layout.activity_pdf_reader)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         webView = findViewById(com.vsca.vsnapvoicecollege.R.id.web_view)
         imgClose = findViewById(com.vsca.vsnapvoicecollege.R.id.imgClose)

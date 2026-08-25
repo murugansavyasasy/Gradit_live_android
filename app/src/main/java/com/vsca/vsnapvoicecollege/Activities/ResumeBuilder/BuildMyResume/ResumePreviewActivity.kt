@@ -43,12 +43,14 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.CustomSwitch
 import com.vsca.vsnapvoicecollege.Utils.PdfDownloader
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.ActivityBuildmyresumeBinding
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumepreviewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,10 +63,13 @@ import java.net.URL
 import java.net.URLEncoder
 
 
-class ResumePreviewActivity : AppCompatActivity() {
+class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
 
-    var appViewModel: App? = null
-    private lateinit var binding: LayoutResumepreviewBinding
+    override var appViewModel: App? = null
+
+    override fun inflateBinding(): LayoutResumepreviewBinding {
+        return LayoutResumepreviewBinding.inflate(layoutInflater)
+    }
 
     var isMemberID = -1
     var isPDF_URL = ""
@@ -88,6 +93,7 @@ class ResumePreviewActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
         binding = LayoutResumepreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -97,7 +103,8 @@ class ResumePreviewActivity : AppCompatActivity() {
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
 
 
@@ -575,4 +582,7 @@ class ResumePreviewActivity : AppCompatActivity() {
             Toast.makeText(this, "Failed to load PDF", Toast.LENGTH_SHORT).show()
         }
     }
+
+    override val layoutResourceId: Int
+        get() = R.layout.layout_resumepreview
 }

@@ -41,13 +41,16 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
+
         super.onCreate(savedInstanceState)
         binding = CommonRecyclerviewBottomsheetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         accessBottomViewIcons(
             binding,

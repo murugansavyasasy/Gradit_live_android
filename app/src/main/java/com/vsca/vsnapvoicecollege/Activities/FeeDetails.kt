@@ -22,6 +22,8 @@ class FeeDetails : AppCompatActivity() {
     private lateinit var binding: FeeDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
+
         super.onCreate(savedInstanceState)
         binding = FeeDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -33,7 +35,8 @@ class FeeDetails : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white)
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         loadFeeDetails(binding.webviewFeedetails)
     }

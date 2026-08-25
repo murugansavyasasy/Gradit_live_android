@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit.EditAcademicDetails
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildMyResume
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildResumeActivity
@@ -56,18 +57,23 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
+import com.vsca.vsnapvoicecollege.databinding.PlacementEventBinding
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 
 
-class ResumeBuilder : AppCompatActivity() {
+class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>(){
+
+    override var appViewModel: App? = null
+
+    override fun inflateBinding(): LayoutResumebuilderBinding {
+        return LayoutResumebuilderBinding.inflate(layoutInflater)
+    }
     var isMemeberId = 0
     private val isEducationItem = mutableListOf<GetEducationalDetailsData>()
     var isSkillSetData: GetResumeBuilderSkillSetDetailsData? = null
     var eduList: List<GetEducationalDetailsData> = emptyList()
-    var appViewModel: App? = null
-    private lateinit var binding: LayoutResumebuilderBinding
     val SELECT_PDF = 8778
     private var savedResumeList: List<GetResumeTitleData> = emptyList()
 
@@ -76,13 +82,14 @@ class ResumeBuilder : AppCompatActivity() {
     var PDFTempFileWrite: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonUtil.SetTheme(this, noActionBar = true)
         super.onCreate(savedInstanceState)
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-
         binding = LayoutResumebuilderBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
@@ -727,4 +734,9 @@ class ResumeBuilder : AppCompatActivity() {
             Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+    override val layoutResourceId: Int
+        get() = R.layout.layout_resumebuilder
+
 }
