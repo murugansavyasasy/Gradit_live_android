@@ -579,7 +579,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     private fun IntentToChangeRole(activity: Activity) {
-        val i = Intent(activity, LoginRoles::class.java)
+        val i = Intent(activity, LoginRolesRewamp::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         activity.startActivity(i)
     }

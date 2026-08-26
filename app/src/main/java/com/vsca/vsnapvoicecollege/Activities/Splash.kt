@@ -216,7 +216,7 @@ class Splash : AppCompatActivity() {
                         Log.d("LoginDataSize", LoginData.size.toString())
                         if (LoginData.size > 1) {
 
-                            val i = Intent(this@Splash, LoginRoles::class.java)
+                            val i = Intent(this@Splash, LoginRolesRewamp::class.java)
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(i)

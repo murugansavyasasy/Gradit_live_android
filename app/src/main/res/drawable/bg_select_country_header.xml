@@ -1,13 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Global Auth screens header background:
+  Exact Figma multi-tonal mesh gradient:
+  Luminous Sky-Blue (left) -> Whisper-Soft Periwinkle (middle) -> Airy Cyan-Ice (right).
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+    <!-- Layer 1: Soft luminous sky-blue base diagonal foundation -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="135"
+                android:startColor="#5EA8FF"
+                android:centerColor="#669DFF"
+                android:endColor="#A2DEFF"
+                android:type="linear" />
+        </shape>
+    </item>
 
-    <gradient
-        android:angle="0"
-        android:startColor="#76A8F9"
-        android:centerColor="#7BB7FB"
-        android:endColor="#7AD5EE" />
+    <!-- Layer 2: Header horizontal flow with delicate periwinkle transition -->
+    <item android:height="220dp" android:gravity="top">
+        <shape>
+            <gradient
+                android:angle="0"
+                android:startColor="#5EA8FF"
+                android:centerColor="#6893FF"
+                android:endColor="#88D4FF"
+                android:type="linear" />
+        </shape>
+    </item>
 
-</shape>
+    <!-- Layer 3: Ultra-soft ambient periwinkle glow in the center (subtle, airy, no harsh spot) -->
+    <item android:height="220dp" android:gravity="top">
+        <shape>
+            <gradient
+                android:centerX="0.48"
+                android:centerY="0.25"
+                android:gradientRadius="260dp"
+                android:startColor="#256B7FFE"
+                android:endColor="#00000000"
+                android:type="radial" />
+        </shape>
+    </item>
+
+    <!-- Layer 4: Upper-right luminous cyan-ice ambient highlight -->
+    <item android:height="200dp" android:gravity="top|end">
+        <shape>
+            <gradient
+                android:centerX="0.85"
+                android:centerY="0.18"
+                android:gradientRadius="220dp"
+                android:startColor="#509DE5FF"
+                android:endColor="#00000000"
+                android:type="radial" />
+        </shape>
+    </item>
+
+</layer-list>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+
+<!--<shape-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:shape="rectangle">-->
+
+<!--    <gradient-->
+<!--        android:angle="0"-->
+<!--        android:startColor="#76A8F9"-->
+<!--        android:centerColor="#7BB7FB"-->
+<!--        android:endColor="#7AD5EE" />-->
+
+<!--</shape>-->

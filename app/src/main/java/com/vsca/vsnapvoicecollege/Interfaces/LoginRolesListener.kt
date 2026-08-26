@@ -5,5 +5,4 @@ import com.vsca.vsnapvoicecollege.Model.LoginDetails
 
 interface LoginRolesListener {
     fun onroleClick(holder: LoginChooseRoles.MyViewHolder, data: LoginDetails)
-
 }

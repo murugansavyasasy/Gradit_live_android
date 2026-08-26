@@ -132,7 +132,7 @@
         <activity
             android:name=".Activities.Splash"
             android:exported="true"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/Auth_NoActionBar_" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -151,6 +151,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".Activities.LoginRolesRewamp"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Auth_White_NoActionBar_"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
         <activity
             android:name=".Activities.DashBoardActivityRewamp"
             android:exported="false"
