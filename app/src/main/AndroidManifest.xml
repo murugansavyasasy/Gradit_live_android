@@ -79,8 +79,22 @@
             android:name=".Activities.Otp"
             android:exported="false" />
         <activity
+            android:name=".Activities.OtpRewamp"
+            android:theme="@style/Auth_NoActionBar_"
+            android:exported="false" />
+        <activity
             android:name=".Activities.MobileNumber"
             android:exported="false"
+            />
+        <activity
+            android:name=".Activities.LoginRewamp"
+            android:exported="false"
+            />
+        <activity
+            android:name=".Activities.MobileNumberRewamp"
+            android:exported="false"
+            android:theme="@style/Auth_NoActionBar_"
+
             />
         <activity
             android:name=".ActivitySender.Hall_Ticket"

@@ -3,6 +3,7 @@ package com.vsca.vsnapvoicecollege.Utils
 
 import android.app.Activity
 import android.content.Context
+import com.vsca.vsnapvoicecollege.Model.CountryDetails
 
 object SharedPreference {
 
@@ -10,6 +11,8 @@ object SharedPreference {
     const val SH_TermsConditionsPref = "TermsConditions"
     const val SH_Agreed = "Agreed"
     const val SH_Baseurl = "baseurl"
+    const val SH_CodeCountry = "codecountry"
+    const val SH_IdApplication = "idapplication"
     const val SH_Countryid = "Countryid"
     const val SH_Country = "country"
     const val SH_Mobilelength = "mobilenumberlen"
@@ -53,7 +56,9 @@ object SharedPreference {
         countryID: String?,
         country: String?,
         mobilelength: String?,
-        baseurl: String?
+        baseurl: String?,
+        codecountry: String?,
+        idapplication: Int?
     ) {
         val sharepref = activity.getSharedPreferences(SH_TermsConditionsPref, 0)
         val ed = sharepref.edit()
@@ -61,9 +66,27 @@ object SharedPreference {
         ed.putString(SH_Countryid, countryID)
         ed.putString(SH_Mobilelength, mobilelength)
         ed.putString(SH_Baseurl, baseurl)
+        ed.putString(SH_CodeCountry, codecountry)
+        ed.putString(SH_IdApplication, idapplication.toString())
         ed.apply()
         ed.commit()
         return
+    }
+
+    fun getCountryDetails(activity: Activity): CountryDetails {
+        val sharedPref = activity.getSharedPreferences(
+            SH_TermsConditionsPref,
+            Context.MODE_PRIVATE
+        )
+
+        return CountryDetails().apply {
+            countryid = sharedPref.getString(SH_Countryid, "0")?.toIntOrNull() ?: 0
+            country = sharedPref.getString(SH_Country, "")
+            mobilenumberlen = sharedPref.getString(SH_Mobilelength, "")
+            baseurl = sharedPref.getString(SH_Baseurl, "")
+            countyCode = sharedPref.getString(SH_CodeCountry, "")
+            idapplication = sharedPref.getString(SH_IdApplication, "0")?.toIntOrNull() ?: 0
+        }
     }
 
     fun putVersionCheckData(

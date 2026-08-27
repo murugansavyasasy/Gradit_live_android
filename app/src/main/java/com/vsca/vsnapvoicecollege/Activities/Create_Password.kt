@@ -53,7 +53,7 @@ class Create_Password : AppCompatActivity() {
                     dlg.setMessage(message)
                     dlg.setPositiveButton(CommonUtil.OK) { dialog, which ->
 
-                        val intents = Intent(this, Login::class.java)
+                        val intents = Intent(this, LoginRewamp::class.java)
                         intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         intents.putExtra("MobileNumber", CommonUtil.MobileNUmber)

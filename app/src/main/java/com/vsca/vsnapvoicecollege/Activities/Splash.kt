@@ -253,9 +253,8 @@ class Splash : AppCompatActivity() {
             jsonObject.addProperty(ApiRequestNames.Req_password, password)
             authViewModel!!.login(jsonObject, this@Splash)
         } else {
-            val i = Intent(this@Splash, MobileNumber::class.java)
+            val i = Intent(this@Splash, MobileNumberRewamp::class.java)
             startActivity(i)
-            finishAffinity()
         }
     }
 
@@ -495,8 +494,10 @@ class Splash : AppCompatActivity() {
             val countryID = countryid.toString()
             val countryname = list.country
             val mobilelength = list.mobilenumberlen
+            val codecountry = list.countyCode
+            val idapplication = list.idapplication
             SharedPreference.putCountryDetails(
-                this@Splash, countryID, countryname, mobilelength, BASE_URL
+                this@Splash, countryID, countryname, mobilelength, BASE_URL,codecountry,idapplication
             )
             RestClient.changeApiBaseUrl(BASE_URL)
             countryPopup!!.dismiss()

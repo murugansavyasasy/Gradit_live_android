@@ -283,7 +283,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                     profilePopup = null
                     popupWebview = null
                     changePassword = null
-                    val i = Intent(activity, Login::class.java)
+                    val i = Intent(activity, LoginRewamp::class.java)
                     startActivity(i)
                     finishAffinity()
                 }
@@ -825,7 +825,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 CommonUtil.SectionId = ""
                 CommonUtil.MobileNUmber = ""
                 CommonUtil.isParentEnable = ""
-                val i = Intent(activity, MobileNumber::class.java)
+                val i = Intent(activity, MobileNumberRewamp::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 activity.startActivity(i)
                 activity.finish()

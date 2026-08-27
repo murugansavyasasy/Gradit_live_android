@@ -107,21 +107,21 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
             val profiles = groupedMap[priority]
             if (!profiles.isNullOrEmpty()) {
 
-                val title = when {
-                    profiles.first().loginas?.contains("Principal", ignoreCase = true) == true -> "Principal"
-                    profiles.first().loginas?.contains("Student", ignoreCase = true) == true   -> "Student"
-                    profiles.first().loginas?.contains("Staff", ignoreCase = true) == true     -> "Staff"
-                    profiles.first().loginas?.contains("Parent", ignoreCase = true) == true    -> "Parent"
-                    profiles.first().loginas?.contains("HOD", ignoreCase = true) == true       -> "HOD"
-                    profiles.first().loginas?.contains("Non", ignoreCase = true) == true       -> "Non Teaching Staff"
-                    profiles.first().loginas?.contains("University", ignoreCase = true) == true -> "University Head"
-                    else -> profiles.first().loginas ?: "Other"
-                }
+//                val title = when {
+//                    profiles.first().loginas?.contains("Principal", ignoreCase = true) == true -> "Principal"
+//                    profiles.first().loginas?.contains("Student", ignoreCase = true) == true   -> "Student"
+//                    profiles.first().loginas?.contains("Staff", ignoreCase = true) == true     -> "Staff"
+//                    profiles.first().loginas?.contains("Parent", ignoreCase = true) == true    -> "Parent"
+//                    profiles.first().loginas?.contains("HOD", ignoreCase = true) == true       -> "HOD"
+//                    profiles.first().loginas?.contains("Non", ignoreCase = true) == true       -> "Non Teaching Staff"
+//                    profiles.first().loginas?.contains("University", ignoreCase = true) == true -> "University Head"
+//                    else -> profiles.first().loginas ?: "Other"
+//                }
 
                 result.add(
                     ProfileGroup(
                         priority = priority!!,
-                        title = title,
+                        title = profiles.firstOrNull()?.loginas?:"",
                         count = profiles.size,
                         isExpanded = true,
                         profile = ArrayList(profiles)

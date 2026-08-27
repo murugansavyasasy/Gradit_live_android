@@ -195,7 +195,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
                 CommonUtil.SemesterId = ""
                 CommonUtil.SectionId = ""
                 CommonUtil.isParentEnable = ""
-                val i = Intent(activity, Login::class.java)
+                val i = Intent(activity, LoginRewamp::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 activity.startActivity(i)
                 activity.finish()
@@ -310,7 +310,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
             CommonUtil.SemesterId = ""
             CommonUtil.SectionId = ""
             CommonUtil.isParentEnable = ""
-            val i = Intent(activity, Login::class.java)
+            val i = Intent(activity, LoginRewamp::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(i)
             activity.finish()
