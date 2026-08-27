@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +21,11 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 
 import com.vsca.vsnapvoicecollege.databinding.OtpRewampBinding
 import android.os.CountDownTimer
+import android.text.InputFilter
+import android.text.InputType
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 
 class OtpRewamp : AppCompatActivity() {
@@ -92,15 +97,6 @@ class OtpRewamp : AppCompatActivity() {
             binding.llHelplineNumbers.addView(textView)
         }
 
-//        if (CommonUtil.ivrnumbers.isNotEmpty()) {
-//            binding.txtHelpline!!.text = CommonUtil.ivrnumbers[0]
-//        }
-
-//        binding.lnrDialhelpline!!.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_DIAL)
-//            intent.data = Uri.parse("tel:" + CommonUtil.ivrnumbers[0])
-//            startActivity(intent)
-//        }
         var countryDetails = SharedPreference.getCountryDetails(this)
 
         val mobileNumber = if (CommonUtil.MobileNUmber.isNotEmpty()) {
@@ -121,94 +117,165 @@ class OtpRewamp : AppCompatActivity() {
 
 
 
+        val otpFilter = arrayOf(
+            InputFilter.LengthFilter(1)
+        )
+
+        binding.txtOtp1.filters = otpFilter
+        binding.txtOtp2.filters = otpFilter
+        binding.txtOtp3.filters = otpFilter
+        binding.txtOtp4.filters = otpFilter
+
+        binding.txtOtp1.inputType = InputType.TYPE_CLASS_NUMBER
+        binding.txtOtp2.inputType = InputType.TYPE_CLASS_NUMBER
+        binding.txtOtp3.inputType = InputType.TYPE_CLASS_NUMBER
+        binding.txtOtp4.inputType = InputType.TYPE_CLASS_NUMBER
+
+
         if (Allow) {
-            binding.txtOtp1!!.addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    // TODO Auto-generated method stub
-                    if (binding.txtOtp1!!.text.toString().isNotEmpty()) //size as per your requirement
-                    {
-                        opt_1 = binding.txtOtp1!!.text.toString()
-                        binding.txtOtp2!!.requestFocus()
+
+            binding.txtOtp1.addTextChangedListener(object : TextWatcher {
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                    if (!s.isNullOrEmpty()) {
+                        opt_1 = s.toString()
+                        binding.txtOtp2.requestFocus()
                     }
                 }
 
-                override fun beforeTextChanged(
-                    s: CharSequence, start: Int, count: Int, after: Int
-                ) {
-                    // TODO Auto-generated method stub
-                }
-
-                override fun afterTextChanged(s: Editable) {
-                    // TODO Auto-generated method stub
-                }
+                override fun afterTextChanged(s: Editable?) {}
             })
 
-            binding.txtOtp2!!.addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    // TODO Auto-generated method stub
-                    if (binding.txtOtp2!!.text.toString().isNotEmpty()) //size as per your requirement
-                    {
-                        opt_2 = binding.txtOtp2!!.text.toString()
-                        binding.txtOtp3!!.requestFocus()
+
+            binding.txtOtp2.addTextChangedListener(object : TextWatcher {
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                    if (!s.isNullOrEmpty()) {
+                        opt_2 = s.toString()
+                        binding.txtOtp3.requestFocus()
                     }
                 }
 
-                override fun beforeTextChanged(
-                    s: CharSequence, start: Int, count: Int, after: Int
-                ) {
-                    // TODO Auto-generated method stub
-                }
-
-                override fun afterTextChanged(s: Editable) {
-                    // TODO Auto-generated method stub
+                override fun afterTextChanged(s: Editable?) {
+                    if (s.isNullOrEmpty()) {
+                        binding.txtOtp1.requestFocus()
+                    }
                 }
             })
 
-            binding.txtOtp3!!.addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    // TODO Auto-generated method stub
-                    if (binding.txtOtp3!!.text.toString().isNotEmpty()) //size as per your requirement
-                    {
-                        opt_3 = binding.txtOtp3!!.text.toString()
-                        binding.txtOtp4!!.requestFocus()
+
+            binding.txtOtp3.addTextChangedListener(object : TextWatcher {
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                    if (!s.isNullOrEmpty()) {
+                        opt_3 = s.toString()
+                        binding.txtOtp4.requestFocus()
                     }
                 }
 
-                override fun beforeTextChanged(
-                    s: CharSequence, start: Int, count: Int, after: Int
-                ) {
-                    // TODO Auto-generated method stub
-                }
-
-                override fun afterTextChanged(s: Editable) {
-                    // TODO Auto-generated method stub
+                override fun afterTextChanged(s: Editable?) {
+                    if (s.isNullOrEmpty()) {
+                        binding.txtOtp2.requestFocus()
+                    }
                 }
             })
 
-            binding.txtOtp4!!.addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    // TODO Auto-generated method stub
-                    if (binding.txtOtp4!!.text.toString().isNotEmpty()) //size as per your requirement
-                    {
-                        opt_4 = binding.txtOtp4!!.text.toString()
-                        output = opt_1 + opt_2 + opt_3 + opt_4
+            binding.txtOtp4.addTextChangedListener(object : TextWatcher {
 
-                        if (Allow) {
-                            VerifiedOtp()
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                    if (!s.isNullOrEmpty()) {
+                        opt_4 = s.toString()
+                        if (
+                            binding.txtOtp1.text.length == 1 &&
+                            binding.txtOtp2.text.length == 1 &&
+                            binding.txtOtp3.text.length == 1 &&
+                            binding.txtOtp4.text.length == 1
+                        ) {
+                            val imm = getSystemService(INPUT_METHOD_SERVICE)
+                                    as InputMethodManager
+
+                            imm.hideSoftInputFromWindow(
+                                binding.txtOtp4.windowToken,
+                                0
+                            )
                         }
                     }
                 }
 
-                override fun beforeTextChanged(
-                    s: CharSequence, start: Int, count: Int, after: Int
-                ) {
-                    // TODO Auto-generated method stub
-                }
-
-                override fun afterTextChanged(s: Editable) {
-                    // TODO Auto-generated method stub
+                override fun afterTextChanged(s: Editable?) {
+                    if (s.isNullOrEmpty()) {
+                        binding.txtOtp3.requestFocus()
+                    }
                 }
             })
+
+
+        }
+
+        binding.btnVerifyContinue.setOnClickListener {
+
+            val otp1 = binding.txtOtp1.text.toString().trim()
+            val otp2 = binding.txtOtp2.text.toString().trim()
+            val otp3 = binding.txtOtp3.text.toString().trim()
+            val otp4 = binding.txtOtp4.text.toString().trim()
+
+            if (otp1.isEmpty() || otp2.isEmpty() || otp3.isEmpty() || otp4.isEmpty()) {
+                Toast.makeText(this, "Please enter the complete OTP", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            output = otp1 + otp2 + otp3 + otp4
+
+            VerifiedOtp()
         }
 
         appViewModel!!.VerifyOtp!!.observe(this) { response ->

@@ -1,34 +1,113 @@
 {
   "project_info": {
-    "project_number": "21504181603",
-    "project_id": "graditnew-78f66",
-    "storage_bucket": "graditnew-78f66.appspot.com"
+    "project_number": "838552681344",
+    "project_id": "rguhs-cd0d3",
+    "storage_bucket": "rguhs-cd0d3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:21504181603:android:64f2b7ae4428d4edb4bf56",
+        "mobilesdk_app_id": "1:838552681344:android:565c03b17e66ceafd6df65",
         "android_client_info": {
-          "package_name": "com.vsca.vsnapvoicecollege"
+          "package_name": "com.sszy.rghs"
         }
       },
       "oauth_client": [
         {
-          "client_id": "21504181603-eso8p3lcl9cmick53pdf3vqpj620tnca.apps.googleusercontent.com",
+          "client_id": "838552681344-s52839d83g3lj2pp3gkq3b3n68ggudo5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDex2GYKI7lj2fmmVl2MST6Hm1YTzWpZG4"
+          "current_key": "AIzaSyCq7Of103KSNhupZtKsjCjLrllVdjge9Jk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "21504181603-eso8p3lcl9cmick53pdf3vqpj620tnca.apps.googleusercontent.com",
+              "client_id": "838552681344-s52839d83g3lj2pp3gkq3b3n68ggudo5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "838552681344-1j3kuvfaq9v4tvt86mle3l6ou57plbkj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rguhsi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838552681344:android:92fe7f606f6775ccd6df65",
+        "android_client_info": {
+          "package_name": "com.vsca.vsnapvoicecollege"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838552681344-s52839d83g3lj2pp3gkq3b3n68ggudo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq7Of103KSNhupZtKsjCjLrllVdjge9Jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838552681344-s52839d83g3lj2pp3gkq3b3n68ggudo5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "838552681344-1j3kuvfaq9v4tvt86mle3l6ou57plbkj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rguhsi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838552681344:android:def7b26bf12c67fcd6df65",
+        "android_client_info": {
+          "package_name": "pkg.vs.schoolsdemo.voicensapschoolsdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838552681344-s52839d83g3lj2pp3gkq3b3n68ggudo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq7Of103KSNhupZtKsjCjLrllVdjge9Jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838552681344-s52839d83g3lj2pp3gkq3b3n68ggudo5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "838552681344-1j3kuvfaq9v4tvt86mle3l6ou57plbkj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rguhsi"
+              }
             }
           ]
         }
