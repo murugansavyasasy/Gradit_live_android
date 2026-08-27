@@ -35,7 +35,7 @@
         android:layout_toStartOf="@id/notification_icon"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="This is a new message from your school"
+        android:text="This is a new message from your collage"
         android:textColor="@color/black"
         android:textSize="@dimen/thirteen_sp"
         android:textStyle="normal" />

@@ -1,4 +1,4 @@
-package com.vs.schoolmessenger.FCM
+package com.vsca.vsnapvoicecollege.FCM
 
 import android.annotation.SuppressLint
 import android.app.NotificationManager
@@ -17,6 +17,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
@@ -79,8 +80,14 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
+
         binding = NotificationCallScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
 
         val notificationId = intent.getIntExtra("notification_id", -1)
         isEmergency = intent.getStringExtra("isEmergencyCall")
@@ -233,21 +240,21 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
         val launchSource = intent.getStringExtra("launch_source")
 
         Log.d("Intent", "values received")
-        voiceUrl = intent.getStringExtra("isVoiceUrlNotifi")
-        welcomeUrl = intent.getStringExtra("isWelcomeUrlNotifi")
+        voiceUrl = intent.getStringExtra("url")
+        welcomeUrl = intent.getStringExtra("welcome")
         notificationId = intent.getIntExtra("notification_id", -1)
 
-        school_name = intent.getStringExtra(school_name)
-        member_name = intent.getStringExtra(member_name)
-        call_title = intent.getStringExtra(call_title)
+        school_name = intent.getStringExtra("school_name")
+        member_name = intent.getStringExtra("member_name")
+        call_title = intent.getStringExtra("call_title")
 
-        ei1 = intent.getStringExtra(ei1)
-        ei2 = intent.getStringExtra(ei2)
-        ei3 = intent.getStringExtra(ei3)
-        ei4 = intent.getStringExtra(ei4)
-        ei5 = intent.getStringExtra(ei5)
+        ei1 = intent.getStringExtra("ei1")
+        ei2 = intent.getStringExtra("ei2")
+        ei3 = intent.getStringExtra("ei3")
+        ei4 = intent.getStringExtra("ei4")
+        ei5 = intent.getStringExtra("ei5")
         receiver_id = intent.getStringExtra("isReceiverId")
-        retrycount = intent.getStringExtra(retrycount)
+        retrycount = intent.getStringExtra("retry_count")
         circular_id = intent.getStringExtra("circularId")
         isEmergency = intent.getStringExtra("isEmergencyCall")
         school_logo = intent.getStringExtra("school_logo")
@@ -258,10 +265,10 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
         Glide.with(this)
             .load(
                 if (!school_logo.isNullOrEmpty()) school_logo
-                else R.drawable.gradit_logo
+                else R.drawable.graditlogo
             )
-            .placeholder(R.drawable.gradit_logo)
-            .error(R.drawable.gradit_logo)
+            .placeholder(R.drawable.graditlogo)
+            .error(R.drawable.graditlogo)
             .into(binding.logoImage)
 
         binding.lblSchoolName.text = school_name
@@ -340,8 +347,11 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
         binding.lytDecline.visibility = View.GONE
         binding.rytCutCll.visibility = View.VISIBLE
 
-        if (mediaPlayer!!.isPlaying) {
-            mediaPlayer!!.stop()
+        // FIX: Use ?. instead of !!
+        mediaPlayer?.let {
+            if (it.isPlaying) {
+                it.stop()
+            }
         }
 
         totalElapsed = 0
@@ -508,12 +518,15 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
     }
 
     private fun endCallWithoutListening() {
-        if (mediaPlayer!!.isPlaying) mediaPlayer!!.stop()
+        // FIX: Use ?. instead of !!
+        mediaPlayer?.let {
+            if (it.isPlaying) it.stop()
+        }
+
         isStartTime = getNow()
         isEndTime = isStartTime
         updateNotificationCallLog(isStartTime!!, isEndTime!!)
     }
-
 
     private val missedCallRunnable = Runnable {
 
@@ -644,10 +657,10 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
         val notification =
             NotificationCompat.Builder(
                 this,
-                "notification_school_chimes"
+                "notification_collage"
             )
                 .setSmallIcon(android.R.drawable.sym_call_missed)
-                .setContentTitle("Missed School Announcement")
+                .setContentTitle("Missed Collage Announcement")
                 .setContentText(call_title ?: "Missed Announcement")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)

@@ -1,4 +1,4 @@
-package com.vs.schoolmessenger.FCM
+package com.vsca.vsnapvoicecollege.FCM
 
 import android.content.Context
 import android.util.Log

@@ -1,11 +1,11 @@
-package com.vs.schoolmessenger.FCM
+package com.vsca.vsnapvoicecollege.FCM
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
-import com.vs.schoolmessenger.FCM.AnnouncementStatusManager.sendStatus
+import com.vsca.vsnapvoicecollege.FCM.AnnouncementStatusManager.sendStatus
 
 class DismissReceiver : BroadcastReceiver() {
 

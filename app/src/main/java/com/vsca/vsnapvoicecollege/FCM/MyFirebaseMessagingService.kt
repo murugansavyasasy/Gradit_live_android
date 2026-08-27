@@ -22,10 +22,6 @@ import androidx.core.app.Person
 import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.vs.schoolmessenger.FCM.DismissReceiver
-import com.vs.schoolmessenger.FCM.NotificationCallScreen
-import com.vs.schoolmessenger.FCM.NotificationDismissService
-import com.vs.schoolmessenger.FCM.RingtonePlayer
 import com.vsca.vsnapvoicecollege.Activities.Splash
 import com.vsca.vsnapvoicecollege.R
 import org.json.JSONObject
@@ -68,9 +64,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val type = remoteMessage.data["type"] ?: "normal"
         val isVoiceUrl = remoteMessage.data["url"] ?: "normal"
         val isWelcomeUrl = remoteMessage.data["welcome"] ?: "normal"
-        val imageUrl = remoteMessage.data["imageurl"] ?: "Default"
+        val imageUrl = remoteMessage.data["image_url"] ?: "Default"
         val msgId =
-            remoteMessage.data["id"] ?: ""  // Separate top-level msg_id from payload
+            remoteMessage.data["msg_id"] ?: ""  // Separate top-level msg_id from payload
         var msgInfo: String? = null
         Log.d("isNotificationType", remoteMessage.data["type"].toString())
         if (!type.equals("isCall")) {
@@ -78,9 +74,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             msgInfo = remoteMessage.data["msg_info"] ?: ""
         }
 
-        val receiver_id = remoteMessage.data["receiverid"] ?: ""
+        val receiver_id = remoteMessage.data["receiver_id"] ?: ""
         val circular_id = remoteMessage.data["circular_id"] ?: ""
-        val retrycount = remoteMessage.data["retrycount"] ?: ""
+        val retrycount = remoteMessage.data["retry_count"] ?: ""
         val ei1 = remoteMessage.data["ei1"] ?: ""
         val ei2 = remoteMessage.data["ei2"] ?: ""
         val ei3 = remoteMessage.data["ei3"] ?: ""
@@ -141,15 +137,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         retrycount
                     )
                 }
-
-
             } else {
 
                 val json = JSONObject(msgInfo)
                 val menuId = json.optString("menu_id")
                 val menuName = json.optString("menu_name")
                 val receiver_type = json.optString("receiver_type")
-                val receiver_id = json.optString("receiverid")
+                val receiver_id = json.optString("receiver_id")
                 val header_id = json.optString("header_id")
                 val institute_id = json.optString("institute_id")
                 sendNotification(
@@ -242,20 +236,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             putExtra("menu_name", title)
             putExtra("isNotificationId", "")
             putExtra("isReceiverId", receiver_id)
-            putExtra(retrycount, retrycount)
+            putExtra("retry_count", retrycount)
             putExtra("circularId", circular_id)
-            putExtra(ei1, ei1)
-            putExtra(ei2, ei2)
-            putExtra(ei3, ei3)
-            putExtra(ei4, ei4)
-            putExtra(ei5, ei5)
-            putExtra(role, role)
+            putExtra("ei1", ei1)
+            putExtra("ei2", ei2)
+            putExtra("ei3", ei3)
+            putExtra("ei4", ei4)
+            putExtra("ei5", ei5)
+            putExtra("role", role)
             putExtra("menuId", "")
-            putExtra(school_name, school_name)
-            putExtra(member_name, member_name)
-            putExtra(call_title, call_title)
-            putExtra("isVoiceUrlNotifi", isVoiceUrl)
-            putExtra("isWelcomeUrlNotifi", isWelcomeUrl)
+            putExtra("school_name", school_name)
+            putExtra("member_name", member_name)
+            putExtra("call_title", call_title)
+            putExtra("url", isVoiceUrl)
+            putExtra("welcome", isWelcomeUrl)
             putExtra("isEmergencyCall", isEmergency)
             putExtra("notification_id", 1001)
             putExtra("launch_source", "ANSWER")
@@ -440,20 +434,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             NotificationCallScreen::class.java
         ).apply {
             putExtra("menu_name", title)
-            putExtra("id", "")
+            putExtra("isNotificationId", "")
             putExtra("isReceiverId", receiver_id)
-            putExtra(retrycount, retrycount)
+            putExtra("retry_count", retrycount)
             putExtra("circularId", circular_id)
-            putExtra(ei1, ei1)
-            putExtra(ei2, ei2)
-            putExtra(ei3, ei3)
-            putExtra(ei4, ei4)
-            putExtra(ei5, ei5)
-            putExtra(role, role)
+            putExtra("ei1", ei1)
+            putExtra("ei2", ei2)
+            putExtra("ei3", ei3)
+            putExtra("ei4", ei4)
+            putExtra("ei5", ei5)
+            putExtra("role", role)
             putExtra("menuId", "")
-            putExtra(school_name, school_name)
-            putExtra(member_name, member_name)
-            putExtra(call_title, call_title)
+            putExtra("school_name", school_name)
+            putExtra("member_name", member_name)
+            putExtra("call_title", call_title)
             putExtra("url", isVoiceUrl)
             putExtra("welcome", isWelcomeUrl)
             putExtra("notification_id", 1001)
@@ -469,7 +463,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             NotificationCallScreen::class.java
         ).apply {
             putExtra("menu_name", title)
-            putExtra("id", "")
+            putExtra("isNotificationId", "")
             putExtra("isReceiverId", receiver_id)
             putExtra("retry_count", retrycount)
             putExtra("circularId", circular_id)
@@ -516,18 +510,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 putExtra("menu_name", title)
                 putExtra("isNotificationId", "")
                 putExtra("isReceiverId", receiver_id)
-                putExtra(retrycount, retrycount)
+                putExtra("retry_count", retrycount)
                 putExtra("circularId", circular_id)
-                putExtra(ei1, ei1)
-                putExtra(ei2, ei2)
-                putExtra(ei3, ei3)
-                putExtra(ei4, ei4)
-                putExtra(ei5, ei5)
-                putExtra(role, role)
+                putExtra("ei1", ei1)
+                putExtra("ei2", ei2)
+                putExtra("ei3", ei3)
+                putExtra("ei4", ei4)
+                putExtra("ei5", ei5)
+                putExtra("role", role)
                 putExtra("menuId", "")
-                putExtra(school_name, school_name)
-                putExtra(member_name, member_name)
-                putExtra(call_title, call_title)
+                putExtra("school_name", school_name)
+                putExtra("member_name", member_name)
+                putExtra("call_title", call_title)
                 putExtra("url", isVoiceUrl)
                 putExtra("welcome", isWelcomeUrl)
                 putExtra("notification_id", 1001)
@@ -555,7 +549,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notification =
             NotificationCompat.Builder(
                 this,
-                "notification_school_chimes"
+                "notification_collage"
             )
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("Important announcement from your school")
@@ -718,29 +712,29 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         ).apply {
 
             putExtra("menu_name", title)
-            putExtra("id", "")
+            putExtra("isNotificationId", "")
             putExtra("isReceiverId", receiver_id)
-            putExtra(retrycount, retrycount)
+            putExtra("retry_count", retrycount)
             putExtra("circularId", circular_id)
-            putExtra(ei1, ei1)
-            putExtra(ei2, ei2)
-            putExtra(ei3, ei3)
-            putExtra(ei4, ei4)
-            putExtra(ei5, ei5)
-            putExtra(role, role)
+            putExtra("ei1", ei1)
+            putExtra("ei2", ei2)
+            putExtra("ei3", ei3)
+            putExtra("ei4", ei4)
+            putExtra("ei5", ei5)
+            putExtra("role", role)
             putExtra("menuId", "")
-            putExtra(school_name, school_name)
-            putExtra(member_name, member_name)
-            putExtra(call_title, call_title)
+            putExtra("school_name", school_name)
+            putExtra("member_name", member_name)
+            putExtra("call_title", call_title)
             putExtra("url", isVoiceUrl)
             putExtra("welcome", isWelcomeUrl)
+            putExtra("notification_id", 2001)
+            putExtra("isEmergencyCall", isEmergency)
             putExtra(
                 "is_missed_announcement",
                 true
             )
-            putExtra("notification_id", 2001)
             putExtra("launch_source", "MISSED")
-            putExtra("isEmergencyCall", isEmergency)
             putExtra("school_logo", school_logo)
 
 
@@ -758,7 +752,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notification =
             NotificationCompat.Builder(
                 this,
-                "notification_school_chimes"
+                "notification_collage"
             )
                 .setSmallIcon(
                     R.drawable.ic_call
@@ -812,12 +806,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
         // Create Intent for notification tap
         val intent = Intent(this, Splash::class.java).apply {
-            putExtra(menu_name, menu_name)
+            putExtra("menu_name", menu_name)
             putExtra("menu_id", menuId)
             putExtra("msg_id", msgId)
             putExtra("header_id", headerId)
             putExtra("receiver_type", receiverType)
-            putExtra("receiverid", receiverId)
+            putExtra("receiver_id", receiverId)
             putExtra("institute_id", instituteId)
             putExtra("fromNotification", true)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -1005,17 +999,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
             putExtra("menu_name", title)
             putExtra("isReceiverId", receiver_id)
-            putExtra(retrycount, retrycount)
+            putExtra("retry_count", retrycount)
             putExtra("circularId", circular_id)
-            putExtra(ei1, ei1)
-            putExtra(ei2, ei2)
-            putExtra(ei3, ei3)
-            putExtra(ei4, ei4)
-            putExtra(ei5, ei5)
-            putExtra(role, role)
-            putExtra(school_name, school_name)
-            putExtra(member_name, member_name)
-            putExtra(call_title, call_title)
+            putExtra("ei1", ei1)
+            putExtra("ei2", ei2)
+            putExtra("ei3", ei3)
+            putExtra("ei4", ei4)
+            putExtra("ei5", ei5)
+            putExtra("role", role)
+            putExtra("school_name", school_name)
+            putExtra("member_name", member_name)
+            putExtra("call_title", call_title)
             putExtra("url", isVoiceUrl)
             putExtra("welcome", isWelcomeUrl)
 

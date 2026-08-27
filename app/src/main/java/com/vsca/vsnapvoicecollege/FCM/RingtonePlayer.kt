@@ -1,8 +1,6 @@
-package com.vs.schoolmessenger.FCM
+package com.vsca.vsnapvoicecollege.FCM
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -11,9 +9,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
-import android.telephony.TelephonyManager
 import android.util.Log
-import androidx.core.content.ContextCompat
 import com.vsca.vsnapvoicecollege.R
 
 object RingtonePlayer {
@@ -208,23 +204,35 @@ object RingtonePlayer {
         return mediaPlayer?.isPlaying ?: false
     }
 
-
+    /**
+     * Checks if the device is already in a call using AudioManager mode.
+     * No READ_PHONE_STATE permission required.
+     *
+     * MODE_IN_CALL          -> native/GSM phone call active
+     * MODE_IN_COMMUNICATION -> VoIP call active (WhatsApp, your own app, etc.)
+     */
     private fun isPhoneBusy(context: Context): Boolean {
-        return try {
-            if (ContextCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.READ_PHONE_STATE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Log.e("RingtonePlayer", "READ_PHONE_STATE permission not granted")
-                false
-            } else {
-                val telephonyManager =
-                    context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
-                telephonyManager.callState != TelephonyManager.CALL_STATE_IDLE
+        return try {
+
+            val audioManager =
+                context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+            val busy =
+                audioManager.mode == AudioManager.MODE_IN_CALL ||
+                        audioManager.mode == AudioManager.MODE_IN_COMMUNICATION
+
+            if (busy) {
+                Log.d(
+                    "RINGTONE",
+                    "Phone busy (audio mode=${audioManager.mode})."
+                )
             }
+
+            busy
+
         } catch (e: Exception) {
+
             Log.e("RingtonePlayer", "CALL STATE ERROR", e)
             false
         }
