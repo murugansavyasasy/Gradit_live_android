@@ -254,7 +254,6 @@ class DashboardParent constructor(
             holder.recyclerDashboardTitle.layoutManager =
                 LinearLayoutManager(context, orientation, false)
             holder.recyclerDashboardTitle.setRecycledViewPool(sharedViewPool)
-            holder.recyclerDashboardTitle.setHasFixedSize(true)
 
             holder.childAdapter = DashboardChild(
                 newsModalArrayList = ArrayList(dataList),

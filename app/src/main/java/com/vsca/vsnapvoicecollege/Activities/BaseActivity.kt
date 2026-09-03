@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
-import android.os.Build
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -14,13 +13,12 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.ListPopupWindow
 import android.widget.PopupWindow
 import android.widget.SearchView
@@ -29,22 +27,12 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
-import com.vsca.vsnapvoicecollege.ActivitySender.Hall_Ticket
-import com.vsca.vsnapvoicecollege.ActivitySender.PunchStaffAttendanceUsingFinger
-import com.vsca.vsnapvoicecollege.ActivitySender.StaffWiseAttendanceReports
-import com.vsca.vsnapvoicecollege.Adapters.HomeMenus
-import com.vsca.vsnapvoicecollege.Interfaces.HomeMenuClickListener
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountDetails
 import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
 import com.vsca.vsnapvoicecollege.R
@@ -240,6 +228,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
         }
     }
+
+
 
     protected fun <T : ViewBinding> accessBottomViewIcons(
         binding: T,
@@ -456,8 +446,19 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
 
         layoutChangepassword.setOnClickListener {
-            ChangepasswordPopup(activity)
+
+            profilePopup?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
+
+            profilePopup = null
+
+            val i = Intent(activity, ChangePasswordRewamp::class.java)
+            activity.startActivity(i)
         }
+
         layoutFaq.setOnClickListener {
             val faq = SharedPreference.getSH_Faq(activity)
             LoadWebView(activity, faq, 0)
@@ -486,6 +487,77 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         profilePopup!!.isOutsideTouchable = false
         profilePopup!!.showAtLocation(view, Gravity.RIGHT or Gravity.TOP, 0, 225)
     }
+
+//    private fun ChangepasswordPopup(activity: Activity) {
+//        val layoutInflater = activity.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        val view = layoutInflater.inflate(R.layout.change_password_popup, null)
+//        val txtOldPassword = view.findViewById<View>(R.id.txtOldPassword) as EditText
+//        val txtNewPassword = view.findViewById<View>(R.id.txtNewPassword) as EditText
+//        val txtConfirmPassword = view.findViewById<View>(R.id.txtConfirmPassword) as EditText
+//        val imgOldPassword = view.findViewById<View>(R.id.imgOldPassword) as ImageView
+//        val imgNewPassword = view.findViewById<View>(R.id.imgNewPassword) as ImageView
+//        val imgconfirmpassword = view.findViewById<View>(R.id.imgconfirmpassword) as ImageView
+//        val btnSubmit = view.findViewById<View>(R.id.btnSubmit) as Button
+//        val imgClose = view.findViewById<View>(R.id.imgClose) as ImageView
+//        imgClose.setOnClickListener {
+//            profilePopup?.let {
+//                if (it.isShowing) {
+//                    it.dismiss()
+//                }
+//            }
+//
+//            popupWebview?.let {
+//                if (it.isShowing) {
+//                    it.dismiss()
+//                }
+//            }
+//
+//            changePassword?.let {
+//                if (it.isShowing) {
+//                    it.dismiss()
+//                }
+//            }
+//
+//            profilePopup = null
+//            popupWebview = null
+//            changePassword = null
+//        }
+//        imgconfirmpassword.setOnClickListener {
+//            passwordHideandShow(txtConfirmPassword, imgconfirmpassword)
+//        }
+//        imgNewPassword.setOnClickListener {
+//            passwordHideandShow(txtNewPassword, imgNewPassword)
+//        }
+//        imgOldPassword.setOnClickListener {
+//            passwordHideandShow(txtOldPassword, imgOldPassword)
+//        }
+//
+//        btnSubmit.setOnClickListener(View.OnClickListener {
+//            OldPassword = txtOldPassword.text.toString()
+//            NewPassword = txtNewPassword.text.toString()
+//            val confirmpassword = txtConfirmPassword.text.toString()
+//
+//            if (OldPassword!!.isEmpty()) {
+//                CommonUtil.ApiAlert(this, getString(R.string.lbl_enter_oldpassword))
+//            } else if (NewPassword!!.isEmpty()) {
+//                CommonUtil.ApiAlert(this, getString(R.string.lbl_enter_new_password))
+//            } else if (confirmpassword.isEmpty()) {
+//                CommonUtil.ApiAlert(this, getString(R.string.lbl_confim_password))
+//            } else if (OldPassword == NewPassword) {
+//                CommonUtil.ApiAlert(this, getString(R.string.lbl_similar_password))
+//            } else if (NewPassword == confirmpassword) {
+//                ChangePasswordRequest(activity)
+//            } else {
+//                CommonUtil.ApiAlert(this, getString(R.string.lbl_pswrd_not_match))
+//            }
+//        })
+//
+//        changePassword =
+//            PopupWindow(view, ListPopupWindow.MATCH_PARENT, ListPopupWindow.MATCH_PARENT, true)
+//        changePassword!!.contentView = view
+//        changePassword!!.isOutsideTouchable = false
+//        changePassword!!.showAtLocation(view, Gravity.CENTER or Gravity.TOP, 0, 0)
+//    }
 
     private fun ChangepasswordPopup(activity: Activity) {
         val layoutInflater = activity.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater

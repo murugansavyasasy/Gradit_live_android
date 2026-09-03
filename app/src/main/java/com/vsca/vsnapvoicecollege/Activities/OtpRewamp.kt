@@ -1,8 +1,9 @@
 package com.vsca.vsnapvoicecollege.Activities
 
-import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -11,7 +12,6 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.R
@@ -24,14 +24,22 @@ import android.os.CountDownTimer
 import android.text.InputFilter
 import android.text.InputType
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 
 class OtpRewamp : AppCompatActivity() {
 
     var appViewModel: App? = null
     var output = ""
+    private lateinit var mobileNumber: String
     var Allow = true
     var opt_1 = ""
     var opt_2 = ""
@@ -49,15 +57,24 @@ class OtpRewamp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = OtpRewampBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        isToolBarPrimaryTheme1(
+            mainViewId = R.id.main,
+            statusBarBgView = binding.statusBarBackground
+        )
+
+        mobileNumber = CommonUtil.MobileNUmber
+            .takeIf { it.isNotEmpty() }
+            ?: SharedPreference.getSH_MobileNumber(this)
+                    ?: ""
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
 
         if (CommonUtil.OptMessege != "") {
             binding.txtOtpNoRecievedMsg.text=CommonUtil.OptMessege
         }
+        binding.imgBack.setOnClickListener { onBackPressed() }
 
         startResendTimer()
 
@@ -73,7 +90,7 @@ class OtpRewamp : AppCompatActivity() {
                 setTextColor(
                     ContextCompat.getColor(
                         this@OtpRewamp,
-                        R.color.black
+                        R.color.clr_blue_1
                     )
                 )
 
@@ -98,12 +115,6 @@ class OtpRewamp : AppCompatActivity() {
         }
 
         var countryDetails = SharedPreference.getCountryDetails(this)
-
-        val mobileNumber = if (CommonUtil.MobileNUmber.isNotEmpty()) {
-            CommonUtil.MobileNUmber
-        } else {
-            SharedPreference.getSH_MobileNumber(this)
-        }
 
         val maskedNumber = mobileNumber?.let {
             if (it.length > 3) {
@@ -285,10 +296,11 @@ class OtpRewamp : AppCompatActivity() {
                 if (status == 1) {
 
                     Handler().postDelayed(Runnable {
-                        intent = Intent(this@OtpRewamp, Create_Password::class.java)
+                        intent = Intent(this@OtpRewamp, CreatePasswordRewamp::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
+                        finish()
                     }, 1000)
 
                 } else {
@@ -392,10 +404,11 @@ class OtpRewamp : AppCompatActivity() {
     }
 
     fun GetOtp() {
+
         val jsonObject = JsonObject()
         jsonObject.addProperty(
             ApiRequestNames.Req_mobileNumber,
-            CommonUtil.MobileNUmber
+            mobileNumber
         )
         appViewModel!!.GetOtp(jsonObject, this)
         Log.d("GetOtp:", jsonObject.toString())
@@ -403,10 +416,64 @@ class OtpRewamp : AppCompatActivity() {
 
     fun VerifiedOtp() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, CommonUtil.MobileNUmber)
+        jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobileNumber)
         jsonObject.addProperty(ApiRequestNames.Req_otp, output)
         appViewModel!!.OtpVerified(jsonObject, this)
         Log.d("OtpVerified:", jsonObject.toString())
+    }
+
+    fun isToolBarPrimaryTheme1(
+        mainViewId: Int,
+        statusBarBgView: View
+    ) {
+        enableEdgeToEdge()
+
+        val mainView = findViewById<View>(mainViewId)
+
+        // White status bar icons
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = false
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
+
+            statusBarBgView.updateLayoutParams {
+                height = systemBars.top
+            }
+
+            view.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
+
+            insets
+        }
+
+        window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            )
+
+            window.clearFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            )
+
+            window.statusBarColor = Color.TRANSPARENT
+
+            window.navigationBarColor =
+                resources.getColor(R.color.clr_auth_gray, theme)
+        }
     }
 
 }

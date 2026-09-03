@@ -1,65 +1,55 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.app.ActionBar
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.webkit.WebView
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Model.CountryDetails
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.Model.VersionCheckDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
-import com.vsca.vsnapvoicecollege.Repository.RestClient
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil.TermsNConditionUrl
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
-import com.vsca.vsnapvoicecollege.Utils.MyWebViewClient
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
+import com.vsca.vsnapvoicecollege.databinding.SplashRewampBinding
 
-class Splash : AppCompatActivity() {
+class SplashRewamp : AppCompatActivity() {
 
-    var btnNext: Button? = null
-    var TermsAgreed = false
-    var rg: RadioGroup? = null
+    private var floatAnimator: ObjectAnimator? = null
+
+
     var handler: Handler? = null
     var progressDialog: ProgressDialog? = null
     var authViewModel: Auth? = null
-    var CountryData: List<CountryDetails> = ArrayList()
     var VersionData: List<VersionCheckDetails> = ArrayList()
     var LoginData: List<LoginDetails> = ArrayList()
-    var baseurl: String? = null
-    var countryname: String? = null
-    var mobilelength: String? = null
-    var countryCode: String? = null
-    var selectedradioValue: String? = null
-    var countryid = 0
-    var idapplication = 0
-    var countryOpen = false
     var ForceUpdate = 0
     var VersionUpdate = 0
     var mobilenumber: String? = null
@@ -81,25 +71,33 @@ class Splash : AppCompatActivity() {
     var videosizealert: String? = null
     var emergencyduration: String? = null
     var nonemergencyduration: String? = null
-    var popuptermsNcondition: PopupWindow? = null
-    var countryPopup: PopupWindow? = null
+
+    private lateinit var binding: SplashRewampBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = SplashRewampBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        applyPrimaryGradientTheme(
+            mainViewId = R.id.main
+        )
 
-        progressDialog = CustomLoading.createProgressDialog(this@Splash)
+
+        progressDialog = CustomLoading.createProgressDialog(this@SplashRewamp)
         progressDialog!!.show()
         authViewModel = ViewModelProvider(this).get(Auth::class.java)
         authViewModel!!.init()
         CommonUtil.MenuListDashboard.clear()
 
-
         //  CommonUtil.isDeviceTokenApiCalling = true
 
-        if (!CommonUtil.isNetworkConnected(this@Splash)) {
+        startImpactfulEntranceAnimation()
+
+
+        if (!CommonUtil.isNetworkConnected(this@SplashRewamp)) {
             progressDialog!!.dismiss()
-            val dlgAlert = AlertDialog.Builder(this@Splash)
+            val dlgAlert = AlertDialog.Builder(this@SplashRewamp)
             dlgAlert.setMessage(resources.getString(R.string.txt_network))
             dlgAlert.setTitle(resources.getString(R.string.txt_error_msg))
             dlgAlert.setPositiveButton(resources.getString(R.string.txt_Ok)) { dialog, which ->
@@ -112,35 +110,18 @@ class Splash : AppCompatActivity() {
             progressDialog!!.dismiss()
             handler = Handler()
             handler!!.postDelayed({
-                TermsAgreed = SharedPreference.getSH_agreed(this@Splash)
-                if (!TermsAgreed) {
-                    progressDialog!!.dismiss()
-                    TermsAndConditions()
+                progressDialog!!.dismiss()
+                val prefrenceBaseUrl = SharedPreference.getSH_Baseurl(this@SplashRewamp)
+                if (prefrenceBaseUrl != "") {
+                    authViewModel!!.getVersionCheck(this@SplashRewamp)
                 } else {
-                    progressDialog!!.dismiss()
-                    TermsAgreed = SharedPreference.getSH_agreed(this@Splash)
-                    val prefrenceBaseUrl = SharedPreference.getSH_Baseurl(this@Splash)
-                    if (prefrenceBaseUrl != "") {
-                        authViewModel!!.getVersionCheck(this@Splash)
-                    } else {
-                        authViewModel!!.getcountryList(this@Splash)
-                    }
+                    val intents = Intent(this@SplashRewamp, CountryRewamp::class.java)
+                    startActivity(intents)
+                    finish()
                 }
             }, 2000)
         }
 
-        authViewModel!!.countryDetailsResponseLiveData!!.observe(this) { response ->
-            if (response != null) {
-                val status = response.status
-                val message = response.message
-                if (status == 1) {
-                    CountryData = response.data!!
-                    CountryListPopUp()
-                } else {
-                    CommonUtil.ApiAlert(this@Splash, message)
-                }
-            }
-        }
         authViewModel!!.versionCheckLiveData?.observe(this) { response ->
             if (response != null) {
                 val status = response.status
@@ -167,7 +148,7 @@ class Splash : AppCompatActivity() {
                     emergencyduration = VersionData[0].emergency
                     nonemergencyduration = VersionData[0].nonemergency
                     SharedPreference.putVersionCheckData(
-                        this@Splash,
+                        this@SplashRewamp,
                         faq,
                         help,
                         privacypolicy,
@@ -186,14 +167,14 @@ class Splash : AppCompatActivity() {
                         emergencyduration,
                         nonemergencyduration
                     )
-                    Log.d("videojson",videojson.toString())
+                    Log.d("videojson", videojson.toString())
                     if (ForceUpdate == 0 && VersionUpdate == 0) {
                         AutoLogin()
                     } else {
                         UpdateAlert()
                     }
                 } else {
-                    CommonUtil.ApiAlert(this@Splash, message)
+                    CommonUtil.ApiAlert(this@SplashRewamp, message)
                 }
             }
         }
@@ -206,63 +187,66 @@ class Splash : AppCompatActivity() {
                     LoginData = response.data!!
                     if (LoginData.size != 0) {
                         CommonUtil.UserDataList = response.data as ArrayList<LoginDetails>?
-                        SharedPreference.putLoginDetails(this@Splash, mobilenumber, password)
+                        SharedPreference.putLoginDetails(this@SplashRewamp, mobilenumber, password)
 
                         Log.d("LoginDataSize", LoginData.size.toString())
                         if (LoginData.size > 1) {
 
-                            val i = Intent(this@Splash, LoginRoles::class.java)
+                            val i = Intent(this@SplashRewamp, LoginRolesRewamp::class.java)
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(i)
-                            finishAffinity()
+                            finish()
+
 
                         } else {
 
                             SetLoginData(LoginData)
-                            val i = Intent(this@Splash, DashBoard::class.java)
+                            val i = Intent(this@SplashRewamp, DashBoardActivityRewamp::class.java)
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(i)
-                            finishAffinity()
+                            finish()
+
                         }
                     } else {
-                        CommonUtil.ApiAlert(this@Splash, message)
+                        CommonUtil.ApiAlert(this@SplashRewamp, message)
                     }
                 } else {
-                    CommonUtil.ApiAlert(this@Splash, message)
+                    CommonUtil.ApiAlert(this@SplashRewamp, message)
                 }
             } else {
-                CommonUtil.ApiAlert(this@Splash, CommonUtil.Something_went_wrong)
+                CommonUtil.ApiAlert(this@SplashRewamp, CommonUtil.Something_went_wrong)
             }
         }
     }
 
     private fun AutoLogin() {
-        mobilenumber = SharedPreference.getSH_MobileNumber(this@Splash)
-        password = SharedPreference.getSH_Password(this@Splash)
+        mobilenumber = SharedPreference.getSH_MobileNumber(this@SplashRewamp)
+        password = SharedPreference.getSH_Password(this@SplashRewamp)
 
         if (mobilenumber!!.isNotEmpty() && password!!.isNotEmpty()) {
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobilenumber)
             jsonObject.addProperty(ApiRequestNames.Req_password, password)
-            authViewModel!!.login(jsonObject, this@Splash)
+            authViewModel!!.login(jsonObject, this@SplashRewamp)
         } else {
-            val i = Intent(this@Splash, MobileNumber::class.java)
+            val i = Intent(this@SplashRewamp, MobileNumberRewamp::class.java)
             startActivity(i)
-            finishAffinity()
+            finish()
+
         }
     }
 
     @SuppressLint("ResourceAsColor")
     private fun UpdateAlert() {
-        val textView = TextView(this@Splash)
+        val textView = TextView(this@SplashRewamp)
         textView.text = resources.getString(R.string.txt_update)
         textView.setPadding(20, 30, 20, 30)
         textView.textSize = 20f
         textView.setBackgroundColor(R.color.white)
         textView.setTextColor(Color.WHITE)
-        val builder = AlertDialog.Builder(this@Splash)
+        val builder = AlertDialog.Builder(this@SplashRewamp)
         builder.setCustomTitle(textView)
         builder.setMessage(resources.getString(R.string.txt_update_available))
         builder.setCancelable(false)
@@ -297,40 +281,6 @@ class Splash : AppCompatActivity() {
         builder.create().show()
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun TermsAndConditions() {
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val layout = inflater.inflate(R.layout.activity_terms_condition, null)
-        popuptermsNcondition = PopupWindow(
-            layout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true
-        )
-        popuptermsNcondition!!.contentView = layout
-        popuptermsNcondition!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-        val webview = layout.findViewById<WebView>(R.id.webview)
-        val btnTerms = layout.findViewById<Button>(R.id.btnTermsAndCondition)
-
-        webview.webViewClient = MyWebViewClient(this@Splash)
-        webview.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-        val webSettings = webview.settings
-        webSettings.loadsImagesAutomatically = true
-        webSettings.builtInZoomControls = true
-        webSettings.javaScriptEnabled = true
-        webview.loadUrl(TermsNConditionUrl)
-        // progressDialog.dismiss()
-        btnTerms.setOnClickListener {
-            TermsAgreed = true
-            SharedPreference.putagreed(this@Splash, TermsAgreed)
-            popuptermsNcondition!!.dismiss()
-
-            val prefrenceBaseUrl = SharedPreference.getSH_Baseurl(this@Splash)
-            Log.d("preference_BaseUrl", prefrenceBaseUrl!!)
-            if (prefrenceBaseUrl != "") {
-                authViewModel!!.getVersionCheck(this@Splash)
-            } else {
-                authViewModel!!.getcountryList(this@Splash)
-            }
-        }
-    }
 
     private fun SetLoginData(data: List<LoginDetails>) {
         Log.d("login", "setUserdata")
@@ -356,105 +306,85 @@ class Splash : AppCompatActivity() {
         }
     }
 
-    private fun CountryListPopUp() {
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val layout = inflater.inflate(R.layout.activity_county_choose, null)
-        countryPopup = PopupWindow(
-            layout,
-            androidx.appcompat.app.ActionBar.LayoutParams.MATCH_PARENT,
-            androidx.appcompat.app.ActionBar.LayoutParams.MATCH_PARENT,
-            true
+
+    private fun startImpactfulEntranceAnimation() {
+        binding.centerBlock.alpha = 0f
+        binding.centerBlock.scaleX = 0.82f
+        binding.centerBlock.scaleY = 0.82f
+        binding.centerBlock.translationY = 40f
+        binding.centerBlock.animate()
+            .alpha(1f)
+            .scaleX(1f)
+            .scaleY(1f)
+            .translationY(0f)
+            .setDuration(550)
+            .setInterpolator(OvershootInterpolator(1.4f))
+            .withEndAction {
+                startFloatingHover()
+            }
+            .start()
+
+    }
+
+    private fun startFloatingHover() {
+        floatAnimator?.cancel()
+        floatAnimator = ObjectAnimator.ofFloat(
+            binding.centerBlock,
+            View.TRANSLATION_Y,
+            0f, -14f, 0f
+        ).apply {
+            duration = 2400
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = ValueAnimator.INFINITE
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    fun Activity.applyPrimaryGradientTheme(
+        mainViewId: Int
+    ) {
+        val mainView = findViewById<View>(mainViewId)
+
+        // Draw content behind system bars
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
         )
-        countryPopup!!.contentView = layout
-        countryPopup!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-        val layoutDropdown = layout.findViewById<ConstraintLayout>(R.id.layoutDropdown)
-        val lnrRadioGroup = layout.findViewById<LinearLayout>(R.id.lnrRadioGroup)
-        val imgDropdown = layout.findViewById<ImageView>(R.id.imgDropdown)
-        val lblCountryName = layout.findViewById<TextView>(R.id.lblCountryName)
-        val viewLine = layout.findViewById<View>(R.id.viewLine)
-        rg = layout.findViewById<View>(R.id.RadioGroup) as RadioGroup
-        btnNext = layout.findViewById(R.id.btnNext)
-        layoutDropdown.setOnClickListener {
-            if (!countryOpen) {
-                lnrRadioGroup.visibility = View.VISIBLE
-                viewLine.visibility = View.VISIBLE
-                imgDropdown.setImageResource(R.drawable.ic_arraow_up)
-                countryOpen = true
-            } else {
-                lnrRadioGroup.visibility = View.GONE
-                viewLine.visibility = View.GONE
-                imgDropdown.setImageResource(R.drawable.ic_arrow_down)
-                countryOpen = false
-            }
+
+        // Transparent status bar
+        window.statusBarColor = Color.TRANSPARENT
+
+        // White status bar icons
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = true
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor =
+                resources.getColor(R.color.clr_auth_gray, theme)
         }
 
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(android.R.attr.state_enabled)
-            ), intArrayOf(
-                Color.GRAY,  // disabled
-                Color.GREEN // enabled
-            )
-        )
-        for (i in CountryData.indices) {
-            baseurl = CountryData[i].baseurl
-            countryid = CountryData[i].countryid
-            countryname = CountryData[i].country
-            mobilelength = CountryData[i].mobilenumberlen
-            countryCode = CountryData[i].countyCode
-            idapplication = CountryData[i].idapplication
-            val rb = RadioButton(this@Splash)
-            val selectedvalue =
-                " " + "+" + CountryData[i].countyCode + "  " + CountryData[i].country
-            rb.text = selectedvalue
-            rb.textSize = 18f
-            rb.setTextColor(resources.getColor(R.color.clr_black))
-            rb.buttonTintList = colorStateList
-            rb.layoutDirection = View.LAYOUT_DIRECTION_LTR
-            rb.id = i
-            selectedradioValue = rb.text.toString()
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
 
-            val params = RadioGroup.LayoutParams(
-                RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
             )
-            rg!!.addView(rb, params)
-            rb.setOnClickListener {
-                val list = CountryData[i]
-                val countryname = list.country
-                lblCountryName.text = countryname
-                lnrRadioGroup.visibility = View.GONE
-                viewLine.visibility = View.GONE
-                countryOpen = false
 
-                imgDropdown.setImageResource(R.drawable.ic_arrow_down)
-                btnNext!!.isEnabled = true
-                btnNext!!.isClickable = true
-                btnNext!!.setBackgroundResource(R.drawable.bg_btn_green)
-                btnNext!!.setTextColor(Color.parseColor("#FFFFFF"))
-            }
+            view.findViewById<View>(R.id.centerBlock)?.updatePadding(
+                top = systemBars.top
+            )
+
+            view.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
+
+            insets
         }
 
-        btnNext!!.setOnClickListener {
-            val selectedPosition = rg!!.checkedRadioButtonId
-            if (selectedPosition == -1) {
-                return@setOnClickListener
-            }
-            val list = CountryData[selectedPosition]
-            val BASE_URL = list.baseurl
-            Log.d("BASEURL", BASE_URL!!)
-            val countryid = list.countryid
-            val countryID = countryid.toString()
-            val countryname = list.country
-            val mobilelength = list.mobilenumberlen
-            val codecountry = list.countyCode
-            val idapplication = list.idapplication
-            SharedPreference.putCountryDetails(
-                this@Splash, countryID, countryname, mobilelength, BASE_URL,codecountry,idapplication
-            )
-            RestClient.changeApiBaseUrl(BASE_URL)
-            countryPopup!!.dismiss()
-            authViewModel!!.getVersionCheck(this@Splash)
-        }
+        ViewCompat.requestApplyInsets(mainView)
     }
 }

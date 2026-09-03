@@ -11,6 +11,7 @@
     <color name="white">#FFFFFF</color>
     <color name="clr_principal">#902476</color>
     <color name="clr_auth">#5EA8FF</color>
+    <color name="clr_auth_gray">#ebf7ff</color>
     <color name="clr_receiver">#0f2239</color>
     <color name="clr_teachingstaff">#006a88</color>
     <color name="clr_white">#FFFFFF</color>
@@ -23,6 +24,7 @@
     <color name="clr_bgred">#FF7575</color>
     <color name="btn_clr_green">#19c07c</color>
     <color name="btn_clr_blue">#0084e8</color>
+    <color name="clr_blue_1">#1450F5</color>
     <color name="grey_screen_clr">#F4F4F3</color>
     <color name="light_blue">#f5fbff</color>
     <color name="stroke_grey_light">#DFDFD6</color>

@@ -12,6 +12,10 @@ class CountryDetails {
     @Expose
     var country: String? = null
 
+    @SerializedName("flag_url")
+    @Expose
+    var flag_url: String? = null
+
     @SerializedName("mobilenumberlen")
     @Expose
     var mobilenumberlen: String? = null

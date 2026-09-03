@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.vsca.vsnapvoicecollege.Activities.Splash
+import com.vsca.vsnapvoicecollege.Activities.SplashRewamp
 import com.vsca.vsnapvoicecollege.R
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -805,7 +806,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
         // Create Intent for notification tap
-        val intent = Intent(this, Splash::class.java).apply {
+        val intent = Intent(this, SplashRewamp::class.java).apply {
             putExtra("menu_name", menu_name)
             putExtra("menu_id", menuId)
             putExtra("msg_id", msgId)

@@ -15,14 +15,34 @@
     </style>
 
 
+<!--    <style name="Auth" parent="Theme.AppCompat.Light.DarkActionBar">-->
+<!--        <item name="colorPrimary">@color/white</item>-->
+<!--        <item name="colorAccent">@color/black</item>-->
+<!--        <item name="android:statusBarColor">@color/clr_auth</item>-->
+<!--        <item name="android:navigationBarColor">@color/clr_auth</item>-->
+<!--        <item name="android:windowLightNavigationBar">false</item>-->
+<!--        <item name="android:windowLightStatusBar">false</item>-->
+
+<!--    </style>-->
+
+<!--    <style name="Auth_NoActionBar_" parent="Auth">-->
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
+<!--    </style>-->
     <style name="Auth" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/white</item>
         <item name="colorAccent">@color/black</item>
-        <item name="android:statusBarColor">@color/clr_auth</item>
-        <item name="android:navigationBarColor">@color/clr_auth</item>
-        <item name="android:windowLightNavigationBar">false</item>
+
+        <!-- Status bar will be drawn by statusBarBackground View -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="android:navigationBarColor">@color/clr_auth_gray</item>
+
+        <!-- White status bar icons -->
         <item name="android:windowLightStatusBar">false</item>
 
+        <!-- White navigation bar icons -->
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
     <style name="Auth_NoActionBar_" parent="Auth">
@@ -292,6 +312,16 @@
     <!--    New Feature-->
     <style name="HintTextStyle" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CustomCheckbox" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/ch_square_2</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="CircleImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 

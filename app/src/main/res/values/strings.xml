@@ -372,6 +372,9 @@
     <string name="institute_name">Institute Name</string>
     <string name="skill">Skill</string>
     <string name="degree_name">Degree Name</string>
+    <string name="select_country">Select Country</string>
+    <string name="choose_your_country">Choose your country</string>
+    <string name="Please_accept_the_Terms_and_Conditions_to_proceed">Please accept the Terms and Conditions to proceed.</string>
 
 
 </resources>

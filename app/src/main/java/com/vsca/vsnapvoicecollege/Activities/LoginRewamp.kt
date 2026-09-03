@@ -1,12 +1,22 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
 import android.widget.*
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
@@ -16,7 +26,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
-import com.vsca.vsnapvoicecollege.databinding.ActivityLoginBinding
 import com.vsca.vsnapvoicecollege.databinding.LoginRewampBinding
 
 class LoginRewamp : AppCompatActivity() {
@@ -26,7 +35,6 @@ class LoginRewamp : AppCompatActivity() {
     var Password: String? = null
     var authViewModel: Auth? = null
     var LoginData: List<LoginDetails> = ArrayList()
-    private var passwordvisible = true
     var appViewModel: App? = null
     private lateinit var binding: LoginRewampBinding
 
@@ -41,8 +49,10 @@ class LoginRewamp : AppCompatActivity() {
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+        isToolBarPrimaryTheme1(
+            mainViewId = R.id.main,
+            statusBarBgView = binding.statusBarBackground
+        )
 
         binding.txtForgetpassword!!.setOnClickListener {
             GetOtp()
@@ -56,7 +66,14 @@ class LoginRewamp : AppCompatActivity() {
 
 
         MobileNumber = intent.getStringExtra("MobileNumber")
-        binding.phoneNumberEdt!!.text = MobileNumber
+            ?.takeIf { it.isNotEmpty() }
+            ?: CommonUtil.MobileNUmber.takeIf { it.isNotEmpty() }
+            ?: SharedPreference.getSH_MobileNumber(this)
+        var countryDetails = SharedPreference.getCountryDetails(this)
+
+        binding.phoneNumberEdt!!.text =
+            "+${countryDetails.countyCode} $MobileNumber"
+
 
         authViewModel!!.loginResposneLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -140,17 +157,26 @@ class LoginRewamp : AppCompatActivity() {
         }
     }
 
-    fun imgpasswordlockClick() {
-        if (passwordvisible) {
-            binding.passwordEdt!!.transformationMethod = PasswordTransformationMethod.getInstance()
-            binding.imgPasswordopen!!.setImageResource(R.drawable.ic_eye_off_2)
-            passwordvisible = false
+    private fun imgpasswordlockClick() {
+
+        val editText = binding.passwordEdt
+        val imageView = binding.imgPasswordopen
+
+        if (editText.transformationMethod is PasswordTransformationMethod) {
+
+            // SHOW PASSWORD
+            editText.transformationMethod = null
+            imageView.setImageResource(R.drawable.ic_eye_open_2)
+
         } else {
-            binding.passwordEdt!!.transformationMethod = null
-            passwordvisible = true
-            binding.passwordEdt!!.setSelection(binding.passwordEdt!!.text.length)
-            binding.imgPasswordopen!!.setImageResource(R.drawable.ic_eye_open_2)
+
+            // HIDE PASSWORD
+            editText.transformationMethod =
+                PasswordTransformationMethod.getInstance()
+            imageView.setImageResource(R.drawable.ic_eye_off_2)
         }
+
+        editText.setSelection(editText.text.length)
     }
 
     override fun onBackPressed() {
@@ -186,6 +212,61 @@ class LoginRewamp : AppCompatActivity() {
             CommonUtil.isParentEnable = data.get(i).is_parent_target_enabled!!
             CommonUtil.CollegeLogo = data.get(i).colglogo!!
 
+        }
+    }
+
+
+    fun isToolBarPrimaryTheme1(
+        mainViewId: Int,
+        statusBarBgView: View
+    ) {
+        enableEdgeToEdge()
+
+        val mainView = findViewById<View>(mainViewId)
+
+        // White status bar icons
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = false
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
+
+            statusBarBgView.updateLayoutParams {
+                height = systemBars.top
+            }
+
+            view.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
+
+            insets
+        }
+
+        window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            )
+
+            window.clearFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            )
+
+            window.statusBarColor = Color.TRANSPARENT
+
+            window.navigationBarColor =
+                resources.getColor(R.color.clr_auth_gray, theme)
         }
     }
 }

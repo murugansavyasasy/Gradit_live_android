@@ -1,13 +1,23 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import androidx.activity.enableEdgeToEdge
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumberResponse
@@ -34,13 +44,16 @@ class MobileNumberRewamp : AppCompatActivity() {
         setContentView(R.layout.mobile_number_rewamp)
         binding = MobileNumberRewampBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        isToolBarPrimaryTheme1(
+            mainViewId = R.id.main,
+            statusBarBgView = binding.statusBarBackground
+        )
         authViewModel = ViewModelProvider(this).get(Auth::class.java)
         authViewModel!!.init()
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
+
 
         var countryDetails = SharedPreference.getCountryDetails(this)
         binding.tvCountryCode.text="+${countryDetails.countyCode}"
@@ -54,6 +67,8 @@ class MobileNumberRewamp : AppCompatActivity() {
             ?: 10
 
         var isUpdating = false
+
+
 
         binding.phoneNumberEdt.addTextChangedListener(object : TextWatcher {
 
@@ -129,7 +144,6 @@ class MobileNumberRewamp : AppCompatActivity() {
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         i.putExtra("MobileNumber", mobileNumber)
                         startActivity(i)
-                        finishAffinity()
                     } else {
                         CommonUtil.OptMessege = validateMobileNumberResponse[0].resultmessage
                         CommonUtil.ivrnumbers = ArrayList(validateMobileNumberResponse[0].ivrnumbers)
@@ -137,13 +151,12 @@ class MobileNumberRewamp : AppCompatActivity() {
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(i)
-                        finishAffinity()
                     }
                 } else {
                     CommonUtil.ApiAlert(this@MobileNumberRewamp, message)
                 }
             } else {
-                CommonUtil.ApiAlert(this@MobileNumberRewamp, CommonUtil.No_Data_Found)
+                CommonUtil.ApiAlert(this@MobileNumberRewamp, CommonUtil.Something_went_wrong)
             }
         }
 
@@ -160,6 +173,61 @@ class MobileNumberRewamp : AppCompatActivity() {
             authViewModel!!.VerifityMobile(jsonObject, this@MobileNumberRewamp)
         } else {
             CommonUtil.ApiAlert(this@MobileNumberRewamp, CommonUtil.Enter_mobileNumber)
+        }
+    }
+
+
+    fun isToolBarPrimaryTheme1(
+        mainViewId: Int,
+        statusBarBgView: View
+    ) {
+        enableEdgeToEdge()
+
+        val mainView = findViewById<View>(mainViewId)
+
+        // White status bar icons
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = false
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
+
+            statusBarBgView.updateLayoutParams {
+                height = systemBars.top
+            }
+
+            view.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
+
+            insets
+        }
+
+        window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            )
+
+            window.clearFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            )
+
+            window.statusBarColor = Color.TRANSPARENT
+
+            window.navigationBarColor =
+                resources.getColor(R.color.clr_auth_gray, theme)
         }
     }
 }

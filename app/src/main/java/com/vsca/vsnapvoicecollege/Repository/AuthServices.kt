@@ -32,20 +32,20 @@ class AuthServices {
 
 
     fun GetCountryList(appid: Int, activity: Activity?) {
-//        var progressDialog = CustomLoading.createProgressDialog(activity)
-//        progressDialog!!.show()
+        var progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog!!.show()
         RestClient.Companion.apiInterfaces.Getcountrylist(appid)
             ?.enqueue(object : Callback<CountryDetailsResponse?> {
                 override fun onResponse(
                     call: Call<CountryDetailsResponse?>, response: Response<CountryDetailsResponse?>
                 ) {
-                    //    progressDialog!!.dismiss()
 
                     Log.d(
                         "GetCountryList", response.code().toString() + " - " + response.toString()
                     )
 
                     if (response.code() == 200 || response.code() == 201) {
+                        progressDialog!!.dismiss()
                         if (response.body() != null) {
                             val status = response.body()!!.status
                             Log.d("country_response", response.body().toString())
@@ -57,8 +57,10 @@ class AuthServices {
                             }
                         }
                     } else if (response.code() == 400) {
-                        // progressDialog.dismiss()
+                         progressDialog.dismiss()
                         try {
+                            countryDetailsMutableLiveData.postValue(null)
+
 //                            val jsonObject = JSONObject(response.errorBody()!!.string())
 //                            val message = jsonObject.getString("message")
 //                            Toast.makeText(activity, "Something went wrong", Toast.LENGTH_SHORT).show()
@@ -70,7 +72,7 @@ class AuthServices {
                 }
 
                 override fun onFailure(call: Call<CountryDetailsResponse?>, t: Throwable) {
-                    //  progressDialog!!.dismiss()
+                      progressDialog!!.dismiss()
                     countryDetailsMutableLiveData.postValue(null)
                     t.printStackTrace()
                 }
