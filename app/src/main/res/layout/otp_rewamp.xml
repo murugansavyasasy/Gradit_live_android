@@ -95,26 +95,21 @@
                     <EditText
                         android:id="@+id/txt_otp_1"
                         android:textColorHint="#80414755"
-                        android:hint="0"
                         style="@style/OtpBoxStyle_2" />
 
                     <EditText
                         android:id="@+id/txt_otp_2"
                         android:textColorHint="#80414755"
-                        android:hint="0"
                         style="@style/OtpBoxStyle_2" />
 
                     <EditText
                         android:id="@+id/txt_otp_3"
                         android:textColorHint="#80414755"
-                        android:hint="0"
                         style="@style/OtpBoxStyle_2" />
 
                     <EditText
                         android:id="@+id/txt_otp_4"
                         android:textColorHint="#80414755"
-                        android:hint="0"
-
                         style="@style/OtpBoxStyle_2" />
 
                 </LinearLayout>
@@ -159,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:gravity="center"
-                    android:text="Resend"
+                    android:text="Resend OTP"
                     android:visibility="gone"
                     android:textColor="#1450F5"
                     android:textSize="14sp"

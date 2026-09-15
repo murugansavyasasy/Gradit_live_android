@@ -744,6 +744,26 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
         }
     }
 
+    fun CustomApiAlert(
+        activity: Activity?,
+        header: String,
+        msg: String?,
+        buttonName: String
+    ) {
+        activity?.let {
+
+            AlertDialog.Builder(it)
+                .setTitle(header)
+                .setMessage(msg)
+                .setPositiveButton(buttonName) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setCancelable(false)
+                .show()
+        }
+    }
+
+
     fun ApiAlertContext(activity: Context?, msg: String?) {
         if (activity != null) {
             val dlg = AlertDialog.Builder(activity)

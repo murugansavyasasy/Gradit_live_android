@@ -12,7 +12,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextPaint
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.util.Log
@@ -124,62 +127,6 @@ class CountryRewamp : AppCompatActivity() {
             isAgree = isChecked
         }
 
-        binding.lblTermsAndConditions.setOnClickListener {
-
-            if (popuptermsNcondition?.isShowing == true) {
-                return@setOnClickListener
-            }
-
-            val inflater =
-                getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-            val layout = inflater.inflate(
-                R.layout.terms_and_conditions_rewamp,
-                null
-            )
-
-            popuptermsNcondition = PopupWindow(
-                layout,
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.MATCH_PARENT,
-                true
-            )
-
-            popuptermsNcondition!!.contentView = layout
-
-            popuptermsNcondition!!.showAtLocation(
-                binding.root,
-                Gravity.CENTER,
-                0,
-                0
-            )
-
-            val webview =
-                layout.findViewById<WebView>(R.id.webview)
-
-
-            val imgBack = layout.findViewById<ImageView>(R.id.imgBack)
-
-            imgBack.setOnClickListener {
-                popuptermsNcondition?.dismiss()
-                popuptermsNcondition = null
-
-            }
-
-            webview.webViewClient =
-                MyWebViewClient(this@CountryRewamp)
-
-            webview.scrollBarStyle =
-                View.SCROLLBARS_INSIDE_OVERLAY
-
-            val webSettings = webview.settings
-
-            webSettings.loadsImagesAutomatically = true
-            webSettings.builtInZoomControls = true
-            webSettings.javaScriptEnabled = true
-
-            webview.loadUrl(TermsNConditionUrl)
-        }
 
         setTermsAndConditionsText()
 
@@ -379,6 +326,62 @@ class CountryRewamp : AppCompatActivity() {
             ToastManager.cancelToast()
         }
     }
+    private fun openTermsAndConditions() {
+
+        if (popuptermsNcondition?.isShowing == true) {
+            return
+        }
+
+        val inflater =
+            getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val layout = inflater.inflate(
+            R.layout.terms_and_conditions_rewamp,
+            null
+        )
+
+        popuptermsNcondition = PopupWindow(
+            layout,
+            ActionBar.LayoutParams.MATCH_PARENT,
+            ActionBar.LayoutParams.MATCH_PARENT,
+            true
+        )
+
+        popuptermsNcondition?.contentView = layout
+
+        popuptermsNcondition?.showAtLocation(
+            binding.root,
+            Gravity.CENTER,
+            0,
+            0
+        )
+
+        val webview =
+            layout.findViewById<WebView>(R.id.webview)
+
+        val imgBack =
+            layout.findViewById<ImageView>(R.id.imgBack)
+
+        imgBack.setOnClickListener {
+            popuptermsNcondition?.dismiss()
+            popuptermsNcondition = null
+        }
+
+        webview.webViewClient =
+            MyWebViewClient(this@CountryRewamp)
+
+        webview.scrollBarStyle =
+            View.SCROLLBARS_INSIDE_OVERLAY
+
+        val webSettings = webview.settings
+
+        webSettings.loadsImagesAutomatically = true
+        webSettings.builtInZoomControls = true
+        webSettings.javaScriptEnabled = true
+
+        webview.loadUrl(TermsNConditionUrl)
+    }
+
 
 
     @SuppressLint("ResourceAsColor")
@@ -544,23 +547,14 @@ class CountryRewamp : AppCompatActivity() {
         }
     }
 
-
-
-
     private fun setTermsAndConditionsText() {
 
-        val text =
-            "I agree to the Terms and Conditions"
+        val text = "I agree to the Terms & Conditions"
 
-        val spannable =
-            SpannableString(text)
+        val spannable = SpannableString(text)
 
-        val start =
-            text.indexOf("Terms and Conditions")
-
-        val end =
-            start + "Terms and Conditions".length
-
+        val start = text.indexOf("Terms & Conditions")
+        val end = start + "Terms & Conditions".length
 
         // Blue color
         spannable.setSpan(
@@ -575,7 +569,6 @@ class CountryRewamp : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-
         // Underline
         spannable.setSpan(
             UnderlineSpan(),
@@ -584,9 +577,38 @@ class CountryRewamp : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
+        // Click only "Terms and Conditions"
+        spannable.setSpan(
+            object : ClickableSpan() {
 
-        binding.lblTermsAndConditions.text =
-            spannable
+                override fun onClick(widget: View) {
+                    openTermsAndConditions()
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+
+                    ds.color = ContextCompat.getColor(
+                        this@CountryRewamp,
+                        R.color.btn_clr_blue
+                    )
+                    ds.isUnderlineText = true
+                }
+            },
+            start,
+            end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        binding.lblTermsAndConditions.text = spannable
+
+        // Required for ClickableSpan to receive clicks
+        binding.lblTermsAndConditions.movementMethod =
+            LinkMovementMethod.getInstance()
+
+        // Prevent default TextView highlight/background
+        binding.lblTermsAndConditions.highlightColor =
+            Color.TRANSPARENT
     }
 
     fun isToolBarPrimaryTheme1(

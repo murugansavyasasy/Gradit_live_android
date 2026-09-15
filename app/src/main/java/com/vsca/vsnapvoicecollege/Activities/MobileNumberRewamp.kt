@@ -35,6 +35,7 @@ class MobileNumberRewamp : AppCompatActivity() {
     private var authViewModel: Auth? = null
     private var validateMobileNumberResponse: List<ValidateMobileNumberResponse> = ArrayList()
     var appViewModel: App? = null
+    var mobileLength: Int= 0
 
     private lateinit var binding: MobileNumberRewampBinding
 
@@ -62,7 +63,7 @@ class MobileNumberRewamp : AppCompatActivity() {
             ?.filter { it.isDigit() }
             ?: ""
 
-        val mobileLength = countryDetails.mobilenumberlen
+        mobileLength = countryDetails.mobilenumberlen
             ?.toIntOrNull()
             ?: 10
 
@@ -153,10 +154,20 @@ class MobileNumberRewamp : AppCompatActivity() {
                         startActivity(i)
                     }
                 } else {
-                    CommonUtil.ApiAlert(this@MobileNumberRewamp, message)
+                    CommonUtil.CustomApiAlert(
+                        this@MobileNumberRewamp,
+                        "Oops",
+                        message,
+                        "Ok"
+                    )
                 }
             } else {
-                CommonUtil.ApiAlert(this@MobileNumberRewamp, CommonUtil.Something_went_wrong)
+                CommonUtil.CustomApiAlert(
+                    this@MobileNumberRewamp,
+                    "Oops",
+                    CommonUtil.Something_went_wrong,
+                    "Ok"
+                )
             }
         }
 
@@ -164,17 +175,50 @@ class MobileNumberRewamp : AppCompatActivity() {
     }
 
     fun txt_next() {
-        mobileNumber = binding.phoneNumberEdt!!.text.toString()
-        Log.d("mobileNumber", mobileNumber!!)
-        if (mobileNumber != "") {
-            CommonUtil.MobileNUmber = mobileNumber!!
-            val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_mobile_number, mobileNumber)
-            authViewModel!!.VerifityMobile(jsonObject, this@MobileNumberRewamp)
-        } else {
-            CommonUtil.ApiAlert(this@MobileNumberRewamp, CommonUtil.Enter_mobileNumber)
+        mobileNumber = binding.phoneNumberEdt.text.toString().trim()
+
+        Log.d("mobileNumber", mobileNumber.orEmpty())
+        Log.d("mobileLength", mobileLength.toString())
+
+        if (mobileNumber.isNullOrEmpty()) {
+            CommonUtil.CustomApiAlert(
+                this@MobileNumberRewamp,
+                "Alert",
+                "Please enter a valid $mobileLength digit mobile number",
+                "Ok"
+            )
+
+            return
         }
+
+        if (mobileNumber?.length != mobileLength) {
+
+            CommonUtil.CustomApiAlert(
+                this@MobileNumberRewamp,
+                "Alert",
+                "Please enter a valid $mobileLength digit mobile number",
+                "Ok"
+            )
+
+            return
+        }
+
+        CommonUtil.MobileNUmber = mobileNumber?:""
+
+        val jsonObject = JsonObject()
+
+        jsonObject.addProperty(
+            ApiRequestNames.Req_mobile_number,
+            mobileNumber
+        )
+
+        authViewModel?.VerifityMobile(
+            jsonObject,
+            this@MobileNumberRewamp
+        )
     }
+
+
 
 
     fun isToolBarPrimaryTheme1(

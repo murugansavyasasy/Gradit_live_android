@@ -108,6 +108,13 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        try {
+            CommonUtil.INSTANCE.SetTheme(this, true);
+        } catch (Exception e) {
+            Log.e("StaffAttendance", "Failed to apply theme", e);
+        }
+
         super.onCreate(savedInstanceState);
         // Use the new combined layout instead of only staff_attendance_finger_print
         setContentView(R.layout.new_staff_attendance_finger_print);

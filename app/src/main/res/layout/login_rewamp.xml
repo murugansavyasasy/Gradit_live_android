@@ -97,13 +97,15 @@
                     android:text="MOBILE NUMBER"
                     android:textColor="#414755"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     android:textStyle="bold" />
 
                 <LinearLayout
+
                     android:id="@+id/llPhoneInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/bg_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -142,6 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fifteen"
                     android:letterSpacing="0.05"
+                    android:visibility="gone"
                     android:text="PASSWORD"
                     android:textColor="#414755"
                     android:textSize="12sp"
@@ -150,7 +153,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/bg_input">
 
                     <ImageView
@@ -209,7 +212,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="28dp"
                     android:background="@drawable/bg_primary_button"
-                    android:text="@string/next_"
+                    android:text="Login"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="15sp"

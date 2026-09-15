@@ -133,7 +133,7 @@ class DashboardServices {
 
 
     fun GetNotification(jsonObject: JsonObject?, activity: Activity) {
-      val  progressDialog = CustomLoading.createProgressDialog(activity)
+        val  progressDialog = CustomLoading.createProgressDialog(activity)
         progressDialog.show()
         RestClient.Companion.apiInterfaces.GetNotifications(jsonObject)
             ?.enqueue(object : Callback<GetNotificationsResponse?> {

@@ -121,7 +121,7 @@
 
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="32dp"
+                        android:layout_height="match_parent"
                         android:background="#4DC1C6D7" />
 
                     <EditText
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="00000 00000"
+                        android:hint="Please enter your mobile number"
                         android:inputType="phone"
                         android:paddingStart="8dp"
                         android:layout_marginEnd="@dimen/eight"

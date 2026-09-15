@@ -123,7 +123,7 @@ class OtpRewamp : AppCompatActivity() {
                 it
             }
         }
-        binding.txtNumberlable!!.text = "We have sent a 4-digit verification code to + ${countryDetails.countyCode} ${maskedNumber}"
+        binding.txtNumberlable!!.text = "We have sent a 4-digit verification code to ( + ${countryDetails.countyCode} ${maskedNumber} )"
 
 
 
@@ -162,7 +162,10 @@ class OtpRewamp : AppCompatActivity() {
                 ) {
                     if (!s.isNullOrEmpty()) {
                         opt_1 = s.toString()
+                        binding.txtOtp1.setBackgroundResource(R.drawable.bg_input_filled)
                         binding.txtOtp2.requestFocus()
+                    } else {
+                        binding.txtOtp1.setBackgroundResource(R.drawable.bg_input)
                     }
                 }
 
@@ -187,7 +190,10 @@ class OtpRewamp : AppCompatActivity() {
                 ) {
                     if (!s.isNullOrEmpty()) {
                         opt_2 = s.toString()
+                        binding.txtOtp2.setBackgroundResource(R.drawable.bg_input_filled)
                         binding.txtOtp3.requestFocus()
+                    } else {
+                        binding.txtOtp2.setBackgroundResource(R.drawable.bg_input)
                     }
                 }
 
@@ -197,6 +203,48 @@ class OtpRewamp : AppCompatActivity() {
                     }
                 }
             })
+
+            binding.txtOtp2.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == android.view.KeyEvent.KEYCODE_DEL &&
+                    event.action == android.view.KeyEvent.ACTION_DOWN &&
+                    binding.txtOtp2.text.isNullOrEmpty()
+                ) {
+                    binding.txtOtp1.text?.clear()
+                    binding.txtOtp1.requestFocus()
+                    binding.txtOtp1.setBackgroundResource(R.drawable.bg_input)
+                    true
+                } else {
+                    false
+                }
+            }
+
+            binding.txtOtp3.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == android.view.KeyEvent.KEYCODE_DEL &&
+                    event.action == android.view.KeyEvent.ACTION_DOWN &&
+                    binding.txtOtp3.text.isNullOrEmpty()
+                ) {
+                    binding.txtOtp2.text?.clear()
+                    binding.txtOtp2.requestFocus()
+                    binding.txtOtp2.setBackgroundResource(R.drawable.bg_input)
+                    true
+                } else {
+                    false
+                }
+            }
+
+            binding.txtOtp4.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == android.view.KeyEvent.KEYCODE_DEL &&
+                    event.action == android.view.KeyEvent.ACTION_DOWN &&
+                    binding.txtOtp4.text.isNullOrEmpty()
+                ) {
+                    binding.txtOtp3.text?.clear()
+                    binding.txtOtp3.requestFocus()
+                    binding.txtOtp3.setBackgroundResource(R.drawable.bg_input)
+                    true
+                } else {
+                    false
+                }
+            }
 
 
             binding.txtOtp3.addTextChangedListener(object : TextWatcher {
@@ -216,7 +264,10 @@ class OtpRewamp : AppCompatActivity() {
                 ) {
                     if (!s.isNullOrEmpty()) {
                         opt_3 = s.toString()
+                        binding.txtOtp3.setBackgroundResource(R.drawable.bg_input_filled)
                         binding.txtOtp4.requestFocus()
+                    } else {
+                        binding.txtOtp3.setBackgroundResource(R.drawable.bg_input)
                     }
                 }
 
@@ -245,6 +296,7 @@ class OtpRewamp : AppCompatActivity() {
                 ) {
                     if (!s.isNullOrEmpty()) {
                         opt_4 = s.toString()
+                        binding.txtOtp4.setBackgroundResource(R.drawable.bg_input_filled)
                         if (
                             binding.txtOtp1.text.length == 1 &&
                             binding.txtOtp2.text.length == 1 &&
@@ -259,6 +311,8 @@ class OtpRewamp : AppCompatActivity() {
                                 0
                             )
                         }
+                    } else {
+                        binding.txtOtp4.setBackgroundResource(R.drawable.bg_input)
                     }
                 }
 
