@@ -1,9 +1,12 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
@@ -51,7 +54,40 @@ class CreatePasswordRewamp : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener { onBackPressed() }
         binding.imgNewPasswordopen.setOnClickListener { imgpasswordlockClick() }
-        binding.imgConfpasswordopen.setOnClickListener { imgpasswordconfirmlockClick() }
+        binding.imgConfpasswordopen.setOnClickListener { imgpasswordconfirmlockClick()
+        }
+
+//        This tell which label should be placed whether reset password or create password
+//        Because if user is coming first it will come Create Password he already created
+//        now user may forget the password so user may clicked Forget Password
+        val authSource = intent.getStringExtra(CommonUtil.EXTRA_AUTH_SOURCE)
+        Log.d("OTP","This password request came from"+authSource)
+
+        when (authSource) {
+
+            CommonUtil.AUTH_SOURCE_MOBILE -> {
+                binding.tvTitle.text="Create Password"
+                binding.tvSubtitle.text="Set a secure password to protect your account."
+                binding.txtNext.text="Create Password"
+
+            }
+
+            CommonUtil.AUTH_SOURCE_LOGIN -> {
+                binding.tvTitle.text="Reset Password"
+                binding.tvSubtitle.text="Create a new password to securely access your account."
+                binding.txtNext.text="Reset Password"
+            }
+
+            else -> {
+                binding.tvTitle.text="New Password"
+                binding.tvSubtitle.text="Create a new password to securely access your account."
+                binding.txtNext.text="New Password"
+
+            }
+        }
+
+
+
 
         appViewModel!!.CrearePassword!!.observe(this) { response ->
             if (response != null) {
@@ -93,7 +129,20 @@ class CreatePasswordRewamp : AppCompatActivity() {
             }
         }
 
-        binding.txtNext!!.setOnClickListener {
+        updateResetButtonState()
+
+        val watcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                updateResetButtonState()
+            }
+        }
+        binding.newPasswordEdt.addTextChangedListener(watcher)
+        binding.confpasswordEdt.addTextChangedListener(watcher)
+
+
+            binding.txtNext!!.setOnClickListener {
 
             Newpassword = binding.newPasswordEdt!!.text.toString()
             ConfirmNewpassword = binding.confpasswordEdt!!.text.toString()
@@ -159,6 +208,26 @@ class CreatePasswordRewamp : AppCompatActivity() {
         )
     }
 
+    private fun updateResetButtonState() {
+        val newPassword = binding.newPasswordEdt?.text.toString().trim()
+        val confirmPassword = binding.confpasswordEdt?.text.toString().trim()
+
+        val isValid = newPassword.isNotEmpty() &&
+                confirmPassword.isNotEmpty()
+
+        if (isValid) {
+            binding.txtNext.isEnabled = true
+            binding.txtNext.isClickable = true
+            binding.txtNext.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#7a5af8"))
+            binding.txtNext.setTextColor(Color.WHITE)
+        } else {
+            binding.txtNext.isEnabled = false
+            binding.txtNext.isClickable = false
+            binding.txtNext.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#e7e7e8"))
+            binding.txtNext.setTextColor(Color.parseColor("#c4c3c8"))
+        }
+    }
+
     fun imgpasswordconfirmlockClick() {
 
         if (confirmPasswordVisible) {
@@ -206,57 +275,113 @@ class CreatePasswordRewamp : AppCompatActivity() {
 
     }
 
-    fun isToolBarPrimaryTheme1(
-        mainViewId: Int,
-        statusBarBgView: View
-    ) {
-        enableEdgeToEdge()
+//    fun isToolBarPrimaryTheme1(
+//        mainViewId: Int,
+//        statusBarBgView: View
+//    ) {
+//        enableEdgeToEdge()
+//
+//        val mainView = findViewById<View>(mainViewId)
+//
+//        // White status bar icons
+//        WindowCompat.getInsetsController(
+//            window,
+//            window.decorView
+//        ).isAppearanceLightStatusBars = false
+//
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+//
+//            val systemBars = insets.getInsets(
+//                WindowInsetsCompat.Type.systemBars()
+//            )
+//
+//            statusBarBgView.updateLayoutParams {
+//                height = systemBars.top
+//            }
+//
+//            view.updatePadding(
+//                left = systemBars.left,
+//                right = systemBars.right,
+//                bottom = systemBars.bottom
+//            )
+//
+//            insets
+//        }
+//
+//        window.statusBarColor = Color.TRANSPARENT
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            window.addFlags(
+//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+//            )
+//
+//            window.clearFlags(
+//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//            )
+//
+//            window.statusBarColor = Color.TRANSPARENT
+//
+//            window.navigationBarColor =
+//                resources.getColor(R.color.clr_auth_gray, theme)
+//        }
+//    }
+fun isToolBarPrimaryTheme1(
+    mainViewId: Int,
+    statusBarBgView: View
+) {
+    enableEdgeToEdge()
 
-        val mainView = findViewById<View>(mainViewId)
+    val mainView = findViewById<View>(mainViewId)
 
-        // White status bar icons
-        WindowCompat.getInsetsController(
-            window,
-            window.decorView
-        ).isAppearanceLightStatusBars = false
+    // White status bar icons
+    WindowCompat.getInsetsController(
+        window,
+        window.decorView
+    ).isAppearanceLightStatusBars = true
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+    WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+    ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
 
-            val systemBars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-            )
+        val systemBars = insets.getInsets(
+            WindowInsetsCompat.Type.systemBars()
+        )
 
-            statusBarBgView.updateLayoutParams {
-                height = systemBars.top
-            }
-
-            view.updatePadding(
-                left = systemBars.left,
-                right = systemBars.right,
-                bottom = systemBars.bottom
-            )
-
-            insets
+        statusBarBgView.updateLayoutParams {
+            height = systemBars.top
         }
+
+        view.updatePadding(
+            left = systemBars.left,
+            right = systemBars.right,
+            bottom = systemBars.bottom
+        )
+
+        insets
+    }
+
+    // White status bar background
+    statusBarBgView.setBackgroundColor(Color.WHITE)
+
+    window.statusBarColor = Color.TRANSPARENT
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+        )
+
+        window.clearFlags(
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        )
 
         window.statusBarColor = Color.TRANSPARENT
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            window.addFlags(
-                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-            )
-
-            window.clearFlags(
-                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-            )
-
-            window.statusBarColor = Color.TRANSPARENT
-
-            window.navigationBarColor =
-                resources.getColor(R.color.clr_auth_gray, theme)
-        }
+        window.navigationBarColor =
+            resources.getColor(R.color.white, theme)
     }
+}
 }

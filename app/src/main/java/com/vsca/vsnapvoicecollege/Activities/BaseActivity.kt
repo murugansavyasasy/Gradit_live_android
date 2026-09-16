@@ -882,7 +882,18 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                     popupWebview = null
                     changePassword = null
                 }
+
+                val firstTimeLoggedInUser =
+                    SharedPreference.getFirstTimeLoggedInUser(activity)
+
                 SharedPreference.clearShLogin(activity)
+
+                SharedPreference.setFirstTimeLoggedInUser(
+                    activity,
+                    firstTimeLoggedInUser
+                )
+
+
                 CommonUtil.Priority = ""
                 CommonUtil.MemberId = 0
                 CommonUtil.MemberName = ""
@@ -897,7 +908,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 CommonUtil.SectionId = ""
                 CommonUtil.MobileNUmber = ""
                 CommonUtil.isParentEnable = ""
-                val i = Intent(activity, MobileNumberRewamp::class.java)
+                val i = Intent(activity, LoginRewamp::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 activity.startActivity(i)
                 activity.finish()

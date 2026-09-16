@@ -6,7 +6,7 @@
 
     <!-- Medium-sized square outline -->
     <path
-        android:fillColor="#0058BC"
+        android:fillColor="#7c5df8"
         android:fillType="evenOdd"
         android:pathData="
             M2,2
@@ -23,7 +23,7 @@
 
     <!-- Checkmark sized to fit well inside -->
     <path
-        android:fillColor="#0058BC"
+        android:fillColor="#7c5df8"
         android:pathData="
             M14.5,7.5
             L9,14

@@ -36,6 +36,33 @@ object SharedPreference {
     const val SH_Videosizealert = "videosizealert"
     const val SH_EmergencyDuration = "emergencyduration"
     const val SH_NonEmergencyDuration = "nonemergencyduration"
+    const val SH_FirstTimeLoggedInUser = "first_time_logged_in_user"
+
+    @JvmStatic
+    fun setFirstTimeLoggedInUser(
+        activity: Activity,
+        value: Boolean
+    ) {
+        val prefs = activity.getSharedPreferences(
+            SH_PREF,
+            Context.MODE_PRIVATE
+        )
+
+        prefs.edit()
+            .putBoolean(SH_FirstTimeLoggedInUser, value)
+            .apply()
+    }
+
+    @JvmStatic
+    fun getFirstTimeLoggedInUser(activity: Activity): Boolean {
+        return activity.getSharedPreferences(
+            SH_PREF,
+            Context.MODE_PRIVATE
+        ).getBoolean(
+            SH_FirstTimeLoggedInUser,
+            false
+        )
+    }
 
     fun putagreed(activity: Context, agreed: Boolean) {
         val sharepref = activity.getSharedPreferences(SH_TermsConditionsPref, Context.MODE_PRIVATE)

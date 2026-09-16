@@ -1,23 +1,28 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+
+
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
@@ -29,23 +34,22 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
-import com.vsca.vsnapvoicecollege.databinding.LoginRewampBinding
+import com.vsca.vsnapvoicecollege.databinding.PasswordRewampBinding
 
-class LoginRewamp : AppCompatActivity() {
+class PasswordRewamp : AppCompatActivity() {
 
     var lblcontent: TextView? = null
     var MobileNumber: String? = null
-    var mobileLength: Int? = 0
     var Password: String? = null
     var authViewModel: Auth? = null
     var LoginData: List<LoginDetails> = ArrayList()
     var appViewModel: App? = null
-    private lateinit var binding: LoginRewampBinding
+    private lateinit var binding: PasswordRewampBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = LoginRewampBinding.inflate(layoutInflater)
+        binding = PasswordRewampBinding.inflate(layoutInflater)
         setContentView(binding.root)
         authViewModel = ViewModelProvider(this)[Auth::class.java]
         authViewModel!!.init()
@@ -60,37 +64,56 @@ class LoginRewamp : AppCompatActivity() {
 
         updateLoginButtonState()
 
-        val  countryDetails = SharedPreference.getCountryDetails(this)
-
-        mobileLength = countryDetails.mobilenumberlen
-            ?.toIntOrNull()
-            ?: 10
-
         binding.txtForgetpassword!!.setOnClickListener {
-
-            val mobileNumber = binding.phoneNumberEdt.text?.toString()?.trim()
-
-            if (mobileNumber.isNullOrEmpty() || mobileNumber.length != mobileLength) {
-
-                CommonUtil.CustomApiAlert(
-                    this@LoginRewamp,
-                    "Alert",
-                    "Please enter a valid $mobileLength digit mobile number",
-                    "Ok"
-                )
-
-                return@setOnClickListener
-            }
-
             GetOtp()
         }
-
         binding.imgPasswordopen.setOnClickListener { imgpasswordlockClick() }
 
         binding.txtNext.setOnClickListener {
             LoginbtnClick()
         }
         binding.btnBack.setOnClickListener { onBackPressed() }
+
+
+        MobileNumber = intent.getStringExtra("MobileNumber")
+            ?.takeIf { it.isNotEmpty() }
+            ?: CommonUtil.MobileNUmber.takeIf { it.isNotEmpty() }
+                    ?: SharedPreference.getSH_MobileNumber(this)
+
+        val mobileNumber = MobileNumber.orEmpty()
+
+        if (mobileNumber.isNotEmpty()) {
+
+            val maskedNumber = if (mobileNumber.length > 4) {
+                "*".repeat(mobileNumber.length - 4) + mobileNumber.takeLast(4)
+            } else {
+                mobileNumber
+            }
+
+            val message = "Enter the password for your mobile number "
+            val fullText = message + maskedNumber
+
+            val spannable = SpannableString(fullText)
+
+            spannable.setSpan(
+                ForegroundColorSpan(
+                    ContextCompat.getColor(this, R.color.light_gray_3)
+                ),
+                0,
+                message.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            spannable.setSpan(
+                ForegroundColorSpan(Color.BLACK),
+                message.length,
+                fullText.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            binding.lblYouMobileNumberDetails.text = spannable
+        }
+
 
         binding.passwordEdt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -100,15 +123,6 @@ class LoginRewamp : AppCompatActivity() {
             }
         })
 
-        binding.phoneNumberEdt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                updateLoginButtonState()
-            }
-        })
-
-
         authViewModel!!.loginResposneLiveData!!.observe(this) { response ->
             if (response != null) {
                 val status = response.status
@@ -116,32 +130,33 @@ class LoginRewamp : AppCompatActivity() {
                 if (status == 1) {
                     LoginData = response.data!!
                     if (LoginData.size != 0) {
+                        SharedPreference.setFirstTimeLoggedInUser(this@PasswordRewamp, true)
                         CommonUtil.UserDataList = response.data as ArrayList<LoginDetails>?
-                        SharedPreference.putLoginDetails(this@LoginRewamp, MobileNumber, Password)
+                        SharedPreference.putLoginDetails(this@PasswordRewamp, MobileNumber, Password)
                         SetLoginData(LoginData)
 
                         Log.d("LoginDataSize", LoginData.size.toString())
                         if (LoginData.size > 1) {
-                            val i = Intent(this@LoginRewamp, LoginRolesRewamp::class.java)
+                            val i = Intent(this@PasswordRewamp, LoginRolesRewamp::class.java)
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(i)
                             finishAffinity()
                         } else {
-                            val i = Intent(this@LoginRewamp, DashBoardActivityRewamp::class.java)
+                            val i = Intent(this@PasswordRewamp, DashBoardActivityRewamp::class.java)
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(i)
                             finishAffinity()
                         }
                     } else {
-                        CommonUtil.ApiAlert(this@LoginRewamp, message)
+                        CommonUtil.ApiAlert(this@PasswordRewamp, message)
                     }
                 } else {
-                    CommonUtil.ApiAlert(this@LoginRewamp, message)
+                    CommonUtil.ApiAlert(this@PasswordRewamp, message)
                 }
             } else {
-                CommonUtil.ApiAlert(this@LoginRewamp, CommonUtil.Something_went_wrong)
+                CommonUtil.ApiAlert(this@PasswordRewamp, CommonUtil.Something_went_wrong)
             }
         }
 
@@ -161,7 +176,7 @@ class LoginRewamp : AppCompatActivity() {
                     Log.d("ivrNumbers", CommonUtil.ivrnumbers.toString())
                     CommonUtil.OptMessege = response.Message
 
-                    val intents = Intent(this@LoginRewamp, OtpRewamp::class.java)
+                    val intents = Intent(this@PasswordRewamp, OtpRewamp::class.java)
                     intents.putExtra(
                         CommonUtil.EXTRA_AUTH_SOURCE,
                         CommonUtil.AUTH_SOURCE_LOGIN
@@ -183,16 +198,16 @@ class LoginRewamp : AppCompatActivity() {
 
     fun LoginbtnClick() {
         Password = binding.passwordEdt!!.text.toString()
-        MobileNumber = binding.phoneNumberEdt!!.text.toString()
 
         Log.d("Mobilenumber", MobileNumber!!)
         if (MobileNumber != "" && Password != "") {
+            CommonUtil.MobileNUmber = MobileNumber!!
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, MobileNumber)
             jsonObject.addProperty(ApiRequestNames.Req_password, Password)
-            authViewModel!!.login(jsonObject, this@LoginRewamp)
+            authViewModel!!.login(jsonObject, this@PasswordRewamp)
         } else {
-            CommonUtil.ApiAlert(this@LoginRewamp, "Enter your password")
+            CommonUtil.ApiAlert(this@PasswordRewamp, "Enter your password")
         }
     }
 
@@ -257,10 +272,9 @@ class LoginRewamp : AppCompatActivity() {
 
     private fun updateLoginButtonState() {
         val password = binding.passwordEdt?.text.toString().trim()
-        val phone_number = binding.phoneNumberEdt?.text.toString().trim()
 
 
-        if (password.isNotEmpty() && phone_number.isNotEmpty()) {
+        if (password.isNotEmpty()) {
             binding.txtNext.isEnabled = true
             binding.txtNext.isClickable = true
             binding.txtNext.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#7a5af8"))

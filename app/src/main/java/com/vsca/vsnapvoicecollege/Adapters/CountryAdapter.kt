@@ -1,10 +1,13 @@
 package com.vsca.vsnapvoicecollege.Adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
@@ -21,7 +24,8 @@ class CountryAdapter(
 
     private var selectedCountryId: Int? = null
 
-    private val defaultFlagUrl = "https://www.worldometers.info//img/flags/small/tn_in-flag.gif"
+//    private val defaultFlagUrl = "https://www.worldometers.info//img/flags/small/tn_in-flag.gif"
+    private val defaultFlagUrl = "https://flagcdn.com/w320/in.png"
 
     class CountryViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -51,7 +55,6 @@ class CountryAdapter(
         holder: CountryViewHolder,
         position: Int
     ) {
-
         val country = countryList[position]
 
         holder.txtCountry.text = country.country ?: ""
@@ -68,20 +71,28 @@ class CountryAdapter(
             .error(R.drawable.ic_default_image)
             .into(holder.imgCountry)
 
-        // Selected country
-        if (selectedCountryId == country.countryid) {
-            holder.imgSelected.visibility = View.VISIBLE
-        } else {
-            holder.imgSelected.visibility = View.GONE
-        }
+        val isSelected = selectedCountryId == country.countryid
+
+        holder.imgSelected.setImageResource(
+            if (isSelected) {
+                R.drawable.green_tick_icon
+            } else {
+                R.drawable.circle_unchecked
+            }
+        )
+
+        holder.imgSelected.visibility = View.VISIBLE
 
         holder.itemView.setOnClickListener {
 
-            selectedCountryId = country.countryid
+            if (selectedCountryId == country.countryid) {
+                selectedCountryId = null
+            } else {
+                selectedCountryId = country.countryid
+            }
 
             notifyDataSetChanged()
 
-            // Pass selected CountryDetails to Activity
             onCountryClick(country)
         }
     }
@@ -127,7 +138,6 @@ class CountryAdapter(
 
         notifyDataSetChanged()
 
-        // Tell Activity whether filtered data is empty
         onEmptyResult(countryList.isEmpty())
     }
 }

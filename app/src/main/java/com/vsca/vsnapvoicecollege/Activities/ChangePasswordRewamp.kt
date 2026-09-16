@@ -3,9 +3,12 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -60,6 +63,19 @@ class ChangePasswordRewamp : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
+        updateSubmitButtonState()
+
+        val watcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                updateSubmitButtonState()
+            }
+        }
+
+        binding.oldPasswordEdt.addTextChangedListener(watcher)
+        binding.newPasswordEdt.addTextChangedListener(watcher)
+        binding.confpasswordEdt.addTextChangedListener(watcher)
 
         binding.imgOldPasswordopen.setOnClickListener {
             oldPasswordVisible = passwordHideandShow(
@@ -108,6 +124,7 @@ class ChangePasswordRewamp : AppCompatActivity() {
             }
         }
 
+
         binding.txtNext!!.setOnClickListener {
             OldPassword = binding.oldPasswordEdt.text.toString()
             NewPassword = binding.newPasswordEdt.text.toString()
@@ -126,6 +143,29 @@ class ChangePasswordRewamp : AppCompatActivity() {
             } else {
                 CommonUtil.ApiAlert(this, getString(R.string.lbl_pswrd_not_match))
             }
+        }
+    }
+
+    private fun updateSubmitButtonState() {
+        val oldPassword = binding.oldPasswordEdt?.text.toString().trim()
+        val newPassword = binding.newPasswordEdt?.text.toString().trim()
+        val confirmPassword = binding.confpasswordEdt?.text.toString().trim()
+
+        val isValid = oldPassword.isNotEmpty() &&
+                newPassword.isNotEmpty() &&
+                confirmPassword.isNotEmpty()
+        // add newPassword.length >= 6 (or your min length rule) here too, if applicable
+
+        if (isValid) {
+            binding.txtNext.isEnabled = true
+            binding.txtNext.isClickable = true
+            binding.txtNext.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#7a5af8"))
+            binding.txtNext.setTextColor(Color.WHITE)
+        } else {
+            binding.txtNext.isEnabled = false
+            binding.txtNext.isClickable = false
+            binding.txtNext.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#e7e7e8"))
+            binding.txtNext.setTextColor(Color.parseColor("#c4c3c8"))
         }
     }
 
@@ -188,6 +228,60 @@ class ChangePasswordRewamp : AppCompatActivity() {
         Log.d("ChangePasswordRequest", jsonObject.toString())
     }
 
+//    fun isToolBarPrimaryTheme1(
+//        mainViewId: Int,
+//        statusBarBgView: View
+//    ) {
+//        enableEdgeToEdge()
+//
+//        val mainView = findViewById<View>(mainViewId)
+//
+//        // White status bar icons
+//        WindowCompat.getInsetsController(
+//            window,
+//            window.decorView
+//        ).isAppearanceLightStatusBars = false
+//
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+//
+//            val systemBars = insets.getInsets(
+//                WindowInsetsCompat.Type.systemBars()
+//            )
+//
+//            statusBarBgView.updateLayoutParams {
+//                height = systemBars.top
+//            }
+//
+//            view.updatePadding(
+//                left = systemBars.left,
+//                right = systemBars.right,
+//                bottom = systemBars.bottom
+//            )
+//
+//            insets
+//        }
+//
+//        window.statusBarColor = Color.TRANSPARENT
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            window.addFlags(
+//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+//            )
+//
+//            window.clearFlags(
+//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//            )
+//
+//            window.statusBarColor = Color.TRANSPARENT
+//
+//            window.navigationBarColor =
+//                resources.getColor(R.color.clr_auth_gray, theme)
+//        }
+//    }
+
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,
         statusBarBgView: View
@@ -200,7 +294,7 @@ class ChangePasswordRewamp : AppCompatActivity() {
         WindowCompat.getInsetsController(
             window,
             window.decorView
-        ).isAppearanceLightStatusBars = false
+        ).isAppearanceLightStatusBars = true
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -223,6 +317,9 @@ class ChangePasswordRewamp : AppCompatActivity() {
             insets
         }
 
+        // White status bar background
+        statusBarBgView.setBackgroundColor(Color.WHITE)
+
         window.statusBarColor = Color.TRANSPARENT
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -238,7 +335,7 @@ class ChangePasswordRewamp : AppCompatActivity() {
             window.statusBarColor = Color.TRANSPARENT
 
             window.navigationBarColor =
-                resources.getColor(R.color.clr_auth_gray, theme)
+                resources.getColor(R.color.white, theme)
         }
     }
 }

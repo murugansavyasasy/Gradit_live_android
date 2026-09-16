@@ -136,6 +136,12 @@ object CommonUtil {
     var FeeDetails = "feedetails"
     var Collage_ids = ""
     var CollageIDS: Boolean = true
+
+
+    const val EXTRA_AUTH_SOURCE = "extra_auth_source"
+
+    const val AUTH_SOURCE_MOBILE = "mobile_screen"
+    const val AUTH_SOURCE_LOGIN = "login_screen"
     var isSubmitted = ""
     var CallEnable = "0"
     var isFileCount = 0

@@ -94,6 +94,12 @@
 
             />
         <activity
+            android:name=".Activities.PasswordRewamp"
+            android:exported="false"
+            android:theme="@style/Auth_NoActionBar_"
+
+            />
+        <activity
             android:name=".Activities.MobileNumberRewamp"
             android:exported="false"
             android:theme="@style/Auth_NoActionBar_"

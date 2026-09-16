@@ -26,11 +26,13 @@ import android.text.InputType
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.marginTop
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
@@ -90,7 +92,7 @@ class OtpRewamp : AppCompatActivity() {
                 setTextColor(
                     ContextCompat.getColor(
                         this@OtpRewamp,
-                        R.color.clr_blue_1
+                        R.color.btn_voliet_colour
                     )
                 )
 
@@ -109,6 +111,13 @@ class OtpRewamp : AppCompatActivity() {
                     }
                     startActivity(intent)
                 }
+            }.also { tv ->
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                params.topMargin = (10 * resources.displayMetrics.density).toInt() // 10dp -> px
+                tv.layoutParams = params
             }
 
             binding.llHelplineNumbers.addView(textView)
@@ -165,7 +174,7 @@ class OtpRewamp : AppCompatActivity() {
                         binding.txtOtp1.setBackgroundResource(R.drawable.bg_input_filled)
                         binding.txtOtp2.requestFocus()
                     } else {
-                        binding.txtOtp1.setBackgroundResource(R.drawable.bg_input)
+                        binding.txtOtp1.setBackgroundResource(R.drawable.bg_input_2)
                     }
                 }
 
@@ -193,7 +202,7 @@ class OtpRewamp : AppCompatActivity() {
                         binding.txtOtp2.setBackgroundResource(R.drawable.bg_input_filled)
                         binding.txtOtp3.requestFocus()
                     } else {
-                        binding.txtOtp2.setBackgroundResource(R.drawable.bg_input)
+                        binding.txtOtp2.setBackgroundResource(R.drawable.bg_input_2)
                     }
                 }
 
@@ -211,7 +220,7 @@ class OtpRewamp : AppCompatActivity() {
                 ) {
                     binding.txtOtp1.text?.clear()
                     binding.txtOtp1.requestFocus()
-                    binding.txtOtp1.setBackgroundResource(R.drawable.bg_input)
+                    binding.txtOtp1.setBackgroundResource(R.drawable.bg_input_2)
                     true
                 } else {
                     false
@@ -225,7 +234,7 @@ class OtpRewamp : AppCompatActivity() {
                 ) {
                     binding.txtOtp2.text?.clear()
                     binding.txtOtp2.requestFocus()
-                    binding.txtOtp2.setBackgroundResource(R.drawable.bg_input)
+                    binding.txtOtp2.setBackgroundResource(R.drawable.bg_input_2)
                     true
                 } else {
                     false
@@ -239,7 +248,7 @@ class OtpRewamp : AppCompatActivity() {
                 ) {
                     binding.txtOtp3.text?.clear()
                     binding.txtOtp3.requestFocus()
-                    binding.txtOtp3.setBackgroundResource(R.drawable.bg_input)
+                    binding.txtOtp3.setBackgroundResource(R.drawable.bg_input_2)
                     true
                 } else {
                     false
@@ -349,14 +358,27 @@ class OtpRewamp : AppCompatActivity() {
                 val message = response.Message
                 if (status == 1) {
 
-                    Handler().postDelayed(Runnable {
-                        intent = Intent(this@OtpRewamp, CreatePasswordRewamp::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
-                        finish()
-                    }, 1000)
+                    Handler().postDelayed({
 
+                        val source = intent.getStringExtra(CommonUtil.EXTRA_AUTH_SOURCE)
+
+                        val nextIntent = Intent(
+                            this@OtpRewamp,
+                            CreatePasswordRewamp::class.java
+                        )
+
+                        nextIntent.putExtra(
+                            CommonUtil.EXTRA_AUTH_SOURCE,
+                            source
+                        )
+
+                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+                        startActivity(nextIntent)
+                        finish()
+
+                    }, 1000)
                 } else {
                     CommonUtil.ApiAlert(this, message)
                 }
@@ -476,6 +498,60 @@ class OtpRewamp : AppCompatActivity() {
         Log.d("OtpVerified:", jsonObject.toString())
     }
 
+//    fun isToolBarPrimaryTheme1(
+//        mainViewId: Int,
+//        statusBarBgView: View
+//    ) {
+//        enableEdgeToEdge()
+//
+//        val mainView = findViewById<View>(mainViewId)
+//
+//        // White status bar icons
+//        WindowCompat.getInsetsController(
+//            window,
+//            window.decorView
+//        ).isAppearanceLightStatusBars = false
+//
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+//
+//            val systemBars = insets.getInsets(
+//                WindowInsetsCompat.Type.systemBars()
+//            )
+//
+//            statusBarBgView.updateLayoutParams {
+//                height = systemBars.top
+//            }
+//
+//            view.updatePadding(
+//                left = systemBars.left,
+//                right = systemBars.right,
+//                bottom = systemBars.bottom
+//            )
+//
+//            insets
+//        }
+//
+//        window.statusBarColor = Color.TRANSPARENT
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            window.addFlags(
+//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+//            )
+//
+//            window.clearFlags(
+//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//            )
+//
+//            window.statusBarColor = Color.TRANSPARENT
+//
+//            window.navigationBarColor =
+//                resources.getColor(R.color.clr_auth_gray, theme)
+//        }
+//    }
+
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,
         statusBarBgView: View
@@ -488,7 +564,7 @@ class OtpRewamp : AppCompatActivity() {
         WindowCompat.getInsetsController(
             window,
             window.decorView
-        ).isAppearanceLightStatusBars = false
+        ).isAppearanceLightStatusBars = true
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -511,6 +587,9 @@ class OtpRewamp : AppCompatActivity() {
             insets
         }
 
+        // White status bar background
+        statusBarBgView.setBackgroundColor(Color.WHITE)
+
         window.statusBarColor = Color.TRANSPARENT
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -526,8 +605,7 @@ class OtpRewamp : AppCompatActivity() {
             window.statusBarColor = Color.TRANSPARENT
 
             window.navigationBarColor =
-                resources.getColor(R.color.clr_auth_gray, theme)
+                resources.getColor(R.color.white, theme)
         }
     }
-
 }

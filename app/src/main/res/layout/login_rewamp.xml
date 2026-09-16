@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:id="@+id/headerLayout"
-        android:background="@drawable/bg_select_country_header"
+        android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusBarBackground"
@@ -26,11 +26,13 @@
             android:layout_marginVertical="@dimen/twenty"
             android:id="@+id/btnBack"
             android:layout_width="40dp"
+            android:backgroundTint="#7a5af8"
             android:layout_height="40dp"
             android:layout_gravity="start|center_vertical"
-            android:background="@drawable/bg_back_button"
             android:contentDescription="Go back"
-            android:padding="9dp"
+            android:padding="6dp"
+            android:background="@null"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,6 +48,7 @@
             android:layout_height="0dp"
             android:background="@drawable/bg_country_choose_panel"
             android:fillViewport="true"
+            android:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,18 +65,18 @@
                     android:id="@+id/imgLogo"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
                     android:contentDescription="GRADIT Logo"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/gradit_logo_2" />
+                    android:src="@drawable/gradit_splash_icon" />
 
                 <TextView
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="Welcome back!"
                     android:textColor="#0B1C30"
                     android:textSize="24sp"
@@ -84,9 +87,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="Stay connected with your academic journey and manage your schedule seamlessly."
-                    android:textColor="#414755"
+                    android:textColor="#FF8B8A94"
                     android:textSize="15sp" />
 
                 <TextView
@@ -101,41 +104,55 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-
-                    android:id="@+id/llPhoneInput"
+                    android:layout_marginTop="@dimen/twenty"
+                    android:background="@drawable/auth_text_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/bg_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:padding="@dimen/ten"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/tvCountryCode"
-                        android:layout_width="@dimen/twenty"
-                        android:src="@drawable/mobile_icon_2"
-                        android:layout_height="@dimen/twenty"
-                        android:layout_marginHorizontal="@dimen/ten"
-
-                        />
 
                     <TextView
-                        android:id="@+id/phone_number_edt"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="00000 00000"
-                        android:paddingVertical="@dimen/fifteen"
-                        android:inputType="phone"
-                        android:paddingStart="12dp"
-                        android:layout_marginEnd="@dimen/five"
-                        android:paddingEnd="12dp"
-                        android:textColor="#80414755"
-                        android:textColorHint="#80414755"
-                        android:textSize="15sp"
-                        android:textStyle="normal" />
+                        android:letterSpacing="0.05"
+                        android:text="Mobile Number"
+                        android:textColor="#414755"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
+                    <LinearLayout
+
+                        android:id="@+id/llPhoneInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/tvCountryCode"
+                            android:layout_width="@dimen/twenty"
+                            android:src="@drawable/mobile_icon_2"
+                            android:layout_height="@dimen/twenty"
+
+                            />
+
+                        <EditText
+                            android:id="@+id/phone_number_edt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:paddingVertical="@dimen/fifteen"
+                            android:hint="Enter your mobile number"
+                            android:layout_marginHorizontal="@dimen/five"
+                            android:inputType="number"
+                            android:digits="0123456789"
+                            android:layout_toStartOf="@+id/img_passwordopen"
+                            android:textColor="@color/black"
+                            android:textColorHint="#717786"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -150,50 +167,66 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
-                <RelativeLayout
+                <LinearLayout
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:padding="@dimen/ten"
+                    android:orientation="vertical"
+                    android:background="@drawable/auth_text_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/bg_input">
-
-                    <ImageView
-                        android:id="@+id/imgLockPas"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="14dp"
-                        android:contentDescription="Password"
-                        android:layout_alignParentStart="true"
-                        android:src="@drawable/ic_lock_icon" />
-
-                    <EditText
-                        android:layout_toEndOf="@+id/imgLockPas"
-                        android:id="@+id/password_edt"
+                    android:layout_height="wrap_content">
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:paddingVertical="@dimen/fifteen"
-                        android:hint="Enter your password"
-                        android:layout_marginHorizontal="@dimen/five"
-                        android:inputType="textPassword"
-                        android:paddingStart="12dp"
-                        android:layout_toStartOf="@+id/img_passwordopen"
-                        android:textColor="#0B1C30"
-                        android:textColorHint="#717786"
-                        android:textSize="15sp" />
+                        android:letterSpacing="0.05"
+                        android:text="Password"
+                        android:textColor="#414755"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                     >
 
-                    <ImageView
-                        android:layout_alignParentEnd="true"
-                        android:id="@+id/img_passwordopen"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="14dp"
-                        android:contentDescription="Show/hide password"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_eye_off_2" />
+                        <ImageView
+                            android:id="@+id/imgLockPas"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="Password"
+                            android:layout_alignParentStart="true"
+                            android:src="@drawable/ic_lock_icon" />
 
-                </RelativeLayout>
+                        <EditText
+                            android:layout_toEndOf="@+id/imgLockPas"
+                            android:id="@+id/password_edt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:paddingVertical="@dimen/fifteen"
+                            android:hint="Enter your password"
+                            android:layout_marginHorizontal="@dimen/five"
+                            android:inputType="textPassword"
+                            android:layout_toStartOf="@+id/img_passwordopen"
+                            android:textColor="@color/black"
+                            android:textColorHint="#717786"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/img_passwordopen"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="14dp"
+                            android:contentDescription="Show/hide password"
+                            android:padding="2dp"
+                            android:src="@drawable/ic_eye_off_2" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/txt_forgetpassword"
@@ -202,7 +235,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_gravity="end"
                     android:text="Forgot Password?"
-                    android:textColor="#0070EB"
+                    android:textColor="#7a5af8"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -213,6 +246,7 @@
                     android:layout_marginTop="28dp"
                     android:background="@drawable/bg_primary_button"
                     android:text="Login"
+                    android:backgroundTint="#7a5af8"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="15sp"

@@ -504,14 +504,25 @@ class CountryRewamp : AppCompatActivity() {
         mobilenumber = SharedPreference.getSH_MobileNumber(this@CountryRewamp)
         password = SharedPreference.getSH_Password(this@CountryRewamp)
 
+        val isFirstTimeLoggedInUser = SharedPreference.getFirstTimeLoggedInUser(this)
+
         if (mobilenumber!!.isNotEmpty() && password!!.isNotEmpty()) {
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobilenumber)
             jsonObject.addProperty(ApiRequestNames.Req_password, password)
             authViewModel!!.login(jsonObject, this@CountryRewamp)
-        } else {
-            val i = Intent(this@CountryRewamp, MobileNumberRewamp::class.java)
-            startActivity(i)
+        }
+        else {
+            if (isFirstTimeLoggedInUser){
+                val i = Intent(this@CountryRewamp, LoginRewamp::class.java)
+                startActivity(i)
+            }
+            else{
+                val i = Intent(this@CountryRewamp, MobileNumberRewamp::class.java)
+                startActivity(i)
+            }
+//            val i = Intent(this@CountryRewamp, MobileNumberRewamp::class.java)
+//            startActivity(i)
         }
     }
 
@@ -561,7 +572,7 @@ class CountryRewamp : AppCompatActivity() {
             ForegroundColorSpan(
                 ContextCompat.getColor(
                     this,
-                    R.color.btn_clr_blue
+                    R.color.btn_voliet_colour
                 )
             ),
             start,
@@ -590,7 +601,7 @@ class CountryRewamp : AppCompatActivity() {
 
                     ds.color = ContextCompat.getColor(
                         this@CountryRewamp,
-                        R.color.btn_clr_blue
+                        R.color.btn_voliet_colour
                     )
                     ds.isUnderlineText = true
                 }
@@ -611,6 +622,60 @@ class CountryRewamp : AppCompatActivity() {
             Color.TRANSPARENT
     }
 
+//    fun isToolBarPrimaryTheme1(
+//        mainViewId: Int,
+//        statusBarBgView: View
+//    ) {
+//        enableEdgeToEdge()
+//
+//        val mainView = findViewById<View>(mainViewId)
+//
+//        WindowCompat.getInsetsController(
+//            window,
+//            window.decorView
+//        ).isAppearanceLightStatusBars = false
+//
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+//
+//            val systemBars = insets.getInsets(
+//                WindowInsetsCompat.Type.systemBars()
+//            )
+//
+//            statusBarBgView.updateLayoutParams {
+//                height = systemBars.top
+//            }
+//
+//            view.updatePadding(
+//                left = systemBars.left,
+//                right = systemBars.right,
+//                bottom = systemBars.bottom
+//            )
+//
+//            insets
+//        }
+//
+//        window.statusBarColor = Color.TRANSPARENT
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            window.addFlags(
+//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+//            )
+//
+//            window.clearFlags(
+//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//            )
+//
+//            window.statusBarColor = Color.TRANSPARENT
+//
+//            window.navigationBarColor =
+//                resources.getColor(R.color.clr_auth_gray, theme)
+//        }
+//    }
+
+
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,
         statusBarBgView: View
@@ -619,10 +684,11 @@ class CountryRewamp : AppCompatActivity() {
 
         val mainView = findViewById<View>(mainViewId)
 
+        // Dark status bar icons (since background will be white)
         WindowCompat.getInsetsController(
             window,
             window.decorView
-        ).isAppearanceLightStatusBars = false
+        ).isAppearanceLightStatusBars = true
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -645,7 +711,8 @@ class CountryRewamp : AppCompatActivity() {
             insets
         }
 
-        window.statusBarColor = Color.TRANSPARENT
+        // White status bar background
+        statusBarBgView.setBackgroundColor(Color.WHITE)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -660,11 +727,9 @@ class CountryRewamp : AppCompatActivity() {
             window.statusBarColor = Color.TRANSPARENT
 
             window.navigationBarColor =
-                resources.getColor(R.color.clr_auth_gray, theme)
+                resources.getColor(R.color.white, theme)
         }
     }
-
-
 
     override fun onBackPressed() {
         super.onBackPressed()

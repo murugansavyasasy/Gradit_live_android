@@ -42,7 +42,7 @@ import com.vsca.vsnapvoicecollege.databinding.SplashRewampBinding
 
 class SplashRewamp : AppCompatActivity() {
 
-    private var floatAnimator: ObjectAnimator? = null
+//    private var floatAnimator: ObjectAnimator? = null
 
 
     var handler: Handler? = null
@@ -92,7 +92,7 @@ class SplashRewamp : AppCompatActivity() {
 
         //  CommonUtil.isDeviceTokenApiCalling = true
 
-        startImpactfulEntranceAnimation()
+//        startImpactfulEntranceAnimation()
 
 
         if (!CommonUtil.isNetworkConnected(this@SplashRewamp)) {
@@ -224,6 +224,8 @@ class SplashRewamp : AppCompatActivity() {
     private fun AutoLogin() {
         mobilenumber = SharedPreference.getSH_MobileNumber(this@SplashRewamp)
         password = SharedPreference.getSH_Password(this@SplashRewamp)
+        val isFirstTimeLoggedInUser = SharedPreference.getFirstTimeLoggedInUser(this)
+        Log.d("FirstTimeUser",isFirstTimeLoggedInUser.toString())
 
         if (mobilenumber!!.isNotEmpty() && password!!.isNotEmpty()) {
             val jsonObject = JsonObject()
@@ -231,10 +233,17 @@ class SplashRewamp : AppCompatActivity() {
             jsonObject.addProperty(ApiRequestNames.Req_password, password)
             authViewModel!!.login(jsonObject, this@SplashRewamp)
         } else {
-            val i = Intent(this@SplashRewamp, MobileNumberRewamp::class.java)
-            startActivity(i)
-            finish()
 
+            if (isFirstTimeLoggedInUser){
+                val i = Intent(this@SplashRewamp, LoginRewamp::class.java)
+                startActivity(i)
+                finish()
+            }
+            else{
+                val i = Intent(this@SplashRewamp, MobileNumberRewamp::class.java)
+                startActivity(i)
+                finish()
+            }
         }
     }
 
@@ -307,39 +316,39 @@ class SplashRewamp : AppCompatActivity() {
     }
 
 
-    private fun startImpactfulEntranceAnimation() {
-        binding.centerBlock.alpha = 0f
-        binding.centerBlock.scaleX = 0.82f
-        binding.centerBlock.scaleY = 0.82f
-        binding.centerBlock.translationY = 40f
-        binding.centerBlock.animate()
-            .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
-            .translationY(0f)
-            .setDuration(550)
-            .setInterpolator(OvershootInterpolator(1.4f))
-            .withEndAction {
-                startFloatingHover()
-            }
-            .start()
+//    private fun startImpactfulEntranceAnimation() {
+//        binding.centerBlock.alpha = 0f
+//        binding.centerBlock.scaleX = 0.82f
+//        binding.centerBlock.scaleY = 0.82f
+//        binding.centerBlock.translationY = 40f
+//        binding.centerBlock.animate()
+//            .alpha(1f)
+//            .scaleX(1f)
+//            .scaleY(1f)
+//            .translationY(0f)
+//            .setDuration(550)
+//            .setInterpolator(OvershootInterpolator(1.4f))
+//            .withEndAction {
+//                startFloatingHover()
+//            }
+//            .start()
+//
+//    }
 
-    }
-
-    private fun startFloatingHover() {
-        floatAnimator?.cancel()
-        floatAnimator = ObjectAnimator.ofFloat(
-            binding.centerBlock,
-            View.TRANSLATION_Y,
-            0f, -14f, 0f
-        ).apply {
-            duration = 2400
-            repeatMode = ValueAnimator.REVERSE
-            repeatCount = ValueAnimator.INFINITE
-            interpolator = AccelerateDecelerateInterpolator()
-            start()
-        }
-    }
+//    private fun startFloatingHover() {
+//        floatAnimator?.cancel()
+//        floatAnimator = ObjectAnimator.ofFloat(
+//            binding.centerBlock,
+//            View.TRANSLATION_Y,
+//            0f, -14f, 0f
+//        ).apply {
+//            duration = 2400
+//            repeatMode = ValueAnimator.REVERSE
+//            repeatCount = ValueAnimator.INFINITE
+//            interpolator = AccelerateDecelerateInterpolator()
+//            start()
+//        }
+//    }
 
     fun Activity.applyPrimaryGradientTheme(
         mainViewId: Int
@@ -363,7 +372,7 @@ class SplashRewamp : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor =
-                resources.getColor(R.color.clr_auth_gray, theme)
+                resources.getColor(R.color.white, theme)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->

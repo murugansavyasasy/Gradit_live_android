@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#ebf7ff">
+    android:background="#FFF6F5FB">
 
     <LinearLayout
         android:id="@+id/imgLogo"
@@ -21,7 +21,7 @@
             android:layout_height="@dimen/fifty"
             android:layout_gravity="center"
             android:contentDescription="GRADIT Logo"
-            android:src="@drawable/gradit_logo_2" />
+            android:src="@drawable/gradit_splash_icon" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -150,6 +150,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
+                        android:visibility="gone"
+
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 

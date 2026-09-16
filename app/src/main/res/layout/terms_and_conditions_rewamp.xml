@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_select_country_header"
+    android:background="@color/white"
     >
     <ImageView
         android:id="@+id/imgBack"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#7a5af8"
+        android:tint="@color/white"
         android:background="@drawable/bg_back_button"
         android:contentDescription="Back"
         android:padding="5dp"
