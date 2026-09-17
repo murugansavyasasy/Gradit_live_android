@@ -224,10 +224,7 @@ class DashboardChild(
         holder.LayoutCicular.visibility = View.VISIBLE
         holder.lnrCircularAttachment.visibility = View.VISIBLE
 
-        holder.LayoutCicular.setBackgroundResource(
-            if (holder.bindingAdapterPosition % 2 == 0) R.drawable.bg_dashboard_circular_grey
-            else R.drawable.bg_dashboard_cicular
-        )
+        holder.LayoutCicular.setBackgroundResource(R.drawable.bg_card_pdf)
 
         holder.lblCircularTitle.text = modal.menuTitle
         holder.lblCirculardescription.text = modal.menuDescription
@@ -296,10 +293,7 @@ class DashboardChild(
     @RequiresApi(Build.VERSION_CODES.O)
     private fun bindUpcomingEvents(holder: ViewHolder, modal: DashboardSubItems) {
         holder.UpcomingEvent.visibility = View.VISIBLE
-        holder.UpcomingEvent.setBackgroundResource(
-            if (holder.bindingAdapterPosition % 2 == 0) R.drawable.bg_dashboard_circular_grey
-            else R.drawable.bg_dashboard_cicular
-        )
+        holder.UpcomingEvent.setBackgroundResource(R.drawable.bg_card_events)
 
         holder.lblEventtopic.text = modal.Eventtime
         holder.lbleventDate.text = modal.EventTitle
@@ -353,10 +347,7 @@ class DashboardChild(
         }
 
         holder.Leave_Request_dashboard.visibility = View.VISIBLE
-        holder.lnrNoticeboard.setBackgroundResource(
-            if (holder.bindingAdapterPosition % 2 == 0) R.drawable.bg_dashboard_circular_grey
-            else R.drawable.bg_dashboard_cicular
-        )
+        holder.lnrNoticeboard.setBackgroundResource(R.drawable.bg_dashboard_card_white)
 
         holder.lblLeaveCreatedDate.text = modal.appliedon
         holder.lblleaveStatus.text = modal.leavestatus
@@ -387,10 +378,7 @@ class DashboardChild(
 
     private fun bindAssignments(holder: ViewHolder, modal: DashboardSubItems) {
         holder.Assignment.visibility = View.VISIBLE
-        holder.Assignment.setBackgroundResource(
-            if (holder.bindingAdapterPosition % 2 == 0) R.drawable.bg_dashboard_circular_grey
-            else R.drawable.bg_dashboard_cicular
-        )
+        holder.Assignment.setBackgroundResource(R.drawable.bg_card_assignment)
 
         val hasFiles = modal.FilepathListAssignment.isNotEmpty() &&
                 modal.FilepathListAssignment[0].isNullOrEmpty().not()
@@ -433,10 +421,7 @@ class DashboardChild(
         holder.lblNoticeDescription.text = modal.menuDescription
         holder.lblCreateTime.text = modal.createTime
         holder.lblNotiCreateDate.text = modal.createDate
-        holder.rytNoticeboard.setBackgroundResource(
-            if (holder.bindingAdapterPosition % 2 == 0) R.drawable.noticeboard_blue
-            else R.drawable.noticeboard_yellow
-        )
+        holder.rytNoticeboard.setBackgroundResource(R.drawable.bg_card_noticeboard)
 
         CommonUtil.MenuIDNoticeboard = BaseActivity.NoticeboardMenuID
         holder.lnrImageView.setOnClickListener {

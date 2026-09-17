@@ -2,59 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/three"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/idTVCategory"
-            android:layout_width="wrap_content"
+        <!-- Section header: accent bar + title on the left, "View all" pill on the right -->
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="@dimen/thirteen"
-            android:layout_marginTop="@dimen/ten"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="@dimen/thirteen"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/lblViewAll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="top"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/five"
+            android:layout_marginStart="@dimen/fifteen"
+            android:layout_marginTop="@dimen/two"
             android:layout_marginEnd="@dimen/fifteen"
-            android:background="@drawable/bg_rectangle_white"
-            android:backgroundTint="@color/clr_grey_light"
-            android:gravity="end"
-            android:padding="@dimen/five"
-            android:text="@string/txt_view_all"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twelve"
-            android:textStyle="normal"
-            android:visibility="visible" />
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/idTVCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableStart="@drawable/bg_section_accent"
+                android:drawablePadding="@dimen/eight"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textColor="@color/clr_header_black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lblViewAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_view_all_pill"
+                android:gravity="center"
+                android:paddingStart="@dimen/twelve"
+                android:paddingTop="6dp"
+                android:paddingEnd="@dimen/twelve"
+                android:paddingBottom="6dp"
+                android:text="@string/txt_view_all"
+                android:textColor="@color/clr_parent"
+                android:textSize="@dimen/twelve"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/lblNoRecords"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lblViewAll"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="@dimen/thirteen"
-            android:layout_marginTop="@dimen/twenty"
+            android:layout_marginStart="@dimen/fifteen"
+            android:layout_marginTop="@dimen/eight"
             android:layout_marginBottom="@dimen/five"
             android:text="No records found"
-            android:textColor="@color/black"
+            android:textColor="@color/light_gray"
             android:textSize="@dimen/twelve"
             android:textStyle="normal" />
 
@@ -62,18 +69,22 @@
             android:id="@+id/idCVCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lblViewAll"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/eight"
-            android:layout_marginEnd="@dimen/ten"
-            android:elevation="0dp"
+            android:layout_marginStart="@dimen/twelve"
+            android:layout_marginTop="@dimen/two"
+            android:layout_marginEnd="@dimen/twelve"
             android:visibility="visible"
-            app:cardElevation="0dp">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:padding="@dimen/three">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerDashboardTitle"
                     android:layout_width="match_parent"
@@ -84,24 +95,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipChildren="false"
-                    android:visibility="gone"
-                    android:clipToPadding="false" />
+                    android:clipToPadding="false"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/lblSwipeForMore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginBottom="@dimen/five"
                     android:gravity="end"
-                    android:layout_marginBottom="@dimen/eight"
-                    android:text="Swipe for more menu >>"
-                    android:textColor="@color/clr_black"
-                    android:textStyle="bold"
+                    android:text="Swipe for more menu  ›"
+                    android:textColor="@color/clr_parent"
                     android:textSize="@dimen/eleve_sp"
+                    android:textStyle="bold"
                     android:visibility="gone" />
 
             </LinearLayout>
 
-
-
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -298,6 +298,21 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setCustomView(R.layout.action_bar_layout)
         val view = supportActionBar!!.customView
+
+        // Make the custom view fill the whole action bar (removes the side/edge gap)
+        supportActionBar!!.setCustomView(
+            view,
+            ActionBar.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
+        supportActionBar!!.elevation = 0f
+        (view.parent as? androidx.appcompat.widget.Toolbar)?.apply {
+            setContentInsetsAbsolute(0, 0)
+            contentInsetStartWithNavigation = 0
+            setPadding(0, 0, 0, 0)
+        }
         val lblMemberName = view.findViewById<View>(R.id.lblMemberName) as TextView
         val layoutUserDetails = view.findViewById<View>(R.id.layoutUserDetails) as ConstraintLayout
         val layoutWithProfiles = view.findViewById<View>(R.id.layoutUserDetails) as ConstraintLayout
@@ -374,6 +389,29 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             lblMemberName.text = CommonUtil.MemberName
             lblRole.text = CommonUtil.MemberType
         }
+
+        // Toolbar background uses the role/menu tint colour; foreground turns white for contrast
+        val menuTintRes = when (CommonUtil.Priority) {
+            "p1" -> R.color.clr_principal
+            "p2", "p3", "p6" -> R.color.clr_teachingstaff
+            "p4" -> R.color.clr_receiver
+            "p5" -> R.color.clr_parent
+            "p7" -> R.color.cle_lightorang
+            else -> R.color.black
+        }
+        val tintColor = androidx.core.content.ContextCompat.getColor(activity, menuTintRes)
+        val whiteFg = androidx.core.content.ContextCompat.getColor(activity, R.color.white)
+        constAction.setBackgroundColor(tintColor)
+        // Colour the action bar container itself (behind the custom view) so no white shows
+        supportActionBar!!.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(tintColor))
+        (view.parent as? android.view.View)?.setBackgroundColor(tintColor)
+        activity.window.statusBarColor = tintColor
+        lblMemberName.setTextColor(whiteFg)
+        lblRole.setTextColor(whiteFg)
+        imgBack.setColorFilter(whiteFg)
+        imgNotification!!.setColorFilter(whiteFg)
+        imgRefresh!!.setColorFilter(whiteFg)
+        SearchList?.setColorFilter(whiteFg)
     }
 
 //    fun View.addActionBarMarginIfNeeded() {
