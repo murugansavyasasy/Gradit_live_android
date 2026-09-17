@@ -32,6 +32,7 @@ import com.vsca.vsnapvoicecollege.databinding.CreatePasswordRewampBinding
 class CreatePasswordRewamp : AppCompatActivity() {
 
     var Newpassword: String? = null
+    var authSource: String? = null
     var ConfirmNewpassword: String? = null
     var appViewModel: App? = null
     private var newPasswordVisible = false
@@ -60,7 +61,7 @@ class CreatePasswordRewamp : AppCompatActivity() {
 //        This tell which label should be placed whether reset password or create password
 //        Because if user is coming first it will come Create Password he already created
 //        now user may forget the password so user may clicked Forget Password
-        val authSource = intent.getStringExtra(CommonUtil.EXTRA_AUTH_SOURCE)
+        authSource = intent.getStringExtra(CommonUtil.EXTRA_AUTH_SOURCE)
         Log.d("OTP","This password request came from"+authSource)
 
         when (authSource) {
@@ -94,6 +95,11 @@ class CreatePasswordRewamp : AppCompatActivity() {
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
+
+                    if (authSource== CommonUtil.AUTH_SOURCE_MOBILE) {
+                        SharedPreference.setFirstTimeLoggedInUser(this@CreatePasswordRewamp, true)
+                    }
+
                     val mobileNumber = CommonUtil.MobileNUmber
                         .takeIf { it.isNotEmpty() }
                         ?: SharedPreference.getSH_MobileNumber(this)
@@ -111,12 +117,12 @@ class CreatePasswordRewamp : AppCompatActivity() {
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
                     dlg.setPositiveButton(CommonUtil.OK) { dialog, which ->
-
                         val intents = Intent(this, LoginRewamp::class.java)
                         intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         intents.putExtra("MobileNumber", mobileNumber)
                         startActivity(intents)
+
                     }
                     dlg.setCancelable(false)
                     dlg.create()
@@ -275,59 +281,6 @@ class CreatePasswordRewamp : AppCompatActivity() {
 
     }
 
-//    fun isToolBarPrimaryTheme1(
-//        mainViewId: Int,
-//        statusBarBgView: View
-//    ) {
-//        enableEdgeToEdge()
-//
-//        val mainView = findViewById<View>(mainViewId)
-//
-//        // White status bar icons
-//        WindowCompat.getInsetsController(
-//            window,
-//            window.decorView
-//        ).isAppearanceLightStatusBars = false
-//
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
-//
-//            val systemBars = insets.getInsets(
-//                WindowInsetsCompat.Type.systemBars()
-//            )
-//
-//            statusBarBgView.updateLayoutParams {
-//                height = systemBars.top
-//            }
-//
-//            view.updatePadding(
-//                left = systemBars.left,
-//                right = systemBars.right,
-//                bottom = systemBars.bottom
-//            )
-//
-//            insets
-//        }
-//
-//        window.statusBarColor = Color.TRANSPARENT
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//            window.addFlags(
-//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-//            )
-//
-//            window.clearFlags(
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//            )
-//
-//            window.statusBarColor = Color.TRANSPARENT
-//
-//            window.navigationBarColor =
-//                resources.getColor(R.color.clr_auth_gray, theme)
-//        }
-//    }
 fun isToolBarPrimaryTheme1(
     mainViewId: Int,
     statusBarBgView: View
@@ -336,7 +289,6 @@ fun isToolBarPrimaryTheme1(
 
     val mainView = findViewById<View>(mainViewId)
 
-    // White status bar icons
     WindowCompat.getInsetsController(
         window,
         window.decorView

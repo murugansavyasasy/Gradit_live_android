@@ -22,7 +22,6 @@ import androidx.core.app.Person
 import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.vsca.vsnapvoicecollege.Activities.Splash
 import com.vsca.vsnapvoicecollege.Activities.SplashRewamp
 import com.vsca.vsnapvoicecollege.R
 import org.json.JSONObject

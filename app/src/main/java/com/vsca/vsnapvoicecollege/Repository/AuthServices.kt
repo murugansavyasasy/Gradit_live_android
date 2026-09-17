@@ -69,10 +69,15 @@ class AuthServices {
                             e.printStackTrace()
                         }
                     }
+                    else{
+                        progressDialog!!.dismiss()
+                        countryDetailsMutableLiveData.postValue(null)
+
+                    }
                 }
 
                 override fun onFailure(call: Call<CountryDetailsResponse?>, t: Throwable) {
-                      progressDialog!!.dismiss()
+                    progressDialog!!.dismiss()
                     countryDetailsMutableLiveData.postValue(null)
                     t.printStackTrace()
                 }
@@ -83,20 +88,20 @@ class AuthServices {
         get() = countryDetailsMutableLiveData
 
     fun GetVersionCheck(versionid: Int, Devicetype: String, activity: Activity?) {
-//        val progressDialog = CustomLoading.createProgressDialog(activity)
-//        progressDialog.show()
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
         RestClient.Companion.apiInterfaces.VersionCheck(versionid, Devicetype)
             ?.enqueue(object : Callback<VersionCheckResposne?> {
                 override fun onResponse(
                     call: Call<VersionCheckResposne?>, response: Response<VersionCheckResposne?>
                 ) {
-                    //  progressDialog.dismiss()
                     Log.d(
                         "GetVersionCheck_Res",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
+                            progressDialog.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 versionCheckResposneMutableLiveData.postValue(response.body())
@@ -107,19 +112,23 @@ class AuthServices {
                             }
                         }
                     } else if (response.code() == 400) {
-                        //  progressDialog.dismiss()
+                        progressDialog.dismiss()
                         try {
-
+                            versionCheckResposneMutableLiveData.postValue(null)
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
                     }
+                    else{
+                        progressDialog.dismiss()
+                        versionCheckResposneMutableLiveData.postValue(null)
+                    }
                 }
 
                 override fun onFailure(call: Call<VersionCheckResposne?>, t: Throwable) {
-                    // progressDialog.dismiss()
+                     progressDialog.dismiss()
                     versionCheckResposneMutableLiveData.postValue(null)
                     t.printStackTrace()
                 }
@@ -131,34 +140,39 @@ class AuthServices {
 
     fun Login(jsonObject: JsonObject?, activity: Activity?) {
         Log.d("LoginApi", "test")
-//        var progressDialog = CustomLoading.createProgressDialog(activity)
-//        progressDialog.show()
+        var progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
         RestClient.Companion.apiInterfaces.Login(jsonObject)
             ?.enqueue(object : Callback<LoginResponse?> {
                 override fun onResponse(
                     call: Call<LoginResponse?>, response: Response<LoginResponse?>
                 ) {
-                    //    progressDialog!!.dismiss()
                     Log.d("GetLogin_Res", response.code().toString() + " - " + response.toString())
                     if (response.code() == 200) {
+                        progressDialog!!.dismiss()
                         if (response.body() != null) {
                             val status = response.body()!!.status
                             LoginResposneMutableLiveData.postValue(response.body())
 
                         }
                     } else if (response.code() == 400) {
-                        //  progressDialog.dismiss()
                         try {
+                            progressDialog.dismiss()
+                            LoginResposneMutableLiveData.postValue(null)
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
                     }
+                    else{
+                        LoginResposneMutableLiveData.postValue(null)
+                        progressDialog!!.dismiss()
+                    }
                 }
 
                 override fun onFailure(call: Call<LoginResponse?>, t: Throwable) {
-                    //   progressDialog!!.dismiss()
+                    progressDialog!!.dismiss()
                     LoginResposneMutableLiveData.postValue(null)
                     t.printStackTrace()
                 }
@@ -189,6 +203,8 @@ class AuthServices {
                     } else if (response.code() == 400) {
                         progressDialog.dismiss()
                         try {
+                            MobileNumber.postValue(null)
+
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         } catch (e: IOException) {

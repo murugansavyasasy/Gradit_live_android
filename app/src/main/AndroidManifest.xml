@@ -76,17 +76,12 @@
         <activity
             android:name=".ActivitySender.PrincipalRecipient"
             android:exported="false" />
-        <activity
-            android:name=".Activities.Otp"
-            android:exported="false" />
+
         <activity
             android:name=".Activities.OtpRewamp"
             android:theme="@style/Auth_NoActionBar_"
             android:exported="false" />
-        <activity
-            android:name=".Activities.MobileNumber"
-            android:exported="false"
-            />
+
         <activity
             android:name=".Activities.LoginRewamp"
             android:exported="false"
@@ -139,9 +134,7 @@
         <activity
             android:name=".Activities.Assignment_MultipleFileView"
             android:exported="false" />
-        <activity
-            android:name=".Activities.ForgotPassword"
-            android:exported="false" />
+
         <activity
             android:name=".ActivitySender.SubjectList"
             android:exported="false" />
@@ -180,18 +173,6 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
-        <activity
-            android:name=".Activities.Login"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity
-            android:name=".Activities.LoginRoles"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
         <activity
             android:name=".Activities.ChangePasswordRewamp"
