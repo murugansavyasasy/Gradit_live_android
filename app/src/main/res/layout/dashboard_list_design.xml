@@ -39,8 +39,8 @@
             android:id="@+id/lnrImageView"
             android:layout_width="150dp"
             android:layout_height="200dp"
+            android:layout_marginTop="@dimen/two"
             android:layout_marginEnd="@dimen/eight"
-            android:background="@color/white"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -60,7 +60,6 @@
                 android:layout_width="150dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/noticeboard_blue"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -70,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="@dimen/two"
-                    android:layout_marginTop="@dimen/thirteen"
+                    android:layout_marginTop="@dimen/three"
                     android:layout_marginEnd="20dp"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -174,6 +173,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -209,9 +209,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutCicular"
             android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:layout_width="@dimen/two_hunderd"
             android:layout_height="@dimen/one_thirty"
-            android:background="@drawable/bg_dashboard_cicular"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -342,14 +342,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="@dimen/eight"
-            app:cardElevation="@dimen/three"
-            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <LinearLayout
+                android:background="@drawable/bg_dashboard_card_white"
                 android:padding="@dimen/ten"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -548,9 +549,9 @@
             android:id="@+id/lnrRecentNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/three"
+            android:background="@drawable/bg_dashboard_card_white"
+            android:layout_marginTop="@dimen/two"
             android:layout_marginRight="@dimen/two"
-            android:background="@drawable/bg_shadow_white"
             android:orientation="vertical"
             android:padding="@dimen/one"
             android:visibility="gone"
@@ -796,9 +797,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/UpcomingEvent"
             android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:layout_width="@dimen/two_hunderd"
             android:layout_height="@dimen/one_thirty"
-            android:background="@drawable/bg_dashboard_cicular"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -895,10 +896,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Assignment"
             android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
 
             android:layout_width="250dp"
             android:layout_height="180dp"
-            android:background="@drawable/bg_dashboard_cicular"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -908,7 +909,7 @@
                 android:layout_width="@dimen/one"
                 android:layout_height="@dimen/hundred"
                 android:layout_marginRight="@dimen/ten"
-                android:background="@color/black"
+                android:background="@color/stroke_grey_light"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/rytCreateassignmentdate"
                 app:layout_constraintTop_toTopOf="parent">
@@ -1083,11 +1084,12 @@
 
         <RelativeLayout
             android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:id="@+id/lnrNoticeboardd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_dashboard_card_white"
             android:layout_marginRight="@dimen/two"
-            android:background="@drawable/bg_shadow_white"
             android:orientation="vertical"
             android:padding="@dimen/eight"
             android:visibility="gone"
@@ -1207,6 +1209,7 @@
 
         <RelativeLayout
             android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:id="@+id/Leave_Request_dashboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -1223,7 +1226,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/two"
-                android:background="@drawable/bg_shadow_white"
                 android:orientation="vertical"
                 android:padding="@dimen/five">
 
@@ -1373,7 +1375,7 @@
                             android:layout_width="1dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
-                            android:background="@color/black">
+                            android:background="@color/stroke_grey_light">
 
                         </View>
 
@@ -1392,7 +1394,7 @@
                             android:layout_width="1dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
-                            android:background="@color/black">
+                            android:background="@color/stroke_grey_light">
 
                         </View>
 
@@ -1412,7 +1414,7 @@
                             android:layout_width="1dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
-                            android:background="@color/black">
+                            android:background="@color/stroke_grey_light">
 
                         </View>
 
@@ -1505,7 +1507,7 @@
                         android:layout_height="1dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@color/black"></View>
+                        android:background="@color/stroke_grey_light"></View>
 
 
                     <TextView
@@ -1560,13 +1562,17 @@
 
         <RelativeLayout
             android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:id="@+id/lnrattendance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_attendance"
             android:layout_marginRight="@dimen/two"
-            android:background="@drawable/bg_shadow_white"
             android:orientation="vertical"
-            android:padding="@dimen/eight"
+            android:paddingStart="@dimen/eight"
+            android:paddingTop="@dimen/two"
+            android:paddingEnd="@dimen/eight"
+            android:paddingBottom="@dimen/eight"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">

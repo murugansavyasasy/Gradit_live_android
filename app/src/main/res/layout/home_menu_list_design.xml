@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:CircleImageView="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/MenuHeader"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/five"
     android:padding="@dimen/three">
@@ -12,18 +11,19 @@
         android:id="@+id/LayoutHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imgMenu"
-            android:layout_width="@dimen/fourty"
-            android:layout_height="@dimen/fourty"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/circle_menu_background"
-            android:padding="8dp"
+            android:padding="11dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_user_grey"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,16 +34,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgMenu"
-            android:layout_centerInParent="true"
-            android:text="Home"
-            android:layout_marginTop="@dimen/three"
-            android:maxLines="3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Home"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/clr_header_black"
             android:textSize="@dimen/eleve_sp"
             android:textStyle="normal" />
-
 
     </RelativeLayout>
 

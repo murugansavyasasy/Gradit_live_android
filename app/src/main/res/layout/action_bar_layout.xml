@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constAction"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +46,10 @@
         android:id="@+id/layoutWithProfiles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/two"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,84 +57,93 @@
 
         <ImageView
             android:id="@+id/imgBack"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:padding="6dp"
+            android:src="@drawable/ic_arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="@dimen/twenty_five"
-            android:src="@drawable/ic_arrow_back"
-            android:layout_height="@dimen/twenty_five">
-
-        </ImageView>
+            app:tint="@color/clr_header_black" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgCollegeLogo"
-            android:layout_width="@dimen/fourty"
-            android:layout_height="@dimen/fourty"
-            android:layout_marginStart="@dimen/five"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="@dimen/two"
             android:scaleType="centerCrop"
             android:src="@drawable/dummy_college_icon"
-            CircleImageView:civ_border_color="#FF000000"
-            CircleImageView:civ_border_width="5dp"
-            app:layout_constraintLeft_toRightOf="@+id/imgBack"
-            app:layout_constraintRight_toLeftOf="@+id/layoutUserDetails"
+            app:civ_border_color="#E6E8EF"
+            app:civ_border_width="1.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/imgBack"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutUserDetails"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/five"
-            android:layout_marginTop="@dimen/five"
+            android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/imgCollegeLogo"
-            app:layout_constraintRight_toLeftOf="@+id/imgLogo"
+            app:layout_constraintRight_toLeftOf="@+id/imgRefresh"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/lblMemberName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/three"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text=""
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
+                android:textColor="@color/clr_header_black"
+                android:textSize="14sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/lblRole"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text=""
-                android:textColor="@color/black"
-                android:textSize="@dimen/ten"
+                android:textColor="@color/light_gray"
+                android:textSize="11sp"
                 android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblMemberName"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/lblMemberName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        <!-- GRADIT brand mark (same asset as the login page) -->
         <ImageView
             android:id="@+id/imgLogo"
-            android:layout_width="80dp"
-            android:layout_height="@dimen/seventy"
-            android:src="@drawable/gradit_logo"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="GRADIT Logo"
+            android:scaleType="fitCenter"
+            android:src="@drawable/gradit_splash_icon"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imgNotification"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgProfile"
-            android:layout_width="@dimen/twenty_eight"
-            android:layout_height="@dimen/twenty_eight"
-            android:layout_marginEnd="@dimen/two"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:padding="6dp"
             android:src="@drawable/user_icon"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -139,37 +152,55 @@
 
         <ImageView
             android:id="@+id/imgNotification"
-            android:layout_width="@dimen/twenty_five"
-            android:layout_height="@dimen/twenty_five"
-            android:layout_marginEnd="@dimen/seven"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_notifications"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/imgProfile"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/clr_header_black" />
 
         <ImageView
             android:id="@+id/imgRefresh"
-            android:layout_width="@dimen/twenty_five"
-            android:layout_height="@dimen/twenty_five"
-            android:layout_marginEnd="@dimen/seven"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_refresh"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/imgSearch"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/clr_header_black" />
 
         <ImageView
             android:id="@+id/imgSearch"
-            android:layout_width="@dimen/twenty_five"
-            android:layout_height="@dimen/twenty_five"
-            android:layout_marginTop="@dimen/two"
-            android:layout_marginEnd="@dimen/five"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_search"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/imgNotification"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintRight_toLeftOf="@+id/imgLogo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/clr_header_black" />
+
+        <View
+            android:id="@+id/viewToolbarDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#22000000"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

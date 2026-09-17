@@ -147,6 +147,8 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         binding = BottomMenuSwipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ActionBarMethod(this@DashBoardActivityRewamp, true)
+        // Hide the toolbar refresh icon on the dashboard only (shared action bar)
+        imgRefresh?.visibility = View.GONE
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = false
         insetsController.isAppearanceLightNavigationBars = false
@@ -853,7 +855,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
         val popupWindow = PopupWindow(
             popupView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
         )
