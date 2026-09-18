@@ -11,16 +11,22 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lbl_Classdetails"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_card_white"
+        android:elevation="2dp"
+        android:paddingStart="14dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="14dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutMeetingName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/three"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -272,12 +278,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rdoGroup"
-        android:layout_marginLeft="@dimen/ten"
-        android:layout_marginRight="@dimen/ten"
-        android:gravity="start"
-        android:hint="Enter the topic">
-
-    </EditText>
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_black_white_box"
+        android:gravity="top|start"
+        android:hint="Enter the topic"
+        android:inputType="textCapSentences"
+        android:minHeight="46dp"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/light_gray2"
+        android:textSize="13sp" />
 
     <LinearLayout
         android:id="@+id/lnrFilterSearch"
@@ -431,7 +443,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/lytCheckBoxes"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="84dp">
 
         <TextView
             android:id="@+id/lbl_selectattendance"
@@ -461,21 +473,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/ten">
+        android:background="@color/white"
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
 
         <Button
             android:id="@+id/btn_takeattendance"
-            android:layout_width="@dimen/hundred"
-            android:layout_height="@dimen/fifty"
-            android:layout_marginEnd="@dimen/ten"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
             android:background="@drawable/bg_btn_green"
+            android:gravity="center"
             android:text="Mark Attendance"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         </Button>
 

@@ -2,207 +2,203 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!-- ============ RECIPIENT SELECTION ROW ============ -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutEntireCollege"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fifteen"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/bg_card_white"
+        android:elevation="1dp"
+        android:paddingStart="12dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="14dp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
 
         <CheckBox
             android:id="@+id/chbox"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/clr_principal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".08"></CheckBox>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/lblRecipientData"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/twenty"
-            android:layout_marginEnd="@dimen/twenty"
-            android:gravity="left"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Entire College"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twelve"
-            android:textStyle="normal"
-            app:layout_constraintLeft_toRightOf="@+id/chbox"
+            android:textColor="@color/clr_header_black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/lblRegNo1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chbox"
             app:layout_constraintTop_toTopOf="parent"
-          />
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/lblRegNo1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text=""
-            android:layout_marginTop="@dimen/five"
-            android:textColor="@color/black"
+            android:textColor="@color/light_gray"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/chbox"
-            android:textSize="@dimen/thirteen"
-            android:layout_marginStart="@dimen/twenty"
-            android:textStyle="normal"
-            app:layout_constraintTop_toBottomOf="@+id/lblRecipientData"
-            tools:ignore="MissingConstraints"></TextView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-           app:layout_constraintTop_toBottomOf="@+id/lblRegNo1"
-            android:layout_marginLeft="@dimen/ten"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/five"
-            android:layout_marginRight="@dimen/twenty_five"
-            android:background="@color/clr_black"
-            tools:ignore="MissingConstraints">
-
-        </View>
-
-
+            app:layout_constraintTop_toBottomOf="@+id/lblRecipientData" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- ============ ATTENDANCE ROW ============ -->
     <RelativeLayout
         android:id="@+id/con_attendance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/bg_card_white"
+        android:elevation="1dp"
+        android:padding="14dp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/lbl_studentname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="StudentName"
-            android:layout_marginStart="@dimen/five"
-            android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginEnd="@dimen/five"
-            android:layout_toStartOf="@+id/img_mark_attendance"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fifteen"
-            android:textStyle="bold">
-
-        </TextView>
-
+        <!-- Present/Absent badge -->
         <TextView
             android:id="@+id/img_mark_attendance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/five"
-            android:layout_marginEnd="@dimen/fifteen"
-            android:layout_toStartOf="@+id/rlaSwitch"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/round_green"
             android:gravity="center"
             android:text="P"
             android:textColor="@color/white"
             android:textSize="@dimen/thirteen_sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold" />
 
+        <!-- Student name -->
+        <TextView
+            android:id="@+id/lbl_studentname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/img_mark_attendance"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="StudentName"
+            android:textColor="@color/clr_header_black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/lblRegNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lbl_studentname"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/five"
-            android:layout_marginStart="@dimen/ten"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
             android:text=""
-            android:textColor="@color/black"
-            android:textSize="@dimen/thirteen"
-            android:textStyle="normal"></TextView>
+            android:textColor="@color/light_gray"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/lblAdmissionNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lblRegNo"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/five"
-            android:layout_marginStart="@dimen/ten"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="2dp"
             android:text=""
-            android:textColor="@color/black"
-            android:textSize="@dimen/thirteen"
-            android:textStyle="normal"></TextView>
+            android:textColor="@color/light_gray"
+            android:textSize="13sp" />
 
-
-
-        <RelativeLayout
-
-            android:layout_width="wrap_content"
-            android:id="@+id/rlaSwitch"
-            android:layout_toStartOf="@+id/rlaSwitchOnLeave"
-            android:layout_marginEnd="@dimen/fifteen"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchOD"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-
-                />
-            <TextView
-                android:id="@+id/lblOD"
-                android:layout_marginStart="@dimen/five"
-                android:layout_below="@+id/switchOD"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_width="wrap_content"
-                android:text="On-Duty"
-                android:layout_height="wrap_content">
-
-            </TextView>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-
-            android:id="@+id/rlaSwitchOnLeave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/fifteen">
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchOnLeave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:checked="false"
-
-                />
-
-            <TextView
-                android:id="@+id/lblOnLeave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/switchOnLeave"
-                android:layout_marginStart="@dimen/five"
-                android:layout_marginTop="@dimen/ten"
-                android:text="On-Leave">
-
-            </TextView>
-
-        </RelativeLayout>
-
-
+        <!-- Divider -->
         <View
+            android:id="@+id/viewRecipientDivider"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
             android:layout_below="@+id/lblAdmissionNo"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/five"
-            android:layout_marginRight="@dimen/twenty_five"
-            android:background="@color/clr_black">
+            android:layout_marginTop="12dp"
+            android:background="#EEEFF3" />
 
-        </View>
+        <!-- On-Duty / On-Leave toggles -->
+        <LinearLayout
+            android:id="@+id/lnrToggles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewRecipientDivider"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:id="@+id/rlaSwitch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/lblOD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="On-Duty"
+                    android:textColor="@color/clr_header_black"
+                    android:textSize="13sp" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchOD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/lblOD"
+                    android:layout_marginStart="8dp"
+                    android:checked="false" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlaSwitchOnLeave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/lblOnLeave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="On-Leave"
+                    android:textColor="@color/clr_header_black"
+                    android:textSize="13sp" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchOnLeave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/lblOnLeave"
+                    android:layout_marginStart="8dp"
+                    android:checked="false" />
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
