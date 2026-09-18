@@ -103,7 +103,7 @@ class AddVideo : ActionBarActivity() {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = false
         insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         binding.LayoutAdvertisement.setOnClickListener { adclick() }

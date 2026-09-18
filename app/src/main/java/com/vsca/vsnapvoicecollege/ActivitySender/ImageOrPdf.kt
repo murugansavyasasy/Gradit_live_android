@@ -94,7 +94,7 @@ class ImageOrPdf: ActionBarActivity() {
         insetsController.isAppearanceLightStatusBars = false
         insetsController.isAppearanceLightNavigationBars = false
         ActionbarWithoutBottom(this,hideBackButton=true)
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         CommonUtil.SelcetedFileList.clear()
         imgRefresh!!.visibility = View.GONE

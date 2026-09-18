@@ -3,9 +3,11 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -62,17 +64,17 @@ abstract class ActionBarActivity : AppCompatActivity() {
 
     protected abstract val layoutResourceId: Int
 
-//    fun View.addActionBarMarginIfNeeded() {
-//        if (Build.VERSION.SDK_INT >= 35) {
-//            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
-//            val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
-//            typedArray.recycle()
-//            (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
-//                it.topMargin = actionBarHeight
-//                layoutParams = it
-//            }
-//        }
-//    }
+    fun View.addActionBarMarginIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 35) {
+            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+            val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
+            typedArray.recycle()
+            (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+                it.topMargin = actionBarHeight
+                layoutParams = it
+            }
+        }
+    }
 
     fun ActionbarWithoutBottom(activity: Activity,
                                hideBackButton: Boolean = false
@@ -288,10 +290,23 @@ abstract class ActionBarActivity : AppCompatActivity() {
     }
 
     fun LogoutAlert(title: String?, value: Int, activity: Activity) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(title)
-        builder.setCancelable(false)
-        builder.setPositiveButton(CommonUtil.Yes) { dialog, which ->
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_logout)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(true)
+
+        val btnCancel = dialog.findViewById<Button>(R.id.btnLogoutCancel)
+        val btnConfirm = dialog.findViewById<Button>(R.id.btnLogoutConfirm)
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        btnConfirm.setOnClickListener {
+            dialog.dismiss()
             if (value == 1) {
                 BaseActivity.profilePopup!!.dismiss()
             }
@@ -315,8 +330,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
             activity.startActivity(i)
             activity.finish()
         }
-        builder.setNegativeButton(CommonUtil.No) { dialog, which -> builder.setCancelable(false) }
-        builder.create().show()
+        dialog.show()
     }
 
     fun ClearCache(activity: Activity) {

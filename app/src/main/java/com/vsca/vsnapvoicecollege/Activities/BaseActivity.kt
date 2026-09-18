@@ -2,10 +2,12 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -893,10 +895,23 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
 
         fun LogoutAlert(title: String?, value: Int, activity: Activity) {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(title)
-            builder.setCancelable(false)
-            builder.setPositiveButton(CommonUtil.Yes) { dialog, which ->
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_logout)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(true)
+
+            val btnCancel = dialog.findViewById<Button>(R.id.btnLogoutCancel)
+            val btnConfirm = dialog.findViewById<Button>(R.id.btnLogoutConfirm)
+
+            btnCancel.setOnClickListener { dialog.dismiss() }
+
+            btnConfirm.setOnClickListener {
+                dialog.dismiss()
                 if (value == 1) {
                     profilePopup?.let {
                         if (it.isShowing) {
@@ -951,10 +966,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 activity.startActivity(i)
                 activity.finish()
             }
-            builder.setNegativeButton(CommonUtil.No) { _, _ ->
-                builder.setCancelable(false)
-            }
-            builder.create().show()
+            dialog.show()
         }
 
 

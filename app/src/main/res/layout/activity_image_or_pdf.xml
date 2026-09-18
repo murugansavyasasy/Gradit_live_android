@@ -94,150 +94,159 @@
             android:id="@+id/Nestedchildlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="@dimen/five"
+            android:clipToPadding="false"
+            android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/layoutButton"
             app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/twenty"
+                android:paddingTop="@dimen/sixteen"
+                android:paddingEnd="@dimen/twenty"
+                android:paddingBottom="@dimen/twenty">
 
+                <!-- Title -->
                 <TextView
                     android:id="@+id/lblphone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
                     android:text="@string/lbl_title"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
+                    android:textColor="@color/clr_header_black"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
 
                 <EditText
                     android:id="@+id/edImgTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@android:color/transparent"
-
-                    android:hint="Enter the title"
-                    android:inputType="textAutoComplete"
-                    android:paddingStart="@dimen/two"
-                    android:paddingTop="@dimen/eight"
-                    android:paddingRight="@dimen/ten"
+                    android:layout_marginTop="@dimen/eight"
+                    android:background="@drawable/bg_black_white_box"
+                    android:hint="@string/txt_enter_the_title"
+                    android:inputType="textAutoComplete|textCapSentences"
+                    android:maxLength="80"
+                    android:minHeight="46dp"
+                    android:padding="@dimen/twelve"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textColorHint="@color/transparent"
-                    android:textSize="@dimen/twelve"
-                    app:layout_constraintStart_toStartOf="@id/lblphone"
+                    android:textColorHint="@color/light_gray2"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lblphone" />
 
+                <!-- retained (unused) spacer -->
                 <View
                     android:id="@+id/viewtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@color/transparent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/edImgTitle" />
 
+                <!-- Description -->
                 <TextView
                     android:id="@+id/lblImgPdfDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
+                    android:layout_marginTop="@dimen/sixteen"
                     android:text="@string/lbl_description"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
+                    android:textColor="@color/clr_header_black"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewtitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/edImgTitle" />
 
                 <EditText
                     android:id="@+id/txt_imgpdfdescription"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@drawable/bg_edittextbox_grey"
-                    android:gravity="top|left"
-                    android:hint="Enter the Description"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="@dimen/two"
+                    android:layout_marginTop="@dimen/eight"
+                    android:background="@drawable/bg_black_white_box"
+                    android:gravity="top|start"
+                    android:hint="@string/lbl_description"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:maxLength="500"
-                    android:paddingLeft="@dimen/five"
-                    android:paddingTop="@dimen/eight"
-                    android:paddingRight="@dimen/ten"
+                    android:overScrollMode="always"
+                    android:padding="@dimen/twelve"
+                    android:scrollbars="vertical"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textColorHint="@color/transparent"
-                    android:textSize="@dimen/twelve"
-                    app:layout_constraintStart_toStartOf="@id/lblImgPdfDescription"
+                    android:textColorHint="@color/light_gray2"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription" />
 
                 <TextView
                     android:id="@+id/tv_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/four"
                     android:text="0/500"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_imgpdfdescription"
+                    android:textColor="@color/light_gray"
+                    android:textSize="12sp"
                     app:layout_constraintRight_toRightOf="parent"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/txt_imgpdfdescription" />
 
+                <!-- Upload files -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/LayoutUploadImagePdf"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_margin="@dimen/fifteen"
-                    android:padding="@dimen/eight"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/twelve"
                     android:background="@drawable/bg_dotted_lines"
+                    android:minHeight="64dp"
+                    android:padding="@dimen/twelve"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_count">
 
                     <ImageView
                         android:id="@+id/imgUpload"
                         android:layout_width="@dimen/thirty"
                         android:layout_height="@dimen/thirty"
-                        android:layout_marginStart="@dimen/ten"
-                        android:layout_marginEnd="@dimen/ten"
-                        android:scaleType="fitXY"
+                        android:layout_marginStart="@dimen/four"
+                        android:layout_marginEnd="@dimen/twelve"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/upload_icon"
                         android:visibility="visible"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/lbltotalfile"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </ImageView>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
                         android:id="@+id/lblUploadFiles"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
+                        android:layout_marginStart="@dimen/twelve"
                         android:text="@string/txt_upload_files"
                         android:textAllCaps="false"
-                        android:textColor="@color/transparent"
+                        android:textColor="@color/clr_header_black"
+                        android:textSize="13sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/imgUpload"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </TextView>
+                        app:layout_constraintBottom_toTopOf="@+id/lbltotalfile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imgUpload"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
                         android:id="@+id/lbltotalfile"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/twelve"
                         android:text="Number of files"
-                        app:layout_constraintLeft_toRightOf="@+id/imgUpload"
-                        app:layout_constraintTop_toBottomOf="@+id/lblUploadFiles"
+                        android:textColor="@color/light_gray"
+                        android:textSize="12sp"
                         android:visibility="gone"
-                        android:layout_marginLeft="@dimen/ten"
-                        >
-
-                    </TextView>
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imgUpload"
+                        app:layout_constraintTop_toBottomOf="@+id/lblUploadFiles" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -245,17 +254,14 @@
                     android:id="@+id/iblfileseletedotnot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/twenty"
-                    android:layout_marginTop="@dimen/ten"
+                    android:layout_marginTop="@dimen/eight"
                     android:text="File is Selected"
-                    android:textColor="@color/black"
+                    android:textColor="@color/clr_header_black"
                     android:textSize="@dimen/twelve"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/LayoutUploadImagePdf">
-
-                </TextView>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/LayoutUploadImagePdf" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -263,49 +269,47 @@
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingStart="@dimen/twenty"
+            android:paddingTop="@dimen/twelve"
+            android:paddingEnd="@dimen/twenty"
+            android:paddingBottom="@dimen/twelve"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/one_twenty"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/twenty"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_marginBottom="@dimen/ten"
+                android:layout_marginEnd="@dimen/eight"
                 android:background="@drawable/bg_btn_grey"
                 android:gravity="center"
+                android:minHeight="48dp"
                 android:text="@string/txt_cancel"
-                android:textSize="@dimen/thirteen"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/btnConfirm"
+                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </Button>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btnConfirm"
-                android:layout_width="@dimen/one_twenty"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_marginEnd="@dimen/ten"
-                android:layout_marginBottom="@dimen/ten"
+                android:layout_marginStart="@dimen/eight"
                 android:background="@drawable/bg_btn_green"
                 android:gravity="center"
-                android:padding="@dimen/two"
-                android:textSize="@dimen/thirteen"
+                android:minHeight="48dp"
                 android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="@dimen/thirteen"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </Button>
+                app:layout_constraintStart_toEndOf="@+id/btnCancel"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

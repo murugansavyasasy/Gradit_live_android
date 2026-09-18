@@ -73,9 +73,13 @@ class DashboardParent constructor(
             }
         }
 
-        holder.lblNoRecords.text = if (modal.menuHeadings == "Attendance") {
-            "Today's attendance is not yet available"
-        } else ""
+          if (modal.menuHeadings == "Attendance") {
+              holder.lblNoRecords.visibility = View.VISIBLE
+              holder.lblNoRecords.text = "Today's attendance is not yet available"
+        }
+          else {
+              holder.lblNoRecords.visibility = View.GONE
+          }
 
         // Bind section — reuse adapters, don't create new ones
         when (modal.menuHeadings) {

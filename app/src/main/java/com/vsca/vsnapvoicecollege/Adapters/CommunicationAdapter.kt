@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Interfaces.communicationListener
@@ -109,6 +110,7 @@ class CommunicationAdapter(
         if (ScreenType.equals("Voice")) {
             if (modal.isemergency.equals("false")) {
                 holder.lnrplayvoice.visibility = View.VISIBLE
+                holder.imgRecentType.clearColorFilter()
                 holder.imgRecentType.setImageResource(R.drawable.dashboard_recent_voice)
                 holder.imgRecentType.alpha = 0.7f
                 holder.lblRecenttitle.text = modal.description
@@ -121,6 +123,7 @@ class CommunicationAdapter(
             }
             if (modal.isemergency.equals("true")) {
                 holder.lnrplayvoice.visibility = View.VISIBLE
+                holder.imgRecentType.clearColorFilter()
                 holder.imgRecentType.setImageResource(R.drawable.emergency_voice)
                 holder.imgRecentType.alpha = 0.8f
                 holder.lblRecenttitle.text = modal.description
@@ -133,8 +136,11 @@ class CommunicationAdapter(
             }
         } else {
             holder.lnrplayvoice.visibility = View.GONE
-            holder.imgRecentType.setImageResource(R.drawable.dashboard_text)
-            holder.imgRecentType.alpha = 0.7f
+            holder.imgRecentType.setImageResource(R.drawable.ic_message)
+            holder.imgRecentType.setColorFilter(
+                ContextCompat.getColor(context!!, R.color.btn_clr_green)
+            )
+            holder.imgRecentType.alpha = 1f
             holder.lblRecenttitle.text = modal.msgcontent
             holder.lblRecentPostedby.text = modal.sentby
         }

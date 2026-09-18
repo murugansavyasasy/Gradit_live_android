@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Gradit</string>
 
+    <!-- Logout dialog -->
+    <string name="txt_logout_title">Log Out?</string>
+    <string name="txt_logout_message">Are you sure you want to log out? You\'ll need to sign in again to access your account.</string>
+    <string name="txt_logout_confirm">Yes, Log Out</string>
+    <string name="txt_staff_name">Staff Name</string>
+
     <string name="loginPage"><u>Login Page</u>
     </string>
     <string name="forgotpassword"><u>Forgot Password?</u>
