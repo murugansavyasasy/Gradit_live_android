@@ -50,7 +50,7 @@
                             android:id="@+id/imgAdvertisement"
                             android:layout_width="400dp"
                             android:layout_height="@dimen/hundred"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:visibility="visible"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"></ImageView>

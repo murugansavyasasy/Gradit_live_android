@@ -145,7 +145,7 @@ class AddAssignment : ActionBarActivity() {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = false
         insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         ScreenName = intent.getStringExtra("ScreenName")
         AssignmentTitleForward = intent.getStringExtra("AssignmentTitle")

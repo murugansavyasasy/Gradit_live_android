@@ -88,29 +88,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingStart="@dimen/ten"
+                android:paddingTop="@dimen/twelve"
+                android:paddingEnd="@dimen/ten"
+                android:paddingBottom="@dimen/twelve"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <RadioButton
                     android:id="@+id/radio_B_msg"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/twelve"
                     android:buttonTint="@color/btn_clr_green"
                     android:checked="true"
-                    android:text="Create New Messege"
-                    android:textColor="@color/white" />
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/four"
+                    android:text="Create New Message"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
                 <RadioButton
                     android:id="@+id/radio_B_history"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/twelve"
-                    android:buttonTint="@color/clr_green"
+                    android:buttonTint="@color/btn_clr_green"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/four"
                     android:text="Send from voice history"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
             </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -134,14 +141,18 @@
             android:id="@+id/Nestedchildlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="@dimen/five"
-
+            android:clipToPadding="false"
+            android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/layoutButton"
             app:layout_constraintTop_toBottomOf="@+id/LayoutHeadernotice">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/twenty"
+                android:paddingTop="@dimen/sixteen"
+                android:paddingEnd="@dimen/twenty"
+                android:paddingBottom="@dimen/twenty">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/txt_onandoff"
@@ -264,12 +275,19 @@
                     android:id="@+id/edt_voicename"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/twenty"
-                    android:layout_marginRight="@dimen/twenty"
+                    android:layout_marginTop="@dimen/twenty"
+                    android:background="@drawable/bg_black_white_box"
                     android:hint="@string/txt_enter_the_voice_title"
+                    android:inputType="textCapSentences"
                     android:maxLength="80"
-                    android:textSize="@dimen/fifteen"
-                    app:layout_constraintTop_toBottomOf="@+id/rytLayoutSeekPlay"></EditText>
+                    android:minHeight="46dp"
+                    android:padding="@dimen/twelve"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/light_gray2"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rytLayoutSeekPlay" />
 
                 <RelativeLayout
                     android:id="@+id/rytLayoutSeekPlay"
@@ -326,47 +344,47 @@
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/five"
+            android:background="@color/white"
+            android:paddingStart="@dimen/twenty"
+            android:paddingTop="@dimen/twelve"
+            android:paddingEnd="@dimen/twenty"
+            android:paddingBottom="@dimen/twelve"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/hundred"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/twenty"
-                android:layout_marginBottom="@dimen/ten"
+                android:layout_marginEnd="@dimen/eight"
                 android:background="@drawable/bg_btn_grey"
                 android:gravity="center"
+                android:minHeight="48dp"
                 android:text="@string/txt_cancel"
                 android:textAllCaps="false"
-                android:textSize="@dimen/thirteen"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/btnConfirm"
+                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </Button>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btnConfirm"
-                android:layout_width="@dimen/hundred"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="@dimen/ten"
-                android:layout_marginBottom="@dimen/ten"
+                android:layout_marginStart="@dimen/eight"
                 android:background="@drawable/bg_btn_green"
                 android:gravity="center"
-                android:padding="@dimen/two"
+                android:minHeight="48dp"
                 android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
-                android:textSize="@dimen/thirteen"
                 android:textColor="@color/white"
+                android:textSize="@dimen/thirteen"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-            </Button>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnCancel"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -93,252 +93,240 @@
             android:id="@+id/Nestedchildlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="@dimen/five"
+            android:clipToPadding="false"
+            android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/layoutButton"
             app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/twenty"
+                android:paddingTop="@dimen/sixteen"
+                android:paddingEnd="@dimen/twenty"
+                android:paddingBottom="@dimen/twenty">
 
+                <!-- Title -->
                 <TextView
                     android:id="@+id/lblphone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
                     android:text="@string/lbl_title"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
+                    android:textColor="@color/clr_header_black"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
 
                 <EditText
                     android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@android:color/transparent"
-                    android:hint="Enter the title"
-                    android:inputType="textAutoComplete"
+                    android:layout_marginTop="@dimen/eight"
+                    android:background="@drawable/bg_black_white_box"
+                    android:hint="@string/txt_enter_the_title"
+                    android:inputType="textAutoComplete|textCapSentences"
                     android:maxLength="80"
-                    android:paddingStart="@dimen/two"
-                    android:paddingTop="@dimen/eight"
-                    android:paddingRight="@dimen/ten"
+                    android:minHeight="46dp"
+                    android:padding="@dimen/twelve"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textColorHint="@color/transparent"
-                    android:textSize="@dimen/twelve"
-                    app:layout_constraintStart_toStartOf="@id/lblphone"
+                    android:textColorHint="@color/light_gray2"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lblphone" />
 
-                <View
-                    android:id="@+id/viewtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@color/transparent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
-
+                <!-- Description -->
                 <TextView
                     android:id="@+id/lblImgPdfDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
+                    android:layout_marginTop="@dimen/sixteen"
                     android:text="@string/lbl_description"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
+                    android:textColor="@color/clr_header_black"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewtitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
                 <EditText
                     android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_margin="@dimen/ten"
-                    android:background="@drawable/bg_edittextbox_grey"
-                    android:gravity="top|left"
-                    android:hint="Enter the Description"
-                    android:inputType="textMultiLine"
+                    android:layout_marginTop="@dimen/eight"
+                    android:background="@drawable/bg_black_white_box"
+                    android:gravity="top|start"
+                    android:hint="@string/lbl_description"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:maxLength="500"
-                    android:paddingStart="@dimen/two"
-                    android:paddingLeft="@dimen/five"
-                    android:paddingTop="@dimen/eight"
-                    android:paddingRight="@dimen/ten"
+                    android:overScrollMode="always"
+                    android:padding="@dimen/twelve"
+                    android:scrollbars="vertical"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textColorHint="@color/transparent"
-                    android:textSize="@dimen/twelve"
-                    app:layout_constraintStart_toStartOf="@id/lblImgPdfDescription"
-                    app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription">
-
-
-                </EditText>
+                    android:textColorHint="@color/light_gray2"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription" />
 
                 <TextView
                     android:id="@+id/lblWordCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five"
-                    android:layout_marginRight="@dimen/ten"
+                    android:layout_marginTop="@dimen/four"
                     android:text="0/500"
-                    android:textSize="@dimen/twelve"
+                    android:textColor="@color/light_gray"
+                    android:textSize="12sp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+                    app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
 
-                </TextView>
-
+                <!-- Venue -->
                 <TextView
                     android:id="@+id/lbl_venue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/ten"
-                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginTop="@dimen/sixteen"
                     android:text="Venue"
-                    android:textSize="@dimen/fifteen"
+                    android:textColor="@color/clr_header_black"
+                    android:textSize="13sp"
                     android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDescription">
-
-                </TextView>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblWordCount" />
 
                 <EditText
                     android:id="@+id/edt_venue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/ten"
-                    android:layout_marginRight="@dimen/ten"
+                    android:layout_marginTop="@dimen/eight"
+                    android:background="@drawable/bg_black_white_box"
                     android:hint="Enter Venue"
-                    android:textSize="@dimen/twelve"
-                    app:layout_constraintTop_toBottomOf="@+id/lbl_venue"
+                    android:inputType="textCapSentences"
+                    android:minHeight="46dp"
+                    android:padding="@dimen/twelve"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/light_gray2"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lbl_venue" />
 
-                    ></EditText>
-
+                <!-- Date & Time (two columns) -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/LayoutDateTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/eight"
-                    app:layout_constraintHorizontal_chainStyle="spread"
+                    android:layout_marginTop="@dimen/sixteen"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_venue"
-                    app:layout_constraintWidth_default="percent">
+                    app:layout_constraintTop_toBottomOf="@+id/edt_venue">
 
-                    <RelativeLayout
-                        android:id="@+id/lnrDate"
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineDateTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <!-- Date column -->
+                    <TextView
+                        android:id="@+id/SelectDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="@string/txt_event_date"
+                        android:textColor="@color/clr_header_black"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineDateTime"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent=".5">
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RelativeLayout
+                        android:id="@+id/rytEventDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/eight"
+                        android:layout_marginEnd="@dimen/eight"
+                        android:background="@drawable/bg_black_white_box"
+                        android:minHeight="46dp"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineDateTime"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/SelectDate">
 
                         <TextView
-                            android:id="@+id/SelectDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:text="@string/txt_event_date"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/fourteen"
-                            android:textStyle="bold" />
-
-                        <RelativeLayout
-                            android:id="@+id/rytEventDate"
+                            android:id="@+id/lblEventDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/SelectDate"
-                            android:layout_marginTop="@dimen/ten"
-                            android:layout_marginEnd="@dimen/twenty"
-                            android:background="@drawable/bg_edittextbox_grey"
-                            android:orientation="horizontal">
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/imgcalenddar"
+                            android:hint="Select Date"
+                            android:padding="@dimen/twelve"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/light_gray2"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/lblEventDate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/ten"
-                                android:hint="Select Date"
-                                android:padding="@dimen/ten"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/thirteen"
-                                android:textStyle="bold" />
-
-                            <ImageView
-                                android:id="@+id/imgcalenddar"
-                                android:layout_width="20dp"
-                                android:layout_height="25dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerInParent="true"
-                                android:layout_marginEnd="@dimen/five"
-                                android:src="@drawable/ic_calendar"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/thirteen"
-                                android:textStyle="normal" />
-                        </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/imgcalenddar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/twelve"
+                            android:src="@drawable/ic_calendar" />
                     </RelativeLayout>
 
-                    <RelativeLayout
+                    <!-- Time column -->
+                    <TextView
+                        android:id="@+id/selectype"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toRightOf="@+id/lnrDate"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent=".5">
+                        android:layout_marginStart="@dimen/eight"
+                        android:text="@string/txt_event_time"
+                        android:textColor="@color/clr_header_black"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guidelineDateTime"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RelativeLayout
+                        android:id="@+id/rytEventTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/eight"
+                        android:layout_marginTop="@dimen/eight"
+                        android:background="@drawable/bg_black_white_box"
+                        android:minHeight="46dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guidelineDateTime"
+                        app:layout_constraintTop_toBottomOf="@+id/selectype">
 
                         <TextView
-                            android:id="@+id/selectype"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:text="@string/txt_event_time"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/thirteen"
-                            android:textStyle="bold" />
-
-                        <RelativeLayout
-                            android:id="@+id/rytEventTime"
+                            android:id="@+id/lblEventTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/selectype"
-                            android:layout_marginTop="@dimen/ten"
-                            android:layout_marginEnd="@dimen/twenty"
-                            android:background="@drawable/bg_edittextbox_grey"
-                            android:orientation="horizontal">
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/imgTime"
+                            android:hint="Select Time"
+                            android:padding="@dimen/twelve"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/light_gray2"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
-
-                            <TextView
-                                android:id="@+id/lblEventTime"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/ten"
-                                android:hint="Select Time"
-                                android:padding="@dimen/ten"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/fifteen"
-                                android:textStyle="bold" />
-
-                            <ImageView
-                                android:id="@+id/imgTime"
-                                android:layout_width="20dp"
-                                android:layout_height="25dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerInParent="true"
-                                android:layout_marginEnd="@dimen/five"
-                                android:src="@drawable/ic_timer"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/thirteen"
-                                android:textStyle="normal" />
-                        </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/imgTime"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/twelve"
+                            android:src="@drawable/ic_timer" />
                     </RelativeLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -348,45 +336,47 @@
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingStart="@dimen/twenty"
+            android:paddingTop="@dimen/twelve"
+            android:paddingEnd="@dimen/twenty"
+            android:paddingBottom="@dimen/twelve"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/hundred"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/twenty"
-                android:layout_marginBottom="@dimen/ten"
+                android:layout_marginEnd="@dimen/eight"
                 android:background="@drawable/bg_btn_grey"
                 android:gravity="center"
+                android:minHeight="48dp"
                 android:text="@string/txt_cancel"
-                android:textSize="@dimen/thirteen"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/btnConfirm"
+                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </Button>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btnConfirm"
-                android:layout_width="@dimen/hundred"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="@dimen/ten"
-                android:layout_marginBottom="@dimen/ten"
+                android:layout_marginStart="@dimen/eight"
                 android:background="@drawable/bg_btn_green"
                 android:gravity="center"
+                android:minHeight="48dp"
                 android:text="@string/txt_select_recipients"
-                android:textSize="@dimen/thirteen"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textSize="@dimen/thirteen"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </Button>
+                app:layout_constraintStart_toEndOf="@+id/btnCancel"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

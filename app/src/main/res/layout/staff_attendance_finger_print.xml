@@ -11,8 +11,8 @@
     <LinearLayout
         android:id="@+id/rytTap"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_margin="10dp"
+        android:layout_height="48dp"
+        android:layout_margin="14dp"
         android:orientation="horizontal">
 
         <TextView
@@ -25,7 +25,8 @@
             android:text="Mark Attendance"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="14dp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/btnAttendanceHistory"
@@ -38,7 +39,8 @@
             android:text="Your Attendance Details"
             android:textAlignment="center"
             android:textColor="@color/clr_black"
-            android:textSize="14dp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -160,43 +162,50 @@
 
         <RelativeLayout
             android:id="@+id/rytPresentlayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginHorizontal="24dp"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/lblInstruction"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="20dp"
+                android:lineSpacingExtra="3dp"
+                android:paddingHorizontal="8dp"
+                android:paddingBottom="8dp"
                 android:text="@string/mark_attendance_instruction"
-                android:textColor="@color/clr_black"
-                android:textSize="15dp" />
+                android:textColor="@color/clr_header_black"
+                android:textSize="15sp" />
 
             <ImageView
                 android:id="@+id/imgMarkAttendance"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_below="@+id/lblInstruction"
-                android:paddingHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 android:src="@drawable/mark_attendnace_illustrate" />
 
 
             <TextView
                 android:id="@+id/btnPresent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_below="@+id/imgMarkAttendance"
                 android:layout_centerHorizontal="true"
-                android:layout_marginHorizontal="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/bg_btn_green"
-                android:padding="10dp"
+                android:gravity="center"
                 android:text="Punch"
                 android:textAlignment="center"
                 android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:visibility="visible" />
 
             <RelativeLayout
@@ -204,7 +213,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnPresent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:visibility="gone">
 
 

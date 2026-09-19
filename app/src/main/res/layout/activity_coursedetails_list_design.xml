@@ -3,526 +3,465 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutOverAll"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/five">
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="6dp">
 
+    <!-- ============ COURSE / EXAM CARD ============ -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LayoutCourseAndExam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rectangle_white"
-        android:padding="@dimen/ten"
+        android:background="@drawable/bg_card_white"
+        android:elevation="2dp"
+        android:paddingStart="0dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="14dp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Colored accent bar -->
         <View
             android:id="@+id/ViewSide"
-            android:layout_width="@dimen/three"
+            android:layout_width="4dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/three"
             android:background="@color/clr_yellow"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Subject name (heading) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutMeetingName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/three"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="percent">
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/lblTitle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_subject_name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="11sp"
+                android:textStyle="normal"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/lblcolon1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/lblTitle"
-                app:layout_constraintLeft_toRightOf="@+id/lblTitle"
-                app:layout_constraintTop_toTopOf="@+id/lblTitle"
-                app:layout_constraintWidth_percent=".05" />
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/lblTitle"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/lblSubjectName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintBottom_toBottomOf="@+id/lblcolon1"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon1"
-                app:layout_constraintTop_toTopOf="@+id/lblcolon1"
-                app:layout_constraintWidth_percent=".6" />
+                android:text=""
+                android:textColor="@color/clr_header_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Divider -->
+        <View
+            android:id="@+id/viewCourseDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:background="#EEEFF3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutMeetingName" />
+
+        <!-- Subject Type -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutSubjectType"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LayoutMeetingName"
-            app:layout_constraintWidth_default="percent">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/viewCourseDivider">
 
             <TextView
                 android:id="@+id/lblmeetingtopic"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_subject_type"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblmeetingtopic"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
+                app:layout_constraintWidth_percent=".4" />
 
             <TextView
                 android:id="@+id/lblSubjectType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon2"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/clr_header_black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lblmeetingtopic"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Subject Category -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutCategory"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectType"
-            app:layout_constraintWidth_default="percent">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectType">
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_subject_category"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/description"
-                app:layout_constraintLeft_toRightOf="@+id/description"
-                app:layout_constraintTop_toTopOf="@+id/description"
-                app:layout_constraintWidth_percent=".05" />
+                app:layout_constraintWidth_percent=".4" />
 
             <TextView
                 android:id="@+id/lblSubjectCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintBottom_toBottomOf="@+id/lblcolon3"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon3"
-                app:layout_constraintTop_toTopOf="@+id/lblcolon3"
-                app:layout_constraintWidth_percent=".6" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/clr_header_black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/description"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Subject Credits -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutSubjectCredits"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCategory"
-            app:layout_constraintWidth_default="percent">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCategory">
 
             <TextView
                 android:id="@+id/lblmeetingtypecontent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_subject_credits"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblmeetingtypecontent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
+                app:layout_constraintWidth_percent=".4" />
 
             <TextView
                 android:id="@+id/lblSubjectCredits"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/clr_header_black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lblmeetingtypecontent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Subject Code -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutSubjectCode"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectCredits"
-            app:layout_constraintWidth_default="percent">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectCredits">
 
             <TextView
                 android:id="@+id/lblsubjectco"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_subject_code"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblsubjectco"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
+                app:layout_constraintWidth_percent=".4" />
 
             <TextView
                 android:id="@+id/lblSubjectCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon5"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/clr_header_black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lblsubjectco"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Subject Requirement -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutSubjectRequirement"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LayoutSubjectCode"
-            app:layout_constraintWidth_default="percent">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutSubjectCode">
 
             <TextView
                 android:id="@+id/lblsubjectcoe"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_subject_requirement"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblsubjectcoe"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
+                app:layout_constraintWidth_percent=".4" />
 
             <TextView
                 android:id="@+id/lblSubjectRequirement"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon6"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/clr_header_black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lblsubjectcoe"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Semester (exam mode) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutSemNumber"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:visibility="gone"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LayoutSubjectRequirement"
-            app:layout_constraintWidth_default="percent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutSubjectRequirement">
 
             <TextView
                 android:id="@+id/lblSemNumber"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_semester"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblSemNumber"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
+                app:layout_constraintWidth_percent=".4" />
 
             <TextView
                 android:id="@+id/lblSemesterName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon8"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/clr_header_black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lblSemNumber"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Fee Amount (exam mode) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutFeeeAmount"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:visibility="gone"
-
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutSemNumber"
-            app:layout_constraintWidth_default="percent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ViewSide"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSemNumber">
 
             <TextView
                 android:id="@+id/lblFee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_fee_amount"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/light_gray"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblFee"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
+                app:layout_constraintWidth_percent=".4" />
 
             <TextView
                 android:id="@+id/lblFeeAmount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon9"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
+                android:layout_marginStart="10dp"
+                android:textColor="@color/clr_green_submit"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lblFee"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- retained (unused) colon views for compatibility -->
+        <TextView
+            android:id="@+id/lblcolon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lblcolon3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lblcolon4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lblcolon5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lblcolon6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lblcolon8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lblcolon9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+    <!-- ============ PROFILE CARD ============ -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/LayoutProfileOverall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fifteen"
+        android:background="@drawable/bg_card_white"
+        android:elevation="2dp"
+        android:padding="16dp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/LayoutProfileOverall"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lblProfileKey"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/thirteen"
-            android:layout_marginEnd="@dimen/thirteen"
-            android:layout_marginBottom="@dimen/thirteen"
-            android:visibility="gone"
-            app:layout_constraintHorizontal_chainStyle="spread"
+            android:text=""
+            android:textColor="@color/light_gray"
+            android:textSize="13sp"
+            android:textStyle="normal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="percent">
+            app:layout_constraintWidth_percent=".4" />
 
-            <TextView
-                android:id="@+id/lblProfileKey"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="ddresgfsdefrfc"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
+        <TextView
+            android:id="@+id/lblcolon0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text=":"
+            android:textColor="@color/light_gray"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/lblProfileKey"
+            app:layout_constraintStart_toEndOf="@+id/lblProfileKey"
+            app:layout_constraintTop_toTopOf="@+id/lblProfileKey" />
 
-            <TextView
-                android:id="@+id/lblcolon0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/lblProfileKey"
-                app:layout_constraintLeft_toRightOf="@+id/lblProfileKey"
-                app:layout_constraintTop_toTopOf="@+id/lblProfileKey"
-                app:layout_constraintWidth_percent=".05" />
+        <TextView
+            android:id="@+id/lblProfileValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text=""
+            android:textColor="@color/clr_header_black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lblcolon0"
+            app:layout_constraintTop_toTopOf="@+id/lblProfileKey" />
 
-            <TextView
-                android:id="@+id/lblProfileValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/thirteen"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="normal"
-                app:layout_constraintBottom_toBottomOf="@+id/lblcolon0"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon0"
-                app:layout_constraintTop_toTopOf="@+id/lblcolon0"
-                app:layout_constraintWidth_percent=".6" />
-
-            <ImageView
-                android:id="@+id/imgUser"
-                android:layout_width="200dp"
-                android:layout_height="@dimen/one_twenty"
-                android:layout_centerHorizontal="true"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblProfileKey" />
-
-
-            <!--            <de.hdodenhof.circleimageview.CircleImageView-->
-            <!--                android:id="@+id/imgUser"-->
-            <!--                android:layout_width="@dimen/one_twenty"-->
-            <!--                android:layout_height="@dimen/hundred"-->
-            <!--                android:layout_centerHorizontal="true"-->
-            <!--                android:scaleType="centerCrop"-->
-            <!--                android:visibility="gone"-->
-            <!--                CircleImageView:civ_border_color="#FF000000"-->
-            <!--                CircleImageView:civ_border_width="5dp"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/lblProfileKey" />-->
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imgUser"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/one_twenty"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/txt_subject_name"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblProfileKey" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

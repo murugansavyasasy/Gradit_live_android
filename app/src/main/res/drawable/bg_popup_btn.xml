@@ -2,6 +2,9 @@
 <!-- Filled primary action button for the save-contact popup -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/clr_parent" />
-    <corners android:radius="14dp" />
+    <solid
+        android:color="@color/clr_parent"
+        />
+    <corners android:radius="14dp"
+        />
 </shape>

@@ -1,96 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/bg_shadow_white_card"
-    android:padding="10dp">
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="6dp"
+    android:background="@drawable/bg_card_white"
+    android:elevation="2dp"
+    android:padding="14dp">
 
-    <RelativeLayout
-        android:id="@+id/rytTiming"
-        android:layout_width="wrap_content"
+    <!-- Time (heading) -->
+    <ImageView
+        android:id="@+id/imgTime"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:contentDescription="@string/txt_semester"
+        android:src="@drawable/timings"
+        app:layout_constraintBottom_toBottomOf="@+id/lblTiming"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lblTiming" />
+
+    <TextView
+        android:id="@+id/lblTiming"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginStart="10dp"
+        android:text=""
+        android:textColor="@color/clr_month_blue"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgTime"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imgTime"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/timings" />
+    <!-- Divider -->
+    <View
+        android:id="@+id/viewPunchDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#EEEFF3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTiming" />
 
-        <TextView
-            android:id="@+id/lblTiming"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imgTime"
-            android:text=""
-            android:textColor="@color/clr_month_blue"
-            android:textSize="13dp" />
+    <!-- Punch type -->
+    <ImageView
+        android:id="@+id/imgPunch"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:contentDescription="@string/txt_semester"
+        android:src="@drawable/punch_type"
+        app:layout_constraintBottom_toBottomOf="@+id/lblPunchType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lblPunchType" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rytPunch"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/lblPunchType"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rytTiming"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:text=""
+        android:textColor="@color/clr_header_black"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgPunch"
+        app:layout_constraintTop_toBottomOf="@+id/viewPunchDivider" />
 
-        <ImageView
-            android:id="@+id/imgPunch"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/punch_type" />
+    <!-- Device model -->
+    <ImageView
+        android:id="@+id/imgPhone"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="1dp"
+        android:contentDescription="@string/txt_semester"
+        android:src="@drawable/android_phone"
+        app:layout_constraintBottom_toBottomOf="@+id/lblDeviceModel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lblDeviceModel" />
 
-        <TextView
-            android:id="@+id/lblPunchType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toRightOf="@+id/imgPunch"
-            android:text=""
-            android:textColor="@color/clr_black"
-            android:textSize="13dp" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rytDevice"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/lblDeviceModel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rytPunch"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:textColor="@color/clr_header_black"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgPhone"
+        app:layout_constraintTop_toBottomOf="@+id/lblPunchType" />
 
-        <ImageView
-            android:id="@+id/imgPhone"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/android_phone" />
-
-        <TextView
-            android:id="@+id/lblDeviceModel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imgPhone"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/clr_black"
-            android:textSize="13dp" />
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

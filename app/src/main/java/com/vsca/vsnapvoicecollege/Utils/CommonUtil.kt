@@ -4,7 +4,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.TextView
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -739,15 +744,24 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
 
 
     fun ApiAlert(activity: Activity?, msg: String?) {
-        if (activity != null) {
-            val dlg = AlertDialog.Builder(activity)
-            dlg.setTitle("Info")
-            dlg.setMessage(msg)
-            dlg.setPositiveButton("OK") { dialog, which -> }
-            dlg.setCancelable(false)
-            dlg.create()
-            dlg.show()
-        }
+        if (activity == null || activity.isFinishing) return
+
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_api_alert)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+        val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+        lblMessage.text = msg
+        btnOk.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
     }
 
     fun CustomApiAlert(

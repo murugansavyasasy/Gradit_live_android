@@ -77,7 +77,7 @@ class CommunicationVoice : ActionBarActivity() {
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = false
         insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         CommonUtil.VoiceType = "0"
         CommonUtil.seleteddataArraySection.clear()
