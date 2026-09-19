@@ -110,13 +110,13 @@ abstract class ActionBarActivity : AppCompatActivity() {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(i)
         }
-
         imgMan.setOnClickListener { ProfilePopUp(activity) }
         imgBack.visibility= View.VISIBLE
         Log.d("ActivityName", "Current Activity: ${activity::class.java.simpleName}")
         if (hideBackButton){
             imgBack.visibility= View.GONE
         }
+
         imgBack.setOnClickListener { onBackPressed() }
         imgCollegeLogo.setOnClickListener { IntentToChangeRole(activity) }
         layoutUserDetails.setOnClickListener { IntentToChangeRole(activity) }
@@ -159,6 +159,26 @@ abstract class ActionBarActivity : AppCompatActivity() {
             lblMemberName.text = CommonUtil.MemberName
             lblRole.setText(R.string.txt_parent)
         }
+
+        val menuTintRes = when (CommonUtil.Priority) {
+            "p1" -> R.color.clr_principal
+            "p2", "p3", "p6" -> R.color.clr_teachingstaff
+            "p4" -> R.color.clr_receiver
+            "p5" -> R.color.clr_parent
+            "p7" -> R.color.cle_lightorang
+            else -> R.color.black
+        }
+        val tintColor = androidx.core.content.ContextCompat.getColor(activity, menuTintRes)
+        val whiteFg = androidx.core.content.ContextCompat.getColor(activity, R.color.white)
+        constAction.setBackgroundColor(tintColor)
+        supportActionBar!!.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(tintColor))
+        (view.parent as? android.view.View)?.setBackgroundColor(tintColor)
+        activity.window.statusBarColor = tintColor
+        lblMemberName.setTextColor(whiteFg)
+        lblRole.setTextColor(whiteFg)
+        imgBack.setColorFilter(whiteFg)
+        imgNotification!!.setColorFilter(whiteFg)
+        imgRefresh!!.setColorFilter(whiteFg)
     }
 
     companion object {

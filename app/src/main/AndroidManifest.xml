@@ -108,9 +108,7 @@
         <activity
             android:name=".ActivitySender.HeaderRecipient"
             android:exported="false" />
-        <activity
-            android:name=".Activities.Create_Password"
-            android:exported="false" />
+
         <activity
             android:name=".Activities.CreatePasswordRewamp"
             android:theme="@style/Auth_NoActionBar_"
@@ -193,12 +191,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Prinipal"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity
-            android:name=".Activities.EnterOtp"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
         <activity
             android:name=".Activities.Notification"
             android:exported="false"
