@@ -15,6 +15,8 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -25,6 +27,7 @@ import android.widget.ListPopupWindow
 import android.widget.PopupWindow
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -48,6 +51,17 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
 import java.io.File
 
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
+import kotlin.math.max
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected lateinit var binding: VB
@@ -824,6 +838,145 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         progressDialog.dismiss()
     }
 
+    @ColorInt
+    fun Context.getPriorityColor(priority: String?): Int = ContextCompat.getColor(
+        this,
+        when (priority) {
+            "p1" -> R.color.clr_principal
+            "p2", "p3", "p6" -> R.color.clr_teachingstaff
+            "p4" -> R.color.clr_receiver
+            "p5" -> R.color.clr_parent
+            "p7" -> R.color.cle_lightorang
+            else -> R.color.black
+        }
+    )
+
+    /** Overload that takes the priority and picks the colour itself. */
+    fun ComponentActivity.setupEdgeToEdge(
+        rootView: View?,
+        statusBarBgView: View?,
+        priority: String?
+    ) {
+        setupEdgeToEdge(rootView, statusBarBgView, getPriorityColor(priority))
+    }
+
+    /** Main function. Call it after setContentView(). */
+    fun ComponentActivity.setupEdgeToEdge(
+        rootView: View?,
+        statusBarBgView: View?,
+        @ColorInt statusBarColor: Int
+    ) {
+        if (rootView == null || statusBarBgView == null) return
+
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+        )
+
+        // Colour of the view behind the status bar
+        statusBarBgView.setBackgroundColor(statusBarColor)
+
+        // White icons on dark colours, dark icons on light colours
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
+            ColorUtils.calculateLuminance(statusBarColor) > 0.5
+
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+            v.updatePadding(
+                left = bars.left,
+                right = bars.right,
+                bottom = max(bars.bottom, ime.bottom)   // nav bar or keyboard, whichever is taller
+            )
+            statusBarBgView.updateLayoutParams { height = bars.top }
+
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    fun AppCompatActivity.fixActionBarOverlap(contentView: View) {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            val actionBarContainer =
+                window.decorView.findViewById<View>(androidx.appcompat.R.id.action_bar_container)
+            if (actionBarContainer == null || actionBarContainer.visibility != View.VISIBLE) {
+                return@OnGlobalLayoutListener
+            }
+
+            val abLoc = IntArray(2)
+            val contentLoc = IntArray(2)
+            actionBarContainer.getLocationOnScreen(abLoc)
+            contentView.getLocationOnScreen(contentLoc)
+
+            val actionBarBottom = abLoc[1] + actionBarContainer.height
+            val overlap = actionBarBottom - contentLoc[1]
+
+            val lp = contentView.layoutParams as? ViewGroup.MarginLayoutParams ?: return@OnGlobalLayoutListener
+            if (overlap > 0 && actionBarContainer.height > 0) {
+                lp.topMargin += overlap
+                contentView.layoutParams = lp
+            }
+        }
+        contentView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    fun AppCompatActivity.setupEdgeToEdgeAuto(
+        rootView: View?,
+        statusBarBgView: View?,
+        priority: String?
+    ) {
+        if (supportActionBar != null) {
+            // Screen with an ActionBar: colour the window background
+            setupEdgeToEdgeWithActionBar(rootView, priority)
+        } else {
+            // Screen without an ActionBar: colour the statusBarBackground view
+            setupEdgeToEdge(rootView, statusBarBgView, priority)
+        }
+    }
+
+
+    fun ComponentActivity.setupEdgeToEdgeWithActionBar(
+        rootView: View?,
+        priority: String?
+    ) {
+        setupEdgeToEdgeWithActionBar(rootView, getPriorityColor(priority))
+    }
+
+    fun ComponentActivity.setupEdgeToEdgeWithActionBar(
+        rootView: View?,
+        @ColorInt barColor: Int
+    ) {
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+        )
+
+        // The strip behind the status bar is the window background
+        window.setBackgroundDrawable(ColorDrawable(barColor))
+
+        // White icons on dark colours, dark icons on light colours
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
+            ColorUtils.calculateLuminance(barColor) > 0.5
+
+        // The ActionBar container handles the top inset, so only left/right/bottom here
+        rootView?.let {
+            ViewCompat.setOnApplyWindowInsetsListener(it) { v, insets ->
+                val bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+                )
+                val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+                v.updatePadding(
+                    left = bars.left,
+                    right = bars.right,
+                    bottom = max(bars.bottom, ime.bottom)
+                )
+                WindowInsetsCompat.CONSUMED
+            }
+        }
+    }
+
     class GridSpacingItemDecoration(private val spanCount: Int, includeEdge: Boolean) :
         ItemDecoration() {
         private var spacing = 4
@@ -1108,6 +1261,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             Log.d("OverAllMenuCount_Req:", jsonObject.toString())
         }
     }
+
 
     fun TabCollegeColor() {
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1") {

@@ -146,13 +146,23 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         }
         binding = BottomMenuSwipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ActionBarMethod(this@DashBoardActivityRewamp, true)
+
+        setupEdgeToEdgeAuto(
+            rootView = binding.OverallLayout,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        if (supportActionBar != null) {
+            ActionBarMethod(this@DashBoardActivityRewamp, true)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
+
         // Hide the toolbar refresh icon on the dashboard only (shared action bar)
         imgRefresh?.visibility = View.GONE
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = false
         insetsController.isAppearanceLightNavigationBars = false
-
 
         CommonUtil.OnMenuClicks("Home")
 
