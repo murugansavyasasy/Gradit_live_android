@@ -192,39 +192,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
         var imgNotification: ImageView? = null
 
 
-        fun LogoutAlertUtil(title: String?, value: Int, activity: Activity) {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(title)
-            builder.setCancelable(false)
-            builder.setPositiveButton("Yes") { dialog, which ->
-
-                if (value == 1) {
-                    profilePopup!!.dismiss()
-                }
-
-                SharedPreference.clearShLogin(activity)
-                CommonUtil.Priority = ""
-                CommonUtil.MemberId = 0
-                CommonUtil.MemberName = ""
-                CommonUtil.MemberType = ""
-                CommonUtil.CollegeLogo = ""
-                CommonUtil.CollegeId = 0
-                CommonUtil.MobileNUmber = ""
-                CommonUtil.DivisionId = ""
-                CommonUtil.Courseid = ""
-                CommonUtil.DepartmentId = ""
-                CommonUtil.YearId = ""
-                CommonUtil.SemesterId = ""
-                CommonUtil.SectionId = ""
-                CommonUtil.isParentEnable = ""
-                val i = Intent(activity, LoginRewamp::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                activity.startActivity(i)
-                activity.finish()
-            }
-            builder.setNegativeButton("No") { dialog, which -> builder.setCancelable(false) }
-            builder.create().show()
-        }
 
         fun deleteDirUtil(dir: File?): Boolean {
             return if (dir != null && dir.isDirectory) {
@@ -367,16 +334,29 @@ abstract class ActionBarActivity : AppCompatActivity() {
     }
 
     private fun AlertOk(activity: Activity, Msg: String, value: Boolean) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(CommonUtil.Info)
-        builder.setMessage(Msg)
-        builder.setCancelable(false)
-        builder.setPositiveButton(CommonUtil.OK) { dialog, which ->
+
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_api_alert)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+        val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+        lblMessage.text = Msg
+        btnOk.setOnClickListener {
             if (value) {
                 profilePopup!!.dismiss()
             }
+            dialog.dismiss()
         }
-        builder.create().show()
+
+        dialog.show()
+
     }
 
     override fun onBackPressed() {
@@ -450,10 +430,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         appviewModelbase!!.getAppreadStatus(jsonObject, activity)
         Log.d("AppReadStatus", jsonObject.toString())
-    }
-
-    fun setMaxDate(MinimumDate: Long) {
-
     }
 
     class GridSpacingItemDecoration(private val spanCount: Int, includeEdge: Boolean) :

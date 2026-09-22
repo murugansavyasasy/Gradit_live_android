@@ -80,7 +80,8 @@ object CommonUtil {
     var selectedFileIndex: Int = -1
     var imgSwipe: ImageView? = null
     var btnContinue: Button? = null
-//    var layoutBottomCurve: ConstraintLayout? = null
+
+    //    var layoutBottomCurve: ConstraintLayout? = null
     var recyclerMenusBottom: RecyclerView? = null
     var llBottomSheet: LinearLayout? = null
     var layoutDepartment: ConstraintLayout? = null
@@ -383,8 +384,9 @@ object CommonUtil {
     var SeletedStringdataReplace: String? = null
     var isExamName: String? = ""
     var isForgotMobileNumber = ""
-//    var ivrnumbers = java.util.ArrayList<String>()
-var ivrnumbers: ArrayList<String> = arrayListOf()
+
+    //    var ivrnumbers = java.util.ArrayList<String>()
+    var ivrnumbers: ArrayList<String> = arrayListOf()
 
     var menu_readHome = ""
     var menu_writeHome = ""
@@ -503,7 +505,8 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
     var ScreenNameEvent = "ScreenNameEvent"
     var Event_Edit = "Event_Edit"
     var Image_Pdf = "New Image/Pdf"
-//    var TermsNConditionUrl = "https://gradit.voicesnap.com/Home/TermsAndConditions"
+
+    //    var TermsNConditionUrl = "https://gradit.voicesnap.com/Home/TermsAndConditions"
     var TermsNConditionUrl = "https://www.thegradit.com/termsandconditions.html"
     var isDeviceTokenApiCalling: Boolean? = true
     private val REQUEST_CODE_APP_SETTINGS = 101
@@ -785,11 +788,23 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
 
 
     fun ApiAlertContext(activity: Context?, msg: String?) {
+
+
         if (activity != null) {
-            val dlg = AlertDialog.Builder(activity)
-            dlg.setTitle("Info")
-            dlg.setMessage(msg)
-            dlg.setPositiveButton("OK") { dialog, which ->
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_api_alert)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(false)
+
+            val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+            val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+            lblMessage.text = msg
+            btnOk.setOnClickListener {
 
                 MenuAssignment = true
                 MenuCourseDetails = true
@@ -811,11 +826,13 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
                 MenuFeeDetails = true
                 MarkAttendance = true
                 AttendanceReport = true
+
+                dialog.dismiss()
+
             }
-            dlg.setCancelable(false)
-            dlg.create()
-            dlg.show()
+            dialog.show()
         }
+
     }
 
     @JvmStatic
@@ -826,12 +843,22 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
 
     fun ApiAlertFinish(activity: Activity?, msg: String?) {
         if (activity != null) {
-            val dlg = AlertDialog.Builder(activity)
-            dlg.setTitle("Info")
-            dlg.setMessage(msg)
-            dlg.setPositiveButton("OK") { dialog, which ->
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_api_alert)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(false)
 
-                //activity.finish()
+            val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+            val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+            lblMessage.text = msg
+            btnOk.setOnClickListener {
+
+                activity.finish()
                 MenuAssignment = true
                 MenuCourseDetails = true
                 MenuExamDetails = true
@@ -852,12 +879,42 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
                 MenuFeeDetails = true
                 MarkAttendance = true
                 AttendanceReport = true
+                dialog.dismiss()
+
             }
-            dlg.setCancelable(false)
-            dlg.create()
-            dlg.show()
+            dialog.show()
         }
+
     }
+
+    fun CustomAlertFinish(activity: Activity?, msg: String?) {
+        if (activity != null) {
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_api_alert)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(false)
+
+            val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+            val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+            lblMessage.text = msg
+            btnOk.setOnClickListener {
+
+                activity.finish()
+                dialog.dismiss()
+
+            }
+            dialog.show()
+        }
+
+    }
+
+
+
 
     fun getMonthName(month: Int): String {
         val months = arrayOf(
