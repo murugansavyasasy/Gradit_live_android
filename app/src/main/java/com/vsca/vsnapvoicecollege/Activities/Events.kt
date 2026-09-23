@@ -448,6 +448,7 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
+        if (EventType) return
         CommonUtil.EventStatus = "Upcoming"
         TabDepartmentColor()
         EventType = true
@@ -458,6 +459,7 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
+        if (!EventType) return
         CommonUtil.EventStatus = "Past"
         EventType = false
         if (CommonUtil.menu_readEvent.equals("1")) {

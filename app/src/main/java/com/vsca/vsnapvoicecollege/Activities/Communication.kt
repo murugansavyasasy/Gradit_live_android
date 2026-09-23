@@ -395,6 +395,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
     }
 
     fun departmentClick() {
+        if (CommunicationType) return
         TabDepartmentColor()
         CommunicationType = true
         if (CommonUtil.menu_readCommunication == "1") {
@@ -415,6 +416,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
     }
 
     fun collegeClick() {
+        if (!CommunicationType) return
         CommunicationType = false
         if (CommonUtil.menu_readCommunication == "1") {
             CommunicationRequest(CommunicationType)

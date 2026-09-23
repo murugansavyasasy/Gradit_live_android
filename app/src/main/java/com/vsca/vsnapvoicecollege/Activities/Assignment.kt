@@ -349,6 +349,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
+        if (AssignmentType) return
         AssignmentType = true
         if (CommonUtil.menu_readAssignment.equals("1")) {
             AssignmentRequest(AssignmentType)
@@ -358,6 +359,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
+        if (!AssignmentType) return
         AssignmentType = false
         if (CommonUtil.menu_readAssignment.equals("1")) {
             AssignmentRequest(AssignmentType)

@@ -356,6 +356,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
+        if (NoticeboardType) return
         TabDepartmentColor()
         NoticeboardType = true
         if (CommonUtil.menu_readNoticeBoard.equals("1")) {
@@ -364,6 +365,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
+        if (!NoticeboardType) return
         NoticeboardType = false
         if (CommonUtil.menu_readNoticeBoard.equals("1")) {
             NoticeboardRequest(NoticeboardType)
