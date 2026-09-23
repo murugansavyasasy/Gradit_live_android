@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,7 @@ import com.vsca.vsnapvoicecollege.Model.GetEventDetailsData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
@@ -49,10 +51,16 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
     var PreviousAddId: Int = 0
     var departmentcount: Int? = null
     var Collegecount: Int? = null
-override fun inflateBinding(): ActivityNoticeboardBinding {
-    return ActivityNoticeboardBinding.inflate(layoutInflater)
-}
 
+    // Single loader shown until the initial APIs (count + ads + list) all finish; the individual
+    // per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
+    private var isFirstLoad = true
+    private var initialLoader: ProgressDialog? = null
+    private var pendingInitialApiCount = 0
+
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
@@ -81,9 +89,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
         TabDepartmentColor()
-
 
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
@@ -94,10 +100,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
         SearchList!!.setOnClickListener {
             Search!!.visibility = View.VISIBLE
-        }
-
-        if (CommonUtil.menu_readEvent.equals("1")) {
-            EventRequest(EventType)
         }
 
         idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -115,41 +117,26 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             Search!!.visibility = View.GONE
         }
 
-
         binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_events)
         binding.CommonLayout.lblDepartment!!.setText(R.string.txt_upcoming)
         binding.CommonLayout.lblCollege!!.setText(R.string.txt_past)
         CommonUtil.EventEdit = "Edit"
 
         if (CommonUtil.EventStatus.equals("Past")) {
-//            bottomsheetStateCollpased()
             EventType = false
-            if (CommonUtil.menu_readEvent.equals("1")) {
-                EventRequest(EventType)
-            }
             CommonUtil.EventEdit = "Add"
             TabCollegeColor()
-
-
         } else {
-//            bottomsheetStateCollpased()
             TabDepartmentColor()
             EventType = true
-
-            if (CommonUtil.menu_readEvent == "1") {
-                Log.d("isComing","isComing")
-                EventRequest(EventType)
-            }
-
             CommonUtil.EventEdit = "Edit"
-//            bottomsheetStateCollpased()
         }
 
         appViewModel!!.AdvertisementLiveData?.observe(this,
             Observer<GetAdvertisementResponse?> { response ->
+                markInitialApiDone()
                 if (response != null) {
                     val status = response.status
-                    val message = response.message
                     if (status == 1) {
                         GetAdForCollegeData = response.data!!
                         for (j in GetAdForCollegeData.indices) {
@@ -166,13 +153,11 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             })
 
         appViewModel!!.OverAllMenuResponseLiveData!!.observe(this) { response ->
-
+            markInitialApiDone()
             if (response != null) {
 
                 val status = response.status
-                val message = response.message
                 if (status == 1) {
-                    AdForCollegeApi()
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
                     } else {
@@ -188,16 +173,11 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         }
 
         appViewModel!!.eventListbyTypeliveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 CommonUtil.EventParticulerId = ""
                 val status = response.status
-                val message = response.message
-//                UserMenuRequest(this)
                 if (status == 1) {
-
-                    if (CommonUtil.menu_readEvent.equals("1")) {
-                        OverAllMenuCountRequest(this, "8")
-                    }
                     if (EventType) {
 
                         GetEvetnsData = response.data!!
@@ -211,7 +191,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                                         holder: EventsAdapter.MyViewHolder,
                                         item: GetEventDetailsData
                                     ) {
-                                        holder.lnrNoticeboardd?.setOnClickListener(View.OnClickListener {
+                                        holder.lnrNoticeboardd?.setOnClickListener {
                                             CommonUtil.EventParticulerId = item.eventid.toString()
                                             val Type: String = "event"
                                             if (item.isappread.equals("0")) {
@@ -230,7 +210,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                             startActivity(i)
-                                        })
+                                        }
                                     }
                                 })
                             val mLayoutManager: RecyclerView.LayoutManager =
@@ -251,7 +231,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                         val size = GetEvetnsData.size
                         Log.d("datasizeElse", size.toString())
 
-
                         if (size > 0) {
 
                             binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
@@ -263,9 +242,9 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                                         item: GetEventDetailsData
                                     ) {
 
-                                        holder.lnrNoticeboardd!!.setOnClickListener(View.OnClickListener {
+                                        holder.lnrNoticeboardd!!.setOnClickListener {
 
-                                            var Type: String = "event"
+                                            val Type: String = "event"
                                             CommonUtil.EventParticulerId = item.eventid.toString()
 
                                             if (item.isappread.equals("0")) {
@@ -285,7 +264,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                             startActivity(i)
 
-                                        })
+                                        }
                                     }
                                 })
 
@@ -303,17 +282,12 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     }
 
                 } else {
-                    if (CommonUtil.menu_readEvent.equals("1")) {
-                        OverAllMenuCountRequest(this, "8")
-                    }
-//                    UserMenuRequest(this)
                     if (EventType) {
                         binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
                         NoDataFound()
                         GetEvetnsData = response.data!!
                         val size = GetEvetnsData.size
                         upcomingcount = size.toString()
-
 
                         val intdepartment = Integer.parseInt(upcomingcount!!)
 
@@ -352,14 +326,12 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     }
                 }
             } else {
-//                UserMenuRequest(this)
                 NoDataFound()
                 binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
-
             }
         }
 
-        imgRefresh!!.setOnClickListener(View.OnClickListener {
+        imgRefresh!!.setOnClickListener {
             if (EventType) {
                 EventType = true
                 if (CommonUtil.menu_readEvent.equals("1")) {
@@ -371,12 +343,10 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                     EventRequest(EventType)
                 }
             }
-        })
+        }
     }
 
-
     private fun filter(text: String) {
-
 
         val filteredlist: java.util.ArrayList<GetEventDetailsData> = java.util.ArrayList()
 
@@ -399,10 +369,10 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
     }
 
-    private fun AdForCollegeApi() {
+    private fun AdForCollegeApi(showLoader: Boolean = true) {
 
-        var mobilenumber = SharedPreference.getSH_MobileNumber(this)
-        var devicetoken = SharedPreference.getSH_DeviceToken(this)
+        val mobilenumber = SharedPreference.getSH_MobileNumber(this)
+        val devicetoken = SharedPreference.getSH_DeviceToken(this)
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_ad_device_token, devicetoken)
         jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId)
@@ -410,18 +380,16 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
-        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        appviewModelbase!!.getAdforCollege(jsonObject, this, showLoader)
         Log.d("AdForCollege:", jsonObject.toString())
 
         PreviousAddId = PreviousAddId + 1
         Log.d("PreviousAddId", PreviousAddId.toString())
     }
 
-
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
-
 
     private fun NoDataFound() {
         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
@@ -445,9 +413,9 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             Countpast = "0"
         }
 
-        var intdepartment = Integer.parseInt(CountUpcoming!!)
-        var intCollegecount = Integer.parseInt(Countpast!!)
-        var TotalSizeCount = intdepartment + intCollegecount
+        val intdepartment = Integer.parseInt(CountUpcoming!!)
+        val intCollegecount = Integer.parseInt(Countpast!!)
+        val TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
             binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
             binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
@@ -459,54 +427,44 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     override val layoutResourceId: Int
         get() = R.layout.activity_noticeboard
 
-    private fun EventRequest(type: Boolean) {
+    private fun EventRequest(type: Boolean, showLoader: Boolean = true) {
         val jsonObject = JsonObject()
-        run {
-
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-            if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-                jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
-            } else {
-                jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
-            }
-            jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            if (type) {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.UpcomingEvents)
-            } else {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.PastEvents)
-            }
-            appViewModel!!.getEventListbyType(jsonObject, this)
-            Log.d("EventListRequest:", jsonObject.toString())
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
+            jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+        } else {
+            jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
         }
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        if (type) {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.UpcomingEvents)
+        } else {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.PastEvents)
+        }
+        appViewModel!!.getEventListbyType(jsonObject, this, showLoader)
+        Log.d("EventListRequest:", jsonObject.toString())
     }
 
     fun departmentClick() {
-
         CommonUtil.EventStatus = "Upcoming"
-//        bottomsheetStateCollpased()
         TabDepartmentColor()
         EventType = true
         if (CommonUtil.menu_readEvent.equals("1")) {
             EventRequest(EventType)
         }
         CommonUtil.EventEdit = "Edit"
-//        bottomsheetStateCollpased()
-
     }
 
     fun collegeClick() {
-
         CommonUtil.EventStatus = "Past"
-//        bottomsheetStateCollpased()
         EventType = false
         if (CommonUtil.menu_readEvent.equals("1")) {
             EventRequest(EventType)
         }
         CommonUtil.EventEdit = "Add"
         TabCollegeColor()
-
     }
 
     override fun onBackPressed() {
@@ -516,11 +474,45 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     }
 
     override fun onResume() {
-        var AddId: Int = 1
-        PreviousAddId = PreviousAddId + 1
         super.onResume()
+        if (isFirstLoad) {
+            isFirstLoad = false
+            loadInitialData()
+        }
     }
 
+    /**
+     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
+     *   - GetOverallcountByMenuType (count)
+     *   - GetAddsForCollege (ads)
+     *   - GetEventListByType (list)
+     * The per-call loaders are suppressed (showLoader = false); the shared loader is dismissed
+     * by [markInitialApiDone] once every response has come back.
+     */
+    private fun loadInitialData() {
+        if (CommonUtil.menu_readEvent != "1") return
+        pendingInitialApiCount = 3
+        initialLoader = CustomLoading.createProgressDialog(this)
+        OverAllMenuCountRequest(this, "8", false)
+        AdForCollegeApi(false)
+        EventRequest(EventType, false)
+    }
+
+    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
+    private fun markInitialApiDone() {
+        if (initialLoader == null || pendingInitialApiCount <= 0) return
+        pendingInitialApiCount -= 1
+        if (pendingInitialApiCount <= 0) {
+            initialLoader?.dismiss()
+            initialLoader = null
+        }
+    }
+
+    override fun onDestroy() {
+        initialLoader?.dismiss()
+        initialLoader = null
+        super.onDestroy()
+    }
 
     fun plusClick() {
 

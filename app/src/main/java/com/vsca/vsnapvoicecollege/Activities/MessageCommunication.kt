@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +28,7 @@ import com.vsca.vsnapvoicecollege.Model.GetCommunicationDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
@@ -46,6 +48,12 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
     var AdWebURl: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     private var communicationAdapter: CommunicationAdapter? = null
+
+    // Single loader shown until the initial APIs (count + ads + list) all finish; the individual
+    // per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
+    private var isFirstLoad = true
+    private var initialLoader: ProgressDialog? = null
+    private var pendingInitialApiCount = 0
 override fun inflateBinding(): ActivityNoticeboardBinding {
     return ActivityNoticeboardBinding.inflate(layoutInflater)
 }
@@ -115,6 +123,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
         appViewModel!!.AdvertisementLiveData?.observe(this,
             Observer<GetAdvertisementResponse?> { response ->
+                markInitialApiDone()
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -138,13 +147,12 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             })
 
         appviewModelbase!!.OverAllMenuResponseLiveData!!.observe(this) { response ->
-
+            markInitialApiDone()
             if (response != null) {
 
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    AdForCollegeApi()
 
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
@@ -161,13 +169,10 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         }
 
         appViewModel!!.communicationLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
                 val message = response.message
-                if (CommonUtil.menu_readCommunicationText.equals("1")) {
-                    OverAllMenuCountRequest(this, CommonUtil.MenuIDCommunicationText!!)
-                }
-//                UserMenuRequest(this)
                 if (status == 1) {
                     if (CommunicationType) {
                         GetCommunicationdata = response.data!!
@@ -387,7 +392,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 
     }
 
-    private fun AdForCollegeApi() {
+    private fun AdForCollegeApi(showLoader: Boolean = true) {
 
         var mobilenumber = SharedPreference.getSH_MobileNumber(this)
         var devicetoken = SharedPreference.getSH_DeviceToken(this)
@@ -398,7 +403,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
-        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        appviewModelbase!!.getAdforCollege(jsonObject, this, showLoader)
         Log.d("AdForCollege:", jsonObject.toString())
 
         PreviousAddId = PreviousAddId + 1
@@ -409,7 +414,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         LoadWebViewContext(this, AdWebURl)
     }
 
-    fun CommunicationRequest(readtype: Boolean) {
+    fun CommunicationRequest(readtype: Boolean, showLoader: Boolean = true) {
         val jsonObject = JsonObject()
         run {
 
@@ -430,15 +435,17 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                 jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
             }
 
-            appViewModel!!.getCommunicationListTextbyType(jsonObject, this)
+            appViewModel!!.getCommunicationListTextbyType(jsonObject, this, showLoader)
             Log.d("CommunicationRequest:", jsonObject.toString())
         }
     }
 
     override fun onResume() {
+        super.onResume()
 
-        if (CommonUtil.menu_readCommunicationText.equals("1")) {
-            CommunicationRequest(CommunicationType)
+        if (isFirstLoad) {
+            isFirstLoad = false
+            loadInitialData()
         }
 
         if (CommonUtil.menu_writeCommunicationText.equals("1")) {
@@ -453,10 +460,44 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         } else {
             binding.CommonLayout.imgAddPlus!!.visibility = View.GONE
         }
+    }
 
-        var AddId: Int = 1
-        PreviousAddId = PreviousAddId + 1
-        super.onResume()
+    /**
+     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
+     *   - GetOverallcountByMenuType (count)   -> only when read is enabled
+     *   - GetAddsForCollege (ads)             -> always
+     *   - GetVoiceMessageBytype text list     -> only when read is enabled
+     * The per-call loaders are suppressed (showLoader = false); the shared loader is dismissed
+     * by [markInitialApiDone] once every response has come back.
+     */
+    private fun loadInitialData() {
+        val readEnabled = CommonUtil.menu_readCommunicationText == "1"
+        pendingInitialApiCount = 1 + if (readEnabled) 2 else 0
+        initialLoader = CustomLoading.createProgressDialog(this)
+
+        if (readEnabled) {
+            OverAllMenuCountRequest(this, CommonUtil.MenuIDCommunicationText!!, false)
+        }
+        AdForCollegeApi(false)
+        if (readEnabled) {
+            CommunicationRequest(CommunicationType, false)
+        }
+    }
+
+    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
+    private fun markInitialApiDone() {
+        if (initialLoader == null || pendingInitialApiCount <= 0) return
+        pendingInitialApiCount -= 1
+        if (pendingInitialApiCount <= 0) {
+            initialLoader?.dismiss()
+            initialLoader = null
+        }
+    }
+
+    override fun onDestroy() {
+        initialLoader?.dismiss()
+        initialLoader = null
+        super.onDestroy()
     }
 
     override val layoutResourceId: Int

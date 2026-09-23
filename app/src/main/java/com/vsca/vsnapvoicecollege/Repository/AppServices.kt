@@ -493,9 +493,9 @@ class AppServices {
     val profileResponseLiveData: LiveData<GetProfileResponse?>
         get() = GetProfileDetailsMutableData
 
-    fun GetNoticeboradList(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetNoticeboradList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetNoticeboardlistbytpe(jsonObject)
             ?.enqueue(object : Callback<GetNoticeboardResposne?> {
                 override fun onResponse(
@@ -507,23 +507,23 @@ class AppServices {
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            progressDialog!!.dismiss()
+                            progressDialog?.dismiss()
                             val status = response.body()!!.status
                             GetNoticeboardMutableLiveData.postValue(response.body())
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetNoticeboardMutableLiveData.postValue(null)
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         GetNoticeboardMutableLiveData.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<GetNoticeboardResposne?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetNoticeboardMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -581,9 +581,9 @@ class AppServices {
         get() = Deletenoticeboard
 
 
-    fun GetCircularListbyType(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetCircularListbyType(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetCircularListbyType(jsonObject)
             ?.enqueue(object : Callback<GetCircularListResponse?> {
                 override fun onResponse(
@@ -595,27 +595,26 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             GetCircularMutableLiveData.postValue(response.body())
 
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetCircularMutableLiveData.postValue(null)
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         GetCircularMutableLiveData.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<GetCircularListResponse?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetCircularMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -628,9 +627,9 @@ class AppServices {
     val circularListResponseLiveData: LiveData<GetCircularListResponse?>
         get() = GetCircularMutableLiveData
 
-    fun GetAssignmentListbyType(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetAssignmentListbyType(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetAssignmentListbytype(jsonObject)
             ?.enqueue(object : Callback<GetAssignmentListResponse?> {
                 override fun onResponse(
@@ -642,7 +641,7 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         if (response.body() != null) {
                             val status = response.body()!!.status
@@ -651,16 +650,16 @@ class AppServices {
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetAssignmentMutableLiveData.postValue(null)
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetAssignmentMutableLiveData.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<GetAssignmentListResponse?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetAssignmentMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -843,9 +842,9 @@ class AppServices {
     val appreadstatusLiveData: LiveData<StatusMessageResponse?>
         get() = AppReadStatusLiveData
 
-    fun GetOVerAllCount(jsonObject: JsonObject?, activity: Activity) {
-          var progressDialog = CustomLoading.createProgressDialog(activity)
-          progressDialog!!.show()
+    fun GetOVerAllCount(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetOverallcountByMenuType(jsonObject)
             ?.enqueue(object : Callback<GetOverAllCountResposne?> {
                 override fun onResponse(
@@ -857,7 +856,7 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                              progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         if (response.body() != null) {
                             val status = response.body()!!.status
@@ -865,13 +864,13 @@ class AppServices {
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                              progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         GetOverAllMenuCountMutableLiveData.postValue(null)
 
 
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         GetOverAllMenuCountMutableLiveData.postValue(null)
 
@@ -881,7 +880,7 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetOverAllCountResposne?>, t: Throwable
                 ) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetOverAllMenuCountMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -894,9 +893,8 @@ class AppServices {
     val OverAllCountMenuLiveData: LiveData<GetOverAllCountResposne?>
         get() = GetOverAllMenuCountMutableLiveData
 
-    fun GetEventListBytType(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+    fun GetEventListBytType(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        // This list call intentionally shows no per-call loader.
         RestClient.apiInterfaces.GetEventListByType(jsonObject)
             ?.enqueue(object : Callback<GetEventListbyTypeResponse?> {
                 override fun onResponse(
@@ -940,9 +938,9 @@ class AppServices {
     val getEventListLiveData: LiveData<GetEventListbyTypeResponse?>
         get() = GetEventListMutableData
 
-    fun GetCommunicationList(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetCommunicationList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetCommunicationVoiceBytype(jsonObject)
             ?.enqueue(object : Callback<GetCommunicationResponse?> {
                 override fun onResponse(
@@ -954,7 +952,7 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         if (response.body() != null) {
                             val status = response.body()!!.status
 
@@ -965,16 +963,16 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetCommunicationMutableLiveData.postValue(response.body())
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetCommunicationMutableLiveData.postValue(response.body())
                     }
                 }
 
                 override fun onFailure(call: Call<GetCommunicationResponse?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetCommunicationMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -987,9 +985,9 @@ class AppServices {
     val getCommunicationLiveData: LiveData<GetCommunicationResponse?>
         get() = GetCommunicationMutableLiveData
 
-    fun GetCommunicationTextList(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetCommunicationTextList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetCommunicationMessageBytype(jsonObject)
             ?.enqueue(object : Callback<GetCommunicationResponse?> {
                 override fun onResponse(
@@ -1001,7 +999,7 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         if (response.body() != null) {
                             val status = response.body()!!.status
@@ -1013,17 +1011,17 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetCommunicationMutableLiveData.postValue(response.body())
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         GetCommunicationMutableLiveData.postValue(response.body())
                     }
                 }
 
                 override fun onFailure(call: Call<GetCommunicationResponse?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetCommunicationMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1432,9 +1430,9 @@ class AppServices {
     val getExamMarkListLiveData: LiveData<ExamMarkListResponse?>
         get() = ExamMarkListMutableLiveData
 
-    fun GetVideoList(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetVideoList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetVideoList(jsonObject)
             ?.enqueue(object : Callback<GetVideoListResponse?> {
                 override fun onResponse(
@@ -1445,25 +1443,25 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         if (response.body() != null) {
                             val status = response.body()!!.status
                             VideoListMutableLiveData.postValue(response.body())
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         VideoListMutableLiveData.postValue(null)
 
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         VideoListMutableLiveData.postValue(null)
 
                     }
                 }
 
                 override fun onFailure(call: Call<GetVideoListResponse?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     VideoListMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1941,9 +1939,9 @@ class AppServices {
         get() = AttendanceDatesiveData
 
 
-    fun GetStudentAttendancelist(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetStudentAttendancelist(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetAttendanceStudentlist(jsonObject)
             ?.enqueue(object : Callback<StudentAttendancelist?> {
                 override fun onResponse(
@@ -1954,7 +1952,7 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         if (response.body() != null) {
                             val status = response.body()!!.Status
@@ -1962,21 +1960,19 @@ class AppServices {
                             StudentlistAttendance.postValue(response.body())
 
                             if (status == 1) {
-                                //progressDialog!!.dismiss()
 
                                 StudentlistAttendance.postValue(response.body())
                             } else {
-                                //progressDialog!!.dismiss()
 
                                 StudentlistAttendance.postValue(response.body())
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         StudentlistAttendance.postValue(null)
 
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         StudentlistAttendance.postValue(null)
 
@@ -1986,7 +1982,7 @@ class AppServices {
                 override fun onFailure(
                     call: Call<StudentAttendancelist?>, t: Throwable
                 ) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     StudentlistAttendance.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2145,9 +2141,9 @@ class AppServices {
     val getChangePawwordLiveData: LiveData<StatusMessageResponse?>
         get() = ChangePasswordLiveData
 
-    fun getAddFoCollege(jsonObject: JsonObject?, activity: Activity) {
-         var progressDialog = CustomLoading.createProgressDialog(activity)
-          progressDialog!!.show()
+    fun getAddFoCollege(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetAdsForCollege(jsonObject)
             ?.enqueue(object : Callback<GetAdvertisementResponse?> {
                 override fun onResponse(
@@ -2159,7 +2155,7 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                          progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         if (response.body() != null) {
                             val status = response.body()!!.status
@@ -2170,10 +2166,10 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                           progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         AdvertisementLiveData.postValue(null)
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         AdvertisementLiveData.postValue(null)
                     }
@@ -2182,7 +2178,7 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetAdvertisementResponse?>, t: Throwable
                 ) {
-                      progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     AdvertisementLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3360,9 +3356,9 @@ class AppServices {
     val getsubjectdata: LiveData<staffsubject_list?>
         get() = Subjectpdata
 
-    fun GettingAttendance(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GettingAttendance(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetAttendance(jsonObject)
             ?.enqueue(object : Callback<GetAttendance?> {
                 override fun onResponse(
@@ -3373,7 +3369,7 @@ class AppServices {
 
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         if (response.body() != null) {
 
                             val status = response.body()!!.Status
@@ -3385,17 +3381,17 @@ class AppServices {
                                 GetAttendanceForStaff.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            progressDialog!!.dismiss()
+                            progressDialog?.dismiss()
                             GetAttendanceForStaff.postValue(null)
                         } else {
-                            progressDialog!!.dismiss()
+                            progressDialog?.dismiss()
                             GetAttendanceForStaff.postValue(null)
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<GetAttendance?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetAttendanceForStaff.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(

@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +28,7 @@ import com.vsca.vsnapvoicecollege.Model.GetVideoListDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
@@ -46,10 +48,16 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
     var AdWebURl: String? = null
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
+
+    // Single loader shown until the initial APIs (ads + list) all finish; the individual
+    // per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
+    private var isFirstLoad = true
+    private var initialLoader: ProgressDialog? = null
+    private var pendingInitialApiCount = 0
+
     override fun inflateBinding(): ActivityNoticeboardBinding {
         return ActivityNoticeboardBinding.inflate(layoutInflater)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
@@ -76,61 +84,40 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
             R.id.imgAddPlus
         )
         TabDepartmentColor()
-//        MenuBottomType()
 
         binding.CommonLayout.layoutTab!!.visibility = View.GONE
         binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_Video)
         CommonUtil.OnMenuClicks("Video")
 
-
         binding.CommonLayout.imgAddPlus.setOnClickListener { addVideo() }
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
-
-
-
 
         SearchList!!.visibility = View.VISIBLE
-
         SearchList!!.setOnClickListener {
-
             Search!!.visibility = View.VISIBLE
-
-        }
-
-        if (CommonUtil.menu_readVideo == "1") {
-            VideoRequest()
         }
 
         idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
-
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
-
                 filter(msg)
                 return false
             }
         })
 
         txt_Cancel!!.setOnClickListener {
-
             Search!!.visibility = View.GONE
-
         }
-
-
-
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                markInitialApiDone()
                 if (response != null) {
                     val status = response.status
-
-                    val message = response.message
                     if (status == 1) {
                         GetAdForCollegeData = response.data!!
                         for (j in GetAdForCollegeData.indices) {
@@ -153,7 +140,6 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         appViewModel!!.OverAllMenuResponseLiveData!!.observe(this) { response ->
             if (response != null) {
                 val status = response.status
-                val message = response.message
                 if (status == 1) {
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
@@ -168,11 +154,9 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         }
 
         appViewModel!!.VideoListLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
-                val message = response.message
-//                UserMenuRequest(this)
-                AdForCollegeApi()
                 if (status == 1) {
                     GetVideoListData = response.data!!
                     CountValueSet()
@@ -220,41 +204,31 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
             }
         }
 
-        imgRefresh!!.setOnClickListener(View.OnClickListener {
-
+        imgRefresh!!.setOnClickListener {
             if (CommonUtil.menu_readVideo == "1") {
                 VideoRequest()
             }
-        })
+        }
     }
 
-
     private fun filter(text: String) {
-
-
         val filteredlist: java.util.ArrayList<GetVideoListDetails> = java.util.ArrayList()
 
         for (item in GetVideoListData) {
             if (item.title!!.lowercase(Locale.getDefault())
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
-
                 filteredlist.add(item)
-
             }
         }
         if (filteredlist.isEmpty()) {
-
             Toast.makeText(this, CommonUtil.No_Data_Found, Toast.LENGTH_SHORT).show()
         } else {
             videoAdapter!!.filterList(filteredlist)
-
         }
-
     }
 
-    private fun AdForCollegeApi() {
-
+    private fun AdForCollegeApi(showLoader: Boolean = true) {
         val mobilenumber = SharedPreference.getSH_MobileNumber(this)
         val devicetoken = SharedPreference.getSH_DeviceToken(this)
         val jsonObject = JsonObject()
@@ -264,7 +238,7 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
-        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        appviewModelbase!!.getAdforCollege(jsonObject, this, showLoader)
         Log.d("AdForCollege:", jsonObject.toString())
 
         PreviousAddId = PreviousAddId + 1
@@ -272,31 +246,25 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     private fun CountValueSet() {
-
-        var intdepartment: Int? = null
-        intdepartment = GetVideoListData.size
+        val intdepartment = GetVideoListData.size
         if (intdepartment > 0) {
             binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
             binding.CommonLayout.lbltotalsize!!.text = intdepartment.toString()
         } else {
             binding.CommonLayout.lbltotalsize!!.visibility = View.GONE
         }
-
     }
 
     override val layoutResourceId: Int
         get() = R.layout.activity_noticeboard
 
-    private fun VideoRequest() {
+    private fun VideoRequest(showLoader: Boolean = true) {
         val jsonObject = JsonObject()
-        run {
-
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            appViewModel!!.getVideoList(jsonObject, this)
-            Log.d("VideoRequest:", jsonObject.toString())
-        }
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        appViewModel!!.getVideoList(jsonObject, this, showLoader)
+        Log.d("VideoRequest:", jsonObject.toString())
     }
 
     fun addVideo() {
@@ -311,8 +279,41 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     override fun onResume() {
-        var AddId: Int = 1
-        PreviousAddId = PreviousAddId + 1
         super.onResume()
+        if (isFirstLoad) {
+            isFirstLoad = false
+            loadInitialData()
+        }
+    }
+
+    /**
+     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
+     *   - GetAddsForCollege (ads)
+     *   - GetVideoList (list)
+     * The per-call loaders are suppressed (showLoader = false); the shared loader is dismissed
+     * by [markInitialApiDone] once every response has come back.
+     */
+    private fun loadInitialData() {
+        if (CommonUtil.menu_readVideo != "1") return
+        pendingInitialApiCount = 2
+        initialLoader = CustomLoading.createProgressDialog(this)
+        AdForCollegeApi(false)
+        VideoRequest(false)
+    }
+
+    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
+    private fun markInitialApiDone() {
+        if (initialLoader == null || pendingInitialApiCount <= 0) return
+        pendingInitialApiCount -= 1
+        if (pendingInitialApiCount <= 0) {
+            initialLoader?.dismiss()
+            initialLoader = null
+        }
+    }
+
+    override fun onDestroy() {
+        initialLoader?.dismiss()
+        initialLoader = null
+        super.onDestroy()
     }
 }

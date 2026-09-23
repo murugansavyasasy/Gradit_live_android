@@ -41,7 +41,6 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     var isAttendanceType = "Attendance"
 
     var GetAttendanceData: List<AttendanceData> = ArrayList()
-//    var isProgressDialog:ProgressDialog?=null
     var LeaveHistoryLiveData: ArrayList<LeaveHistoryData> = ArrayList()
     var StudentAttendance: ArrayList<StudentAttendance> = ArrayList()
     var LeaveHistoryprincipleLiveData: List<DataXXXX> = ArrayList()
@@ -53,6 +52,12 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var attendanceGet: List<Daum> = ArrayList()
     var AttendanceScreen: String? = "Take_Attendance"
+
+    // Single loader shown until the initial APIs (attendance/student list + ads) all finish; the
+    // individual per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
+    private var isFirstLoad = true
+    private var initialLoader: ProgressDialog? = null
+    private var pendingInitialApiCount = 0
 
     override fun inflateBinding(): ActivityAttendanceBinding {
         return ActivityAttendanceBinding.inflate(layoutInflater)
@@ -68,8 +73,6 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-//        isProgressDialog= CustomLoading.createProgressDialog(this)
-
         setupEdgeToEdgeAuto(
             rootView = binding.Main,
             statusBarBgView = binding.statusBarBackground,
@@ -81,16 +84,13 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
             fixActionBarOverlap(binding.LayoutBottomMenus)
         }
 
-
         accessBottomViewIcons(
             binding,
             R.id.LayoutDepartment,
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        UserMenuRequest(this)
         TabDepartmentColor()
-//        MenuBottomType()
 
         val selectedDate: Long = binding.CommonLayout.CalendarView!!.date
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
@@ -109,11 +109,9 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
             )
         ) {
             binding.CommonLayout.lnrCalendar!!.visibility = View.VISIBLE
-            attendanceGet()
 
         } else {
             binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
-            attendancelistStudent()
         }
 
         if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
@@ -136,7 +134,6 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
 
-//            bottomsheetStateCollpased()
             TabCollegeColor()
             binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
             binding.CommonLayout.LayoutNoAttendanceData!!.visibility = View.GONE
@@ -204,7 +201,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
             }
         }
 
-        imgRefresh!!.setOnClickListener(View.OnClickListener {
+        imgRefresh!!.setOnClickListener {
             if (CommonUtil.menu_readAttendance.equals("1")) {
 
                 if (AttendanceScreen.equals("Take_Attendance")) {
@@ -263,11 +260,11 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
                 }
             }
-        })
+        }
 
         binding.CommonLayout.CalendarView!!.maxDate = Date().time
 
-        binding.CommonLayout.CalendarView!!.setOnDateChangeListener(android.widget.CalendarView.OnDateChangeListener { calendarView, year, month, dayOfMonth ->
+        binding.CommonLayout.CalendarView!!.setOnDateChangeListener { calendarView, year, month, dayOfMonth ->
             SelectedDate = dayOfMonth.toString() + "/" + (month + 1) + "/" + year
             Log.d("SelectedDateClick", SelectedDate!!)
             CommonUtil.Selecteddata = SelectedDate.toString()
@@ -305,15 +302,13 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                     attendanceGet()
                 }
             }
-        })
-
+        }
 
         appViewModel!!.AdvertisementLiveData?.observe(this) { response ->
-
+            markInitialApiDone()
             if (response != null) {
 
                 val status = response.status
-                val message = response.message
                 if (status == 1) {
                     GetAdForCollegeData = response.data!!
                     for (j in GetAdForCollegeData.indices) {
@@ -334,12 +329,9 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         }
 
         appViewModel!!.GetstudentlistAttendance?.observe(this) { response ->
-
+            markInitialApiDone()
             if (response != null) {
                 val status = response.Status
-                val message = response.Message
-//                UserMenuRequest(this)
-                AdForCollegeApi()
                 if (status == 1) {
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                     binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
@@ -376,7 +368,6 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
             if (response != null) {
                 val status = response.status
-                val message = response.message
 
                 if (status == 1) {
                     binding.CommonLayout.lblNoDataFound.visibility = View.GONE
@@ -434,7 +425,6 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
             if (response != null) {
 
                 val status = response.Status
-                val message = response.Message
 
                 if (status == 1) {
 
@@ -486,13 +476,10 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         }
 
         appViewModel!!.Getattendance!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
-//                isProgressDialog?.dismiss()
                 val status = response.Status
-                val message = response.Message
                 if (status == 1) {
-//                    UserMenuRequest(this)
-                    AdForCollegeApi()
                     attendanceGet = response.data
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                     binding.CommonLayout.lblAttendanceCount!!.visibility = View.VISIBLE
@@ -528,27 +515,21 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     }
 
     private fun AttendanceRequest(SelectedDate: String) {
-
         val jsonObject = JsonObject()
-        run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_Attendancedate, SelectedDate)
-            jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
-            appViewModel!!.getAttendanceReceiver(jsonObject, this)
-            Log.d("AttendanceList_Request:", jsonObject.toString())
-        }
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_Attendancedate, SelectedDate)
+        jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
+        appViewModel!!.getAttendanceReceiver(jsonObject, this)
+        Log.d("AttendanceList_Request:", jsonObject.toString())
     }
 
-    private fun attendancelistStudent() {
-
+    private fun attendancelistStudent(showLoader: Boolean = true) {
         val jsonObject = JsonObject()
-        run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-            jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            jsonObject.addProperty(ApiRequestNames.Req_AppId, CommonUtil.Appid)
-            appViewModel!!.attendanceListforStudent(jsonObject, this)
-            Log.d("attendanceforStudent:", jsonObject.toString())
-        }
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        jsonObject.addProperty(ApiRequestNames.Req_AppId, CommonUtil.Appid)
+        appViewModel!!.attendanceListforStudent(jsonObject, this, showLoader)
+        Log.d("attendanceforStudent:", jsonObject.toString())
     }
 
     private fun GetSubject() {
@@ -559,35 +540,30 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         Log.d("GetStaffRequest", jsonObject.toString())
     }
 
-    private fun attendanceGet() {
-//        isProgressDialog?.show()
+    private fun attendanceGet(showLoader: Boolean = true) {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
         jsonObject.addProperty(ApiRequestNames.dateAttendance, SelectedDate)
-        appViewModel!!.AttendanceGettingStaff(jsonObject, this)
+        appViewModel!!.AttendanceGettingStaff(jsonObject, this, showLoader)
         Log.d("GetStaffRequest", jsonObject.toString())
     }
 
 
     private fun GetLeaveHistory() {
         val jsonObject = JsonObject()
-        run {
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-            appViewModel!!.getleaveHistory(jsonObject, this)
-            Log.d("LeaveHistoryRequest:", jsonObject.toString())
-        }
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        appViewModel!!.getleaveHistory(jsonObject, this)
+        Log.d("LeaveHistoryRequest:", jsonObject.toString())
     }
 
     private fun GetLeaveptincipleHistory() {
         val jsonObject = JsonObject()
-        run {
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-            appViewModel!!.Leavehistortprinciple(jsonObject, this)
-            Log.d("LeaveHistoryRequest:", jsonObject.toString())
-        }
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        appViewModel!!.Leavehistortprinciple(jsonObject, this)
+        Log.d("LeaveHistoryRequest:", jsonObject.toString())
     }
 
 
@@ -614,7 +590,6 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         CommonUtil.AttendanceStatus = ""
         binding.CommonLayout.recyclerAttendance!!.visibility = View.VISIBLE
         binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
-//        bottomsheetStateCollpased()
 
         if (CommonUtil.menu_readAttendance.equals("1")) {
 
@@ -653,7 +628,6 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
         AttendanceScreen = "Leave_History"
         CommonUtil.AttendanceStatus = ""
-//        bottomsheetStateCollpased()
         TabCollegeColor()
         binding.CommonLayout.LayoutNoAttendanceData!!.visibility = View.GONE
         binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
@@ -724,15 +698,56 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                 }
             }
         }
-        var AddId: Int = 1
         PreviousAddId = PreviousAddId + 1
         super.onResume()
         CommonUtil.AbsendlistStudent.clear()
         CommonUtil.PresentlistStudent.clear()
         binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
+
+        if (isFirstLoad) {
+            isFirstLoad = false
+            loadInitialData()
+        }
     }
 
-    private fun AdForCollegeApi() {
+    /**
+     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
+     *   - attendanceGet() / attendancelistStudent() (the role-specific list)
+     *   - AdForCollegeApi() (ads)
+     * The per-call loaders are suppressed (showLoader = false); the shared loader is dismissed by
+     * [markInitialApiDone] once both responses have come back. Leave-history and reject-state flows
+     * keep their own loaders and are not part of this batch.
+     */
+    private fun loadInitialData() {
+        pendingInitialApiCount = 2
+        initialLoader = CustomLoading.createProgressDialog(this)
+        val isPrincipalSide = CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" ||
+                CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3"
+        if (isPrincipalSide) {
+            attendanceGet(false)
+        } else {
+            attendancelistStudent(false)
+        }
+        AdForCollegeApi(false)
+    }
+
+    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
+    private fun markInitialApiDone() {
+        if (initialLoader == null || pendingInitialApiCount <= 0) return
+        pendingInitialApiCount -= 1
+        if (pendingInitialApiCount <= 0) {
+            initialLoader?.dismiss()
+            initialLoader = null
+        }
+    }
+
+    override fun onDestroy() {
+        initialLoader?.dismiss()
+        initialLoader = null
+        super.onDestroy()
+    }
+
+    private fun AdForCollegeApi(showLoader: Boolean = true) {
 
         val mobilenumber = SharedPreference.getSH_MobileNumber(this)
         val devicetoken = SharedPreference.getSH_DeviceToken(this)
@@ -743,7 +758,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
-        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        appviewModelbase!!.getAdforCollege(jsonObject, this, showLoader)
         Log.d("AdForCollege:", jsonObject.toString())
 
         PreviousAddId = PreviousAddId + 1

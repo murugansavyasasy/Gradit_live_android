@@ -403,16 +403,16 @@ class App(application: Application) : AndroidViewModel(application) {
         return ProfileDetailsResponseLiveData
     }
 
-    fun getNoticeboardList(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetNoticeboradList(jsonObject, activity!!)
+    fun getNoticeboardList(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetNoticeboradList(jsonObject, activity!!, showLoader)
     }
 
-    fun getCircularList(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetCircularListbyType(jsonObject, activity!!)
+    fun getCircularList(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetCircularListbyType(jsonObject, activity!!, showLoader)
     }
 
-    fun getAssignmentListbyType(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetAssignmentListbyType(jsonObject, activity!!)
+    fun getAssignmentListbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetAssignmentListbyType(jsonObject, activity!!, showLoader)
     }
 
     fun getAssignmentMemberCount(jsonObject: JsonObject?, activity: Activity?) {
@@ -431,12 +431,12 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetAppreadStatusContext(jsonObject, activity!!)
     }
 
-    fun getOverAllMenuCount(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetOVerAllCount(jsonObject, activity!!)
+    fun getOverAllMenuCount(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetOVerAllCount(jsonObject, activity!!, showLoader)
     }
 
-    fun getEventListbyType(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetEventListBytType(jsonObject, activity!!)
+    fun getEventListbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetEventListBytType(jsonObject, activity!!, showLoader)
     }
 
     fun ExamEditANDdELETE(jsonObject: JsonObject?, activity: Activity?) {
@@ -444,12 +444,12 @@ class App(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun getCommunicationListbyType(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetCommunicationList(jsonObject, activity!!)
+    fun getCommunicationListbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetCommunicationList(jsonObject, activity!!, showLoader)
     }
 
-    fun getCommunicationListTextbyType(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetCommunicationTextList(jsonObject, activity!!)
+    fun getCommunicationListTextbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetCommunicationTextList(jsonObject, activity!!, showLoader)
     }
 
 
@@ -474,8 +474,8 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.ExamMarkList(jsonObject, activity!!)
     }
 
-    fun getVideoList(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetVideoList(jsonObject, activity!!)
+    fun getVideoList(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetVideoList(jsonObject, activity!!, showLoader)
     }
 
     fun NumberDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -518,8 +518,8 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetAttendanceForParent(jsonObject, activity!!)
     }
 
-    fun attendanceListforStudent(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetStudentAttendancelist(jsonObject, activity!!)
+    fun attendanceListforStudent(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetStudentAttendancelist(jsonObject, activity!!, showLoader)
     }
 
     fun getleaveHistory(jsonObject: JsonObject?, activity: Activity?) {
@@ -542,8 +542,8 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.StaffClassesforChat(jsonObject, activity!!)
     }
 
-    fun getAdforCollege(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.getAddFoCollege(jsonObject, activity!!)
+    fun getAdforCollege(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.getAddFoCollege(jsonObject, activity!!, showLoader)
     }
 
     fun UpdateDeviceToken(jsonObject: JsonObject?, activity: Activity?) {
@@ -601,8 +601,8 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.Getsubject(jsonObject, activity!!)
     }
 
-    fun AttendanceGettingStaff(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GettingAttendance(jsonObject, activity!!)
+    fun AttendanceGettingStaff(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GettingAttendance(jsonObject, activity!!, showLoader)
     }
 
     fun DetailsforspecificstudentAttendance(jsonObject: JsonObject?, activity: Activity?) {
