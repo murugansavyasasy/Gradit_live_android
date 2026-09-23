@@ -169,9 +169,22 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelect
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+
+
+        setupEdgeToEdgeAuto(
+            rootView = binding.OverallLayout,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        //optional part for (Future usage):see right now ,we don't have the actionbar so in future when it comes here we need to give the additional padding for that so that is handled here
+        if (supportActionBar != null) {
+            ActionBarMethod(this, true)
+            fixActionBarOverlap(binding.rlaEditProfileHeader)
+        }
+
+
+
 
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
         savedSoftSkillsList =

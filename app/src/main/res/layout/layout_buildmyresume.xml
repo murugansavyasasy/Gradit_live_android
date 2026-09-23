@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/OverallLayout"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    xmlns:tools="http://schemas.android.com/tools">
+   >
+
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <RelativeLayout
         android:id="@+id/rlaEditProfileHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_shadow_white"
-        android:padding="@dimen/twenty">
+        android:padding="@dimen/twenty"
+        app:layout_constraintTop_toBottomOf="@id/statusBarBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/imgback"
             android:layout_width="@dimen/thirty"
             android:layout_height="@dimen/thirty"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow_back"></ImageView>
+            android:src="@drawable/arrow_back" />
 
         <TextView
             style="@style/CustomTextStylePoppinsBold"
@@ -26,82 +39,84 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/ten"
-            android:layout_toEndOf="@+id/imgback"
+            android:layout_toEndOf="@id/imgback"
             android:text="@string/build_my_resume"
             android:textColor="@color/black"
-            android:textSize="@dimen/eighteen_sp">
-
-        </TextView>
+            android:textSize="@dimen/eighteen_sp" />
 
     </RelativeLayout>
 
     <ScrollView
         android:id="@+id/CommonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/commonBottomResumeBuilder"
-        android:layout_below="@+id/rlaEditProfileHeader">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/rlaEditProfileHeader"
+        app:layout_constraintBottom_toTopOf="@id/commonBottomResumeBuilder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <RelativeLayout
-            android:paddingBottom="@dimen/fifteen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/ten"
             android:layout_marginTop="@dimen/ten"
-            android:layout_marginEnd="@dimen/ten">
+            android:layout_marginEnd="@dimen/ten"
+            android:paddingBottom="@dimen/fifteen">
 
             <TextView
                 android:id="@+id/lblPickTemp"
-                android:fontFamily="@font/poppins_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/pick_a_template"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/sixteen_sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcyPickResume"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_gravity="center"
-                android:layout_below="@+id/lblPickTemp"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblPickTemp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/ten"
                 android:clipToPadding="false"
-                android:nestedScrollingEnabled="false"
-                android:layout_height="wrap_content">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:nestedScrollingEnabled="false" />
 
+            <!-- Theme -->
             <TextView
                 android:id="@+id/lblTheme"
-                android:layout_marginTop="@dimen/five"
-                android:fontFamily="@font/poppins_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rcyPickResume"
+                android:layout_below="@id/rcyPickResume"
                 android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/five"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/select_a_theme"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/sixteen_sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcThemeColour"
-            android:layout_marginTop="@dimen/ten"
-            android:layout_below="@+id/lblTheme"
-            android:clipToPadding="false"
-            android:nestedScrollingEnabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:id="@+id/rcThemeColour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblTheme"
+                android:layout_marginTop="@dimen/ten"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false" />
 
         </RelativeLayout>
 
     </ScrollView>
 
+    <!-- Bottom Layout -->
     <include
         android:id="@+id/commonBottomResumeBuilder"
         layout="@layout/commonbottom_resumebuilder"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"></include>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,7 +81,17 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
         super.onCreate(savedInstanceState)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionBarMethod(this,hideBackButton=true)
+
+        setupEdgeToEdgeAuto(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        if (supportActionBar != null) {
+            ActionBarMethod(this, true)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 

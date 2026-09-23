@@ -20,6 +20,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.Utils.DownloadImage
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityViewFilesBinding
@@ -54,6 +55,13 @@ class ViewFiles : AppCompatActivity() {
         setContentView(binding.root)
         Filepath = intent.getStringExtra("images")!!
 
+        setupEdgeToEdge(
+            rootView = binding.main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority,
+            lightIcons = false
+        )
+
         binding.imgClose.setOnClickListener {
             super.onBackPressed()
         }
@@ -61,10 +69,6 @@ class ViewFiles : AppCompatActivity() {
         binding.Fabdownload.setOnClickListener {
             isDownload()
         }
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
 
         val circularProgressDrawable = CircularProgressDrawable(this)
         circularProgressDrawable.strokeWidth = 5f

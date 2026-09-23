@@ -124,10 +124,17 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
+        setupEdgeToEdgeAuto(
+            rootView = binding.OverallLayout,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+        //see right now ,we don't have the actionbar so in future when it comes here we need to give the additional padding for that so that is handled here
+        if (supportActionBar != null) {
+            ActionBarMethod(this@EditAcademicDetails, true)
+            fixActionBarOverlap(binding.rlaEditAcademicHeader)
+        }
 
         // Hide default icon and update button text
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE

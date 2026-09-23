@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityVideoPlayBinding
 
@@ -23,9 +25,13 @@ class VideoPlay : AppCompatActivity() {
         binding = ActivityVideoPlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+        setupEdgeToEdge(
+            rootView = binding.main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority,
+            lightIcons = false
+        )
+
         val VideoID = intent.getStringExtra("iframe")
 
         if (VideoID != null) {

@@ -102,9 +102,18 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
 
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+
+        setupEdgeToEdgeAuto(
+            rootView = binding.rootLayout,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        //see right now ,we don't have the actionbar so in future when it comes here we need to give the additional padding for that so that is handled here
+        if (supportActionBar != null) {
+            ActionBarMethod(this, true)
+            fixActionBarOverlap(binding.rlaEditProfileHeader)
+        }
 
 
 

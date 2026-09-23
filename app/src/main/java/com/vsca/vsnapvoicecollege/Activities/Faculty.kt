@@ -69,14 +69,17 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
         appViewModel!!.init()
         binding = ActivityFacultyMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ActionBarMethod(this)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        setupEdgeToEdgeAuto(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
-
+        if (supportActionBar != null) {
+            ActionBarMethod(this)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 
         accessBottomViewIcons(
             binding,

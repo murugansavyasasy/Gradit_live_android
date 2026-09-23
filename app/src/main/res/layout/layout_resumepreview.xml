@@ -1,38 +1,56 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
 
-    <!-- Header -->
-    <RelativeLayout
+    >
+
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rlaEditProfileHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_shadow_white"
-        android:padding="16dp">
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/statusBarBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/imgback"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_centerVertical="true"
             android:contentDescription="Back"
-            android:src="@drawable/arrow_back" />
+            android:src="@drawable/arrow_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
+            android:id="@+id/headerTitleContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/imgback"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgback"
+            app:layout_constraintEnd_toStartOf="@id/lbldelete">
 
             <TextView
                 android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Preview My Resume"
@@ -47,35 +65,31 @@
                 android:drawableStart="@drawable/document_icon"
                 android:drawablePadding="@dimen/five"
                 android:text=""
-                android:visibility="gone">
-
-            </TextView>
-
+                android:visibility="gone" />
 
         </LinearLayout>
-
 
         <ImageView
             android:id="@+id/lbldelete"
             android:layout_width="@dimen/thirty"
             android:layout_height="@dimen/thirty"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/red_bin_delete_icon">
+            android:src="@drawable/red_bin_delete_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        </ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </RelativeLayout>
-
-    <!-- PDF WebView & Zoom -->
     <FrameLayout
         android:id="@+id/frameWeb"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/commonBottomResumeBuilder"
-        android:layout_below="@id/rlaEditProfileHeader"
-        android:layout_margin="16dp">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/rlaEditProfileHeader"
+        app:layout_constraintBottom_toTopOf="@id/commonBottomResumeBuilder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <WebView
             android:id="@+id/webviewDocument"
@@ -87,13 +101,11 @@
             android:overScrollMode="never"
             android:visibility="gone" />
 
-
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
-
 
             <LinearLayout
                 android:id="@+id/pdfContainer"
@@ -101,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="8dp" />
+
         </ScrollView>
 
         <LinearLayout
@@ -109,8 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="8dp"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/zoomOut"
@@ -126,16 +139,19 @@
                 android:layout_marginStart="12dp"
                 android:contentDescription="Zoom In"
                 android:src="@drawable/zoom_in_icon" />
+
         </LinearLayout>
+
     </FrameLayout>
 
-    <!-- Bottom Buttons -->
+
     <include
         android:id="@+id/commonBottomResumeBuilder"
         layout="@layout/commonbottom_resumebuilder"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
-</RelativeLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
+</androidx.constraintlayout.widget.ConstraintLayout>

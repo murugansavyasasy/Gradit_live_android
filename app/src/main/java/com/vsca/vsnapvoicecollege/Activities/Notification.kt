@@ -40,13 +40,16 @@ class Notification : BaseActivity<BottomMenuSwipeBinding>() {
             R.id.imgAddPlus
         )
 
-        ActionBarMethod(this@Notification)
+        setupEdgeToEdgeAuto(
+            rootView = binding.OverallLayout,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.OverallLayout).addActionBarMarginIfNeeded()
-
+        if (supportActionBar != null) {
+            ActionBarMethod(this)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 
 //        MenuBottomType()
         NotificatonRequest()

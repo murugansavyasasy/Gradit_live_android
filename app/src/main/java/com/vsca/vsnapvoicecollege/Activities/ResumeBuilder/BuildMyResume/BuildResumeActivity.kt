@@ -66,9 +66,19 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
         binding = ActivityBuildmyresumeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+
+        setupEdgeToEdgeAuto(
+            rootView = binding.OverallLayout,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        //see right now ,we don't have the actionbar so in future when it comes here we need to give the additional padding for that so that is handled here
+        if (supportActionBar != null) {
+            ActionBarMethod(this, true)
+            fixActionBarOverlap(binding.lblBuildMyResumeHeader)
+        }
+
 
         languageAdapter = SkillSetAdapter(languageList) {}
         binding.rvLanguages.layoutManager = LinearLayoutManager(this)

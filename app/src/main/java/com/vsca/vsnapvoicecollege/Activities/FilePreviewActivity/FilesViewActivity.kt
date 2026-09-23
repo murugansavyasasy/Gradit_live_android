@@ -27,6 +27,7 @@ import com.vsca.vsnapvoicecollege.Model.CommonFileData
 import com.vsca.vsnapvoicecollege.Model.FileType
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.databinding.FilePreviewActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,11 +59,12 @@ class FilesViewActivity : AppCompatActivity()  {
         binding = FilePreviewActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-
+        setupEdgeToEdge(
+            rootView = binding.main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority,
+            lightIcons = false
+        )
 
         binding.imgBack!!.setOnClickListener {
             onBackPressed()

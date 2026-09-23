@@ -62,7 +62,18 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 import javax.xml.transform.ErrorListener
-
+import android.view.View
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
+import androidx.annotation.ColorInt
+import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
+import kotlin.math.max
 
 @SuppressLint("StaticFieldLeak")
 object CommonUtil {
@@ -80,7 +91,8 @@ object CommonUtil {
     var selectedFileIndex: Int = -1
     var imgSwipe: ImageView? = null
     var btnContinue: Button? = null
-//    var layoutBottomCurve: ConstraintLayout? = null
+
+    //    var layoutBottomCurve: ConstraintLayout? = null
     var recyclerMenusBottom: RecyclerView? = null
     var llBottomSheet: LinearLayout? = null
     var layoutDepartment: ConstraintLayout? = null
@@ -383,8 +395,9 @@ object CommonUtil {
     var SeletedStringdataReplace: String? = null
     var isExamName: String? = ""
     var isForgotMobileNumber = ""
-//    var ivrnumbers = java.util.ArrayList<String>()
-var ivrnumbers: ArrayList<String> = arrayListOf()
+
+    //    var ivrnumbers = java.util.ArrayList<String>()
+    var ivrnumbers: ArrayList<String> = arrayListOf()
 
     var menu_readHome = ""
     var menu_writeHome = ""
@@ -503,7 +516,8 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
     var ScreenNameEvent = "ScreenNameEvent"
     var Event_Edit = "Event_Edit"
     var Image_Pdf = "New Image/Pdf"
-//    var TermsNConditionUrl = "https://gradit.voicesnap.com/Home/TermsAndConditions"
+
+    //    var TermsNConditionUrl = "https://gradit.voicesnap.com/Home/TermsAndConditions"
     var TermsNConditionUrl = "https://www.thegradit.com/termsandconditions.html"
     var isDeviceTokenApiCalling: Boolean? = true
     private val REQUEST_CODE_APP_SETTINGS = 101
@@ -785,11 +799,23 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
 
 
     fun ApiAlertContext(activity: Context?, msg: String?) {
+
+
         if (activity != null) {
-            val dlg = AlertDialog.Builder(activity)
-            dlg.setTitle("Info")
-            dlg.setMessage(msg)
-            dlg.setPositiveButton("OK") { dialog, which ->
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_api_alert)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(false)
+
+            val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+            val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+            lblMessage.text = msg
+            btnOk.setOnClickListener {
 
                 MenuAssignment = true
                 MenuCourseDetails = true
@@ -811,11 +837,13 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
                 MenuFeeDetails = true
                 MarkAttendance = true
                 AttendanceReport = true
+
+                dialog.dismiss()
+
             }
-            dlg.setCancelable(false)
-            dlg.create()
-            dlg.show()
+            dialog.show()
         }
+
     }
 
     @JvmStatic
@@ -826,12 +854,22 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
 
     fun ApiAlertFinish(activity: Activity?, msg: String?) {
         if (activity != null) {
-            val dlg = AlertDialog.Builder(activity)
-            dlg.setTitle("Info")
-            dlg.setMessage(msg)
-            dlg.setPositiveButton("OK") { dialog, which ->
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_api_alert)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(false)
 
-                //activity.finish()
+            val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+            val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+            lblMessage.text = msg
+            btnOk.setOnClickListener {
+
+                activity.finish()
                 MenuAssignment = true
                 MenuCourseDetails = true
                 MenuExamDetails = true
@@ -852,12 +890,42 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
                 MenuFeeDetails = true
                 MarkAttendance = true
                 AttendanceReport = true
+                dialog.dismiss()
+
             }
-            dlg.setCancelable(false)
-            dlg.create()
-            dlg.show()
+            dialog.show()
         }
+
     }
+
+    fun CustomAlertFinish(activity: Activity?, msg: String?) {
+        if (activity != null) {
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_api_alert)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.setCancelable(false)
+
+            val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+            val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+            lblMessage.text = msg
+            btnOk.setOnClickListener {
+
+                activity.finish()
+                dialog.dismiss()
+
+            }
+            dialog.show()
+        }
+
+    }
+
+
+
 
     fun getMonthName(month: Int): String {
         val months = arrayOf(
@@ -1049,6 +1117,67 @@ var ivrnumbers: ArrayList<String> = arrayListOf()
             }
         }
     }
+
+    @ColorInt
+    fun Context.getPriorityColor(priority: String?): Int = ContextCompat.getColor(
+        this,
+        when (priority) {
+            "p1" -> R.color.clr_principal
+            "p2", "p3", "p6" -> R.color.clr_teachingstaff
+            "p4" -> R.color.clr_receiver
+            "p5" -> R.color.clr_parent
+            "p7" -> R.color.cle_lightorang
+            else -> R.color.black
+        }
+    )
+
+    /** Overload that takes a priority string and resolves the colour itself. */
+    fun ComponentActivity.setupEdgeToEdge(
+        rootView: View?,
+        statusBarBgView: View?,
+        priority: String?,
+        lightIcons: Boolean? = null
+    ) {
+        setupEdgeToEdge(rootView, statusBarBgView, getPriorityColor(priority),lightIcons)
+    }
+
+    /** Main function. Call after setContentView(). */
+    fun ComponentActivity.setupEdgeToEdge(
+        rootView: View?,
+        statusBarBgView: View?,
+        @ColorInt statusBarColor: Int,
+        lightIcons: Boolean? = null   // true = dark icons, false = white icons, null = auto from colour
+    ) {
+        if (rootView == null || statusBarBgView == null) return
+
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+        )
+
+        statusBarBgView.setBackgroundColor(statusBarColor)
+
+        val useLightIcons = lightIcons ?: (ColorUtils.calculateLuminance(statusBarColor) > 0.5)
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
+            useLightIcons
+
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+            v.updatePadding(
+                left = bars.left,
+                right = bars.right,
+                bottom = max(bars.bottom, ime.bottom)
+            )
+            statusBarBgView.updateLayoutParams { height = bars.top }
+
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
 
 //    fun SetTheme(activity: Activity) {
 //        when (Priority) {

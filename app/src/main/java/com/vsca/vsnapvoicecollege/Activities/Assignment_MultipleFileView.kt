@@ -60,9 +60,16 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+        setupEdgeToEdgeAuto(
+            rootView = binding.OverallLayout,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        if (supportActionBar != null) {
+            ActionBarMethod(this, true)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 
         Assignmnetview = intent.getStringExtra("Assignment")
 

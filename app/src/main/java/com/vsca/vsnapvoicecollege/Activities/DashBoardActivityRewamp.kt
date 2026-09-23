@@ -160,9 +160,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
         // Hide the toolbar refresh icon on the dashboard only (shared action bar)
         imgRefresh?.visibility = View.GONE
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+
 
         CommonUtil.OnMenuClicks("Home")
 

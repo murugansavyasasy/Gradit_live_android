@@ -65,17 +65,16 @@ class ApplyLeave : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityApplyLeaveBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
-
-
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionbarWithoutBottom(this,hideBackButton=true)
+
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
         imgRefresh!!.visibility = View.GONE
 
         binding.txtNoofDays!!.isEnabled = false

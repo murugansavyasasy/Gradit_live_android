@@ -1,502 +1,519 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
     android:id="@+id/Main"
     tools:context=".Activities.Spectfice_TakeAttendance">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lbl_Classdetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/bg_card_white"
-        android:elevation="2dp"
-        android:paddingStart="14dp"
-        android:paddingTop="14dp"
-        android:paddingEnd="14dp"
-        android:paddingBottom="14dp">
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBarBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/LayoutMeetingName"
+            android:id="@+id/lbl_Classdetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="percent">
-
-            <TextView
-                android:id="@+id/lblTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_Course_name"
-                android:textColor="@color/btn_clr_blue"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/lblTitle"
-                app:layout_constraintLeft_toRightOf="@+id/lblTitle"
-                app:layout_constraintTop_toTopOf="@+id/lblTitle"
-                app:layout_constraintWidth_percent=".05" />
-
-            <TextView
-                android:id="@+id/lblSubjectName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintBottom_toBottomOf="@+id/lblcolon1"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon1"
-                app:layout_constraintTop_toTopOf="@+id/lblcolon1"
-                app:layout_constraintWidth_percent=".6" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutSubjectType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LayoutMeetingName"
-            app:layout_constraintWidth_default="percent">
-
-            <TextView
-                android:id="@+id/lblmeetingtopic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_Year_type"
-                android:textColor="@color/btn_clr_blue"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblmeetingtopic"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
-
-            <TextView
-                android:id="@+id/lblSubjectType"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon2"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutSubjectCredits"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectType"
-            app:layout_constraintWidth_default="percent">
-
-            <TextView
-                android:id="@+id/lblmeetingtypecontent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_Section_credits"
-                android:textColor="@color/btn_clr_blue"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".35" />
-
-            <TextView
-                android:id="@+id/lblcolon4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@+id/lblmeetingtypecontent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".05" />
-
-            <TextView
-                android:id="@+id/lblSubjectCredits"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="normal"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".6" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layouthours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutSubjectCredits"
-            app:layout_constraintWidth_default="percent">
-
-            <TextView
-                android:id="@+id/lblhours"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Mark attendance for"
-                android:textColor="@color/btn_clr_blue"
-                android:textSize="@dimen/fourteen"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <TextView
-                android:id="@+id/lblcolon5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/lblhours"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_card_white"
+            android:elevation="2dp"
+            android:paddingStart="14dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="14dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/con_spinner"
-                android:background="@drawable/gray_radius"
-                android:layout_width="wrap_content"
+                android:id="@+id/LayoutMeetingName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="percent">
+
+                <TextView
+                    android:id="@+id/lblTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_Course_name"
+                    android:textColor="@color/btn_clr_blue"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".35" />
+
+                <TextView
+                    android:id="@+id/lblcolon1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text=":"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/lblTitle"
+                    app:layout_constraintLeft_toRightOf="@+id/lblTitle"
+                    app:layout_constraintTop_toTopOf="@+id/lblTitle"
+                    app:layout_constraintWidth_percent=".05" />
+
+                <TextView
+                    android:id="@+id/lblSubjectName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/thirteen"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/lblcolon1"
+                    app:layout_constraintLeft_toRightOf="@+id/lblcolon1"
+                    app:layout_constraintTop_toTopOf="@+id/lblcolon1"
+                    app:layout_constraintWidth_percent=".6" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutSubjectType"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten"
+                android:layout_marginTop="@dimen/ten"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LayoutMeetingName"
+                app:layout_constraintWidth_default="percent">
+
+                <TextView
+                    android:id="@+id/lblmeetingtopic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_Year_type"
+                    android:textColor="@color/btn_clr_blue"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".35" />
+
+                <TextView
+                    android:id="@+id/lblcolon2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:text=":"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/lblmeetingtopic"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".05" />
+
+                <TextView
+                    android:id="@+id/lblSubjectType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/thirteen"
+                    android:textStyle="normal"
+                    app:layout_constraintLeft_toRightOf="@+id/lblcolon2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".6" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutSubjectCredits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginTop="@dimen/ten"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutSubjectType"
+                app:layout_constraintWidth_default="percent">
+
+                <TextView
+                    android:id="@+id/lblmeetingtypecontent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_Section_credits"
+                    android:textColor="@color/btn_clr_blue"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".35" />
+
+                <TextView
+                    android:id="@+id/lblcolon4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text=":"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/lblmeetingtypecontent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".05" />
+
+                <TextView
+                    android:id="@+id/lblSubjectCredits"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/thirteen"
+                    android:textStyle="normal"
+                    app:layout_constraintLeft_toRightOf="@+id/lblcolon4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".6" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layouthours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginTop="@dimen/ten"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutSubjectCredits"
+                app:layout_constraintWidth_default="percent">
+
+                <TextView
+                    android:id="@+id/lblhours"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Mark attendance for"
+                    android:textColor="@color/btn_clr_blue"
+                    android:textSize="@dimen/fourteen"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/lblcolon5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text=":"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/lblhours"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/con_spinner"
+                    android:background="@drawable/gray_radius"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ten"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/lblcolon5"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <Spinner
+                        android:id="@+id/edt_hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/black"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RadioGroup
+            android:id="@+id/rdoGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_Classdetails"
+            android:layout_marginTop="@dimen/ten"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdobtnGeneral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_marginRight="@dimen/ten"
+                android:checked="true"
+                android:text="General"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/rdobtnTheory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/ten"
+                android:text="Theory"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/rdobtnPractical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten"
+                android:text="Practical"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen"></RadioButton>
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/edtTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rdoGroup"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_black_white_box"
+            android:gravity="top|start"
+            android:hint="Enter the topic"
+            android:inputType="textCapSentences"
+            android:minHeight="46dp"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_gray2"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/lnrFilterSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtTopic"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:weightSum="1"
+            android:layout_marginBottom="8dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_weight="0.4"
+                android:visibility="gone"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/lblcolon5"
-                app:layout_constraintTop_toTopOf="parent">
+                android:id="@+id/lnrFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgSort"
+                    android:layout_width="@dimen/twenty"
+                    android:layout_height="@dimen/twenty"
+                    android:layout_marginStart="@dimen/five"
+                    android:src="@drawable/filter_icon">
+
+                </ImageView>
 
                 <Spinner
-                    android:id="@+id/edt_hours"
+                    android:id="@+id/filter"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/black"
+                    android:background="@null"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <RadioGroup
-        android:id="@+id/rdoGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lbl_Classdetails"
-        android:layout_marginTop="@dimen/ten"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rdobtnGeneral"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginRight="@dimen/ten"
-            android:checked="true"
-            android:text="General"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fifteen"></RadioButton>
-
-        <RadioButton
-            android:id="@+id/rdobtnTheory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/ten"
-            android:text="Theory"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fifteen"></RadioButton>
-
-        <RadioButton
-            android:id="@+id/rdobtnPractical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten"
-            android:text="Practical"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fifteen"></RadioButton>
-
-    </RadioGroup>
-
-    <EditText
-        android:id="@+id/edtTopic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rdoGroup"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/bg_black_white_box"
-        android:gravity="top|start"
-        android:hint="Enter the topic"
-        android:inputType="textCapSentences"
-        android:minHeight="46dp"
-        android:padding="12dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/light_gray2"
-        android:textSize="13sp" />
-
-    <LinearLayout
-        android:id="@+id/lnrFilterSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edtTopic"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:weightSum="1"
-        android:layout_marginBottom="8dp"
-        android:gravity="center">
-
-        <LinearLayout
-            android:layout_weight="0.4"
-            android:visibility="gone"
-            android:gravity="center"
-            android:id="@+id/lnrFilter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/imgSort"
-                android:layout_width="@dimen/twenty"
-                android:layout_height="@dimen/twenty"
-                android:layout_marginStart="@dimen/five"
-                android:src="@drawable/filter_icon">
-
-            </ImageView>
-
-            <Spinner
-                android:id="@+id/filter"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textColor="@color/black"
-                android:background="@null"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <SearchView
+                android:layout_weight="0.6"
+                android:id="@+id/idSV"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/thirty"
+                android:layout_marginStart="@dimen/three"
+                android:background="@color/cardview_light_background"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search Student name"
+                android:visibility="gone" />
         </LinearLayout>
 
-        <SearchView
-            android:layout_weight="0.6"
-            android:id="@+id/idSV"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/thirty"
-            android:layout_marginStart="@dimen/three"
-            android:background="@color/cardview_light_background"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search Student name"
-            android:visibility="gone" />
-    </LinearLayout>
 
 
 
-
-    <LinearLayout
-        android:id="@+id/lytCheckBoxes"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lnrFilterSearch"
-        android:weightSum="4"
-        android:visibility="gone"
-        android:gravity="center"
-        android:layout_marginStart="@dimen/fifteen"
-        android:layout_marginEnd="@dimen/fifteen"
-        android:layout_height="wrap_content">
-
-        <CheckBox
-            android:id="@+id/chPresent"
+        <LinearLayout
+            android:id="@+id/lytCheckBoxes"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:text="Present"
+            android:layout_below="@+id/lnrFilterSearch"
+            android:weightSum="4"
+            android:visibility="gone"
             android:gravity="center"
-            android:checked="true"
+            android:layout_marginStart="@dimen/fifteen"
+            android:layout_marginEnd="@dimen/fifteen"
             android:layout_height="wrap_content">
 
-        </CheckBox>
-        <CheckBox
-            android:id="@+id/chAbsent"
+            <CheckBox
+                android:id="@+id/chPresent"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="Present"
+                android:gravity="center"
+                android:checked="true"
+                android:layout_height="wrap_content">
+
+            </CheckBox>
+            <CheckBox
+                android:id="@+id/chAbsent"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Absent"
+                android:layout_height="wrap_content">
+
+            </CheckBox>
+            <CheckBox
+                android:id="@+id/chOnDuty"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="OnDuty"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+            </CheckBox>
+
+            <CheckBox
+                android:id="@+id/chOnLeave"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="On Leave"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+            </CheckBox>
+
+        </LinearLayout>
+
+
+        <!--    <RelativeLayout-->
+        <!--        android:id="@+id/check_Relative"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginStart="@dimen/ten"-->
+        <!--        android:layout_marginTop="@dimen/five"-->
+        <!--        android:layout_below="@+id/idSV"-->
+        <!--        android:layout_gravity="center"-->
+        <!--        android:visibility="">-->
+
+        <!--&lt;!&ndash;        <CheckBox&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:id="@+id/ch_all4"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_marginLeft="@dimen/twenty_five"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:buttonTint="@color/clr_principal"&ndash;&gt;-->
+
+        <!--&lt;!&ndash;            ></CheckBox>&ndash;&gt;-->
+
+        <!--        <TextView-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:id="@+id/ALL4"-->
+        <!--            android:layout_alignParentStart="true"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text=""-->
+        <!--            android:textSize="@dimen/fifteen"-->
+
+        <!--            >-->
+        <!--        </TextView>-->
+        <!--&lt;!&ndash;        <Spinner&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_marginStart="@dimen/three"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_centerVertical="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_toEndOf="@+id/ALL4"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:id="@+id/attendanceCateorySpinner"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:background="@drawable/bg_black_white_box"&ndash;&gt;-->
+        <!--&lt;!&ndash;            ></Spinner>&ndash;&gt;-->
+        <!--    </RelativeLayout>-->
+
+
+        <RelativeLayout
+            android:id="@+id/relative_Recycle"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Absent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lytCheckBoxes"
+            android:layout_marginBottom="84dp">
 
-        </CheckBox>
-        <CheckBox
-            android:id="@+id/chOnDuty"
+            <TextView
+                android:id="@+id/lbl_selectattendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Choose hour to edit"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty"
+                android:textStyle="bold"
+                android:visibility="gone"></TextView>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle_specificstudentAttendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginEnd="@dimen/ten"
+                android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+
+        </RelativeLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:text="OnDuty"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/chOnLeave"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:text="On Leave"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-
-        </CheckBox>
-
-    </LinearLayout>
-
-
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/check_Relative"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="@dimen/ten"-->
-<!--        android:layout_marginTop="@dimen/five"-->
-<!--        android:layout_below="@+id/idSV"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:visibility="">-->
-
-<!--&lt;!&ndash;        <CheckBox&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/ch_all4"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_marginLeft="@dimen/twenty_five"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:buttonTint="@color/clr_principal"&ndash;&gt;-->
-
-<!--&lt;!&ndash;            ></CheckBox>&ndash;&gt;-->
-
-<!--        <TextView-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:id="@+id/ALL4"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text=""-->
-<!--            android:textSize="@dimen/fifteen"-->
-
-<!--            >-->
-<!--        </TextView>-->
-<!--&lt;!&ndash;        <Spinner&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_marginStart="@dimen/three"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_centerVertical="true"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_toEndOf="@+id/ALL4"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/attendanceCateorySpinner"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:background="@drawable/bg_black_white_box"&ndash;&gt;-->
-<!--&lt;!&ndash;            ></Spinner>&ndash;&gt;-->
-<!--    </RelativeLayout>-->
-
-
-    <RelativeLayout
-        android:id="@+id/relative_Recycle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/lytCheckBoxes"
-        android:layout_marginBottom="84dp">
-
-        <TextView
-            android:id="@+id/lbl_selectattendance"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Choose hour to edit"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twenty"
-            android:textStyle="bold"
-            android:visibility="gone"></TextView>
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:paddingStart="12dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp">
 
+            <Button
+                android:id="@+id/btn_takeattendance"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_btn_green"
+                android:gravity="center"
+                android:text="Mark Attendance"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycle_specificstudentAttendance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginStart="@dimen/ten"
-            android:layout_marginEnd="@dimen/ten"
-            android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+            </Button>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:paddingStart="12dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="12dp">
-
-        <Button
-            android:id="@+id/btn_takeattendance"
-            android:layout_width="0dp"
-            android:layout_height="52dp"
-            android:background="@drawable/bg_btn_green"
-            android:gravity="center"
-            android:text="Mark Attendance"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </Button>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -38,6 +40,17 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
 import java.io.File
 
+
+import androidx.core.view.WindowCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+import androidx.core.view.updateLayoutParams
+import androidx.core.graphics.ColorUtils
+import android.view.ViewTreeObserver
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
+import kotlin.math.max
 abstract class ActionBarActivity : AppCompatActivity() {
 
     var SelectedRecipientlist: ArrayList<RecipientSelected> = ArrayList()
@@ -62,6 +75,100 @@ abstract class ActionBarActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Call once, right after setContentView + your ActionBar setup call.
+     *
+     * statusBarBgView is the real surface for the status bar area — solid colour today,
+     * a gradient drawable later. The window background is only a plain-colour fallback
+     * for the brief moment before statusBarBgView is measured; it is never a drawable.
+     *
+     * statusBarBgView is optional — pass null if the screen doesn't have one.
+     */
+    fun AppCompatActivity.fixEdgeToEdgeActionBar(
+        rootView: View,
+        statusBarBgView: View?,
+        priority: String?
+    ) {
+        fixEdgeToEdgeActionBar(rootView, statusBarBgView, getPriorityColor(priority))
+    }
+
+    fun AppCompatActivity.fixEdgeToEdgeActionBar(
+        rootView: View,
+        statusBarBgView: View?,
+        @ColorInt fallbackColor: Int,
+        statusBarDrawable: Drawable? = null
+    ) {
+        // Fallback only — plain colour, shown briefly before statusBarBgView is laid out
+        window.setBackgroundDrawable(ColorDrawable(fallbackColor))
+
+        // Real surface — colour today, can become a gradient drawable later
+        if (statusBarDrawable != null) {
+            statusBarBgView?.background = statusBarDrawable
+        } else {
+            statusBarBgView?.setBackgroundColor(fallbackColor)
+        }
+
+        val luminanceSource = fallbackColor  // icon contrast is based on the solid colour either way
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = ColorUtils.calculateLuminance(luminanceSource) > 0.5
+            isAppearanceLightNavigationBars = ColorUtils.calculateLuminance(luminanceSource) > 0.5
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+            v.updatePadding(
+                left = bars.left,
+                right = bars.right,
+                bottom = max(bars.bottom, ime.bottom)
+            )
+
+            // Gives this view the true status bar height on every version, including 16/17
+            statusBarBgView?.updateLayoutParams { height = bars.top }
+
+            WindowInsetsCompat.CONSUMED
+        }
+
+        // Push content below the ActionBar by the real measured overlap
+        val listener = object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val bar = window.decorView
+                    .findViewById<View>(androidx.appcompat.R.id.action_bar_container)
+                if (bar == null || bar.visibility != View.VISIBLE || bar.height == 0) return
+
+                val barLoc = IntArray(2)
+                val contentLoc = IntArray(2)
+                bar.getLocationOnScreen(barLoc)
+                rootView.getLocationOnScreen(contentLoc)
+
+                val overlap = barLoc[1] + bar.height - contentLoc[1]
+                val lp = rootView.layoutParams as? ViewGroup.MarginLayoutParams ?: return
+
+                if (overlap > 0) {
+                    lp.topMargin += overlap
+                    rootView.layoutParams = lp
+                }
+                rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        }
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    @ColorInt
+    fun Context.getPriorityColor(priority: String?): Int = ContextCompat.getColor(
+        this,
+        when (priority) {
+            "p1" -> R.color.clr_principal
+            "p2", "p3", "p6" -> R.color.clr_teachingstaff
+            "p4" -> R.color.clr_receiver
+            "p5" -> R.color.clr_parent
+            "p7" -> R.color.cle_lightorang
+            else -> R.color.black
+        }
+    )
     protected abstract val layoutResourceId: Int
 
     fun View.addActionBarMarginIfNeeded() {
@@ -192,39 +299,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
         var imgNotification: ImageView? = null
 
 
-        fun LogoutAlertUtil(title: String?, value: Int, activity: Activity) {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(title)
-            builder.setCancelable(false)
-            builder.setPositiveButton("Yes") { dialog, which ->
-
-                if (value == 1) {
-                    profilePopup!!.dismiss()
-                }
-
-                SharedPreference.clearShLogin(activity)
-                CommonUtil.Priority = ""
-                CommonUtil.MemberId = 0
-                CommonUtil.MemberName = ""
-                CommonUtil.MemberType = ""
-                CommonUtil.CollegeLogo = ""
-                CommonUtil.CollegeId = 0
-                CommonUtil.MobileNUmber = ""
-                CommonUtil.DivisionId = ""
-                CommonUtil.Courseid = ""
-                CommonUtil.DepartmentId = ""
-                CommonUtil.YearId = ""
-                CommonUtil.SemesterId = ""
-                CommonUtil.SectionId = ""
-                CommonUtil.isParentEnable = ""
-                val i = Intent(activity, LoginRewamp::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                activity.startActivity(i)
-                activity.finish()
-            }
-            builder.setNegativeButton("No") { dialog, which -> builder.setCancelable(false) }
-            builder.create().show()
-        }
 
         fun deleteDirUtil(dir: File?): Boolean {
             return if (dir != null && dir.isDirectory) {
@@ -367,16 +441,29 @@ abstract class ActionBarActivity : AppCompatActivity() {
     }
 
     private fun AlertOk(activity: Activity, Msg: String, value: Boolean) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(CommonUtil.Info)
-        builder.setMessage(Msg)
-        builder.setCancelable(false)
-        builder.setPositiveButton(CommonUtil.OK) { dialog, which ->
+
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_api_alert)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+        val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+        lblMessage.text = Msg
+        btnOk.setOnClickListener {
             if (value) {
                 profilePopup!!.dismiss()
             }
+            dialog.dismiss()
         }
-        builder.create().show()
+
+        dialog.show()
+
     }
 
     override fun onBackPressed() {
@@ -450,10 +537,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         appviewModelbase!!.getAppreadStatus(jsonObject, activity)
         Log.d("AppReadStatus", jsonObject.toString())
-    }
-
-    fun setMaxDate(MinimumDate: Long) {
-
     }
 
     class GridSpacingItemDecoration(private val spanCount: Int, includeEdge: Boolean) :

@@ -17,7 +17,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
@@ -724,11 +723,23 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     private fun AlertOk(activity: Activity, Msg: String, value: Boolean) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Clear Cache")
-        builder.setMessage(Msg)
-        builder.setCancelable(false)
-        builder.setPositiveButton(CommonUtil.OK) { dialog, which ->
+
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_api_alert)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        val lblMessage = dialog.findViewById<TextView>(R.id.lblAlertMessage)
+        val lblAlertTitle = dialog.findViewById<TextView>(R.id.lblAlertTitle)
+        val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
+        lblMessage.text = Msg
+        lblAlertTitle.text = "Clear Cache"
+        btnOk.setOnClickListener {
             if (value) {
                 profilePopup?.let {
                     if (it.isShowing) {
@@ -752,8 +763,12 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 popupWebview = null
                 changePassword = null
             }
+            dialog.dismiss()
         }
-        builder.create().show()
+
+        dialog.show()
+
+
     }
 
     fun LoadWebView(activity: Activity?, url: String?, Type: Int) {

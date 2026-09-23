@@ -91,16 +91,17 @@ class EventsViewDetails : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ActionbarWithoutBottom(this@EventsViewDetails,hideBackButton=true)
+
+        ActionbarWithoutBottom(this,hideBackButton=true)
+
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
-
 
         binding.btnAddpic.setOnClickListener { btnAddpic() }
         binding.imgEventback.setOnClickListener { super.onBackPressed() }

@@ -53,6 +53,7 @@ import com.vsca.vsnapvoicecollege.Model.TextHistoryData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.CustomAlertFinish
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuDescription
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuTitle
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
@@ -198,32 +199,10 @@ class AddTextNoticeboard: ActionBarActivity() {
 
                     }
                 } else {
-                    val builder1: AlertDialog.Builder = AlertDialog.Builder(this)
-                    builder1.setTitle("Info")
-                    builder1.setMessage("No data found")
-                    builder1.setCancelable(true)
-
-                    builder1.setPositiveButton("Ok",
-                        DialogInterface.OnClickListener { dialog, id ->
-                            dialog.cancel()
-                            finish()
-                        })
-                    val alert11: AlertDialog = builder1.create()
-                    alert11.show()
+                    CustomAlertFinish(this,"No data found")
                 }
             } else {
-                val builder1: AlertDialog.Builder = AlertDialog.Builder(this)
-                builder1.setTitle("Info")
-                builder1.setMessage("No data found")
-                builder1.setCancelable(true)
-
-                builder1.setPositiveButton("Ok",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        dialog.cancel()
-                        finish()
-                    })
-                val alert11: AlertDialog = builder1.create()
-                alert11.show()
+                CustomAlertFinish(this,"No data found")
             }
         }
 

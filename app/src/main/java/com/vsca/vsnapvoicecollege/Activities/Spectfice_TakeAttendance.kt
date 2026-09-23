@@ -64,10 +64,12 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         appViewModel!!.init()
         ActionbarWithoutBottom(this)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
         Log.d("SelectedDate",CommonUtil.Selecteddata)
 
 
