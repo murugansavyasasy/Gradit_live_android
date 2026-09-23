@@ -37,16 +37,17 @@ class AllImageViewer : ActionBarActivity() {
         setContentView(binding.root)
          ActionbarWithoutBottom(this,hideBackButton=true)
 
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+
         isPositionUpdate(isPosition)
         binding.lmgback!!.setOnClickListener {
             onBackPressed()
         }
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         binding.imgNxtright!!.setOnClickListener {

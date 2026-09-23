@@ -99,12 +99,13 @@ class AddVideo : ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         ActionbarWithoutBottom(this,hideBackButton=true)
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
+        ActionbarWithoutBottom(this,hideBackButton=true)
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
         binding.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.btnConfirm.setOnClickListener { btnConfirm() }
