@@ -1248,7 +1248,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             Log.d("AppReadStatuscontext", jsonObject.toString())
         }
 
-        fun OverAllMenuCountRequest(activity: Activity?, menuid: String) {
+        fun OverAllMenuCountRequest(activity: Activity?, menuid: String, showLoader: Boolean = true) {
 
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
@@ -1272,7 +1272,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
             jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            appviewModelbase!!.getOverAllMenuCount(jsonObject, activity)
+            appviewModelbase!!.getOverAllMenuCount(jsonObject, activity, showLoader)
             Log.d("OverAllMenuCount_Req:", jsonObject.toString())
         }
     }

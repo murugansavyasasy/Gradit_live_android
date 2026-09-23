@@ -58,16 +58,13 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-        setupEdgeToEdgeAuto(
-            rootView = binding.Main,
-            statusBarBgView = binding.statusBarBackground,
-            priority = CommonUtil.Priority
-        )
+        ActionBarMethod(this)
 
-        if (supportActionBar != null) {
-            ActionBarMethod(this)
-            fixActionBarOverlap(binding.LayoutBottomMenus)
-        }
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+
+
 
         accessBottomViewIcons(
             binding,

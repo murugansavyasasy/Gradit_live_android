@@ -61,17 +61,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-
-        setupEdgeToEdgeAuto(
-            rootView = binding.Main,
-            statusBarBgView = binding.statusBarBackground,
-            priority = CommonUtil.Priority
-        )
-
-        if (supportActionBar != null) {
-            ActionBarMethod(this)
-            fixActionBarOverlap(binding.LayoutBottomMenus)
-        }
+        ActionBarMethod(this)
 
         CommonUtil.OnMenuClicks("Events")
 
@@ -84,6 +74,10 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
 //        MenuBottomType()
         TabDepartmentColor()
 
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.isAppearanceLightStatusBars = false
+        insetsController.isAppearanceLightNavigationBars = false
+//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
