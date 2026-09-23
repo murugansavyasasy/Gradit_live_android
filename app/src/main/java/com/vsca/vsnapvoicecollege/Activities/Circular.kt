@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,7 @@ import com.vsca.vsnapvoicecollege.Model.GetCircularListDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
@@ -48,6 +50,12 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
 
+    // Single loader shown until the initial APIs (count + ads + list) all finish; the individual
+    // per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
+    private var isFirstLoad = true
+    private var initialLoader: ProgressDialog? = null
+    private var pendingInitialApiCount = 0
+
     override fun inflateBinding(): ActivityNoticeboardBinding {
         return ActivityNoticeboardBinding.inflate(layoutInflater)
     }
@@ -59,16 +67,18 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
         super.onCreate(savedInstanceState)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionBarMethod(this)
 
+        setupEdgeToEdgeAuto(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        if (supportActionBar != null) {
+            ActionBarMethod(this)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
         CommonUtil.OnMenuClicks("Circular")
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
-
 
         accessBottomViewIcons(
             binding,
@@ -76,48 +86,32 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
         TabDepartmentColor()
 
         SearchList!!.visibility = View.VISIBLE
-
         SearchList!!.setOnClickListener {
-
             Search!!.visibility = View.VISIBLE
-
         }
         binding.CommonLayout.imgAddPlus.setOnClickListener { imgaddclick() }
         binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
-
         binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
-
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.lblMenuTitle!!.text = "Image/Pdf"
-
-
-        if (CommonUtil.menu_readCircular.equals("1")) {
-            CircularRequest(CircularType)
-        }
 
         idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
-
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
-
                 filter(msg)
                 return false
             }
         })
 
         txt_Cancel!!.setOnClickListener {
-
             Search!!.visibility = View.GONE
-
         }
-
 
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                 "p2"
@@ -130,14 +124,12 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
             binding.CommonLayout.txtNoticeLable!!.visibility = View.GONE
         }
 
-
-
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                markInitialApiDone()
                 if (response != null) {
                     val status = response.status
-                    val message = response.message
                     if (status == 1) {
                         GetAdForCollegeData = response.data!!
                         for (j in GetAdForCollegeData.indices) {
@@ -158,12 +150,10 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
             })
 
         appViewModel!!.OverAllMenuResponseLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
-                val message = response.message
                 if (status == 1) {
-                    AdForCollegeApi()
-
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
                     } else {
@@ -179,16 +169,10 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
         }
 
         appViewModel!!.circularResponseLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
-                val message = response.message
-//                UserMenuRequest(this)
                 if (status == 1) {
-                    if (CommonUtil.menu_readCircular.equals("1")) {
-                        OverAllMenuCountRequest(this, CommonUtil.MenuIDCircular!!)
-                    }
-//                    UserMenuRequest(this)
-
                     if (CircularType) {
                         GetCircularData = response.data!!
                         val size = GetCircularData.size
@@ -250,10 +234,9 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
             }
         }
 
-        imgRefresh!!.setOnClickListener(View.OnClickListener {
+        imgRefresh!!.setOnClickListener {
             if (CircularType) {
                 CircularType = true
-
                 if (CommonUtil.menu_readCircular.equals("1")) {
                     CircularRequest(CircularType)
                 }
@@ -263,40 +246,30 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
                     CircularRequest(CircularType)
                 }
             }
-        })
+        }
         binding.CommonLayout.lbltotalsize!!.setText(R.string.txt_img_pdf)
     }
 
-
     private fun filter(text: String) {
-
-
         val filteredlist: java.util.ArrayList<GetCircularListDetails> = java.util.ArrayList()
 
         for (item in GetCircularData) {
             if (item.title!!.lowercase(Locale.getDefault())
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
-
                 filteredlist.add(item)
-
             }
         }
         if (filteredlist.isEmpty()) {
-
             Toast.makeText(this, CommonUtil.No_Data_Found, Toast.LENGTH_SHORT).show()
         } else {
             circularadapter!!.filterList(filteredlist)
-
         }
-
     }
 
-
-    private fun AdForCollegeApi() {
-
-        var mobilenumber = SharedPreference.getSH_MobileNumber(this)
-        var devicetoken = SharedPreference.getSH_DeviceToken(this)
+    private fun AdForCollegeApi(showLoader: Boolean = true) {
+        val mobilenumber = SharedPreference.getSH_MobileNumber(this)
+        val devicetoken = SharedPreference.getSH_DeviceToken(this)
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_ad_device_token, devicetoken)
         jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId)
@@ -304,7 +277,7 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
-        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        appviewModelbase!!.getAdforCollege(jsonObject, this, showLoader)
         Log.d("AdForCollege:", jsonObject.toString())
 
         PreviousAddId = PreviousAddId + 1
@@ -316,9 +289,44 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     override fun onResume() {
-        var AddId: Int = 1
-        PreviousAddId = PreviousAddId + 1
         super.onResume()
+        if (isFirstLoad) {
+            isFirstLoad = false
+            loadInitialData()
+        }
+    }
+
+    /**
+     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
+     *   - GetOverallcountByMenuType (count)
+     *   - GetAddsForCollege (ads)
+     *   - GetCircularListbyType (list)
+     * The per-call loaders are suppressed (showLoader = false); the shared loader is dismissed
+     * by [markInitialApiDone] once every response has come back.
+     */
+    private fun loadInitialData() {
+        if (CommonUtil.menu_readCircular != "1") return
+        pendingInitialApiCount = 3
+        initialLoader = CustomLoading.createProgressDialog(this)
+        OverAllMenuCountRequest(this, CommonUtil.MenuIDCircular!!, false)
+        AdForCollegeApi(false)
+        CircularRequest(CircularType, false)
+    }
+
+    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
+    private fun markInitialApiDone() {
+        if (initialLoader == null || pendingInitialApiCount <= 0) return
+        pendingInitialApiCount -= 1
+        if (pendingInitialApiCount <= 0) {
+            initialLoader?.dismiss()
+            initialLoader = null
+        }
+    }
+
+    override fun onDestroy() {
+        initialLoader?.dismiss()
+        initialLoader = null
+        super.onDestroy()
     }
 
     private fun NoDataFound() {
@@ -327,7 +335,6 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     private fun CountValueSet() {
-
         if (!DepartmentCount.equals("0") && !DepartmentCount.equals("")) {
             binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
             binding.CommonLayout.lblDepartmentSize!!.text = DepartmentCount
@@ -342,9 +349,9 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
             binding.CommonLayout.lblCollegeSize!!.visibility = View.GONE
             CollegeCount = "0"
         }
-        var intdepartment = Integer.parseInt(DepartmentCount!!)
-        var intCollegecount = Integer.parseInt(CollegeCount!!)
-        var TotalSizeCount = intdepartment + intCollegecount
+        val intdepartment = Integer.parseInt(DepartmentCount!!)
+        val intCollegecount = Integer.parseInt(CollegeCount!!)
+        val TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
             binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
             binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
@@ -356,24 +363,21 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     override val layoutResourceId: Int
         protected get() = R.layout.activity_noticeboard
 
-    fun CircularRequest(type: Boolean) {
+    fun CircularRequest(type: Boolean, showLoader: Boolean = true) {
         val jsonObject = JsonObject()
-        run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            if (type) {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.DepartmentCircular)
-            } else {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.CollegeCircular)
-            }
-            appViewModel!!.getCircularList(jsonObject, this)
-            Log.d("CircularRequest:", jsonObject.toString())
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        if (type) {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.DepartmentCircular)
+        } else {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.CollegeCircular)
         }
+        appViewModel!!.getCircularList(jsonObject, this, showLoader)
+        Log.d("CircularRequest:", jsonObject.toString())
     }
 
     fun departmentClick() {
-//        bottomsheetStateCollpased()
         CircularType = true
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)
@@ -382,22 +386,18 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
-//        bottomsheetStateCollpased()
         CircularType = false
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)
         }
         TabCollegeColor()
-
     }
 
     fun imgaddclick() {
-
         val i: Intent = Intent(this, ImageOrPdf::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(i)
-
     }
 
     override fun onBackPressed() {

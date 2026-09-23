@@ -1,5 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,9 +23,9 @@ import com.vsca.vsnapvoicecollege.Model.GetNoticeboardDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
 
@@ -45,6 +46,12 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
 
+    // Single loader shown until the initial APIs (count + ads + list) all finish; the individual
+    // per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
+    private var isFirstLoad = true
+    private var initialLoader: ProgressDialog? = null
+    private var pendingInitialApiCount = 0
+
     override fun inflateBinding(): ActivityNoticeboardBinding {
         return ActivityNoticeboardBinding.inflate(layoutInflater)
     }
@@ -56,16 +63,16 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionBarMethod(this@Noticeboard)
+        setupEdgeToEdgeAuto(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
-
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
-
-
-
+        if (supportActionBar != null) {
+            ActionBarMethod(this)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 
         accessBottomViewIcons(
             binding,
@@ -74,56 +81,40 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
             R.id.imgAddPlus
         )
         TabDepartmentColor()
-//        MenuBottomType()
 
         CommonUtil.OnMenuClicks("Noticeboard")
-
 
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
         binding.CommonLayout.imgAddPlus.setOnClickListener { imgaddclick() }
         binding.CommonLayout.LayoutDepartment.setOnClickListener { departmentClick() }
         binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
 
-
         SearchList!!.visibility = View.VISIBLE
-
         SearchList!!.setOnClickListener {
-
             Search!!.visibility = View.VISIBLE
-
-        }
-
-        if (CommonUtil.menu_readNoticeBoard.equals("1")) {
-            NoticeboardRequest(NoticeboardType)
         }
 
         idSV!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
-
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
-
                 filter(msg)
                 return false
             }
         })
 
         txt_Cancel!!.setOnClickListener {
-
             Search!!.visibility = View.GONE
-
         }
-
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                markInitialApiDone()
                 if (response != null) {
                     val status = response.status
-
-                    val message = response.message
                     if (status == 1) {
                         GetAdForCollegeData = response.data!!
                         for (j in GetAdForCollegeData.indices) {
@@ -144,9 +135,9 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
             })
 
         appViewModel!!.OverAllMenuResponseLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
-                val message = response.message
                 if (status == 1) {
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
@@ -163,13 +154,9 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         }
 
         appViewModel!!.noticeBoardResponseLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
-                val message = response.message
-//                UserMenuRequest(this@Noticeboard)
-                if (CommonUtil.menu_readNoticeBoard.equals("1")) {
-                    OverAllMenuCountRequest(this, CommonUtil.MenuIDNoticeboard!!)
-                }
                 if (status == 1) {
                     if (NoticeboardType) {
                         GetNoticeboardData = response.data!!
@@ -229,7 +216,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                 NoDataFound()
             }
         }
-        imgRefresh!!.setOnClickListener(View.OnClickListener {
+        imgRefresh!!.setOnClickListener {
             if (NoticeboardType) {
                 NoticeboardType = true
                 if (CommonUtil.menu_readNoticeBoard.equals("1")) {
@@ -241,14 +228,13 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                     NoticeboardRequest(NoticeboardType)
                 }
             }
-        })
+        }
 
         binding.CommonLayout.recyclerCommon!!.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-//                    bottomsheetStateCollpased()
                 }
             }
         })
@@ -301,10 +287,10 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         }
     }
 
-    private fun AdForCollegeApi() {
+    private fun AdForCollegeApi(showLoader: Boolean = true) {
 
-        var mobilenumber = SharedPreference.getSH_MobileNumber(this)
-        var devicetoken = SharedPreference.getSH_DeviceToken(this)
+        val mobilenumber = SharedPreference.getSH_MobileNumber(this)
+        val devicetoken = SharedPreference.getSH_DeviceToken(this)
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_ad_device_token, devicetoken)
         jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId)
@@ -312,7 +298,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
-        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        appviewModelbase!!.getAdforCollege(jsonObject, this, showLoader)
         Log.d("AdForCollege:", jsonObject.toString())
 
         PreviousAddId = PreviousAddId + 1
@@ -341,9 +327,9 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
             CollegeCount = "0"
         }
 
-        var intdepartment = Integer.parseInt(DepartmentCount!!)
-        var intCollegecount = Integer.parseInt(CollegeCount!!)
-        var TotalSizeCount = intdepartment + intCollegecount
+        val intdepartment = Integer.parseInt(DepartmentCount!!)
+        val intCollegecount = Integer.parseInt(CollegeCount!!)
+        val TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
             binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
             binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
@@ -355,28 +341,21 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     override val layoutResourceId: Int
         protected get() = R.layout.activity_noticeboard
 
-    private fun NoticeboardRequest(type: Boolean) {
+    private fun NoticeboardRequest(type: Boolean, showLoader: Boolean = true) {
         val jsonObject = JsonObject()
-        run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-            if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
-            } else {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
-            }
-            jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            if (type) {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.DepartmentNotice)
-            } else {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.CollegeNotice)
-            }
-            appViewModel!!.getNoticeboardList(jsonObject, this@Noticeboard)
-            Log.d("NotiboardRequest:", jsonObject.toString())
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        if (type) {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.DepartmentNotice)
+        } else {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.CollegeNotice)
         }
+        appViewModel!!.getNoticeboardList(jsonObject, this@Noticeboard, showLoader)
+        Log.d("NotiboardRequest:", jsonObject.toString())
     }
 
     fun departmentClick() {
-//        bottomsheetStateCollpased()
         TabDepartmentColor()
         NoticeboardType = true
         if (CommonUtil.menu_readNoticeBoard.equals("1")) {
@@ -385,7 +364,6 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
-//        bottomsheetStateCollpased()
         NoticeboardType = false
         if (CommonUtil.menu_readNoticeBoard.equals("1")) {
             NoticeboardRequest(NoticeboardType)
@@ -412,11 +390,45 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     override fun onResume() {
-        var AddId: Int = 1
-        PreviousAddId = PreviousAddId + 1
-        AdForCollegeApi()
-        CommonUtil.Multipleiamge.clear()
         super.onResume()
+        if (isFirstLoad) {
+            isFirstLoad = false
+            loadInitialData()
+        }
+        CommonUtil.Multipleiamge.clear()
+    }
+
+    /**
+     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
+     *   - GetOverallcountByMenuType (count)
+     *   - GetAddsForCollege (ads)
+     *   - GetNoticeboradList (list)
+     * The per-call loaders are suppressed (showLoader = false); the shared loader is dismissed
+     * by [markInitialApiDone] once every response has come back.
+     */
+    private fun loadInitialData() {
+        if (CommonUtil.menu_readNoticeBoard != "1") return
+        pendingInitialApiCount = 3
+        initialLoader = CustomLoading.createProgressDialog(this)
+        OverAllMenuCountRequest(this, CommonUtil.MenuIDNoticeboard!!, false)
+        AdForCollegeApi(false)
+        NoticeboardRequest(NoticeboardType, false)
+    }
+
+    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
+    private fun markInitialApiDone() {
+        if (initialLoader == null || pendingInitialApiCount <= 0) return
+        pendingInitialApiCount -= 1
+        if (pendingInitialApiCount <= 0) {
+            initialLoader?.dismiss()
+            initialLoader = null
+        }
+    }
+
+    override fun onDestroy() {
+        initialLoader?.dismiss()
+        initialLoader = null
+        super.onDestroy()
     }
 
 }

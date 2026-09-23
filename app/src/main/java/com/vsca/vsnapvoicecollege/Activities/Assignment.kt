@@ -1,6 +1,7 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +28,7 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.OnBackSetBottomMenuClickTrue
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.OnMenuClicks
+import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
@@ -50,6 +52,12 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     var Countpast: String? = null
     var OverAllMenuCountData1: List<GetOverAllCountDetails> = ArrayList()
 
+    // Single loader shown until the initial APIs (count + ads + list) all finish; the individual
+    // per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
+    private var isFirstLoad = true
+    private var initialLoader: ProgressDialog? = null
+    private var pendingInitialApiCount = 0
+
     override fun inflateBinding(): ActivityNoticeboardBinding {
         return ActivityNoticeboardBinding.inflate(layoutInflater)
     }
@@ -62,13 +70,16 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
 
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-        ActionBarMethod(this@Assignment)
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        setupEdgeToEdgeAuto(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
-
+        if (supportActionBar != null) {
+            ActionBarMethod(this)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 
         accessBottomViewIcons(
             binding,
@@ -77,13 +88,8 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
             R.id.imgAddPlus
         )
 
-
         CommonUtil.RequestCameraPermission(this)
-//        MenuBottomType()
 
-        if (CommonUtil.menu_readAssignment.equals("1")) {
-            OverAllMenuCountRequestAssignment(this, CommonUtil.MenuIDAssignment!!)
-        }
         OnMenuClicks(CommonUtil._OnclickScreen)
         TabDepartmentColor()
         CommonUtil.pastExam = ""
@@ -97,17 +103,12 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         }
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
-
         binding.CommonLayout.LayoutDepartment.setOnClickListener {
             departmentClick()
         }
 
         binding.CommonLayout.LayoutCollege.setOnClickListener {
             collegeClick()
-        }
-
-        if (CommonUtil.menu_readAssignment == "1") {
-            AssignmentRequest(AssignmentType)
         }
 
         binding.CommonLayout.imgAddPlus.setOnClickListener {
@@ -127,18 +128,15 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         })
 
         txt_Cancel!!.setOnClickListener {
-
             Search!!.visibility = View.GONE
-
         }
-
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                markInitialApiDone()
                 if (response != null) {
                     val status = response.status
-                    val message = response.message
                     if (status == 1) {
                         GetAdForCollegeData = response.data!!
                         for (j in GetAdForCollegeData.indices) {
@@ -156,9 +154,9 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
             })
 
         appViewModel!!.OverAllMenuResponseLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
-                val message = response.message
                 if (status == 1) {
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData1 = emptyList()
@@ -175,13 +173,10 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         }
 
         appViewModel!!.assignmentListResponseLiveData!!.observe(this) { response ->
+            markInitialApiDone()
             if (response != null) {
                 val status = response.status
-                val message = response.message
-//                UserMenuRequest(this@Assignment)
                 if (status == 1) {
-//                    UserMenuRequest(this)
-                    AdForCollegeApi()
                     if (AssignmentType) {
                         GetAssignmentData = response.data!!
                         val size = GetAssignmentData.size
@@ -249,7 +244,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
             }
         }
 
-        imgRefresh!!.setOnClickListener(View.OnClickListener {
+        imgRefresh!!.setOnClickListener {
             if (AssignmentType) {
                 AssignmentType = true
                 if (CommonUtil.menu_readAssignment.equals("1")) {
@@ -261,35 +256,27 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                     AssignmentRequest(AssignmentType)
                 }
             }
-        })
+        }
     }
 
     private fun filter(text: String) {
-
-
         val filteredlist: java.util.ArrayList<GetAssignmentDetails> = java.util.ArrayList()
 
         for (item in GetAssignmentData) {
             if (item.topic!!.lowercase(Locale.getDefault())
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
-
                 filteredlist.add(item)
-
             }
         }
         if (filteredlist.isEmpty()) {
-
             Toast.makeText(this, CommonUtil.No_Data_Found, Toast.LENGTH_SHORT).show()
         } else {
             assignmentadapter!!.filterList(filteredlist)
-
         }
-
     }
 
-    private fun AdForCollegeApi() {
-
+    private fun AdForCollegeApi(showLoader: Boolean = true) {
         val mobilenumber = SharedPreference.getSH_MobileNumber(this)
         val devicetoken = SharedPreference.getSH_DeviceToken(this)
         val jsonObject = JsonObject()
@@ -299,7 +286,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_previous_add_id, PreviousAddId)
-        appviewModelbase!!.getAdforCollege(jsonObject, this)
+        appviewModelbase!!.getAdforCollege(jsonObject, this, showLoader)
         Log.d("AdForCollege:", jsonObject.toString())
 
         PreviousAddId = PreviousAddId + 1
@@ -307,7 +294,6 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     private fun CountValueSet() {
-
         if (!CountUpcoming.equals("0") && !CountUpcoming.equals("")) {
             binding.CommonLayout.lblDepartmentSize!!.visibility = View.VISIBLE
             binding.CommonLayout.lblDepartmentSize!!.text = CountUpcoming
@@ -323,9 +309,9 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
             Countpast = "0"
         }
 
-        var intdepartment = Integer.parseInt(CountUpcoming!!)
-        var intCollegecount = Integer.parseInt(Countpast!!)
-        var TotalSizeCount = intdepartment + intCollegecount
+        val intdepartment = Integer.parseInt(CountUpcoming!!)
+        val intCollegecount = Integer.parseInt(Countpast!!)
+        val TotalSizeCount = intdepartment + intCollegecount
         if (TotalSizeCount > 0) {
             binding.CommonLayout.lbltotalsize!!.visibility = View.VISIBLE
             binding.CommonLayout.lbltotalsize!!.text = TotalSizeCount.toString()
@@ -337,37 +323,32 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     override val layoutResourceId: Int
         get() = R.layout.activity_noticeboard
 
-    private fun AssignmentRequest(type: Boolean) {
+    private fun AssignmentRequest(type: Boolean, showLoader: Boolean = true) {
         val jsonObject = JsonObject()
-        run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
-            jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId)
+        jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
 
-            if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3" || CommonUtil.Priority == "p6") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
-                jsonObject.addProperty(ApiRequestNames.Req_departmentid, CommonUtil.DepartmentId)
-                jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
-
-            } else if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
-                jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
-                jsonObject.addProperty(ApiRequestNames.Req_departmentid, CommonUtil.DepartmentId)
-
-            }
-
-            if (type) {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.UpcomingAssignment)
-            } else {
-                jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.PastAssignment)
-            }
-            appViewModel!!.getAssignmentListbyType(jsonObject, this@Assignment)
-            Log.d("AssignmentRequest:", jsonObject.toString())
+        if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3" || CommonUtil.Priority == "p6") {
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
+            jsonObject.addProperty(ApiRequestNames.Req_departmentid, CommonUtil.DepartmentId)
+            jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
+        } else if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5") {
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId)
+            jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
+            jsonObject.addProperty(ApiRequestNames.Req_departmentid, CommonUtil.DepartmentId)
         }
+
+        if (type) {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.UpcomingAssignment)
+        } else {
+            jsonObject.addProperty(ApiRequestNames.Req_type, CommonUtil.PastAssignment)
+        }
+        appViewModel!!.getAssignmentListbyType(jsonObject, this@Assignment, showLoader)
+        Log.d("AssignmentRequest:", jsonObject.toString())
     }
 
     fun departmentClick() {
-//        bottomsheetStateCollpased()
         AssignmentType = true
         if (CommonUtil.menu_readAssignment.equals("1")) {
             AssignmentRequest(AssignmentType)
@@ -377,15 +358,12 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
-//        bottomsheetStateCollpased()
         AssignmentType = false
         if (CommonUtil.menu_readAssignment.equals("1")) {
             AssignmentRequest(AssignmentType)
         }
-//        bottomsheetStateCollpased()
         TabCollegeColor()
         CommonUtil.pastExam = "1"
-
     }
 
     fun adclick() {
@@ -394,11 +372,43 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
 
     override fun onResume() {
         super.onResume()
-//            if (CommonUtil.menu_readAssignment == "1") {
-//                AssignmentRequest(AssignmentType)
-//            }
-        var AddId: Int = 1
-        PreviousAddId += 1
+        if (isFirstLoad) {
+            isFirstLoad = false
+            loadInitialData()
+        }
+    }
+
+    /**
+     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
+     *   - GetOverallcountByMenuType (count)
+     *   - GetAddsForCollege (ads)
+     *   - GetAssignmentListbytype (list)
+     * The per-call loaders are suppressed (showLoader = false); the shared loader is dismissed
+     * by [markInitialApiDone] once every response has come back.
+     */
+    private fun loadInitialData() {
+        if (CommonUtil.menu_readAssignment != "1") return
+        pendingInitialApiCount = 3
+        initialLoader = CustomLoading.createProgressDialog(this)
+        OverAllMenuCountRequestAssignment(this, CommonUtil.MenuIDAssignment!!, false)
+        AdForCollegeApi(false)
+        AssignmentRequest(AssignmentType, false)
+    }
+
+    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
+    private fun markInitialApiDone() {
+        if (initialLoader == null || pendingInitialApiCount <= 0) return
+        pendingInitialApiCount -= 1
+        if (pendingInitialApiCount <= 0) {
+            initialLoader?.dismiss()
+            initialLoader = null
+        }
+    }
+
+    override fun onDestroy() {
+        initialLoader?.dismiss()
+        initialLoader = null
+        super.onDestroy()
     }
 
     fun imgaddclick() {
@@ -406,7 +416,6 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(i)
-
     }
 
     override fun onBackPressed() {
@@ -414,8 +423,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         super.onBackPressed()
     }
 
-
-    fun OverAllMenuCountRequestAssignment(activity: Activity?, menuid: String) {
+    fun OverAllMenuCountRequestAssignment(activity: Activity?, menuid: String, showLoader: Boolean = true) {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
@@ -437,7 +445,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         }
 
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-        appviewModelbase!!.getOverAllMenuCount(jsonObject, activity)
+        appviewModelbase!!.getOverAllMenuCount(jsonObject, activity, showLoader)
         Log.d("OverAllMenuCount_Req:", jsonObject.toString())
     }
 }

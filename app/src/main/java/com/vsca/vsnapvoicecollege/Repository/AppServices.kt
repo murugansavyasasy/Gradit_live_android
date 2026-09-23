@@ -985,9 +985,9 @@ class AppServices {
     val getCommunicationLiveData: LiveData<GetCommunicationResponse?>
         get() = GetCommunicationMutableLiveData
 
-    fun GetCommunicationTextList(jsonObject: JsonObject?, activity: Activity) {
-        var progressDialog = CustomLoading.createProgressDialog(activity)
-        progressDialog!!.show()
+    fun GetCommunicationTextList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
         RestClient.apiInterfaces.GetCommunicationMessageBytype(jsonObject)
             ?.enqueue(object : Callback<GetCommunicationResponse?> {
                 override fun onResponse(
@@ -999,7 +999,7 @@ class AppServices {
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         if (response.body() != null) {
                             val status = response.body()!!.status
@@ -1011,17 +1011,17 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
                         GetCommunicationMutableLiveData.postValue(response.body())
                     } else {
-                        progressDialog!!.dismiss()
+                        progressDialog?.dismiss()
 
                         GetCommunicationMutableLiveData.postValue(response.body())
                     }
                 }
 
                 override fun onFailure(call: Call<GetCommunicationResponse?>, t: Throwable) {
-                    progressDialog!!.dismiss()
+                    progressDialog?.dismiss()
                     GetCommunicationMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(

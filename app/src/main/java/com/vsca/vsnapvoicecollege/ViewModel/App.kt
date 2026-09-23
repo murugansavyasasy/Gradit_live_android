@@ -448,8 +448,8 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetCommunicationList(jsonObject, activity!!, showLoader)
     }
 
-    fun getCommunicationListTextbyType(jsonObject: JsonObject?, activity: Activity?) {
-        apiRepositories!!.GetCommunicationTextList(jsonObject, activity!!)
+    fun getCommunicationListTextbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetCommunicationTextList(jsonObject, activity!!, showLoader)
     }
 
 
