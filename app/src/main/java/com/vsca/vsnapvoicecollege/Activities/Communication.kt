@@ -53,17 +53,27 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
     private var isreadText = ""
     private var isreadVoice = ""
 
-    // Guards the one-time-per-entry API calls (overall count + ads for college)
-    // and the very first voice-list load. Reset automatically on each new activity instance.
+
     private var isFirstLoad = true
 
-    // A single loader that stays visible until all initial APIs finish. The individual
-    // per-call loaders are suppressed for those calls; this counter tracks how many are pending.
+
     private var initialLoader: ProgressDialog? = null
     private var pendingInitialApiCount = 0
 
-    // Ids already counted as read locally, so re-tapping the same item never double-counts.
     private val locallyReadIds = HashSet<String>()
+
+    private val communicationItemListener = object : communicationListener {
+        override fun oncommunicationClick(
+            holder: CommunicationAdapter.MyViewHolder,
+            item: GetCommunicationDetails
+        ) {
+
+        }
+
+        override fun onItemMarkedRead(item: GetCommunicationDetails) {
+            applyReadToCounts(item.msgdetailsid!!)
+        }
+    }
 
     override fun inflateBinding(): ActivityNoticeboardBinding {
         return ActivityNoticeboardBinding.inflate(layoutInflater)
@@ -204,21 +214,8 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
                                 this, "Voice",
-                                object : communicationListener {
-                                    override fun oncommunicationClick(
-                                        holder: CommunicationAdapter.MyViewHolder,
-                                        item: GetCommunicationDetails
-                                    ) {
-                                        holder.rytRecentNotification.setOnClickListener {
-                                            applyReadToCounts(item.msgdetailsid!!)
-                                            AppReadStatus(
-                                                this@Communication,
-                                                "sms",
-                                                item.msgdetailsid!!
-                                            )
-                                        }
-                                    }
-                                })
+                                communicationItemListener
+                            )
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
@@ -246,18 +243,8 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
                                 this, "Voice",
-                                object : communicationListener {
-                                    override fun oncommunicationClick(
-                                        holder: CommunicationAdapter.MyViewHolder,
-                                        item: GetCommunicationDetails
-                                    ) {
-                                        holder.rytRecentNotification.setOnClickListener {
-                                            AppReadStatus(
-                                                this@Communication, "sms", item.msgdetailsid!!
-                                            )
-                                        }
-                                    }
-                                })
+                                communicationItemListener
+                            )
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
@@ -323,10 +310,7 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
     }
 
-    /**
-     * When an item is opened from the Unread tab, move it from unread -> read locally so the
-     * badges update immediately (the count API is only fetched once on entry). De-duped by id.
-     */
+
     private fun applyReadToCounts(detailsId: String) {
         if (!CommunicationType) return
         if (!locallyReadIds.add(detailsId)) return
@@ -488,14 +472,6 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
         binding.CommonLayout.imgAddPlus!!.visibility = View.GONE
     }
 
-    /**
-     * Fires the initial APIs once, behind a single shared loader instead of one loader per call:
-     *   - GetOverallcountByMenuType (count)   -> only when read is enabled
-     *   - GetAddsForCollege (ads)             -> always
-     *   - GetVoiceMessageBytype (voice list)  -> only when read is enabled
-     * Each individual per-call loader is suppressed (showLoader = false); the shared loader is
-     * dismissed by [markInitialApiDone] once every response has come back.
-     */
     private fun loadInitialData() {
         val readEnabled = CommonUtil.menu_readCommunication == "1"
         pendingInitialApiCount = 1 + if (readEnabled) 2 else 0
@@ -510,7 +486,6 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
         }
     }
 
-    /** Counts down the pending initial APIs and dismisses the shared loader when all have finished. */
     private fun markInitialApiDone() {
         if (initialLoader == null || pendingInitialApiCount <= 0) return
         pendingInitialApiCount -= 1

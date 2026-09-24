@@ -10,4 +10,7 @@ interface communicationListener {
         item: GetCommunicationDetails
     )
 
+    fun onItemMarkedRead(item: GetCommunicationDetails)
+
+
 }
