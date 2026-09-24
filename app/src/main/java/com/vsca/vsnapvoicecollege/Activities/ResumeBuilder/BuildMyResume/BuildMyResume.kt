@@ -23,6 +23,7 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
 import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutBuildmyresumeBinding
@@ -67,6 +68,10 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.rlaEditProfileHeader)
         }
+
+        binding.rlaEditProfileHeader.applyPriorityColor(this, CommonUtil.Priority)
+
+
 
 
         GetResumeBuilderThemeTemplate()

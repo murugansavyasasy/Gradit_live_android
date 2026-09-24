@@ -20,7 +20,6 @@
         android:id="@+id/rlaEditProfileHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_shadow_white"
         android:padding="@dimen/twenty"
         app:layout_constraintTop_toBottomOf="@id/statusBarBackground"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +28,7 @@
         <ImageView
             android:id="@+id/imgback"
             android:layout_width="@dimen/thirty"
+            app:tint="@color/white"
             android:layout_height="@dimen/thirty"
             android:layout_centerVertical="true"
             android:src="@drawable/arrow_back" />
@@ -41,7 +41,7 @@
             android:layout_marginStart="@dimen/ten"
             android:layout_toEndOf="@id/imgback"
             android:text="@string/build_my_resume"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/eighteen_sp" />
 
     </RelativeLayout>

@@ -17,6 +17,7 @@ import com.vsca.vsnapvoicecollege.Model.*
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityCategoryCreditWiseBinding
 
@@ -54,6 +55,9 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.LayoutHeader)
         }
+
+        binding.LayoutHeader.applyPriorityColor(this, CommonUtil.Priority)
+
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()

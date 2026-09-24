@@ -46,6 +46,7 @@ import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.CustomSwitch
 import com.vsca.vsnapvoicecollege.Utils.PdfDownloader
@@ -114,7 +115,7 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.rlaEditProfileHeader)
         }
-
+        binding.rlaEditProfileHeader.applyPriorityColor(this, CommonUtil.Priority)
 
 
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.VISIBLE

@@ -19,6 +19,7 @@ import com.vsca.vsnapvoicecollege.Model.HallticketResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
@@ -54,6 +55,8 @@ class Hall_Ticket : AppCompatActivity() {
             priority = CommonUtil.Priority,
             lightIcons = false
         )
+        binding.LayoutHeader.applyPriorityColor(this, CommonUtil.Priority)
+
 
 
         appViewModel!!.Hallticket!!.observe(this) { response ->

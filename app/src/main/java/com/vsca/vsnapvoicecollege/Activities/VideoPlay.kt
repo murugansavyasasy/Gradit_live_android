@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityVideoPlayBinding
@@ -31,6 +32,8 @@ class VideoPlay : AppCompatActivity() {
             priority = CommonUtil.Priority,
             lightIcons = false
         )
+
+        binding.LayoutHeader.applyPriorityColor(this, CommonUtil.Priority)
 
         val VideoID = intent.getStringExtra("iframe")
 

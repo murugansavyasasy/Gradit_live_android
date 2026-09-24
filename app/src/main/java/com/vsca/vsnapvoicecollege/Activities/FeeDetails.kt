@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.databinding.FeeDetailsBinding
 
@@ -41,6 +42,9 @@ class FeeDetails : AppCompatActivity() {
             priority = CommonUtil.Priority,
             lightIcons = false
         )
+
+        binding.toolbar.applyPriorityColor(this, CommonUtil.Priority)
+
 
         loadFeeDetails(binding.webviewFeedetails)
     }

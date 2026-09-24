@@ -18,6 +18,7 @@ import com.vsca.vsnapvoicecollege.Model.attendance
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceDetailsfromstudentBinding
@@ -47,7 +48,7 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
             priority = CommonUtil.Priority
         )
 
-
+        binding.rlatopbar.applyPriorityColor(this, CommonUtil.Priority)
 
         binding.lblattenSunjectname!!.text=CommonUtil.AttendanceSubjectname
         binding.lblattenStaffname!!.text=CommonUtil.AttendanceStaffname

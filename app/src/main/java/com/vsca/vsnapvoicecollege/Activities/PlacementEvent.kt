@@ -14,6 +14,7 @@ import com.vsca.vsnapvoicecollege.Model.GetPlacementEventData
 import com.vsca.vsnapvoicecollege.Model.PlacementEventData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.PlacementEventBinding
 
@@ -43,6 +44,7 @@ class PlacementEvent : BaseActivity<PlacementEventBinding>() {
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.LayoutHeader)
         }
+        binding.LayoutHeader.applyPriorityColor(this, CommonUtil.Priority)
 
 
         appViewModel = ViewModelProvider(this).get(App::class.java)

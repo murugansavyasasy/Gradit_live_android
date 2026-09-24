@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -133,6 +136,15 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         title.setText("Mark Attendance");
         subTitle.setText("");
         backButton.setOnClickListener(v -> onBackPressed());
+
+        View layoutHeader = findViewById(R.id.LayoutHeader);
+
+        applyPriorityColor(
+                layoutHeader,
+                this,
+                CommonUtil.INSTANCE.getPriority(),
+                null
+        );
 
         // Now continue as before
         rytGPSRedirect = findViewById(R.id.rytGPSRedirect);
@@ -306,6 +318,74 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+    private void applyPriorityColor(
+            View view,
+            Context context,
+            String priority,
+            Integer drawableRes
+    ) {
+        int colorRes;
+
+        if ("p1".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_principal;
+        } else if ("p2".equalsIgnoreCase(priority)
+                || "p3".equalsIgnoreCase(priority)
+                || "p6".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_teachingstaff;
+        } else if ("p4".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_receiver;
+        } else if ("p5".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_parent;
+        } else if ("p7".equalsIgnoreCase(priority)) {
+            colorRes = R.color.cle_lightorang;
+        } else {
+            colorRes = R.color.black;
+        }
+
+        int color = ContextCompat.getColor(context, colorRes);
+
+        Drawable drawable;
+
+        if (drawableRes != null) {
+            drawable = ContextCompat.getDrawable(context, drawableRes);
+        } else {
+            drawable = view.getBackground();
+        }
+
+        // No drawable -> directly set color
+        if (drawable == null) {
+            view.setBackgroundColor(color);
+            return;
+        }
+
+        Drawable mutableDrawable = drawable.mutate();
+
+        if (mutableDrawable instanceof LayerDrawable) {
+
+            // Keep shadow layers unchanged.
+            // Only change the last/background layer.
+            LayerDrawable layerDrawable = (LayerDrawable) mutableDrawable;
+
+            Drawable backgroundLayer = layerDrawable.getDrawable(
+                    layerDrawable.getNumberOfLayers() - 1
+            );
+
+            DrawableCompat.setTint(
+                    DrawableCompat.wrap(backgroundLayer).mutate(),
+                    color
+            );
+
+        } else {
+
+            // Normal drawable
+            DrawableCompat.setTint(
+                    DrawableCompat.wrap(mutableDrawable),
+                    color
+            );
+        }
+
+        view.setBackground(mutableDrawable);
     }
 
     private void showFingerPrintDisablepopup() {

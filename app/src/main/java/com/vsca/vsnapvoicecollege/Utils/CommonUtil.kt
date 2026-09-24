@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.LayerDrawable
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
@@ -68,6 +69,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorInt
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -1119,6 +1121,63 @@ object CommonUtil {
                 )
             }
         }
+    }
+
+    fun View.applyPriorityColor(
+        context: Context,
+        priority: String?,
+        drawableRes: Int? = null
+    ) {
+        val colorRes = when (priority?.lowercase()) {
+            "p1" -> R.color.clr_principal
+            "p2", "p3", "p6" -> R.color.clr_teachingstaff
+            "p4" -> R.color.clr_receiver
+            "p5" -> R.color.clr_parent
+            "p7" -> R.color.cle_lightorang
+            else -> R.color.black
+        }
+
+        val color = ContextCompat.getColor(context, colorRes)
+
+        // Priority:
+        // 1. Drawable passed as parameter
+        // 2. Existing background
+        // 3. Direct color if neither exists
+        val drawable = drawableRes?.let {
+            ContextCompat.getDrawable(context, it)
+        } ?: background
+
+        if (drawable == null) {
+            // No drawable available -> directly set priority color
+            setBackgroundColor(color)
+            return
+        }
+
+        val mutableDrawable = drawable.mutate()
+
+        if (mutableDrawable is LayerDrawable) {
+
+            // Change only the last layer (actual background)
+            val backgroundLayer =
+                mutableDrawable.getDrawable(
+                    mutableDrawable.numberOfLayers - 1
+                )
+
+            DrawableCompat.setTint(
+                DrawableCompat.wrap(backgroundLayer).mutate(),
+                color
+            )
+
+        } else {
+
+            // Normal drawable
+            DrawableCompat.setTint(
+                DrawableCompat.wrap(mutableDrawable),
+                color
+            )
+        }
+
+        background = mutableDrawable
     }
 
     @ColorInt

@@ -62,6 +62,7 @@ import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkillsData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditskillsetBinding
@@ -183,8 +184,7 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelect
             fixActionBarOverlap(binding.rlaEditProfileHeader)
         }
 
-
-
+        binding.rlaEditProfileHeader.applyPriorityColor(this, CommonUtil.Priority)
 
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
         savedSoftSkillsList =

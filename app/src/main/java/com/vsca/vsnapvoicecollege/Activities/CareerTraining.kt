@@ -13,6 +13,7 @@ import com.vsca.vsnapvoicecollege.Adapters.CareerTrainingAdapter
 import com.vsca.vsnapvoicecollege.Model.CareerTrainingData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.CareerTrainingBinding
 
@@ -47,6 +48,9 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.LayoutHeader)
         }
+
+        binding.LayoutHeader.applyPriorityColor(this, CommonUtil.Priority)
+
 
 
         appViewModel!!.isPlacementCareerResponse?.observe(this) { response ->

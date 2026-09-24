@@ -33,6 +33,7 @@
             android:layout_height="@dimen/twenty_three"
             android:layout_marginStart="@dimen/eight"
             android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,8 +45,8 @@
             android:layout_marginStart="@dimen/fifteen"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textColor="@color/white"
             android:text="@string/txt_semester_credit_points"
-            android:textColor="@color/black"
             android:textSize="@dimen/sixteen"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"

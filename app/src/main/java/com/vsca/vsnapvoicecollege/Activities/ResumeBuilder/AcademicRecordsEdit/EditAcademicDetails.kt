@@ -54,6 +54,7 @@ import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
@@ -135,6 +136,10 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
             ActionBarMethod(this@EditAcademicDetails, true)
             fixActionBarOverlap(binding.rlaEditAcademicHeader)
         }
+
+        binding.rlaEditAcademicHeader.applyPriorityColor(
+            this,
+            CommonUtil.Priority)
 
         // Hide default icon and update button text
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE

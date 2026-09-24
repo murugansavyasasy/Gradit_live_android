@@ -131,7 +131,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="GRADIT Logo"
             android:scaleType="fitCenter"
-            android:src="@drawable/gradit_splash_icon"
+            android:src="@drawable/gradit_logo_rewamp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imgNotification"
