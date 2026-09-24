@@ -55,6 +55,7 @@ import com.vsca.vsnapvoicecollege.Model.monthsModel;
 import com.vsca.vsnapvoicecollege.R;
 import com.vsca.vsnapvoicecollege.Repository.RestClient;
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil;
+import com.vsca.vsnapvoicecollege.Utils.EdgeToEdgeUtils;
 import com.vsca.vsnapvoicecollege.Utils.GPSStatusReceiver;
 import com.vsca.vsnapvoicecollege.Utils.LocationDistanceCalculator;
 import com.vsca.vsnapvoicecollege.Utils.LocationHelper;
@@ -164,11 +165,14 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         btnAttendanceHistory.setOnClickListener(this);
         rytAddLocation.setOnClickListener(this);
 
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-//        insetsController.setAppearanceLightStatusBars(true);
-        insetsController.setAppearanceLightStatusBars(false);
-        insetsController.setAppearanceLightNavigationBars(false);
+
+        EdgeToEdgeUtils.setupEdgeToEdge(
+                this,
+                findViewById(R.id.Main),
+                findViewById(R.id.statusBarBackground),
+                CommonUtil.INSTANCE.getPriority(),
+                Boolean.FALSE   // white icons, matches old behaviour
+        );
 
         if (CommonUtil.INSTANCE.getMenu_writeMarkAttendance().equals("1")) {
             rytAddLocation.setVisibility(View.VISIBLE);

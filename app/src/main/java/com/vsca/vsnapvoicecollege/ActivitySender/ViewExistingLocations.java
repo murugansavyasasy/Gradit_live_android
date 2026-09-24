@@ -33,6 +33,7 @@ import com.vsca.vsnapvoicecollege.Model.StaffBiometricLocationRes;
 import com.vsca.vsnapvoicecollege.R;
 import com.vsca.vsnapvoicecollege.Repository.RestClient;
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil;
+import com.vsca.vsnapvoicecollege.Utils.EdgeToEdgeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -58,20 +59,31 @@ public class ViewExistingLocations extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locations_history_popup);
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-//        insetsController.setAppearanceLightStatusBars(true);
-        insetsController.setAppearanceLightStatusBars(false);
-        insetsController.setAppearanceLightNavigationBars(false);
+
+        EdgeToEdgeUtils.setupEdgeToEdge(
+                this,
+                findViewById(R.id.constParent),
+                findViewById(R.id.statusBarBackground),
+                CommonUtil.INSTANCE.getPriority(),
+                Boolean.FALSE
+        );
 
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
 
         ImageView gifImage = (ImageView) findViewById(R.id.gifImage);
+        ImageView btnBack = (ImageView) findViewById(R.id.btnBack);
         TextView lblTitle = (TextView) findViewById(R.id.lblTitle);
         recyleLocations = (RecyclerView) findViewById(R.id.recyleLocations);
         constParent = (ConstraintLayout) findViewById(R.id.constParent);
         lblNoRecords = (TextView) findViewById(R.id.lblNoRecords);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         Glide.with(this)
                 .asGif()

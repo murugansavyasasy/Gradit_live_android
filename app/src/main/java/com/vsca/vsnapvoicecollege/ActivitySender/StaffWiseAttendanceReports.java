@@ -41,6 +41,7 @@ import com.vsca.vsnapvoicecollege.Model.monthsModel;
 import com.vsca.vsnapvoicecollege.R;
 import com.vsca.vsnapvoicecollege.Repository.RestClient;
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil;
+import com.vsca.vsnapvoicecollege.Utils.EdgeToEdgeUtils;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -80,11 +81,14 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         setContentView(R.layout.staff_wise_attendance_reports);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-//        insetsController.setAppearanceLightStatusBars(true);
-        insetsController.setAppearanceLightStatusBars(false);
-        insetsController.setAppearanceLightNavigationBars(false);
+
+        EdgeToEdgeUtils.setupEdgeToEdgeWithActionBar(
+                this,
+                findViewById(R.id.Main),
+                CommonUtil.INSTANCE.getPriority(),
+                Boolean.FALSE
+        );
+        EdgeToEdgeUtils.fixActionBarOverlap(this, findViewById(R.id.rytParent));
 
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Attendance Report");
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");

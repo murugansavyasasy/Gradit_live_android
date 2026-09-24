@@ -54,13 +54,17 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionBarMethod(this)
+        setupEdgeToEdgeAuto(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        //optional part for (Future usage):see right now ,we don't have the actionbar so in future when it comes here we need to give the additional padding for that so that is handled here
+        if (supportActionBar != null) {
+            ActionBarMethod(this)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 
 
         accessBottomViewIcons(

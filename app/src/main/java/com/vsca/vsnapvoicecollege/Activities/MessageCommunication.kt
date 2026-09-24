@@ -304,7 +304,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     }
 
     fun departmentClick() {
-//        bottomsheetStateCollpased()
+        if (CommunicationType) return
         TabDepartmentColor()
         CommunicationType = true
         if (CommonUtil.menu_readCommunicationText == "1") {
@@ -327,7 +327,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     }
 
     fun collegeClick() {
-//        bottomsheetStateCollpased()
+        if (!CommunicationType) return
         CommunicationType = false
         if (CommonUtil.menu_readCommunicationText == "1") {
             CommunicationRequest(CommunicationType)

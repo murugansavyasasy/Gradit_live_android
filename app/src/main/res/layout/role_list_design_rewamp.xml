@@ -55,6 +55,36 @@
                 android:text="XYZ College"
                 android:textSize="13sp"
                 android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/lblCourseName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="#666666" />
+
+            <TextView
+                android:id="@+id/lblDeptName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="#666666" />
+
+
+            <TextView
+                android:id="@+id/lblYearNameAndSemester"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="#666666" />
+
+
         </LinearLayout>
 
         <ImageView

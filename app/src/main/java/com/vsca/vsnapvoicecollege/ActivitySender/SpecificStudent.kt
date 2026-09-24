@@ -82,13 +82,15 @@ class SpecificStudent : ActionBarActivity(),
         super.onCreate(savedInstanceState)
         binding = ActivitySpecificStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
 
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
 
 
         appViewModel = ViewModelProvider(this).get(App::class.java)

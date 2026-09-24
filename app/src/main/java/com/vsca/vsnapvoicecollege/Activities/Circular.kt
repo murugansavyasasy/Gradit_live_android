@@ -378,6 +378,7 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
+        if (CircularType) return
         CircularType = true
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)
@@ -386,6 +387,7 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun collegeClick() {
+        if (!CircularType) return
         CircularType = false
         if (CommonUtil.menu_readCircular.equals("1")) {
             CircularRequest(CircularType)

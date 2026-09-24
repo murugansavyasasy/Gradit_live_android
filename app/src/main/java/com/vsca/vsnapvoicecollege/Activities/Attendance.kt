@@ -134,6 +134,10 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         if (CommonUtil.AttendanceStatus.equals(CommonUtil.Reject_or_Approved)) {
 
+            // Entering directly on the Leave-History tab: keep the tab-state in sync so the
+            // re-click guard in departmentClick/collegeClick behaves correctly.
+            isAttendanceType = "LeaveHistory"
+            AttendanceScreen = "Leave_History"
             TabCollegeColor()
             binding.CommonLayout.lnrCalendar!!.visibility = View.GONE
             binding.CommonLayout.LayoutNoAttendanceData!!.visibility = View.GONE
@@ -574,6 +578,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     }
 
     fun departmentClick() {
+        if (isAttendanceType == "Attendance") return
         isAttendanceType = "Attendance"
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
                 "p2"
@@ -623,6 +628,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     }
 
     fun collegeClick() {
+        if (isAttendanceType == "LeaveHistory") return
 
         isAttendanceType = "LeaveHistory"
         binding.CommonLayout.lnrCalendar!!.visibility = View.GONE

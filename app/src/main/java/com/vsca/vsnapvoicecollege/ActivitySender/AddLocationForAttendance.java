@@ -43,6 +43,7 @@ import com.vsca.vsnapvoicecollege.Model.StaffBiometricLocationRes;
 import com.vsca.vsnapvoicecollege.R;
 import com.vsca.vsnapvoicecollege.Repository.RestClient;
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil;
+import com.vsca.vsnapvoicecollege.Utils.EdgeToEdgeUtils;
 import com.vsca.vsnapvoicecollege.Utils.GPSStatusReceiver;
 import com.vsca.vsnapvoicecollege.Utils.LocationHelper;
 
@@ -95,11 +96,13 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
         setContentView(R.layout.add_location_for_attendance);
 
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-//        insetsController.setAppearanceLightStatusBars(true);
-        insetsController.setAppearanceLightStatusBars(false);
-        insetsController.setAppearanceLightNavigationBars(false);
+        EdgeToEdgeUtils.setupEdgeToEdge(
+                this,
+                findViewById(R.id.Main),
+                findViewById(R.id.statusBarBackground),
+                CommonUtil.getPriorityValue(),
+                Boolean.FALSE
+        );
 
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");

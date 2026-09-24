@@ -135,6 +135,13 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         binding = ActivityHeaderRecipientBinding.inflate(layoutInflater)
         setContentView(binding.root)
          ActionbarWithoutBottom(this)
+
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
@@ -145,7 +152,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         SendingType = CommonUtil.College
         CommonUtil.CallEnable = "0"
         Log.d("Receipients","Receipients_screenHeader")
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)

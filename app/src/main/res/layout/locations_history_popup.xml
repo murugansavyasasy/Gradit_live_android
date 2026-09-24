@@ -3,17 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/rect_popup_white"
     android:layout_height="match_parent"
     android:id="@+id/constParent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/rect_popup_white"
-    android:orientation="vertical">
+   >
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBarBackground"
+        >
 
         <ImageView
             android:id="@+id/gifImage"
@@ -33,9 +44,19 @@
                 android:layout_marginVertical="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_alignParentStart="true"
+                    android:layout_width="@dimen/twenty"
+                    android:src="@drawable/arrow_back"
+                    android:layout_height="@dimen/twenty">
+
+                </ImageView>
 
                 <TextView
+                    android:layout_alignParentEnd="true"
                     android:id="@+id/lblTitle"
+                    android:layout_toEndOf="@+id/btnBack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Your locations"
