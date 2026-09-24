@@ -74,10 +74,11 @@ class CommunicationVoice : ActionBarActivity() {
          setupAudioPlayer()
         ActionbarWithoutBottom(this,hideBackButton = true)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
         CommonUtil.VoiceType = "0"
         CommonUtil.seleteddataArraySection.clear()

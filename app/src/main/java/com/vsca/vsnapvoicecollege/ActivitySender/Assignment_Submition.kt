@@ -51,12 +51,11 @@ class Assignment_Submition : ActionBarActivity() {
         binding = ActivityAssignmentSubmitionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
-
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()

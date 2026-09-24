@@ -2,94 +2,107 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/rytOverAll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/twenty"
-        android:layout_margin="10dp"
+        android:layout_margin="8dp"
         android:background="@drawable/bg_shadow_white"
+        android:padding="14dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Leading accent icon -->
+        <ImageView
+            android:id="@+id/imgNotifIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_circle_notification"
+            android:contentDescription="@null"
+            android:padding="7dp"
+            android:src="@drawable/ic_notification" />
+
+        <!-- Date + time, top-right -->
+        <RelativeLayout
+            android:id="@+id/rytRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/eight"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/lblDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:maxLines="1"
+                android:text="22/10/1997"
+                android:textAlignment="viewEnd"
+                android:textColor="#8B8A94"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/lblNoticeficationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblDate"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/three"
+                android:maxLines="1"
+                android:text="1.33pm"
+                android:textColor="#B0AFB8"
+                android:textSize="@dimen/ten"
+                android:textStyle="normal" />
+
+        </RelativeLayout>
+
+        <!-- Title, right of the icon -->
         <RelativeLayout
             android:id="@+id/rytUserDetails"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/seven"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="12dp"
             android:layout_marginEnd="@dimen/eight"
-            android:layout_toLeftOf="@+id/rytRole">
+            android:layout_toStartOf="@+id/rytRole"
+            android:layout_toEndOf="@+id/imgNotifIcon">
 
             <TextView
                 android:id="@+id/lblMemberName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/five"
+                android:layout_marginTop="@dimen/three"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:text="App principal"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
+                android:textColor="#0B1C30"
+                android:textSize="14sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/lblNotificationContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblMemberName"
-                android:layout_marginLeft="@dimen/five"
-                android:text=""
-                android:layout_marginTop="@dimen/five"
-                android:textColor="@color/transparent"
-                android:textSize="@dimen/twelve"
-                android:textStyle="normal" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rytRole"
-            android:layout_width="98dp"
+        <!-- Notification body, full width below the header row -->
+        <TextView
+            android:id="@+id/lblNotificationContent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/three"
-            android:layout_alignParentRight="true">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true">
-
-                <TextView
-                    android:id="@+id/lblDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="@dimen/three"
-                    android:maxLines="1"
-                    android:text="22/10/1997"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/lblNoticeficationTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblDate"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/ten"
-                    android:text="1.33pm"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/ten"
-                    android:textStyle="normal" />
-
-            </RelativeLayout>
-        </RelativeLayout>
-
+            android:layout_below="@+id/imgNotifIcon"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="3"
+            android:text=""
+            android:textColor="#6B7280"
+            android:textSize="13sp"
+            android:textStyle="normal" />
 
     </RelativeLayout>
 

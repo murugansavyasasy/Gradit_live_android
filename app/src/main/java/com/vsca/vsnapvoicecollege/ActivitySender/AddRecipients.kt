@@ -94,6 +94,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     companion object {
         lateinit var ch_all: CheckBox
         lateinit var lblEntireDepartmentlable: TextView
+        lateinit var Main: ConstraintLayout
+        lateinit var statusBarBackground: View
         lateinit var btnRecipientCancel: Button
         lateinit var btnConfirm: Button
         lateinit var layoutButton: ConstraintLayout
@@ -209,16 +211,24 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         CommonUtil.SetTheme(this)
         super.onCreate(savedInstanceState)
+
+        Main = findViewById(R.id.Main)
+        statusBarBackground = findViewById(R.id.statusBarBackground)
+
         ActionbarWithoutBottom(this)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+        fixEdgeToEdgeActionBar(
+            rootView = Main,
+            statusBarBgView = statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
 
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
 
         Log.d("Receipients","Receipients_screenAdd")
 //        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
 
 
 

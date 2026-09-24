@@ -61,15 +61,19 @@ override fun inflateBinding(): SubjectListviewBinding {
         setContentView(binding.root)
         super.onCreate(savedInstanceState)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
-
-
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         ActionBarMethod(this)
+
+        setupEdgeToEdgeAuto(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
+        if (supportActionBar != null) {
+            ActionBarMethod(this)
+            fixActionBarOverlap(binding.LayoutBottomMenus)
+        }
 //        MenuBottomType()
 
         binding.CommonLayout.imgback.setOnClickListener { onBackPressed() }

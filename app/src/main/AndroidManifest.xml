@@ -443,7 +443,7 @@
             android:name=".ActivitySender.ViewExistingLocations"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Prinipal"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ActivitySender.PunchStaffAttendanceUsingFinger"

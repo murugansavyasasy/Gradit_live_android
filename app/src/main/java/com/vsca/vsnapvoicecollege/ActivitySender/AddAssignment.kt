@@ -140,12 +140,15 @@ class AddAssignment : ActionBarActivity() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionbarWithoutBottom(this,hideBackButton=true)
+
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
         imgRefresh!!.visibility = View.GONE
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
         ScreenName = intent.getStringExtra("ScreenName")
         AssignmentTitleForward = intent.getStringExtra("AssignmentTitle")

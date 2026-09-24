@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_screen_clr"
-    android:fitsSystemWindows="true">
+ >
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- ===================== ADVERTISEMENT (do not modify - reserved for ads) ===================== -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,8 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/statusBarBackground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+       >
 
         <ImageView
             android:id="@+id/imgAdvertisement"

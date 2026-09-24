@@ -241,6 +241,9 @@ object CommonUtil {
 
     //Login details
     var Priority = ""
+    @JvmStatic
+    fun getPriorityValue(): String = Priority
+
     var Questionid = ""
     var MobileNUmber = ""
     var MemberId = 0

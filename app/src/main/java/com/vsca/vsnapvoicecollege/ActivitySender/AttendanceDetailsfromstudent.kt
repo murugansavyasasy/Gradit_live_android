@@ -40,10 +40,13 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
 
 
         binding.lblattenSunjectname!!.text=CommonUtil.AttendanceSubjectname

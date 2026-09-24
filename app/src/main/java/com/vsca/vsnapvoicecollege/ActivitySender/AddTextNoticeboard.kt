@@ -108,10 +108,12 @@ class AddTextNoticeboard: ActionBarActivity() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
         ActionbarWithoutBottom(this,hideBackButton=true)
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
-        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        fixEdgeToEdgeActionBar(
+            rootView = binding.Main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority
+        )
+
         CommonUtil.seleteddataArraySection.clear()
         imgRefresh!!.visibility = View.GONE
         binding.Nestedchildlayout!!.visibility = View.VISIBLE

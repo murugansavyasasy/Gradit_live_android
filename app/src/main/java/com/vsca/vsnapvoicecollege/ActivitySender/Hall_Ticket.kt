@@ -19,6 +19,7 @@ import com.vsca.vsnapvoicecollege.Model.HallticketResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityHallTicketBinding
@@ -47,9 +48,13 @@ class Hall_Ticket : AppCompatActivity() {
         CommonUtil.OnMenuClicks("Hallticket")
         arIndicatorView = findViewById(R.id.ar_indicator)
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
-        insetsController.isAppearanceLightNavigationBars = false
+        setupEdgeToEdge(
+            rootView = binding.main,
+            statusBarBgView = binding.statusBarBackground,
+            priority = CommonUtil.Priority,
+            lightIcons = false
+        )
+
 
         appViewModel!!.Hallticket!!.observe(this) { response ->
             if (response != null) {
