@@ -57,9 +57,28 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
 
     // Ids already counted as read locally, so re-tapping the same item never double-counts.
     private val locallyReadIds = HashSet<String>()
-override fun inflateBinding(): ActivityNoticeboardBinding {
-    return ActivityNoticeboardBinding.inflate(layoutInflater)
-}
+
+    // Single shared listener passed to the adapter. oncommunicationClick is a no-op: the adapter
+    // already owns rytRecentNotification's real click listener (expand/collapse + read status),
+    // and a View can only hold one OnClickListener, so anything attached here would just be
+    // silently discarded. onItemMarkedRead is fired by the adapter at the exact moment it marks
+    // an item read, which is what actually drives the local unread/read count bump.
+    private val communicationItemListener = object : communicationListener {
+        override fun oncommunicationClick(
+            holder: CommunicationAdapter.MyViewHolder,
+            item: GetCommunicationDetails
+        ) {
+            // Intentionally no-op — see comment above.
+        }
+
+        override fun onItemMarkedRead(item: GetCommunicationDetails) {
+            applyReadToCounts(item.msgdetailsid!!)
+        }
+    }
+
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
@@ -187,21 +206,8 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
                                 this, "Text",
-                                object : communicationListener {
-                                    override fun oncommunicationClick(
-                                        holder: CommunicationAdapter.MyViewHolder,
-                                        item: GetCommunicationDetails
-                                    ) {
-                                        holder.rytRecentNotification.setOnClickListener {
-                                            applyReadToCounts(item.msgdetailsid!!)
-                                            AppReadStatus(
-                                                this@MessageCommunication,
-                                                "sms",
-                                                item.msgdetailsid!!
-                                            )
-                                        }
-                                    }
-                                })
+                                communicationItemListener
+                            )
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
@@ -224,21 +230,8 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
                                 this, "Text",
-                                object : communicationListener {
-                                    override fun oncommunicationClick(
-                                        holder: CommunicationAdapter.MyViewHolder,
-                                        item: GetCommunicationDetails
-                                    ) {
-                                        holder.rytRecentNotification.setOnClickListener {
-                                            applyReadToCounts(item.msgdetailsid!!)
-                                            AppReadStatus(
-                                                this@MessageCommunication,
-                                                "sms",
-                                                item.msgdetailsid!!
-                                            )
-                                        }
-                                    }
-                                })
+                                communicationItemListener
+                            )
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
@@ -285,6 +278,8 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
     /**
      * When an item is opened from the Unread tab, move it from unread -> read locally so the
      * badges update immediately (the count API is only fetched once on entry). De-duped by id.
+     * Invoked from [communicationItemListener]'s onItemMarkedRead, which the adapter fires at
+     * the exact moment it marks the item read (isappread -> "1").
      */
     private fun applyReadToCounts(detailsId: String) {
         if (!CommunicationType) return
@@ -352,11 +347,10 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         if (CommonUtil.menu_readCommunicationText == "1") {
             CommunicationRequest(CommunicationType)
         }
-          TabCollegeColor()
+        TabCollegeColor()
     }
 
     private fun filter(text: String) {
-
         val filteredlist: java.util.ArrayList<GetCommunicationDetails> = java.util.ArrayList()
 
         for (item in GetCommunicationdata) {

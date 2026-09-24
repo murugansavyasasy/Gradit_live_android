@@ -99,6 +99,10 @@ class CommunicationAdapter(
     ) {
         val modal = eventlist[position]
         communicationClick = Listener
+        // Note: oncommunicationClick is now a no-op hook (kept for compatibility with any other
+        // callers of this adapter). It must NOT attach a click listener to rytRecentNotification,
+        // since the real one is set later in this method and a View can only carry one
+        // OnClickListener — whichever is set last wins, silently discarding the other.
         communicationClick?.oncommunicationClick(holder, modal)
         val isExpanded = position == mExpandedPosition
 
@@ -216,6 +220,9 @@ class CommunicationAdapter(
                     BaseActivity.AppReadStatusContext(context, Type, modal.msgdetailsid!!)
                     modal.isappread = "1"
                     holder.lblNew.visibility = View.GONE
+                    // Fired at the exact moment this item is marked read, so the Activity can
+                    // bump its local unread/read counters without an extra count API call.
+                    Listener.onItemMarkedRead(modal)
                 }
 
                 if (ScreenType.equals("Text")) {
@@ -554,6 +561,3 @@ class CommunicationAdapter(
         notifyDataSetChanged()
     }
 }
-
-
-

@@ -65,6 +65,27 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
     // Ids already counted as read locally, so re-tapping the same item never double-counts.
     private val locallyReadIds = HashSet<String>()
 
+    // The single click-behavior listener passed to the adapter. It no longer attaches its own
+    // click listener to rytRecentNotification (the adapter already owns that click listener
+    // for expand/collapse + voice playback); instead it reacts to onItemMarkedRead, which the
+    // adapter fires at the exact point it marks an item read. This is what lets us bump the
+    // read/unread counters locally, with zero extra API calls.
+    private val communicationItemListener = object : communicationListener {
+        override fun oncommunicationClick(
+            holder: CommunicationAdapter.MyViewHolder,
+            item: GetCommunicationDetails
+        ) {
+            // Intentionally no-op. The adapter's own rytRecentNotification click listener
+            // (set later in onBindViewHolder) is the one that actually fires on tap; anything
+            // set here would just be silently overwritten by it, since a View can only carry
+            // one OnClickListener at a time.
+        }
+
+        override fun onItemMarkedRead(item: GetCommunicationDetails) {
+            applyReadToCounts(item.msgdetailsid!!)
+        }
+    }
+
     override fun inflateBinding(): ActivityNoticeboardBinding {
         return ActivityNoticeboardBinding.inflate(layoutInflater)
     }
@@ -204,21 +225,8 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
                                 this, "Voice",
-                                object : communicationListener {
-                                    override fun oncommunicationClick(
-                                        holder: CommunicationAdapter.MyViewHolder,
-                                        item: GetCommunicationDetails
-                                    ) {
-                                        holder.rytRecentNotification.setOnClickListener {
-                                            applyReadToCounts(item.msgdetailsid!!)
-                                            AppReadStatus(
-                                                this@Communication,
-                                                "sms",
-                                                item.msgdetailsid!!
-                                            )
-                                        }
-                                    }
-                                })
+                                communicationItemListener
+                            )
 
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
@@ -246,18 +254,8 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
                             communicationAdapter = CommunicationAdapter(
                                 GetCommunicationdata,
                                 this, "Voice",
-                                object : communicationListener {
-                                    override fun oncommunicationClick(
-                                        holder: CommunicationAdapter.MyViewHolder,
-                                        item: GetCommunicationDetails
-                                    ) {
-                                        holder.rytRecentNotification.setOnClickListener {
-                                            AppReadStatus(
-                                                this@Communication, "sms", item.msgdetailsid!!
-                                            )
-                                        }
-                                    }
-                                })
+                                communicationItemListener
+                            )
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
@@ -326,6 +324,10 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
     /**
      * When an item is opened from the Unread tab, move it from unread -> read locally so the
      * badges update immediately (the count API is only fetched once on entry). De-duped by id.
+     * Invoked from [communicationItemListener]'s onItemMarkedRead, which the adapter fires at
+     * the exact moment it marks the item read (isappread -> "1"), not from a separate click
+     * listener on the row (a View can only have one OnClickListener, and the adapter already
+     * owns rytRecentNotification's for expand/collapse + voice playback).
      */
     private fun applyReadToCounts(detailsId: String) {
         if (!CommunicationType) return
