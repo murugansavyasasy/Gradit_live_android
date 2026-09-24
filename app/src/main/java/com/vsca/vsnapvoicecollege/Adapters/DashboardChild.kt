@@ -199,11 +199,20 @@ class DashboardChild(
 
         holder.resetViews()
 
-        if (type == "Emergency Notification") {
-            val screenWidth = holder.itemView.context.resources.displayMetrics.widthPixels
-            holder.itemView.layoutParams.width = (screenWidth * 0.90f).toInt()
-        } else {
-            holder.itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+        when (type) {
+            "Emergency Notification" -> {
+                val screenWidth = holder.itemView.context.resources.displayMetrics.widthPixels
+                holder.itemView.layoutParams.width = (screenWidth * 0.90f).toInt()
+            }
+            // Vertically-stacked lists should fill the row width.
+            "Ad", "Attendance", "Recent Notifications" -> {
+                holder.itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+            // Horizontally-scrolling cards must size to their content, otherwise each
+            // item takes the full screen width and only one card is visible at a time.
+            else -> {
+                holder.itemView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            }
         }
 
         when (type) {

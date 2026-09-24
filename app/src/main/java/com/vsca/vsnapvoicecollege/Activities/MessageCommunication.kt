@@ -54,6 +54,9 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
     private var isFirstLoad = true
     private var initialLoader: ProgressDialog? = null
     private var pendingInitialApiCount = 0
+
+    // Ids already counted as read locally, so re-tapping the same item never double-counts.
+    private val locallyReadIds = HashSet<String>()
 override fun inflateBinding(): ActivityNoticeboardBinding {
     return ActivityNoticeboardBinding.inflate(layoutInflater)
 }
@@ -190,6 +193,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                                         item: GetCommunicationDetails
                                     ) {
                                         holder.rytRecentNotification.setOnClickListener {
+                                            applyReadToCounts(item.msgdetailsid!!)
                                             AppReadStatus(
                                                 this@MessageCommunication,
                                                 "sms",
@@ -226,6 +230,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                                         item: GetCommunicationDetails
                                     ) {
                                         holder.rytRecentNotification.setOnClickListener {
+                                            applyReadToCounts(item.msgdetailsid!!)
                                             AppReadStatus(
                                                 this@MessageCommunication,
                                                 "sms",
@@ -275,6 +280,21 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             }
         })
 
+    }
+
+    /**
+     * When an item is opened from the Unread tab, move it from unread -> read locally so the
+     * badges update immediately (the count API is only fetched once on entry). De-duped by id.
+     */
+    private fun applyReadToCounts(detailsId: String) {
+        if (!CommunicationType) return
+        if (!locallyReadIds.add(detailsId)) return
+        val unread = unreadcount?.toIntOrNull() ?: 0
+        if (unread <= 0) return
+        val read = readcount?.toIntOrNull() ?: 0
+        unreadcount = (unread - 1).toString()
+        readcount = (read + 1).toString()
+        CountValueSet()
     }
 
     private fun CountValueSet() {
