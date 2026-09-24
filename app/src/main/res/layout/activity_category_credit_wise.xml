@@ -28,6 +28,7 @@
         <ImageView
             android:id="@+id/imgheaderBack"
             android:layout_width="@dimen/twenty_three"
+            app:tint="@color/white"
             android:layout_height="@dimen/twenty_three"
             android:layout_marginStart="@dimen/eight"
             android:src="@drawable/ic_arrow_back"
@@ -43,7 +44,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/txt_category_credit_points"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/sixteen"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"

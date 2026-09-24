@@ -1,9 +1,19 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,10 +44,14 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
         appviewModel = ViewModelProvider(this)[App::class.java]
         appviewModel!!.init()
 
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = true
-        insetsController.isAppearanceLightNavigationBars = true
+//        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+//        insetsController.isAppearanceLightStatusBars = true
+//        insetsController.isAppearanceLightNavigationBars = true
 
+        isToolBarPrimaryTheme1(
+            mainViewId = R.id.main,
+            statusBarBgView = binding.statusBarBackground
+        )
 
         binding.btnLogout.setOnClickListener {
             logoutClick()
@@ -134,5 +148,61 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
 
     fun logoutClick() {
         BaseActivity.LogoutAlert(getString(R.string.txt_logout_alert), 0, this@LoginRolesRewamp)
+    }
+    fun isToolBarPrimaryTheme1(
+        mainViewId: Int,
+        statusBarBgView: View
+    ) {
+        enableEdgeToEdge()
+
+        val mainView = findViewById<View>(mainViewId)
+
+        // White status bar icons (unchanged)
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = true
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
+
+            statusBarBgView.updateLayoutParams {
+                height = systemBars.top
+            }
+
+            view.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
+
+            insets
+        }
+
+        // White status bar background
+        statusBarBgView.setBackgroundColor(Color.WHITE)
+
+        window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            )
+
+            window.clearFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            )
+
+            window.statusBarColor = Color.TRANSPARENT
+
+            window.navigationBarColor =
+                resources.getColor(R.color.white, theme)
+        }
     }
 }

@@ -18,7 +18,6 @@
         android:id="@+id/rlaEditAcademicHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_shadow_white"
         android:padding="@dimen/twenty"
         app:layout_constraintTop_toBottomOf="@id/statusBarBackground"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +27,7 @@
             android:id="@+id/imgback"
             android:layout_width="@dimen/thirty"
             android:layout_height="@dimen/thirty"
+            app:tint="@color/white"
             android:layout_centerVertical="true"
             android:src="@drawable/arrow_back" />
 
@@ -40,7 +40,7 @@
             android:layout_toEndOf="@id/imgback"
             android:fontFamily="@font/poppins_regular"
             android:text="Edit Academic Records"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/eighteen_sp" />
 
     </RelativeLayout>

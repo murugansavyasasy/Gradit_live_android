@@ -28,6 +28,7 @@ import com.vsca.vsnapvoicecollege.Model.InternshipFormattedData
 import com.vsca.vsnapvoicecollege.Model.ResumeContextData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.fullResumeData
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityBuildmyresumeBinding
@@ -78,6 +79,8 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.lblBuildMyResumeHeader)
         }
+        binding.lblBuildMyResumeHeader.applyPriorityColor(this, CommonUtil.Priority)
+
 
 
         languageAdapter = SkillSetAdapter(languageList) {}

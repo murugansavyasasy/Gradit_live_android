@@ -68,9 +68,9 @@ class LoginRewamp : AppCompatActivity() {
 
         binding.txtForgetpassword!!.setOnClickListener {
 
-            val mobileNumber = binding.phoneNumberEdt.text?.toString()?.trim()
+            MobileNumber = binding.phoneNumberEdt.text?.toString()?.trim()
 
-            if (mobileNumber.isNullOrEmpty() || mobileNumber.length != mobileLength) {
+            if (MobileNumber.isNullOrEmpty() || MobileNumber?.length != mobileLength) {
 
                 CommonUtil.CustomApiAlert(
                     this@LoginRewamp,
@@ -153,6 +153,7 @@ class LoginRewamp : AppCompatActivity() {
 
                     // Assign API response
                     CommonUtil.ivrnumbers = response.data[0].ivrnumbers
+                    CommonUtil.MobileNUmber=MobileNumber?:""
 
                     Log.d("IVR", "Size: ${CommonUtil.ivrnumbers.size}")
                     CommonUtil.ivrnumbers.forEachIndexed { index, number ->

@@ -54,6 +54,7 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeTitleData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
@@ -99,6 +100,8 @@ class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>(){
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.rlaHeader)
         }
+
+        binding.rlaHeader.applyPriorityColor(this, CommonUtil.Priority)
 
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()

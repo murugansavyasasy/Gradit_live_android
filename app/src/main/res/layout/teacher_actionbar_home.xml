@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:id="@+id/LayoutHeader"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -12,14 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:padding="4dp"
+        app:tint="@color/white"
         app:srcCompat="@drawable/ic_arrow_back" />
+
     <TextView
         android:id="@+id/actBar_acTitle"
-        style="@style/Teacher_actionbar_title"
+        style="@style/Teacher_actionbar_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
+        android:textColor="@color/white"
         android:layout_toEndOf="@+id/actBarDate_ivBack"
         android:text=""
          />
@@ -32,6 +35,7 @@
         android:layout_alignBaseline="@+id/actBar_acTitle"
         android:layout_alignBottom="@+id/actBar_acTitle"
         android:layout_centerVertical="true"
+        android:textColor="@color/white"
         android:layout_toEndOf="@+id/actBar_acTitle"
         android:layout_toRightOf="@+id/actBar_acTitle"
         android:text="" />

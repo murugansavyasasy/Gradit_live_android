@@ -18,6 +18,7 @@ import com.vsca.vsnapvoicecollege.Model.*
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivitySemesterCreditTableBinding
@@ -68,6 +69,8 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
             ActionBarMethod(this, true)
             fixActionBarOverlap(binding.LayoutHeader)
         }
+        binding.LayoutHeader.applyPriorityColor(this, CommonUtil.Priority)
+
 
         if (CommonUtil.menu_readSemCreditPoints.equals("1")) {
             SemesterType()

@@ -29,6 +29,7 @@
         <ImageView
             android:id="@+id/imgheaderBack"
             android:layout_width="@dimen/twenty_three"
+            app:tint="@color/white"
             android:layout_height="@dimen/twenty_three"
             android:layout_marginStart="@dimen/fifteen"
             android:src="@drawable/ic_arrow_back"
@@ -43,9 +44,9 @@
             android:layout_marginStart="@dimen/fifteen"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textColor="@color/white"
             android:fontFamily="@font/poppins_medium"
             android:text="Placement Events"
-            android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"

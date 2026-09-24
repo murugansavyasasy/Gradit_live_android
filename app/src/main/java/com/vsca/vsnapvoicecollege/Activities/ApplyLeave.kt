@@ -28,6 +28,7 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.SetTheme
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
@@ -74,6 +75,7 @@ class ApplyLeave : ActionBarActivity() {
             statusBarBgView = binding.statusBarBackground,
             priority = CommonUtil.Priority
         )
+        binding.LayoutHeadernotice.applyPriorityColor(this, CommonUtil.Priority)
 
         imgRefresh!!.visibility = View.GONE
 

@@ -27,6 +27,7 @@ import com.vsca.vsnapvoicecollege.Model.CommonFileData
 import com.vsca.vsnapvoicecollege.Model.FileType
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.databinding.FilePreviewActivityBinding
 import kotlinx.coroutines.CoroutineScope
@@ -65,6 +66,9 @@ class FilesViewActivity : AppCompatActivity()  {
             priority = CommonUtil.Priority,
             lightIcons = false
         )
+
+        binding.rytHeader.applyPriorityColor(this, CommonUtil.Priority)
+
 
         binding.imgBack!!.setOnClickListener {
             onBackPressed()

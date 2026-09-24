@@ -33,6 +33,7 @@
             <ImageView
                 android:id="@+id/img_back"
                 android:layout_width="40dp"
+                app:tint="@color/white"
                 android:layout_height="40dp"
                 android:layout_marginTop="@dimen/ten"
                 android:src="@drawable/ic_arrow_back"></ImageView>
@@ -45,7 +46,7 @@
                 android:layout_marginTop="@dimen/ten"
                 android:textStyle="bold"
                 android:textSize="@dimen/fifteen"
-                android:textColor="@color/clr_principal"
+                android:textColor="@color/white"
                 android:layout_toRightOf="@+id/img_back"
                 android:text="">
 
@@ -58,7 +59,7 @@
                 android:layout_marginLeft="@dimen/twenty"
                 android:textSize="@dimen/twelve"
                 android:layout_marginTop="@dimen/ten"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_below="@+id/lblatten_staffname"
                 android:layout_toRightOf="@+id/img_back"
                 android:text="">

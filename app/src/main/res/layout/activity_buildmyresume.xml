@@ -21,7 +21,6 @@
         android:id="@+id/lblBuildMyResumeHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_shadow_white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/twenty">
@@ -30,6 +29,8 @@
             android:id="@+id/imgback"
             android:layout_width="@dimen/thirty"
             android:layout_height="@dimen/thirty"
+            app:tint="@color/white"
+
             android:src="@drawable/arrow_back"
             tools:ignore="ContentDescription" />
 
@@ -41,7 +42,7 @@
             android:layout_marginStart="@dimen/ten"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/build_my_resume"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/eighteen_sp" />
     </LinearLayout>
 
