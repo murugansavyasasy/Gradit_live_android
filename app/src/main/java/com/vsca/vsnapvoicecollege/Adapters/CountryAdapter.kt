@@ -73,6 +73,9 @@ class CountryAdapter(
 
         val isSelected = selectedCountryId == country.countryid
 
+        // Drives the row's selected-state background (ripple + violet highlight).
+        holder.itemView.isSelected = isSelected
+
         holder.imgSelected.setImageResource(
             if (isSelected) {
                 R.drawable.green_tick_icon
