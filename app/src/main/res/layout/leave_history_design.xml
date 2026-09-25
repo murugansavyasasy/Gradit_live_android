@@ -3,263 +3,232 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
-    android:layout_marginStart="@dimen/fifteen"
-    android:layout_marginTop="@dimen/ten"
-    android:layout_marginEnd="@dimen/fifteen">
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="4dp"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/lnrNoticeboardd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/two"
         android:background="@drawable/bg_shadow_white"
         android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="16dp">
 
-        <RelativeLayout
-            android:id="@+id/rytLeaveHistory"
+        <!-- ===== Header: created date + status ===== -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/three">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/lnrCreatedDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five"
-                android:layout_alignParentTop="true"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imgCalender"
-                    android:layout_width="@dimen/twenty_three"
-                    android:layout_height="@dimen/twenty_three"
-                    android:layout_gravity="left"
-                    android:layout_marginRight="@dimen/five"
-                    android:src="@drawable/ic_calendar" />
-
-                <TextView
-                    android:id="@+id/lblLeaveCreatedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/two"
-                    android:layout_marginEnd="@dimen/twenty"
-                    android:layout_toLeftOf="@+id/lblNoticeboardDate"
-                    android:layout_toRightOf="@id/Viewlineone"
-                    android:padding="@dimen/two"
-                    android:text="24th May 2021"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/thirteen"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/lblleaveStatus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:padding="@dimen/three"
-                    android:text="Waiting for approval"
-                    android:textColor="@color/clr_dark_blue"
-                    android:textSize="@dimen/twelve" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/ViewlineTwo"
-                android:layout_width="@dimen/one_ten"
-                android:layout_height="@dimen/one"
-                android:layout_below="@+id/lnrCreatedDate"
-                android:layout_alignParentRight="true"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/five"
-                android:background="@color/grey_screen_clr"></View>
-
-            <View
-                android:id="@+id/Viewlineone"
-                android:layout_width="@dimen/two"
-                android:layout_height="@dimen/fifteen"
-                android:layout_below="@+id/ViewlineTwo"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/ten"
-                android:background="@color/clr_dark_blue"></View>
+            <ImageView
+                android:id="@+id/imgCalender"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintBottom_toBottomOf="@+id/lblLeaveCreatedDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lblLeaveCreatedDate" />
 
             <TextView
-                android:id="@+id/lblLeaveType"
+                android:id="@+id/lblLeaveCreatedDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ViewlineTwo"
-                android:layout_marginStart="@dimen/five"
-                android:layout_marginTop="@dimen/seven"
-                android:layout_marginEnd="@dimen/twenty"
-                android:layout_toRightOf="@id/Viewlineone"
-                android:padding="@dimen/two"
-                android:text="Emeregency"
+                android:layout_marginStart="8dp"
+                android:text="24th May 2021"
+                android:textColor="@color/clr_header_black"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgCalender"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/lblleaveStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_status_pending"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="5dp"
+                android:text="Waiting for approval"
+                android:textColor="@color/btn_clr_blue"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/lblLeaveCreatedDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lblLeaveCreatedDate" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/whitegrey" />
+
+        <!-- ===== Leave type ===== -->
+        <TextView
+            android:id="@+id/lblLeaveType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Emergency"
+            android:textColor="@color/clr_header_black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- ===== From / To dates ===== -->
+        <LinearLayout
+            android:id="@+id/lnrFromToDates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_from"
+                android:textColor="@color/clr_light_black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/lblFromDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rectangle_white"
+                android:backgroundTint="@color/clr_bg_sentby"
+                android:padding="6dp"
+                android:text="27 May 2010"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/lblTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/txt_to"
+                android:textColor="@color/clr_light_black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/lblToDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rectangle_white"
+                android:backgroundTint="@color/clr_bg_sentby"
+                android:padding="6dp"
+                android:text="27 May 2010"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ===== No. of days ===== -->
+        <LinearLayout
+            android:id="@+id/lnrNo_of_Days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblnoDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No.of days :"
+                android:textColor="@color/clr_light_black"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/lnrNo_of_Days"
+            <TextView
+                android:id="@+id/lblLeaveNoOfDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/seven"
-                android:layout_alignParentRight="true"
-                android:orientation="horizontal"
-                android:padding="@dimen/three"
-                android:layout_below="@+id/ViewlineTwo"
-                android:visibility="visible">
+                android:layout_marginStart="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="1"
+                android:textColor="@color/clr_light_black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/lblnoDays"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_marginEnd="@dimen/two"
-                    android:text="No.of days :"
-                    android:textColor="@color/clr_light_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="bold" />
+        <!-- ===== Reason (always visible) ===== -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/whitegrey" />
 
-                <TextView
-                    android:id="@+id/lblLeaveNoOfDays"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_marginEnd="@dimen/two"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text=""
-                    android:textColor="@color/clr_light_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="bold" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/lblLeaveReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textColor="@color/clr_black"
+            android:textSize="12sp" />
 
-
-            <LinearLayout
-                android:id="@+id/lnrFromToDates"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/three"
-                android:orientation="horizontal"
-                android:padding="@dimen/three"
-                android:layout_marginTop="@dimen/ten"
-                android:layout_below="@+id/lblLeaveType"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/lblFrom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_marginEnd="@dimen/two"
-                    android:text="@string/txt_from"
-                    android:textColor="@color/clr_light_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/lblFromDate"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:background="@drawable/bg_rectangle_white"
-                    android:backgroundTint="@color/clr_bg_sentby"
-                    android:padding="@dimen/five"
-                    android:textAlignment="center"
-                    android:text="27 May 2010"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/twelve" />
-
-                <TextView
-                    android:id="@+id/lblTo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/eight"
-                    android:layout_marginEnd="@dimen/two"
-                    android:text="@string/txt_to"
-                    android:textColor="@color/clr_light_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/lblToDate"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:background="@drawable/bg_rectangle_white"
-                    android:backgroundTint="@color/clr_bg_sentby"
-                    android:padding="@dimen/five"
-                    android:textAlignment="center"
-                    android:text="27 May 2010"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/twelve" />
-            </LinearLayout>
-        </RelativeLayout>
-
+        <!-- ===== Expandable: edit/delete ===== -->
         <RelativeLayout
             android:id="@+id/rytLeaveDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/three"
-            android:layout_marginBottom="@dimen/ten"
-            android:orientation="vertical"
+            android:layout_marginTop="12dp"
             android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/lnrRecentPostedby"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/ten"
-                android:layout_marginBottom="@dimen/ten"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/lblLeaveReason"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:text=""
-                    android:textColor="@color/clr_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/lnrLeaveActions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lnrRecentPostedby"
-                android:layout_alignParentRight="true">
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/lblEditleave"
-                    android:layout_width="70dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
                     android:background="@drawable/bg_logout_blue"
-                    android:padding="@dimen/five"
-                    android:textAlignment="center"
+                    android:minWidth="80dp"
+                    android:paddingStart="14dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/txt_edit"
+                    android:textAlignment="center"
                     android:textColor="@color/clr_sky_blue"
-                    android:textSize="@dimen/twelve" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/lblDelete"
-                    android:layout_width="75dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
-                    android:backgroundTint="@color/clr_bgred"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/bg_rectangle_white"
-                    android:padding="@dimen/five"
+                    android:backgroundTint="@color/clr_bgred"
+                    android:minWidth="80dp"
+                    android:paddingStart="14dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/txt_Delete"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/twelve" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
