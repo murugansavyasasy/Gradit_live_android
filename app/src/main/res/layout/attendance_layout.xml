@@ -22,7 +22,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/LayoutAdvertisement"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
 
                 <ImageView
                     android:id="@+id/imgAdvertisement"
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/hundred"
                     android:layout_marginEnd="@dimen/ten"
                     android:scaleType="fitXY"

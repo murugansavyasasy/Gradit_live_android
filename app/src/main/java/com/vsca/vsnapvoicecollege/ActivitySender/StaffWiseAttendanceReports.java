@@ -3,6 +3,8 @@ package com.vsca.vsnapvoicecollege.ActivitySender;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -77,29 +80,37 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            CommonUtil.INSTANCE.SetTheme(this, true);
+        } catch (Exception e) {
+            Log.e("StaffAttendance", "Failed to apply theme", e);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.staff_wise_attendance_reports);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
-        EdgeToEdgeUtils.setupEdgeToEdgeWithActionBar(
-                this,
-                findViewById(R.id.Main),
-                CommonUtil.INSTANCE.getPriority(),
-                Boolean.FALSE
-        );
-        EdgeToEdgeUtils.fixActionBarOverlap(this, findViewById(R.id.rytParent));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Attendance Report");
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
-        ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        TextView title = findViewById(R.id.actBar_acTitle);
+        TextView subTitle = findViewById(R.id.actBar_acSubTitle);
+        ImageView backButton = findViewById(R.id.actBarDate_ivBack);
+
+        title.setText("Attendance Report");
+        subTitle.setText("");
+        backButton.setOnClickListener(v -> onBackPressed());
+
+        View layoutHeader = findViewById(R.id.incHeaderLyt);
+
+        if (layoutHeader == null) {
+            Log.e("PriorityDebug", "incHeaderLyt not found in staff_wise_attendance_reports.xml's inflated tree");
+        } else {
+            applyPriorityColor(layoutHeader, this, CommonUtil.INSTANCE.getPriority(), null);
+        }
 
         btnTodaysReport = (TextView) findViewById(R.id.btnTodaysReport);
+        btnMonthWiseReports = (TextView) findViewById(R.id.btnMonthWiseReports);
         btnMonthWiseReports = (TextView) findViewById(R.id.btnMonthWiseReports);
         lblNoRecords = (TextView) findViewById(R.id.lblNoRecords);
         recycleReports = (RecyclerView) findViewById(R.id.recycleReports);
@@ -118,6 +129,15 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
 
         rytStaffSpinner.setVisibility(View.GONE);
         lnrDatesSpinners.setVisibility(View.GONE);
+
+        EdgeToEdgeUtils.setupEdgeToEdge(
+                this,
+                findViewById(R.id.Main),
+                findViewById(R.id.statusBarBackground),
+                CommonUtil.INSTANCE.getPriority(),
+                Boolean.FALSE   // white icons, matches old behaviour
+        );
+
         getStaffWiseAttendanceReports();
 
         txtSearch.addTextChangedListener(new TextWatcher() {
@@ -149,6 +169,75 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
             }
         });
 
+    }
+
+    private void applyPriorityColor(
+            View view,
+            Context context,
+            String priority,
+            Integer drawableRes
+    ) {
+        int colorRes;
+
+        if ("p1".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_principal;
+        } else if ("p2".equalsIgnoreCase(priority)
+                || "p3".equalsIgnoreCase(priority)
+                || "p6".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_teachingstaff;
+        } else if ("p4".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_receiver;
+        } else if ("p5".equalsIgnoreCase(priority)) {
+            colorRes = R.color.clr_parent;
+        } else if ("p7".equalsIgnoreCase(priority)) {
+            colorRes = R.color.cle_lightorang;
+        } else {
+            colorRes = R.color.black;
+        }
+
+        int color = ContextCompat.getColor(context, colorRes);
+
+        Drawable drawable;
+
+        if (drawableRes != null) {
+            drawable = ContextCompat.getDrawable(context, drawableRes);
+        } else {
+            drawable = view.getBackground();
+        }
+
+        // No drawable -> directly set color
+        if (drawable == null) {
+            view.setBackgroundColor(color);
+            return;
+        }
+
+        Drawable mutableDrawable = drawable.mutate();
+
+        if (mutableDrawable instanceof LayerDrawable) {
+
+            // Keep shadow layers unchanged.
+            // Only change the last/background layer.
+            LayerDrawable layerDrawable = (LayerDrawable) mutableDrawable;
+
+            Drawable backgroundLayer = layerDrawable.getDrawable(
+                    layerDrawable.getNumberOfLayers() - 1
+            );
+
+            DrawableCompat.setTint(
+                    DrawableCompat.wrap(backgroundLayer).mutate(),
+                    color
+            );
+
+        } else {
+
+            // Normal drawable
+            DrawableCompat.setTint(
+                    DrawableCompat.wrap(mutableDrawable),
+                    color
+            );
+        }
+
+        view.setBackground(mutableDrawable);
     }
 
     private void filterlist(String s) {

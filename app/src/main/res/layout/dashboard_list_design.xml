@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constHeader"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/constHeader"
-    android:backgroundTint="@color/light_blue"
-    android:fitsSystemWindows="true">
+    android:backgroundTint="@color/light_blue">
 
     <TextView
         android:id="@+id/lblNoDataFound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/eight"
         android:layout_marginStart="@dimen/two"
         android:layout_marginTop="@dimen/three"
         android:layout_marginEnd="20dp"
@@ -22,7 +22,6 @@
         android:textColor="@color/clr_text_color"
         android:textSize="@dimen/twelve"
         android:textStyle="normal"
-        android:layout_margin="@dimen/eight"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,10 +34,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:layout_margin="@dimen/eight"
             android:id="@+id/lnrImageView"
             android:layout_width="150dp"
             android:layout_height="200dp"
+            android:layout_margin="@dimen/eight"
             android:layout_marginTop="@dimen/two"
             android:layout_marginEnd="@dimen/eight"
             android:visibility="gone"
@@ -171,9 +170,9 @@
             android:id="@+id/LayoutAdvertisement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_margin="@dimen/eight"
             android:layout_marginTop="@dimen/two"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -208,10 +207,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutCicular"
-            android:layout_margin="@dimen/eight"
-            android:layout_marginTop="@dimen/two"
             android:layout_width="@dimen/two_hunderd"
             android:layout_height="@dimen/one_thirty"
+            android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -349,13 +348,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
-                android:background="@drawable/bg_dashboard_card_white"
-                android:padding="@dimen/ten"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_dashboard_card_white"
                 android:orientation="vertical"
-                >
+                android:padding="@dimen/ten">
 
                 <RelativeLayout
                     android:id="@+id/rytEmgVoice"
@@ -363,13 +362,14 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:layout_centerVertical="true"
-                        android:orientation="vertical"
-                        android:layout_toEndOf="@+id/lnrHeaderDetails"
-                        android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/lnrHeaderDetails"
                         android:gravity="end"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/lblVoiceDate"
                             android:layout_width="wrap_content"
@@ -382,8 +382,8 @@
                             android:id="@+id/lblVoiceTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
                             android:alpha="0.7"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="@dimen/twelve_sp"
                             android:visibility="visible" />
@@ -394,42 +394,41 @@
                         android:id="@+id/imgEmgLogo"
                         android:layout_width="@dimen/thirty"
                         android:layout_height="@dimen/thirty"
-                        android:layout_centerVertical="true"
-                        android:padding="@dimen/five"
                         android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/twelve"
                         android:background="@drawable/circle_menu_background"
+                        android:padding="@dimen/five"
                         android:src="@drawable/microphone_icon_new_3" />
 
                     <LinearLayout
-                        android:layout_marginHorizontal="@dimen/five"
                         android:id="@+id/lnrHeaderDetails"
-                        android:layout_toEndOf="@+id/imgEmgLogo"
-                        android:layout_marginLeft="@dimen/three"
                         android:layout_width="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/five"
+                        android:layout_marginLeft="@dimen/three"
+                        android:layout_toEndOf="@+id/imgEmgLogo"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_light_red_rounded"
                             android:paddingHorizontal="@dimen/five"
                             android:paddingVertical="@dimen/two"
-                            android:textColor="@color/clear_red"
                             android:text="emergency"
-                            android:textSize="@dimen/twelve_sp"
-                            android:background="@drawable/bg_light_red_rounded"
-                            android:layout_height="wrap_content">
+                            android:textColor="@color/clear_red"
+                            android:textSize="@dimen/twelve_sp">
 
                         </TextView>
 
 
                         <LinearLayout
-                            android:layout_marginTop="@dimen/five"
                             android:id="@+id/lnrPostedby"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/ten"
-                            >
+                            android:layout_marginTop="@dimen/five"
+                            android:layout_marginRight="@dimen/ten">
 
                             <TextView
                                 android:id="@+id/lblPostby"
@@ -437,8 +436,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Posted by : "
                                 android:textColor="@color/clr_black"
-                                android:textSize="12dp"
-                                />
+                                android:textSize="12dp" />
 
                             <TextView
                                 android:id="@+id/lblPostedBy"
@@ -456,10 +454,10 @@
                     android:id="@+id/lblVoicetitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/one"
-                    android:text=""
                     android:layout_marginHorizontal="@dimen/three"
                     android:layout_marginVertical="@dimen/ten"
+                    android:padding="@dimen/one"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/twelve"
                     android:textStyle="bold" />
@@ -469,18 +467,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/three"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
 
                     <RelativeLayout
-                        android:background="@drawable/bg_emergency_voice_white_2"
                         android:id="@+id/rytSeekbarlayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/five"
                         android:layout_marginEnd="@dimen/five"
                         android:layout_marginBottom="@dimen/five"
+                        android:background="@drawable/bg_emergency_voice_white_2"
                         android:visibility="gone">
 
                         <ImageView
@@ -543,15 +540,14 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <LinearLayout
-            android:layout_margin="@dimen/eight"
             android:id="@+id/lnrRecentNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_dashboard_card_white"
+            android:layout_margin="@dimen/eight"
             android:layout_marginTop="@dimen/two"
             android:layout_marginRight="@dimen/two"
+            android:background="@drawable/bg_dashboard_card_white"
             android:orientation="vertical"
             android:padding="@dimen/one"
             android:visibility="gone"
@@ -796,10 +792,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/UpcomingEvent"
-            android:layout_margin="@dimen/eight"
-            android:layout_marginTop="@dimen/two"
             android:layout_width="@dimen/two_hunderd"
             android:layout_height="@dimen/one_thirty"
+            android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -895,11 +891,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Assignment"
-            android:layout_margin="@dimen/eight"
-            android:layout_marginTop="@dimen/two"
-
             android:layout_width="250dp"
             android:layout_height="180dp"
+
+            android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -1083,13 +1079,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
-            android:layout_margin="@dimen/eight"
-            android:layout_marginTop="@dimen/two"
             android:id="@+id/lnrNoticeboardd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_dashboard_card_white"
             android:layout_marginRight="@dimen/two"
+            android:background="@drawable/bg_shadow_white"
             android:orientation="vertical"
             android:padding="@dimen/eight"
             android:visibility="gone"
@@ -1208,11 +1202,11 @@
 
 
         <RelativeLayout
-            android:layout_margin="@dimen/eight"
-            android:layout_marginTop="@dimen/two"
             android:id="@+id/Leave_Request_dashboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -1561,13 +1555,13 @@
 
 
         <RelativeLayout
-            android:layout_margin="@dimen/eight"
-            android:layout_marginTop="@dimen/two"
             android:id="@+id/lnrattendance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_card_attendance"
+            android:layout_margin="@dimen/eight"
+            android:layout_marginTop="@dimen/two"
             android:layout_marginRight="@dimen/two"
+            android:background="@drawable/bg_card_attendance"
             android:orientation="vertical"
             android:paddingStart="@dimen/eight"
             android:paddingTop="@dimen/two"

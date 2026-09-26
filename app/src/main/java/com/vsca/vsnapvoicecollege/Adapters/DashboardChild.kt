@@ -423,14 +423,16 @@ class DashboardChild(
             launch(Assignment::class.java)
         }
     }
-
-    private fun bindNoticeBoard(holder: ViewHolder, modal: DashboardSubItems) {
+        private fun bindNoticeBoard(holder: ViewHolder, modal: DashboardSubItems) {
         holder.lnrImageView.visibility = View.VISIBLE
         holder.lblNoiceboardTitle.text = modal.menuTitle
         holder.lblNoticeDescription.text = modal.menuDescription
         holder.lblCreateTime.text = modal.createTime
         holder.lblNotiCreateDate.text = modal.createDate
-        holder.rytNoticeboard.setBackgroundResource(R.drawable.bg_card_noticeboard)
+        holder.rytNoticeboard.setBackgroundResource(
+            if (holder.bindingAdapterPosition % 2 == 0) R.drawable.noticeboard_blue
+            else R.drawable.noticeboard_yellow
+        )
 
         CommonUtil.MenuIDNoticeboard = BaseActivity.NoticeboardMenuID
         holder.lnrImageView.setOnClickListener {
