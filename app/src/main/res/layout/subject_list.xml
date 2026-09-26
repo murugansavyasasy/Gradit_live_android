@@ -3,178 +3,172 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/bg_shadow_white">
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/bg_shadow_white"
+    android:fitsSystemWindows="true">
 
-
+    <!-- ===== Card header + summary (click to expand) ===== -->
     <RelativeLayout
         android:id="@+id/examlist_constrine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fifteen"
+        android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:id="@+id/relativeExam"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!-- Date / session group (top-right) -->
+        <LinearLayout
+            android:id="@+id/lnrExamDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txt_financeandaccounding"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ten"
-                android:layout_marginTop="@dimen/eight"
-                android:layout_toLeftOf="@+id/img_calender"
-                android:text="NameoftheExam"
-                android:textColor="@color/black">
-
-            </TextView>
-
-
-            <TextView
-                android:id="@+id/txt_fn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/eight"
-                android:layout_marginRight="@dimen/twenty"
-                android:text="FN"
-                android:textColor="@color/black"
-
-                ></TextView>
-
-            <View
-                android:id="@+id/view3"
-                android:layout_width="1dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="@dimen/five"
-                android:layout_marginRight="@dimen/five"
-                android:layout_toLeftOf="@+id/txt_fn"
-                android:background="@color/black"
-
-                ></View>
+            <ImageView
+                android:id="@+id/img_calender"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_calendar" />
 
             <TextView
                 android:id="@+id/txt_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/eight"
-                android:layout_marginRight="@dimen/five"
-                android:layout_toLeftOf="@+id/view3"
-                android:text="08/05/3099 "
-                android:textColor="@color/black"
+                android:layout_marginStart="5dp"
+                android:text="08/05/3099"
+                android:textColor="@color/clr_light_black"
+                android:textSize="12sp" />
 
-                ></TextView>
+            <View
+                android:id="@+id/view3"
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/light_gray" />
 
-            <ImageView
-                android:id="@+id/img_calender"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="@dimen/eight"
-                android:layout_marginRight="@dimen/five"
-                android:layout_toLeftOf="@+id/txt_date"
-                android:src="@drawable/ic_calendar"></ImageView>
+            <TextView
+                android:id="@+id/txt_fn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FN"
+                android:textColor="@color/clr_light_black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        </RelativeLayout>
+        <!-- Exam name (top-left) -->
+        <TextView
+            android:id="@+id/txt_financeandaccounding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/lnrExamDate"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="NameoftheExam"
+            android:textColor="@color/light_gray"
+            android:textSize="12sp" />
 
+        <!-- Divider -->
         <View
             android:id="@+id/view"
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/relativeExam"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/five"
-            android:background="@color/whitegrey"
-            app:layout_constraintLeft_toLeftOf="parent">
+            android:layout_below="@+id/txt_financeandaccounding"
+            android:layout_marginTop="12dp"
+            android:background="@color/whitegrey" />
 
-        </View>
-
-
+        <!-- Blue accent bar -->
         <View
             android:id="@+id/blue_view"
             android:layout_width="3dp"
-            android:layout_height="30dp"
-            android:layout_below="@+id/relativeExam"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/ten"
-            android:background="@color/btn_clr_blue"
-            app:layout_constraintLeft_toLeftOf="parent">
+            android:layout_height="0dp"
+            android:layout_below="@+id/view"
+            android:layout_alignTop="@+id/txt_testing_creating"
+            android:layout_alignBottom="@+id/txt_bcom_Accounts"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:background="@color/btn_clr_blue" />
 
-        </View>
-
-
+        <!-- Subject name -->
         <TextView
             android:id="@+id/txt_testing_creating"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeExam"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/thirteen"
-            android:layout_toRightOf="@+id/blue_view"
+            android:layout_below="@+id/view"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/blue_view"
             android:text="@string/txt_testing_exam_creating"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fifteen"
+            android:textColor="@color/clr_header_black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-            >
-
-        </TextView>
-
-
+        <!-- Venue chip -->
         <TextView
             android:id="@+id/txt_bcom_Accounts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txt_testing_creating"
-            android:layout_marginLeft="@dimen/thirty"
-            android:layout_marginTop="@dimen/twelve"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/blue_view"
             android:background="@drawable/sublistlist_lightblue_colour"
-            android:padding="@dimen/eight"
+            android:paddingStart="10dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="6dp"
             android:text="Test sub"
             android:textColor="@color/clr_previous_submsion"
-
-            ></TextView>
-
-
+            android:textSize="12sp" />
     </RelativeLayout>
 
+    <!-- ===== Expandable syllabus section ===== -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/consrin2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/examlist_constrine">
 
         <View
             android:id="@+id/view4"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/five"
             android:background="@color/whitegrey"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></View>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_Syllabus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/eight"
+            android:layout_marginTop="12dp"
             android:text="Syllabus Details:"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view4"></TextView>
+            android:textColor="@color/clr_header_black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <TextView
             android:id="@+id/txt_Syllabus1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/eight"
+            android:layout_marginTop="6dp"
             android:text="Syllabus 1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_Syllabus"></TextView>
-
-
+            android:textColor="@color/clr_light_black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_Syllabus" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
