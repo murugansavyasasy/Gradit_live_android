@@ -25,6 +25,11 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.MultiplefileviewLayoutBinding
 
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>() {
 
     override var appViewModel: App? = null
@@ -39,6 +44,8 @@ class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>(
     var MultipleAssignmentfile: MultipleAssignmentfile? = null
     var Assignment_ContentViewAdapter: Assignment_ContentViewAdapter? = null
     var filename: List<String>? = null
+    private var useDefaultAdsUrl = false
+
 
     override fun inflateBinding(): MultiplefileviewLayoutBinding {
         return MultiplefileviewLayoutBinding.inflate(layoutInflater)
@@ -81,6 +88,7 @@ class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>(
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                useDefaultAdsUrl = false
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -91,11 +99,28 @@ class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>(
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .into(binding.CommonLayout.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
@@ -104,8 +129,24 @@ class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>(
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .into(binding.CommonLayout.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
+
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -122,6 +163,8 @@ class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>(
                             .into(binding.CommonLayout.imgthumb!!)
                     }
                 } else {
+                    useDefaultAdsUrl = true
+
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -291,7 +334,7 @@ class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>(
     }
 
     fun adclick() {
-        LoadWebViewContext(this, AdWebURl)
+        LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     override fun onResume() {

@@ -35,6 +35,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 class ApplyLeave : ActionBarActivity() {
 
@@ -57,6 +62,8 @@ class ApplyLeave : ActionBarActivity() {
     var LeaveType: String? = null
     var LeaveTypeID = 0
     private lateinit var binding: ActivityApplyLeaveBinding
+
+    private var useDefaultAdsUrl = false
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -145,6 +152,8 @@ class ApplyLeave : ActionBarActivity() {
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                useDefaultAdsUrl = false
+
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -155,18 +164,49 @@ class ApplyLeave : ActionBarActivity() {
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                         Glide.with(this).load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
+                            .listener(object : RequestListener<Drawable> {
+                            override fun onLoadFailed(
+                                e: GlideException?, model: Any?,
+                                target: Target<Drawable>, isFirstResource: Boolean
+                            ): Boolean {
+                                useDefaultAdsUrl = true
+                                return false
+                            }
+
+                            override fun onResourceReady(
+                                resource: Drawable, model: Any, target: Target<Drawable>?,
+                                dataSource: DataSource, isFirstResource: Boolean
+                            ): Boolean = false
+                        })
                             .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .into(binding.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_place_holder)
@@ -181,6 +221,7 @@ class ApplyLeave : ActionBarActivity() {
                             .into(binding.imgthumb!!)
                     }
                 } else {
+                    useDefaultAdsUrl = true
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_place_holder)
@@ -468,7 +509,7 @@ class ApplyLeave : ActionBarActivity() {
     }
 
     fun adclick() {
-        BaseActivity.LoadWebViewContext(this, AdWebURl)
+        BaseActivity.LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     fun Leavetype() {
