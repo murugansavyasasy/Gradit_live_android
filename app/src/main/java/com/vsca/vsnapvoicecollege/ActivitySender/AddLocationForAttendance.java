@@ -31,7 +31,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
@@ -244,8 +243,8 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         }
 
         JsonObject jsonObjectSchool = new JsonObject();
-        jsonObjectSchool.addProperty("CollegeId",(SchoolID != null && !SchoolID.isEmpty()) ? Integer.parseInt(SchoolID) : 0);
-        jsonObjectSchool.addProperty("userId",(StaffID != null && !StaffID.isEmpty()) ? Integer.parseInt(StaffID) : 0 );
+        jsonObjectSchool.addProperty("CollegeId", (SchoolID != null && !SchoolID.isEmpty()) ? Integer.parseInt(SchoolID) : 0);
+        jsonObjectSchool.addProperty("userId", (StaffID != null && !StaffID.isEmpty()) ? Integer.parseInt(StaffID) : 0);
         jsonObjectSchool.addProperty("location", txtLocationName.getText().toString());
         jsonObjectSchool.addProperty("latitude", String.valueOf(current_latitude));
         jsonObjectSchool.addProperty("longitude", String.valueOf(current_longitude));

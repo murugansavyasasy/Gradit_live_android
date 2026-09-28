@@ -1,8 +1,6 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.app.ActionBar
-import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -14,30 +12,23 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.PopupWindow
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Adapters.VideoContentAdapter
-import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
 import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
 import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
 import com.vsca.vsnapvoicecollege.Model.VideoRestrictionData
@@ -45,26 +36,11 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
-import com.vsca.vsnapvoicecollege.VideoAlbum.AlbumVideoSelectVideoActivity
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityAddVideoBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.*
-import java.util.concurrent.TimeUnit
+import java.io.File
 
 class AddVideo : ActionBarActivity() {
-
 
 
     private val REQUEST = 1
@@ -100,7 +76,7 @@ class AddVideo : ActionBarActivity() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
             statusBarBgView = binding.statusBarBackground,
@@ -140,8 +116,7 @@ class AddVideo : ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -157,8 +132,7 @@ class AddVideo : ActionBarActivity() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -180,7 +154,6 @@ class AddVideo : ActionBarActivity() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-//                BaseActivity.UserMenuRequest(this)
                 if (status == 1) {
                     GetContentData = response.data!!
                     for (i in GetContentData!!.indices) {
@@ -302,9 +275,7 @@ class AddVideo : ActionBarActivity() {
                 )
             )
             popupWindow.dismiss()
-//            val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
-//            intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-//            startActivityForResult(intent1, SELECT_VIDEO)
+
         }
     }
 
@@ -312,7 +283,7 @@ class AddVideo : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_add_video
 
-     fun OpenGallery() {
+    fun OpenGallery() {
 
         VideoTitle = binding.txtTitle!!.text.toString()
         VideoDescription = binding.txtDescription!!.text.toString()
@@ -367,7 +338,7 @@ class AddVideo : ActionBarActivity() {
         }
     }
 
-     fun adclick() {
+    fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
 

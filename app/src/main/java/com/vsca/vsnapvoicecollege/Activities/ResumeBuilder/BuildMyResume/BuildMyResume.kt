@@ -8,8 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +25,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutBuildmyresumeBinding
-import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 
 
 class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
@@ -37,12 +34,13 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
     override fun inflateBinding(): LayoutBuildmyresumeBinding {
         return LayoutBuildmyresumeBinding.inflate(layoutInflater)
     }
+
     private var selectedImageItem: GetResumeBuilderThemeTemplateImage? = null
     private lateinit var pickThemeTemplateColourAdapter: PickThemeTemplateColourAdapter
     private lateinit var pickResumeAdapter: PickResumeAdapter
     private var selectedColourItem: String? = null
     private var isMemeberID: Int? = -1
-    private var selectedTemplateNumber: Int? =-1
+    private var selectedTemplateNumber: Int? = -1
     private var fullData: ResumeContextData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,20 +75,20 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
         GetResumeBuilderThemeTemplate()
 
         binding.commonBottomResumeBuilder.btnSave.setOnClickListener {
-            var isValid=true
-            if (selectedImageItem == null||selectedTemplateNumber==-1) {
-                isValid=false
+            var isValid = true
+            if (selectedImageItem == null || selectedTemplateNumber == -1) {
+                isValid = false
                 Toast.makeText(this, "Please select a resume template", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (selectedColourItem.isNullOrEmpty()) {
-                isValid=false
+                isValid = false
                 Toast.makeText(this, "Please select a theme color", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (isValid){
+            if (isValid) {
                 showConfirmationDialog()
             }
         }
@@ -100,8 +98,10 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
             if (response != null) {
                 if (response.status) {
                     if (response.data.isNotEmpty()) {
-                        val templateList = response.data.find { it.template != null }?.template ?: emptyList()
-                        val colorList = response.data.find { it.themecolor != null }?.themecolor ?: emptyList()
+                        val templateList =
+                            response.data.find { it.template != null }?.template ?: emptyList()
+                        val colorList =
+                            response.data.find { it.themecolor != null }?.themecolor ?: emptyList()
                         isLoadThemeTemplate(templateList, colorList)
                         binding.CommonLayout.visibility = View.VISIBLE
                         Log.d("GetResumeBuilderThemeTemplate", response.data.toString())
@@ -120,17 +120,16 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
             if (response != null) {
 
                 if (response.status) {
-                    if (response.data.get(0).status==1){
-                        Log.d("GeneratedResumeURl",response.data.get(0).file_url)
-                            val intent = Intent(this, ResumePreviewActivity::class.java)
-                            intent.putExtra("TemplateDocumentURL",response.data.get(0).file_url)
-                            intent.putExtra("ScreenName","BuildMyResume")
-                            intent.putExtra("MemberID",isMemeberID)
-                            startActivity(intent)
+                    if (response.data.get(0).status == 1) {
+                        Log.d("GeneratedResumeURl", response.data.get(0).file_url)
+                        val intent = Intent(this, ResumePreviewActivity::class.java)
+                        intent.putExtra("TemplateDocumentURL", response.data.get(0).file_url)
+                        intent.putExtra("ScreenName", "BuildMyResume")
+                        intent.putExtra("MemberID", isMemeberID)
+                        startActivity(intent)
                         Log.d("GenerateResume", "Reusme Generattion Scucessful")
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
-                    }
-                    else{
+                    } else {
                         Log.d("GenerateResume", "Reusme Generattion Failed")
                         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
@@ -156,9 +155,9 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
     ) {
         // Resume Template Image Adapter
         binding.rcyPickResume.layoutManager = GridLayoutManager(this, 3)
-        pickResumeAdapter = PickResumeAdapter(templateList) { selectedImage,templateNo ->
+        pickResumeAdapter = PickResumeAdapter(templateList) { selectedImage, templateNo ->
             selectedImageItem = selectedImage
-            selectedTemplateNumber=templateNo
+            selectedTemplateNumber = templateNo
         }
         binding.rcyPickResume.isNestedScrollingEnabled = false
         binding.rcyPickResume.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
@@ -200,15 +199,17 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
     }
 
     fun isGenerateResume() {
-        Log.d("PreviewInfo", "TemplateImage "+selectedImageItem!!.resume_template_image+
-                "colourCode "+selectedColourItem+
-                "templateNo "+selectedTemplateNumber)
+        Log.d(
+            "PreviewInfo", "TemplateImage " + selectedImageItem!!.resume_template_image +
+                    "colourCode " + selectedColourItem +
+                    "templateNo " + selectedTemplateNumber
+        )
 
         val gson = Gson()
         val parentJson = JsonObject()
 
         fullData = CommonUtil.fullResumeData
-        isMemeberID=fullData?.idMember?.toIntOrNull()?:-1
+        isMemeberID = fullData?.idMember?.toIntOrNull() ?: -1
 
         if (fullData != null) {
 

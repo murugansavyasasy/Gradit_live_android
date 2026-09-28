@@ -5,12 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -31,12 +27,10 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivitySemesterCreditTableBinding
 import java.util.Locale
 
-class Video: BaseActivity<ActivityNoticeboardBinding>() {
+class Video : BaseActivity<ActivityNoticeboardBinding>() {
 
     var videoAdapter: VideoAdapter? = null
     override var appViewModel: App? = null
@@ -188,21 +182,26 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
                         binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
                         binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
                         binding.CommonLayout.recyclerCommon!!.adapter = videoAdapter
-                        binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                            0,
+                            80
+                        )
                         videoAdapter!!.notifyDataSetChanged()
                     } else {
                         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
-                        binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                        binding.CommonLayout.lblNoRecordsFound!!.text =
+                            getString(R.string.txt_no_data_found)
                         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
-                    binding.CommonLayout.lblNoRecordsFound!!.text=response.message
+                    binding.CommonLayout.lblNoRecordsFound!!.text = response.message
                     binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                 }
 
             } else {
-                binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                binding.CommonLayout.lblNoRecordsFound!!.text =
+                    getString(R.string.error_null_cursor)
                 binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
             }
@@ -265,7 +264,10 @@ class Video: BaseActivity<ActivityNoticeboardBinding>() {
     private fun VideoRequest(showLoader: Boolean = true) {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         appViewModel!!.getVideoList(jsonObject, this, showLoader)
         Log.d("VideoRequest:", jsonObject.toString())

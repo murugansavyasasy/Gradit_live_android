@@ -5,37 +5,35 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.text.Editable
+import android.text.InputFilter
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import com.vsca.vsnapvoicecollege.ViewModel.App
-
-import com.vsca.vsnapvoicecollege.databinding.OtpRewampBinding
-import android.os.CountDownTimer
-import android.text.InputFilter
-import android.text.InputType
-import android.view.View
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.LinearLayout
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.marginTop
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
+import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.databinding.OtpRewampBinding
 
 class OtpRewamp : AppCompatActivity() {
 
@@ -74,7 +72,7 @@ class OtpRewamp : AppCompatActivity() {
 
 
         if (CommonUtil.OptMessege != "") {
-            binding.txtOtpNoRecievedMsg.text=CommonUtil.OptMessege
+            binding.txtOtpNoRecievedMsg.text = CommonUtil.OptMessege
         }
         binding.imgBack.setOnClickListener { onBackPressed() }
 
@@ -132,9 +130,8 @@ class OtpRewamp : AppCompatActivity() {
                 it
             }
         }
-        binding.txtNumberlable!!.text = "We have sent a 4-digit verification code to ( + ${countryDetails.countyCode} ${maskedNumber} )"
-
-
+        binding.txtNumberlable!!.text =
+            "We have sent a 4-digit verification code to ( + ${countryDetails.countyCode} ${maskedNumber} )"
 
 
         val otpFilter = arrayOf(
@@ -161,7 +158,8 @@ class OtpRewamp : AppCompatActivity() {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {}
+                ) {
+                }
 
                 override fun onTextChanged(
                     s: CharSequence?,
@@ -189,7 +187,8 @@ class OtpRewamp : AppCompatActivity() {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {}
+                ) {
+                }
 
                 override fun onTextChanged(
                     s: CharSequence?,
@@ -263,7 +262,8 @@ class OtpRewamp : AppCompatActivity() {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {}
+                ) {
+                }
 
                 override fun onTextChanged(
                     s: CharSequence?,

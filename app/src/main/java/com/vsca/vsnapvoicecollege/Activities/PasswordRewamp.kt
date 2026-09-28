@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 
-
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -16,7 +15,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.*
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -71,7 +70,7 @@ class PasswordRewamp : AppCompatActivity() {
             LoginbtnClick()
         }
         binding.btnBack.setOnClickListener { onBackPressed() }
-        binding.lblYouMobileNumberDetails.visibility= View.GONE
+        binding.lblYouMobileNumberDetails.visibility = View.GONE
 
 
         MobileNumber = intent.getStringExtra("MobileNumber")
@@ -117,7 +116,7 @@ class PasswordRewamp : AppCompatActivity() {
 
 
         binding.txtForgetpassword!!.setOnClickListener {
-            val  countryDetails = SharedPreference.getCountryDetails(this)
+            val countryDetails = SharedPreference.getCountryDetails(this)
 
             val mobileLength = countryDetails.mobilenumberlen
                 ?.toIntOrNull()
@@ -157,7 +156,11 @@ class PasswordRewamp : AppCompatActivity() {
                     if (LoginData.size != 0) {
                         SharedPreference.setFirstTimeLoggedInUser(this@PasswordRewamp, true)
                         CommonUtil.UserDataList = response.data as ArrayList<LoginDetails>?
-                        SharedPreference.putLoginDetails(this@PasswordRewamp, MobileNumber, Password)
+                        SharedPreference.putLoginDetails(
+                            this@PasswordRewamp,
+                            MobileNumber,
+                            Password
+                        )
                         SetLoginData(LoginData)
 
                         Log.d("LoginDataSize", LoginData.size.toString())
@@ -311,6 +314,7 @@ class PasswordRewamp : AppCompatActivity() {
             binding.txtNext.setTextColor(Color.parseColor("#c4c3c8"))
         }
     }
+
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,
         statusBarBgView: View

@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
-import androidx.core.view.WindowInsetsControllerCompat
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -134,8 +134,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -149,8 +148,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -212,7 +210,8 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             noticeboardAdapter!!.notifyDataSetChanged()
 
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound!!.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     } else {
@@ -235,16 +234,18 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             noticeboardAdapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound!!.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
                 } else {
-                    binding.CommonLayout.lblNoRecordsFound!!.text=response.message
+                    binding.CommonLayout.lblNoRecordsFound!!.text = response.message
                     NoDataFound()
                 }
             } else {
-                binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                binding.CommonLayout.lblNoRecordsFound!!.text =
+                    getString(R.string.error_null_cursor)
                 NoDataFound()
             }
         }

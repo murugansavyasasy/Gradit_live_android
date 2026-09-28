@@ -20,28 +20,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.PopupWindow
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
@@ -51,14 +44,11 @@ import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit.EditSkil
 import com.vsca.vsnapvoicecollege.Model.FilePath
 import com.vsca.vsnapvoicecollege.Model.FileType
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
-import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
-import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -74,8 +64,9 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
         return LayoutEditacademicdetailsBinding.inflate(layoutInflater)
     }
 
-    private  val PERMISSION_REQUEST_CODE = 1001
-    private  val SETTINGS_REQUEST_CODE = 1002
+    private val PERMISSION_REQUEST_CODE = 1001
+    private val SETTINGS_REQUEST_CODE = 1002
+
     // Holds current adapter's list (internship / certificate / project)
     private var attachmentList: MutableList<AttachmentHolder> = mutableListOf()
 
@@ -139,7 +130,8 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
 
         binding.rlaEditAcademicHeader.applyPriorityColor(
             this,
-            CommonUtil.Priority)
+            CommonUtil.Priority
+        )
 
         // Hide default icon and update button text
         binding.commonBottomResumeBuilder.imgDefault.visibility = View.GONE
@@ -159,7 +151,6 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
 
         originalBacklogs = backlogs
         originalArrears = arrears
-//        originalEducationalDetails = educationalDetails
 
         //Need deep Copy because we store in model it the below will always immutuable
         originalEducationalDetails = educationalDetails.map { edu ->
@@ -167,7 +158,7 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
                 classDegree = edu.classDegree,
                 percentage = edu.percentage,
                 institution = edu.institution,
-                file_path = edu.file_path?.map { it.copy() }?.toMutableList()?:mutableListOf()
+                file_path = edu.file_path?.map { it.copy() }?.toMutableList() ?: mutableListOf()
             )
         }
 
@@ -626,8 +617,6 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
     }
 
 
-
-
     private fun normalizeAcademicFileUrls(
         educationalDetails: MutableList<Map<String, Any>>
     ) {
@@ -663,22 +652,20 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
     }
 
 
+    private fun showUploadProgressDialog(total: Int) {
+        runOnUiThread {
+            val view = layoutInflater.inflate(R.layout.dialog_upload_progress, null)
+            txtProgress = view.findViewById(R.id.txtProgress)
+            txtProgress.text = "Please wait… Uploading...."
 
-private fun showUploadProgressDialog(total: Int) {
-    runOnUiThread {
-        val view = layoutInflater.inflate(R.layout.dialog_upload_progress, null)
-        txtProgress = view.findViewById(R.id.txtProgress)
-        txtProgress.text = "Please wait… Uploading...."
+            uploadDialog = AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(false)
+                .create()
 
-        uploadDialog = AlertDialog.Builder(this)
-            .setView(view)
-            .setCancelable(false)
-            .create()
-
-        uploadDialog?.show()
+            uploadDialog?.show()
+        }
     }
-}
-
 
 
     private fun updateUploadProgress(done: Int, total: Int) {
@@ -687,13 +674,13 @@ private fun showUploadProgressDialog(total: Int) {
         }
     }
 
-private fun dismissUploadDialog() {
-    runOnUiThread {
-        if (uploadDialog?.isShowing == true) {
-            uploadDialog?.dismiss()
+    private fun dismissUploadDialog() {
+        runOnUiThread {
+            if (uploadDialog?.isShowing == true) {
+                uploadDialog?.dismiss()
+            }
         }
     }
-}
 
 
     fun ChooseFile() {
@@ -736,19 +723,9 @@ private fun dismissUploadDialog() {
             )
 
             FilePopup?.dismiss()
-
-//            CommonUtil.SelcetedFileList.clear()
-
-//            val intent1 = Intent(this, AlbumSelectActivity::class.java)
-//            intent1.putExtra("Gallery", "Images")
-//            startActivityForResult(intent1, REQUEST_GAllery)
-//            FilePopup!!.dismiss()
-//            Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
-
         }
 
         LayoutCamera.setOnClickListener {
-//            CommonUtil.SelcetedFileList.clear()
 
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             try {
@@ -767,20 +744,6 @@ private fun dismissUploadDialog() {
 
             }
         }
-
-//        LayoutDocuments.setOnClickListener({
-//
-////            CommonUtil.SelcetedFileList.clear()
-//
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            intent.type = "application/pdf"
-//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//            startActivityForResult(intent, SELECT_PDF)
-//            FilePopup!!.dismiss()
-//            Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
-//
-//
-//        })
 
         LayoutDocuments.setOnClickListener {
 
@@ -939,6 +902,7 @@ private fun dismissUploadDialog() {
             openFilePickerWithPermission()
         }
     }
+
     private fun openFilePickerWithPermission(fromSettings: Boolean = false) {
 
         val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

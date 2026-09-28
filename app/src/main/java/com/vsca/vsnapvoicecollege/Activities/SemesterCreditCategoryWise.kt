@@ -4,9 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,15 +12,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.SemesterCreditAllCategoryAdapter
 import com.vsca.vsnapvoicecollege.Adapters.SemesterCreditsAdapter
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.GetSemesterCreditCategeroy
+import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditDetails
+import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseDetails
+import com.vsca.vsnapvoicecollege.Model.GetSemsterFinalCategoryAllDetails
+import com.vsca.vsnapvoicecollege.Model.SemesterAllCategory
+import com.vsca.vsnapvoicecollege.Model.SemesterAllCategoryCredits
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivitySemesterCreditTableBinding
-import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 
 class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBinding>() {
 
@@ -82,7 +83,6 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
 
         CommonUtil.OnMenuClicks("SemCredit")
         binding.imgheaderBack.setOnClickListener {
@@ -98,7 +98,6 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                 GetSemesterCreditWiseData.clear()
                 GetSemesterAllListData.clear()
                 if (status == 1) {
-//                    UserMenuRequest(this)
                     SemAllCreditList.clear()
                     GetSemesterCreditWiseAllData = response.data!!
                     var listSize = GetSemesterCreditWiseAllData.size
@@ -176,7 +175,6 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                 GetSemesterCreditWiseData.clear()
 
                 if (status == 1) {
-//                    UserMenuRequest(this)
                     GetSemesterCreditWiseData = response.data!!
 
                     var listSize = GetSemesterCreditWiseData.size
@@ -197,19 +195,19 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                         semesterCreditsAdapter!!.notifyDataSetChanged()
 
                     } else {
-                        binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                        binding.lblNoRecordsFound!!.text = getString(R.string.txt_no_data_found)
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
 
                 } else {
-                    binding.lblNoRecordsFound!!.text=response.message
+                    binding.lblNoRecordsFound!!.text = response.message
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.idRVCategories!!.visibility = View.GONE
                 }
 
             } else {
-                binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                binding.lblNoRecordsFound!!.text = getString(R.string.error_null_cursor)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
             }
@@ -220,17 +218,16 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-//                    UserMenuRequest(this)
                     GetSemesterTypeData = response.data!!
                     SetSpinnerValue()
 
                 } else {
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
-                    binding.lblNoRecordsFound!!.text=response.message
+                    binding.lblNoRecordsFound!!.text = response.message
                     binding.idRVCategories!!.visibility = View.GONE
                 }
             } else {
-                binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                binding.lblNoRecordsFound!!.text = getString(R.string.error_null_cursor)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
             }
@@ -243,7 +240,6 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
     private fun SetSpinnerValue() {
         binding.layoutDropdown!!.setOnClickListener {
             if (!countryOpen) {
-//                binding.layoutDropdown!!.visibility = View.VISIBLE
                 binding.viewLine!!.visibility = View.VISIBLE
                 binding.imgDropdown!!.setImageResource(R.drawable.ic_arraow_up)
                 countryOpen = true
@@ -252,11 +248,9 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
 
                 Log.d("Open", countryOpen.toString())
             } else {
-//                binding.layoutDropdown!!.visibility = View.GONE
                 binding.viewLine!!.visibility = View.GONE
                 binding.imgDropdown!!.setImageResource(R.drawable.ic_arrow_down)
                 countryOpen = false
-//                binding.Layoutoverall!!.visibility = View.GONE
                 binding.lnrRadioGroup!!.visibility = View.GONE
                 Log.d("Close", countryOpen.toString())
 
@@ -301,7 +295,10 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
     private fun SemesterWiseRequest(SemesterID: String) {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid?.toIntOrNull() ?: 0)
+        jsonObject.addProperty(
+            ApiRequestNames.Req_i_course_id,
+            CommonUtil.Courseid?.toIntOrNull() ?: 0
+        )
         jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, SemesterID?.toIntOrNull() ?: 0)
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         if (SemesterID.equals("-5")) {
@@ -334,7 +331,10 @@ class SemesterCreditCategoryWise : BaseActivity<ActivitySemesterCreditTableBindi
     private fun SemesterType() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid.toIntOrNull() ?: 0)
+        jsonObject.addProperty(
+            ApiRequestNames.Req_i_course_id,
+            CommonUtil.Courseid.toIntOrNull() ?: 0
+        )
         appViewModel!!.getSmesterType(jsonObject, this)
         Log.d("SemsterType:", jsonObject.toString())
     }

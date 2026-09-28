@@ -24,7 +24,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.webkit.WebView
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
@@ -34,7 +33,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
@@ -218,7 +216,7 @@ class CountryRewamp : AppCompatActivity() {
                         emergencyduration,
                         nonemergencyduration
                     )
-                    Log.d("videojson",videojson.toString())
+                    Log.d("videojson", videojson.toString())
                     if (ForceUpdate == 0 && VersionUpdate == 0) {
                         AutoLogin()
                     } else {
@@ -318,14 +316,21 @@ class CountryRewamp : AppCompatActivity() {
             val codecountry = country.countyCode
             val idapplication = country.idapplication
             SharedPreference.putCountryDetails(
-                this@CountryRewamp, countryID, countryname, mobilelength, BASE_URL,codecountry,idapplication
+                this@CountryRewamp,
+                countryID,
+                countryname,
+                mobilelength,
+                BASE_URL,
+                codecountry,
+                idapplication
             )
 
-            RestClient.changeApiBaseUrl(BASE_URL?:"")
+            RestClient.changeApiBaseUrl(BASE_URL ?: "")
             authViewModel!!.getVersionCheck(this@CountryRewamp)
             ToastManager.cancelToast()
         }
     }
+
     private fun openTermsAndConditions() {
 
         if (popuptermsNcondition?.isShowing == true) {
@@ -383,7 +388,6 @@ class CountryRewamp : AppCompatActivity() {
     }
 
 
-
     @SuppressLint("ResourceAsColor")
     private fun UpdateAlert() {
         val textView = TextView(this@CountryRewamp)
@@ -426,6 +430,7 @@ class CountryRewamp : AppCompatActivity() {
         }
         builder.create().show()
     }
+
     private fun setupCountryRecyclerView() {
 
         countryAdapter = CountryAdapter(
@@ -461,7 +466,6 @@ class CountryRewamp : AppCompatActivity() {
             adapter = countryAdapter
         }
     }
-
 
 
     private fun setupSearch() {
@@ -511,18 +515,15 @@ class CountryRewamp : AppCompatActivity() {
             jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobilenumber)
             jsonObject.addProperty(ApiRequestNames.Req_password, password)
             authViewModel!!.login(jsonObject, this@CountryRewamp)
-        }
-        else {
-            if (isFirstTimeLoggedInUser){
+        } else {
+            if (isFirstTimeLoggedInUser) {
                 val i = Intent(this@CountryRewamp, LoginRewamp::class.java)
                 startActivity(i)
-            }
-            else{
+            } else {
                 val i = Intent(this@CountryRewamp, MobileNumberRewamp::class.java)
                 startActivity(i)
             }
-//            val i = Intent(this@CountryRewamp, MobileNumberRewamp::class.java)
-//            startActivity(i)
+
         }
     }
 
@@ -621,59 +622,6 @@ class CountryRewamp : AppCompatActivity() {
         binding.lblTermsAndConditions.highlightColor =
             Color.TRANSPARENT
     }
-
-//    fun isToolBarPrimaryTheme1(
-//        mainViewId: Int,
-//        statusBarBgView: View
-//    ) {
-//        enableEdgeToEdge()
-//
-//        val mainView = findViewById<View>(mainViewId)
-//
-//        WindowCompat.getInsetsController(
-//            window,
-//            window.decorView
-//        ).isAppearanceLightStatusBars = false
-//
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
-//
-//            val systemBars = insets.getInsets(
-//                WindowInsetsCompat.Type.systemBars()
-//            )
-//
-//            statusBarBgView.updateLayoutParams {
-//                height = systemBars.top
-//            }
-//
-//            view.updatePadding(
-//                left = systemBars.left,
-//                right = systemBars.right,
-//                bottom = systemBars.bottom
-//            )
-//
-//            insets
-//        }
-//
-//        window.statusBarColor = Color.TRANSPARENT
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//            window.addFlags(
-//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-//            )
-//
-//            window.clearFlags(
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//            )
-//
-//            window.statusBarColor = Color.TRANSPARENT
-//
-//            window.navigationBarColor =
-//                resources.getColor(R.color.clr_auth_gray, theme)
-//        }
-//    }
 
 
     fun isToolBarPrimaryTheme1(

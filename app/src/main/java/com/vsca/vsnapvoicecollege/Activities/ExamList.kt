@@ -4,11 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -86,7 +83,6 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
             R.id.imgAddPlus
         )
         TabDepartmentColor()
-//        MenuBottomType()
 
         binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_exam)
         binding.CommonLayout.lblDepartment!!.setText(R.string.txt_upcoming)
@@ -151,8 +147,7 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -166,8 +161,7 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -188,9 +182,6 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-//                    if (CommonUtil.menu_readExamination.equals("1")) {
-//                        ExamListRequest(ExamType)
-//                    }
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
                     } else {
@@ -208,7 +199,6 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-//                UserMenuRequest(this)
                 if (status == 1) {
                     if (ExamType) {
                         GetExamListData = response.data!!
@@ -216,7 +206,8 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                         if (size > 0) {
                             binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
                             binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
-                            examAdapter = ExamListAdapter(GetExamListData, this, true,
+                            examAdapter = ExamListAdapter(
+                                GetExamListData, this, true,
                                 object : ExamMarkViewClickListener {
                                     override fun onExamClickListener(
                                         holder: ExamListAdapter.MyViewHolder,
@@ -233,7 +224,9 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                                                     "p2"
                                                 ) || CommonUtil.Priority.equals("p3") || (CommonUtil.Priority.equals(
                                                     "p4"
-                                                ) && binding.CommonLayout.lblDepartment!!.text.equals("Upcoming")) ||
+                                                ) && binding.CommonLayout.lblDepartment!!.text.equals(
+                                                    "Upcoming"
+                                                )) ||
                                                 (CommonUtil.Priority.equals("p5") && binding.CommonLayout.lblDepartment!!.text.equals(
                                                     "Upcoming"
                                                 ))
@@ -262,12 +255,17 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
-                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
                             binding.CommonLayout.recyclerCommon!!.adapter = examAdapter
-                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             examAdapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     } else {
@@ -282,7 +280,8 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                             binding.CommonLayout.lblNoRecordsFound!!.visibility = View.GONE
                             binding.CommonLayout.recyclerCommon!!.visibility = View.VISIBLE
 
-                            examAdapter = ExamListAdapter(GetExampastListData, this, false,
+                            examAdapter = ExamListAdapter(
+                                GetExampastListData, this, false,
                                 object : ExamMarkViewClickListener {
                                     override fun onExamClickListener(
                                         holder: ExamListAdapter.MyViewHolder,
@@ -321,27 +320,33 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
-                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
                             binding.CommonLayout.recyclerCommon!!.adapter = examAdapter
-                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             examAdapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
                 } else {
                     if (ExamType) {
-                        binding.CommonLayout.lblNoRecordsFound.text=response.message?:getString(R.string.txt_no_data_found)
+                        binding.CommonLayout.lblNoRecordsFound.text =
+                            response.message ?: getString(R.string.txt_no_data_found)
                         NoDataFound()
                     } else {
-                        binding.CommonLayout.lblNoRecordsFound.text=response.message?:getString(R.string.txt_no_data_found)
+                        binding.CommonLayout.lblNoRecordsFound.text =
+                            response.message ?: getString(R.string.txt_no_data_found)
                         NoDataFound()
                     }
                 }
             } else {
-//                UserMenuRequest(this)
-                binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.error_null_cursor)
+                binding.CommonLayout.lblNoRecordsFound.text = getString(R.string.error_null_cursor)
 
                 NoDataFound()
             }
@@ -428,8 +433,14 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
     private fun ExamListRequest(type: Boolean) {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_userid,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
+            jsonObject.addProperty(
+                ApiRequestNames.Req_collegeid,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
 
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority.equals(
@@ -438,13 +449,16 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
                     "p3"
                 )
             ) {
-                jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0" )
+                jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
             } else {
                 jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
             }
 
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+                jsonObject.addProperty(
+                    ApiRequestNames.Req_appid,
+                    CommonUtil.SenderAppId?.toString() ?: ""
+                )
             } else {
                 jsonObject.addProperty(ApiRequestNames.Req_appid, "1")
             }
@@ -472,19 +486,16 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun departmentClick() {
-//        bottomsheetStateCollpased()
         TabDepartmentColor()
         ExamType = true
         if (CommonUtil.menu_readExamination == "1") {
             ExamListRequest(ExamType)
             OverAllMenuCountRequest(this, CommonUtil.MenuIDExamination!!)
         }
-//        bottomsheetStateCollpased()
         type = ""
     }
 
     fun collegeClick() {
-//        bottomsheetStateCollpased()
         ExamType = false
         GetExamListData.clear()
         GetExampastListData.clear()
@@ -494,7 +505,6 @@ class ExamList : BaseActivity<ActivityNoticeboardBinding>() {
         }
         TabCollegeColor()
         type = "Past"
-//        bottomsheetStateCollpased()
     }
 
     override fun onBackPressed() {

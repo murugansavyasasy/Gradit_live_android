@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -28,9 +27,19 @@ import android.widget.PopupWindow
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -43,6 +52,7 @@ import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.MyWebViewClient
 import com.vsca.vsnapvoicecollege.Utils.MyWebViewClientContext
@@ -50,19 +60,8 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
 import java.io.File
-
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
-import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.ColorUtils
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import kotlin.math.max
+
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected lateinit var binding: VB
@@ -71,7 +70,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
 
     open var appViewModel: App? = null
-//    var menuadapter: HomeMenus? = null
     var UserMenuData: ArrayList<MenuDetailsResponse> = ArrayList()
     var MenuList: ArrayList<MenuDetailsResponse> = ArrayList()
     var OverAllMenuCountData: List<GetOverAllCountDetails> = ArrayList()
@@ -93,128 +91,126 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         dashboardViewModel!!.init()
 
 
-            dashboardViewModel!!.userMenuLiveData!!.observe(this) { response ->
-                if (response != null) {
-                    val status = response.status
-                    val message = response.message
-                    MenuList.clear()
-                    if (status == 1) {
-                        UserMenuData = response.data!!
-                        for (j in UserMenuData.indices) {
+        dashboardViewModel!!.userMenuLiveData!!.observe(this) { response ->
+            if (response != null) {
+                val status = response.status
+                val message = response.message
+                MenuList.clear()
+                if (status == 1) {
+                    UserMenuData = response.data!!
+                    for (j in UserMenuData.indices) {
 
-                            val id = UserMenuData[j].id
-                            val name = UserMenuData[j].name
-                            val menuslug = UserMenuData[j].menu_slug
-                            val is_read_enabled = UserMenuData[j].is_read_enabled
-                            val is_write_enabled = UserMenuData[j].is_write_enabled
-                            val order_id = UserMenuData[j].order_id
-                            val parent_id = UserMenuData[j].parent_id
+                        val id = UserMenuData[j].id
+                        val name = UserMenuData[j].name
+                        val menuslug = UserMenuData[j].menu_slug
+                        val is_read_enabled = UserMenuData[j].is_read_enabled
+                        val is_write_enabled = UserMenuData[j].is_write_enabled
+                        val order_id = UserMenuData[j].order_id
+                        val parent_id = UserMenuData[j].parent_id
 
-                            MenuList.add(
-                                MenuDetailsResponse(
-                                    id,
-                                    name,
-                                    menuslug!!,
-                                    is_read_enabled!!,
-                                    is_write_enabled!!,
-                                    order_id!!,
-                                    parent_id!!
-                                )
+                        MenuList.add(
+                            MenuDetailsResponse(
+                                id,
+                                name,
+                                menuslug!!,
+                                is_read_enabled!!,
+                                is_write_enabled!!,
+                                order_id!!,
+                                parent_id!!
                             )
-                            CommonUtil.MenuListDashboard.add(
-                                MenuDetailsResponse(
-                                    id,
-                                    name,
-                                    menuslug,
-                                    is_read_enabled,
-                                    is_write_enabled,
-                                    order_id,
-                                    parent_id
-                                )
+                        )
+                        CommonUtil.MenuListDashboard.add(
+                            MenuDetailsResponse(
+                                id,
+                                name,
+                                menuslug,
+                                is_read_enabled,
+                                is_write_enabled,
+                                order_id,
+                                parent_id
                             )
-                        }
-
-//                        CommonUtil.layoutBottomCurve!!.visibility = View.VISIBLE
-                        for (k in MenuList.indices) {
-
-                            CommonUtil.UserMenuListId.add(MenuList.get(k).id)
-
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Home)) {
-                                DashboardHomeMenuID = MenuList[k].id.toString()
-                                Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
-                            }
-
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Chat)) {
-                                ChatMenuID = MenuList[k].id.toString()
-                                Log.d("Chat", ChatMenuID)
-                            }
-
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Communication)) {
-                                CommunicationMenuID = MenuList[k].id.toString()
-                                Log.d("CommunicationMenu", CommunicationMenuID)
-                            }
-
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Examination)) {
-                                ExamMenuID = MenuList[k].id.toString()
-                                Log.d("ExamMenuID", ExamMenuID)
-                            }
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Attendance)) {
-                                AttendanceMeuID = MenuList[k].id.toString()
-                                Log.d("AttendanceMeuID", AttendanceMeuID)
-                            }
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Assignment)) {
-                                AssignmentMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Circular)) {
-                                CircularMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
-                                NoticeboardMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Events)) {
-                                EventsMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList[k].menu_slug.equals(CommonUtil.Faculty)) {
-                                FacultyMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList.get(k).menu_slug.equals(CommonUtil.Video)) {
-                                VideoMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList.get(k).menu_slug.equals(CommonUtil.Course_Details)) {
-                                CourseDetailsMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList.get(k).menu_slug.equals(CommonUtil.Category_Credit_Points)) {
-                                CategoryDetailsMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList.get(k).menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
-                                SemesterCreditMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList.get(k).menu_slug.equals(CommonUtil.Exam_Application_Details)) {
-                                ExamApplicationMenuID = MenuList[k].id.toString()
-                            }
-                            if (MenuList.get(k).menu_slug.equals(CommonUtil.Hall_Ticket)) {
-                                Hall_TicketId = MenuList[k].id.toString()
-                            }
-                            if (MenuList.get(k).menu_slug.equals(CommonUtil.FeeDetails)) {
-                                isFeeDetails = MenuList[k].id.toString()
-                            }
-                        }
-
-                        onUserMenuCompleted?.invoke()
-                        onUserMenuCompleted = null
-
-                    } else {
-
-                        CommonUtil.ApiAlertContext(applicationContext, message)
-                        onUserMenuCompleted?.invoke()
-                        onUserMenuCompleted = null
+                        )
                     }
-                }
-                else{
+
+                    for (k in MenuList.indices) {
+
+                        CommonUtil.UserMenuListId.add(MenuList.get(k).id)
+
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Home)) {
+                            DashboardHomeMenuID = MenuList[k].id.toString()
+                            Log.d("DashboardHomeMenuIDbase", DashboardHomeMenuID)
+                        }
+
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Chat)) {
+                            ChatMenuID = MenuList[k].id.toString()
+                            Log.d("Chat", ChatMenuID)
+                        }
+
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Communication)) {
+                            CommunicationMenuID = MenuList[k].id.toString()
+                            Log.d("CommunicationMenu", CommunicationMenuID)
+                        }
+
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Examination)) {
+                            ExamMenuID = MenuList[k].id.toString()
+                            Log.d("ExamMenuID", ExamMenuID)
+                        }
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Attendance)) {
+                            AttendanceMeuID = MenuList[k].id.toString()
+                            Log.d("AttendanceMeuID", AttendanceMeuID)
+                        }
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Assignment)) {
+                            AssignmentMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Circular)) {
+                            CircularMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList[k].menu_slug.equals(CommonUtil.NoticeBoard)) {
+                            NoticeboardMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Events)) {
+                            EventsMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList[k].menu_slug.equals(CommonUtil.Faculty)) {
+                            FacultyMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList.get(k).menu_slug.equals(CommonUtil.Video)) {
+                            VideoMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList.get(k).menu_slug.equals(CommonUtil.Course_Details)) {
+                            CourseDetailsMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList.get(k).menu_slug.equals(CommonUtil.Category_Credit_Points)) {
+                            CategoryDetailsMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList.get(k).menu_slug.equals(CommonUtil.Sem_Credit_Points)) {
+                            SemesterCreditMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList.get(k).menu_slug.equals(CommonUtil.Exam_Application_Details)) {
+                            ExamApplicationMenuID = MenuList[k].id.toString()
+                        }
+                        if (MenuList.get(k).menu_slug.equals(CommonUtil.Hall_Ticket)) {
+                            Hall_TicketId = MenuList[k].id.toString()
+                        }
+                        if (MenuList.get(k).menu_slug.equals(CommonUtil.FeeDetails)) {
+                            isFeeDetails = MenuList[k].id.toString()
+                        }
+                    }
+
+                    onUserMenuCompleted?.invoke()
+                    onUserMenuCompleted = null
+
+                } else {
+
+                    CommonUtil.ApiAlertContext(applicationContext, message)
                     onUserMenuCompleted?.invoke()
                     onUserMenuCompleted = null
                 }
+            } else {
+                onUserMenuCompleted?.invoke()
+                onUserMenuCompleted = null
             }
+        }
 
         appviewModelbase!!.appreadstatusresponseLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -245,7 +241,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
         }
     }
-
 
 
     protected fun <T : ViewBinding> accessBottomViewIcons(
@@ -308,8 +303,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected abstract val layoutResourceId: Int
 
-    fun ActionBarMethod(activity: Activity,
-                        hideBackButton: Boolean = false
+    fun ActionBarMethod(
+        activity: Activity,
+        hideBackButton: Boolean = false
     ) {
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setDisplayShowCustomEnabled(true)
@@ -361,10 +357,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(i)
         }
-        imgBack.visibility= View.VISIBLE
+        imgBack.visibility = View.VISIBLE
         Log.d("ActivityName", "Current Activity: ${activity::class.java.simpleName}")
-        if (hideBackButton){
-             imgBack.visibility= View.GONE
+        if (hideBackButton) {
+            imgBack.visibility = View.GONE
         }
         imgMan.setOnClickListener { ProfilePopUp(activity) }
         imgBack.setOnClickListener { activity.onBackPressed() }
@@ -434,25 +430,23 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         Search?.setBackgroundColor(tintColor)
         txt_Cancel?.setTextColor(whiteFg)
 
-        idSV?.findViewById<android.widget.EditText>(androidx.appcompat.R.id.search_src_text)?.apply {
-            setTextColor(whiteFg)
-            setHintTextColor(android.graphics.Color.argb(180, 255, 255, 255)) // translucent white hint
-        }
-        idSV?.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)?.setColorFilter(whiteFg)
-        idSV?.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)?.setColorFilter(whiteFg)
+        idSV?.findViewById<android.widget.EditText>(androidx.appcompat.R.id.search_src_text)
+            ?.apply {
+                setTextColor(whiteFg)
+                setHintTextColor(
+                    android.graphics.Color.argb(
+                        180,
+                        255,
+                        255,
+                        255
+                    )
+                ) // translucent white hint
+            }
+        idSV?.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+            ?.setColorFilter(whiteFg)
+        idSV?.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+            ?.setColorFilter(whiteFg)
     }
-
-//    fun View.addActionBarMarginIfNeeded() {
-//        if (Build.VERSION.SDK_INT >= 35) {
-//            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
-//            val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
-//            typedArray.recycle()
-//            (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
-//                it.topMargin = actionBarHeight
-//                layoutParams = it
-//            }
-//        }
-//    }
 
 
     private fun ProfilePopUp(activity: Activity) {
@@ -554,76 +548,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         profilePopup!!.showAtLocation(view, Gravity.RIGHT or Gravity.TOP, 0, 225)
     }
 
-//    private fun ChangepasswordPopup(activity: Activity) {
-//        val layoutInflater = activity.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        val view = layoutInflater.inflate(R.layout.change_password_popup, null)
-//        val txtOldPassword = view.findViewById<View>(R.id.txtOldPassword) as EditText
-//        val txtNewPassword = view.findViewById<View>(R.id.txtNewPassword) as EditText
-//        val txtConfirmPassword = view.findViewById<View>(R.id.txtConfirmPassword) as EditText
-//        val imgOldPassword = view.findViewById<View>(R.id.imgOldPassword) as ImageView
-//        val imgNewPassword = view.findViewById<View>(R.id.imgNewPassword) as ImageView
-//        val imgconfirmpassword = view.findViewById<View>(R.id.imgconfirmpassword) as ImageView
-//        val btnSubmit = view.findViewById<View>(R.id.btnSubmit) as Button
-//        val imgClose = view.findViewById<View>(R.id.imgClose) as ImageView
-//        imgClose.setOnClickListener {
-//            profilePopup?.let {
-//                if (it.isShowing) {
-//                    it.dismiss()
-//                }
-//            }
-//
-//            popupWebview?.let {
-//                if (it.isShowing) {
-//                    it.dismiss()
-//                }
-//            }
-//
-//            changePassword?.let {
-//                if (it.isShowing) {
-//                    it.dismiss()
-//                }
-//            }
-//
-//            profilePopup = null
-//            popupWebview = null
-//            changePassword = null
-//        }
-//        imgconfirmpassword.setOnClickListener {
-//            passwordHideandShow(txtConfirmPassword, imgconfirmpassword)
-//        }
-//        imgNewPassword.setOnClickListener {
-//            passwordHideandShow(txtNewPassword, imgNewPassword)
-//        }
-//        imgOldPassword.setOnClickListener {
-//            passwordHideandShow(txtOldPassword, imgOldPassword)
-//        }
-//
-//        btnSubmit.setOnClickListener(View.OnClickListener {
-//            OldPassword = txtOldPassword.text.toString()
-//            NewPassword = txtNewPassword.text.toString()
-//            val confirmpassword = txtConfirmPassword.text.toString()
-//
-//            if (OldPassword!!.isEmpty()) {
-//                CommonUtil.ApiAlert(this, getString(R.string.lbl_enter_oldpassword))
-//            } else if (NewPassword!!.isEmpty()) {
-//                CommonUtil.ApiAlert(this, getString(R.string.lbl_enter_new_password))
-//            } else if (confirmpassword.isEmpty()) {
-//                CommonUtil.ApiAlert(this, getString(R.string.lbl_confim_password))
-//            } else if (OldPassword == NewPassword) {
-//                CommonUtil.ApiAlert(this, getString(R.string.lbl_similar_password))
-//            } else if (NewPassword == confirmpassword) {
-//                ChangePasswordRequest(activity)
-//            } else {
-//                CommonUtil.ApiAlert(this, getString(R.string.lbl_pswrd_not_match))
-//            }
-//        })
-//
-//        changePassword =
-//            PopupWindow(view, ListPopupWindow.MATCH_PARENT, ListPopupWindow.MATCH_PARENT, true)
-//        changePassword!!.contentView = view
-//        changePassword!!.isOutsideTouchable = false
-//        changePassword!!.showAtLocation(view, Gravity.CENTER or Gravity.TOP, 0, 0)
-//    }
 
     private fun ChangepasswordPopup(activity: Activity) {
         val layoutInflater = activity.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -950,7 +874,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             val actionBarBottom = abLoc[1] + actionBarContainer.height
             val overlap = actionBarBottom - contentLoc[1]
 
-            val lp = contentView.layoutParams as? ViewGroup.MarginLayoutParams ?: return@OnGlobalLayoutListener
+            val lp = contentView.layoutParams as? ViewGroup.MarginLayoutParams
+                ?: return@OnGlobalLayoutListener
             if (overlap > 0 && actionBarContainer.height > 0) {
                 lp.topMargin += overlap
                 contentView.layoutParams = lp
@@ -1220,9 +1145,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
             val SECOND_URL = "https://savyasasy.com/"
             val progressDialog = CustomLoading.createProgressDialog(activity)
-
-// If we already start on the second URL, there is nothing left to fall back to
-            var triedSecond = useSecondUrl                                   // CHANGED
+            // If we already start on the second URL, there is nothing left to fall back to
+            var triedSecond = useSecondUrl
 
             webview.webViewClient = MyWebViewClientContext(activity) { failedView ->
                 if (!triedSecond) {
@@ -1280,7 +1204,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         fun AppReadStatus(activity: Activity?, msgtype: String, detailsId: String) {
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_userid,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
             jsonObject.addProperty(ApiRequestNames.Req_msgtype, msgtype)
             jsonObject.addProperty(ApiRequestNames.Req_detailsid, detailsId)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
@@ -1290,7 +1217,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         fun AppReadStatusContext(activity: Context?, msgtype: String, detailsId: String) {
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_userid,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
             jsonObject.addProperty(ApiRequestNames.Req_msgtype, msgtype)
             jsonObject.addProperty(ApiRequestNames.Req_detailsid, detailsId)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
@@ -1298,10 +1228,17 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             Log.d("AppReadStatuscontext", jsonObject.toString())
         }
 
-        fun OverAllMenuCountRequest(activity: Activity?, menuid: String, showLoader: Boolean = true) {
+        fun OverAllMenuCountRequest(
+            activity: Activity?,
+            menuid: String,
+            showLoader: Boolean = true
+        ) {
 
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_userid,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
 
             if (menuid == "8") {
                 jsonObject.addProperty(ApiRequestNames.Req_menuid, "9")
@@ -1309,7 +1246,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 jsonObject.addProperty(ApiRequestNames.Req_menuid, menuid)
             }
 
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_collegeid,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
             if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3" || CommonUtil.Priority.equals(
                     "p6"
                 )
@@ -1320,7 +1260,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 jsonObject.addProperty(ApiRequestNames.Req_departmentid, CommonUtil.DepartmentId)
                 jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
             }
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString() ?: "")
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
             appviewModelbase!!.getOverAllMenuCount(jsonObject, activity, showLoader)
             Log.d("OverAllMenuCount_Req:", jsonObject.toString())
@@ -1407,19 +1347,25 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
-    fun UserMenuRequest(activity: Activity?,
-                        onCompleted: (() -> Unit)? = null
+    fun UserMenuRequest(
+        activity: Activity?,
+        onCompleted: (() -> Unit)? = null
     ) {
         if (CommonUtil.MenuListDashboard.isEmpty()) {
             onUserMenuCompleted = onCompleted
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_college_id,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_user_id,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
             dashboardViewModel!!.getUsermenus(jsonObject, activity)
             Log.d("UserMenus_Request", jsonObject.toString())
-        }
-        else{
+        } else {
             onUserMenuCompleted?.invoke()
             onUserMenuCompleted = null
         }

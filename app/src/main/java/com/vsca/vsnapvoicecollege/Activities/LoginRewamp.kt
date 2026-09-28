@@ -11,13 +11,12 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.*
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
@@ -60,7 +59,7 @@ class LoginRewamp : AppCompatActivity() {
 
         updateLoginButtonState()
 
-        val  countryDetails = SharedPreference.getCountryDetails(this)
+        val countryDetails = SharedPreference.getCountryDetails(this)
 
         mobileLength = countryDetails.mobilenumberlen
             ?.toIntOrNull()
@@ -153,7 +152,7 @@ class LoginRewamp : AppCompatActivity() {
 
                     // Assign API response
                     CommonUtil.ivrnumbers = response.data[0].ivrnumbers
-                    CommonUtil.MobileNUmber=MobileNumber?:""
+                    CommonUtil.MobileNUmber = MobileNumber ?: ""
 
                     Log.d("IVR", "Size: ${CommonUtil.ivrnumbers.size}")
                     CommonUtil.ivrnumbers.forEachIndexed { index, number ->
@@ -274,59 +273,6 @@ class LoginRewamp : AppCompatActivity() {
         }
     }
 
-//    fun isToolBarPrimaryTheme1(
-//        mainViewId: Int,
-//        statusBarBgView: View
-//    ) {
-//        enableEdgeToEdge()
-//
-//        val mainView = findViewById<View>(mainViewId)
-//
-//        // White status bar icons
-//        WindowCompat.getInsetsController(
-//            window,
-//            window.decorView
-//        ).isAppearanceLightStatusBars = false
-//
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
-//
-//            val systemBars = insets.getInsets(
-//                WindowInsetsCompat.Type.systemBars()
-//            )
-//
-//            statusBarBgView.updateLayoutParams {
-//                height = systemBars.top
-//            }
-//
-//            view.updatePadding(
-//                left = systemBars.left,
-//                right = systemBars.right,
-//                bottom = systemBars.bottom
-//            )
-//
-//            insets
-//        }
-//
-//        window.statusBarColor = Color.TRANSPARENT
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//            window.addFlags(
-//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-//            )
-//
-//            window.clearFlags(
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//            )
-//
-//            window.statusBarColor = Color.TRANSPARENT
-//
-//            window.navigationBarColor =
-//                resources.getColor(R.color.clr_auth_gray, theme)
-//        }
-//    }
 
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,

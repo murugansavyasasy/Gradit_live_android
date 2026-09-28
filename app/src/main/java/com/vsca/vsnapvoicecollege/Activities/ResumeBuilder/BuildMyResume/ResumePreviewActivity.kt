@@ -28,15 +28,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.gson.JsonArray
@@ -51,7 +48,6 @@ import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.CustomSwitch
 import com.vsca.vsnapvoicecollege.Utils.PdfDownloader
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityBuildmyresumeBinding
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumepreviewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +57,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.net.URLEncoder
 
 
 class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
@@ -90,7 +85,6 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
     var FileType: String? = null
     var AWSUploadedFilesList = java.util.ArrayList<String>()
     var Awsuploadedfile = java.util.ArrayList<String>()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,9 +123,9 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
 
 
         if (isScreenName == "MyResumes") {
-            binding.scrollView.visibility=View.GONE
-            binding.webviewDocument.visibility=View.VISIBLE
-            binding.lnrZoomOptions.visibility=View.VISIBLE
+            binding.scrollView.visibility = View.GONE
+            binding.webviewDocument.visibility = View.VISIBLE
+            binding.lnrZoomOptions.visibility = View.VISIBLE
 
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
@@ -146,9 +140,9 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         }
 
         if (isScreenName == "BuildMyResume") {
-            binding.scrollView.visibility=View.GONE
-            binding.webviewDocument.visibility=View.VISIBLE
-            binding.lnrZoomOptions.visibility=View.VISIBLE
+            binding.scrollView.visibility = View.GONE
+            binding.webviewDocument.visibility = View.VISIBLE
+            binding.lnrZoomOptions.visibility = View.VISIBLE
 
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
@@ -162,14 +156,14 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         }
 
         if (isScreenName == "UploadResume") {
-            binding.scrollView.visibility=View.VISIBLE
-            binding.webviewDocument.visibility=View.GONE
-            binding.lnrZoomOptions.visibility=View.GONE
+            binding.scrollView.visibility = View.VISIBLE
+            binding.webviewDocument.visibility = View.GONE
+            binding.lnrZoomOptions.visibility = View.GONE
 
-            isPDF_URL=CommonUtil.SelcetedFileList[0]
-            Log.d("isPdfUrl",isPDF_URL)
-               val fileUri = Uri.fromFile(File(isPDF_URL))
-              renderPdf(fileUri)
+            isPDF_URL = CommonUtil.SelcetedFileList[0]
+            Log.d("isPdfUrl", isPDF_URL)
+            val fileUri = Uri.fromFile(File(isPDF_URL))
+            renderPdf(fileUri)
 
             binding.commonBottomResumeBuilder.btnDefault2.text = "Save"
             binding.txtTitle.text = "Preview My Resume"
@@ -186,7 +180,7 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         }
 
         binding.zoomOut.setOnClickListener {
-            if (isScreenName == "BuildMyResume"||isScreenName == "MyResumes"){
+            if (isScreenName == "BuildMyResume" || isScreenName == "MyResumes") {
                 binding.webviewDocument.zoomOut()
             }
 
@@ -340,8 +334,8 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
 
         customSwitch.setChecked(false)
 
-        btnDownload.visibility=View.GONE
-        btnShare.visibility=View.GONE
+        btnDownload.visibility = View.GONE
+        btnShare.visibility = View.GONE
 
         btnClose.setOnClickListener {
             alertDialog.dismiss()
@@ -362,15 +356,14 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
                 overlayLayout.visibility = View.VISIBLE
                 overlayLayout.bringToFront()
 
-                if (isSuccess){
-                    btnSave.visibility=View.GONE
-                    btnDownload.visibility=View.VISIBLE
-                    btnShare.visibility=View.VISIBLE
-                }
-                else{
-                    btnSave.visibility=View.VISIBLE
-                    btnDownload.visibility=View.GONE
-                    btnShare.visibility=View.GONE
+                if (isSuccess) {
+                    btnSave.visibility = View.GONE
+                    btnDownload.visibility = View.VISIBLE
+                    btnShare.visibility = View.VISIBLE
+                } else {
+                    btnSave.visibility = View.VISIBLE
+                    btnDownload.visibility = View.GONE
+                    btnShare.visibility = View.GONE
                 }
                 txtOverlayTitle.text = if (isSuccess) "Success" else "Failed"
 
@@ -456,8 +449,6 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
     }
 
 
-
-
     private fun isUploadAWS() {
         Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
         for (i in CommonUtil.SelcetedFileList.indices) {
@@ -480,14 +471,19 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
                     AWSUploadedFilesList.add(isAwsFile!!)
                     Awsuploadedfile.add(isAwsFile.toString())
                     Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-                    isPDF_URL=Awsuploadedfile[0]
+                    isPDF_URL = Awsuploadedfile[0]
                     isSaveApiCall()
                     Log.d("isAwsFile", isAwsFile)
 
                 }
+
                 override fun onUploadError(error: String?) {
                     Log.e("Upload Error", error!!)
-                    Toast.makeText(this@ResumePreviewActivity, "Error occured while Upload", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@ResumePreviewActivity,
+                        "Error occured while Upload",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     }
@@ -502,7 +498,7 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         isJsonObject.addProperty("placementOfficer", isPlacementOfficer)
         jsonArray.add(isJsonObject)
         jsonObject.add("resumeTitle", jsonArray)
-        Log.d("jsonObjectSaveResumeFromUploadResume",jsonObject.toString())
+        Log.d("jsonObjectSaveResumeFromUploadResume", jsonObject.toString())
         this.appViewModel?.SendSaveTittle(jsonObject, this)
     }
 
