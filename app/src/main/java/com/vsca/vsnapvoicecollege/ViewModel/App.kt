@@ -427,8 +427,8 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetAppreadStatus(jsonObject, activity!!)
     }
 
-    fun getAppreadStatusContext(jsonObject: JsonObject?, activity: Context?) {
-        apiRepositories!!.GetAppreadStatusContext(jsonObject, activity!!)
+    fun getAppreadStatusContext(jsonObject: JsonObject?, activity: Context?,onSuccess: (() -> Unit)? = null) {
+        apiRepositories!!.GetAppreadStatusContext(jsonObject, activity!!,onSuccess)
     }
 
     fun getOverAllMenuCount(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {

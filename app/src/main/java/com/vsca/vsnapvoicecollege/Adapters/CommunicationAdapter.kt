@@ -217,11 +217,18 @@ class CommunicationAdapter(
                 }
 
                 if (modal.isappread.equals("0")) {
-                    BaseActivity.AppReadStatusContext(context, Type, modal.msgdetailsid!!)
-                    modal.isappread = "1"
-                    holder.lblNew.visibility = View.GONE
-                    // Fired at the exact moment this item is marked read, so the Activity can
-                    // bump its local unread/read counters without an extra count API call.
+                    val readType = Type
+                    val detailsId = modal.msgdetailsid!!
+                    Log.d("ReadFlow", "1. Click: unread item id=$detailsId type=$readType pos=$position")
+
+                    BaseActivity.AppReadStatusContext(context, readType, detailsId) {
+                        Log.d("ReadFlow", "5. Adapter callback: id=$detailsId confirmed read by server")
+                        modal.isappread = "1"
+                        if (holder.adapterPosition == position) {
+                            holder.lblNew.visibility = View.GONE
+                        }
+                        Listener.onItemMarkedRead(modal)
+                    }
                     Listener.onItemMarkedRead(modal)
                 }
 

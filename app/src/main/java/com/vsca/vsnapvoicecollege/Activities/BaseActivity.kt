@@ -1270,13 +1270,18 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             Log.d("AppReadStatus", jsonObject.toString())
         }
 
-        fun AppReadStatusContext(activity: Context?, msgtype: String, detailsId: String) {
+        fun AppReadStatusContext(
+            activity: Context?,
+            msgtype: String,
+            detailsId: String,
+            onSuccess: (() -> Unit)? = null
+        ) {
             val jsonObject = JsonObject()
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
             jsonObject.addProperty(ApiRequestNames.Req_msgtype, msgtype)
             jsonObject.addProperty(ApiRequestNames.Req_detailsid, detailsId)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            appviewModelbase!!.getAppreadStatusContext(jsonObject, activity)
+            appviewModelbase!!.getAppreadStatusContext(jsonObject, activity, onSuccess)
             Log.d("AppReadStatuscontext", jsonObject.toString())
         }
 

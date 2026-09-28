@@ -802,7 +802,7 @@ class AppServices {
             })
     }
 
-    fun GetAppreadStatusContext(jsonObject: JsonObject?, activity: Context) {
+    fun GetAppreadStatusContext(jsonObject: JsonObject?, activity: Context,  onSuccess: (() -> Unit)? = null) {
 
         RestClient.apiInterfaces.AppReadStatus(jsonObject)
             ?.enqueue(object : Callback<StatusMessageResponse?> {
@@ -817,6 +817,7 @@ class AppServices {
                             val status = response.body()!!.status
                             if (status == 1) {
                                 AppReadStatusLiveData.postValue(response.body())
+                                onSuccess?.invoke()
                             } else {
                                 AppReadStatusLiveData.postValue(response.body())
                             }
