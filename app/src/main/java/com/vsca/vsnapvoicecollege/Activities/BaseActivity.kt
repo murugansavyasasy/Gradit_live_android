@@ -1160,7 +1160,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
 
 
-        fun LoadWebViewContext(activity: Context?, url: String?) {
+        fun LoadWebViewContext(activity: Context?, url: String?, useSecondUrl: Boolean = false) {
             Log.d("addurl", url.toString())
             val inflater = activity!!.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.activity_terms_condition, null)
@@ -1218,21 +1218,20 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 changePassword = null
 
             }
+            val SECOND_URL = "https://savyasasy.com/"
             val progressDialog = CustomLoading.createProgressDialog(activity)
 
-            //Default URL
-            val secondUrl = "https://savyasasy.com/"
-            var triedSecond = false
+// If we already start on the second URL, there is nothing left to fall back to
+            var triedSecond = useSecondUrl                                   // CHANGED
 
-            // CHANGED: pass a lambda that loads the second URL once
             webview.webViewClient = MyWebViewClientContext(activity) { failedView ->
                 if (!triedSecond) {
                     triedSecond = true
-                    Log.d("addurl", "First URL failed, loading second: $secondUrl")
-                    failedView.post { failedView.loadUrl(secondUrl) }
-                    true    // handled: second URL is loading
+                    Log.d("addurl", "First URL failed, loading second: ${SECOND_URL}")
+                    failedView.post { failedView.loadUrl(SECOND_URL) }
+                    true
                 } else {
-                    false   // second also failed: show your existing retry page
+                    false
                 }
             }
             webview.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
@@ -1243,7 +1242,11 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             webSettings.builtInZoomControls = true
             webSettings.displayZoomControls = false
             webSettings.javaScriptEnabled = true
-            webview.loadUrl(url!!)
+
+// CHANGED: pick the URL based on the boolean (or if the url is missing)
+            val urlToLoad = if (useSecondUrl || url.isNullOrBlank())SECOND_URL else url
+            Log.d("addurl", "Loading: $urlToLoad")
+            webview.loadUrl(urlToLoad)
             progressDialog.dismiss()
         }
 
