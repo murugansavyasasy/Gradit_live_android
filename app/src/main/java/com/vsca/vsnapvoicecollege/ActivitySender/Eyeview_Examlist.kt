@@ -99,12 +99,18 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
                         Glide.with(this).load(AdBackgroundImage)
+
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
 
-                        Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        Glide.with(this).load(AdSmallImage)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
                 }

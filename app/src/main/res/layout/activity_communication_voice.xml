@@ -36,7 +36,7 @@
 
             <ImageView
                 android:id="@+id/imgAdvertisement"
-                android:layout_width="406dp"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/hundred"
                 android:scaleType="centerCrop"
                 android:visibility="visible"

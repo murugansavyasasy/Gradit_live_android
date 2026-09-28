@@ -119,11 +119,15 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                         }
                         Glide.with(this)
                             .load(AdBackgroundImage)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this)
                             .load(AdSmallImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
                 }

@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -50,6 +51,7 @@ import androidx.core.graphics.ColorUtils
 import android.view.ViewTreeObserver
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import kotlin.math.max
 abstract class ActionBarActivity : AppCompatActivity() {
 
@@ -491,6 +493,15 @@ abstract class ActionBarActivity : AppCompatActivity() {
         btnTerms.visibility = View.GONE
         LayoutHeader.visibility = View.VISIBLE
         viewLine.visibility = View.VISIBLE
+
+        LayoutHeader.applyPriorityColor(activity!!, CommonUtil.Priority)
+
+        imgBack.setColorFilter(
+            ContextCompat.getColor(activity, R.color.white),
+            PorterDuff.Mode.SRC_IN
+        )
+        lblMenuHeaderName.setTextColor(ContextCompat.getColor(activity, R.color.white))
+
         when (Type) {
             0 -> {
                 lblMenuHeaderName.setText(R.string.txt_faq)

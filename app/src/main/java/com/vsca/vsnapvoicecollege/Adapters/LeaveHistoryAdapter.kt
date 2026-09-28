@@ -87,10 +87,12 @@ class LeaveHistoryAdapter(
             }
 
             if (data.leavestatus.equals("Rejected")) {
+                holder.lblleaveStatus!!.setBackgroundResource(R.drawable.bg_status_rejected)
                 holder.lblleaveStatus!!.setTextColor(
                     context!!.resources.getColor(R.color.clr_txt_red, null)
                 )
             } else if (data.leavestatus.equals("Approved")) {
+                holder.lblleaveStatus!!.setBackgroundResource(R.drawable.bg_status_approved)
                 holder.lblleaveStatus!!.setTextColor(
                     context!!.resources.getColor(
                         R.color.btn_clr_green,
@@ -98,6 +100,7 @@ class LeaveHistoryAdapter(
                     )
                 )
             } else {
+                holder.lblleaveStatus!!.setBackgroundResource(R.drawable.bg_status_pending)
                 holder.lblleaveStatus!!.setTextColor(
                     context!!.resources.getColor(
                         R.color.btn_clr_blue,

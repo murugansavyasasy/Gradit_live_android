@@ -2,114 +2,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutstudentlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fifteen"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_shadow_white"
+        android:paddingStart="12dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="14dp"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/lblEntiredepartment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fifty"
-            android:layout_marginTop="@dimen/seven"
-            android:text="STUDENT NAME"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twelve"
-            android:textStyle="bold"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/chboxEntiredepartment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/clr_principal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></CheckBox>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblEntiredepartment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="STUDENT NAME"
+            android:textColor="@color/clr_header_black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/chboxEntiredepartment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chboxEntiredepartment"
+            app:layout_constraintTop_toTopOf="@+id/chboxEntiredepartment" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/con_attendance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/lbl_studentname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="StudentName"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fifteen"
-            android:textStyle="bold"></TextView>
-
-        <ImageView
-            android:id="@+id/img_mark_attendance"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/present"></ImageView>
-
-        <TextView
-            android:id="@+id/lbl_RTegNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text=""
-            android:layout_marginTop="@dimen/five"
-            android:layout_below="@+id/lbl_studentname"
-            android:textColor="@color/black"
-            android:textSize="@dimen/thirteen"
-            android:textStyle="normal"></TextView>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:id="@+id/rlaSwitch"
-            android:layout_below="@+id/lbl_RTegNo"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchOD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:layout_centerVertical="true"
-                />
-            <TextView
-                android:id="@+id/lblOD"
-                android:layout_marginStart="@dimen/five"
-                android:text="Mark as On-Duty"
-                android:layout_toEndOf="@+id/switchOD"
-                android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content">
-
-            </TextView>
-
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_below="@+id/rlaSwitch"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginTop="@dimen/five"
-            android:layout_marginRight="@dimen/twenty_five"
-            android:background="@color/clr_black">
-
-        </View>
-
-    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

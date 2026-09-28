@@ -146,8 +146,12 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                         }
                         Glide.with(this).load(AdBackgroundImage)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
                             .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
                 }

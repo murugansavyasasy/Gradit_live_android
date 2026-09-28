@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -60,6 +61,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import kotlin.math.max
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
@@ -427,6 +429,17 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         imgNotification!!.setColorFilter(whiteFg)
         imgRefresh!!.setColorFilter(whiteFg)
         SearchList?.setColorFilter(whiteFg)
+
+
+        Search?.setBackgroundColor(tintColor)
+        txt_Cancel?.setTextColor(whiteFg)
+
+        idSV?.findViewById<android.widget.EditText>(androidx.appcompat.R.id.search_src_text)?.apply {
+            setTextColor(whiteFg)
+            setHintTextColor(android.graphics.Color.argb(180, 255, 255, 255)) // translucent white hint
+        }
+        idSV?.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)?.setColorFilter(whiteFg)
+        idSV?.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)?.setColorFilter(whiteFg)
     }
 
 //    fun View.addActionBarMarginIfNeeded() {
@@ -790,7 +803,16 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         val viewLine = layout.findViewById<View>(R.id.viewline)
         btnTerms.visibility = View.GONE
         LayoutHeader.visibility = View.VISIBLE
-        viewLine.visibility = View.VISIBLE
+        viewLine.visibility = View.GONE
+
+        LayoutHeader.applyPriorityColor(activity!!, CommonUtil.Priority)
+
+        imgBack.setColorFilter(
+            ContextCompat.getColor(activity, R.color.white),
+            PorterDuff.Mode.SRC_IN
+        )
+        lblMenuHeaderName.setTextColor(ContextCompat.getColor(activity, R.color.white))
+
         when (Type) {
             0 -> {
                 lblMenuHeaderName.setText(R.string.txt_faq)
@@ -1158,7 +1180,17 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             val viewLine = layout.findViewById<View>(R.id.viewline)
             btnTerms.visibility = View.GONE
             LayoutHeader.visibility = View.VISIBLE
-            viewLine.visibility = View.VISIBLE
+
+            viewLine.visibility = View.GONE
+
+            LayoutHeader.applyPriorityColor(activity!!, CommonUtil.Priority)
+
+            imgBack.setColorFilter(
+                ContextCompat.getColor(activity, R.color.white),
+                PorterDuff.Mode.SRC_IN
+            )
+            lblMenuHeaderName.setTextColor(ContextCompat.getColor(activity, R.color.white))
+
             lblMenuHeaderName.setText(R.string.txt_ad)
 
             imgBack.setOnClickListener {
