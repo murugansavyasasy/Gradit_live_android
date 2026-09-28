@@ -1220,13 +1220,28 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             }
             val progressDialog = CustomLoading.createProgressDialog(activity)
 
-            webview.webViewClient = MyWebViewClientContext(activity)
+            //Default URL
+            val secondUrl = "https://savyasasy.com/"
+            var triedSecond = false
+
+            // CHANGED: pass a lambda that loads the second URL once
+            webview.webViewClient = MyWebViewClientContext(activity) { failedView ->
+                if (!triedSecond) {
+                    triedSecond = true
+                    Log.d("addurl", "First URL failed, loading second: $secondUrl")
+                    failedView.post { failedView.loadUrl(secondUrl) }
+                    true    // handled: second URL is loading
+                } else {
+                    false   // second also failed: show your existing retry page
+                }
+            }
             webview.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
             val webSettings = webview.settings
 
             webSettings.domStorageEnabled = true
             webSettings.loadsImagesAutomatically = true
             webSettings.builtInZoomControls = true
+            webSettings.displayZoomControls = false
             webSettings.javaScriptEnabled = true
             webview.loadUrl(url!!)
             progressDialog.dismiss()
