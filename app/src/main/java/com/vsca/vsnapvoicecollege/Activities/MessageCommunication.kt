@@ -29,6 +29,11 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
 
@@ -42,6 +47,7 @@ class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
     var AdBackgroundImage: String? = null
     var AdSmallImage: String? = null
     var AdWebURl: String? = null
+    private var useDefaultAdsUrl = false
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     private var communicationAdapter: CommunicationAdapter? = null
 
@@ -142,6 +148,8 @@ class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
             this,
             Observer<GetAdvertisementResponse?> { response ->
                 markInitialApiDone()
+                useDefaultAdsUrl = false
+
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -153,11 +161,27 @@ class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
 
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .into(binding.CommonLayout.imgAdvertisement!!)
 
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
@@ -167,6 +191,8 @@ class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
+
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
@@ -182,6 +208,8 @@ class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
                             .into(binding.CommonLayout.imgthumb!!)
                     }
                 } else {
+                    useDefaultAdsUrl = true
+
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
@@ -463,7 +491,7 @@ class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun adclick() {
-        LoadWebViewContext(this, AdWebURl)
+        LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     fun CommunicationRequest(readtype: Boolean, showLoader: Boolean = true) {

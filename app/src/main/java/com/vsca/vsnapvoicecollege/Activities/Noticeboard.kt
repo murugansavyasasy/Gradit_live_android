@@ -28,6 +28,11 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
 
@@ -35,6 +40,8 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     override var appViewModel: App? = null
 
     var NoticeboardType = true
+    private var useDefaultAdsUrl = false
+
     var GetNoticeboardData: ArrayList<GetNoticeboardDetails> = ArrayList()
     var GetCollegeNoticeBoardData: ArrayList<GetNoticeboardDetails> = ArrayList()
     var DepartmentCount: String? = null
@@ -112,6 +119,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                useDefaultAdsUrl = false
                 markInitialApiDone()
                 if (response != null) {
                     val status = response.status
@@ -122,11 +130,27 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .into(binding.CommonLayout.imgAdvertisement!!)
                         Glide.with(this)
                             .load(AdSmallImage)
@@ -135,6 +159,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -149,6 +174,8 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
                             .into(binding.CommonLayout.imgthumb!!)
                     }
                 } else {
+                    useDefaultAdsUrl = true
+
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -421,7 +448,7 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
     }
 
     fun adclick() {
-        LoadWebViewContext(this, AdWebURl)
+        LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     override fun onResume() {

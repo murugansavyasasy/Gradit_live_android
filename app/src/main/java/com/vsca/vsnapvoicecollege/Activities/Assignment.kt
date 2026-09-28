@@ -174,20 +174,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
-                            .listener(object : RequestListener<Drawable> {
-                                override fun onLoadFailed(
-                                    e: GlideException?, model: Any?,
-                                    target: Target<Drawable>, isFirstResource: Boolean
-                                ): Boolean {
-                                    useDefaultAdsUrl = true
-                                    return false
-                                }
 
-                                override fun onResourceReady(
-                                    resource: Drawable, model: Any, target: Target<Drawable>?,
-                                    dataSource: DataSource, isFirstResource: Boolean
-                                ): Boolean = false
-                            })
                             .into(binding.CommonLayout.imgthumb!!)
                     } else {
                         useDefaultAdsUrl = true

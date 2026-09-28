@@ -79,6 +79,11 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 
 class AddAssignment : ActionBarActivity() {
@@ -100,6 +105,8 @@ class AddAssignment : ActionBarActivity() {
     var AssignmentTitle: String? = null
     val REQUEST_Camera = 1
     var imageFilePath: String? = null
+    private var useDefaultAdsUrl = false
+
 
     //AWS
     var Awsuploadedfile = java.util.ArrayList<String>()
@@ -197,6 +204,8 @@ class AddAssignment : ActionBarActivity() {
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                useDefaultAdsUrl = false
+
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -207,10 +216,26 @@ class AddAssignment : ActionBarActivity() {
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
@@ -219,6 +244,8 @@ class AddAssignment : ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
+
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
@@ -233,6 +260,8 @@ class AddAssignment : ActionBarActivity() {
                             .into(binding.imgthumb!!)
                     }
                 } else {
+                    useDefaultAdsUrl = true
+
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
@@ -829,7 +858,7 @@ class AddAssignment : ActionBarActivity() {
     }
 
     fun adclick() {
-        BaseActivity.LoadWebViewContext(this, AdWebURl)
+        BaseActivity.LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     override fun onResume() {

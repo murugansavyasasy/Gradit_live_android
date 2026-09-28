@@ -43,6 +43,12 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityEventsBinding
 import org.apache.commons.io.FileUtils
 import java.io.File
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+
 
 class EventsViewDetails : ActionBarActivity() {
 
@@ -76,6 +82,8 @@ class EventsViewDetails : ActionBarActivity() {
     val REQUEST_GAllery = 2
     private lateinit var binding: ActivityEventsBinding
     var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
+    private var useDefaultAdsUrl = false
+
 
     private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
     private var pickVideoLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
@@ -111,6 +119,7 @@ class EventsViewDetails : ActionBarActivity() {
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                useDefaultAdsUrl = false
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -121,11 +130,28 @@ class EventsViewDetails : ActionBarActivity() {
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
@@ -136,6 +162,8 @@ class EventsViewDetails : ActionBarActivity() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
+
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -153,6 +181,8 @@ class EventsViewDetails : ActionBarActivity() {
                     }
 
                 } else {
+                    useDefaultAdsUrl = true
+
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)

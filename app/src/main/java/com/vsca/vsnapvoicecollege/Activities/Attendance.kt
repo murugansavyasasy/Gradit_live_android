@@ -33,6 +33,11 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceBinding
 import java.text.SimpleDateFormat
 import java.util.Date
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
@@ -54,6 +59,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var attendanceGet: List<Daum> = ArrayList()
     var AttendanceScreen: String? = "Take_Attendance"
+    private var useDefaultAdsUrl = false
+
 
     // Single loader shown until the initial APIs (attendance/student list + ads) all finish; the
     // individual per-call loaders are suppressed for these calls. pendingInitialApiCount tracks how many remain.
@@ -98,6 +105,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
         SelectedDate = simpleDateFormat.format(selectedDate)
         CommonUtil.Selecteddata = SelectedDate.toString()
+        binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
         binding.imgApplyleave.setOnClickListener { applayleave() }
         binding.CommonLayout.LayoutCollege.setOnClickListener { collegeClick() }
@@ -312,6 +320,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
         appViewModel!!.AdvertisementLiveData?.observe(this) { response ->
             markInitialApiDone()
+            useDefaultAdsUrl = false
+
             if (response != null) {
 
                 val status = response.status
@@ -323,10 +333,26 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         AdWebURl = GetAdForCollegeData[0].add_url.toString()
                     }
 
+                    if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                     Glide.with(this).load(AdBackgroundImage)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
+                        .listener(object : RequestListener<Drawable> {
+                            override fun onLoadFailed(
+                                e: GlideException?, model: Any?,
+                                target: Target<Drawable>, isFirstResource: Boolean
+                            ): Boolean {
+                                useDefaultAdsUrl = true
+                                return false
+                            }
+
+                            override fun onResourceReady(
+                                resource: Drawable, model: Any, target: Target<Drawable>?,
+                                dataSource: DataSource, isFirstResource: Boolean
+                            ): Boolean = false
+                        })
                         .into(binding.CommonLayout.imgAdvertisement!!)
                     Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
@@ -335,6 +361,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.CommonLayout.imgthumb!!)
                 } else {
+                    useDefaultAdsUrl = true
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_place_holder)
@@ -349,6 +376,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         .into(binding.CommonLayout.imgthumb!!)
                 }
             } else {
+                useDefaultAdsUrl = true
+
                 Glide.with(this).load(R.drawable.savyasasy_ads)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.adv_place_holder)
@@ -548,6 +577,9 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                 )
             }
         }
+    }
+    fun adclick() {
+        LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     private fun AttendanceRequest(SelectedDate: String) {

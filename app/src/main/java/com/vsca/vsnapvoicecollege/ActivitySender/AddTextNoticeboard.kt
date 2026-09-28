@@ -57,6 +57,11 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 
 class AddTextNoticeboard : ActionBarActivity() {
@@ -66,6 +71,8 @@ class AddTextNoticeboard : ActionBarActivity() {
     var PreviousAddId: Int = 0
     var AdBackgroundImage: String? = null
     var AdSmallImage: String? = null
+    private var useDefaultAdsUrl = false
+
     private var TextHistoryAdapter: TextHistoryAdapter? = null
 
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
@@ -119,6 +126,8 @@ class AddTextNoticeboard : ActionBarActivity() {
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                useDefaultAdsUrl = false
+
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -130,9 +139,25 @@ class AddTextNoticeboard : ActionBarActivity() {
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
@@ -142,6 +167,8 @@ class AddTextNoticeboard : ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
+
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
@@ -156,6 +183,8 @@ class AddTextNoticeboard : ActionBarActivity() {
                             .into(binding.imgthumb!!)
                     }
                 } else {
+                    useDefaultAdsUrl = true
+
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
@@ -604,7 +633,7 @@ class AddTextNoticeboard : ActionBarActivity() {
     }
 
     fun adclick() {
-        BaseActivity.LoadWebViewContext(this, AdWebURl)
+        BaseActivity.LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     override fun onResume() {

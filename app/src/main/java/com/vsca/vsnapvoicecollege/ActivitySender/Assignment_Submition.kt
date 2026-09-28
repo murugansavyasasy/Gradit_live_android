@@ -23,6 +23,12 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityAssignmentSubmitionBinding
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 
 
 class Assignment_Submition : ActionBarActivity() {
@@ -35,6 +41,8 @@ class Assignment_Submition : ActionBarActivity() {
     var AdBackgroundImage: String? = null
     var AdSmallImage: String? = null
     var AdWebURl: String? = null
+    private var useDefaultAdsUrl = false
+
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
     private lateinit var binding: ActivityAssignmentSubmitionBinding
@@ -59,10 +67,14 @@ class Assignment_Submition : ActionBarActivity() {
         binding.imgImagePdfback!!.setOnClickListener {
             super.onBackPressed()
         }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
+
 
         appViewModel!!.AdvertisementLiveData?.observe(
             this,
             Observer<GetAdvertisementResponse?> { response ->
+                useDefaultAdsUrl = false
+
                 if (response != null) {
                     val status = response.status
                     val message = response.message
@@ -73,10 +85,27 @@ class Assignment_Submition : ActionBarActivity() {
                             AdBackgroundImage = GetAdForCollegeData[0].background_image!!
                             AdWebURl = GetAdForCollegeData[0].add_url.toString()
                         }
+                        if (AdWebURl.isNullOrBlank() || AdWebURl == "null") useDefaultAdsUrl = true
+
                         Glide.with(this)
                             .load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?, model: Any?,
+                                    target: Target<Drawable>, isFirstResource: Boolean
+                                ): Boolean {
+                                    useDefaultAdsUrl = true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                                    dataSource: DataSource, isFirstResource: Boolean
+                                ): Boolean = false
+                            })
+
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgAdvertisement!!)
                         Glide.with(this)
@@ -86,6 +115,8 @@ class Assignment_Submition : ActionBarActivity() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
                     } else {
+                        useDefaultAdsUrl = true
+
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -100,6 +131,8 @@ class Assignment_Submition : ActionBarActivity() {
                             .into(binding.imgthumb!!)
                     }
                 } else {
+                    useDefaultAdsUrl = true
+
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -224,6 +257,10 @@ class Assignment_Submition : ActionBarActivity() {
             AssignmentsubmitedForStudent()
         }
         super.onResume()
+    }
+
+    fun adclick() {
+        BaseActivity.LoadWebViewContext(this, AdWebURl,useDefaultAdsUrl)
     }
 
     override fun onBackPressed() {

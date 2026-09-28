@@ -18,6 +18,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceDetailsfromstudentBinding
 
+
 class AttendanceDetailsfromstudent : ActionBarActivity() {
 
     var Attendancedetails: Attendancedetails? = null
