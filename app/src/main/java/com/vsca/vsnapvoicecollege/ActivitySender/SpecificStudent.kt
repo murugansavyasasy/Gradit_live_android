@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,7 +55,6 @@ class SpecificStudent : ActionBarActivity(),
     var appViewModel: App? = null
     var getspecifictuterstudent: List<specificStudent_datalist> = ArrayList()
     var specificStudent_adapter: specificStudent_adapter? = null
-//    var AWSUploadedFilesList = java.util.ArrayList<AWSUploadedFiles>()
     var AWSUploadedFilesList = java.util.ArrayList<String>()
     var Awsuploadedfile = java.util.ArrayList<String>()
     var pathIndex = 0
@@ -328,14 +326,16 @@ class SpecificStudent : ActionBarActivity(),
                         it.memberid
                         it.name
 
-                        val group = RecipientSelected(it.memberid, it.name, it.regno,it.admissionno)
+                        val group =
+                            RecipientSelected(it.memberid, it.name, it.regno, it.admissionno)
                         SelectedRecipientlist.add(group)
                     }
 
                     Log.d("GetStudentList", SelectedRecipientlist.size.toString())
                     CommonUtil.receiverid = ""
 
-                    SpecificStudentList = SelectedRecipientAdapter(SelectedRecipientlist,
+                    SpecificStudentList = SelectedRecipientAdapter(
+                        SelectedRecipientlist,
                         this,
                         object : RecipientCheckListener {
                             override fun add(data: RecipientSelected?) {
@@ -375,7 +375,7 @@ class SpecificStudent : ActionBarActivity(),
                     binding.recycleSpecific!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     SpecificStudentList!!.notifyDataSetChanged()
                 } else {
-                    CommonUtil.ApiAlert(this, response.message?:"Something went wrong")
+                    CommonUtil.ApiAlert(this, response.message ?: "Something went wrong")
 
                     binding.idSV!!.visibility = View.GONE
                     binding.recycleSpecific!!.visibility = View.GONE
@@ -383,7 +383,7 @@ class SpecificStudent : ActionBarActivity(),
                     binding.txtChBoxAll!!.visibility = View.GONE
                 }
             } else {
-                CommonUtil.ApiAlert(this, response?.message?:"Something went wrong")
+                CommonUtil.ApiAlert(this, response?.message ?: "Something went wrong")
                 binding.idSV!!.visibility = View.GONE
                 binding.chBoxAll!!.visibility = View.GONE
                 binding.txtChBoxAll!!.visibility = View.GONE
@@ -806,7 +806,8 @@ class SpecificStudent : ActionBarActivity(),
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -824,7 +825,8 @@ class SpecificStudent : ActionBarActivity(),
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -855,7 +857,8 @@ class SpecificStudent : ActionBarActivity(),
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -873,7 +876,8 @@ class SpecificStudent : ActionBarActivity(),
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -911,8 +915,11 @@ class SpecificStudent : ActionBarActivity(),
     private fun getspecificstudentdata() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.deptid)
         jsonObject.addProperty(ApiRequestNames.Req_yearid, CommonUtil.YearId)
@@ -938,7 +945,7 @@ class SpecificStudent : ActionBarActivity(),
 
     }
 
-     fun cancelClick() {
+    fun cancelClick() {
         onBackPressed()
         CommonUtil.DepartmentChooseIds.clear()
         CommonUtil.DepartmentChooseIds.add(CommonUtil.SectionIdChoose)
@@ -1187,8 +1194,7 @@ class SpecificStudent : ActionBarActivity(),
                         alertDialog.setPositiveButton(
                             CommonUtil.Yes
                         ) { _, _ ->
-                            //   NoticeBoardSMSsending()
-//                            awsFileUpload(this, pathIndex)
+
                             isUploadAWS()
                         }
 
@@ -1214,8 +1220,7 @@ class SpecificStudent : ActionBarActivity(),
                         alertDialog.setPositiveButton(
                             CommonUtil.Yes
                         ) { _, _ ->
-                            //   NoticeBoardSMSsendingTuter()
-//                            awsFileUpload(this, pathIndex)
+
                             isUploadAWS()
                         }
 
@@ -1247,7 +1252,6 @@ class SpecificStudent : ActionBarActivity(),
                             CommonUtil.Yes
                         ) { _, _ ->
 
-//                            awsFileUpload(this, pathIndex)
                             isUploadAWS()
 
                         }
@@ -1277,7 +1281,6 @@ class SpecificStudent : ActionBarActivity(),
                         alertDialog.setPositiveButton(
                             CommonUtil.Yes
                         ) { _, _ ->
-//                            awsFileUpload(this, pathIndex)
                             isUploadAWS()
                         }
                         alertDialog.setNegativeButton(
@@ -1305,7 +1308,6 @@ class SpecificStudent : ActionBarActivity(),
                 alertDialog.setPositiveButton(
                     CommonUtil.Yes
                 ) { _, _ ->
-//                    awsFileUpload(this, pathIndex)
                     isUploadAWS()
                 }
                 alertDialog.setNegativeButton(
@@ -1330,7 +1332,6 @@ class SpecificStudent : ActionBarActivity(),
                 alertDialog.setPositiveButton(
                     CommonUtil.Yes
                 ) { _, _ ->
-//                    awsFileUpload(this, pathIndex)
                     isUploadAWS()
                 }
                 alertDialog.setNegativeButton(
@@ -1463,7 +1464,6 @@ class SpecificStudent : ActionBarActivity(),
                         alertDialog.setPositiveButton(
                             CommonUtil.Yes
                         ) { _, _ ->
-                            //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                             VimeoUploader.uploadVideo(
                                 this,
                                 CommonUtil.title,
@@ -1488,7 +1488,6 @@ class SpecificStudent : ActionBarActivity(),
                         alertDialog.setPositiveButton(
                             CommonUtil.Yes
                         ) { _, _ ->
-//                            VimeoVideoUpload(this, CommonUtil.videofile!!)
                             VimeoUploader.uploadVideo(
                                 this,
                                 CommonUtil.title,
@@ -1522,8 +1521,11 @@ class SpecificStudent : ActionBarActivity(),
     private fun VideosendParticuler() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -1542,8 +1544,11 @@ class SpecificStudent : ActionBarActivity(),
     private fun VideosendParticulerTuter() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
@@ -1570,8 +1575,8 @@ class SpecificStudent : ActionBarActivity(),
         }
 
         jsonObject.addProperty(ApiRequestNames.Req_eventid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
@@ -1598,8 +1603,11 @@ class SpecificStudent : ActionBarActivity(),
             jsonObject.addProperty(ApiRequestNames.Req_eventid, "0")
         }
 
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
@@ -1623,11 +1631,11 @@ class SpecificStudent : ActionBarActivity(),
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -1718,11 +1726,11 @@ class SpecificStudent : ActionBarActivity(),
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -1808,31 +1816,28 @@ class SpecificStudent : ActionBarActivity(),
     private fun NoticeBoardSMSsending() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
         jsonObject.addProperty(ApiRequestNames.Req_isStaff, isStaff)
         jsonObject.addProperty(ApiRequestNames.Req_isParent, isParent)
         val FileNameArray = JsonArray()
-//        if (!CommonUtil.urlFromS3.equals(null)) {
-            for (i in AWSUploadedFilesList.indices) {
-                val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
-//                if (CommonUtil.urlFromS3!!.contains(".pdf")) {
-                if (AWSUploadedFilesList.get(0).contains(".pdf")) {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
-                } else {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
-                }
-                FileNameArray.add(FileNameobject)
+        for (i in AWSUploadedFilesList.indices) {
+            val FileNameobject = JsonObject()
+            FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
+            if (AWSUploadedFilesList.get(0).contains(".pdf")) {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
+            } else {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
             }
-//        }
+            FileNameArray.add(FileNameobject)
+        }
         jsonObject.add("files", FileNameArray)
 
 
@@ -1843,12 +1848,12 @@ class SpecificStudent : ActionBarActivity(),
     private fun NoticeBoardSMSsendingTuter() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -1856,18 +1861,15 @@ class SpecificStudent : ActionBarActivity(),
         jsonObject.addProperty(ApiRequestNames.Req_isParent, isParent)
 
         val FileNameArray = JsonArray()
-//        if (!CommonUtil.urlFromS3.equals(null)) {
-            for (i in AWSUploadedFilesList.indices) {
-                val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
-//                if (CommonUtil.urlFromS3!!.contains(".pdf")) {
-                if (AWSUploadedFilesList.get(0).contains(".pdf")) {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
-                } else {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
-                }
-                FileNameArray.add(FileNameobject)
-//            }
+        for (i in AWSUploadedFilesList.indices) {
+            val FileNameobject = JsonObject()
+            FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
+            if (AWSUploadedFilesList.get(0).contains(".pdf")) {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
+            } else {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
+            }
+            FileNameArray.add(FileNameobject)
         }
         jsonObject.add("files", FileNameArray)
 
@@ -1895,112 +1897,6 @@ class SpecificStudent : ActionBarActivity(),
     }
 
 
-//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-//
-//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-//        val s3Uploader1Obj: S3Uploader1
-//        s3Uploader1Obj = S3Uploader1(activity)
-//        pathIndex = pathind!!
-//
-//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-//            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
-//            Log.d("uploadFilePath", uploadFilePath.toString())
-//            val extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-//            contentType = if (extension.equals(".pdf")) {
-//                ".pdf"
-//            } else {
-//                ".jpg"
-//            }
-//            break
-//        }
-//
-//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-//            Log.d("test", uploadFilePath!!)
-//            if (uploadFilePath != null) {
-//                progressDialog = CustomLoading.createProgressDialog(this)
-//
-//                progressDialog!!.show()
-//                fileNameDateTime =
-//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
-//                fileNameDateTime = "File_" + fileNameDateTime
-//                Log.d("filenamedatetime", fileNameDateTime.toString())
-//                s3Uploader1Obj.initUpload(
-//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-//                )
-//
-//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
-//                    override fun onUploadSuccess(response: String?) {
-//                        if (response!!.equals("Success")) {
-//
-//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-//                                this@SpecificStudent,
-//                                CommonUtil.CollegeId.toString(),
-//                                uploadFilePath,
-//                                fileNameDateTime
-//                            )
-//
-//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-//
-//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-//
-//
-//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-//
-//
-//                                fileName = File(uploadFilePath)
-//
-//                                filename = fileName!!.name
-//                                AWSUploadedFilesList.add(
-//                                    AWSUploadedFiles(
-//                                        CommonUtil.urlFromS3!!, filename, contentType
-//                                    )
-//                                )
-//
-//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-//                                awsFileUpload(activity, pathIndex + 1)
-//
-//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-//                                    progressDialog!!.dismiss()
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onUploadError(response: String?) {
-//                        progressDialog!!.dismiss()
-//                    }
-//                })
-//            }
-//
-//        } else {
-//
-//            if (CommonUtil.ScreenType.equals(CommonUtil.Image_Pdf)) {
-//                CommonUtil.receivertype = "7"
-//                if (CommonUtil.SpecificButton.equals(CommonUtil.Subjects)) {
-//                    ImageOrPdfsendparticuler()
-//                } else if (CommonUtil.SpecificButton.equals(CommonUtil.Tutor)) {
-//                    ImageOrPdfsendparticulerTuter()
-//                }
-//            } else if (CommonUtil.SpecificButton.equals(CommonUtil.New_Assignment)) {
-//                CommonUtil.receivertype = "2"
-//                AssignmentsendEntireSection()
-//            } else if (CommonUtil.SpecificButton.equals(CommonUtil.Forward_Assignment)) {
-//                CommonUtil.receivertype = "2"
-//                Assignmentforward()
-//
-//
-//            } else if (CommonUtil.ScreenType.equals(CommonUtil.Noticeboard)) {
-//                CommonUtil.receivertype = "7"
-//                if (CommonUtil.SpecificButton.equals(CommonUtil.Subjects)) {
-//                    NoticeBoardSMSsending()
-//                } else if (CommonUtil.SpecificButton.equals(CommonUtil.Tutor)) {
-//                    NoticeBoardSMSsendingTuter()
-//                }
-//            }
-//        }
-//    }
-
     private fun isUploadAWS() {
         progressDialog = CustomLoading.createProgressDialog(this)
         progressDialog!!.show()
@@ -2015,7 +1911,7 @@ class SpecificStudent : ActionBarActivity(),
     private fun AwsUploadingFile(
         isFilePath: String
     ) {
-        Log.d("isFilePath",isFilePath.toString())
+        Log.d("isFilePath", isFilePath.toString())
         isAwsUploadingPreSigned!!.getPreSignedUrl(
             this,
             isFilePath,
@@ -2074,7 +1970,6 @@ class SpecificStudent : ActionBarActivity(),
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
 
-//        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
         if (AWSUploadedFilesList.get(0).contains(".pdf")) {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "3")
         } else {
@@ -2111,7 +2006,6 @@ class SpecificStudent : ActionBarActivity(),
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
 
-//        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
         if (AWSUploadedFilesList.get(0).contains(".pdf")) {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "3")
         } else {
@@ -2143,8 +2037,11 @@ class SpecificStudent : ActionBarActivity(),
     private fun VoiceHistoryEntireSend() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)
@@ -2152,15 +2049,18 @@ class SpecificStudent : ActionBarActivity(),
         jsonObject.addProperty(ApiRequestNames.Req_isStaff, isStaff)
         jsonObject.addProperty(ApiRequestNames.Req_isParent, isParent)
         jsonObject.addProperty(ApiRequestNames.Req_filetype, "1")
-        jsonObject.addProperty("forwarding_voice_id", CommonUtil.voiceHeadedId?.toString()?:"")
+        jsonObject.addProperty("forwarding_voice_id", CommonUtil.voiceHeadedId?.toString() ?: "")
         appViewModel!!.SendVoiceToEntireHistory(jsonObject, this)
         Log.d("VoiceToEntireHistory", jsonObject.toString())
     }
 
     private fun SendVoiceToParticulerHistory() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)
@@ -2187,8 +2087,8 @@ class SpecificStudent : ActionBarActivity(),
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -2239,7 +2139,8 @@ class SpecificStudent : ActionBarActivity(),
                                     val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -2261,7 +2162,8 @@ class SpecificStudent : ActionBarActivity(),
                                     val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -2298,8 +2200,8 @@ class SpecificStudent : ActionBarActivity(),
         mProgressDialog.show()
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -2350,7 +2252,8 @@ class SpecificStudent : ActionBarActivity(),
                                     val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent = Intent(
                                                 this@SpecificStudent, Communication::class.java
@@ -2370,7 +2273,8 @@ class SpecificStudent : ActionBarActivity(),
                                     val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 

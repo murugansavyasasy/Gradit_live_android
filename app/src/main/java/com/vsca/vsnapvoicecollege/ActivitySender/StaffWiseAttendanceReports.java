@@ -23,11 +23,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,13 +55,13 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class StaffWiseAttendanceReports extends AppCompatActivity implements  View.OnClickListener {
+public class StaffWiseAttendanceReports extends AppCompatActivity implements View.OnClickListener {
 
-    TextView btnTodaysReport,btnMonthWiseReports,lblNoRecords;
+    TextView btnTodaysReport, btnMonthWiseReports, lblNoRecords;
     RecyclerView recycleReports;
-    Spinner spinnerStaffs,spinnerYears,spinnerMonths;
-    LinearLayout lnrHeaderSpinners,lnrDatesSpinners;
-    RelativeLayout rytStaffSpinner,rytParent;
+    Spinner spinnerStaffs, spinnerYears, spinnerMonths;
+    LinearLayout lnrHeaderSpinners, lnrDatesSpinners;
+    RelativeLayout rytStaffSpinner, rytParent;
     public List<PunchHistoryRes.PunchHistoryData> punchTimingList = new ArrayList<PunchHistoryRes.PunchHistoryData>();
     public PunchHistoryAdapter punchHistoryAdapter;
     public List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> attendanceReportsList = new ArrayList<StaffAttendanceBiometricReportRes.BiometriStaffReportData>();
@@ -145,6 +143,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (mAdapter == null)
@@ -157,12 +156,12 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                     if (txtSearch.getText().toString().isEmpty()) {
                         recycleReports.setVisibility(View.VISIBLE);
                     }
-                }
-                else {
+                } else {
                     recycleReports.setVisibility(View.VISIBLE);
                     lblNoRecords.setVisibility(View.GONE);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 filterlist(editable.toString());
@@ -285,12 +284,9 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                         if (response.body().getStatus() == 1) {
                             StaffList = response.body().getData();
                             loadStaffListSpinner();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-//                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     if (mProgressDialog.isShowing())
@@ -312,7 +308,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
     private void loadStaffListSpinner() {
         String[] staffs = new String[StaffList.size()];
 
-        for(int i=0 ; i<StaffList.size() ;i++){
+        for (int i = 0; i < StaffList.size(); i++) {
             String staffname = StaffList.get(i).getStaffName();
             staffs[i] = staffname;
         }
@@ -329,6 +325,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                 getStaffWiseAttendanceReports();
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -407,7 +404,6 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                         }
                     } else {
                         recycleReports.setVisibility(View.GONE);
-//                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     if (mProgressDialog.isShowing())
@@ -444,7 +440,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         lblTitle.setTypeface(null, Typeface.BOLD);
         lblNoRecords.setTypeface(null, Typeface.BOLD);
 
-        viewPunchHistory(item,recycleHistory,lblNoRecords);
+        viewPunchHistory(item, recycleHistory, lblNoRecords);
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -522,7 +518,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         Calendar calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         Years[0] = String.valueOf(currentYear);
-        for(int i=1 ; i<20 ;i++){
+        for (int i = 1; i < 20; i++) {
             currentYear = currentYear - 1;
             Years[i] = String.valueOf(currentYear);
         }
@@ -533,9 +529,10 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         spinnerYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("SelectedYear",Years[position]);
+                Log.d("SelectedYear", Years[position]);
                 loadMonthsSpinner(Years[position]);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -550,16 +547,16 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         List<String> monthList = new ArrayList<>();
         monthList.add(monthNames[currentMonthIndex]);
 
-        monthsModel data ;
+        monthsModel data;
         List<monthsModel> monthDataList = new ArrayList<>();
-        data = new monthsModel(currentMonthIndex,monthNames[currentMonthIndex]);
+        data = new monthsModel(currentMonthIndex, monthNames[currentMonthIndex]);
         monthDataList.add(data);
         Log.d("currentMonthIndex", String.valueOf(currentMonthIndex));
         // Add the rest of the months
         for (int i = 0; i < monthNames.length; i++) {
             if (i != currentMonthIndex) {
                 monthList.add(monthNames[i]);
-                data = new monthsModel(i,monthNames[i]);
+                data = new monthsModel(i, monthNames[i]);
                 monthDataList.add(data);
             }
         }
@@ -572,22 +569,21 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("monthPosition", String.valueOf(position));
                 int ID = monthDataList.get(position).getID();
-                if(ID > 8){
-                    monthID = selectedYear+ "-"+String.valueOf(ID+1);
-                }
-                else {
-                    monthID = selectedYear+ "-"+"0"+String.valueOf(ID+1);
+                if (ID > 8) {
+                    monthID = selectedYear + "-" + String.valueOf(ID + 1);
+                } else {
+                    monthID = selectedYear + "-" + "0" + String.valueOf(ID + 1);
                 }
 
-                if(StaffList.size() == 0) {
+                if (StaffList.size() == 0) {
                     getStaffsList();
-                }
-                else {
+                } else {
                     getStaffWiseAttendanceReports();
                 }
 
-                Log.d("SelectedMonthID",monthID);
+                Log.d("SelectedMonthID", monthID);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }

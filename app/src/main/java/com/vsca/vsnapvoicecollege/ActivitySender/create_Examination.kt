@@ -5,11 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -23,17 +19,17 @@ import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.ExamList
 import com.vsca.vsnapvoicecollege.Adapters.Adaper_CreateExamination
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
+import com.vsca.vsnapvoicecollege.Model.sectionnamelist
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityCreateExaminationBinding
 
-class create_Examination: ActionBarActivity() {
-
+class create_Examination : ActionBarActivity() {
 
 
     var sectionnamelist: ArrayList<sectionnamelist>? = null
@@ -52,10 +48,10 @@ class create_Examination: ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateExaminationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -95,8 +91,7 @@ class create_Examination: ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -112,8 +107,7 @@ class create_Examination: ActionBarActivity() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -303,7 +297,10 @@ class create_Examination: ActionBarActivity() {
     private fun SemesterRequest() {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_userid,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
             jsonObject.addProperty(ApiRequestNames.Req_appid, "1")
             jsonObject.addProperty(ApiRequestNames.Req_semesterid, CommonUtil.semesterid)
 
@@ -338,11 +335,11 @@ class create_Examination: ActionBarActivity() {
 
             jsonObject.addProperty(
                 ApiRequestNames.Req_collegeid,
-                CommonUtil.Examination_Creation[k].collegeid?.toString()?:""
+                CommonUtil.Examination_Creation[k].collegeid?.toString() ?: ""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_staffid,
-                CommonUtil.Examination_Creation[k].staffid?.toString()?:""
+                CommonUtil.Examination_Creation[k].staffid?.toString() ?: ""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_examid,
@@ -460,11 +457,11 @@ class create_Examination: ActionBarActivity() {
 
             jsonObject.addProperty(
                 ApiRequestNames.Req_colgid,
-                CommonUtil.ExamcreationEdit.get(k).collegeid?.toString()?:""
+                CommonUtil.ExamcreationEdit.get(k).collegeid?.toString() ?: ""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_userid,
-                CommonUtil.ExamcreationEdit.get(k).staffid?.toString()?:""
+                CommonUtil.ExamcreationEdit.get(k).staffid?.toString() ?: ""
             )
             jsonObject.addProperty(
                 ApiRequestNames.Req_Examid,
@@ -522,7 +519,7 @@ class create_Examination: ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_create_examination
 
-     fun adclick() {
+    fun adclick() {
         BaseActivity.LoadWebViewContext(this, AdWebURl)
     }
 
@@ -533,7 +530,7 @@ class create_Examination: ActionBarActivity() {
         super.onResume()
     }
 
-     fun imgback() {
+    fun imgback() {
         onBackPressed()
         CommonUtil.Examination_Creation.clear()
         CommonUtil.Subjectdetail_ExamCreation.clear()

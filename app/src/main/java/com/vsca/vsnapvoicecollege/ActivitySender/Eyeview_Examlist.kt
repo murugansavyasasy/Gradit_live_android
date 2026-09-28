@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
@@ -20,7 +18,11 @@ import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Adapters.Examlist_viewAdapter
 import com.vsca.vsnapvoicecollege.Interfaces.ExamSubjectclick
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.ExamcreationEdit
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
+import com.vsca.vsnapvoicecollege.Model.SubjectExamcreationEDIT
+import com.vsca.vsnapvoicecollege.Model.examlist
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -73,8 +75,7 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
-//        UserMenuRequest(this)
+
 
         CommonUtil.ExamcreationEdit.clear()
         CommonUtil.SubjectExamcreationEDIT.clear()
@@ -112,8 +113,7 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this).load(R.drawable.savyasasy_ads)
 
                             .placeholder(R.drawable.adv_place_holder)
@@ -129,8 +129,7 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this).load(R.drawable.savyasasy_ads)
 
                         .placeholder(R.drawable.adv_place_holder)
@@ -348,8 +347,11 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_Examid, CommonUtil.headerid)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         appViewModel!!.Examview(jsonObject, this)
         Log.d("GetExamview", jsonObject.toString())
     }
@@ -358,8 +360,11 @@ class Eyeview_Examlist : BaseActivity<ExamviewActivityBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_Examid, CommonUtil.headerid)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         appViewModel!!.ExamEditANDdELETE(jsonObject, this)
         Log.d("ExamEditANDdELETE", jsonObject.toString())
     }
