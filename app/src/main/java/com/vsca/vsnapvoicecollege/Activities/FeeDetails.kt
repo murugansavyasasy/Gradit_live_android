@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.MenuItem
@@ -10,9 +9,8 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowInsetsControllerCompat
+import androidx.appcompat.widget.Toolbar
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor

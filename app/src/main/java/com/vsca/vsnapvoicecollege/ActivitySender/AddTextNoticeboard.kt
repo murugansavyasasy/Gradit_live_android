@@ -2,12 +2,9 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.ContentResolver
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -22,19 +19,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.MimeTypeMap
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupWindow
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -58,19 +50,16 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuDescription
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuTitle
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.ActivityAddTextNoticeboardBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import org.apache.commons.io.FileUtils
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
-class AddTextNoticeboard: ActionBarActivity() {
+class AddTextNoticeboard : ActionBarActivity() {
     var ScreenType: Boolean? = null
     var appViewModel: App? = null
     var AdWebURl: String? = null
@@ -107,7 +96,7 @@ class AddTextNoticeboard: ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
             statusBarBgView = binding.statusBarBackground,
@@ -144,24 +133,51 @@ class AddTextNoticeboard: ActionBarActivity() {
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
+                    } else {
+                        Glide.with(this).load(R.drawable.savyasasy_ads)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
+                        Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .into(binding.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this).load(R.drawable.savyasasy_ads)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
+                    Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .into(binding.imgthumb!!)
                 }
+
             })
 
         binding.txtDescription!!.addTextChangedListener(mTextEditorWatcher)
         binding.txtDescription!!.enableScrollText()
 
         ScreenType = intent.getBooleanExtra("screentype", true)
-        Log.d("isDatatacome",ScreenType.toString())
+        Log.d("isDatatacome", ScreenType.toString())
         if (ScreenType!!) {
-               binding.LayoutUploadImagePdf!!.visibility = View.VISIBLE
+            binding.LayoutUploadImagePdf!!.visibility = View.VISIBLE
             ScreenName = CommonUtil.Noticeboard
             binding.lblMenuTitle.text = "New Noticeboard"
             binding.LayoutHeadernoticeboard!!.visibility = View.VISIBLE
@@ -205,10 +221,10 @@ class AddTextNoticeboard: ActionBarActivity() {
 
                     }
                 } else {
-                    CustomAlertFinish(this,"No data found")
+                    CustomAlertFinish(this, "No data found")
                 }
             } else {
-                CustomAlertFinish(this,"No data found")
+                CustomAlertFinish(this, "No data found")
             }
         }
 
@@ -405,7 +421,7 @@ class AddTextNoticeboard: ActionBarActivity() {
     }
 
 
-     fun ChooseFile() {
+    fun ChooseFile() {
 
         Log.d("popup", "test")
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -444,10 +460,7 @@ class AddTextNoticeboard: ActionBarActivity() {
 
             FilePopup?.dismiss()
 
-//            val intent1 = Intent(this, AlbumSelectActivity::class.java)
-//            intent1.putExtra("Gallery", "Images")
-//            startActivityForResult(intent1, REQUEST_GAllery)
-//            FilePopup!!.dismiss()
+
         }
 
         LayoutCamera.setOnClickListener {
@@ -527,14 +540,13 @@ class AddTextNoticeboard: ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_add_text_noticeboard
 
-     fun btnNextClick() {
+    fun btnNextClick() {
 
         MenuTitle = binding.txtTitle!!.text.toString()
         MenuDescription = binding.txtDescription!!.text.toString()
         Log.d("MenuDescription", MenuDescription!!)
         if (ScreenName.equals(CommonUtil.Noticeboard)) {
             if ((!MenuTitle.isNullOrEmpty()) && (!MenuDescription.isNullOrEmpty())) {
-                //    if (CommonUtil.SelcetedFileList.isNotEmpty()) {
                 CommonUtil.receiverid = ""
                 if (CommonUtil.Priority.equals("p7")) {
                     val i: Intent = Intent(this, HeaderRecipient::class.java)
@@ -557,9 +569,7 @@ class AddTextNoticeboard: ActionBarActivity() {
                         startActivity(i)
                     }
                 }
-//                } else {
-//                    CommonUtil.ApiAlert(this, "Choose Minimum one File")
-//                }
+
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.Enter_Details)
             }

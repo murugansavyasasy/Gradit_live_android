@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
@@ -44,9 +43,7 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
         appviewModel = ViewModelProvider(this)[App::class.java]
         appviewModel!!.init()
 
-//        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-//        insetsController.isAppearanceLightStatusBars = true
-//        insetsController.isAppearanceLightNavigationBars = true
+
 
         isToolBarPrimaryTheme1(
             mainViewId = R.id.main,
@@ -121,21 +118,11 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
             val profiles = groupedMap[priority]
             if (!profiles.isNullOrEmpty()) {
 
-//                val title = when {
-//                    profiles.first().loginas?.contains("Principal", ignoreCase = true) == true -> "Principal"
-//                    profiles.first().loginas?.contains("Student", ignoreCase = true) == true   -> "Student"
-//                    profiles.first().loginas?.contains("Staff", ignoreCase = true) == true     -> "Staff"
-//                    profiles.first().loginas?.contains("Parent", ignoreCase = true) == true    -> "Parent"
-//                    profiles.first().loginas?.contains("HOD", ignoreCase = true) == true       -> "HOD"
-//                    profiles.first().loginas?.contains("Non", ignoreCase = true) == true       -> "Non Teaching Staff"
-//                    profiles.first().loginas?.contains("University", ignoreCase = true) == true -> "University Head"
-//                    else -> profiles.first().loginas ?: "Other"
-//                }
 
                 result.add(
                     ProfileGroup(
                         priority = priority!!,
-                        title = profiles.firstOrNull()?.loginas?:"",
+                        title = profiles.firstOrNull()?.loginas ?: "",
                         count = profiles.size,
                         isExpanded = true,
                         profile = ArrayList(profiles)
@@ -149,6 +136,7 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
     fun logoutClick() {
         BaseActivity.LogoutAlert(getString(R.string.txt_logout_alert), 0, this@LoginRolesRewamp)
     }
+
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,
         statusBarBgView: View

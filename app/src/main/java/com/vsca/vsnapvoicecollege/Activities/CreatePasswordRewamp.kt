@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
@@ -55,34 +54,35 @@ class CreatePasswordRewamp : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener { onBackPressed() }
         binding.imgNewPasswordopen.setOnClickListener { imgpasswordlockClick() }
-        binding.imgConfpasswordopen.setOnClickListener { imgpasswordconfirmlockClick()
+        binding.imgConfpasswordopen.setOnClickListener {
+            imgpasswordconfirmlockClick()
         }
 
 //        This tell which label should be placed whether reset password or create password
 //        Because if user is coming first it will come Create Password he already created
 //        now user may forget the password so user may clicked Forget Password
         authSource = intent.getStringExtra(CommonUtil.EXTRA_AUTH_SOURCE)
-        Log.d("OTP","This password request came from"+authSource)
+        Log.d("OTP", "This password request came from" + authSource)
 
         when (authSource) {
 
             CommonUtil.AUTH_SOURCE_MOBILE -> {
-                binding.tvTitle.text="Create Password"
-                binding.tvSubtitle.text="Set a secure password to protect your account."
-                binding.txtNext.text="Create Password"
+                binding.tvTitle.text = "Create Password"
+                binding.tvSubtitle.text = "Set a secure password to protect your account."
+                binding.txtNext.text = "Create Password"
 
             }
 
             CommonUtil.AUTH_SOURCE_LOGIN -> {
-                binding.tvTitle.text="Reset Password"
-                binding.tvSubtitle.text="Create a new password to securely access your account."
-                binding.txtNext.text="Reset Password"
+                binding.tvTitle.text = "Reset Password"
+                binding.tvSubtitle.text = "Create a new password to securely access your account."
+                binding.txtNext.text = "Reset Password"
             }
 
             else -> {
-                binding.tvTitle.text="New Password"
-                binding.tvSubtitle.text="Create a new password to securely access your account."
-                binding.txtNext.text="New Password"
+                binding.tvTitle.text = "New Password"
+                binding.tvSubtitle.text = "Create a new password to securely access your account."
+                binding.txtNext.text = "New Password"
 
             }
         }
@@ -96,7 +96,7 @@ class CreatePasswordRewamp : AppCompatActivity() {
                 val message = response.Message
                 if (status == 1) {
 
-                    if (authSource== CommonUtil.AUTH_SOURCE_MOBILE) {
+                    if (authSource == CommonUtil.AUTH_SOURCE_MOBILE) {
                         SharedPreference.setFirstTimeLoggedInUser(this@CreatePasswordRewamp, true)
                     }
 
@@ -148,7 +148,7 @@ class CreatePasswordRewamp : AppCompatActivity() {
         binding.confpasswordEdt.addTextChangedListener(watcher)
 
 
-            binding.txtNext!!.setOnClickListener {
+        binding.txtNext!!.setOnClickListener {
 
             Newpassword = binding.newPasswordEdt!!.text.toString()
             ConfirmNewpassword = binding.confpasswordEdt!!.text.toString()
@@ -281,59 +281,59 @@ class CreatePasswordRewamp : AppCompatActivity() {
 
     }
 
-fun isToolBarPrimaryTheme1(
-    mainViewId: Int,
-    statusBarBgView: View
-) {
-    enableEdgeToEdge()
+    fun isToolBarPrimaryTheme1(
+        mainViewId: Int,
+        statusBarBgView: View
+    ) {
+        enableEdgeToEdge()
 
-    val mainView = findViewById<View>(mainViewId)
+        val mainView = findViewById<View>(mainViewId)
 
-    WindowCompat.getInsetsController(
-        window,
-        window.decorView
-    ).isAppearanceLightStatusBars = true
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = true
 
-    WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-    ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
 
-        val systemBars = insets.getInsets(
-            WindowInsetsCompat.Type.systemBars()
-        )
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
-        statusBarBgView.updateLayoutParams {
-            height = systemBars.top
+            statusBarBgView.updateLayoutParams {
+                height = systemBars.top
+            }
+
+            view.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
+
+            insets
         }
 
-        view.updatePadding(
-            left = systemBars.left,
-            right = systemBars.right,
-            bottom = systemBars.bottom
-        )
-
-        insets
-    }
-
-    // White status bar background
-    statusBarBgView.setBackgroundColor(Color.WHITE)
-
-    window.statusBarColor = Color.TRANSPARENT
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-        )
-
-        window.clearFlags(
-            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-        )
+        // White status bar background
+        statusBarBgView.setBackgroundColor(Color.WHITE)
 
         window.statusBarColor = Color.TRANSPARENT
 
-        window.navigationBarColor =
-            resources.getColor(R.color.white, theme)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            )
+
+            window.clearFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            )
+
+            window.statusBarColor = Color.TRANSPARENT
+
+            window.navigationBarColor =
+                resources.getColor(R.color.white, theme)
+        }
     }
-}
 }

@@ -4,16 +4,15 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.CategoryCreditWiseAdapter
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.GetCategoryTypeDetails
+import com.vsca.vsnapvoicecollege.Model.GetCategoryWiseCreditDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -72,7 +71,6 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
 
         CommonUtil.OnMenuClicks("CategoryCredit")
 
@@ -88,7 +86,6 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
                 GetCategoryCreditData.clear()
 
                 if (status == 1) {
-//                    UserMenuRequest(this)
                     GetCategoryCreditData = response.data!!
 
                     var listSize = GetCategoryCreditData.size
@@ -108,19 +105,19 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
                         categorycreditAdapter!!.notifyDataSetChanged()
                     } else {
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
-                        binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                        binding.lblNoRecordsFound!!.text = getString(R.string.txt_no_data_found)
                         binding.idRVCategories!!.visibility = View.GONE
                         binding.LayoutTable!!.visibility = View.GONE
 
                     }
                 } else {
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
-                    binding.lblNoRecordsFound!!.text=response.message
+                    binding.lblNoRecordsFound!!.text = response.message
                     binding.idRVCategories!!.visibility = View.GONE
                     binding.LayoutTable!!.visibility = View.GONE
                 }
             } else {
-                binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                binding.lblNoRecordsFound!!.text = getString(R.string.error_null_cursor)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
                 binding.LayoutTable!!.visibility = View.GONE
@@ -139,12 +136,12 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
                 } else {
 
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
-                    binding.lblNoRecordsFound!!.text=response.message
+                    binding.lblNoRecordsFound!!.text = response.message
                     binding.idRVCategories!!.visibility = View.GONE
                     binding.LayoutTable!!.visibility = View.GONE
                 }
             } else {
-                binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                binding.lblNoRecordsFound!!.text = getString(R.string.txt_no_data_found)
                 binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.idRVCategories!!.visibility = View.GONE
                 binding.LayoutTable!!.visibility = View.GONE
@@ -215,7 +212,10 @@ class CategoryCreditWise : BaseActivity<ActivityCategoryCreditWiseBinding>() {
         val jsonObject = JsonObject()
 
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid?.toIntOrNull() ?: 0)
+        jsonObject.addProperty(
+            ApiRequestNames.Req_i_course_id,
+            CommonUtil.Courseid?.toIntOrNull() ?: 0
+        )
         jsonObject.addProperty(ApiRequestNames.Req_i_category_id, categoryID?.toIntOrNull() ?: 0)
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         appViewModel!!.getCategoryWiseCredit(jsonObject, this)

@@ -5,15 +5,16 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.webkit.*
-import android.widget.TextView
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowInsetsControllerCompat
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityVideoPlayBinding
 
 class VideoPlay : AppCompatActivity() {

@@ -2,10 +2,8 @@ package com.vsca.vsnapvoicecollege.Activities
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -58,26 +56,24 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
                 val status = response.status
                 val message = response.message
                 if (status) {
-                    if (response.data.isNotEmpty()){
-                        binding.ErrorMessage.visibility=View.GONE
-                        binding.rcyPlacementTraining.visibility=View.VISIBLE
+                    if (response.data.isNotEmpty()) {
+                        binding.ErrorMessage.visibility = View.GONE
+                        binding.rcyPlacementTraining.visibility = View.VISIBLE
                         isLoadData(response.data)
-                    }else{
-                        binding.ErrorMessage.visibility=View.VISIBLE
-                        binding.rcyPlacementTraining.visibility=View.GONE
+                    } else {
+                        binding.ErrorMessage.visibility = View.VISIBLE
+                        binding.rcyPlacementTraining.visibility = View.GONE
                     }
 
+                } else {
+                    binding.rcyPlacementTraining.visibility = View.GONE
+                    binding.ErrorMessage.visibility = View.VISIBLE
+                    binding.ErrorMessage.text = response.message
                 }
-                else{
-                    binding.rcyPlacementTraining.visibility=View.GONE
-                    binding.ErrorMessage.visibility=View.VISIBLE
-                    binding.ErrorMessage.text=response.message
-                }
-            }
-            else{
-                binding.rcyPlacementTraining.visibility=View.GONE
-                binding.ErrorMessage.visibility=View.VISIBLE
-                binding.ErrorMessage.text="No Record Found"
+            } else {
+                binding.rcyPlacementTraining.visibility = View.GONE
+                binding.ErrorMessage.visibility = View.VISIBLE
+                binding.ErrorMessage.text = "No Record Found"
             }
         }
 
@@ -86,26 +82,24 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
                 val status = response.status
                 val message = response.message
                 if (status) {
-                    if (response.data.isNotEmpty()){
-                        binding.ErrorMessage.visibility=View.GONE
-                        binding.rcyPlacementTraining.visibility=View.VISIBLE
+                    if (response.data.isNotEmpty()) {
+                        binding.ErrorMessage.visibility = View.GONE
+                        binding.rcyPlacementTraining.visibility = View.VISIBLE
                         isLoadHistoricalData(response.data)
-                    }else{
-                        binding.ErrorMessage.visibility=View.VISIBLE
-                        binding.rcyPlacementTraining.visibility=View.GONE
+                    } else {
+                        binding.ErrorMessage.visibility = View.VISIBLE
+                        binding.rcyPlacementTraining.visibility = View.GONE
                     }
 
+                } else {
+                    binding.rcyPlacementTraining.visibility = View.GONE
+                    binding.ErrorMessage.visibility = View.VISIBLE
+                    binding.ErrorMessage.text = response.message
                 }
-                else{
-                    binding.rcyPlacementTraining.visibility=View.GONE
-                    binding.ErrorMessage.visibility=View.VISIBLE
-                    binding.ErrorMessage.text=response.message
-                }
-            }
-            else{
-                binding.rcyPlacementTraining.visibility=View.GONE
-                binding.ErrorMessage.visibility=View.VISIBLE
-                binding.ErrorMessage.text="No Record Found"
+            } else {
+                binding.rcyPlacementTraining.visibility = View.GONE
+                binding.ErrorMessage.visibility = View.VISIBLE
+                binding.ErrorMessage.text = "No Record Found"
             }
         }
 
@@ -118,9 +112,9 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
             binding.tabOneName.setTextColor(ContextCompat.getColor(this, R.color.dark_blue))
             binding.tabTwoName.setTextColor(ContextCompat.getColor(this, R.color.black))
             binding.line2.setBackgroundResource(R.color.light_gray_3)
-            binding.rcyPlacementTraining.visibility=View.GONE
-            binding.ErrorMessage.visibility=View.GONE
-            binding.rcyPlacementTraining.visibility=View.VISIBLE
+            binding.rcyPlacementTraining.visibility = View.GONE
+            binding.ErrorMessage.visibility = View.GONE
+            binding.rcyPlacementTraining.visibility = View.VISIBLE
 
             isUpcomingEventData()
         }
@@ -132,9 +126,9 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
             binding.tabTwoName.setTextColor(ContextCompat.getColor(this, R.color.dark_blue))
             binding.line2.setBackgroundResource(R.color.dark_blue)
             binding.line1.setBackgroundResource(R.color.light_gray_3)
-            binding.rcyPlacementTraining.visibility=View.GONE
-            binding.ErrorMessage.visibility=View.GONE
-            binding.rcyPlacementTraining.visibility=View.VISIBLE
+            binding.rcyPlacementTraining.visibility = View.GONE
+            binding.ErrorMessage.visibility = View.GONE
+            binding.rcyPlacementTraining.visibility = View.VISIBLE
             isHistoricalEventData()
         }
 
@@ -144,8 +138,8 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
 
     }
 
-    fun isUpcomingEventData(){
-        val items =  CommonUtil.SemesteName
+    fun isUpcomingEventData() {
+        val items = CommonUtil.SemesteName
         val isSemeName = items.split(" ")
 
         val firstName = isSemeName[0]
@@ -153,12 +147,17 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
 
         println(firstName)
         println(lastName)
-        appViewModel!!.isPlacementCareerData(CommonUtil.CollegeId.toString(),CommonUtil.deptname, lastName.toInt(), this)
+        appViewModel!!.isPlacementCareerData(
+            CommonUtil.CollegeId.toString(),
+            CommonUtil.deptname,
+            lastName.toInt(),
+            this
+        )
     }
 
-    fun isHistoricalEventData(){
+    fun isHistoricalEventData() {
 
-        val items =  CommonUtil.SemesteName
+        val items = CommonUtil.SemesteName
         val isSemeName = items.split(" ")
 
         val firstName = isSemeName[0]
@@ -168,7 +167,12 @@ class CareerTraining : BaseActivity<CareerTrainingBinding>() {
         println(lastName)
 
 
-        appViewModel!!.isPlacementHostoricalCareerData(CommonUtil.CollegeId.toString(),CommonUtil.deptname, lastName.toInt(), this)
+        appViewModel!!.isPlacementHostoricalCareerData(
+            CommonUtil.CollegeId.toString(),
+            CommonUtil.deptname,
+            lastName.toInt(),
+            this
+        )
     }
 
     fun isLoadData(isPlacementData: List<CareerTrainingData>) {

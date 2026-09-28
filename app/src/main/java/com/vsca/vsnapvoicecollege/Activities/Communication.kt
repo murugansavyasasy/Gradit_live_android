@@ -6,11 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -24,7 +21,11 @@ import com.vsca.vsnapvoicecollege.ActivitySender.CommunicationVoice
 import com.vsca.vsnapvoicecollege.Adapters.CommunicationAdapter
 import com.vsca.vsnapvoicecollege.Interfaces.MenuCountResponseCallback
 import com.vsca.vsnapvoicecollege.Interfaces.communicationListener
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.Communication_NewButtonResponse
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
+import com.vsca.vsnapvoicecollege.Model.GetCommunicationDetails
+import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -155,7 +156,8 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
             binding.CommonLayout.txtNoticeLable!!.visibility = View.GONE
         }
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 markInitialApiDone()
                 if (response != null) {
@@ -180,7 +182,33 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
+                    } else {
+                        Glide.with(this)
+                            .load(R.drawable.savyasasy_ads)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
+                        Glide.with(this)
+                            .load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.savyasasy_ads)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.CommonLayout.imgAdvertisement!!)
+                    Glide.with(this)
+                        .load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .into(binding.CommonLayout.imgthumb!!)
                 }
             })
 

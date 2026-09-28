@@ -2,8 +2,6 @@ package com.vsca.vsnapvoicecollege.Activities
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,7 +49,6 @@ class Notification : BaseActivity<BottomMenuSwipeBinding>() {
             fixActionBarOverlap(binding.LayoutBottomMenus)
         }
 
-//        MenuBottomType()
         NotificatonRequest()
         if (CommonUtil.HeaderMenuNotification) {
             imgNotification!!.isEnabled = false
@@ -91,8 +88,11 @@ class Notification : BaseActivity<BottomMenuSwipeBinding>() {
 
     private fun NotificatonRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_MemberID, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         dashboardViewModel!!.getNotifications(jsonObject, this@Notification)
         Log.d("NotificationRequest:", jsonObject.toString())
     }

@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -68,7 +67,7 @@ class ApplyLeave : ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -143,7 +142,8 @@ class ApplyLeave : ActionBarActivity() {
             }
         }
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 if (response != null) {
                     val status = response.status
@@ -166,7 +166,33 @@ class ApplyLeave : ActionBarActivity() {
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
+                    } else {
+                        Glide.with(this).load(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .into(binding.imgAdvertisement!!)
+                        Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .into(binding.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this).load(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .into(binding.imgAdvertisement!!)
+                    Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .into(binding.imgthumb!!)
                 }
             })
 
@@ -225,7 +251,8 @@ class ApplyLeave : ActionBarActivity() {
                         val dlg = this.let { AlertDialog.Builder(it) }
                         dlg.setTitle(CommonUtil.Info)
                         dlg.setMessage(message)
-                        dlg.setPositiveButton(CommonUtil.OK,
+                        dlg.setPositiveButton(
+                            CommonUtil.OK,
                             DialogInterface.OnClickListener { dialog, which ->
                                 val i: Intent =
 
@@ -302,8 +329,8 @@ class ApplyLeave : ActionBarActivity() {
     private fun Manageleavesend(Proccesstype: String, LeaveTypeID: String) {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId?.toString() ?: "")
 
 
         if (Proccesstype.equals("add")) {
@@ -447,8 +474,8 @@ class ApplyLeave : ActionBarActivity() {
     fun Leavetype() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
         appViewModel!!.getLeaveType(jsonObject, this)
         Log.d("LeavetypeRequest:", jsonObject.toString())
 

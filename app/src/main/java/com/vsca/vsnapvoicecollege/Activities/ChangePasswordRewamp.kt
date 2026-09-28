@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
@@ -106,7 +105,7 @@ class ChangePasswordRewamp : AppCompatActivity() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    val mobilenumber=SharedPreference.getSH_MobileNumber(this)
+                    val mobilenumber = SharedPreference.getSH_MobileNumber(this)
                     if (!mobilenumber.isNullOrEmpty() && !NewPassword.isNullOrEmpty()) {
                         SharedPreference.putLoginDetails(
                             this@ChangePasswordRewamp,
@@ -228,59 +227,6 @@ class ChangePasswordRewamp : AppCompatActivity() {
         Log.d("ChangePasswordRequest", jsonObject.toString())
     }
 
-//    fun isToolBarPrimaryTheme1(
-//        mainViewId: Int,
-//        statusBarBgView: View
-//    ) {
-//        enableEdgeToEdge()
-//
-//        val mainView = findViewById<View>(mainViewId)
-//
-//        // White status bar icons
-//        WindowCompat.getInsetsController(
-//            window,
-//            window.decorView
-//        ).isAppearanceLightStatusBars = false
-//
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
-//
-//            val systemBars = insets.getInsets(
-//                WindowInsetsCompat.Type.systemBars()
-//            )
-//
-//            statusBarBgView.updateLayoutParams {
-//                height = systemBars.top
-//            }
-//
-//            view.updatePadding(
-//                left = systemBars.left,
-//                right = systemBars.right,
-//                bottom = systemBars.bottom
-//            )
-//
-//            insets
-//        }
-//
-//        window.statusBarColor = Color.TRANSPARENT
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//            window.addFlags(
-//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-//            )
-//
-//            window.clearFlags(
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//            )
-//
-//            window.statusBarColor = Color.TRANSPARENT
-//
-//            window.navigationBarColor =
-//                resources.getColor(R.color.clr_auth_gray, theme)
-//        }
-//    }
 
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,

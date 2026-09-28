@@ -9,18 +9,12 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.Switch
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,8 +32,6 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityCategoryCreditWiseBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityChatCommunicationBinding
 
 
@@ -72,7 +64,6 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this)
@@ -101,7 +92,6 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
             view.setPadding(0, systemBars.top, 0, systemBars.bottom)
             insets
         }
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
 
 
         swipeRefreshLayout = findViewById(R.id.swipyrefreshlayout)
@@ -115,8 +105,6 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
-//        UserMenuRequest(this)
 
 
         binding.CommonLayout.imgheaderBack.setOnClickListener { imgheaderBack() }
@@ -603,10 +591,6 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
                     binding.CommonLayout.recyclerChat!!.itemAnimator = DefaultItemAnimator()
                     binding.CommonLayout.recyclerChat!!.adapter = ChatSenderSide_Adapter
                     binding.CommonLayout.recyclerChat!!.recycledViewPool.setMaxRecycledViews(0, 80)
-//                    if (Offset == 0 || isrefresh!!) {
-//                        Log.d("scrollToPosition", Senderside_Chatdata!!.size.toString())
-//                        binding.CommonLayout.recyclerChat!!.scrollToPosition(Senderside_Chatdata!!.size - 1)
-//                    }
                     ChatSenderSide_Adapter!!.notifyDataSetChanged()
                     if (isrefresh == true) {
 
@@ -690,12 +674,15 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
         val jsonObject = JsonObject()
 
         if (isrefresh!!) {
-            jsonObject.addProperty(ApiRequestNames.Req_offset, Offset?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_offset, Offset?.toString() ?: "")
         } else {
             Offset = 0
-            jsonObject.addProperty(ApiRequestNames.Req_offset, Offset?.toString()?:"")
+            jsonObject.addProperty(ApiRequestNames.Req_offset, Offset?.toString() ?: "")
         }
-        jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_student_id,
+            CommonUtil.MemberId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.staffid)
         jsonObject.addProperty(ApiRequestNames.Req_limit, "10")
         jsonObject.addProperty(ApiRequestNames.Req_section_id, CommonUtil.SectionId)
@@ -729,12 +716,18 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_question, CommonUtil.Textedit)
-        jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_student_id,
+            CommonUtil.MemberId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.staffid)
         jsonObject.addProperty(ApiRequestNames.Req_section_id, CommonUtil.SectionId)
         jsonObject.addProperty(ApiRequestNames.Req_subject_id, CommonUtil.subjectid)
         jsonObject.addProperty(ApiRequestNames.Req_is_classteacher, CommonUtil.isclassteacher)
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
 
         appViewModel!!.ChatStudent(jsonObject, this)
         Log.d("ChatStudent", jsonObject.toString())
@@ -745,7 +738,7 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_answer, CommonUtil.Textedit)
-        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_question_id, CommonUtil.Questionid)
         jsonObject.addProperty(ApiRequestNames.Req_is_changeanswer, CommonUtil.changeanswer)
         jsonObject.addProperty(ApiRequestNames.Req_reply_type, replaytype)
@@ -758,8 +751,11 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.studentid)
-        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
 
         appViewModel!!.StudentBlack(jsonObject, this)
         Log.d("StudentBlack", jsonObject.toString())
@@ -769,8 +765,11 @@ class ChatCommunication : BaseActivity<ActivityChatCommunicationBinding>() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.studentid)
-        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
 
         appViewModel!!.StudentUnBlack(jsonObject, this)
         Log.d("UnStudentBlack", jsonObject.toString())

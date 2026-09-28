@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.CompoundButton
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -71,8 +70,8 @@ class CommunicationVoice : ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         setupAudioPlayer()
-        ActionbarWithoutBottom(this,hideBackButton = true)
+        setupAudioPlayer()
+        ActionbarWithoutBottom(this)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -92,9 +91,10 @@ class CommunicationVoice : ActionBarActivity() {
             binding.txtOnandoff!!.visibility = View.GONE
         }
         binding.btnConfirm!!.visibility = View.VISIBLE
-        
+
         binding.btnConfirm.setOnClickListener { addreception() }
-        binding.imgrecord.setOnClickListener { imgvoicerecordClick()
+        binding.imgrecord.setOnClickListener {
+            imgvoicerecordClick()
         }
         binding.btnCancel.setOnClickListener { onBackPressed() }
         binding.imgPlayPasue.setOnClickListener { recplaypause() }
@@ -140,7 +140,37 @@ class CommunicationVoice : ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
+                    } else {
+                        Glide.with(this)
+                            .load(R.drawable.savyasasy_ads)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
+                        Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                        Glide.with(this)
+                            .load(R.drawable.adv_thumb_gradit_logo)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.savyasasy_ads)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.imgAdvertisement!!)
+                    Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                    Glide.with(this)
+                        .load(R.drawable.adv_thumb_gradit_logo)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.imgthumb!!)
                 }
             })
 
@@ -226,7 +256,7 @@ class CommunicationVoice : ActionBarActivity() {
     override val layoutResourceId: Int
         get() = R.layout.activity_communication_voice
 
-     fun addreception() {
+    fun addreception() {
 
         CommonUtil.voicetitle = binding.edtVoicename!!.text.toString()
 
@@ -261,9 +291,9 @@ class CommunicationVoice : ActionBarActivity() {
     private fun historyOfVoice() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString() ?: "")
         appViewModel!!._VoiceHistoryData(jsonObject, this)
         Log.d("_VoiceHistoryData:", jsonObject.toString())
 
@@ -287,7 +317,7 @@ class CommunicationVoice : ActionBarActivity() {
         Log.d("PreviousAddId", PreviousAddId.toString())
     }
 
-     fun imgvoicerecordClick() {
+    fun imgvoicerecordClick() {
         if (bIsRecording) {
             stop_RECORD()
 

@@ -5,23 +5,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
-import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity.Companion.LoadWebViewContext
 import com.vsca.vsnapvoicecollege.Adapters.ExamAdd_StaffAdapter
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.Data
+import com.vsca.vsnapvoicecollege.Model.Examination_Creation
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
+import com.vsca.vsnapvoicecollege.Model.Get_staff_yourclass
+import com.vsca.vsnapvoicecollege.Model.SemesterSectionListDetails
+import com.vsca.vsnapvoicecollege.Model.department_coursedata
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.SenderModel.GetDepartmentData
@@ -31,7 +36,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityAddExaminationBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import java.util.Calendar
 
 class AddExamination : ActionBarActivity() {
@@ -81,7 +85,7 @@ class AddExamination : ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -129,7 +133,35 @@ class AddExamination : ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
+                    } else {
+                        Glide.with(this)
+                            .load(R.drawable.savyasasy_ads)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
+
+                        Glide.with(this)
+                            .load(R.drawable.adv_thumb_gradit_logo)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.savyasasy_ads)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.imgAdvertisement!!)
+
+                    Glide.with(this)
+                        .load(R.drawable.adv_thumb_gradit_logo)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.imgthumb!!)
                 }
             })
 
@@ -383,7 +415,8 @@ class AddExamination : ActionBarActivity() {
                         GetDivisionData!!.forEach {
                             it.division_id
                             it.division_name
-                            val divisions = RecipientSelected(it.division_id, it.division_name,"","")
+                            val divisions =
+                                RecipientSelected(it.division_id, it.division_name, "", "")
                             SelectedRecipientlist.add(divisions)
                         }
                         LoadDivisionSpinner()
@@ -411,7 +444,7 @@ class AddExamination : ActionBarActivity() {
                             it.department_id
                             it.department_name
                             val department =
-                                RecipientSelected(it.department_id, it.department_name,"","")
+                                RecipientSelected(it.department_id, it.department_name, "", "")
                             SelectedRecipientlist.add(department)
                         }
                         LoadDepartmentSpinner()
@@ -440,7 +473,7 @@ class AddExamination : ActionBarActivity() {
                             it.course_id
                             it.course_name
 
-                            val group = RecipientSelected(it.course_id, it.course_name,"","")
+                            val group = RecipientSelected(it.course_id, it.course_name, "", "")
                             SelectedRecipientlist.add(group)
                         }
                         if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
@@ -471,7 +504,8 @@ class AddExamination : ActionBarActivity() {
                         Getyouurclassdata!!.forEach {
                             it.yearid
                             it.yearname
-                            val course = RecipientSelected(it.yearid.toString(), it.yearname,"","")
+                            val course =
+                                RecipientSelected(it.yearid.toString(), it.yearname, "", "")
                             SelectedRecipientlist.add(course)
                         }
                         if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
@@ -491,7 +525,6 @@ class AddExamination : ActionBarActivity() {
             if (response != null) {
                 val status = response.status
                 val message = response.message
-//                BaseActivity.UserMenuRequest(this)
                 if (status == 1) {
                     GetSemesterSectionData = response.data!!
                     if (GetSemesterSectionData.size > 0) {
@@ -499,7 +532,8 @@ class AddExamination : ActionBarActivity() {
                         GetSemesterSectionData.forEach {
                             it.clgsemesterid
                             it.semestername
-                            val semester = RecipientSelected(it.clgsemesterid, it.semestername,"","")
+                            val semester =
+                                RecipientSelected(it.clgsemesterid, it.semestername, "", "")
                             SelectedRecipientlist.add(semester)
                         }
                         if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1")) {
@@ -887,8 +921,14 @@ class AddExamination : ActionBarActivity() {
 
     private fun GetyearandsectionRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_clgprocessby,
+            CommonUtil.MemberId?.toString() ?: ""
+        )
+        jsonObject.addProperty(
+            ApiRequestNames.Req_idcollege,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_idcourse, SelectedSpinnerIDcousre)
         appViewModel!!.getyearsndsection(jsonObject, this)
         Log.d("Gety&sectionRequeat", jsonObject.toString())
@@ -896,8 +936,14 @@ class AddExamination : ActionBarActivity() {
 
     private fun GetyearandhodRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_clgprocessby,
+            CommonUtil.MemberId?.toString() ?: ""
+        )
+        jsonObject.addProperty(
+            ApiRequestNames.Req_idcollege,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_idcourse, SelectedSpinnerIDcousre)
         appViewModel!!.getyearsndsection(jsonObject, this)
         Log.d("Gety&sectionRequeat", jsonObject.toString())
@@ -926,8 +972,11 @@ class AddExamination : ActionBarActivity() {
     private fun GetDivisionRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         appViewModel!!.getDivision(jsonObject, this)
         Log.d("GetDivisionRequest", jsonObject.toString())
     }
@@ -935,8 +984,11 @@ class AddExamination : ActionBarActivity() {
     private fun GetDepartmentRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_div_id, SelectedSpinnerIDdivision)
         appViewModel!!.getDepartment(jsonObject, this)
         Log.d("GetDepartmentRequest", jsonObject.toString())
@@ -973,7 +1025,7 @@ class AddExamination : ActionBarActivity() {
         get() = R.layout.activity_add_examination
 
 
-     fun adclick() {
+    fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
 
@@ -986,7 +1038,7 @@ class AddExamination : ActionBarActivity() {
         super.onResume()
     }
 
-     fun eventdateClick() {
+    fun eventdateClick() {
 
         val c = Calendar.getInstance()
         val dialog = DatePickerDialog(
@@ -1009,7 +1061,7 @@ class AddExamination : ActionBarActivity() {
 
     }
 
-     fun endeate() {
+    fun endeate() {
 
 
         val c = Calendar.getInstance()

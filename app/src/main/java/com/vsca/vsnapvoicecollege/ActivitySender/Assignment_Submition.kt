@@ -4,28 +4,24 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TextView
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Adapters.Assignment_SubmittionAdapter
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.AssignmentSubmit
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityAssignmentSubmitionBinding
 
 
@@ -34,7 +30,6 @@ class Assignment_Submition : ActionBarActivity() {
     var Assignment_SubmittionAdapter: Assignment_SubmittionAdapter? = null
     var appViewModel: App? = null
     var Assignmentsubmit: ArrayList<AssignmentSubmit> = ArrayList()
-
 
 
     var AdBackgroundImage: String? = null
@@ -59,7 +54,7 @@ class Assignment_Submition : ActionBarActivity() {
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-         ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         binding.imgImagePdfback!!.setOnClickListener {
             super.onBackPressed()
@@ -90,7 +85,33 @@ class Assignment_Submition : ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
+                    } else {
+                        Glide.with(this)
+                            .load(R.drawable.savyasasy_ads)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
+                        Glide.with(this)
+                            .load(R.drawable.adv_thumb_gradit_logo)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.savyasasy_ads)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.imgAdvertisement!!)
+                    Glide.with(this)
+                        .load(R.drawable.adv_thumb_gradit_logo)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.imgthumb!!)
                 }
             })
 
@@ -167,9 +188,12 @@ class Assignment_Submition : ActionBarActivity() {
 
     private fun Assignmentsubmited() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_assignmentid, CommonUtil.Assignmentid.toIntOrNull()?:0)
-        jsonObject.addProperty("submissiontype", CommonUtil.isSubmitted.toIntOrNull()?:0)
+        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_assignmentid,
+            CommonUtil.Assignmentid.toIntOrNull() ?: 0
+        )
+        jsonObject.addProperty("submissiontype", CommonUtil.isSubmitted.toIntOrNull() ?: 0)
         appviewModelbase!!.Assignmentsubmitedsender(jsonObject, this)
         Log.d("jsonObject:", jsonObject.toString())
 
@@ -177,7 +201,7 @@ class Assignment_Submition : ActionBarActivity() {
 
     private fun AssignmentsubmitedForStudent() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_assignmentid, CommonUtil.Assignmentid)
         appviewModelbase!!.AssignmentsubmitedforStudent(jsonObject, this)
         Log.d("jsonObject:", jsonObject.toString())
@@ -185,7 +209,7 @@ class Assignment_Submition : ActionBarActivity() {
     }
 
     override val layoutResourceId: Int
-         get() = R.layout.activity_assignment_submition
+        get() = R.layout.activity_assignment_submition
 
     override fun onResume() {
         var AddId: Int = 1

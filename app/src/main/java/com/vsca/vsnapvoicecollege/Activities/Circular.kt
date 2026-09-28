@@ -5,11 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -29,7 +26,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
 
@@ -149,7 +145,33 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
+                    } else {
+                        Glide.with(this)
+                            .load(R.drawable.savyasasy_ads)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
+                        Glide.with(this)
+                            .load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.savyasasy_ads)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.CommonLayout.imgAdvertisement!!)
+                    Glide.with(this)
+                        .load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .into(binding.CommonLayout.imgthumb!!)
                 }
             })
 
@@ -196,7 +218,8 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             circularadapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     } else {
@@ -219,21 +242,22 @@ class Circular : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             circularadapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
                 } else {
                     if (CircularType) {
-                        binding.CommonLayout.lblNoRecordsFound.text=response.message
+                        binding.CommonLayout.lblNoRecordsFound.text = response.message
                         NoDataFound()
                     } else {
-                        binding.CommonLayout.lblNoRecordsFound.text=response.message
+                        binding.CommonLayout.lblNoRecordsFound.text = response.message
                         NoDataFound()
                     }
                 }
             } else {
-                binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.error_null_cursor)
+                binding.CommonLayout.lblNoRecordsFound.text = getString(R.string.error_null_cursor)
                 NoDataFound()
             }
         }

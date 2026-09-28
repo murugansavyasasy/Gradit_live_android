@@ -3,10 +3,6 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +17,6 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityExamViewMarksBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 
 class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
 
@@ -54,7 +49,7 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
         )
 
         if (supportActionBar != null) {
-            ActionBarMethod(this,true)
+            ActionBarMethod(this, true)
             fixActionBarOverlap(binding.LayoutBottomMenus)
         }
 
@@ -64,7 +59,6 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
         binding.LayoutExamMarks.imgback.setOnClickListener { onBackPressed() }
 
         ExamHeaderID = intent.getStringExtra("ExamHeaderID")
@@ -103,7 +97,6 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
                 val status = response.status
                 val message = response.message
 
-//                UserMenuRequest(this)
 
                 if (status == 1) {
                     GetStudentExamMarks = response.data!!
@@ -133,7 +126,6 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
                     binding.LayoutExamMarks.recyclerCommon!!.visibility = View.GONE
                 }
             } else {
-//                UserMenuRequest(this)
                 binding.LayoutExamMarks.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.LayoutExamMarks.recyclerCommon!!.visibility = View.GONE
             }
@@ -158,8 +150,11 @@ class ExamMarks : BaseActivity<ActivityExamViewMarksBinding>() {
     private fun ExamMarkListRequest() {
         val jsonObject = JsonObject()
         run {
-            jsonObject.addProperty(ApiRequestNames.Req_studentid, CommonUtil.MemberId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_examheaderid, ExamHeaderID?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_studentid,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
+            jsonObject.addProperty(ApiRequestNames.Req_examheaderid, ExamHeaderID ?: "")
 
             appViewModel!!.getStudentExamMarklist(jsonObject, this)
             Log.d("ExamMarksRequest:", jsonObject.toString())

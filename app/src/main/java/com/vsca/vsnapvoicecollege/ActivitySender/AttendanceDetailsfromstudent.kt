@@ -2,10 +2,6 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +16,6 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceDetailsfromstudentBinding
 
 class AttendanceDetailsfromstudent : ActionBarActivity() {
@@ -37,7 +32,7 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAttendanceDetailsfromstudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
@@ -50,8 +45,8 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
 
         binding.rlatopbar.applyPriorityColor(this, CommonUtil.Priority)
 
-        binding.lblattenSunjectname!!.text=CommonUtil.AttendanceSubjectname
-        binding.lblattenStaffname!!.text=CommonUtil.AttendanceStaffname
+        binding.lblattenSunjectname!!.text = CommonUtil.AttendanceSubjectname
+        binding.lblattenStaffname!!.text = CommonUtil.AttendanceStaffname
 
 
         appViewModel!!.StudentAttendance!!.observe(this) { response ->
@@ -86,7 +81,10 @@ class AttendanceDetailsfromstudent : ActionBarActivity() {
         run {
             jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
-            jsonObject.addProperty(ApiRequestNames.Req_subjectid, CommonUtil.AttendanceSubjectId.toIntOrNull()?:0)
+            jsonObject.addProperty(
+                ApiRequestNames.Req_subjectid,
+                CommonUtil.AttendanceSubjectId.toIntOrNull() ?: 0
+            )
             jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid)
             jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.AttendanceStaffid)
             appViewModel!!.DetailsforspecificstudentAttendance(jsonObject, this)

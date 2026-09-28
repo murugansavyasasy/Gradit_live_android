@@ -3,8 +3,6 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.MyProfileEdit
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -17,36 +15,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
-import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditbasicdetailsBinding
-import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
-import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 
 class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
@@ -65,7 +57,7 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
     private var popupWindow: PopupWindow? = null
     var Awsuploadedfile = java.util.ArrayList<String>()
 
-    private var memberId: String =""
+    private var memberId: String = ""
     private var isUserImage: String? = null
     var isAwsUploadingPreSigned: AwsUploadingPreSigned? = null
 
@@ -180,7 +172,8 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
             if (isChanged) {
                 showConfirmationDialog()
             } else {
-                Toast.makeText(this, "No changes found, saving anyway...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No changes found, saving anyway...", Toast.LENGTH_SHORT)
+                    .show()
                 isSaveTheData()
             }
         }
@@ -197,18 +190,18 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
         val name = CommonUtil.saveBasicDetails?.memberName ?: ""
         val phone = CommonUtil.saveBasicDetails?.memberPhoneNumber ?: ""
         val email = CommonUtil.saveBasicDetails?.memberstudentEmail ?: ""
-        val dob = CommonUtil.saveBasicDetails?.memberDob ?:""
-        val changeedDOB=CommonUtil.convertDateToDashFormat12(dob)
-        Log.d("Selected_Dob", CommonUtil.saveBasicDetails?.memberDob ?:"")
+        val dob = CommonUtil.saveBasicDetails?.memberDob ?: ""
+        val changeedDOB = CommonUtil.convertDateToDashFormat12(dob)
+        Log.d("Selected_Dob", CommonUtil.saveBasicDetails?.memberDob ?: "")
 
         val address =
             (CommonUtil.saveBasicDetails?.memberPermanentAddress1 ?: "") + "," +
-            (CommonUtil.saveBasicDetails?.memberPermanentAddressCity ?: "") + "," +
+                    (CommonUtil.saveBasicDetails?.memberPermanentAddressCity ?: "") + "," +
                     (CommonUtil.saveBasicDetails?.memberPermanentAddressPincode ?: "") + "," +
                     (CommonUtil.saveBasicDetails?.memberPermanentAddressState ?: "") + "," +
                     (CommonUtil.saveBasicDetails?.memberPermanentAddressCountry ?: "")
-        val isPlacement =  CommonUtil.saveBasicDetails?.memberPlacementStatus ?: ""
-        val isNotificationStatus =  CommonUtil.saveBasicDetails?.memberNotificationStatus ?: false
+        val isPlacement = CommonUtil.saveBasicDetails?.memberPlacementStatus ?: ""
+        val isNotificationStatus = CommonUtil.saveBasicDetails?.memberNotificationStatus ?: false
         Log.d("DEBUG", "Got notificationStatus: $isNotificationStatus")
         isUserImage = CommonUtil.saveBasicDetails?.memberImagePath ?: ""
         memberId = CommonUtil.saveBasicDetails!!.memberId.toString()
@@ -216,7 +209,7 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
         Log.d("MemberId2", memberId)
 
         originalName = name
-        originalDOB =changeedDOB.toString()
+        originalDOB = changeedDOB.toString()
         originalAddress = address
         originalPhone = phone
         originalEmail = email
@@ -315,8 +308,8 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
         val isSame = currentName == originalName &&
                 currentPhone == originalPhone &&
                 currentEmail == originalEmail &&
-                currentDOB==originalDOB&&
-                currentAddress==originalAddress&&
+                currentDOB == originalDOB &&
+                currentAddress == originalAddress &&
                 currentPlacementStatus == originalPlacementStatus &&
                 currentNotificationStatus == originalNotificationStatus &&
                 CommonUtil.SelcetedFileList.isEmpty() &&
@@ -339,8 +332,8 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
         val isSame = currentName == originalName &&
                 currentPhone == originalPhone &&
                 currentEmail == originalEmail &&
-                currentDOB==originalDOB&&
-                currentAddress==originalAddress&&
+                currentDOB == originalDOB &&
+                currentAddress == originalAddress &&
                 currentPlacementStatus == originalPlacementStatus &&
                 currentNotificationStatus == originalNotificationStatus &&
                 CommonUtil.SelcetedFileList.isEmpty() &&
@@ -431,10 +424,6 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
 
             popupWindow?.dismiss()
 
-//            val galleryIntent =
-//                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//            startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE)
-//            popupWindow?.dismiss()
         }
 
         LayoutCamera.setOnClickListener {
@@ -533,7 +522,7 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
     }
 
     private fun getPathFromUri(uri: Uri): String? {
-        Log.d("isThis is my uri",uri.toString())
+        Log.d("isThis is my uri", uri.toString())
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = contentResolver.query(uri, projection, null, null, null)
@@ -563,6 +552,7 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
                         isSaveTheData()
                     }
                 }
+
                 override fun onUploadError(error: String?) {
                     Log.e("Upload Error", error!!)
                     Toast.makeText(this@EditBasicDetails, "Upload failed", Toast.LENGTH_SHORT)

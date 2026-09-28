@@ -7,20 +7,15 @@ import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.core.view.WindowInsetsControllerCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.github.chrisbanes.photoview.PhotoView
 import com.vsca.vsnapvoicecollege.Activities.ActionBarActivity
 import com.vsca.vsnapvoicecollege.Adapters.ImageViewer
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.databinding.ActivityAllImageViewerBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 
 class AllImageViewer : ActionBarActivity() {
 
@@ -35,7 +30,7 @@ class AllImageViewer : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAllImageViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,

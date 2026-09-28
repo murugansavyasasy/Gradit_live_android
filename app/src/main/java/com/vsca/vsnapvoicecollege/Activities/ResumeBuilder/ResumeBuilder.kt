@@ -3,7 +3,6 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -13,26 +12,19 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
-import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
-import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit.EditAcademicDetails
-import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildMyResume
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.BuildResumeActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume.ResumePreviewActivity
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.MyProfileEdit.EditBasicDetails
@@ -43,11 +35,7 @@ import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderCertificationDetailsAdap
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderIntenshipDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeBuilderProjectDetailsAdapter
 import com.vsca.vsnapvoicecollege.Adapters.ResumeListAdapter
-import com.vsca.vsnapvoicecollege.Model.FilePath
-import com.vsca.vsnapvoicecollege.Model.GetAssessmentDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
-import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
-import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetailsData
@@ -55,22 +43,21 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeTitleData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
-import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
-import com.vsca.vsnapvoicecollege.databinding.PlacementEventBinding
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 
 
-class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>(){
+class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>() {
 
     override var appViewModel: App? = null
 
     override fun inflateBinding(): LayoutResumebuilderBinding {
         return LayoutResumebuilderBinding.inflate(layoutInflater)
     }
+
     var isMemeberId = 0
     private val isEducationItem = mutableListOf<GetEducationalDetailsData>()
     var isSkillSetData: GetResumeBuilderSkillSetDetailsData? = null
@@ -254,7 +241,7 @@ class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>(){
         val basicDetails = GetResumeBuilderProfileDetailsData(
             memberId = isMemeberId.toString(),
             memberName = binding.lblName.text.toString(),
-            memberDob = profile?.memberDob?:"",
+            memberDob = profile?.memberDob ?: "",
             memberPhoneNumber = binding.lblMobileNo.text.toString(),
             memberstudentEmail = binding.lblGamilId.text.toString(),
             memberPlacementStatus = binding.lblAvailPlacement.text.toString(),
@@ -287,8 +274,8 @@ class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>(){
 
         //We are Saving all the data in Constant as List Here
         CommonUtil.isSkillSetDataSending = saveSkillSetData
-        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.languages.toString())
-        Log.d("isComingData",CommonUtil.isSkillSetDataSending!!.internship.toString())
+        Log.d("isComingData", CommonUtil.isSkillSetDataSending!!.languages.toString())
+        Log.d("isComingData", CommonUtil.isSkillSetDataSending!!.internship.toString())
 
 
     }

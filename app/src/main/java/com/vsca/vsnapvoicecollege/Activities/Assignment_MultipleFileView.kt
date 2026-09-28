@@ -5,10 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -27,11 +23,9 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import com.vsca.vsnapvoicecollege.databinding.MultiplefileviewLayoutBinding
 
-class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>() {
+class Assignment_MultipleFileView : BaseActivity<MultiplefileviewLayoutBinding>() {
 
     override var appViewModel: App? = null
     var AdWebURl: String? = null
@@ -82,9 +76,6 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-       // ActionBarMethod(this)
-//        MenuBottomType()
-//        UserMenuRequest(this)
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
 
         appViewModel!!.AdvertisementLiveData?.observe(
@@ -114,7 +105,37 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
+                    } else {
+                        Glide.with(this)
+                            .load(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
+                        Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                        Glide.with(this)
+                            .load(R.drawable.savyasasy_ads)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .into(binding.CommonLayout.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .into(binding.CommonLayout.imgAdvertisement!!)
+                    Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                    Glide.with(this)
+                        .load(R.drawable.savyasasy_ads)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .into(binding.CommonLayout.imgthumb!!)
                 }
             })
 
@@ -190,7 +211,6 @@ class Assignment_MultipleFileView: BaseActivity<MultiplefileviewLayoutBinding>()
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
-//                    UserMenuRequest(this)
                     AdForCollegeApi()
 
                     AssignmentContent_ViewData = response.data

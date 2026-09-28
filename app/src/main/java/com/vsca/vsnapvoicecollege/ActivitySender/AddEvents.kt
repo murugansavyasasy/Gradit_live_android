@@ -1,6 +1,5 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
@@ -11,10 +10,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -32,14 +30,14 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityAddEventsBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 
-class AddEvents: ActionBarActivity() {
+class AddEvents : ActionBarActivity() {
 
     var appViewModel: App? = null
     var AdWebURl: String? = null
@@ -69,7 +67,7 @@ class AddEvents: ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -78,7 +76,7 @@ class AddEvents: ActionBarActivity() {
         )
 
         imgRefresh!!.visibility = View.GONE
-        binding.lblMenuTitle.text="New Event"
+        binding.lblMenuTitle.text = "New Event"
 
 
         eventsdata = intent.getSerializableExtra("EventsData") as? GetEventDetailsData
@@ -119,7 +117,8 @@ class AddEvents: ActionBarActivity() {
             }
         }
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 if (response != null) {
                     val status = response.status
@@ -142,7 +141,33 @@ class AddEvents: ActionBarActivity() {
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
+                    } else {
+                        Glide.with(this).load(R.drawable.adv_place_holder)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_place_holder)
+                            .error(R.drawable.savyasasy_ads)
+                            .into(binding.imgAdvertisement!!)
+                        Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.adv_thumb_placeholder)
+                            .error(R.drawable.adv_thumb_gradit_logo)
+                            .into(binding.imgthumb!!)
                     }
+                } else {
+                    Glide.with(this).load(R.drawable.adv_place_holder)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_place_holder)
+                        .error(R.drawable.savyasasy_ads)
+                        .into(binding.imgAdvertisement!!)
+                    Log.d("AdBackgroundImage", AdBackgroundImage!!)
+
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.adv_thumb_placeholder)
+                        .error(R.drawable.adv_thumb_gradit_logo)
+                        .into(binding.imgthumb!!)
                 }
             })
 
@@ -398,8 +423,11 @@ class AddEvents: ActionBarActivity() {
         val jsonObject = JsonObject()
 
         jsonObject.addProperty(ApiRequestNames.Req_eventid, CommonUtil.EventParticulerId)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
