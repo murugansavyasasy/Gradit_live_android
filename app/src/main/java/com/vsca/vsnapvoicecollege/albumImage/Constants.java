@@ -32,9 +32,6 @@ public class Constants {
         String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED};
 
 
-//        Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
-//        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
-
         Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, MediaStore.Images.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
         Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, MediaStore.Images.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
         Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal, cursorInternal});

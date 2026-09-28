@@ -586,7 +586,6 @@ interface ApiInterfaces {
     @POST("api/AppDetailsBal/BiometricEntryusingApp")
     fun BiometricEntryforAttendance(@Body jsonObject: JsonObject?): Call<JsonArray?>?
 
-    //    @GET("/api/AppDetailsBal/GetS3PresignedUrl")
     @GET("get-s3-presigned-url")
     fun getPreSignedUrl(
         @Query("bucket") bucket: String?,
@@ -596,10 +595,7 @@ interface ApiInterfaces {
     ): Call<JsonObject?>?
 
 
-//    @GET(ApiMethods.GetResumeBuilderProfileDetails)
-//    fun getResumeBuilderProfileDetails(
-//        @Query("id") id: Int?
-//    ): Call<GetResumeBuilderProfileDetails?>?
+
 
     @POST("profile/add-edit-profile")
     fun addEditProfileCall(

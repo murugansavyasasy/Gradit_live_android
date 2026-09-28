@@ -35,7 +35,7 @@ class SubjectListAdapter(data: List<ExamSubjectSubList>, context: Context) :
         val isExpanded = position == mExpandedPosition
 
 
-        holder.txt_financeandaccounding!!.text =  CommonUtil.isExamName
+        holder.txt_financeandaccounding!!.text = CommonUtil.isExamName
         holder.txt_testing_creating!!.text = data.examsubjectname
         holder.txt_date!!.text = data.examdate
         holder.txt_fn!!.text = data.examsession
@@ -68,7 +68,8 @@ class SubjectListAdapter(data: List<ExamSubjectSubList>, context: Context) :
         (itemView)!!
     ) {
 
-        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)!!
+        val txt_financeandaccounding: TextView =
+            itemView!!.findViewById(R.id.txt_financeandaccounding)!!
         val examlist_constrine: RelativeLayout = itemView!!.findViewById(R.id.examlist_constrine)!!
         val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)!!
         val consrin2: ConstraintLayout = itemView!!.findViewById(R.id.consrin2)!!

@@ -5,9 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
 import com.vsca.vsnapvoicecollege.Model.Get_staff_yourclass
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -20,7 +21,6 @@ class Subject_Adapter(data: List<Get_staff_yourclass>, context: Context) :
     private val selectCheck = ArrayList<Int>()
     var YearId = java.util.ArrayList<String>()
 
-    //    var iSubjectId = ArrayList<String>()
     var YearId_String: String? = null
     var DepartmentId = java.util.ArrayList<String>()
     var DepartmentId_String: String? = null
@@ -51,7 +51,7 @@ class Subject_Adapter(data: List<Get_staff_yourclass>, context: Context) :
 
         if (CommonUtil.Screenname == "Forward") {
 
-            Log.d("Assignment","Forward")
+            Log.d("Assignment", "Forward")
             if (selectCheck[position] == 1) {
                 holder.check_sections!!.isChecked = true
             } else {
@@ -108,7 +108,7 @@ class Subject_Adapter(data: List<Get_staff_yourclass>, context: Context) :
             })
 
         } else {
-            Log.d("Assignment","NotForward")
+            Log.d("Assignment", "NotForward")
             holder.check_sections!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
 
                 if (isChecked) {
@@ -198,13 +198,13 @@ class Subject_Adapter(data: List<Get_staff_yourclass>, context: Context) :
     inner class MyViewHolder constructor(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
-        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)!!
+        val txt_financeandaccounding: TextView =
+            itemView!!.findViewById(R.id.txt_financeandaccounding)!!
         val txt_bcom_Accounts: TextView = itemView!!.findViewById(R.id.txt_bcom_Accounts)!!
         val txt_year1: TextView = itemView!!.findViewById(R.id.txt_year1)!!
         val txt_semester1: TextView = itemView!!.findViewById(R.id.txt_semester1)!!
         val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)!!
         val check_sections: CheckBox = itemView!!.findViewById(R.id.check_sections)!!
-//        val txt_selectspecfic: TextView = itemView!!.findViewById(R.id.txt_selectspecfic)!!
 
 
     }

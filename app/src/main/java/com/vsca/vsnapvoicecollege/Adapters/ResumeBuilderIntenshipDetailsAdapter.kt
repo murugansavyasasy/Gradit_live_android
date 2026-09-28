@@ -1,11 +1,12 @@
 package com.vsca.vsnapvoicecollege.Adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
+import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
 class ResumeBuilderIntenshipDetailsAdapter(private val items: List<GetInternshipDetailsData>) :
@@ -27,6 +28,9 @@ class ResumeBuilderIntenshipDetailsAdapter(private val items: List<GetInternship
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.lblCompanyName.text = item.companyName
-        holder.lblDuration.text = CommonUtil.convertTimeStampToCustomFormat(item.from) +" to "+CommonUtil.convertTimeStampToCustomFormat(item.to)
+        holder.lblDuration.text =
+            CommonUtil.convertTimeStampToCustomFormat(item.from) + " to " + CommonUtil.convertTimeStampToCustomFormat(
+                item.to
+            )
     }
 }

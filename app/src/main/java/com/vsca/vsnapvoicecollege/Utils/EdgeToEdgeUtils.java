@@ -44,7 +44,9 @@ public class EdgeToEdgeUtils {
         return ContextCompat.getColor(context, colorRes);
     }
 
-    /** Overload that takes a priority string and resolves the colour itself. */
+    /**
+     * Overload that takes a priority string and resolves the colour itself.
+     */
     public static void setupEdgeToEdge(
             ComponentActivity activity,
             @Nullable View rootView,
@@ -56,7 +58,9 @@ public class EdgeToEdgeUtils {
         setupEdgeToEdge(activity, rootView, statusBarBgView, color, lightIcons);
     }
 
-    /** Main function. Call after setContentView(). Screens WITHOUT an ActionBar. */
+    /**
+     * Main function. Call after setContentView(). Screens WITHOUT an ActionBar.
+     */
     public static void setupEdgeToEdge(
             ComponentActivity activity,
             @Nullable View rootView,
@@ -103,7 +107,9 @@ public class EdgeToEdgeUtils {
         });
     }
 
-    /** Overload that takes a priority string and resolves the colour itself. Screens WITH an ActionBar. */
+    /**
+     * Overload that takes a priority string and resolves the colour itself. Screens WITH an ActionBar.
+     */
     public static void setupEdgeToEdgeWithActionBar(
             ComponentActivity activity,
             @Nullable View rootView,
@@ -114,7 +120,9 @@ public class EdgeToEdgeUtils {
         setupEdgeToEdgeWithActionBar(activity, rootView, color, lightIcons);
     }
 
-    /** Call after setContentView() + your ActionBar setup call. Screens WITH an ActionBar. */
+    /**
+     * Call after setContentView() + your ActionBar setup call. Screens WITH an ActionBar.
+     */
     public static void setupEdgeToEdgeWithActionBar(
             ComponentActivity activity,
             @Nullable View rootView,
@@ -152,7 +160,9 @@ public class EdgeToEdgeUtils {
         }
     }
 
-    /** Pushes contentView down if the ActionBar overlaps it. Adds nothing when there's no overlap. */
+    /**
+     * Pushes contentView down if the ActionBar overlaps it. Adds nothing when there's no overlap.
+     */
     public static void fixActionBarOverlap(AppCompatActivity activity, @Nullable View contentView) {
         if (contentView == null) return;
 

@@ -8,15 +8,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Activities.*
+import com.vsca.vsnapvoicecollege.Activities.Assignment
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
+import com.vsca.vsnapvoicecollege.Activities.EventsViewDetails
 import com.vsca.vsnapvoicecollege.ActivitySender.AddAssignment
 import com.vsca.vsnapvoicecollege.ActivitySender.Assignment_Submition
 import com.vsca.vsnapvoicecollege.Model.Delete_noticeboard
@@ -292,11 +296,13 @@ class AssignmentAdapter(data: List<GetAssignmentDetails>, context: Context) :
         (itemView)!!
     ) {
         val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)
-        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)
+        val lblNoticeboardDescription: TextView =
+            itemView!!.findViewById(R.id.lblNoticeboardDescription)
         val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)
         val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)
         val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)
-        val lblNotAssingmentSubmition: TextView = itemView!!.findViewById(R.id.lblNotAssingmentSubmition)
+        val lblNotAssingmentSubmition: TextView =
+            itemView!!.findViewById(R.id.lblNotAssingmentSubmition)
         val lblSubmitedOn: TextView = itemView!!.findViewById(R.id.lblSubmitedOn)
         val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)
         val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)
@@ -328,11 +334,11 @@ class AssignmentAdapter(data: List<GetAssignmentDetails>, context: Context) :
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty("deptid", "1")
         jsonObject.addProperty("courseid", "")
         jsonObject.addProperty("yearid", "")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", "")
         jsonObject.addProperty("subjectid", "")

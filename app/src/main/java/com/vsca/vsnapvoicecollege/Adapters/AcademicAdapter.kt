@@ -1,15 +1,11 @@
-
-
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Model.EducationFormattedData
-import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.R
 
 class AcademicAdapter(
@@ -22,7 +18,8 @@ class AcademicAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcademicViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_academic, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_academic, parent, false)
         return AcademicViewHolder(view)
     }
 

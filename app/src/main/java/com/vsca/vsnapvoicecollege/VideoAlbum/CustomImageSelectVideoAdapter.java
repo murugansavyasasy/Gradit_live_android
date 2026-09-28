@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -58,12 +57,6 @@ public class CustomImageSelectVideoAdapter extends CustomGenericVideoAdapter<Vid
 
                 .placeholder(R.drawable.image_placeholder).into(viewHolder.imageView);
         Log.d("arraylist", String.valueOf(arrayList.get(position).path));
-
-
-//            Intent i = new Intent(context, GalleryPreview.class);
-//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            i.putExtra("selected images", arrayList.get(position).path);
-//            convertView.getContext().startActivity(i);
 
 
         return convertView;

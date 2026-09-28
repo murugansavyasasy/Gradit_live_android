@@ -5,7 +5,6 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Interfaces.ProfileClickListener
@@ -52,7 +51,8 @@ class ProfileItemAdapter(
         private val rytOverAll: View = itemView.findViewById(R.id.rytOverAll)
         private val lblCourseName: TextView = itemView.findViewById(R.id.lblCourseName)
         private val lblDeptName: TextView = itemView.findViewById(R.id.lblDeptName)
-        private val lblYearNameAndSemester: TextView = itemView.findViewById(R.id.lblYearNameAndSemester)
+        private val lblYearNameAndSemester: TextView =
+            itemView.findViewById(R.id.lblYearNameAndSemester)
 
         fun bind(data: LoginDetails, position: Int) {
             // Name
@@ -75,34 +75,33 @@ class ProfileItemAdapter(
             }
             lblAvatar.background = circleDrawable
 
-            if (data.colgname.isNullOrBlank()){
-                lblCollegeName.visibility= View.GONE
-            }
-            else{
-                lblCollegeName.visibility= View.VISIBLE
+            if (data.colgname.isNullOrBlank()) {
+                lblCollegeName.visibility = View.GONE
+            } else {
+                lblCollegeName.visibility = View.VISIBLE
                 lblCollegeName.text = data.colgname
             }
 
 
-            if (data.coursename.isNullOrEmpty()){
-                lblCourseName.visibility= View.GONE
-            }else{
-                lblCourseName.visibility= View.VISIBLE
-                lblCourseName.text=data.coursename
+            if (data.coursename.isNullOrEmpty()) {
+                lblCourseName.visibility = View.GONE
+            } else {
+                lblCourseName.visibility = View.VISIBLE
+                lblCourseName.text = data.coursename
             }
 
-            if (data.deptname.isNullOrEmpty()){
-                lblDeptName.visibility= View.GONE
-            }else{
-                lblDeptName.visibility= View.VISIBLE
-                lblDeptName.text=data.deptname
+            if (data.deptname.isNullOrEmpty()) {
+                lblDeptName.visibility = View.GONE
+            } else {
+                lblDeptName.visibility = View.VISIBLE
+                lblDeptName.text = data.deptname
             }
 
-            if (data.yearname.isNullOrEmpty()&&data.semestername.isNullOrEmpty()){
-                lblYearNameAndSemester.visibility= View.GONE
-            }else{
-                lblYearNameAndSemester.visibility= View.VISIBLE
-                lblYearNameAndSemester.text="${data.yearname} - ${data.semestername}"
+            if (data.yearname.isNullOrEmpty() && data.semestername.isNullOrEmpty()) {
+                lblYearNameAndSemester.visibility = View.GONE
+            } else {
+                lblYearNameAndSemester.visibility = View.VISIBLE
+                lblYearNameAndSemester.text = "${data.yearname} - ${data.semestername}"
             }
 
             // Click

@@ -50,7 +50,8 @@ class LeaveHistoryAdapter(
         val lblLeaveNoOfDays: TextView = itemView!!.findViewById(R.id.lblLeaveNoOfDays)!!
         val lblFromDate: TextView = itemView!!.findViewById(R.id.lblFromDate)!!
         val lblToDate: TextView = itemView!!.findViewById(R.id.lblToDate)!!
-        val rytLeaveDescription: RelativeLayout = itemView!!.findViewById(R.id.rytLeaveDescription)!!
+        val rytLeaveDescription: RelativeLayout =
+            itemView!!.findViewById(R.id.rytLeaveDescription)!!
         val lblLeaveReason: TextView = itemView!!.findViewById(R.id.lblLeaveReason)!!
         val lblEditleave: TextView = itemView!!.findViewById(R.id.lblEditleave)!!
         val lblDelete: TextView = itemView!!.findViewById(R.id.lblDelete)!!
@@ -157,7 +158,7 @@ class LeaveHistoryAdapter(
 
             CommonUtil.Leavetype = "Edit"
             val i: Intent = Intent(context, ApplyLeave::class.java)
-            CommonUtil.LeavetypeEdit= data.leaveapplicationtype.toString()
+            CommonUtil.LeavetypeEdit = data.leaveapplicationtype.toString()
             CommonUtil.leavestartdate = data.leavefromdate.toString()
             CommonUtil.leaveenddate = data.leavetodate.toString()
             CommonUtil.numberofday = data.numofdays.toString()
@@ -196,8 +197,8 @@ class LeaveHistoryAdapter(
 
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_memberid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_applicationid, CommonUtil.LeaveApplicationID)
         jsonObject.addProperty(ApiRequestNames.Req_leavetypeid, "")
         jsonObject.addProperty(ApiRequestNames.Req_leavefromdate, CommonUtil.leavestartdate)

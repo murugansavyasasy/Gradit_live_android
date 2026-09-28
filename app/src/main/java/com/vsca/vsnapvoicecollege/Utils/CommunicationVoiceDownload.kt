@@ -59,7 +59,6 @@ object CommunicationVoiceDownload {
                                 Log.d("DownloadSucces", status.toString())
                                 CommunicationisExpandAdapter = true
                                 CommonUtil.DownloadingFile = 1
-//                                holder.recentSeekbarlayout.visibility = View.VISIBLE
 
 
                             } else {

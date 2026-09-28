@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
 import com.bumptech.glide.Glide
@@ -66,10 +64,12 @@ class FacultyAdapter constructor(data: List<GetFacultyListDetails>, context: Con
             Log.d("ChatMenuID", menuid)
             CommonUtil.MenuIDChat = menuid
 
-            for (i in CommonUtil.MenuListDashboard.indices){
-                if (11 == CommonUtil.MenuListDashboard.get(i).id){
-                    CommonUtil.menu_readChat = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                    CommonUtil.menu_writeChat = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+            for (i in CommonUtil.MenuListDashboard.indices) {
+                if (11 == CommonUtil.MenuListDashboard.get(i).id) {
+                    CommonUtil.menu_readChat =
+                        CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                    CommonUtil.menu_writeChat =
+                        CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                 }
             }
 

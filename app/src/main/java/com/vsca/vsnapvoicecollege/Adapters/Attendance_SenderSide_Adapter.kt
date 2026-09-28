@@ -13,7 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.Spectfice_TakeAttendance
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.Attendance_Checking
+import com.vsca.vsnapvoicecollege.Model.Daum
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.RestClient
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -73,7 +74,7 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
             CommonUtil.SectionNmaeAttendance = data.sectionname.toString()
             CommonUtil.AttendanceHour.clear()
             CommonUtil.AttendanceHour.addAll(data.add_hours)
-            CommonUtil.isAttendanceHrsOrPeriodType =data.attendance_type?:""
+            CommonUtil.isAttendanceHrsOrPeriodType = data.attendance_type ?: ""
             CommonUtil.isAttendanceType = "Take"
             AttendanceStatus = "Attendance"
             CommonUtil.AttendanceScreen = "AttendanceScreen"
@@ -103,7 +104,7 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
             CommonUtil.SectionNmaeAttendance = data.sectionname
             CommonUtil.AttendanceHourEdit.clear()
             CommonUtil.AttendanceHourEdit.addAll(data.edit_hours)
-            CommonUtil.isAttendanceHrsOrPeriodType =data.attendance_type?:""
+            CommonUtil.isAttendanceHrsOrPeriodType = data.attendance_type ?: ""
 
             val i: Intent = Intent(context, Spectfice_TakeAttendance::class.java)
             AttendanceStatus = "AttendanceEdit"
@@ -130,7 +131,6 @@ class Attendance_SenderSide_Adapter(data: List<Daum>, context: Context) :
         val txt_semester1: TextView = itemView!!.findViewById(R.id.txt_semester1)
         val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
 
-        //        val txt_selectspecfic: TextView = itemView!!.findViewById(R.id.txt_selectspecfic)
         val examlist_constrine: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrine)
         val lbl_takeattendance: TextView = itemView!!.findViewById(R.id.lbl_takeattendance)
         val btn_attendanceedit: TextView = itemView!!.findViewById(R.id.btn_attendanceedit)

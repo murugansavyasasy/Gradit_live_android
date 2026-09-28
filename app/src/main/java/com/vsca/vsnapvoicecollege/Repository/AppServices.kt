@@ -8,8 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
-import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
 import com.vsca.vsnapvoicecollege.Model.Assignment_Forward
@@ -60,7 +58,6 @@ import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
-import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateData
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -226,16 +223,14 @@ class AppServices {
     var isGetResumeBuilderSkillSetDetails: MutableLiveData<GetResumeBuilderSkillSetDetails?>
     var isGetResumeBuilderSoftSkillsDetails: MutableLiveData<GetResumeBuilderSkillSetSoftSkills?>
     var isSendResumeBuilderEditSkillSetDetails: MutableLiveData<ResumeBuilderEditSkillSetResponse?>
-    var isGetResumeBuilderThemeTemplate :MutableLiveData<GetResumeBuilderThemeTemplate?>
+    var isGetResumeBuilderThemeTemplate: MutableLiveData<GetResumeBuilderThemeTemplate?>
     var isSendResumeBuilderGenerateResume: MutableLiveData<ResumeBuilderGenerateResumeResponse?>
     var isSendResumeBuilderSaveTitle: MutableLiveData<ResumeBuilderSaveTitleResponse?>
     var isGetResumeBuilderProfileResume: MutableLiveData<GetProfileResume?>
     var isGetPlacementList: MutableLiveData<PlacementEventResponse?>
     var isGetHistoricalPlacementList: MutableLiveData<PlacementEventResponse?>//here isGetHistoricalPlacementList Model Class is same as isGetPlacementList
     var isGetPlacementCareerList: MutableLiveData<CareerTrainingResponse?>
-    var isResumeBuilderDeleteResume :MutableLiveData<ResumeBuilderDeleteResume?>
-
-
+    var isResumeBuilderDeleteResume: MutableLiveData<ResumeBuilderDeleteResume?>
 
 
     init {
@@ -402,28 +397,23 @@ class AppServices {
         get() = GetCourseDetailsMutableData
 
     fun GetExamApplicationDetails(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.GetExamApplicationDetails(jsonObject)
             ?.enqueue(object : Callback<GetExamApplicationResponse?> {
                 override fun onResponse(
                     call: Call<GetExamApplicationResponse?>,
                     response: Response<GetExamApplicationResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "GetExamDetailRespose",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             GetExamDetailsMutableData.postValue(response.body())
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetExamDetailsMutableData.postValue(null)
 
                     } else {
@@ -433,7 +423,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetExamApplicationResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     GetExamDetailsMutableData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -447,21 +436,18 @@ class AppServices {
         get() = GetExamDetailsMutableData
 
     fun GetStudentProfile(memberid: Int, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetProfile(memberid)
             ?.enqueue(object : Callback<GetProfileResponse?> {
                 override fun onResponse(
                     call: Call<GetProfileResponse?>, response: Response<GetProfileResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "GetProfileResponse",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 GetProfileDetailsMutableData.postValue(response.body())
@@ -470,7 +456,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetProfileDetailsMutableData.postValue(null)
 
                     } else {
@@ -480,7 +465,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetProfileResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     GetProfileDetailsMutableData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -493,7 +477,11 @@ class AppServices {
     val profileResponseLiveData: LiveData<GetProfileResponse?>
         get() = GetProfileDetailsMutableData
 
-    fun GetNoticeboradList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+    fun GetNoticeboradList(
+        jsonObject: JsonObject?,
+        activity: Activity,
+        showLoader: Boolean = true
+    ) {
         val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
         progressDialog?.show()
         RestClient.apiInterfaces.GetNoticeboardlistbytpe(jsonObject)
@@ -538,28 +526,24 @@ class AppServices {
 
 
     fun DeleteNoticeBoard(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.DeleteNoticeboard(jsonObject)
             ?.enqueue(object : Callback<Delete_noticeboard?> {
                 override fun onResponse(
                     call: Call<Delete_noticeboard?>, response: Response<Delete_noticeboard?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "GetNoticeboardRsponse:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             Deletenoticeboard.postValue(response.body())
 
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Deletenoticeboard.postValue(null)
                     } else {
                         Deletenoticeboard.postValue(null)
@@ -567,7 +551,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Delete_noticeboard?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Deletenoticeboard.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -581,7 +564,11 @@ class AppServices {
         get() = Deletenoticeboard
 
 
-    fun GetCircularListbyType(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+    fun GetCircularListbyType(
+        jsonObject: JsonObject?,
+        activity: Activity,
+        showLoader: Boolean = true
+    ) {
         val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
         progressDialog?.show()
         RestClient.apiInterfaces.GetCircularListbyType(jsonObject)
@@ -627,7 +614,11 @@ class AppServices {
     val circularListResponseLiveData: LiveData<GetCircularListResponse?>
         get() = GetCircularMutableLiveData
 
-    fun GetAssignmentListbyType(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+    fun GetAssignmentListbyType(
+        jsonObject: JsonObject?,
+        activity: Activity,
+        showLoader: Boolean = true
+    ) {
         val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
         progressDialog?.show()
         RestClient.apiInterfaces.GetAssignmentListbytype(jsonObject)
@@ -673,28 +664,23 @@ class AppServices {
         get() = GetAssignmentMutableLiveData
 
     fun GetAssignmentmemberCount(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.GetAssignmentMemberCount(jsonObject)
             ?.enqueue(object : Callback<GetAssignmentCountResponse?> {
                 override fun onResponse(
                     call: Call<GetAssignmentCountResponse?>,
                     response: Response<GetAssignmentCountResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "MemberCountRsponse:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             GetAssignmentCountMutableLivedata.postValue(response.body())
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetAssignmentCountMutableLivedata.postValue(null)
                     } else {
                         GetAssignmentCountMutableLivedata.postValue(null)
@@ -703,7 +689,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetAssignmentCountResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     GetAssignmentCountMutableLivedata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -717,27 +702,23 @@ class AppServices {
         get() = GetAssignmentCountMutableLivedata
 
     fun GetAssignmentViewContent(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.ViewAssignmentContent(jsonObject)
             ?.enqueue(object : Callback<GetAssignmentViewContentResponse?> {
                 override fun onResponse(
                     call: Call<GetAssignmentViewContentResponse?>,
                     response: Response<GetAssignmentViewContentResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "EventsResponse", response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             GetAssignmentViewContentLivedata.postValue(response.body())
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetAssignmentViewContentLivedata.postValue(null)
 
                     } else {
@@ -749,7 +730,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetAssignmentViewContentResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     GetAssignmentViewContentLivedata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -802,7 +782,11 @@ class AppServices {
             })
     }
 
-    fun GetAppreadStatusContext(jsonObject: JsonObject?, activity: Context,  onSuccess: (() -> Unit)? = null) {
+    fun GetAppreadStatusContext(
+        jsonObject: JsonObject?,
+        activity: Context,
+        onSuccess: (() -> Unit)? = null
+    ) {
 
         RestClient.apiInterfaces.AppReadStatus(jsonObject)
             ?.enqueue(object : Callback<StatusMessageResponse?> {
@@ -894,7 +878,11 @@ class AppServices {
     val OverAllCountMenuLiveData: LiveData<GetOverAllCountResposne?>
         get() = GetOverAllMenuCountMutableLiveData
 
-    fun GetEventListBytType(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+    fun GetEventListBytType(
+        jsonObject: JsonObject?,
+        activity: Activity,
+        showLoader: Boolean = true
+    ) {
         // This list call intentionally shows no per-call loader.
         RestClient.apiInterfaces.GetEventListByType(jsonObject)
             ?.enqueue(object : Callback<GetEventListbyTypeResponse?> {
@@ -902,21 +890,18 @@ class AppServices {
                     call: Call<GetEventListbyTypeResponse?>,
                     response: Response<GetEventListbyTypeResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "ViewContentResAssignmet",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
 
                             GetEventListMutableData.postValue(response.body())
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetEventListMutableData.postValue(null)
 
                     } else {
@@ -926,7 +911,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetEventListbyTypeResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     GetEventListMutableData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -939,7 +923,11 @@ class AppServices {
     val getEventListLiveData: LiveData<GetEventListbyTypeResponse?>
         get() = GetEventListMutableData
 
-    fun GetCommunicationList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+    fun GetCommunicationList(
+        jsonObject: JsonObject?,
+        activity: Activity,
+        showLoader: Boolean = true
+    ) {
         val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
         progressDialog?.show()
         RestClient.apiInterfaces.GetCommunicationVoiceBytype(jsonObject)
@@ -986,7 +974,11 @@ class AppServices {
     val getCommunicationLiveData: LiveData<GetCommunicationResponse?>
         get() = GetCommunicationMutableLiveData
 
-    fun GetCommunicationTextList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+    fun GetCommunicationTextList(
+        jsonObject: JsonObject?,
+        activity: Activity,
+        showLoader: Boolean = true
+    ) {
         val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
         progressDialog?.show()
         RestClient.apiInterfaces.GetCommunicationMessageBytype(jsonObject)
@@ -1037,22 +1029,19 @@ class AppServices {
 
 
     fun Communication_NewButtonVisible_Not(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog.show()
+
         RestClient.apiInterfaces.Communication_V_N(jsonObject)
             ?.enqueue(object : Callback<Communication_AddNewButton?> {
                 override fun onResponse(
                     call: Call<Communication_AddNewButton?>,
                     response: Response<Communication_AddNewButton?>
                 ) {
-                    ////progressDialog.dismiss()
                     Log.d(
                         "Communicationresponse:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            ////progressDialog.dismiss()
                             val status = response.body()!!.Status
 
                             if (status == 1) {
@@ -1062,7 +1051,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        ////progressDialog.dismiss()
                         CommunicationNew_Button.postValue(response.body())
                     } else {
                         CommunicationNew_Button.postValue(response.body())
@@ -1070,7 +1058,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Communication_AddNewButton?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     CommunicationNew_Button.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1084,20 +1071,17 @@ class AppServices {
         get() = CommunicationNew_Button
 
     fun GetFacultyList(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetFacultyList(jsonObject)
             ?.enqueue(object : Callback<GetFacultyListResponse?> {
                 override fun onResponse(
                     call: Call<GetFacultyListResponse?>, response: Response<GetFacultyListResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "FacultyResponse:", response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 GetFacultyRecieverMutableLiveData.postValue(response.body())
@@ -1106,7 +1090,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetFacultyRecieverMutableLiveData.postValue(null)
 
                     } else {
@@ -1118,7 +1101,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetFacultyListResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     GetFacultyRecieverMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1133,20 +1115,17 @@ class AppServices {
 
 
     fun GetFacultyListStaff(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetFacultyListStaff(jsonObject)
             ?.enqueue(object : Callback<GetFacultyListResponse?> {
                 override fun onResponse(
                     call: Call<GetFacultyListResponse?>, response: Response<GetFacultyListResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "FacultyResponse:", response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 GetFacultyRecieverMutableLiveData.postValue(response.body())
@@ -1155,7 +1134,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetFacultyRecieverMutableLiveData.postValue(null)
 
                     } else {
@@ -1167,7 +1145,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetFacultyListResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     GetFacultyRecieverMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1182,20 +1159,17 @@ class AppServices {
 
 
     fun GetFacultyListReceiver(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.faculrtlistRecevier(jsonObject)
             ?.enqueue(object : Callback<GetFacultyListResponse?> {
                 override fun onResponse(
                     call: Call<GetFacultyListResponse?>, response: Response<GetFacultyListResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "FacultyResponse:", response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 GetFacultyListSender.postValue(response.body())
@@ -1204,7 +1178,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetFacultyListSender.postValue(null)
 
                     } else {
@@ -1216,7 +1189,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetFacultyListResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     GetFacultyListSender.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1230,22 +1202,19 @@ class AppServices {
         get() = GetFacultyListSender
 
     fun SemesterSectionListForApp(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetSemesterSectionlist(jsonObject)
             ?.enqueue(object : Callback<SemesterAndSectionListResposne?> {
                 override fun onResponse(
                     call: Call<SemesterAndSectionListResposne?>,
                     response: Response<SemesterAndSectionListResposne?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SemesterSectionRes:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 Log.d("response body", response.body().toString())
@@ -1255,7 +1224,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         SemesterSectionMutableLiveData.postValue(null)
 
                     } else {
@@ -1267,7 +1235,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<SemesterAndSectionListResposne?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     SemesterSectionMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1334,21 +1301,18 @@ class AppServices {
 
 
     fun GetExamListReceiverside(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetExamListByTypeReciver(jsonObject)
             ?.enqueue(object : Callback<GetExamListResponse?> {
                 override fun onResponse(
                     call: Call<GetExamListResponse?>, response: Response<GetExamListResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "ExamListResponse:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             Log.d("s", "s")
                             val status = response.body()!!.status
                             if (status == 1) {
@@ -1358,7 +1322,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         ExamListMutableLiveData.postValue(response.body())
 
                     } else {
@@ -1370,7 +1333,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetExamListResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     ExamListMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1384,20 +1346,17 @@ class AppServices {
         get() = ExamListMutableLiveData
 
     fun ExamMarkList(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetExamMarkForStudent(jsonObject)
             ?.enqueue(object : Callback<ExamMarkListResponse?> {
                 override fun onResponse(
                     call: Call<ExamMarkListResponse?>, response: Response<ExamMarkListResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "ExamMarkListRes:", response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 ExamMarkListMutableLiveData.postValue(response.body())
@@ -1406,7 +1365,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         ExamMarkListMutableLiveData.postValue(null)
 
                     } else {
@@ -1418,7 +1376,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<ExamMarkListResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     ExamMarkListMutableLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1540,7 +1497,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         progressDialog!!.dismiss()
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             StaffForAppListMutableLiveData.postValue(response.body())
 
@@ -1834,22 +1790,19 @@ class AppServices {
         get() = SemesterWiseCreditLiveData
 
     fun GetSemesterWiseCreditsAll(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetSemesterWiseCreditsAll(jsonObject)
             ?.enqueue(object : Callback<GetSemesterWiseCreditALLResponse?> {
                 override fun onResponse(
                     call: Call<GetSemesterWiseCreditALLResponse?>,
                     response: Response<GetSemesterWiseCreditALLResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SemesterCreditRes:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 SemesterWiseCreditAllLiveData.postValue(response.body())
@@ -1858,7 +1811,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         SemesterWiseCreditAllLiveData.postValue(null)
                     } else {
                         SemesterWiseCreditAllLiveData.postValue(null)
@@ -1868,7 +1820,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<GetSemesterWiseCreditALLResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     SemesterWiseCreditAllLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1882,41 +1833,28 @@ class AppServices {
         get() = SemesterWiseCreditAllLiveData
 
     fun GetAttendanceForParent(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetAttendanceForParent(jsonObject)
             ?.enqueue(object : Callback<AttendanceResponse?> {
                 override fun onResponse(
                     call: Call<AttendanceResponse?>, response: Response<AttendanceResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SemesterCreditRes:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
 
                             AttendanceDatesiveData.postValue(response.body())
 
-//                            if (status == 1) {
-//                                //progressDialog!!.dismiss()
-//
-//                                AttendanceDatesiveData.postValue(response.body())
-//                            } else {
-//                                //progressDialog!!.dismiss()
-//
-//                                AttendanceDatesiveData.postValue(response.body())
-//                            }
+
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         AttendanceDatesiveData.postValue(null)
 
                     } else {
-                        //progressDialog!!.dismiss()
 
                         AttendanceDatesiveData.postValue(null)
 
@@ -1926,7 +1864,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<AttendanceResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     AttendanceDatesiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -1940,7 +1877,11 @@ class AppServices {
         get() = AttendanceDatesiveData
 
 
-    fun GetStudentAttendancelist(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+    fun GetStudentAttendancelist(
+        jsonObject: JsonObject?,
+        activity: Activity,
+        showLoader: Boolean = true
+    ) {
         val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
         progressDialog?.show()
         RestClient.apiInterfaces.GetAttendanceStudentlist(jsonObject)
@@ -2047,21 +1988,18 @@ class AppServices {
 
 
     fun GetLeaveType(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog.show()
+
         RestClient.apiInterfaces.GetLeaveType(jsonObject)
             ?.enqueue(object : Callback<LeaveTypeResponse?> {
                 override fun onResponse(
                     call: Call<LeaveTypeResponse?>, response: Response<LeaveTypeResponse?>
                 ) {
-                    ////progressDialog.dismiss()
                     Log.d(
                         "LeaveHistoryResponse:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 LeaveTypeLiveData.postValue(response.body())
@@ -2070,7 +2008,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         LeaveTypeLiveData.postValue(null)
 
                     } else {
@@ -2082,7 +2019,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<LeaveTypeResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     LeaveTypeLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2096,21 +2032,18 @@ class AppServices {
         get() = LeaveTypeLiveData
 
     fun ChangePassword(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.ChangePassword(jsonObject)
             ?.enqueue(object : Callback<StatusMessageResponse?> {
                 override fun onResponse(
                     call: Call<StatusMessageResponse?>, response: Response<StatusMessageResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "LeaveHistoryResponse:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 ChangePasswordLiveData.postValue(response.body())
@@ -2119,7 +2052,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         ChangePasswordLiveData.postValue(null)
                     } else {
                         ChangePasswordLiveData.postValue(null)
@@ -2129,7 +2061,6 @@ class AppServices {
                 override fun onFailure(
                     call: Call<StatusMessageResponse?>, t: Throwable
                 ) {
-                    //progressDialog!!.dismiss()
                     ChangePasswordLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2241,22 +2172,19 @@ class AppServices {
         get() = UpdateDeviceTokenLiveData
 
     fun VideoRestriction(activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetVideoContentRestriction()
             ?.enqueue(object : Callback<VideoRestrictionContentResponse?> {
                 override fun onResponse(
                     call: Call<VideoRestrictionContentResponse?>,
                     response: Response<VideoRestrictionContentResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "VideoRestriction:",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
                                 VideoRestrictionLiveData.postValue(response.body())
@@ -2265,7 +2193,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         VideoRestrictionLiveData.postValue(null)
                     } else {
                         VideoRestrictionLiveData.postValue(null)
@@ -2273,7 +2200,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<VideoRestrictionContentResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     VideoRestrictionLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2423,15 +2349,13 @@ class AppServices {
         get() = GetCourseLiveData
 
     fun SendSMSToEntireCollege(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.SendSMSToEntireCollege(jsonObject)
             ?.enqueue(object : Callback<SenderStatusMessageData?> {
                 override fun onResponse(
                     call: Call<SenderStatusMessageData?>,
                     response: Response<SenderStatusMessageData?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSEntireCollege:",
                         response.code().toString() + " - " + response.toString()
@@ -2439,7 +2363,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
                                 SMSEntireCollegeLiveData.postValue(response.body())
@@ -2448,7 +2371,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         SMSEntireCollegeLiveData.postValue(null)
                     } else {
                         SMSEntireCollegeLiveData.postValue(null)
@@ -2456,7 +2378,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<SenderStatusMessageData?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     SMSEntireCollegeLiveData.postValue(null)
                     t.printStackTrace()
                     Log.d("failure", "failure")
@@ -2472,15 +2393,13 @@ class AppServices {
 
 
     fun SendVoiceToEntireCollege(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.SendVoiceToEntireCollege(jsonObject)
             ?.enqueue(object : Callback<SenderStatusMessageData?> {
                 override fun onResponse(
                     call: Call<SenderStatusMessageData?>,
                     response: Response<SenderStatusMessageData?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSEntireCollege:",
                         response.code().toString() + " - " + response.toString()
@@ -2488,7 +2407,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
                                 VoiceEntireCollegeLiveData.postValue(response.body())
@@ -2497,7 +2415,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         VoiceEntireCollegeLiveData.postValue(null)
                     } else {
                         VoiceEntireCollegeLiveData.postValue(null)
@@ -2505,7 +2422,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<SenderStatusMessageData?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     VoiceEntireCollegeLiveData.postValue(null)
                     t.printStackTrace()
                     Log.d("failure", "failure")
@@ -2521,15 +2437,12 @@ class AppServices {
 
 
     fun SendVoiceToParticularTypeFromHistory(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.SendVoiceToParticularTypeFromHistory(jsonObject)
             ?.enqueue(object : Callback<SenderStatusMessageData?> {
                 override fun onResponse(
                     call: Call<SenderStatusMessageData?>,
                     response: Response<SenderStatusMessageData?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSEntireCollege:",
                         response.code().toString() + " - " + response.toString()
@@ -2537,7 +2450,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
                                 VoiceParticulerHistory.postValue(response.body())
@@ -2546,7 +2458,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         VoiceParticulerHistory.postValue(null)
                     } else {
                         VoiceParticulerHistory.postValue(null)
@@ -2554,7 +2465,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<SenderStatusMessageData?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     VoiceParticulerHistory.postValue(null)
                     t.printStackTrace()
                     Log.d("failure", "failure")
@@ -2569,15 +2479,12 @@ class AppServices {
         get() = VoiceParticulerHistory
 
     fun SendVoiceEntireHistory(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.SendVoiceEntireFromHistory(jsonObject)
             ?.enqueue(object : Callback<SenderStatusMessageData?> {
                 override fun onResponse(
                     call: Call<SenderStatusMessageData?>,
                     response: Response<SenderStatusMessageData?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSEntireCollege:",
                         response.code().toString() + " - " + response.toString()
@@ -2585,7 +2492,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
                                 VoiceEntireHistory.postValue(response.body())
@@ -2594,7 +2500,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         VoiceEntireHistory.postValue(null)
                     } else {
                         VoiceEntireHistory.postValue(null)
@@ -2602,7 +2507,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<SenderStatusMessageData?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     VoiceEntireHistory.postValue(null)
                     t.printStackTrace()
                     Log.d("failure", "failure")
@@ -2618,15 +2522,13 @@ class AppServices {
 
 
     fun SendSMSToEntiretotorandsubjectCollege(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.SendSMSToEntiretotorandsubjectCollege(jsonObject)
             ?.enqueue(object : Callback<SenderStatusMessageData?> {
                 override fun onResponse(
                     call: Call<SenderStatusMessageData?>,
                     response: Response<SenderStatusMessageData?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSEntireCollege:",
                         response.code().toString() + " - " + response.toString()
@@ -2634,7 +2536,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
                                 SMSEntireCollegeLiveData.postValue(response.body())
@@ -2643,7 +2544,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         SMSEntireCollegeLiveData.postValue(null)
                     } else {
                         SMSEntireCollegeLiveData.postValue(null)
@@ -2651,7 +2551,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<SenderStatusMessageData?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     SMSEntireCollegeLiveData.postValue(null)
                     t.printStackTrace()
                     Log.d("failure", "failure")
@@ -2667,15 +2566,13 @@ class AppServices {
         get() = SMSEntireCollegetutorandsubjectLiveData
 
     fun SendSMStoParticularType(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.SendSMSToParticularType(jsonObject)
             ?.enqueue(object : Callback<SenderStatusMessageData?> {
                 override fun onResponse(
                     call: Call<SenderStatusMessageData?>,
                     response: Response<SenderStatusMessageData?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2683,7 +2580,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2694,7 +2590,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         SMSParticularTypeLiveData.postValue(null)
                     } else {
                         SMSParticularTypeLiveData.postValue(null)
@@ -2702,7 +2597,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<SenderStatusMessageData?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     SMSParticularTypeLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2717,14 +2611,12 @@ class AppServices {
 
 
     fun NoticeBoardSendSMStoParticularType(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Noticeboardsms(jsonObject)
             ?.enqueue(object : Callback<NoticeBoardSMSsend?> {
                 override fun onResponse(
                     call: Call<NoticeBoardSMSsend?>, response: Response<NoticeBoardSMSsend?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2732,7 +2624,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2743,7 +2634,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Noticeboardsmssend.postValue(null)
                     } else {
                         Noticeboardsmssend.postValue(null)
@@ -2751,7 +2641,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<NoticeBoardSMSsend?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     SMSParticularTypeLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2766,14 +2655,12 @@ class AppServices {
 
 
     fun NoticeBoardSendSMStoParticularTypeTuter(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.NoticeboardsmsTuter(jsonObject)
             ?.enqueue(object : Callback<NoticeBoardSMSsend?> {
                 override fun onResponse(
                     call: Call<NoticeBoardSMSsend?>, response: Response<NoticeBoardSMSsend?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2781,7 +2668,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2792,7 +2678,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Noticeboardsmssend.postValue(null)
                     } else {
                         Noticeboardsmssend.postValue(null)
@@ -2800,7 +2685,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<NoticeBoardSMSsend?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     SMSParticularTypeLiveData.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2815,14 +2699,12 @@ class AppServices {
 
 
     fun ImageorPdfsend(jsonObject: JsonObject?, activity: Activity) {
-//        //var progressDialog = CustomLoading.createProgressDialog(activity)
-//        //progressDialog!!.show()
+
         RestClient.apiInterfaces.ImageOrPdf(jsonObject)
             ?.enqueue(object : Callback<ImageORpdfsend?> {
                 override fun onResponse(
                     call: Call<ImageORpdfsend?>, response: Response<ImageORpdfsend?>
                 ) {
-//                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2830,7 +2712,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-//                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2841,7 +2722,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-//                        //progressDialog!!.dismiss()
                         ImageorPdf.postValue(null)
                     } else {
                         ImageorPdf.postValue(null)
@@ -2849,7 +2729,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ImageORpdfsend?>, t: Throwable) {
-//                    //progressDialog!!.dismiss()
                     ImageorPdf.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2864,14 +2743,11 @@ class AppServices {
 
 
     fun ImageorPdfsendparticuler(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.ImageOrPdfparticuler(jsonObject)
             ?.enqueue(object : Callback<ImageORpdfsend?> {
                 override fun onResponse(
                     call: Call<ImageORpdfsend?>, response: Response<ImageORpdfsend?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2879,7 +2755,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2890,7 +2765,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         imageorpdfparticuler.postValue(null)
                     } else {
                         imageorpdfparticuler.postValue(null)
@@ -2898,7 +2772,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ImageORpdfsend?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     imageorpdfparticuler.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2912,14 +2785,12 @@ class AppServices {
         get() = imageorpdfparticuler
 
     fun Assignmentsenddata(jsonObject: JsonObject?, activity: Activity) {
-//        //var progressDialog = CustomLoading.createPrvogressDialog(activity)
-//        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Assignmentsend(jsonObject)
             ?.enqueue(object : Callback<Assignmentsent?> {
                 override fun onResponse(
                     call: Call<Assignmentsent?>, response: Response<Assignmentsent?>
                 ) {
-//                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2927,7 +2798,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-//                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2938,7 +2808,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-//                        //progressDialog!!.dismiss()
                         Assignmentdata.postValue(null)
                     } else {
                         Assignmentdata.postValue(null)
@@ -2946,7 +2815,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Assignmentsent?>, t: Throwable) {
-//                    //progressDialog!!.dismiss()
                     Assignmentdata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -2961,14 +2829,11 @@ class AppServices {
 
 
     fun AssignmentForwordText(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.AssignmentforwardText(jsonObject)
             ?.enqueue(object : Callback<Assignmentsent?> {
                 override fun onResponse(
                     call: Call<Assignmentsent?>, response: Response<Assignmentsent?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -2976,7 +2841,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -2987,7 +2851,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         AssignmentdataForwardText.postValue(null)
                     } else {
                         AssignmentdataForwardText.postValue(null)
@@ -2995,7 +2858,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Assignmentsent?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     AssignmentdataForwardText.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3010,15 +2872,12 @@ class AppServices {
 
 
     fun AttendanceMarkingdata(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.AttendanceMark(jsonObject)
             ?.enqueue(object : Callback<AttendancemardkingResponse?> {
                 override fun onResponse(
                     call: Call<AttendancemardkingResponse?>,
                     response: Response<AttendancemardkingResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -3026,7 +2885,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -3037,7 +2895,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Attendancemark.postValue(null)
                     } else {
                         Attendancemark.postValue(null)
@@ -3045,7 +2902,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<AttendancemardkingResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Attendancemark.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3060,14 +2916,11 @@ class AppServices {
 
 
     fun ManageLeaveapplication(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
         RestClient.apiInterfaces.ManageLeaveapplication(jsonObject)
             ?.enqueue(object : Callback<ManageLeave?> {
                 override fun onResponse(
                     call: Call<ManageLeave?>, response: Response<ManageLeave?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -3075,7 +2928,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -3086,7 +2938,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Manageleavesentdata.postValue(null)
                     } else {
                         Manageleavesentdata.postValue(null)
@@ -3094,7 +2945,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ManageLeave?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Manageleavesentdata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3159,14 +3009,12 @@ class AppServices {
 
 
     fun EventsendData(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Eventsend(jsonObject)
             ?.enqueue(object : Callback<Evendsenddata?> {
                 override fun onResponse(
                     call: Call<Evendsenddata?>, response: Response<Evendsenddata?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -3174,7 +3022,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -3185,7 +3032,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Eventsenddata.postValue(null)
                     } else {
                         Eventsenddata.postValue(null)
@@ -3193,7 +3039,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Evendsenddata?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Eventsenddata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3208,14 +3053,12 @@ class AppServices {
 
 
     fun EventsendDataTuter(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.EventsendTuter(jsonObject)
             ?.enqueue(object : Callback<Evendsenddata?> {
                 override fun onResponse(
                     call: Call<Evendsenddata?>, response: Response<Evendsenddata?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "SMSParticularType:",
                         response.code().toString() + " - " + response.toString()
@@ -3223,7 +3066,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -3234,7 +3076,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Eventsenddata.postValue(null)
                     } else {
                         Eventsenddata.postValue(null)
@@ -3242,7 +3083,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Evendsenddata?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Eventsenddata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3407,14 +3247,12 @@ class AppServices {
         get() = GetAttendanceForStaff
 
     fun specificstudentAttendance(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.StudentSpecificstudent(jsonObject)
             ?.enqueue(object : Callback<StudentAttendanceview?> {
                 override fun onResponse(
                     call: Call<StudentAttendanceview?>, response: Response<StudentAttendanceview?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getsubjectdata:", response.code().toString() + " - " + response.toString()
 
@@ -3422,7 +3260,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
 
@@ -3432,7 +3269,6 @@ class AppServices {
                                 StudentAttendanceview.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             StudentAttendanceview.postValue(null)
                         } else {
                             StudentAttendanceview.postValue(null)
@@ -3441,7 +3277,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<StudentAttendanceview?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     StudentAttendanceview.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3457,14 +3292,12 @@ class AppServices {
 
 
     fun Gettuter(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Gettuter(jsonObject)
             ?.enqueue(object : Callback<staffsubject_list?> {
                 override fun onResponse(
                     call: Call<staffsubject_list?>, response: Response<staffsubject_list?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getsubjectdata:", response.code().toString() + " - " + response.toString()
 
@@ -3472,7 +3305,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
 
@@ -3482,7 +3314,6 @@ class AppServices {
                                 tuterdata.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             tuterdata.postValue(null)
                         } else {
                             tuterdata.postValue(null)
@@ -3491,7 +3322,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<staffsubject_list?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     tuterdata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3507,14 +3337,12 @@ class AppServices {
 
 
     fun Getspecificstudentdata(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Getspecificstudenttuter(jsonObject)
             ?.enqueue(object : Callback<specificStudentdata?> {
                 override fun onResponse(
                     call: Call<specificStudentdata?>, response: Response<specificStudentdata?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "specifictuterstudent",
                         response.code().toString() + " - " + response.toString()
@@ -3523,7 +3351,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
 
@@ -3533,7 +3360,6 @@ class AppServices {
                                 tuterspecificstudent.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             tuterspecificstudent.postValue(null)
                         } else {
                             tuterspecificstudent.postValue(null)
@@ -3542,7 +3368,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<specificStudentdata?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     tuterspecificstudent.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3659,14 +3484,12 @@ class AppServices {
 
 
     fun Getdepartmentcourse(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Getdepartmentcourse(jsonObject)
             ?.enqueue(object : Callback<department_course?> {
                 override fun onResponse(
                     call: Call<department_course?>, response: Response<department_course?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getdepartmentcourse",
                         response.code().toString() + " - " + response.toString()
@@ -3675,7 +3498,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.status
                             if (status == 1) {
 
@@ -3685,7 +3507,6 @@ class AppServices {
                                 coursedepartment.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             coursedepartment.postValue(null)
                         } else {
                             coursedepartment.postValue(null)
@@ -3694,7 +3515,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<department_course?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     coursedepartment.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3709,14 +3529,12 @@ class AppServices {
 
 
     fun Getyearandsection(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Getyearandsection(jsonObject)
             ?.enqueue(object : Callback<Yearandsection?> {
                 override fun onResponse(
                     call: Call<Yearandsection?>, response: Response<Yearandsection?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getyearandsection",
                         response.code().toString() + " - " + response.toString()
@@ -3725,7 +3543,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -3736,7 +3553,6 @@ class AppServices {
                                 Yearandsection.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Yearandsection.postValue(null)
                         } else {
                             Yearandsection.postValue(null)
@@ -3745,7 +3561,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Yearandsection?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Yearandsection.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3760,14 +3575,12 @@ class AppServices {
 
 
     fun GetyearandsectionList(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetyearandsectionList(jsonObject)
             ?.enqueue(object : Callback<Yearandsection?> {
                 override fun onResponse(
                     call: Call<Yearandsection?>, response: Response<Yearandsection?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getyearandsection",
                         response.code().toString() + " - " + response.toString()
@@ -3776,7 +3589,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -3787,7 +3599,6 @@ class AppServices {
                                 Yearandsection.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Yearandsection.postValue(null)
                         } else {
                             Yearandsection.postValue(null)
@@ -3796,7 +3607,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Yearandsection?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Yearandsection.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3837,8 +3647,7 @@ class AppServices {
                                 sectionandsubject.postValue(response.body())
                             }
                         }
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         progressDialog!!.dismiss()
                         sectionandsubject.postValue(null)
                     } else {
@@ -3863,14 +3672,12 @@ class AppServices {
 
 
     fun Examcreation(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Examcreation(jsonObject)
             ?.enqueue(object : Callback<ExamCreation_dataclass?> {
                 override fun onResponse(
                     call: Call<ExamCreation_dataclass?>, response: Response<ExamCreation_dataclass?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getyearandsection",
                         response.code().toString() + " - " + response.toString()
@@ -3879,7 +3686,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -3890,7 +3696,6 @@ class AppServices {
                                 Examcreation.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Examcreation.postValue(null)
                         } else {
                             Examcreation.postValue(null)
@@ -3899,7 +3704,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ExamCreation_dataclass?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Examcreation.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3915,14 +3719,12 @@ class AppServices {
 
 
     fun ExamEdit(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.ExamEditdata(jsonObject)
             ?.enqueue(object : Callback<ExamCreation_dataclass?> {
                 override fun onResponse(
                     call: Call<ExamCreation_dataclass?>, response: Response<ExamCreation_dataclass?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getyearandsection",
                         response.code().toString() + " - " + response.toString()
@@ -3931,7 +3733,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -3942,7 +3743,6 @@ class AppServices {
                                 ExamCreationEdit.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             ExamCreationEdit.postValue(null)
                         } else {
                             ExamCreationEdit.postValue(null)
@@ -3951,7 +3751,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ExamCreation_dataclass?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     ExamCreationEdit.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -3965,14 +3764,12 @@ class AppServices {
         get() = ExamCreationEdit
 
     fun ExamSectionDelete(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.ExamDeleteSection(jsonObject)
             ?.enqueue(object : Callback<ExamCreation_dataclass?> {
                 override fun onResponse(
                     call: Call<ExamCreation_dataclass?>, response: Response<ExamCreation_dataclass?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Getyearandsection",
                         response.code().toString() + " - " + response.toString()
@@ -3981,7 +3778,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -3992,7 +3788,6 @@ class AppServices {
                                 ExamDeleteSection.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             ExamDeleteSection.postValue(null)
                         } else {
                             ExamDeleteSection.postValue(null)
@@ -4001,7 +3796,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ExamCreation_dataclass?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     ExamDeleteSection.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4022,7 +3816,6 @@ class AppServices {
                 override fun onResponse(
                     call: Call<Examlist_viewmodel?>, response: Response<Examlist_viewmodel?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examviewmodel",
                         response.code().toString() + " - " + response.toString()
@@ -4067,19 +3860,16 @@ class AppServices {
 
 
     fun ExamviewSubjecr(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.ExamviewSubjectList(jsonObject)
             ?.enqueue(object : Callback<ExamSubjectList?> {
                 override fun onResponse(
                     call: Call<ExamSubjectList?>, response: Response<ExamSubjectList?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4090,7 +3880,6 @@ class AppServices {
                                 ExamviewmodelSubjectList.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             ExamviewmodelSubjectList.postValue(null)
                         } else {
                             ExamviewmodelSubjectList.postValue(null)
@@ -4099,7 +3888,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ExamSubjectList?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     ExamviewmodelSubjectList.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4114,14 +3902,12 @@ class AppServices {
 
 
     fun Examdeletedata(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Examdelete(jsonObject)
             ?.enqueue(object : Callback<ExamDelete?> {
                 override fun onResponse(
                     call: Call<ExamDelete?>, response: Response<ExamDelete?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examdelete",
                         response.code().toString() + " - " + response.toString()
@@ -4130,7 +3916,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4141,7 +3926,6 @@ class AppServices {
                                 Examdeleteapi.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Examdeleteapi.postValue(null)
                         } else {
                             Examdeleteapi.postValue(null)
@@ -4150,7 +3934,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ExamDelete?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Examdeleteapi.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4165,14 +3948,12 @@ class AppServices {
 
 
     fun TakeAttendance(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Markattendance(jsonObject)
             ?.enqueue(object : Callback<AttendanceMark?> {
                 override fun onResponse(
                     call: Call<AttendanceMark?>, response: Response<AttendanceMark?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examdelete",
                         response.code().toString() + " - " + response.toString()
@@ -4181,7 +3962,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4192,7 +3972,6 @@ class AppServices {
                                 MarkAttendance.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             MarkAttendance.postValue(null)
                         } else {
                             MarkAttendance.postValue(null)
@@ -4201,7 +3980,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<AttendanceMark?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     MarkAttendance.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4216,14 +3994,12 @@ class AppServices {
 
 
     fun VideoEntireSend(jsonObject: JsonObject?, activity: Activity) {
-//        //val progressDialog = CustomLoading.createProgressDialog(activity)
-//        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Videoentiresend(jsonObject)
             ?.enqueue(object : Callback<VideoEntireSend?> {
                 override fun onResponse(
                     call: Call<VideoEntireSend?>, response: Response<VideoEntireSend?>
                 ) {
-//                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examdelete",
                         response.code().toString() + " - " + response.toString()
@@ -4232,7 +4008,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-//                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4243,7 +4018,6 @@ class AppServices {
                                 VideosendEntire.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                         //   //progressDialog!!.dismiss()
                             VideosendEntire.postValue(null)
                         } else {
                             VideosendEntire.postValue(null)
@@ -4252,7 +4026,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<VideoEntireSend?>, t: Throwable) {
-//                    //progressDialog!!.dismiss()
                     VideosendEntire.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4267,14 +4040,12 @@ class AppServices {
 
 
     fun VideoParticulerSend(jsonObject: JsonObject?, activity: Activity) {
-//        //val progressDialog = CustomLoading.createProgressDialog(activity)
-//        //progressDialog!!.show()
+
         RestClient.apiInterfaces.VideoParticulersend(jsonObject)
             ?.enqueue(object : Callback<VideoParticulerSend?> {
                 override fun onResponse(
                     call: Call<VideoParticulerSend?>, response: Response<VideoParticulerSend?>
                 ) {
-//                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examdelete",
                         response.code().toString() + " - " + response.toString()
@@ -4283,7 +4054,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-//                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4294,7 +4064,6 @@ class AppServices {
                                 VideoParticulersend.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-//                            //progressDialog!!.dismiss()
                             VideoParticulersend.postValue(null)
                         } else {
                             VideoParticulersend.postValue(null)
@@ -4303,7 +4072,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<VideoParticulerSend?>, t: Throwable) {
-//                    //progressDialog!!.dismiss()
                     VideoParticulersend.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4318,14 +4086,12 @@ class AppServices {
 
 
     fun EventpicUpdate(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Eventphotoupdate(jsonObject)
             ?.enqueue(object : Callback<EventpicUpdate?> {
                 override fun onResponse(
                     call: Call<EventpicUpdate?>, response: Response<EventpicUpdate?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examdelete",
                         response.code().toString() + " - " + response.toString()
@@ -4334,7 +4100,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4345,7 +4110,6 @@ class AppServices {
                                 Eventimageupdate.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Eventimageupdate.postValue(null)
                         } else {
                             Eventimageupdate.postValue(null)
@@ -4354,7 +4118,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<EventpicUpdate?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Eventimageupdate.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4369,14 +4132,12 @@ class AppServices {
 
 
     fun ExamEditorDeleteSection(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.ExamEditOrDelete(jsonObject)
             ?.enqueue(object : Callback<Examlist_viewmodel?> {
                 override fun onResponse(
                     call: Call<Examlist_viewmodel?>, response: Response<Examlist_viewmodel?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examdelete",
                         response.code().toString() + " - " + response.toString()
@@ -4385,7 +4146,6 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4396,7 +4156,6 @@ class AppServices {
                                 ExamEditSection.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             ExamEditSection.postValue(null)
                         } else {
                             ExamEditSection.postValue(null)
@@ -4405,7 +4164,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Examlist_viewmodel?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     ExamEditSection.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4420,14 +4178,12 @@ class AppServices {
 
 
     fun AssignmentForward(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Assignmentforword(jsonObject)
             ?.enqueue(object : Callback<Assignment_Forward?> {
                 override fun onResponse(
                     call: Call<Assignment_Forward?>, response: Response<Assignment_Forward?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "Examdelete",
                         response.code().toString() + " - " + response.toString()
@@ -4436,11 +4192,9 @@ class AppServices {
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
-                                //progressDialog!!.dismiss()
                                 Assignmentforworddata.postValue(response.body())
                                 Log.d("Yearandsection", Yearandsection.toString())
 
@@ -4448,7 +4202,6 @@ class AppServices {
                                 Assignmentforworddata.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Assignmentforworddata.postValue(null)
                         } else {
                             Assignmentforworddata.postValue(null)
@@ -4457,7 +4210,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Assignment_Forward?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Assignmentforworddata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4471,23 +4223,19 @@ class AppServices {
         get() = Assignmentforworddata
 
     fun Chatlistdata(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog.show()
+
         RestClient.apiInterfaces.Chatlist(jsonObject)
             ?.enqueue(object : Callback<Chat_Text_model?> {
                 override fun onResponse(
                     call: Call<Chat_Text_model?>, response: Response<Chat_Text_model?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d("Chatlistdata", response.code().toString() + " - " + response.toString())
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
-                                //progressDialog!!.dismiss()
                                 Chatlistdata.postValue(response.body())
                                 Log.d("Chatlistdata", Chatlistdata.toString())
 
@@ -4495,7 +4243,6 @@ class AppServices {
                                 Chatlistdata.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Chatlistdata.postValue(null)
                         } else {
                             Chatlistdata.postValue(null)
@@ -4504,7 +4251,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Chat_Text_model?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Chatlistdata.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4519,32 +4265,26 @@ class AppServices {
 
 
     fun ChatStudent(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Chatstudent(jsonObject)
             ?.enqueue(object : Callback<Chat_Student?> {
                 override fun onResponse(
                     call: Call<Chat_Student?>, response: Response<Chat_Student?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d("ChatStudent", response.code().toString() + " - " + response.toString())
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
-                                //progressDialog!!.dismiss()
                                 ChatStudent.postValue(response.body())
                                 Log.d("ChatStudent", ChatStudent.toString())
 
                             } else {
-                                //progressDialog!!.dismiss()
                                 ChatStudent.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             ChatStudent.postValue(null)
                         } else {
                             ChatStudent.postValue(null)
@@ -4553,7 +4293,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Chat_Student?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     ChatStudent.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4568,43 +4307,35 @@ class AppServices {
 
 
     fun ChatStaff(jsonObject: JsonObject?, activity: Activity) {
-        //var progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Chatstaff(jsonObject)
             ?.enqueue(object : Callback<SenderSide_ReplayChat?> {
                 override fun onResponse(
                     call: Call<SenderSide_ReplayChat?>, response: Response<SenderSide_ReplayChat?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d("ChatStudent", response.code().toString() + " - " + response.toString())
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
 
                             if (Status == 1) {
 
-                                //progressDialog!!.dismiss()
                                 Sendersidechat.postValue(response.body())
                                 Log.d("ChatStudent123", Sendersidechat.toString())
 
                             } else {
-                                //progressDialog!!.dismiss()
                                 Sendersidechat.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Sendersidechat.postValue(null)
                         } else {
-                            //progressDialog!!.dismiss()
                             Sendersidechat.postValue(null)
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<SenderSide_ReplayChat?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Sendersidechat.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4674,19 +4405,16 @@ class AppServices {
 
 
     fun Assignmentsubmit(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Assignmentsubmit(jsonObject)
             ?.enqueue(object : Callback<Assignment_Submit?> {
                 override fun onResponse(
                     call: Call<Assignment_Submit?>, response: Response<Assignment_Submit?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
 
@@ -4696,7 +4424,6 @@ class AppServices {
                                 Assignmentsubmit.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             Assignmentsubmit.postValue(null)
                         } else {
                             Assignmentsubmit.postValue(null)
@@ -4705,7 +4432,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Assignment_Submit?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Assignmentsubmit.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4720,37 +4446,29 @@ class AppServices {
 
 
     fun AssignmentsubmitSender(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Assignmentsubmitbtnsender(jsonObject)
             ?.enqueue(object : Callback<Assignment_Submittion?> {
                 override fun onResponse(
                     call: Call<Assignment_Submittion?>, response: Response<Assignment_Submittion?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //  if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        ////progressDialog.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
-                            ////progressDialog.dismiss()
                             Assignmentsendersubmittion.postValue(response.body())
                         } else {
                             Assignmentsendersubmittion.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        ////progressDialog.dismiss()
                         Assignmentsendersubmittion.postValue(null)
                     } else {
                         Assignmentsendersubmittion.postValue(null)
                     }
-                    //    }
                 }
 
                 override fun onFailure(call: Call<Assignment_Submittion?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Assignmentsendersubmittion.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4765,38 +4483,30 @@ class AppServices {
 
 
     fun GetSubmittedAssignmentForStudents(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetSubmittedAssignmentForStudents(jsonObject)
             ?.enqueue(object : Callback<Assignment_Submittion?> {
                 override fun onResponse(
                     call: Call<Assignment_Submittion?>, response: Response<Assignment_Submittion?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //  if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
-                            //progressDialog!!.dismiss()
                             StuentforAssignmensubmitted.postValue(response.body())
 
                         } else {
                             StuentforAssignmensubmitted.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         StuentforAssignmensubmitted.postValue(null)
                     } else {
                         StuentforAssignmensubmitted.postValue(null)
                     }
-                    //  }
                 }
 
                 override fun onFailure(call: Call<Assignment_Submittion?>, t: Throwable) {
-                    ////progressDialog.dismiss()
                     StuentforAssignmensubmitted.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4811,19 +4521,15 @@ class AppServices {
 
 
     fun AttendanceEdit(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.AttendanceEditList(jsonObject)
             ?.enqueue(object : Callback<Attendance_Edit?> {
                 override fun onResponse(
                     call: Call<Attendance_Edit?>, response: Response<Attendance_Edit?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //   if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -4833,16 +4539,13 @@ class AppServices {
                             AttendanceEdit.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         AttendanceEdit.postValue(null)
                     } else {
                         AttendanceEdit.postValue(null)
                     }
-                    //   }
                 }
 
                 override fun onFailure(call: Call<Attendance_Edit?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     AttendanceEdit.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4857,19 +4560,15 @@ class AppServices {
 
 
     fun AssignmentcontentView(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Assignmentcotentview(jsonObject)
             ?.enqueue(object : Callback<AssignmentContent_View?> {
                 override fun onResponse(
                     call: Call<AssignmentContent_View?>, response: Response<AssignmentContent_View?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //  if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -4879,16 +4578,13 @@ class AppServices {
                             AssignmentContent_View.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         AssignmentContent_View.postValue(null)
                     } else {
                         AssignmentContent_View.postValue(null)
                     }
-                    // }
                 }
 
                 override fun onFailure(call: Call<AssignmentContent_View?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     AssignmentContent_View.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4903,19 +4599,15 @@ class AppServices {
 
 
     fun BlackStudent(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.BlackStudent(jsonObject)
             ?.enqueue(object : Callback<BlackStudent?> {
                 override fun onResponse(
                     call: Call<BlackStudent?>, response: Response<BlackStudent?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //   if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -4925,16 +4617,13 @@ class AppServices {
                             BlackStudent.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         BlackStudent.postValue(null)
                     } else {
                         BlackStudent.postValue(null)
                     }
-                    //  }
                 }
 
                 override fun onFailure(call: Call<BlackStudent?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     BlackStudent.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4949,19 +4638,15 @@ class AppServices {
 
 
     fun UnBlackStudent(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.UnBlackStudent(jsonObject)
             ?.enqueue(object : Callback<Unblack_student?> {
                 override fun onResponse(
                     call: Call<Unblack_student?>, response: Response<Unblack_student?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //     if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -4971,16 +4656,13 @@ class AppServices {
                             UnBlackStudent.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         UnBlackStudent.postValue(null)
                     } else {
                         UnBlackStudent.postValue(null)
                     }
-                    // }
                 }
 
                 override fun onFailure(call: Call<Unblack_student?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     UnBlackStudent.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -4994,19 +4676,15 @@ class AppServices {
         get() = UnBlackStudent
 
     fun VideoSendTuter(jsonObject: JsonObject?, activity: Activity) {
-//        //val progressDialog = CustomLoading.createProgressDialog(activity)
-//        //progressDialog!!.show()
+
         RestClient.apiInterfaces.VideoSendtuter(jsonObject)
             ?.enqueue(object : Callback<VideoSendTuter?> {
                 override fun onResponse(
                     call: Call<VideoSendTuter?>, response: Response<VideoSendTuter?>
                 ) {
-                  //  //progressDialog!!.dismiss()
 
-                    //     if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-//                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -5016,16 +4694,13 @@ class AppServices {
                             Videosendtuter.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                     //   //progressDialog!!.dismiss()
                         Videosendtuter.postValue(null)
                     } else {
                         Videosendtuter.postValue(null)
                     }
-                    //   }
                 }
 
                 override fun onFailure(call: Call<VideoSendTuter?>, t: Throwable) {
-                 //   //progressDialog!!.dismiss()
                     Videosendtuter.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5040,19 +4715,15 @@ class AppServices {
 
 
     fun GetOpt(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.GetOtp(jsonObject)
             ?.enqueue(object : Callback<ExampleJson2KtKotlin?> {
                 override fun onResponse(
                     call: Call<ExampleJson2KtKotlin?>, response: Response<ExampleJson2KtKotlin?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //     if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -5062,16 +4733,13 @@ class AppServices {
                             GetOtp.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         GetOtp.postValue(null)
                     } else {
                         GetOtp.postValue(null)
                     }
-                    //   }
                 }
 
                 override fun onFailure(call: Call<ExampleJson2KtKotlin?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     GetOtp.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5086,19 +4754,15 @@ class AppServices {
 
 
     fun VerifirdOtp(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.Otpverify(jsonObject)
             ?.enqueue(object : Callback<Verified_OTP?> {
                 override fun onResponse(
                     call: Call<Verified_OTP?>, response: Response<Verified_OTP?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //  if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
                             OtpVerified.postValue(response.body())
@@ -5108,16 +4772,13 @@ class AppServices {
 
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         OtpVerified.postValue(null)
                     } else {
                         OtpVerified.postValue(null)
                     }
-                    //  }
                 }
 
                 override fun onFailure(call: Call<Verified_OTP?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     OtpVerified.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5132,19 +4793,15 @@ class AppServices {
 
 
     fun CreateNewPassword(jsonObject: JsonObject?, activity: Activity) {
-      //  //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.CreareNewPassword(jsonObject)
             ?.enqueue(object : Callback<NewPassWordCreate?> {
                 override fun onResponse(
                     call: Call<NewPassWordCreate?>, response: Response<NewPassWordCreate?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    // if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -5154,7 +4811,6 @@ class AppServices {
                             _newpassword.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         _newpassword.postValue(null)
                     } else {
                         _newpassword.postValue(null)
@@ -5163,7 +4819,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<NewPassWordCreate?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     _newpassword.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5178,19 +4833,15 @@ class AppServices {
 
 
     fun Tuterimageorpdfsend(jsonObject: JsonObject?, activity: Activity) {
-//        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.imgageandpdfTuterSend(jsonObject)
             ?.enqueue(object : Callback<ImageorpdfsendTuter?> {
                 override fun onResponse(
                     call: Call<ImageorpdfsendTuter?>, response: Response<ImageorpdfsendTuter?>
                 ) {
-                    //progressDialog!!.dismiss()
 
-                    //  if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
 
-                        //progressDialog!!.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
 
@@ -5200,16 +4851,13 @@ class AppServices {
                             Pdf_andImagesendTuter.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         Pdf_andImagesendTuter.postValue(null)
                     } else {
                         Pdf_andImagesendTuter.postValue(null)
                     }
-                    //  }
                 }
 
                 override fun onFailure(call: Call<ImageorpdfsendTuter?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     Pdf_andImagesendTuter.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5223,18 +4871,14 @@ class AppServices {
         get() = Pdf_andImagesendTuter
 
     fun Texthistory(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog.show()
+
         RestClient.apiInterfaces.GetTextMessageHistory(jsonObject)
             ?.enqueue(object : Callback<textHistory?> {
                 override fun onResponse(
                     call: Call<textHistory?>, response: Response<textHistory?>
                 ) {
-                    ////progressDialog.dismiss()
                     Log.d("ResponseCode", response.code().toString())
-                    //    if (response.code() == 200 || response.code() == 201) {
                     if (response.body() != null) {
-                        ////progressDialog.dismiss()
                         val Status = response.body()!!.Status
                         if (Status == 1) {
                             TextHistory_.postValue(response.body())
@@ -5242,16 +4886,13 @@ class AppServices {
                             TextHistory_.postValue(response.body())
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        ////progressDialog.dismiss()
                         TextHistory_.postValue(response.body())
                     } else {
                         TextHistory_.postValue(response.body())
                     }
-                    //   }
                 }
 
                 override fun onFailure(call: Call<textHistory?>, t: Throwable) {
-                    ////progressDialog.dismiss()
                     TextHistory_.postValue(null)
                     t.printStackTrace()
                     Log.d("Error", t.toString())
@@ -5267,18 +4908,15 @@ class AppServices {
 
 
     fun Voicehistory(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog.show()
+
         RestClient.apiInterfaces.GetVoiceMessageHistory(jsonObject)
             ?.enqueue(object : Callback<voicehistory?> {
                 override fun onResponse(
                     call: Call<voicehistory?>, response: Response<voicehistory?>
                 ) {
-                    ////progressDialog.dismiss()
                     Log.d("ResponseCode", response.code().toString())
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            ////progressDialog.dismiss()
                             val Status = response.body()!!.Status
                             if (Status == 1) {
                                 VoiceHistory_.postValue(response.body())
@@ -5286,7 +4924,6 @@ class AppServices {
                                 VoiceHistory_.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            ////progressDialog.dismiss()
                             VoiceHistory_.postValue(null)
                         } else {
                             VoiceHistory_.postValue(null)
@@ -5295,7 +4932,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<voicehistory?>, t: Throwable) {
-                    ////progressDialog.dismiss()
                     VoiceHistory_.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5309,19 +4945,16 @@ class AppServices {
         get() = VoiceHistory_
 
     fun CollageListdata(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog!!.show()
+
         RestClient.apiInterfaces.HeaderCollagelist(jsonObject)
             ?.enqueue(object : Callback<CollageList?> {
                 override fun onResponse(
                     call: Call<CollageList?>, response: Response<CollageList?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == 1) {
 
@@ -5331,7 +4964,6 @@ class AppServices {
                                 CollageListHeaderSent.postValue(response.body())
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             CollageListHeaderSent.postValue(null)
                         } else {
                             CollageListHeaderSent.postValue(null)
@@ -5340,7 +4972,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<CollageList?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     CollageListHeaderSent.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5355,22 +4986,19 @@ class AppServices {
 
 
     fun GetHallticketdata(jsonObject: JsonObject?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-        //progressDialog.show()
+
         RestClient.Companion.apiInterfaces.Get_hallticket(jsonObject)
             ?.enqueue(object : Callback<Hallticket?> {
                 override fun onResponse(
                     call: Call<Hallticket?>,
                     response: Response<Hallticket?>
                 ) {
-                    //progressDialog!!.dismiss()
                     Log.d(
                         "NotificationResponse",
                         response.code().toString() + " - " + response.toString()
                     )
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val status = response.body()!!.Status
                             if (status == 1) {
                                 GetHallticket.postValue(response.body())
@@ -5379,7 +5007,6 @@ class AppServices {
                             }
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
                         CommonUtil.ApiAlertFinish(
                             activity,
                             activity.getString(R.string.txt_no_record_found)
@@ -5393,7 +5020,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<Hallticket?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     GetHallticket.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5409,33 +5035,28 @@ class AppServices {
         get() = GetHallticket
 
 
-    fun GetResumeBuilderProfileDetailsRequest(id:Int ?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun GetResumeBuilderProfileDetailsRequest(id: Int?, activity: Activity) {
 
-        //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderProfileDetails(id!!)
             ?.enqueue(object : Callback<GetResumeBuilderProfileDetails?> {
                 override fun onResponse(
-                    call: Call<GetResumeBuilderProfileDetails?>, response: Response<GetResumeBuilderProfileDetails?>
+                    call: Call<GetResumeBuilderProfileDetails?>,
+                    response: Response<GetResumeBuilderProfileDetails?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isGetResumeBuilderProfileDetails.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isGetResumeBuilderProfileDetails.postValue(response.body())
 
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             isGetResumeBuilderProfileDetails.postValue(null)
                         } else {
                             isGetResumeBuilderProfileDetails.postValue(null)
@@ -5444,7 +5065,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetResumeBuilderProfileDetails?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetResumeBuilderProfileDetails.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5458,10 +5078,12 @@ class AppServices {
         get() = isGetResumeBuilderProfileDetails
 
     fun addEditProfile(isJsonObject: JsonObject, activity: Activity) {
-//        //val progressDialog = CustomLoading.createProgressDialog(activity)
-//        progressDialog?.show()
 
-        Log.d("addEditProfile", "Request URL: http://192.168.5.107:3002/api/profile/add-edit-profile")
+
+        Log.d(
+            "addEditProfile",
+            "Request URL: http://192.168.5.107:3002/api/profile/add-edit-profile"
+        )
         Log.d("addEditProfile", "Request Body: ${Gson().toJson(isJsonObject)}")
 
         RestClient.resumeApiInterfaces.addEditProfileCall(isJsonObject)
@@ -5470,7 +5092,6 @@ class AppServices {
                     call: Call<AddEditProfileResponse?>,
                     response: Response<AddEditProfileResponse?>
                 ) {
-//                    progressDialog?.dismiss()
                     Log.d("addEditProfile", "Parsed Body: ${Gson().toJson(response.body())}")
 
                     if (response.isSuccessful && response.body() != null) {
@@ -5481,7 +5102,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<AddEditProfileResponse?>, t: Throwable) {
-//                    progressDialog?.dismiss()
                     _addEditProfileLiveData.postValue(null)
 
                     Log.e("addEditProfile", "API call failed: ${t.localizedMessage}")
@@ -5497,33 +5117,28 @@ class AppServices {
 
 
     //Get Academic Details
-    fun GetResumeBuilderAcademicDetailsRequest(id:Int ?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun GetResumeBuilderAcademicDetailsRequest(id: Int?, activity: Activity) {
 
-        //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderAcademicDetails(id!!)
             ?.enqueue(object : Callback<GetResumeBuilderAcademicDetails?> {
                 override fun onResponse(
-                    call: Call<GetResumeBuilderAcademicDetails?>, response: Response<GetResumeBuilderAcademicDetails?>
+                    call: Call<GetResumeBuilderAcademicDetails?>,
+                    response: Response<GetResumeBuilderAcademicDetails?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isGetResumeBuilderAcademicDetails.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isGetResumeBuilderAcademicDetails.postValue(response.body())
 
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             isGetResumeBuilderAcademicDetails.postValue(null)
                         } else {
                             isGetResumeBuilderAcademicDetails.postValue(null)
@@ -5532,7 +5147,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetResumeBuilderAcademicDetails?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetResumeBuilderAcademicDetails.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5544,12 +5158,12 @@ class AppServices {
 
 
     //Edit Academic Details
-    private val _resumeBuilderAcademicAddEditResponse = MutableLiveData<GetResumeBuilderAcademicDetails?>()
+    private val _resumeBuilderAcademicAddEditResponse =
+        MutableLiveData<GetResumeBuilderAcademicDetails?>()
     val resumeBuilderAcademicAddEditResponse: LiveData<GetResumeBuilderAcademicDetails?>
         get() = _resumeBuilderAcademicAddEditResponse
 
     fun addEditAcademicDetails(request: HashMap<String, Any>, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
         progressDialog?.show()
 
         RestClient.resumeApiInterfaces.addEditAcademic(request)
@@ -5570,7 +5184,10 @@ class AppServices {
                     progressDialog?.dismiss()
                     _resumeBuilderAcademicAddEditResponse.postValue(null)
                     t.printStackTrace()
-                    CommonUtil.ApiAlertFinish(activity, activity.getString(R.string.txt_no_record_found))
+                    CommonUtil.ApiAlertFinish(
+                        activity,
+                        activity.getString(R.string.txt_no_record_found)
+                    )
                 }
             })
     }
@@ -5580,38 +5197,33 @@ class AppServices {
         get() = isGetResumeBuilderAcademicDetails
 
     //Get SkillSet Details
-    fun GetResumeBuilderSkillSetDetailsRequest(id:Int ?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun GetResumeBuilderSkillSetDetailsRequest(id: Int?, activity: Activity) {
 
-        //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderSkillSetDetails(id!!)
             ?.enqueue(object : Callback<GetResumeBuilderSkillSetDetails?> {
                 override fun onResponse(
-                    call: Call<GetResumeBuilderSkillSetDetails?>, response: Response<GetResumeBuilderSkillSetDetails?>
+                    call: Call<GetResumeBuilderSkillSetDetails?>,
+                    response: Response<GetResumeBuilderSkillSetDetails?>
                 ) {
-                    //progressDialog!!.dismiss()
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isGetResumeBuilderSkillSetDetails.postValue(response.body())
-                            }
-                            else{
+                            } else {
                                 isGetResumeBuilderSkillSetDetails.postValue(response.body())
 
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             isGetResumeBuilderSkillSetDetails.postValue(null)
                         } else {
                             isGetResumeBuilderSkillSetDetails.postValue(null)
                         }
                     }
                 }
+
                 override fun onFailure(call: Call<GetResumeBuilderSkillSetDetails?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetResumeBuilderSkillSetDetails.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5626,40 +5238,38 @@ class AppServices {
 
     //Get SoftSkills Details
     fun GetResumeBuilderSoftSkillsRequest(activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
-        //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderSoftSkillsDetails()
             ?.enqueue(object : Callback<GetResumeBuilderSkillSetSoftSkills?> {
                 override fun onResponse(
-                    call: Call<GetResumeBuilderSkillSetSoftSkills?>, response: Response<GetResumeBuilderSkillSetSoftSkills?>
+                    call: Call<GetResumeBuilderSkillSetSoftSkills?>,
+                    response: Response<GetResumeBuilderSkillSetSoftSkills?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isGetResumeBuilderSoftSkillsDetails.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isGetResumeBuilderSoftSkillsDetails.postValue(response.body())
 
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             isGetResumeBuilderSkillSetDetails.postValue(null)
                         } else {
                             isGetResumeBuilderSoftSkillsDetails.postValue(null)
                         }
                     }
                 }
-                override fun onFailure(call: Call<GetResumeBuilderSkillSetSoftSkills?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
+
+                override fun onFailure(
+                    call: Call<GetResumeBuilderSkillSetSoftSkills?>,
+                    t: Throwable
+                ) {
                     isGetResumeBuilderSoftSkillsDetails.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5674,41 +5284,40 @@ class AppServices {
 
 
     //EditSkillSetDetails
-    fun SendResumeBuilderEditSoftSkillsRequest(isJsonObject: JsonObject,activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun SendResumeBuilderEditSoftSkillsRequest(isJsonObject: JsonObject, activity: Activity) {
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.SendSkillSetDetails(isJsonObject)
             ?.enqueue(object : Callback<ResumeBuilderEditSkillSetResponse?> {
                 override fun onResponse(
-                    call: Call<ResumeBuilderEditSkillSetResponse?>, response: Response<ResumeBuilderEditSkillSetResponse?>
+                    call: Call<ResumeBuilderEditSkillSetResponse?>,
+                    response: Response<ResumeBuilderEditSkillSetResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isSendResumeBuilderEditSkillSetDetails.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isSendResumeBuilderEditSkillSetDetails.postValue(response.body())
 
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             isSendResumeBuilderEditSkillSetDetails.postValue(null)
                         } else {
                             isSendResumeBuilderEditSkillSetDetails.postValue(null)
                         }
                     }
                 }
-                override fun onFailure(call: Call<ResumeBuilderEditSkillSetResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
+
+                override fun onFailure(
+                    call: Call<ResumeBuilderEditSkillSetResponse?>,
+                    t: Throwable
+                ) {
                     isSendResumeBuilderEditSkillSetDetails.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5717,37 +5326,33 @@ class AppServices {
                 }
             })
     }
+
     val ResumeBuilderEditSkillSetLiveData: LiveData<ResumeBuilderEditSkillSetResponse?>
         get() = isSendResumeBuilderEditSkillSetDetails
 
     //Get Theme Tempalate Details
     fun GetResumeBuilderThemeTemplateRequest(activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
 
-        //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getResumeBuilderThemeTemplateDetails()
             ?.enqueue(object : Callback<GetResumeBuilderThemeTemplate?> {
                 override fun onResponse(
-                    call: Call<GetResumeBuilderThemeTemplate?>, response: Response<GetResumeBuilderThemeTemplate?>
+                    call: Call<GetResumeBuilderThemeTemplate?>,
+                    response: Response<GetResumeBuilderThemeTemplate?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isGetResumeBuilderThemeTemplate.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isGetResumeBuilderThemeTemplate.postValue(response.body())
 
                             }
                         } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                            //progressDialog!!.dismiss()
                             isGetResumeBuilderThemeTemplate.postValue(null)
                         } else {
                             isGetResumeBuilderThemeTemplate.postValue(null)
@@ -5756,7 +5361,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetResumeBuilderThemeTemplate?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetResumeBuilderThemeTemplate.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5770,44 +5374,40 @@ class AppServices {
         get() = isGetResumeBuilderThemeTemplate
 
 
-
     //Generate Resume
-    fun SendResumeBuilderGenerateResumeRequest(isJsonObject: JsonObject,activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun SendResumeBuilderGenerateResumeRequest(isJsonObject: JsonObject, activity: Activity) {
 
-        //progressDialog!!.show()
         RestClient.resumeApiInterfaces.SendGenerateResume(isJsonObject)
             ?.enqueue(object : Callback<ResumeBuilderGenerateResumeResponse?> {
                 override fun onResponse(
-                    call: Call<ResumeBuilderGenerateResumeResponse?>, response: Response<ResumeBuilderGenerateResumeResponse?>
+                    call: Call<ResumeBuilderGenerateResumeResponse?>,
+                    response: Response<ResumeBuilderGenerateResumeResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isSendResumeBuilderGenerateResume.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isSendResumeBuilderGenerateResume.postValue(response.body())
 
                             }
                         }
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isSendResumeBuilderGenerateResume.postValue(null)
                     } else {
                         isSendResumeBuilderGenerateResume.postValue(null)
                     }
                 }
-                override fun onFailure(call: Call<ResumeBuilderGenerateResumeResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
+
+                override fun onFailure(
+                    call: Call<ResumeBuilderGenerateResumeResponse?>,
+                    t: Throwable
+                ) {
                     isSendResumeBuilderGenerateResume.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -5816,9 +5416,9 @@ class AppServices {
                 }
             })
     }
+
     val ResumeBuilderGenerateResumeLiveData: LiveData<ResumeBuilderGenerateResumeResponse?>
         get() = isSendResumeBuilderGenerateResume
-
 
 
     //Send SaveTitle
@@ -5826,8 +5426,7 @@ class AppServices {
     fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject, activity: Activity) {
         // Ensure everything UI-related runs on main thread
         activity.runOnUiThread {
-            //val progressDialog = CustomLoading.createProgressDialog(activity)
-            //progressDialog!!.show()
+
 
             RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
                 ?.enqueue(object : Callback<ResumeBuilderSaveTitleResponse?> {
@@ -5835,7 +5434,6 @@ class AppServices {
                         call: Call<ResumeBuilderSaveTitleResponse?>,
                         response: Response<ResumeBuilderSaveTitleResponse?>
                     ) {
-                        ////progressDialog.dismiss()
 
                         if (response.code() == 200 || response.code() == 201) {
                             if (response.body() != null) {
@@ -5853,8 +5451,10 @@ class AppServices {
                         }
                     }
 
-                    override fun onFailure(call: Call<ResumeBuilderSaveTitleResponse?>, t: Throwable) {
-                        ////progressDialog.dismiss()
+                    override fun onFailure(
+                        call: Call<ResumeBuilderSaveTitleResponse?>,
+                        t: Throwable
+                    ) {
                         isSendResumeBuilderSaveTitle.postValue(null)
                         t.printStackTrace()
                         CommonUtil.ApiAlertFinish(
@@ -5865,87 +5465,34 @@ class AppServices {
                 })
         }
     }
-        val ResumeBuilderSaveTitleLiveData: LiveData<ResumeBuilderSaveTitleResponse?>
+
+    val ResumeBuilderSaveTitleLiveData: LiveData<ResumeBuilderSaveTitleResponse?>
         get() = isSendResumeBuilderSaveTitle
 
 
-    //Old source thread exception occurs
-//    fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject,activity: Activity) {
-//        //val progressDialog = CustomLoading.createProgressDialog(activity)
-//
-//        //progressDialog!!.show()
-//        RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
-//            ?.enqueue(object : Callback<ResumeBuilderSaveTitleResponse?> {
-//                override fun onResponse(
-//                    call: Call<ResumeBuilderSaveTitleResponse?>, response: Response<ResumeBuilderSaveTitleResponse?>
-//                ) {
-//                    //progressDialog!!.dismiss()
-//
-//                    if (response.code() == 200 || response.code() == 201) {
-//                        if (response.body() != null) {
-//
-//                            //progressDialog!!.dismiss()
-//                            val Status = response.body()!!.status
-//                            if (Status == true) {
-//
-//                                isSendResumeBuilderSaveTitle.postValue(response.body())
-//
-//                            }
-//                        } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-//                            //progressDialog!!.dismiss()
-//                            isSendResumeBuilderSaveTitle.postValue(null)
-//                        } else {
-//                            isSendResumeBuilderSaveTitle.postValue(null)
-//                        }
-//                    }
-//                }
-//                override fun onFailure(call: Call<ResumeBuilderSaveTitleResponse?>, t: Throwable) {
-//                    //progressDialog!!.dismiss()
-//                    isSendResumeBuilderSaveTitle.postValue(null)
-//                    t.printStackTrace()
-//                    CommonUtil.ApiAlertFinish(
-//                        activity, activity.getString(R.string.txt_no_record_found)
-//                    )
-//                }
-//            })
-//    }
-//    val ResumeBuilderSaveTitleLiveData: LiveData<ResumeBuilderSaveTitleResponse?>
-//        get() = isSendResumeBuilderSaveTitle
-
-
-
-
-
     //Get Profile Resume
-    fun GetResumeBuilderProfileResumeRequest(id:Int ?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun GetResumeBuilderProfileResumeRequest(id: Int?, activity: Activity) {
 
-        //progressDialog!!.show()
         RestClient.resumeApiInterfaces.getProfileResume(id)
             ?.enqueue(object : Callback<GetProfileResume?> {
                 override fun onResponse(
                     call: Call<GetProfileResume?>, response: Response<GetProfileResume?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isGetResumeBuilderProfileResume.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isGetResumeBuilderProfileResume.postValue(response.body())
 
                             }
                         }
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isGetResumeBuilderProfileResume.postValue(null)
                     } else {
                         isGetResumeBuilderProfileResume.postValue(null)
@@ -5953,12 +5500,9 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<GetProfileResume?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetResumeBuilderProfileResume.postValue(null)
                     t.printStackTrace()
-//                    CommonUtil.ApiAlertFinish(
-//                        activity, activity.getString(R.string.txt_no_record_found)
-//                    )
+
                 }
             })
     }
@@ -5966,36 +5510,28 @@ class AppServices {
     val ResumeBuilderProfileResumeLiveData: LiveData<GetProfileResume?>
         get() = isGetResumeBuilderProfileResume
 
-    fun isGetPlacementEvent(isCollegeId:String,memberid:Int ?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun isGetPlacementEvent(isCollegeId: String, memberid: Int?, activity: Activity) {
 
-        //progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementEvent(isCollegeId,memberid)
+        RestClient.resumeApiInterfaces.isPlacementEvent(isCollegeId, memberid)
             ?.enqueue(object : Callback<PlacementEventResponse?> {
                 override fun onResponse(
                     call: Call<PlacementEventResponse?>, response: Response<PlacementEventResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-//                        if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
-                            val Status = response.body()!!.status
-                            if (Status) {
+                        val Status = response.body()!!.status
+                        if (Status) {
 
-                                isGetPlacementList.postValue(response.body())
+                            isGetPlacementList.postValue(response.body())
 
-                            }
-                        else{
-                                isGetPlacementList.postValue(response.body())
+                        } else {
+                            isGetPlacementList.postValue(response.body())
 
-                            }
+                        }
 
 
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isGetPlacementList.postValue(null)
                     } else {
                         isGetPlacementList.postValue(null)
@@ -6003,7 +5539,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<PlacementEventResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetPlacementList.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -6017,35 +5552,27 @@ class AppServices {
         get() = isGetPlacementList
 
 
+    fun isGetPlacementHistoricalEvent(isCollegeId: String, memberid: Int?, activity: Activity) {
 
-    fun isGetPlacementHistoricalEvent(isCollegeId:String,memberid:Int ?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-
-        //progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementHistoricalEvent(isCollegeId,memberid)
+        RestClient.resumeApiInterfaces.isPlacementHistoricalEvent(isCollegeId, memberid)
             ?.enqueue(object : Callback<PlacementEventResponse?> {
                 override fun onResponse(
                     call: Call<PlacementEventResponse?>, response: Response<PlacementEventResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-//                        if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
-                            val Status = response.body()!!.status
-                            if (Status == true) {
+                        val Status = response.body()!!.status
+                        if (Status == true) {
 
-                                isGetHistoricalPlacementList.postValue(response.body())
+                            isGetHistoricalPlacementList.postValue(response.body())
 
-                            } else {
-                                isGetHistoricalPlacementList.postValue(response.body())
-                            }
+                        } else {
+                            isGetHistoricalPlacementList.postValue(response.body())
+                        }
 //                        }
 
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isGetHistoricalPlacementList.postValue(null)
                     } else {
                         isGetHistoricalPlacementList.postValue(null)
@@ -6053,7 +5580,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<PlacementEventResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetHistoricalPlacementList.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -6067,39 +5593,32 @@ class AppServices {
         get() = isGetHistoricalPlacementList
 
 
+    fun isGetPlacementCareer(
+        isCollegeId: String,
+        departmentname: String?,
+        semesterno: Int?,
+        activity: Activity
+    ) {
 
-
-
-      fun isGetPlacementCareer(isCollegeId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-
-        //progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementCareer(isCollegeId,departmentname,semesterno)
+        RestClient.resumeApiInterfaces.isPlacementCareer(isCollegeId, departmentname, semesterno)
             ?.enqueue(object : Callback<CareerTrainingResponse?> {
                 override fun onResponse(
                     call: Call<CareerTrainingResponse?>, response: Response<CareerTrainingResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-//                        if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
-                            val Status = response.body()!!.status
-                            if (Status == true) {
+                        val Status = response.body()!!.status
+                        if (Status == true) {
 
-                                isGetPlacementCareerList.postValue(response.body())
+                            isGetPlacementCareerList.postValue(response.body())
 
-                            }
-                        else{
-                                isGetPlacementCareerList.postValue(response.body())
+                        } else {
+                            isGetPlacementCareerList.postValue(response.body())
 
-                            }
-//                        }
+                        }
 
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isGetPlacementCareerList.postValue(null)
                     } else {
                         isGetPlacementCareerList.postValue(null)
@@ -6107,7 +5626,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<CareerTrainingResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetHistoricalPlacementList.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -6118,40 +5636,39 @@ class AppServices {
     }
 
     val isPlacementCareerLiveData: LiveData<CareerTrainingResponse?>
-        get() =isGetPlacementCareerList
+        get() = isGetPlacementCareerList
 
 
+    fun isGetPlacementHistoricalCareer(
+        isCollageId: String,
+        departmentname: String?,
+        semesterno: Int?,
+        activity: Activity
+    ) {
 
-    fun isGetPlacementHistoricalCareer(isCollageId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
-
-        //progressDialog!!.show()
-        RestClient.resumeApiInterfaces.isPlacementHistoricalCareer(isCollageId,departmentname,semesterno)
+        RestClient.resumeApiInterfaces.isPlacementHistoricalCareer(
+            isCollageId,
+            departmentname,
+            semesterno
+        )
             ?.enqueue(object : Callback<CareerTrainingResponse?> {
                 override fun onResponse(
                     call: Call<CareerTrainingResponse?>, response: Response<CareerTrainingResponse?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
-//                        if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
-                            val Status = response.body()!!.status
-                            if (Status == true) {
+                        val Status = response.body()!!.status
+                        if (Status == true) {
 
-                                isGetPlacementCareerList.postValue(response.body())
+                            isGetPlacementCareerList.postValue(response.body())
 
-                            }
-                        else{
-                                isGetPlacementCareerList.postValue(response.body())
+                        } else {
+                            isGetPlacementCareerList.postValue(response.body())
 
-                            }
-//                        }
+                        }
 
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isGetPlacementCareerList.postValue(null)
                     } else {
                         isGetPlacementCareerList.postValue(null)
@@ -6159,7 +5676,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<CareerTrainingResponse?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isGetHistoricalPlacementList.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -6170,41 +5686,37 @@ class AppServices {
     }
 
     val isPlacementHistoricalCareerLiveData: LiveData<CareerTrainingResponse?>
-        get() =isGetPlacementCareerList
-
-
+        get() = isGetPlacementCareerList
 
 
     //Delete Resume
-    fun GetResumeBuilderDeleteResumeRequest(id:Int ?, isJsonObject: JsonObject,activity: Activity) {
-        //val progressDialog = CustomLoading.createProgressDialog(activity)
+    fun GetResumeBuilderDeleteResumeRequest(
+        id: Int?,
+        isJsonObject: JsonObject,
+        activity: Activity
+    ) {
 
-        //progressDialog!!.show()
-        RestClient.resumeApiInterfaces.deleteStudentResume(id!!,isJsonObject)
+        RestClient.resumeApiInterfaces.deleteStudentResume(id!!, isJsonObject)
             ?.enqueue(object : Callback<ResumeBuilderDeleteResume?> {
                 override fun onResponse(
-                    call: Call<ResumeBuilderDeleteResume?>, response: Response<ResumeBuilderDeleteResume?>
+                    call: Call<ResumeBuilderDeleteResume?>,
+                    response: Response<ResumeBuilderDeleteResume?>
                 ) {
-                    //progressDialog!!.dismiss()
 
                     if (response.code() == 200 || response.code() == 201) {
                         if (response.body() != null) {
 
-                            //progressDialog!!.dismiss()
                             val Status = response.body()!!.status
                             if (Status == true) {
 
                                 isResumeBuilderDeleteResume.postValue(response.body())
 
-                            }
-                            else{
+                            } else {
                                 isResumeBuilderDeleteResume.postValue(response.body())
 
                             }
                         }
-                    }
-                    else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
-                        //progressDialog!!.dismiss()
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isResumeBuilderDeleteResume.postValue(null)
                     } else {
                         isResumeBuilderDeleteResume.postValue(null)
@@ -6212,7 +5724,6 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<ResumeBuilderDeleteResume?>, t: Throwable) {
-                    //progressDialog!!.dismiss()
                     isResumeBuilderDeleteResume.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
@@ -6224,11 +5735,6 @@ class AppServices {
 
     val ResumeBuilderDeleteResumeLiveData: LiveData<ResumeBuilderDeleteResume?>
         get() = isResumeBuilderDeleteResume
-
-
-
-
-
 
 
 }

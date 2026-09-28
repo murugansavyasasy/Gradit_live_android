@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.ListAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -17,7 +16,7 @@ import com.vsca.vsnapvoicecollege.Activities.ViewFiles
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
- class MultipleAssignmentfile(
+class MultipleAssignmentfile(
     private val listname: java.util.ArrayList<String>, private val context: Context?
 ) : RecyclerView.Adapter<MultipleAssignmentfile.MyViewHolder>() {
 
@@ -70,7 +69,7 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
         holder.lnrNoticeboardd?.setOnClickListener {
 
             if (path.contains(".pdf")) {
-                Log.d("pdf","pdf")
+                Log.d("pdf", "pdf")
                 val Uri: Uri
                 Uri = android.net.Uri.parse(path)
                 val intent = Intent(Intent.ACTION_VIEW)
@@ -81,13 +80,13 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
                 context!!.startActivity(intent)
 
             } else if (path.contains("jpeg")) {
-                Log.d("pdf","jpeg")
+                Log.d("pdf", "jpeg")
 
                 val i: Intent = Intent(context, ViewFiles::class.java)
                 i.putExtra("images", path)
                 context?.startActivity(i)
             } else {
-                Log.d("pdf","others")
+                Log.d("pdf", "others")
 
                 val i: Intent = Intent(context, ViewFiles::class.java)
                 i.putExtra("images", path)

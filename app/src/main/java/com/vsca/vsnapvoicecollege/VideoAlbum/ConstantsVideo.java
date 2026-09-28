@@ -41,8 +41,7 @@ public class ConstantsVideo {
 
         Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, MediaStore.Video.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
         Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, MediaStore.Video.Media.BUCKET_ID + "=?", new String[]{String.valueOf(album_name)}, null);
-//        Cursor cursorExternal = c.getContentResolver().query(uriExternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
-//        Cursor cursorInternal = c.getContentResolver().query(uriInternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
+
 
         Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal, cursorInternal});
 

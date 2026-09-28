@@ -15,7 +15,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
@@ -23,9 +28,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.card.MaterialCardView
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Activities.*
+import com.vsca.vsnapvoicecollege.Activities.Assignment
+import com.vsca.vsnapvoicecollege.Activities.Assignment_MultipleFileView
+import com.vsca.vsnapvoicecollege.Activities.Attendance
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
+import com.vsca.vsnapvoicecollege.Activities.ChatParent
+import com.vsca.vsnapvoicecollege.Activities.Circular
+import com.vsca.vsnapvoicecollege.Activities.Events
+import com.vsca.vsnapvoicecollege.Activities.Noticeboard
+import com.vsca.vsnapvoicecollege.Activities.ViewFiles
 import com.vsca.vsnapvoicecollege.Model.DashboardSubItems
 import com.vsca.vsnapvoicecollege.Model.Delete_noticeboard
 import com.vsca.vsnapvoicecollege.Model.MenuDetailsResponse
@@ -34,7 +46,6 @@ import com.vsca.vsnapvoicecollege.Repository.RestClient
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.DownloadVoice
 import com.vsca.vsnapvoicecollege.albumImage.PDF_Reader
-import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +53,8 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class DashboardChild(
     newsModalArrayList: ArrayList<DashboardSubItems> = arrayListOf(),
@@ -57,9 +69,10 @@ class DashboardChild(
         const val TYPE_MENU = 1
         var PlayPath: String? = null
 
-        private val TIME_FORMATTER: DateTimeFormatter? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter.ofPattern("h:mm a")
-        } else null
+        private val TIME_FORMATTER: DateTimeFormatter? =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                DateTimeFormatter.ofPattern("h:mm a")
+            } else null
         private val WHITESPACE_REGEX = "\\s+".toRegex()
 
         fun milliSecondsToTimer(milliseconds: Long): String {
@@ -79,7 +92,8 @@ class DashboardChild(
     }
 
     // Mutable internal copies so we can update without creating new adapters
-    private val newsModalArrayListInternal: ArrayList<DashboardSubItems> = ArrayList(newsModalArrayList)
+    private val newsModalArrayListInternal: ArrayList<DashboardSubItems> =
+        ArrayList(newsModalArrayList)
     private val menuListInternal: ArrayList<MenuDetailsResponse> = ArrayList(menuList)
 
     fun updateList(newList: ArrayList<DashboardSubItems>) {
@@ -124,6 +138,7 @@ class DashboardChild(
                     .inflate(R.layout.home_menu_list_design, parent, false)
                 MenuViewHolder(view)
             }
+
             else -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.dashboard_list_design, parent, false)
@@ -159,7 +174,7 @@ class DashboardChild(
             4 -> R.drawable.attendance_icon_new to data.name
             5 -> R.drawable.assignment_icon_new to data.name
             6 -> R.drawable.circular_icon_new to context.getString(R.string.txt_img_pdf)
-            7 -> R.drawable.noticeboard_icon_new  to data.name
+            7 -> R.drawable.noticeboard_icon_new to data.name
             8 -> R.drawable.events_icon_new to data.name
             9 -> R.drawable.faculty_icon_new to data.name
             10 -> R.drawable.video_icon_new to data.name
@@ -272,6 +287,7 @@ class DashboardChild(
                         context.startActivity(intent)
                     }
                 }
+
                 else -> {
                     CommonUtil.Multipleiamge.addAll(modal.FilepathList)
                     launch(Assignment_MultipleFileView::class.java)
@@ -279,6 +295,7 @@ class DashboardChild(
             }
         }
     }
+
     private fun applyMenuColors(holder: MenuViewHolder) {
 
         val colorRes = when (CommonUtil.Priority) {
@@ -400,7 +417,9 @@ class DashboardChild(
 
         holder.lnrAssignmentAttachment.setOnClickListener {
             when (modal.FilepathListAssignment.size) {
-                0 -> { /* no-op */ }
+                0 -> { /* no-op */
+                }
+
                 1 -> openSingleAssignmentFile(modal, modal.FilepathListAssignment[0])
                 else -> {
                     CommonUtil.Multipleiamge.addAll(modal.FilepathListAssignment)
@@ -423,7 +442,8 @@ class DashboardChild(
             launch(Assignment::class.java)
         }
     }
-        private fun bindNoticeBoard(holder: ViewHolder, modal: DashboardSubItems) {
+
+    private fun bindNoticeBoard(holder: ViewHolder, modal: DashboardSubItems) {
         holder.lnrImageView.visibility = View.VISIBLE
         holder.lblNoiceboardTitle.text = modal.menuTitle
         holder.lblNoticeDescription.text = modal.menuDescription
@@ -480,7 +500,11 @@ class DashboardChild(
         }
     }
 
-    private fun bindEmergencyNotification(holder: ViewHolder, modal: DashboardSubItems, position: Int) {
+    private fun bindEmergencyNotification(
+        holder: ViewHolder,
+        modal: DashboardSubItems,
+        position: Int
+    ) {
         holder.lnrEmgVoice.visibility = View.VISIBLE
         holder.lnrEmergencyVoice.visibility = View.VISIBLE
         holder.rytSeekbarlayout.visibility = View.VISIBLE
@@ -534,7 +558,11 @@ class DashboardChild(
         }
     }
 
-    private fun bindRecentNotifications(holder: ViewHolder, modal: DashboardSubItems, position: Int) {
+    private fun bindRecentNotifications(
+        holder: ViewHolder,
+        modal: DashboardSubItems,
+        position: Int
+    ) {
         holder.lnrRecentNotifications.visibility = View.VISIBLE
 
         val isExpanded = position == mExpandedPosition
@@ -1214,7 +1242,10 @@ class DashboardChild(
                 }
                 context.startActivity(intent)
             }
-            modal.assignmentfiletype.equals("text", ignoreCase = true) -> { /* no-op */ }
+
+            modal.assignmentfiletype.equals("text", ignoreCase = true) -> { /* no-op */
+            }
+
             else -> {
                 val intent = Intent(context, ViewFiles::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -1267,30 +1298,31 @@ class DashboardChild(
             addProperty("processtype", processtype)
         }
 
-        RestClient.apiInterfaces.Leave_Reject(jsonObject)?.enqueue(object : Callback<Delete_noticeboard?> {
-            override fun onResponse(
-                call: Call<Delete_noticeboard?>,
-                response: Response<Delete_noticeboard?>
-            ) {
-                if (response.code() == 200 || response.code() == 201) {
-                    response.body()?.Message?.let { msg ->
-                        AlertDialog.Builder(context)
-                            .setTitle("Info")
-                            .setMessage(msg)
-                            .setPositiveButton("OK") { _, _ ->
-                                val i = Intent(context, Attendance::class.java).apply {
-                                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        RestClient.apiInterfaces.Leave_Reject(jsonObject)
+            ?.enqueue(object : Callback<Delete_noticeboard?> {
+                override fun onResponse(
+                    call: Call<Delete_noticeboard?>,
+                    response: Response<Delete_noticeboard?>
+                ) {
+                    if (response.code() == 200 || response.code() == 201) {
+                        response.body()?.Message?.let { msg ->
+                            AlertDialog.Builder(context)
+                                .setTitle("Info")
+                                .setMessage(msg)
+                                .setPositiveButton("OK") { _, _ ->
+                                    val i = Intent(context, Attendance::class.java).apply {
+                                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                    }
+                                    context.startActivity(i)
                                 }
-                                context.startActivity(i)
-                            }
-                            .setCancelable(false)
-                            .show()
+                                .setCancelable(false)
+                                .show()
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<Delete_noticeboard?>, t: Throwable) {}
-        })
+                override fun onFailure(call: Call<Delete_noticeboard?>, t: Throwable) {}
+            })
     }
 
     private fun applyEmergencyColors(holder: ViewHolder) {
@@ -1384,7 +1416,8 @@ class DashboardChild(
         val emergencyseekbar: SeekBar = itemView.findViewById(R.id.emergencyseekbar)
         val rytSeekbarlayout: RelativeLayout = itemView.findViewById(R.id.rytSeekbarlayout)
 
-        val lnrRecentNotifications: LinearLayout = itemView.findViewById(R.id.lnrRecentNotifications)
+        val lnrRecentNotifications: LinearLayout =
+            itemView.findViewById(R.id.lnrRecentNotifications)
         val lnrRecentVoice: LinearLayout = itemView.findViewById(R.id.lnrRecentVoice)
         val lblRecentDesciption: TextView = itemView.findViewById(R.id.lblRecentDesciption)
         val recentSeekbarlayout: RelativeLayout = itemView.findViewById(R.id.recentSeekbarlayout)
@@ -1398,7 +1431,8 @@ class DashboardChild(
         val lblRecentPostedby: TextView = itemView.findViewById(R.id.lblRecentPostedby)
         val lblRecenttitle: TextView = itemView.findViewById(R.id.lblRecenttitle)
         val lnrplayvoice: LinearLayout = itemView.findViewById(R.id.lnrplayvoice)
-        val rytRecentNotification: RelativeLayout = itemView.findViewById(R.id.rytRecentNotification)
+        val rytRecentNotification: RelativeLayout =
+            itemView.findViewById(R.id.rytRecentNotification)
         val imgRecentType: ImageView = itemView.findViewById(R.id.imgRecentType)
 
         val UpcomingEvent: ConstraintLayout = itemView.findViewById(R.id.UpcomingEvent)
@@ -1408,10 +1442,12 @@ class DashboardChild(
 
         val Assignment: ConstraintLayout = itemView.findViewById(R.id.Assignment)
         val lblassignmenttopic: TextView = itemView.findViewById(R.id.lblassignmenttopic)
-        val lblassignmentdescription: TextView = itemView.findViewById(R.id.lblassignmentdescription)
+        val lblassignmentdescription: TextView =
+            itemView.findViewById(R.id.lblassignmentdescription)
         val lblassignmentDate: TextView = itemView.findViewById(R.id.lblassignmentDate)
         val lbldate: TextView = itemView.findViewById(R.id.lbldate)
-        val lnrAssignmentAttachment: LinearLayout = itemView.findViewById(R.id.lnrAssignmentAttachment)
+        val lnrAssignmentAttachment: LinearLayout =
+            itemView.findViewById(R.id.lnrAssignmentAttachment)
 
         val lblNoticeboardTitle: TextView = itemView.findViewById(R.id.lblNoticeboardTitle)
         val lblNoticeboardDate: TextView = itemView.findViewById(R.id.lblNoticeboardDate)
@@ -1420,7 +1456,8 @@ class DashboardChild(
         val lnrNoticeboardd: RelativeLayout = itemView.findViewById(R.id.lnrNoticeboardd)
         val imgarrowchat: ImageView = itemView.findViewById(R.id.imgarrowchat)
 
-        val Leave_Request_dashboard: RelativeLayout = itemView.findViewById(R.id.Leave_Request_dashboard)
+        val Leave_Request_dashboard: RelativeLayout =
+            itemView.findViewById(R.id.Leave_Request_dashboard)
         val lnrNoticeboard: LinearLayout = itemView.findViewById(R.id.lnrNoticeboard)
         val rytLeaveDescription: RelativeLayout = itemView.findViewById(R.id.rytLeaveDescription)
         val lblLeaveReason: TextView = itemView.findViewById(R.id.lblLeaveReason)
@@ -1438,7 +1475,8 @@ class DashboardChild(
         val lblToDate: TextView = itemView.findViewById(R.id.lblToDate)
 
         val lnrattendance: RelativeLayout = itemView.findViewById(R.id.lnrattendance)
-        val lblsubjectnameAttendance: TextView = itemView.findViewById(R.id.lblsubjectnameAttendance)
+        val lblsubjectnameAttendance: TextView =
+            itemView.findViewById(R.id.lblsubjectnameAttendance)
         val lblattendancestatusDate: TextView = itemView.findViewById(R.id.lblattendancestatusDate)
         val lblattendancestatus: TextView = itemView.findViewById(R.id.lblattendancestatus)
         val constHeader: ConstraintLayout = itemView.findViewById(R.id.constHeader)

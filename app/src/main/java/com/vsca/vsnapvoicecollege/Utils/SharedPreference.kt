@@ -192,8 +192,10 @@ object SharedPreference {
     fun getSH_Faq(activity: Activity): String? {
         return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE).getString(SH_Faq, "")
     }
+
     fun getVideo_Json(activity: Activity): String? {
-        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE).getString(SH_VideoJson, "")
+        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
+            .getString(SH_VideoJson, "")
     }
 
     fun getSH_MobileNumber(activity: Activity): String? {

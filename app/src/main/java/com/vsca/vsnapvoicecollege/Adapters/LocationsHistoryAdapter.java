@@ -34,7 +34,8 @@ public class LocationsHistoryAdapter extends RecyclerView.Adapter<LocationsHisto
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblPlaceName, lblLatLong, lblDistance;
-        public ImageView imgDelete,imgEdit;
+        public ImageView imgDelete, imgEdit;
+
         public MyViewHolder(View view) {
             super(view);
 
@@ -46,6 +47,7 @@ public class LocationsHistoryAdapter extends RecyclerView.Adapter<LocationsHisto
 
         }
     }
+
     public LocationsHistoryAdapter(List<StaffBiometricLocationRes.BiometricLoationData> lib_list, Context context, LocationClick listener) {
         this.lib_list = lib_list;
         this.context = context;
@@ -58,26 +60,27 @@ public class LocationsHistoryAdapter extends RecyclerView.Adapter<LocationsHisto
                 .inflate(R.layout.locations_list_items, parent, false);
         return new MyViewHolder(itemView);
     }
+
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         final StaffBiometricLocationRes.BiometricLoationData holiday = lib_list.get(position);
         holder.lblPlaceName.setTypeface(null, Typeface.BOLD);
-        holder.lblPlaceName.setText( holiday.getLocation());
-        holder.lblLatLong.setText( holiday.getLatitude() +" - "+holiday.getLongitude());
-        holder.lblDistance.setText( "Distance - "+holiday.getDistance()+" Meters");
+        holder.lblPlaceName.setText(holiday.getLocation());
+        holder.lblLatLong.setText(holiday.getLatitude() + " - " + holiday.getLongitude());
+        holder.lblDistance.setText("Distance - " + holiday.getDistance() + " Meters");
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(holiday,false);
+                listener.onItemClick(holiday, false);
             }
         });
 
         holder.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(holiday,true);
+                listener.onItemClick(holiday, true);
             }
         });
     }

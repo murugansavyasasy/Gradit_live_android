@@ -182,7 +182,9 @@ class ExamListAdapter constructor(
                 holder.lblNoticeboardDescription!!.visibility = View.GONE
                 holder.lblNoticePostedby!!.text = data.createdbyname
 
-                if ( CommonUtil.Priority == "p7"  || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals(
+                if (CommonUtil.Priority == "p7" || CommonUtil.Priority.equals("p1") || CommonUtil.Priority.equals(
+                        "p2"
+                    ) || CommonUtil.Priority.equals(
                         "p3"
                     )
                 ) {
@@ -233,7 +235,8 @@ class ExamListAdapter constructor(
     ) {
 
         val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)
-        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)
+        val lblNoticeboardDescription: TextView =
+            itemView!!.findViewById(R.id.lblNoticeboardDescription)
         val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)
         val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)
         val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)
@@ -267,10 +270,10 @@ class ExamListAdapter constructor(
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty("examid", CommonUtil.headerid)
         jsonObject.addProperty("examname", CommonUtil.Examname)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("startdate", "")
         jsonObject.addProperty("enddate", "")
         jsonObject.addProperty("processtype", "delete")

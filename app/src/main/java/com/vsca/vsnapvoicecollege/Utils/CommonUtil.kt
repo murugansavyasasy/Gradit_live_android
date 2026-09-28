@@ -6,38 +6,45 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.TextView
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.LayerDrawable
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.DexterError
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.vsca.vsnapvoicecollege.Activities.PlacementEvent
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Model.AttendanceHour
 import com.vsca.vsnapvoicecollege.Model.AttendanceHourEdit
@@ -62,19 +69,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import javax.xml.transform.ErrorListener
-import android.view.View
-import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
-import androidx.annotation.ColorInt
-import androidx.core.graphics.ColorUtils
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import kotlin.math.max
 
 @SuppressLint("StaticFieldLeak")
@@ -243,6 +237,7 @@ object CommonUtil {
 
     //Login details
     var Priority = ""
+
     @JvmStatic
     fun getPriorityValue(): String = Priority
 
@@ -930,8 +925,6 @@ object CommonUtil {
     }
 
 
-
-
     fun getMonthName(month: Int): String {
         val months = arrayOf(
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -1200,7 +1193,7 @@ object CommonUtil {
         priority: String?,
         lightIcons: Boolean? = null
     ) {
-        setupEdgeToEdge(rootView, statusBarBgView, getPriorityColor(priority),lightIcons)
+        setupEdgeToEdge(rootView, statusBarBgView, getPriorityColor(priority), lightIcons)
     }
 
     /** Main function. Call after setContentView(). */

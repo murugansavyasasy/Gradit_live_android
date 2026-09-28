@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Repository
 
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.util.Log
@@ -10,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.DashBoardResponse
 import com.vsca.vsnapvoicecollege.Model.GetNotificationsResponse
-import com.vsca.vsnapvoicecollege.Model.Hallticket
 import com.vsca.vsnapvoicecollege.Model.MenuResponse
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -133,7 +131,7 @@ class DashboardServices {
 
 
     fun GetNotification(jsonObject: JsonObject?, activity: Activity) {
-        val  progressDialog = CustomLoading.createProgressDialog(activity)
+        val progressDialog = CustomLoading.createProgressDialog(activity)
         progressDialog.show()
         RestClient.Companion.apiInterfaces.GetNotifications(jsonObject)
             ?.enqueue(object : Callback<GetNotificationsResponse?> {

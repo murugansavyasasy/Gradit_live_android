@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -147,14 +146,17 @@ class HallticketAdapter(
         val txt_coursecode: TextView = itemView!!.findViewById(R.id.txt_coursecode)
         val txt_department: TextView = itemView!!.findViewById(R.id.txt_department)
         val txt_semester: TextView = itemView!!.findViewById(R.id.txt_semester)
-        val txt_subsemnamesemnumber: TextView = itemView!!.findViewById(R.id.txt_subsemnamesemnumber)
+        val txt_subsemnamesemnumber: TextView =
+            itemView!!.findViewById(R.id.txt_subsemnamesemnumber)
         val txt_subject: TextView = itemView!!.findViewById(R.id.txt_subject)
         val txt_subjectcode: TextView = itemView!!.findViewById(R.id.txt_subjectcode)
         val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
         val txt_time: TextView = itemView!!.findViewById(R.id.txt_time)
         val txt_arrear_regular: TextView = itemView!!.findViewById(R.id.txt_arrear_regular)
-        val txt_overallsemattendance: TextView = itemView!!.findViewById(R.id.txt_overallsemattendance)
-        val txt_coursewiseattendance: TextView = itemView!!.findViewById(R.id.txt_coursewiseattendance)
+        val txt_overallsemattendance: TextView =
+            itemView!!.findViewById(R.id.txt_overallsemattendance)
+        val txt_coursewiseattendance: TextView =
+            itemView!!.findViewById(R.id.txt_coursewiseattendance)
         val txt_condonation_paid: TextView = itemView!!.findViewById(R.id.txt_condonation_paid)
 
         val lnr_name: LinearLayout = itemView!!.findViewById(R.id.lnr_name)
@@ -168,8 +170,10 @@ class HallticketAdapter(
         val lnr_date: LinearLayout = itemView!!.findViewById(R.id.lnr_date)
         val lnr_time: LinearLayout = itemView!!.findViewById(R.id.lnr_time)
         val lnr_arrear_regular: LinearLayout = itemView!!.findViewById(R.id.lnr_arrear_regular)
-        val lnr_overall_semester_attendance: LinearLayout = itemView!!.findViewById(R.id.lnr_overall_semester_attendance)
-        val lnr_course_wise_attendance: LinearLayout = itemView!!.findViewById(R.id.lnr_course_wise_attendance)
+        val lnr_overall_semester_attendance: LinearLayout =
+            itemView!!.findViewById(R.id.lnr_overall_semester_attendance)
+        val lnr_course_wise_attendance: LinearLayout =
+            itemView!!.findViewById(R.id.lnr_course_wise_attendance)
         val lnr_condonation_paid: LinearLayout = itemView!!.findViewById(R.id.lnr_condonation_paid)
 
 

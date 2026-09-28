@@ -17,7 +17,6 @@ import com.vsca.vsnapvoicecollege.R
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class ChatSenderSide_Adapter(
     var marklist: List<Senderside_Chatdata>,
@@ -35,13 +34,16 @@ class ChatSenderSide_Adapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val txt_financeandaccounding: TextView = itemView.findViewById(R.id.txt_financeandaccounding)
+        val txt_financeandaccounding: TextView =
+            itemView.findViewById(R.id.txt_financeandaccounding)
         val txt_testing_creating: TextView = itemView.findViewById(R.id.txt_testing_creating)
         val txt_date: TextView = itemView.findViewById(R.id.txt_date)
         val img_dotthree: ImageView = itemView.findViewById(R.id.img_dotthree)
         val txt_testing_creatingans: TextView = itemView.findViewById(R.id.txt_testing_creatingans)
-        val txt_financeandaccoundingans: TextView = itemView.findViewById(R.id.txt_financeandaccoundingans)
-        val examlist_constrineans: ConstraintLayout = itemView.findViewById(R.id.examlist_constrineans)
+        val txt_financeandaccoundingans: TextView =
+            itemView.findViewById(R.id.txt_financeandaccoundingans)
+        val examlist_constrineans: ConstraintLayout =
+            itemView.findViewById(R.id.examlist_constrineans)
         val txt_dateans: TextView = itemView.findViewById(R.id.txt_dateans)
         val txt_question: TextView = itemView.findViewById(R.id.txt_question)
 

@@ -11,7 +11,7 @@ import com.vsca.vsnapvoicecollege.Model.PlacementEventData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
-class EventPlacementAdapter (
+class EventPlacementAdapter(
     var isPlacementData: List<PlacementEventData>,
     private val context: Context?,
 ) : RecyclerView.Adapter<EventPlacementAdapter.MyViewHolder>() {
@@ -53,7 +53,7 @@ class EventPlacementAdapter (
 
 
         holder.tvTitle!!.text = data.eventTitle
-        holder.tvTime!!.text =CommonUtil.convertTo12HourFormat(data.eventTime)
+        holder.tvTime!!.text = CommonUtil.convertTo12HourFormat(data.eventTime)
         holder.tvDescription!!.text = data.aboutEvent
         holder.tvMode!!.text = data.modeOfEvent
         holder.tvLocation!!.text = data.venue
@@ -79,17 +79,6 @@ class EventPlacementAdapter (
         } else {
             holder.rcySelectionProcess.adapter = null
         }
-
-//        isCompanyDetailsAdapter = CompanyDetailsAdapter(data.companyDetails!!, context)
-//        holder.rcyCompanyList!!.layoutManager = GridLayoutManager(context, 3)
-//        holder.rcyCompanyList!!.adapter = isCompanyDetailsAdapter
-//        isCompanyDetailsAdapter!!.notifyDataSetChanged()
-//
-//
-//        isSelectionProcessAdapter = SelectionProcessAdapter(data.selectionProcess!!, context)
-//        holder.rcySelectionProcess!!.layoutManager = GridLayoutManager(context, 2)
-//        holder.rcySelectionProcess!!.adapter = isSelectionProcessAdapter
-//        isSelectionProcessAdapter!!.notifyDataSetChanged()
 
 
     }

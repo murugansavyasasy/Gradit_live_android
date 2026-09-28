@@ -91,7 +91,8 @@ class Examlist_viewAdapter(
 
         val txt_get_subject: TextView = itemView!!.findViewById(R.id.txt_get_subject)
         val examlist_constrine: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrine)
-        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)
+        val txt_financeandaccounding: TextView =
+            itemView!!.findViewById(R.id.txt_financeandaccounding)
         val txt_testing_creating: TextView = itemView!!.findViewById(R.id.txt_testing_creating)
         val txt_bcom_Accounts: TextView = itemView!!.findViewById(R.id.txt_bcom_Accounts)
         val txt_year1: TextView = itemView!!.findViewById(R.id.txt_year1)

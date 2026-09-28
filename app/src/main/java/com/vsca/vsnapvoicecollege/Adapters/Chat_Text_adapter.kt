@@ -2,7 +2,6 @@ package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,11 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-
 import com.vsca.vsnapvoicecollege.Model.ChatList
 import com.vsca.vsnapvoicecollege.R
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class Chat_Text_adapter(
     var marklist: ArrayList<ChatList>, private val context: Context?,
@@ -27,12 +24,16 @@ class Chat_Text_adapter(
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val txt_financeandaccounding: TextView = itemView!!.findViewById(R.id.txt_financeandaccounding)
+        val txt_financeandaccounding: TextView =
+            itemView!!.findViewById(R.id.txt_financeandaccounding)
         val txt_date: TextView = itemView!!.findViewById(R.id.txt_date)
         val txt_testing_creating: TextView = itemView!!.findViewById(R.id.txt_testing_creating)
-        val txt_testing_creatingans: TextView = itemView!!.findViewById(R.id.txt_testing_creatingans)
-        val txt_financeandaccoundingans: TextView = itemView!!.findViewById(R.id.txt_financeandaccoundingans)
-        val examlist_constrineans: ConstraintLayout = itemView!!.findViewById(R.id.examlist_constrineans)
+        val txt_testing_creatingans: TextView =
+            itemView!!.findViewById(R.id.txt_testing_creatingans)
+        val txt_financeandaccoundingans: TextView =
+            itemView!!.findViewById(R.id.txt_financeandaccoundingans)
+        val examlist_constrineans: ConstraintLayout =
+            itemView!!.findViewById(R.id.examlist_constrineans)
         val txt_dateans: TextView = itemView!!.findViewById(R.id.txt_dateans)
         val txt_question: TextView = itemView!!.findViewById(R.id.txt_question)
 

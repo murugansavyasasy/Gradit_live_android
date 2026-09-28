@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,8 @@ class Attendance_Edit_Adapter constructor(
         val lblRegNo1: TextView = itemView!!.findViewById(R.id.lblRegNo1)!!
         val lblRegNo: TextView = itemView!!.findViewById(R.id.lblRegNo)!!
         val lblAdmissionNo: TextView = itemView!!.findViewById(R.id.lblAdmissionNo)!!
-        val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutEntireCollege)!!
+        val layoutstudentlist: ConstraintLayout =
+            itemView!!.findViewById(R.id.layoutEntireCollege)!!
         val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)!!
         val switchOD: SwitchCompat = itemView!!.findViewById(R.id.switchOD)!!
         val switchOnLeave: SwitchCompat = itemView!!.findViewById(R.id.switchOnLeave)!!
@@ -60,8 +60,8 @@ class Attendance_Edit_Adapter constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
-//        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.specific_student, parent, false)
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.recipientlist_ui, parent, false)
+        val itemView: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.recipientlist_ui, parent, false)
         return MyViewHolder(itemView)
     }
 
@@ -76,33 +76,33 @@ class Attendance_Edit_Adapter constructor(
         holder.lblStudentname!!.text = data.membername
         holder.lblRegNo!!.text = "Register No : " + data.rollno
 
-        if (!data.admissionno.isNullOrEmpty()){
-            holder.lblAdmissionNo!!.visibility=View.VISIBLE
+        if (!data.admissionno.isNullOrEmpty()) {
+            holder.lblAdmissionNo!!.visibility = View.VISIBLE
             holder.lblAdmissionNo!!.text = "Admission No : " + data.admissionno
-        }else{
-            holder.lblAdmissionNo!!.visibility=View.GONE
+        } else {
+            holder.lblAdmissionNo!!.visibility = View.GONE
         }
 
         CommonUtil.Absentlistcount = ""
         if (data.attendancetype.equals("Absent")) {
             holder.switchOD.isChecked = false
-            holder.switchOnLeave.isChecked =false
+            holder.switchOnLeave.isChecked = false
             holder.img_mark_attendance.text = "A"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_red)
         } else if (data.attendancetype.equals("Present")) {
             holder.switchOD.isChecked = false
-            holder.switchOnLeave.isChecked =false
+            holder.switchOnLeave.isChecked = false
             holder.img_mark_attendance.text = "P"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_green)
         } else if (data.attendancetype.equals("OnDuty")) {
             holder.switchOD.isChecked = true
-            holder.switchOnLeave.isChecked =false
+            holder.switchOnLeave.isChecked = false
             holder.img_mark_attendance.text = "OD"
             holder.img_mark_attendance!!.background =
                 ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_yellow)
-        }else{
+        } else {
             holder.switchOnLeave.isChecked = true
             holder.switchOD.isChecked = false
             holder.img_mark_attendance.text = "L"
@@ -137,7 +137,7 @@ class Attendance_Edit_Adapter constructor(
         }
 
         holder.switchOnLeave.setOnClickListener {
-            holder.switchOD.isChecked=false
+            holder.switchOD.isChecked = false
             if (holder.switchOnLeave.isChecked) {
                 holder.img_mark_attendance.setBackgroundResource(R.drawable.round_blue)
                 holder.img_mark_attendance.text = "L"
@@ -161,7 +161,7 @@ class Attendance_Edit_Adapter constructor(
 
 
         holder.switchOD.setOnClickListener {
-            holder.switchOnLeave.isChecked=false
+            holder.switchOnLeave.isChecked = false
             if (holder.switchOD.isChecked) {
                 holder.img_mark_attendance.setBackgroundResource(R.drawable.round_yellow)
                 holder.img_mark_attendance.text = "OD"
@@ -197,7 +197,7 @@ class Attendance_Edit_Adapter constructor(
                 CommonUtil.AbsendlistStudent.add(data.memberid.toString())
                 CommonUtil.isOnLeaveStudentList.remove(data.memberid.toString())
             } else {
-               checkClick?.add(data)
+                checkClick?.add(data)
                 holder.img_mark_attendance.text = "P"
                 holder.img_mark_attendance!!.background =
                     ContextCompat.getDrawable(holder.itemView.context, R.drawable.round_green)

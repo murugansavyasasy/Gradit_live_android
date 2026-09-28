@@ -5,14 +5,11 @@ import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.FCM.ErrorResponse
-import com.vsca.vsnapvoicecollege.FCM.StatusMessageModel
 import com.vsca.vsnapvoicecollege.Repository.RestClient
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.jvm.java
 
 object AnnouncementStatusManager {
     fun sendStatus(
@@ -35,8 +32,8 @@ object AnnouncementStatusManager {
     ) {
         val MobileNumber: String? = SharedPreference.getSH_MobileNumber(context)
 
-       val isStartTime = getNow()
-       val isEndTime = isStartTime
+        val isStartTime = getNow()
+        val isEndTime = isStartTime
 
         val jsonObject = JsonObject()
         jsonObject.addProperty("url", voiceUrl)
@@ -83,6 +80,7 @@ object AnnouncementStatusManager {
                 }
             })
     }
+
     private fun getNow(): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         return sdf.format(Date())

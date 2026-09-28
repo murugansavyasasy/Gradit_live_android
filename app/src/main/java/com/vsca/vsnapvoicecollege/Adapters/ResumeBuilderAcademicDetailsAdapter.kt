@@ -1,16 +1,14 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.vsca.vsnapvoicecollege.Model.EducationItem
-import com.vsca.vsnapvoicecollege.R
-import android.graphics.drawable.GradientDrawable
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.R
 
 class ResumeBuilderAcademicDetailsAdapter(private val items: List<GetEducationalDetailsData>) :
     RecyclerView.Adapter<ResumeBuilderAcademicDetailsAdapter.ViewHolder>() {

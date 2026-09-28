@@ -11,7 +11,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
@@ -150,7 +155,6 @@ class CommunicationAdapter(
         }
 
 
-
         val createdDateTime: String = modal.timing.toString()
         val firstvalue: Array<String> = createdDateTime.split("-".toRegex()).toTypedArray()
         val createddate: String = firstvalue.get(0)
@@ -169,7 +173,6 @@ class CommunicationAdapter(
             holder.imgArrowdown.setImageResource(R.drawable.ic_arrow_up_blue)
             if (ScreenType.equals("Text")) {
                 holder.lnrplayvoice.visibility = View.GONE
-                //  holder.lblRecentDesciption.visibility = View.GONE
             }
             if (ScreenType.equals("Text")) {
                 Type = "Text"
@@ -219,10 +222,16 @@ class CommunicationAdapter(
                 if (modal.isappread.equals("0")) {
                     val readType = Type
                     val detailsId = modal.msgdetailsid!!
-                    Log.d("ReadFlow", "1. Click: unread item id=$detailsId type=$readType pos=$position")
+                    Log.d(
+                        "ReadFlow",
+                        "1. Click: unread item id=$detailsId type=$readType pos=$position"
+                    )
 
                     BaseActivity.AppReadStatusContext(context, readType, detailsId) {
-                        Log.d("ReadFlow", "5. Adapter callback: id=$detailsId confirmed read by server")
+                        Log.d(
+                            "ReadFlow",
+                            "5. Adapter callback: id=$detailsId confirmed read by server"
+                        )
                         modal.isappread = "1"
                         if (holder.adapterPosition == position) {
                             holder.lblNew.visibility = View.GONE

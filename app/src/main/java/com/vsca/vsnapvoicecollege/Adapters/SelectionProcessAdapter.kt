@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vsca.vsnapvoicecollege.R
 
-class SelectionProcessAdapter (
+class SelectionProcessAdapter(
     var isCompanyDetail: List<String>,
     private val context: Context?,
 ) : RecyclerView.Adapter<SelectionProcessAdapter.MyViewHolder>() {

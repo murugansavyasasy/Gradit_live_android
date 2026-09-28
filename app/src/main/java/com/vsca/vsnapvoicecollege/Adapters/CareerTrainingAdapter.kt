@@ -40,7 +40,6 @@ class CareerTrainingAdapter(
     }
 
 
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = trainingList[position]
 
@@ -48,25 +47,34 @@ class CareerTrainingAdapter(
         val dateParts = data.trainingDate.split("/")
         if (dateParts.size == 3) {
             holder.tvDay.text = dateParts[0]
-            holder.tvMonth.text = CommonUtil.getMonthName(dateParts[1].toInt()) // helper to get month name
+            holder.tvMonth.text =
+                CommonUtil.getMonthName(dateParts[1].toInt()) // helper to get month name
         }
 
-        holder.tvTime.text = CommonUtil.convertTo12HourFormat(data.startTime)  // "17:57:00" → "05:57 PM"
+        holder.tvTime.text =
+            CommonUtil.convertTo12HourFormat(data.startTime)  // "17:57:00" → "05:57 PM"
         holder.tvTitle.text = data.trainingTitle
         holder.tvDescription.text = data.trainingAbout
         holder.tvMode.text = data.modeTraining
         holder.tvLocation.text = data.venue
         holder.tvScheduledTime.text =
-            "${CommonUtil.convertTo12HourFormat(data.startTime)} to ${CommonUtil.convertTo12HourFormat(data.endTime)}"
+            "${CommonUtil.convertTo12HourFormat(data.startTime)} to ${
+                CommonUtil.convertTo12HourFormat(
+                    data.endTime
+                )
+            }"
 
         // Repeat info
-      if (data.recursiveTraining) {
-          holder.rytRepeat.visibility=View.VISIBLE
-          holder.lblRepeatTxt.text= "Repeats every ${data.repeatTraining} ${data.selectDay} until ${CommonUtil.isoToDisplay(data.repeatUntill)}"
-      }else{
-          holder.rytRepeat.visibility=View.GONE
+        if (data.recursiveTraining) {
+            holder.rytRepeat.visibility = View.VISIBLE
+            holder.lblRepeatTxt.text =
+                "Repeats every ${data.repeatTraining} ${data.selectDay} until ${
+                    CommonUtil.isoToDisplay(data.repeatUntill)
+                }"
+        } else {
+            holder.rytRepeat.visibility = View.GONE
 
-      }
+        }
 
         // Courses
         holder.tvCourses.text = data.applicableBatches

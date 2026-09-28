@@ -2,14 +2,18 @@ package com.vsca.vsnapvoicecollege.Utils
 
 import android.app.AlertDialog
 import android.app.DownloadManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class PdfDownloader(private val context: Context) {
 
@@ -20,8 +24,10 @@ class PdfDownloader(private val context: Context) {
     class PdfInfoExtractor(private val context: Context) {
         fun extractInfoFromUrl(pdfUrl: String) {
             try {
-                val fileNameWithExtension = pdfUrl.substringAfterLast("/") // e.g., Resume_1752815189344.pdf
-                val fileNameWithoutExtension = fileNameWithExtension.substringBeforeLast(".pdf") // Resume_1752815189344
+                val fileNameWithExtension =
+                    pdfUrl.substringAfterLast("/") // e.g., Resume_1752815189344.pdf
+                val fileNameWithoutExtension =
+                    fileNameWithExtension.substringBeforeLast(".pdf") // Resume_1752815189344
 
                 val parts = fileNameWithoutExtension.split("_")
                 val namePart = parts.getOrNull(0) ?: "Unknown"
@@ -88,12 +94,16 @@ class PdfDownloader(private val context: Context) {
                 .setTitle("Downloading PDF")
                 .setDescription("Saving resume...")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "$folderName/$fileName")
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS,
+                    "$folderName/$fileName"
+                )
                 .setMimeType("application/pdf")
                 .setAllowedOverMetered(true)
                 .setAllowedOverRoaming(true)
 
-            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager =
+                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             downloadId = downloadManager.enqueue(request)
 
             Toast.makeText(context, "Download started...", Toast.LENGTH_SHORT).show()
@@ -106,7 +116,8 @@ class PdfDownloader(private val context: Context) {
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Download failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Download failed: ${e.localizedMessage}", Toast.LENGTH_LONG)
+                .show()
         }
     }
 
@@ -114,19 +125,25 @@ class PdfDownloader(private val context: Context) {
         override fun onReceive(ctx: Context, intent: Intent) {
             val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L)
             if (id == downloadId) {
-                val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                val downloadManager =
+                    context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 val query = DownloadManager.Query().setFilterById(id)
                 val cursor = downloadManager.query(query)
 
                 if (cursor.moveToFirst()) {
-                    val status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS))
-                    val uriString = cursor.getString(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI))
+                    val status =
+                        cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS))
+                    val uriString =
+                        cursor.getString(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI))
 
                     if (status == DownloadManager.STATUS_SUCCESSFUL) {
                         val savedPath = Uri.parse(uriString).path ?: "Unknown path"
                         showAlert("Download Completed", "File saved to:\n$savedPath")
                     } else {
-                        showAlert("Download Failed", "Something went wrong while downloading the PDF.")
+                        showAlert(
+                            "Download Failed",
+                            "Something went wrong while downloading the PDF."
+                        )
                     }
                 }
                 cursor.close()
@@ -150,7 +167,8 @@ class PdfDownloader(private val context: Context) {
     }
 
     private fun getFilePath(fileName: String): String {
-        val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val downloadDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         return downloadDir.absolutePath + File.separator + folderName + File.separator + fileName
     }
 }

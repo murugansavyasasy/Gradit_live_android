@@ -54,10 +54,9 @@ class Leavehistory_principleAdapter(
         val lblLeaveNoOfDays: TextView = itemView!!.findViewById(R.id.lblLeaveNoOfDays)!!
         val lblFromDate: TextView = itemView!!.findViewById(R.id.lblFromDate)!!
         val lblToDate: TextView = itemView!!.findViewById(R.id.lblToDate)!!
-        val rytLeaveDescription: RelativeLayout = itemView!!.findViewById(R.id.rytLeaveDescription)!!
+        val rytLeaveDescription: RelativeLayout =
+            itemView!!.findViewById(R.id.rytLeaveDescription)!!
         val lblLeaveReason: TextView = itemView!!.findViewById(R.id.lblLeaveReason)!!
-//        val lblEditleave: TextView = itemView!!.findViewById(R.id.lblEditleave)!!
-//        val lblDelete: TextView = itemView!!.findViewById(R.id.lblDelete)!!
         val department: TextView = itemView!!.findViewById(R.id.department)!!
         val year: TextView = itemView!!.findViewById(R.id.year)!!
         val section: TextView = itemView!!.findViewById(R.id.section)!!
@@ -226,7 +225,7 @@ class Leavehistory_principleAdapter(
         val jsonObject = JsonObject()
 
         jsonObject.addProperty("leaveid", CommonUtil.applicationid)
-        jsonObject.addProperty("userid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("userid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("processtype", type)
         Log.d("jsonoblect", jsonObject.toString())
 
@@ -268,8 +267,7 @@ class Leavehistory_principleAdapter(
 
                         Log.d("resonsemessage", response.message().toString())
 
-                    }
-                    else{
+                    } else {
                         progressDialog!!.dismiss()
 
                     }

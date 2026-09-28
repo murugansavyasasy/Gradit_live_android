@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Model.AddEditProfileResponse
 import com.vsca.vsnapvoicecollege.Model.AssignmentContent_View
@@ -18,6 +17,7 @@ import com.vsca.vsnapvoicecollege.Model.AttendanceResponse
 import com.vsca.vsnapvoicecollege.Model.Attendance_Edit
 import com.vsca.vsnapvoicecollege.Model.AttendancemardkingResponse
 import com.vsca.vsnapvoicecollege.Model.BlackStudent
+import com.vsca.vsnapvoicecollege.Model.CareerTrainingResponse
 import com.vsca.vsnapvoicecollege.Model.Chat_StaffList
 import com.vsca.vsnapvoicecollege.Model.Chat_Student
 import com.vsca.vsnapvoicecollege.Model.Chat_Text_model
@@ -50,9 +50,12 @@ import com.vsca.vsnapvoicecollege.Model.GetGrouplist
 import com.vsca.vsnapvoicecollege.Model.GetNoticeboardResposne
 import com.vsca.vsnapvoicecollege.Model.GetOverAllCountResposne
 import com.vsca.vsnapvoicecollege.Model.GetProfileResponse
+import com.vsca.vsnapvoicecollege.Model.GetProfileResume
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderAcademicDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderProfileDetails
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetDetails
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
+import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditALLResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseCreditResponse
 import com.vsca.vsnapvoicecollege.Model.GetSemesterWiseTypeResponse
@@ -69,6 +72,11 @@ import com.vsca.vsnapvoicecollege.Model.Leave_history
 import com.vsca.vsnapvoicecollege.Model.ManageLeave
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
 import com.vsca.vsnapvoicecollege.Model.NoticeBoardSMSsend
+import com.vsca.vsnapvoicecollege.Model.PlacementEventResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
 import com.vsca.vsnapvoicecollege.Model.SenderSide_ChatModel
@@ -93,20 +101,6 @@ import com.vsca.vsnapvoicecollege.SenderModel.GetCourseDepartmentResposne
 import com.vsca.vsnapvoicecollege.SenderModel.GetDepartmentResponse
 import com.vsca.vsnapvoicecollege.SenderModel.GetDivisionResponse
 import com.vsca.vsnapvoicecollege.SenderModel.SenderStatusMessageData
-import androidx.lifecycle.viewModelScope
-import com.vsca.vsnapvoicecollege.Model.AddEditProfileRequest
-import com.vsca.vsnapvoicecollege.Model.CareerTrainingResponse
-import com.vsca.vsnapvoicecollege.Model.GetProfileResume
-import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkills
-import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplate
-import com.vsca.vsnapvoicecollege.Model.PlacementEventResponse
-import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
-import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
-import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
-import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import com.vsca.vsnapvoicecollege.Utils.CustomLoading
-import kotlinx.coroutines.launch
 
 
 class App(application: Application) : AndroidViewModel(application) {
@@ -229,7 +223,6 @@ class App(application: Application) : AndroidViewModel(application) {
     var BlackStudent: LiveData<BlackStudent?>? = null
     var unblackStudent: LiveData<Unblack_student?>? = null
 
-    //var AttendanceEdit: LiveData<Attendance_EditX?>? = null
     var SendVideoParticulerTuter: LiveData<VideoSendTuter?>? = null
     var GetOtpNew: LiveData<ExampleJson2KtKotlin?>? = null
     var VerifyOtp: LiveData<Verified_OTP?>? = null
@@ -252,7 +245,6 @@ class App(application: Application) : AndroidViewModel(application) {
     var isPlacementCareerResponse: LiveData<CareerTrainingResponse?>? = null
     var isPlacementHistoricalCareerResponse: LiveData<CareerTrainingResponse?>? = null
     var ResumeBuilderDeleteResume: LiveData<ResumeBuilderDeleteResume?>? = null
-
 
 
     fun init() {
@@ -336,7 +328,6 @@ class App(application: Application) : AndroidViewModel(application) {
         Attendancetaking = apiRepositories!!.Attendancemarking
         Manageleave = apiRepositories!!.Manageleavesend
         Leavehistory = apiRepositories!!.leavehistory
-        //   LeaveRequest=apiRepositories!!.Requestleave
         Examsectionlist = apiRepositories!!.ExamSectionandsubject
         Examcreationdata = apiRepositories!!.Examcreationdata
         ExamcreationEditData = apiRepositories!!.ExamEdit
@@ -403,7 +394,11 @@ class App(application: Application) : AndroidViewModel(application) {
         return ProfileDetailsResponseLiveData
     }
 
-    fun getNoticeboardList(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun getNoticeboardList(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GetNoticeboradList(jsonObject, activity!!, showLoader)
     }
 
@@ -411,7 +406,11 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetCircularListbyType(jsonObject, activity!!, showLoader)
     }
 
-    fun getAssignmentListbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun getAssignmentListbyType(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GetAssignmentListbyType(jsonObject, activity!!, showLoader)
     }
 
@@ -427,15 +426,27 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetAppreadStatus(jsonObject, activity!!)
     }
 
-    fun getAppreadStatusContext(jsonObject: JsonObject?, activity: Context?,onSuccess: (() -> Unit)? = null) {
-        apiRepositories!!.GetAppreadStatusContext(jsonObject, activity!!,onSuccess)
+    fun getAppreadStatusContext(
+        jsonObject: JsonObject?,
+        activity: Context?,
+        onSuccess: (() -> Unit)? = null
+    ) {
+        apiRepositories!!.GetAppreadStatusContext(jsonObject, activity!!, onSuccess)
     }
 
-    fun getOverAllMenuCount(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun getOverAllMenuCount(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GetOVerAllCount(jsonObject, activity!!, showLoader)
     }
 
-    fun getEventListbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun getEventListbyType(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GetEventListBytType(jsonObject, activity!!, showLoader)
     }
 
@@ -444,11 +455,19 @@ class App(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun getCommunicationListbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun getCommunicationListbyType(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GetCommunicationList(jsonObject, activity!!, showLoader)
     }
 
-    fun getCommunicationListTextbyType(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun getCommunicationListTextbyType(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GetCommunicationTextList(jsonObject, activity!!, showLoader)
     }
 
@@ -518,7 +537,11 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetAttendanceForParent(jsonObject, activity!!)
     }
 
-    fun attendanceListforStudent(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun attendanceListforStudent(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GetStudentAttendancelist(jsonObject, activity!!, showLoader)
     }
 
@@ -601,7 +624,11 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.Getsubject(jsonObject, activity!!)
     }
 
-    fun AttendanceGettingStaff(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+    fun AttendanceGettingStaff(
+        jsonObject: JsonObject?,
+        activity: Activity?,
+        showLoader: Boolean = true
+    ) {
         apiRepositories!!.GettingAttendance(jsonObject, activity!!, showLoader)
     }
 
@@ -613,7 +640,7 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.Gettuter(jsonObject, activity!!)
     }
 
-    fun getspecificstudentdata (jsonObject: JsonObject?, activity: Activity?) {
+    fun getspecificstudentdata(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.Getspecificstudentdata(jsonObject, activity!!)
     }
 
@@ -732,9 +759,6 @@ class App(application: Application) : AndroidViewModel(application) {
 
     }
 
-//    fun LeaveRequest(jsonObject: JsonObject?, activity: Activity?) {
-//        apiRepositories!!.LeaveRequest(jsonObject, activity!!)
-//    }
 
     fun Eventimageupdate(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.EventpicUpdate(jsonObject, activity!!)
@@ -779,9 +803,6 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetFacultyListReceiver(jsonObject, activity!!)
     }
 
-//    fun AttendanceCheck(jsonObject: JsonObject?, activity: Activity?) {
-//        apiRepositories!!.AttendanceEdit(jsonObject, activity!!)
-//    }
 
     fun Attendance_Edit(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.AttendanceEdit(jsonObject, activity!!)
@@ -840,15 +861,16 @@ class App(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun GetResumeBuilderAcademicDetails(Id:Int ?, activity: Activity?) {
+    fun GetResumeBuilderAcademicDetails(Id: Int?, activity: Activity?) {
         apiRepositories!!.GetResumeBuilderAcademicDetailsRequest(Id, activity!!)
     }
 
-    fun GetResumeBuilderSkillSetDetails(Id:Int ?, activity: Activity?) {
+    fun GetResumeBuilderSkillSetDetails(Id: Int?, activity: Activity?) {
         apiRepositories!!.GetResumeBuilderSkillSetDetailsRequest(Id, activity!!)
     }
+
     fun GetResumeBuilderSoftSkillsDetails(activity: Activity?) {
-        apiRepositories!!.GetResumeBuilderSoftSkillsRequest( activity!!)
+        apiRepositories!!.GetResumeBuilderSoftSkillsRequest(activity!!)
     }
 
     fun AddEditAcademicDetails(request: HashMap<String, Any>, activity: Activity) {
@@ -876,8 +898,8 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.GetResumeBuilderProfileResumeRequest(id, activity)
     }
 
-    fun isPlacementEventData(isCollegeId:String,memberId: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementEvent(isCollegeId,memberId, activity)
+    fun isPlacementEventData(isCollegeId: String, memberId: Int?, activity: Activity) {
+        apiRepositories!!.isGetPlacementEvent(isCollegeId, memberId, activity)
     }
 
     fun isPlacementHistoricalEventData(isCollegeId: String, memberId: Int?, activity: Activity) {
@@ -885,15 +907,30 @@ class App(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun isPlacementCareerData(isCollegeId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementCareer(isCollegeId,departmentname,semesterno, activity)
+    fun isPlacementCareerData(
+        isCollegeId: String,
+        departmentname: String?,
+        semesterno: Int?,
+        activity: Activity
+    ) {
+        apiRepositories!!.isGetPlacementCareer(isCollegeId, departmentname, semesterno, activity)
     }
 
-    fun isPlacementHostoricalCareerData(isCollageId:String,departmentname: String?,semesterno: Int?, activity: Activity) {
-        apiRepositories!!.isGetPlacementHistoricalCareer(isCollageId,departmentname,semesterno, activity)
+    fun isPlacementHostoricalCareerData(
+        isCollageId: String,
+        departmentname: String?,
+        semesterno: Int?,
+        activity: Activity
+    ) {
+        apiRepositories!!.isGetPlacementHistoricalCareer(
+            isCollageId,
+            departmentname,
+            semesterno,
+            activity
+        )
     }
 
-    fun GetResumeBuilderDeleteResume(id: Int?,isJsonObject: JsonObject, activity: Activity) {
-        apiRepositories!!.GetResumeBuilderDeleteResumeRequest(id, isJsonObject,activity)
+    fun GetResumeBuilderDeleteResume(id: Int?, isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.GetResumeBuilderDeleteResumeRequest(id, isJsonObject, activity)
     }
 }

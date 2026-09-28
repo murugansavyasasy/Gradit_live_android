@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
-import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
 import com.vsca.vsnapvoicecollege.Model.InternshipFormattedData
 import com.vsca.vsnapvoicecollege.R
 
@@ -20,7 +19,8 @@ class InternshipAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InternshipViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_internship, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_internship, parent, false)
         return InternshipViewHolder(view)
     }
 
