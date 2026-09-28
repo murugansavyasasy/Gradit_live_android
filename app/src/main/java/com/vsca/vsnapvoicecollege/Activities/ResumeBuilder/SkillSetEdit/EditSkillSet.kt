@@ -3,12 +3,9 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,21 +18,16 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
-import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,26 +58,22 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditskillsetBinding
-import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.compareTo
-import kotlin.toString
 
-class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelectedListener {
+class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(), OnSoftSkillSelectedListener {
     override var appViewModel: App? = null
 
     override fun inflateBinding(): LayoutEditskillsetBinding {
         return LayoutEditskillsetBinding.inflate(layoutInflater)
     }
 
-    private  val PERMISSION_REQUEST_CODE = 1001
-    private  val SETTINGS_REQUEST_CODE = 1002
-
+    private val PERMISSION_REQUEST_CODE = 1001
+    private val SETTINGS_REQUEST_CODE = 1002
 
 
     enum class AttachmentSource {
@@ -133,7 +121,6 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelect
 
 
     ///
-
 
 
     var savedSoftSkillsList: List<String> = emptyList()
@@ -191,12 +178,6 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelect
             CommonUtil.isSkillSetDataSending?.softSkill?.takeIf { it.isNotBlank() }?.split(",")
                 ?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
 
-
-//        savedInternshipList = CommonUtil.isSkillSetDataSending?.internship ?: emptyList()
-//        savedCertificateList = CommonUtil.isSkillSetDataSending?.certifications ?: emptyList()
-//        savedAssessmentList = CommonUtil.isSkillSetDataSending?.assessmentDetails ?: emptyList()
-//        savedProjectList = CommonUtil.isSkillSetDataSending?.projects ?: emptyList()
-
         // Make saved lists immutable so they cannot be accidentally changed
         savedInternshipList =
             CommonUtil.isSkillSetDataSending?.internship?.map { it.deepCopy() } ?: emptyList()
@@ -217,7 +198,7 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelect
         savedToolsAndPlatform = CommonUtil.isSkillSetDataSending?.toolsPlatform.toString()
         savedProgrammmingLanguage = CommonUtil.isSkillSetDataSending?.programmingLanguage.toString()
         savedAreaOfInterest = CommonUtil.isSkillSetDataSending?.areaInterest.toString()
-        savedMemberID = CommonUtil.isSkillSetDataSending?.idMember?:-1
+        savedMemberID = CommonUtil.isSkillSetDataSending?.idMember ?: -1
         Log.d("savedMemberID", savedMemberID.toString())
 
         Log.d("savedInternshipList", CommonUtil.isSkillSetDataSending.toString())
@@ -229,10 +210,6 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelect
         binding.edtAreaOfInterest.setText(CommonUtil.isSkillSetDataSending?.areaInterest)
         binding.edtProgrammingLanguage.setText(CommonUtil.isSkillSetDataSending?.programmingLanguage)
         binding.edtToolsAndPlatform.setText(CommonUtil.isSkillSetDataSending?.toolsPlatform)
-//        editableInternshipList = savedInternshipList.map { it.copy() }.toMutableList()
-//        editableCertificateList = savedCertificateList.map { it.copy() }.toMutableList()
-//        editableAssessmentList = savedAssessmentList.map { it.copy() }.toMutableList()
-//        editableProjectList = savedProjectList.map { it.copy() }.toMutableList()
 
         editableInternshipList = savedInternshipList.map { it.deepCopy() }.toMutableList()
         editableCertificateList = savedCertificateList.map { it.deepCopy() }.toMutableList()
@@ -517,55 +494,52 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(),OnSoftSkillSelect
         return this.copy(file_path = this.file_path?.map { it.copy() }?.toMutableList())
     }
 
-private fun showUploadProgressDialog() {
-    runOnUiThread {
-        if (uploadDialog?.isShowing == true) return@runOnUiThread
+    private fun showUploadProgressDialog() {
+        runOnUiThread {
+            if (uploadDialog?.isShowing == true) return@runOnUiThread
 
-        val builder = AlertDialog.Builder(this)
-        builder.setCancelable(false)
+            val builder = AlertDialog.Builder(this)
+            builder.setCancelable(false)
 
-        val view = layoutInflater.inflate(R.layout.dialog_upload_progress, null)
-        val txtProgress = view.findViewById<TextView>(R.id.txtProgress)
+            val view = layoutInflater.inflate(R.layout.dialog_upload_progress, null)
+            val txtProgress = view.findViewById<TextView>(R.id.txtProgress)
 
-        txtProgress.text = "Please wait… Uploading...."
+            txtProgress.text = "Please wait… Uploading...."
 
-        builder.setView(view)
-        uploadDialog = builder.create()
-        uploadDialog?.show()
+            builder.setView(view)
+            uploadDialog = builder.create()
+            uploadDialog?.show()
 
-        uploadDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            uploadDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        }
     }
-}
 
 
+    private fun showConfirmationDialog() {
+        runOnUiThread {
+            val builder = AlertDialog.Builder(this)
 
-private fun showConfirmationDialog() {
-    runOnUiThread {
-        val builder = AlertDialog.Builder(this)
+            val message = "Are you sure you want to save?"
 
-        val message = "Are you sure you want to save?"
+            builder.setTitle("Confirmation")
+                .setMessage(message)
+                .setPositiveButton("Yes") { dialog, _ ->
+                    totalUploadCount = calculateTotalUploadCount()
+                    completedUploadCount = 0
 
-        builder.setTitle("Confirmation")
-            .setMessage(message)
-            .setPositiveButton("Yes") { dialog, _ ->
-                totalUploadCount = calculateTotalUploadCount()
-                completedUploadCount = 0
-
-                if (totalUploadCount > 0) {
-                    showUploadProgressDialog()
+                    if (totalUploadCount > 0) {
+                        showUploadProgressDialog()
+                    }
+                    uploadAllAttachmentsThenSubmit()
+                    dialog.dismiss()
                 }
-                uploadAllAttachmentsThenSubmit()
-                dialog.dismiss()
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
 
-        builder.create().show()
+            builder.create().show()
+        }
     }
-}
-
-
 
 
     private fun uploadAttachmentList(
@@ -616,7 +590,6 @@ private fun showConfirmationDialog() {
     }
 
 
-
     private fun onSingleUploadFinished(
         onComplete: () -> Unit,
         totalInThisList: Int,
@@ -640,16 +613,15 @@ private fun showConfirmationDialog() {
     }
 
 
+    private fun dismissUploadDialog() {
+        runOnUiThread {
+            if (uploadDialog?.isShowing == true) {
+                uploadDialog?.dismiss()
+                uploadDialog = null
 
-private fun dismissUploadDialog() {
-    runOnUiThread {
-        if (uploadDialog?.isShowing == true) {
-            uploadDialog?.dismiss()
-            uploadDialog = null
-
+            }
         }
     }
-}
 
 
     private fun calculateTotalUploadCount(): Int {
@@ -734,6 +706,7 @@ private fun dismissUploadDialog() {
             }
         }
     }
+
     private fun updateAwsUrlInList(
         list: List<out AttachmentHolder>,
         localPath: String,
@@ -800,27 +773,6 @@ private fun dismissUploadDialog() {
                 toolandplatformArray.add(toolandplatform)
             }
         //no need to add filepath
-
-//        val internshipArray = JsonArray()
-//        normalizeAttachmentList(selectedInternshipList).forEach {
-//            val internshipJson = gson.toJsonTree(it).asJsonObject
-//            internshipArray.add(internshipJson)
-//        }
-//        val certificationArray = JsonArray()
-//        normalizeAttachmentList(selectedCertificateList).forEach {
-//            val certificationJson = gson.toJsonTree(it).asJsonObject
-//            certificationArray.add(certificationJson)
-//        }
-//        val assessmentDetailsArray = JsonArray()
-//        normalizeAttachmentList(selectedAssessmentList).forEach {
-//            val assessmentDetailsJson = gson.toJsonTree(it).asJsonObject
-//            assessmentDetailsArray.add(assessmentDetailsJson)
-//        }
-//        val projectsArray = JsonArray()
-//        normalizeAttachmentList(selectedProjectList).forEach {
-//            val projectsJson = gson.toJsonTree(it).asJsonObject
-//            projectsArray.add(projectsJson)
-//        }
 
         //no need to add filepath
 
@@ -897,7 +849,6 @@ private fun dismissUploadDialog() {
         attachmentSource = source
         attachmentPosition = position
         attachmentList = list.toMutableList()
-//        ChooseFile()
         logPermissionStatus("BeforeChooseFile")
         openFilePickerWithPermission()
 
@@ -1073,20 +1024,6 @@ private fun dismissUploadDialog() {
             }
         }
 
-//        LayoutDocuments.setOnClickListener({
-//
-////            CommonUtil.SelcetedFileList.clear()
-//
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            intent.type = "application/pdf"
-//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//            startActivityForResult(intent, SELECT_PDF)
-//            FilePopup!!.dismiss()
-//            Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
-//
-//
-//        })
-
         LayoutDocuments.setOnClickListener {
 
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -1144,6 +1081,7 @@ private fun dismissUploadDialog() {
             )
         )
     }
+
     private fun copyUriToCacheFile(context: Context, uri: Uri): String {
         val fileName = getFileName(uri)
         val file = File(context.cacheDir, fileName)

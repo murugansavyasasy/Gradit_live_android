@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,7 +69,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             priority = CommonUtil.Priority
         )
 
-        Log.d("SelectedDate",CommonUtil.Selecteddata)
+        Log.d("SelectedDate", CommonUtil.Selecteddata)
 
 
 
@@ -85,14 +84,14 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         imgRefresh!!.visibility = View.GONE
 
         val attendanceHours = ArrayList<String>()
-        if (CommonUtil.isAttendanceHrsOrPeriodType=="nth"){
+        if (CommonUtil.isAttendanceHrsOrPeriodType == "nth") {
             attendanceHours.add(0, "Select period")
-        }
-        else{
+        } else {
             attendanceHours.add(0, "Select hour")
         }
 
-        val filterCaterotyType = listOf("Name A-Z","Name Z-A","RegNo ASC","RegNo DSC","AdmisNo ASC","AdmisNo DSC")
+        val filterCaterotyType =
+            listOf("Name A-Z", "Name Z-A", "RegNo ASC", "RegNo DSC", "AdmisNo ASC", "AdmisNo DSC")
 
         val filterAdapter = ArrayAdapter(
             this,
@@ -147,25 +146,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
-//        if (AttendanceStatus.equals("AttendanceEdit")) {
-//            for (i in CommonUtil.AttendanceHourEdit.indices) {
-//                attendanceHours.addAll(listOf(CommonUtil.AttendanceHourEdit[i].hour.toString()))
-//            }
-//            val adaptersection = ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
-//            binding.edtHours!!.adapter = adaptersection
-//        } else {
-//            for (i in CommonUtil.AttendanceHour.indices) {
-//                if (CommonUtil.isAttendanceHrsOrPeriodType=="nth"){
-//                    attendanceHours.addAll(listOf(CommonUtil.AttendanceHour[i].period.toString()))
-//                }
-//                else{
-//                    attendanceHours.addAll(listOf(CommonUtil.AttendanceHour[i].hour.toString()))
-//                }
-////                attendanceHours.addAll(listOf(CommonUtil.AttendanceHour[i].hour.toString()))
-//            }
-//            val adaptersection = ArrayAdapter(this, R.layout.dopdown_spinner, attendanceHours)
-//            binding.edtHours!!.adapter = adaptersection
-//        }
+
 
         if (AttendanceStatus.equals("AttendanceEdit")) {
 
@@ -232,54 +213,6 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
-//        binding.edtHours!!.onItemSelectedListener = object :
-//            AdapterView.OnItemSelectedListener {
-//
-//            override fun onItemSelected(
-//                parent: AdapterView<*>,
-//                view: View,
-//                position: Int,
-//                id: Long
-//            ) {
-//                if (position == 0) {
-//                    SeletedHours = binding.edtHours!!.selectedItem.toString()
-//                    if (!AttendanceStatus.equals("AttendanceEdit")) {
-//                        if (addAttendance) {
-//                            addAttendance = false
-//                            Getspecificstudentdatasubject()
-//                        }
-////                        binding.checkRelative!!.visibility = View.VISIBLE
-//                        binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
-//                        binding.idSV!!.visibility = View.VISIBLE
-//                        binding.lnrFilter!!.visibility = View.VISIBLE
-//                    } else {
-//                        binding.lblhours!!.text = "Choose hour to edit"
-//                        binding.lblSelectattendance!!.visibility = View.VISIBLE
-//                        binding.recycleSpecificstudentAttendance!!.visibility = View.GONE
-//                        binding.idSV!!.visibility = View.GONE
-//                        binding.lnrFilter!!.visibility = View.GONE
-////                        binding.checkRelative!!.visibility = View.GONE
-//                    }
-//                } else {
-//                    SeletedHours = binding.edtHours!!.selectedItem.toString()
-//                    SelectedRecipientlistAttendanceEdit.clear()
-//                    binding.lblSelectattendance!!.visibility = View.GONE
-//                    if (AttendanceStatus.equals("AttendanceEdit")) {
-//                        Attendance_EditStudentList()
-////                        binding.checkRelative!!.visibility = View.GONE
-//                    } else {
-////                        binding.checkRelative!!.visibility = View.VISIBLE
-//                    }
-//                    binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
-//                    binding.idSV!!.visibility = View.VISIBLE
-//                    binding.lnrFilter!!.visibility = View.VISIBLE
-//                }
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {
-//
-//            }
-//        }
 
         binding.edtHours!!.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -303,7 +236,6 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                             Getspecificstudentdatasubject()
                         }
 
-//                        binding.checkRelative!!.visibility = View.VISIBLE
 
                         binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
                         binding.idSV!!.visibility = View.VISIBLE
@@ -311,10 +243,9 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
                     } else {
 
-                        if (CommonUtil.isAttendanceHrsOrPeriodType=="nth"){
+                        if (CommonUtil.isAttendanceHrsOrPeriodType == "nth") {
                             binding.lblhours!!.text = "Choose period to edit"
-                        }
-                        else{
+                        } else {
                             binding.lblhours!!.text = "Choose hour to edit"
                         }
 
@@ -323,7 +254,6 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                         binding.idSV!!.visibility = View.GONE
                         binding.lnrFilter!!.visibility = View.GONE
 
-//                        binding.checkRelative!!.visibility = View.GONE
                     }
 
                 } else {
@@ -360,11 +290,9 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
                         Attendance_EditStudentList()
 
-//                        binding.checkRelative!!.visibility = View.GONE
 
                     } else {
 
-//                        binding.checkRelative!!.visibility = View.VISIBLE
                     }
 
                     binding.recycleSpecificstudentAttendance!!.visibility = View.VISIBLE
@@ -466,28 +394,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
-//        binding.chAll4!!.setOnClickListener(View.OnClickListener {
-//
-//            if (AttendanceStatus.equals("AttendanceEdit")) {
-//                if (binding.chAll4!!.isChecked) {
-//                    Attendance_Edit_Adapter!!.unselectall()
-//                    binding.ALL4!!.text = "Mark all as"
-//                } else {
-//                    Attendance_Edit_Adapter!!.selectAll()
-//                    binding.ALL4!!.text = "Mark all as"
-//                }
-//            } else {
-//                CommonUtil.AbsendlistStudent.clear()
-//                CommonUtil.PresentlistStudent.clear()
-//                if (binding.chAll4!!.isChecked) {
-//                    SpecificStudentList!!.unselectall()
-//                    binding.ALL4!!.text = "Mark all as"
-//                } else {
-//                    SpecificStudentList!!.selectAll()
-//                    binding.ALL4!!.text = "Mark all as"
-//                }
-//            }
-//        })
+
 
         appViewModel!!.MarkAttendance!!.observe(this) { response ->
             if (response != null) {
@@ -534,7 +441,8 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     getspecifictuterstudent.forEach {
                         it.memberid
                         it.name
-                        val group = RecipientSelected(it.memberid, it.name, it.regno,it.admissionno)
+                        val group =
+                            RecipientSelected(it.memberid, it.name, it.regno, it.admissionno)
                         SelectedRecipientlist.add(group)
                     }
                     for (i in SelectedRecipientlist) {
@@ -554,9 +462,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
                             override fun remove(data: RecipientSelected?) {
                                 if (SelectedRecipientlist.size == CommonUtil.AbsendlistStudent.size + 1) {
-//                                    binding.chAll4!!.isChecked = true
                                 } else {
-//                                    binding.chAll4!!.isChecked = false
                                     binding.chPresent.isChecked = false
                                     binding.chAbsent.isChecked = false
                                     binding.chOnDuty.isChecked = false
@@ -595,14 +501,14 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
                     binding.lytCheckBoxes.visibility = View.VISIBLE
                     Attendance_Edit.forEach {
                         it.memberid
-                        it.attendancetype?:""
+                        it.attendancetype ?: ""
                         it.membername
                         it.rollno
 
                         val group =
                             Attendance_Edit_Selected(
                                 it.memberid,
-                                it.attendancetype?:"",
+                                it.attendancetype ?: "",
                                 it.membername,
                                 it.rollno,
                                 it.admissionno
@@ -656,53 +562,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
         }
 
-//        binding.btnTakeattendance!!.setOnClickListener {
-//
-//            if (!SeletedHours.equals("Select hours")) {
-//                CommonUtil.Absentlistcount = CommonUtil.AbsendlistStudent.size.toString()
-//                if (AttendanceStatus.equals("AttendanceEdit")) {
-//                    val dlg = this@Spectfice_TakeAttendance.let { AlertDialog.Builder(it) }
-//                    dlg.setTitle("Number of students absent marked for : " + CommonUtil.Absentlistcount)
-//                    dlg.setMessage("Click ok to confirm")
-//                    dlg.setPositiveButton(
-//                        CommonUtil.OK,
-//                        DialogInterface.OnClickListener { dialog, which ->
-//                            TakeAttendance("edit")
-//                            SeletedHours = ""
-//                        })
-//                    dlg.setNegativeButton(
-//                        CommonUtil.CANCEL,
-//                        DialogInterface.OnClickListener { dialog, which ->
-//
-//                        })
-//                    dlg.setCancelable(false)
-//                    dlg.create()
-//                    dlg.show()
-//                } else {
-//                    val dlg = this@Spectfice_TakeAttendance.let { AlertDialog.Builder(it) }
-//                    dlg.setTitle("Number of students absent marked for :" + CommonUtil.Absentlistcount)
-//                    dlg.setMessage("Click ok to confirm")
-//                    dlg.setPositiveButton(
-//                        CommonUtil.OK,
-//                        DialogInterface.OnClickListener { dialog, which ->
-//                            TakeAttendance("add")
-//                            SeletedHours = ""
-//                        })
-//                    dlg.setNegativeButton(
-//                        CommonUtil.CANCEL,
-//                        DialogInterface.OnClickListener { dialog, which ->
-//
-//                        })
-//
-//                    dlg.setCancelable(false)
-//                    dlg.create()
-//                    dlg.show()
-//
-//                }
-//            } else {
-//                CommonUtil.ApiAlert(this, "Please select attendance hour")
-//            }
-//        }
+
 
         binding.btnTakeattendance!!.setOnClickListener {
 
@@ -816,11 +676,10 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
-                if (msg.isEmpty()){
-                    binding.lytCheckBoxes.visibility=View.VISIBLE
-                }
-                else{
-                    binding.lytCheckBoxes.visibility=View.GONE
+                if (msg.isEmpty()) {
+                    binding.lytCheckBoxes.visibility = View.VISIBLE
+                } else {
+                    binding.lytCheckBoxes.visibility = View.GONE
                 }
 
                 if (CommonUtil.isAttendanceType == "Edit") {
@@ -858,8 +717,12 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
         for (item in SelectedRecipientlist) {
             if (item.SelectedName!!.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))||item.admissionno!!.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))||item.isRegNo!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault())) || item.admissionno!!.lowercase(
+                    Locale.getDefault()
+                )
+                    .contains(text.lowercase(Locale.getDefault())) || item.isRegNo!!.lowercase(
+                    Locale.getDefault()
+                )
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
                 filteredlist.add(item)
@@ -868,12 +731,11 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
         if (filteredlist.isEmpty()) {
 
-            binding.lnrFilter.visibility=View.GONE
+            binding.lnrFilter.visibility = View.GONE
             SpecificStudentList!!.filterList(filteredlist, false)
             CommonUtil.Toast(this, "No Result")
-        }
-        else {
-            binding.lnrFilter.visibility=View.VISIBLE
+        } else {
+            binding.lnrFilter.visibility = View.VISIBLE
             SpecificStudentList!!.filterList(filteredlist, false)
 
         }
@@ -974,53 +836,6 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
     }
 
 
-//    private fun sortEditList(option: String) {
-//        val sortedList = when (option) {
-//            "AdmisNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.admissionno}
-//            "AdmisNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.admissionno}
-//            "Name A-Z" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.membername?.lowercase() }
-//            "Name Z-A" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.membername?.lowercase() }
-//            "RegNo ASC" -> SelectedRecipientlistAttendanceEdit.sortedBy { it.rollno }
-//            "RegNo DSC" -> SelectedRecipientlistAttendanceEdit.sortedByDescending { it.rollno }
-//            else -> SelectedRecipientlistAttendanceEdit
-//        }
-//
-//        SelectedRecipientlistAttendanceEdit.clear()
-//        SelectedRecipientlistAttendanceEdit.addAll(sortedList)
-//
-//        if(binding.idSV.query.isNotEmpty()){
-//            filterEdit(binding.idSV.query.toString())
-//        }
-//        else{
-//            Attendance_Edit_Adapter?.filterList(ArrayList(sortedList), false)
-//        }
-//    }
-//
-//    private fun sortList(option: String) {
-//        val sortedList = when (option) {
-//            "AdmisNo ASC" -> SelectedRecipientlist.sortedBy { it.admissionno?.toIntOrNull() }
-//            "AdmisNo DSC" -> SelectedRecipientlist.sortedByDescending { it.admissionno?.toIntOrNull() }
-//            "Name A-Z" -> SelectedRecipientlist.sortedBy { it.SelectedName?.lowercase() }
-//            "Name Z-A" -> SelectedRecipientlist.sortedByDescending { it.SelectedName?.lowercase() }
-//            "RegNo ASC" -> SelectedRecipientlist.sortedBy { it.isRegNo?.toIntOrNull() }
-//            "RegNo DSC" -> SelectedRecipientlist.sortedByDescending { it.isRegNo?.toIntOrNull() }
-//            else -> SelectedRecipientlist
-//        }
-//        SelectedRecipientlist.clear()
-//        SelectedRecipientlist.addAll(sortedList)
-//
-//        if (binding.idSV.query.isNotEmpty()){
-//            filter(binding.idSV.query.toString())
-//        }
-//        else{
-//            SpecificStudentList?.filterList(ArrayList(sortedList), false)
-//        }
-//
-//    }
-
-
-
-
     private fun filterEdit(text: String) {
 
 
@@ -1028,20 +843,22 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
         for (item in SelectedRecipientlistAttendanceEdit) {
             if (item.membername!!.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))||item.rollno!!.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))||item.admissionno!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault())) || item.rollno!!.lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault())) || item.admissionno!!.lowercase(
+                    Locale.getDefault()
+                )
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
                 filteredlist.add(item)
             }
         }
-        Log.d("filteredlist",filteredlist.toString())
+        Log.d("filteredlist", filteredlist.toString())
         if (filteredlist.isEmpty()) {
-            binding.lnrFilter.visibility=View.GONE
+            binding.lnrFilter.visibility = View.GONE
             Attendance_Edit_Adapter!!.filterList(filteredlist, false)
             CommonUtil.Toast(this, "No Result")
         } else {
-            binding.lnrFilter.visibility=View.VISIBLE
+            binding.lnrFilter.visibility = View.VISIBLE
             Attendance_Edit_Adapter!!.filterList(filteredlist, false)
 
         }
@@ -1051,7 +868,10 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
 
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_yearid, CommonUtil.YearId)
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.subjectid)
@@ -1069,7 +889,7 @@ class Spectfice_TakeAttendance : ActionBarActivity() {
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
         jsonObject.addProperty("attendancehour", SeletedHours)
         jsonObject.addProperty("period", selectedPeriod)
-        Log.d("SelectedDate",CommonUtil.Selecteddata)
+        Log.d("SelectedDate", CommonUtil.Selecteddata)
         jsonObject.addProperty("date", CommonUtil.Selecteddata)
         jsonObject.addProperty("attn_type", CommonUtil.isAttendanceHrsOrPeriodType)
         appViewModel!!.Attendance_Edit(jsonObject, this)

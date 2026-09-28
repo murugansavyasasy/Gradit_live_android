@@ -37,7 +37,7 @@ class MobileNumberRewamp : AppCompatActivity() {
     private var authViewModel: Auth? = null
     private var validateMobileNumberResponse: List<ValidateMobileNumberResponse> = ArrayList()
     var appViewModel: App? = null
-    var mobileLength: Int= 0
+    var mobileLength: Int = 0
 
     private lateinit var binding: MobileNumberRewampBinding
 
@@ -57,9 +57,8 @@ class MobileNumberRewamp : AppCompatActivity() {
         appViewModel!!.init()
 
 
-
         var countryDetails = SharedPreference.getCountryDetails(this)
-        binding.tvCountryCode.text="+${countryDetails.countyCode}"
+        binding.tvCountryCode.text = "+${countryDetails.countyCode}"
 
         val countryCode = countryDetails.countyCode
             ?.filter { it.isDigit() }
@@ -147,11 +146,7 @@ class MobileNumberRewamp : AppCompatActivity() {
                         validateMobileNumberResponse[0].is_redirect_otp_screen
 
                     if (is_redirect_otp_screen == 0) {
-//                        val i = Intent(this@MobileNumberRewamp, LoginRewamp::class.java)
-//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                        i.putExtra("MobileNumber", mobileNumber)
-//                        startActivity(i)
+
                         val i = Intent(this@MobileNumberRewamp, PasswordRewamp::class.java)
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -159,7 +154,8 @@ class MobileNumberRewamp : AppCompatActivity() {
                         startActivity(i)
                     } else {
                         CommonUtil.OptMessege = validateMobileNumberResponse[0].resultmessage
-                        CommonUtil.ivrnumbers = ArrayList(validateMobileNumberResponse[0].ivrnumbers)
+                        CommonUtil.ivrnumbers =
+                            ArrayList(validateMobileNumberResponse[0].ivrnumbers)
                         val i = Intent(this@MobileNumberRewamp, OtpRewamp::class.java)
                         i.putExtra(
                             CommonUtil.EXTRA_AUTH_SOURCE,
@@ -221,7 +217,7 @@ class MobileNumberRewamp : AppCompatActivity() {
                 return
             }
 
-            CommonUtil.MobileNUmber = mobileNumber?:""
+            CommonUtil.MobileNUmber = mobileNumber ?: ""
 
             val jsonObject = JsonObject()
 
@@ -241,7 +237,6 @@ class MobileNumberRewamp : AppCompatActivity() {
     private fun updateNextButtonState(phoneNumberEdt: EditText, txtNext: AppCompatButton) {
         val hasValue = phoneNumberEdt.text.toString().trim().isNotEmpty()
         // if you specifically want "greater than zero" as a number, use:
-        // val hasValue = (phoneNumberEdt.text.toString().trim().toLongOrNull() ?: 0) > 0
 
         if (hasValue) {
             txtNext.isEnabled = true
@@ -256,112 +251,59 @@ class MobileNumberRewamp : AppCompatActivity() {
         }
     }
 
-//
-//    fun isToolBarPrimaryTheme1(
-//        mainViewId: Int,
-//        statusBarBgView: View
-//    ) {
-//        enableEdgeToEdge()
-//
-//        val mainView = findViewById<View>(mainViewId)
-//
-//        // White status bar icons
-//        WindowCompat.getInsetsController(
-//            window,
-//            window.decorView
-//        ).isAppearanceLightStatusBars = false
-//
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
-//
-//            val systemBars = insets.getInsets(
-//                WindowInsetsCompat.Type.systemBars()
-//            )
-//
-//            statusBarBgView.updateLayoutParams {
-//                height = systemBars.top
-//            }
-//
-//            view.updatePadding(
-//                left = systemBars.left,
-//                right = systemBars.right,
-//                bottom = systemBars.bottom
-//            )
-//
-//            insets
-//        }
-//
-//        window.statusBarColor = Color.TRANSPARENT
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//            window.addFlags(
-//                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-//            )
-//
-//            window.clearFlags(
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//            )
-//
-//            window.statusBarColor = Color.TRANSPARENT
-//
-//            window.navigationBarColor =
-//                resources.getColor(R.color.clr_auth_gray, theme)
-//        }
-//    }
-fun isToolBarPrimaryTheme1(
-    mainViewId: Int,
-    statusBarBgView: View
-) {
-    enableEdgeToEdge()
 
-    val mainView = findViewById<View>(mainViewId)
+    fun isToolBarPrimaryTheme1(
+        mainViewId: Int,
+        statusBarBgView: View
+    ) {
+        enableEdgeToEdge()
 
-    // Dark status bar icons (since background will be white)
-    WindowCompat.getInsetsController(
-        window,
-        window.decorView
-    ).isAppearanceLightStatusBars = true
+        val mainView = findViewById<View>(mainViewId)
 
-    WindowCompat.setDecorFitsSystemWindows(window, false)
+        // Dark status bar icons (since background will be white)
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = true
 
-    ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val systemBars = insets.getInsets(
-            WindowInsetsCompat.Type.systemBars()
-        )
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
 
-        statusBarBgView.updateLayoutParams {
-            height = systemBars.top
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
+
+            statusBarBgView.updateLayoutParams {
+                height = systemBars.top
+            }
+
+            view.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
+
+            insets
         }
 
-        view.updatePadding(
-            left = systemBars.left,
-            right = systemBars.right,
-            bottom = systemBars.bottom
-        )
+        // White status bar background
+        statusBarBgView.setBackgroundColor(Color.WHITE)
 
-        insets
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            )
+
+            window.clearFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            )
+
+            window.statusBarColor = Color.TRANSPARENT
+
+            window.navigationBarColor =
+                resources.getColor(R.color.white, theme)
+        }
     }
-
-    // White status bar background
-    statusBarBgView.setBackgroundColor(Color.WHITE)
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-        )
-
-        window.clearFlags(
-            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-        )
-
-        window.statusBarColor = Color.TRANSPARENT
-
-        window.navigationBarColor =
-            resources.getColor(R.color.white, theme)
-    }
-}
 }

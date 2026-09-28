@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -153,27 +152,27 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
                             .into(binding.CommonLayout.imgAdvertisement!!)
-                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
 
-                }
-                else{
+                } else {
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
                         .into(binding.CommonLayout.imgAdvertisement!!)
-                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_thumb_placeholder)
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.CommonLayout.imgthumb!!)
@@ -224,7 +223,8 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             assignmentadapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound!!.text =
+                                getString(R.string.txt_no_data_found)
                             binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                         }
@@ -248,24 +248,28 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
                             )
                             assignmentadapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound!!.text =
+                                getString(R.string.txt_no_data_found)
                             binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                         }
                     }
                 } else {
                     if (AssignmentType) {
-                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
+                        binding.CommonLayout.lblNoRecordsFound!!.text =
+                            response.message ?: getString(R.string.txt_no_data_found)
                         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     } else {
-                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
+                        binding.CommonLayout.lblNoRecordsFound!!.text =
+                            response.message ?: getString(R.string.txt_no_data_found)
                         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
                     }
                 }
             } else {
-                binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                binding.CommonLayout.lblNoRecordsFound!!.text =
+                    getString(R.string.error_null_cursor)
                 binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                 binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
             }
@@ -452,12 +456,19 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         super.onBackPressed()
     }
 
-    fun OverAllMenuCountRequestAssignment(activity: Activity?, menuid: String, showLoader: Boolean = true) {
+    fun OverAllMenuCountRequestAssignment(
+        activity: Activity?,
+        menuid: String,
+        showLoader: Boolean = true
+    ) {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_menuid, menuid)
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
 
         if (CommonUtil.Priority == "p1") {
             jsonObject.addProperty(ApiRequestNames.Req_departmentid, "0")
@@ -468,9 +479,15 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
         }
 
         if (CommonUtil.Priority == "p7" || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_appid,
+                CommonUtil.SenderAppId?.toString() ?: ""
+            )
         } else {
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_appid,
+                CommonUtil.SenderAppId?.toString() ?: ""
+            )
         }
 
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)

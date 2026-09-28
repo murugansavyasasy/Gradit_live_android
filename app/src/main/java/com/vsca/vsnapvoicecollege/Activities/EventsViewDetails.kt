@@ -10,7 +10,6 @@ import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.webkit.MimeTypeMap
@@ -19,7 +18,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -42,11 +40,9 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.ActivityEventsBinding
 import org.apache.commons.io.FileUtils
 import java.io.File
-import java.util.*
 
 class EventsViewDetails : ActionBarActivity() {
 
@@ -56,7 +52,6 @@ class EventsViewDetails : ActionBarActivity() {
     var uploadFilePath: String? = null
     var contentType: String? = null
 
-    //    var AWSUploadedFilesList = ArrayList<AWSUploadedFiles>()
     var AWSUploadedFilesList = ArrayList<String>()
     var progressDialog: ProgressDialog? = null
     var fileNameDateTime: String? = null
@@ -92,7 +87,7 @@ class EventsViewDetails : ActionBarActivity() {
         binding = ActivityEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -140,8 +135,7 @@ class EventsViewDetails : ActionBarActivity() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -158,8 +152,7 @@ class EventsViewDetails : ActionBarActivity() {
                             .into(binding.imgthumb!!)
                     }
 
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -186,7 +179,8 @@ class EventsViewDetails : ActionBarActivity() {
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -205,7 +199,8 @@ class EventsViewDetails : ActionBarActivity() {
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -326,7 +321,8 @@ class EventsViewDetails : ActionBarActivity() {
 
                 if (!CommonUtil.SelcetedFileList.isEmpty()) {
 
-                    val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@EventsViewDetails)
+                    val alertDialog: AlertDialog.Builder =
+                        AlertDialog.Builder(this@EventsViewDetails)
                     alertDialog.setTitle(CommonUtil.Info)
                     alertDialog.setMessage("Are you want to Upload the Image?")
                     alertDialog.setPositiveButton(
@@ -395,9 +391,7 @@ class EventsViewDetails : ActionBarActivity() {
                 ActivityResultContracts.PickVisualMedia.ImageOnly
             )
         )
-//        val intent1 = Intent(this, AlbumSelectActivity::class.java)
-//        intent1.putExtra("Gallery", "Images")
-//        startActivityForResult(intent1, REQUEST_GAllery)
+
 
     }
 
@@ -539,7 +533,8 @@ class EventsViewDetails : ActionBarActivity() {
     private fun AwsUploadingFile(
         isFilePath: String
     ) {
-        isAwsUploadingPreSigned!!.getPreSignedUrl(this,
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {
@@ -565,87 +560,6 @@ class EventsViewDetails : ActionBarActivity() {
             })
     }
 
-
-//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-//
-//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-//        val s3Uploader1Obj: S3Uploader1
-//        s3Uploader1Obj = S3Uploader1(activity)
-//        pathIndex = pathind!!
-//
-//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-//            uploadFilePath = CommonUtil.SelcetedFileList[index]
-//            Log.d("uploadFilePath", uploadFilePath.toString())
-//            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-//            if (extension.equals(".pdf")) {
-//                contentType = ".pdf"
-//            } else {
-//                contentType = ".jpg"
-//            }
-//            break
-//        }
-//
-//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-//            Log.d("test", uploadFilePath!!)
-//            if (uploadFilePath != null) {
-//                progressDialog = CustomLoading.createProgressDialog(this)
-//
-//                progressDialog!!.show()
-//                fileNameDateTime =
-//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().time)
-//                fileNameDateTime = "File_" + fileNameDateTime
-//                Log.d("filenamedatetime", fileNameDateTime.toString())
-//                s3Uploader1Obj.initUpload(
-//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-//                )
-//
-//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
-//                    override fun onUploadSuccess(response: String?) {
-//                        if (response!!.equals("Success")) {
-//                            if (CommonUtil.EventStatus.equals("Past")) {
-//                                CommonUtil.EventStatus = "Past"
-//                            } else {
-//                                CommonUtil.EventStatus = "Upcoming"
-//                            }
-//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-//                                this@EventsViewDetails,
-//                                CommonUtil.CollegeId.toString(),
-//                                uploadFilePath,
-//                                fileNameDateTime
-//                            )
-//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-//                                Log.d("Awsiploadfilepath", Awsaupladedfilepath.toString())
-//                                fileName = File(uploadFilePath)
-//                                filename = fileName!!.name
-////                                AWSUploadedFilesList.add(
-////                                    AWSUploadedFiles(
-////                                        CommonUtil.urlFromS3!!,
-////                                        filename,
-////                                        contentType
-////                                    )
-////                                )
-//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-//                                awsFileUpload(activity, pathIndex + 1)
-//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-//                                    progressDialog!!.dismiss()
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onUploadError(response: String?) {
-//                        progressDialog!!.dismiss()
-//                        Log.d("error", "Error Uploading")
-//                    }
-//                })
-//            }
-//        } else {
-//            Eventupdateimage()
-//        }
-//    }
 
     override fun onBackPressed() {
         super.onBackPressed()

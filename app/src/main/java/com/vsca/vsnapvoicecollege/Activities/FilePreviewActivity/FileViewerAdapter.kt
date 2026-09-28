@@ -40,7 +40,7 @@ class FileViewerAdapter(
         holder.imageView.visibility = View.GONE
         holder.loadingBar.visibility = View.VISIBLE
 
-        Log.d("iscomng",item.path)
+        Log.d("iscomng", item.path)
         if (item.type == CommonUtil.IMAGE) {
             holder.imageView.visibility = View.VISIBLE
             Glide.with(context)

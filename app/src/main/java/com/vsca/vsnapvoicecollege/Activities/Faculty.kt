@@ -3,9 +3,8 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -15,7 +14,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.FacultyAdapter
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
+import com.vsca.vsnapvoicecollege.Model.GetFacultyListDetails
+import com.vsca.vsnapvoicecollege.Model.SectionListDetails
+import com.vsca.vsnapvoicecollege.Model.SemesterSectionListDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.SenderModel.GetDepartmentData
@@ -24,11 +27,9 @@ import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityExamViewMarksBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityFacultyMainBinding
 
-class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
+class Faculty : BaseActivity<ActivityFacultyMainBinding>() {
     var facultyAdapter: FacultyAdapter? = null
     override var appViewModel: App? = null
 
@@ -88,7 +89,6 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
             R.id.imgAddPlus
         )
 
-//        MenuBottomType()
         CommonUtil.OnMenuClicks("Faculty")
         imgRefresh!!.visibility = View.GONE
 
@@ -96,7 +96,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
             adclick()
         }
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 if (response != null) {
                     val status = response.status
@@ -113,29 +114,32 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.Facultylayout.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.Facultylayout.imgAdvertisement!!)
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.Facultylayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.Facultylayout.imgAdvertisement!!)
-                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.Facultylayout.imgAdvertisement!!)
+                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.Facultylayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.Facultylayout.imgAdvertisement!!)
-                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.Facultylayout.imgAdvertisement!!)
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_thumb_placeholder)
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.Facultylayout.imgthumb!!)
@@ -154,7 +158,6 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                     val message = response.message
                     GetSemesterSectionData.clear()
 
-//                    UserMenuRequest(this)
 
                     if (status == 1) {
 
@@ -197,8 +200,10 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
 
                                         if (position != 0) {
 
-                                            binding.Facultylayout.SpinnerSections1!!.visibility = View.VISIBLE
-                                            binding.Facultylayout.recyclerCommon!!.visibility = View.VISIBLE
+                                            binding.Facultylayout.SpinnerSections1!!.visibility =
+                                                View.VISIBLE
+                                            binding.Facultylayout.recyclerCommon!!.visibility =
+                                                View.VISIBLE
 
                                             SemesterId =
                                                 GetSemesterSectionData.get(position - 1).clgsemesterid!!
@@ -216,8 +221,10 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
 
 
                                         } else {
-                                            binding.Facultylayout.SpinnerSections1!!.visibility = View.GONE
-                                            binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
+                                            binding.Facultylayout.SpinnerSections1!!.visibility =
+                                                View.GONE
+                                            binding.Facultylayout.recyclerCommon!!.visibility =
+                                                View.GONE
                                         }
                                     }
 
@@ -231,7 +238,6 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                             binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                         }
                     } else {
-//                        UserMenuRequest(this)
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
@@ -246,7 +252,6 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-//                    UserMenuRequest(this)
                     if (status == 1) {
 
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
@@ -259,14 +264,16 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                         binding.Facultylayout.recyclerCommon!!.layoutManager = mLayoutManager
                         binding.Facultylayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
                         binding.Facultylayout.recyclerCommon!!.adapter = facultyAdapter
-                        binding.Facultylayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.Facultylayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                            0,
+                            80
+                        )
                         facultyAdapter!!.notifyDataSetChanged()
                     } else {
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
-//                    UserMenuRequest(this)
                     binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
@@ -288,7 +295,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                             GetDivisionData!!.forEach {
                                 it.division_id
                                 it.division_name
-                                val divisions = RecipientSelected(it.division_id, it.division_name,"","")
+                                val divisions =
+                                    RecipientSelected(it.division_id, it.division_name, "", "")
                                 SelectedRecipientlist.add(divisions)
                             }
                             LoadDivisionSpinner()
@@ -316,7 +324,7 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                                 it.department_id
                                 it.department_name
                                 val divisions =
-                                    RecipientSelected(it.department_id, it.department_name,"","")
+                                    RecipientSelected(it.department_id, it.department_name, "", "")
                                 SelectedRecipientlist.add(divisions)
                             }
 
@@ -338,7 +346,6 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-//                    UserMenuRequest(this)
                     if (status == 1) {
 
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
@@ -349,14 +356,16 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                         binding.Facultylayout.recyclerCommon1!!.layoutManager = mLayoutManager
                         binding.Facultylayout.recyclerCommon1!!.itemAnimator = DefaultItemAnimator()
                         binding.Facultylayout.recyclerCommon1!!.adapter = facultyAdapter
-                        binding.Facultylayout.recyclerCommon1!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.Facultylayout.recyclerCommon1!!.recycledViewPool.setMaxRecycledViews(
+                            0,
+                            80
+                        )
                         facultyAdapter!!.notifyDataSetChanged()
                     } else {
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.Facultylayout.recyclerCommon1!!.visibility = View.GONE
                     }
                 } else {
-//                    UserMenuRequest(this)
                     binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
@@ -372,7 +381,6 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-//                    UserMenuRequest(this)
                     if (status == 1) {
 
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.GONE
@@ -383,14 +391,16 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
                         binding.Facultylayout.recyclerCommon!!.layoutManager = mLayoutManager
                         binding.Facultylayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
                         binding.Facultylayout.recyclerCommon!!.adapter = facultyAdapter
-                        binding.Facultylayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                        binding.Facultylayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                            0,
+                            80
+                        )
                         facultyAdapter!!.notifyDataSetChanged()
                     } else {
                         binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                     }
                 } else {
-//                    UserMenuRequest(this)
                     binding.Facultylayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.Facultylayout.recyclerCommon!!.visibility = View.GONE
                 }
@@ -480,40 +490,44 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
         val adapter = ArrayAdapter(this, R.layout.spinner_textview, SpinnerData)
         adapter.setDropDownViewResource(R.layout.spinner_recipient_layout)
         binding.Facultylayout.SpinnerSemester!!.adapter = adapter
-        binding.Facultylayout.SpinnerSemester!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>, view: View, position: Int, id: Long
-            ) {
+        binding.Facultylayout.SpinnerSemester!!.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>, view: View, position: Int, id: Long
+                ) {
 
-                if (position != 0) {
+                    if (position != 0) {
 
-                    binding.Facultylayout.SpinnerSections1!!.visibility = View.VISIBLE
+                        binding.Facultylayout.SpinnerSections1!!.visibility = View.VISIBLE
 
-                    SelectedSpinnerID = GetDivisionData!!.get(position - 1).division_id
-                    GetDivisionData!!.get(position - 1).division_name?.let {
+                        SelectedSpinnerID = GetDivisionData!!.get(position - 1).division_id
+                        GetDivisionData!!.get(position - 1).division_name?.let {
+
+                        }
+                        GetDepartmentRequest()
+                    } else {
+
+                        binding.Facultylayout.SpinnerSections1!!.visibility = View.GONE
+                        binding.Facultylayout.recyclerCommon1!!.visibility = View.GONE
 
                     }
-                    GetDepartmentRequest()
-                } else {
+                }
 
-                    binding.Facultylayout.SpinnerSections1!!.visibility = View.GONE
-                    binding.Facultylayout.recyclerCommon1!!.visibility = View.GONE
+                override fun onNothingSelected(parent: AdapterView<*>) {
 
                 }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
     }
 
 
     private fun GetDivisionRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         appViewModel!!.getDivision(jsonObject, this)
         Log.d("GetDivisionRequest", jsonObject.toString())
     }
@@ -521,8 +535,11 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun GetDepartmentRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_div_id, SelectedSpinnerID)
         appViewModel!!.getDepartment(jsonObject, this)
         Log.d("GetDepartmentRequest", jsonObject.toString())
@@ -532,8 +549,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_deptid, SelectedSpinnerIDdepart)
         jsonObject.addProperty(ApiRequestNames.Req_course_id, SelectedSpinnerID)
@@ -546,8 +563,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun StudentFacultyRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_semesterid, SemesterId)
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, SectionId)
@@ -560,8 +577,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun FacultyRequeststaffandhod() {
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_deptid, CommonUtil.DepartmentId)
 
@@ -574,8 +591,8 @@ class Faculty: BaseActivity<ActivityFacultyMainBinding>() {
     private fun FacultyRequeststaff() {
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.Appid?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_deptid, CommonUtil.DepartmentId)
 

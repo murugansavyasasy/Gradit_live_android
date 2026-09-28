@@ -35,7 +35,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -56,7 +55,6 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
-import com.vsca.vsnapvoicecollege.VideoAlbum.AlbumVideoSelectVideoActivity
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.AddImageNewBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -139,7 +137,7 @@ class AddAssignment : ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -212,35 +210,37 @@ class AddAssignment : ActionBarActivity() {
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
-                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
                         .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
                     Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
-                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_thumb_placeholder)
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.imgthumb!!)
@@ -270,7 +270,8 @@ class AddAssignment : ActionBarActivity() {
                     val dlg = this.let { androidx.appcompat.app.AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             val i: Intent =
 
@@ -366,11 +367,11 @@ class AddAssignment : ActionBarActivity() {
                 uris.forEach { uri ->
 
                     val filePath = getPathFromUri(uri)
-                        videofile = filePath?.path.toString()
+                    videofile = filePath?.path.toString()
 
-                        Log.d("video file", videofile.toString())
+                    Log.d("video file", videofile.toString())
 
-                        VimeoVideoUpload(this, videofile!!)
+                    VimeoVideoUpload(this, videofile!!)
                 }
             }
 
@@ -417,56 +418,6 @@ class AddAssignment : ActionBarActivity() {
         return fileName ?: "temp_file_${System.currentTimeMillis()}"
     }
 
-//    val selectImagesActivityResult =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if (result.resultCode == RESULT_OK) {
-//                val data: Intent? = result.data
-//
-//                //If multiple image selected
-//                if (data?.clipData != null) {
-//                    val count = data.clipData?.itemCount ?: 0
-//
-//                    for (i in 0 until count) {
-//                        val imageUri: Uri? = data.clipData?.getItemAt(i)?.uri
-//                        val file = getImageFromUri(imageUri)
-//                        file?.let {
-//                            CommonUtil.SelcetedFileList.add(it.absolutePath)
-//                            Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
-//                            var Count: String? = null
-//                            if (CommonUtil.SelcetedFileList != null) {
-//                                Count = CommonUtil.SelcetedFileList.size.toString()
-//                                binding.lblFileselectedstate!!.visibility = View.VISIBLE
-//                                binding.lblFileselectedstate!!.text = "Number of file selected : " + Count
-//                            } else {
-//                                binding.lblFileselectedstate!!.visibility = View.GONE
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                //If single image selected
-//                else if (data?.data != null) {
-//                    CommonUtil.SelcetedFileList.clear()
-//
-//                    val imageUri: Uri? = data.data
-//                    val file = getImageFromUri(imageUri)
-//                    file?.let {
-//                        CommonUtil.SelcetedFileList.add(it.absolutePath)
-//                        Log.d("selectedPaths", CommonUtil.SelcetedFileList.toString())
-//                        var Count: String? = null
-//                        if (CommonUtil.SelcetedFileList != null) {
-//                            Count = CommonUtil.SelcetedFileList.size.toString()
-//                            binding.lblFileselectedstate!!.visibility = View.VISIBLE
-//                            binding.lblFileselectedstate!!.setText("Nmber of file selected : " + Count)
-//
-//                        } else {
-//                            binding.lblFileselectedstate!!.visibility = View.GONE
-//
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
     fun EditText.enableScrollText() {
         overScrollMode = View.OVER_SCROLL_ALWAYS
@@ -478,7 +429,7 @@ class AddAssignment : ActionBarActivity() {
                     view.parent.requestDisallowInterceptTouchEvent(true)
                     when (event.action and MotionEvent.ACTION_MASK) {
                         MotionEvent.ACTION_UP -> view.parent.requestDisallowInterceptTouchEvent(
-                             false
+                            false
                         )
                     }
                 }
@@ -547,7 +498,7 @@ class AddAssignment : ActionBarActivity() {
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_assignmentid, CommonUtil.Assignmentid)
         jsonObject.addProperty(ApiRequestNames.Req_processby, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -632,13 +583,6 @@ class AddAssignment : ActionBarActivity() {
             }
             LayoutGallery.setOnClickListener {
 
-//                FileType = "IMAGE"
-//                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//                intent.addCategory(Intent.CATEGORY_OPENABLE)
-//                intent.type = "image/*"
-//                selectImagesActivityResult.launch(intent)
-//                FilePopup!!.dismiss()
 
                 FileType = "IMAGE"
 
@@ -684,16 +628,12 @@ class AddAssignment : ActionBarActivity() {
 
             filename = binding.lblUploadFiles.toString()
             if (binding.lblUploadFiles!!.text.equals("Upload Image")) {
-                    pickImagesLauncher?.launch(
-                        PickVisualMediaRequest(
-                            ActivityResultContracts.PickVisualMedia.ImageOnly
-                        )
+                pickImagesLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
                     )
-//                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//                intent.addCategory(Intent.CATEGORY_OPENABLE)
-//                intent.type = "image/*"
-//                selectImagesActivityResult.launch(intent)
+                )
+
 
             } else if (binding.lblUploadFiles!!.text.equals("Upload Pdf")) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -706,9 +646,7 @@ class AddAssignment : ActionBarActivity() {
                         ActivityResultContracts.PickVisualMedia.VideoOnly
                     )
                 )
-//                val intent1 = Intent(this, AlbumVideoSelectVideoActivity::class.java)
-//                intent1.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//                startActivityForResult(intent1, SELECT_VIDEO)
+
             }
         }
     }
@@ -1208,88 +1146,6 @@ class AddAssignment : ActionBarActivity() {
         })
     }
 
-//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-//
-//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-//        val s3Uploader1Obj: S3Uploader1
-//        s3Uploader1Obj = S3Uploader1(activity)
-//        pathIndex = pathind!!
-//
-//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-//            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
-//            Log.d("uploadFilePath", uploadFilePath.toString())
-//            val extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-//            contentType = if (extension.equals(".pdf")) {
-//                ".pdf"
-//            } else {
-//                ".jpg"
-//            }
-//            break
-//        }
-//
-//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-//            Log.d("test", uploadFilePath!!)
-//            if (uploadFilePath != null) {
-//                progressDialog = CustomLoading.createProgressDialog(this)
-//
-//                progressDialog!!.show()
-//                fileNameDateTime =
-//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
-//                fileNameDateTime = "File_" + fileNameDateTime
-//                Log.d("filenamedatetime", fileNameDateTime.toString())
-//                s3Uploader1Obj.initUpload(
-//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-//                )
-//
-//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
-//                    override fun onUploadSuccess(response: String?) {
-//                        if (response!!.equals("Success")) {
-//
-//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-//                                this@AddAssignment,
-//                                CommonUtil.CollegeId.toString(),
-//                                uploadFilePath,
-//                                fileNameDateTime
-//                            )
-//
-//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-//
-//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-//
-//
-//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-//
-//
-//                                fileName = File(uploadFilePath)
-//
-//                                filename = fileName!!.name
-//                                AWSUploadedFilesList.add(
-//                                    AWSUploadedFiles(
-//                                        CommonUtil.urlFromS3!!, filename, contentType
-//                                    )
-//                                )
-//
-//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-//                                awsFileUpload(activity, pathIndex + 1)
-//
-//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-//                                    progressDialog!!.dismiss()
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onUploadError(response: String?) {
-//                        progressDialog!!.dismiss()
-//                        Log.d("error", "Error Uploading")
-//                    }
-//                })
-//            }
-//        } else {
-//            AssignmentsendEntireSection()
-//        }
-//    }
 
     private val mTextEditorWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

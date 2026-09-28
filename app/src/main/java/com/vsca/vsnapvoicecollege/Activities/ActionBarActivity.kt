@@ -1,8 +1,8 @@
 package com.vsca.vsnapvoicecollege.Activities
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -18,12 +18,25 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.webkit.WebChromeClient
 import android.webkit.WebView
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ListPopupWindow
+import android.widget.PopupWindow
+import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,25 +47,15 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.SenderModel.Attendance_Edit_Selected
 import com.vsca.vsnapvoicecollege.SenderModel.RecipientSelected
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
+import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.MyWebViewClient
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
 import java.io.File
-
-
-import androidx.core.view.WindowCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.core.view.updateLayoutParams
-import androidx.core.graphics.ColorUtils
-import android.view.ViewTreeObserver
-import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
-import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import kotlin.math.max
+
 abstract class ActionBarActivity : AppCompatActivity() {
 
     var SelectedRecipientlist: ArrayList<RecipientSelected> = ArrayList()
@@ -110,7 +113,8 @@ abstract class ActionBarActivity : AppCompatActivity() {
             statusBarBgView?.setBackgroundColor(fallbackColor)
         }
 
-        val luminanceSource = fallbackColor  // icon contrast is based on the solid colour either way
+        val luminanceSource =
+            fallbackColor  // icon contrast is based on the solid colour either way
         WindowCompat.getInsetsController(window, window.decorView).apply {
             isAppearanceLightStatusBars = ColorUtils.calculateLuminance(luminanceSource) > 0.5
             isAppearanceLightNavigationBars = ColorUtils.calculateLuminance(luminanceSource) > 0.5
@@ -171,11 +175,13 @@ abstract class ActionBarActivity : AppCompatActivity() {
             else -> R.color.black
         }
     )
+
     protected abstract val layoutResourceId: Int
 
     fun View.addActionBarMarginIfNeeded() {
         if (Build.VERSION.SDK_INT >= 35) {
-            val typedArray = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+            val typedArray =
+                context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
             val actionBarHeight = typedArray.getDimension(0, 0f).toInt()
             typedArray.recycle()
             (layoutParams as? ViewGroup.MarginLayoutParams)?.let {
@@ -185,8 +191,9 @@ abstract class ActionBarActivity : AppCompatActivity() {
         }
     }
 
-    fun ActionbarWithoutBottom(activity: Activity,
-                               hideBackButton: Boolean = false
+    fun ActionbarWithoutBottom(
+        activity: Activity,
+        hideBackButton: Boolean = false
 
     ) {
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
@@ -202,7 +209,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
         imgRefresh = view.findViewById<View>(R.id.imgRefresh) as ImageView
         val imgCollegeLogo = view.findViewById<View>(R.id.imgCollegeLogo) as ImageView
         val constAction = view.findViewById<View>(R.id.constAction) as ConstraintLayout
-        Log.d("LogoImage",CommonUtil.CollegeLogo.toString())
+        Log.d("LogoImage", CommonUtil.CollegeLogo.toString())
         if (CommonUtil.CollegeLogo == null || CommonUtil.CollegeLogo.isEmpty()) {
             Glide.with(activity)
                 .load(R.drawable.dummy_college_icon)
@@ -222,10 +229,10 @@ abstract class ActionBarActivity : AppCompatActivity() {
             activity.startActivity(i)
         }
         imgMan.setOnClickListener { ProfilePopUp(activity) }
-        imgBack.visibility= View.VISIBLE
+        imgBack.visibility = View.VISIBLE
         Log.d("ActivityName", "Current Activity: ${activity::class.java.simpleName}")
-        if (hideBackButton){
-            imgBack.visibility= View.GONE
+        if (hideBackButton) {
+            imgBack.visibility = View.GONE
         }
 
         imgBack.setOnClickListener { onBackPressed() }
@@ -299,7 +306,6 @@ abstract class ActionBarActivity : AppCompatActivity() {
         var appviewModelbase: App? = null
         var imgRefresh: ImageView? = null
         var imgNotification: ImageView? = null
-
 
 
         fun deleteDirUtil(dir: File?): Boolean {
@@ -542,7 +548,7 @@ abstract class ActionBarActivity : AppCompatActivity() {
 
     fun AppReadStatusActionbar(activity: Activity?, msgtype: String, detailsId: String) {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_msgtype, msgtype)
         jsonObject.addProperty(ApiRequestNames.Req_detailsid, detailsId)
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)

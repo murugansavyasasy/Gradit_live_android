@@ -1,8 +1,6 @@
 package com.vsca.vsnapvoicecollege.Activities
 
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -16,17 +14,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.JsonObject
@@ -41,8 +33,6 @@ import com.vsca.vsnapvoicecollege.ViewModel.Auth
 import com.vsca.vsnapvoicecollege.databinding.SplashRewampBinding
 
 class SplashRewamp : AppCompatActivity() {
-
-//    private var floatAnimator: ObjectAnimator? = null
 
 
     var handler: Handler? = null
@@ -90,9 +80,6 @@ class SplashRewamp : AppCompatActivity() {
         authViewModel!!.init()
         CommonUtil.MenuListDashboard.clear()
 
-        //  CommonUtil.isDeviceTokenApiCalling = true
-
-//        startImpactfulEntranceAnimation()
 
 
         if (!CommonUtil.isNetworkConnected(this@SplashRewamp)) {
@@ -225,7 +212,7 @@ class SplashRewamp : AppCompatActivity() {
         mobilenumber = SharedPreference.getSH_MobileNumber(this@SplashRewamp)
         password = SharedPreference.getSH_Password(this@SplashRewamp)
         val isFirstTimeLoggedInUser = SharedPreference.getFirstTimeLoggedInUser(this)
-        Log.d("FirstTimeUser",isFirstTimeLoggedInUser.toString())
+        Log.d("FirstTimeUser", isFirstTimeLoggedInUser.toString())
 
         if (mobilenumber!!.isNotEmpty() && password!!.isNotEmpty()) {
             val jsonObject = JsonObject()
@@ -234,12 +221,11 @@ class SplashRewamp : AppCompatActivity() {
             authViewModel!!.login(jsonObject, this@SplashRewamp)
         } else {
 
-            if (isFirstTimeLoggedInUser){
+            if (isFirstTimeLoggedInUser) {
                 val i = Intent(this@SplashRewamp, LoginRewamp::class.java)
                 startActivity(i)
                 finish()
-            }
-            else{
+            } else {
                 val i = Intent(this@SplashRewamp, MobileNumberRewamp::class.java)
                 startActivity(i)
                 finish()
@@ -315,40 +301,6 @@ class SplashRewamp : AppCompatActivity() {
         }
     }
 
-
-//    private fun startImpactfulEntranceAnimation() {
-//        binding.centerBlock.alpha = 0f
-//        binding.centerBlock.scaleX = 0.82f
-//        binding.centerBlock.scaleY = 0.82f
-//        binding.centerBlock.translationY = 40f
-//        binding.centerBlock.animate()
-//            .alpha(1f)
-//            .scaleX(1f)
-//            .scaleY(1f)
-//            .translationY(0f)
-//            .setDuration(550)
-//            .setInterpolator(OvershootInterpolator(1.4f))
-//            .withEndAction {
-//                startFloatingHover()
-//            }
-//            .start()
-//
-//    }
-
-//    private fun startFloatingHover() {
-//        floatAnimator?.cancel()
-//        floatAnimator = ObjectAnimator.ofFloat(
-//            binding.centerBlock,
-//            View.TRANSLATION_Y,
-//            0f, -14f, 0f
-//        ).apply {
-//            duration = 2400
-//            repeatMode = ValueAnimator.REVERSE
-//            repeatCount = ValueAnimator.INFINITE
-//            interpolator = AccelerateDecelerateInterpolator()
-//            start()
-//        }
-//    }
 
     fun Activity.applyPrimaryGradientTheme(
         mainViewId: Int

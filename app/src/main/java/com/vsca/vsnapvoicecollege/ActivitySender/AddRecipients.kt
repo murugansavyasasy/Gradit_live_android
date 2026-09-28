@@ -1,14 +1,11 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -23,14 +20,11 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
@@ -47,9 +41,7 @@ import com.vsca.vsnapvoicecollege.Adapters.SelectedRecipientAdapter
 import com.vsca.vsnapvoicecollege.Adapters.Subject_Adapter
 import com.vsca.vsnapvoicecollege.Adapters.sectionandyear_Adapter
 import com.vsca.vsnapvoicecollege.Adapters.specificStudent_adapter
-import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
 import com.vsca.vsnapvoicecollege.Interfaces.RecipientCheckListener
-import com.vsca.vsnapvoicecollege.Model.AWSUploadedFiles
 import com.vsca.vsnapvoicecollege.Model.Data
 import com.vsca.vsnapvoicecollege.Model.GetGroupData
 import com.vsca.vsnapvoicecollege.Model.Get_staff_yourclass
@@ -70,23 +62,12 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.MultipartBody.Part.Companion.createFormData
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 
 class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListener {
@@ -158,7 +139,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     var uploadFilePath: String? = null
     var contentType: String? = null
 
-    //    var AWSUploadedFilesList = ArrayList<AWSUploadedFiles>()
     var AWSUploadedFilesList = ArrayList<String>()
     var progressDialog: ProgressDialog? = null
     var fileNameDateTime: String? = null
@@ -226,8 +206,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         isAwsUploadingPreSigned = AwsUploadingPreSigned()
 
-        Log.d("Receipients","Receipients_screenAdd")
-//        findViewById<View>(R.id.Main).addActionBarMarginIfNeeded()
+        Log.d("Receipients", "Receipients_screenAdd")
 
 
 
@@ -274,7 +253,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         Viewlinetwo = findViewById(R.id.Viewlinetwo)
         recycle_Staffrecipients = findViewById(R.id.recycle_Staffrecipients)
         txt_selectspecfic = findViewById(R.id.txt_selectspecfic)
-//        layoutstudentlist = findViewById(R.id.layoutstudentlist)
         txt_department = findViewById(R.id.txt_department)
         txt_selectspecfic_YearandSecrion = findViewById(R.id.txt_selectspecfic_YearandSecrion)
         Viewlinethree = findViewById(R.id.Viewlinethree)
@@ -819,12 +797,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
             } else {
 
 
-
                 txt_mydepartment!!.visibility = View.VISIBLE
                 txt_onandoff!!.visibility = View.GONE
                 txt_myclass!!.visibility = View.VISIBLE
                 txt_selectspecfic!!.visibility = View.GONE
-                rytBottomView.visibility= View.GONE
+                rytBottomView.visibility = View.GONE
             }
 
             lblEntireDepartmentlable!!.visibility = View.GONE
@@ -941,7 +918,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if (SpinningText!!.equals(CommonUtil.Subjects)) {
                         SenderType = ""
-                        // yearSection = true
                         getspecificstudentdata()
                         CommonUtil.receiverid = ""
                         CommonUtil.seleteddataArrayCheckbox.clear()
@@ -1041,7 +1017,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
 
         txt_mydepartment!!.setOnClickListener {
-            rytBottomView.visibility= View.VISIBLE
+            rytBottomView.visibility = View.VISIBLE
             My_Department = "Yes"
             if (ScreenName.equals(CommonUtil.CommunicationVoice)) {
                 if (CommonUtil.isAllowtomakecall == 1) {
@@ -1075,7 +1051,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
 
         txt_myclass!!.setOnClickListener {
-            rytBottomView.visibility= View.VISIBLE
+            rytBottomView.visibility = View.VISIBLE
             if (ScreenName.equals(CommonUtil.CommunicationVoice)) {
                 if (CommonUtil.isAllowtomakecall == 1) {
                     txt_onandoff!!.visibility = View.VISIBLE
@@ -1121,8 +1097,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     recycle_specificstudent!!.adapter = specificStudent_adapter
                     recycle_specificstudent!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     specificStudent_adapter!!.notifyDataSetChanged()
-                }
-                else{
+                } else {
                     CommonUtil.ApiAlert(
                         this, response.message
                     )
@@ -1152,7 +1127,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         it.memberid
                         it.name
 
-                        val group = RecipientSelected(it.memberid, it.name, it.regno,it.admissionno)
+                        val group =
+                            RecipientSelected(it.memberid, it.name, it.regno, it.admissionno)
                         SelectedRecipientlist.add(group)
                     }
 
@@ -1201,7 +1177,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     recycle_specificstudent!!.recycledViewPool.setMaxRecycledViews(0, 80)
                     SpecificStudentList!!.notifyDataSetChanged()
                 } else {
-                    CommonUtil.ApiAlert(this, response?.message?:"Something went wrong")
+                    CommonUtil.ApiAlert(this, response?.message ?: "Something went wrong")
 
                     SearchView!!.visibility = View.GONE
                     recycle_specificstudent!!.visibility = View.GONE
@@ -1209,7 +1185,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     ALL4!!.visibility = View.GONE
                 }
             } else {
-                CommonUtil.ApiAlert(this, response?.message?:"Something went wrong")
+                CommonUtil.ApiAlert(this, response?.message ?: "Something went wrong")
 
                 SearchView!!.visibility = View.GONE
                 ch_all4!!.visibility = View.GONE
@@ -1631,7 +1607,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.course_id
                             it.course_name
 
-                            val group = RecipientSelected(it.course_id, it.course_name, "","")
+                            val group = RecipientSelected(it.course_id, it.course_name, "", "")
                             SelectedRecipientlist.add(group)
                         }
 
@@ -1709,7 +1685,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.groupid
                             it.groupname
 
-                            val group = RecipientSelected(it.groupid?.toString()?:"", it.groupname, "","")
+                            val group = RecipientSelected(
+                                it.groupid?.toString() ?: "",
+                                it.groupname,
+                                "",
+                                ""
+                            )
 
                             SelectedRecipientlist.add(group)
                         }
@@ -1828,7 +1809,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.division_id
                             it.division_name
 
-                            val divisions = RecipientSelected(it.division_id, it.division_name, "","")
+                            val divisions =
+                                RecipientSelected(it.division_id, it.division_name, "", "")
                             SelectedRecipientlist.add(divisions)
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Division)) {
@@ -1909,7 +1891,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         GetCourseData!!.forEach {
                             it.course_id
                             it.course_name
-                            var department = RecipientSelected(it.course_id, it.course_name, "","")
+                            var department = RecipientSelected(it.course_id, it.course_name, "", "")
                             SelectedRecipientlist.add(department)
                         }
 
@@ -1987,7 +1969,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                             it.department_id
                             it.department_name
                             val divisions =
-                                RecipientSelected(it.department_id, it.department_name, "","")
+                                RecipientSelected(it.department_id, it.department_name, "", "")
                             SelectedRecipientlist.add(divisions)
                         }
                         if (SelecteRecipientType.equals(CommonUtil.Department_)) {
@@ -2540,8 +2522,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     recycleyearandsection!!.visibility = View.VISIBLE
                     txt_selectspecfic_YearandSecrion!!.visibility = View.VISIBLE
                     SelectedSpinnerIDhod = Getcoursedepartment!![position - 1].course_id
-                    CommonUtil.Courseid=Getcoursedepartment!![position - 1].course_id?:""
-                    CommonUtil.deptid=Getcoursedepartment!![position - 1].department_id?:""
+                    CommonUtil.Courseid = Getcoursedepartment!![position - 1].course_id ?: ""
+                    CommonUtil.deptid = Getcoursedepartment!![position - 1].department_id ?: ""
 
                     Getcoursedepartment!![position - 1].course_name?.let {
                         Log.d("spinning data", it)
@@ -3342,7 +3324,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-//                                awsFileUpload(this, pathIndex)
                                 isUploadAWS()
 
                             }
@@ -3375,7 +3356,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-//                                awsFileUpload(this, pathIndex)
                                 isUploadAWS()
 
                             }
@@ -3408,7 +3388,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-//                                awsFileUpload(this, pathIndex)
                                 isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
@@ -3439,7 +3418,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-//                                awsFileUpload(this, pathIndex)
                                 isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
@@ -3474,11 +3452,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     }
 
@@ -3488,11 +3464,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
                                         isUploadAWS()
-//                                        awsFileUpload(this, pathIndex)
                                     }
                                 }
                             }
@@ -3524,7 +3498,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-//                                awsFileUpload(this, pathIndex)
                                 isUploadAWS()
                             }
                             alertDialog.setNegativeButton(
@@ -3561,7 +3534,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         CommonUtil.Yes
                     ) { _, _ ->
 
-//                        awsFileUpload(this, pathIndex)
                         isUploadAWS()
                     }
                     alertDialog.setNegativeButton(
@@ -4025,8 +3997,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                //   VimeoVideoUpload(this, CommonUtil.videofile!!)
-//                                val isVideoToken = SharedPreference.getVideo_Json(this)
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4066,7 +4036,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4106,7 +4075,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-//                                VimeoVideoUpload(this, CommonUtil.videofile!!)
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4145,7 +4113,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-//                                VimeoVideoUpload(this, CommonUtil.videofile!!)
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4188,7 +4155,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        //   VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -4200,7 +4166,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                        //VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -4218,7 +4183,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -4230,7 +4194,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                        //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -4270,7 +4233,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 CommonUtil.Yes
                             ) { _, _ ->
 
-                                //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4784,13 +4746,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                    //  NoticeBoardSMSsending()
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                    //  NoticeBoardSMSsendingTuter()
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 }
 
@@ -4800,13 +4758,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                    //  NoticeBoardSMSsending()
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                    //  NoticeBoardSMSsendingTuter()
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 }
                             }
@@ -4849,11 +4803,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
                                     isUploadAWS()
-//                                    awsFileUpload(this, pathIndex)
                                 }
 
                             } else {
@@ -4862,11 +4814,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
                                     isUploadAWS()
-//                                    awsFileUpload(this, pathIndex)
                                 }
                             }
                         }
@@ -4901,7 +4851,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         CommonUtil.Yes
                     ) { _, _ ->
 
-//                        awsFileUpload(this, pathIndex)
                         isUploadAWS()
                     }
                     alertDialog.setNegativeButton(
@@ -5056,7 +5005,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                    //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                     VimeoUploader.uploadVideo(
                                         this,
                                         CommonUtil.title,
@@ -5068,7 +5016,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                    //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                     VimeoUploader.uploadVideo(
                                         this,
                                         CommonUtil.title,
@@ -5086,7 +5033,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                    // VimeoVideoUpload(this, CommonUtil.videofile!!)
                                     VimeoUploader.uploadVideo(
                                         this,
                                         CommonUtil.title,
@@ -5098,7 +5044,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                    //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                     VimeoUploader.uploadVideo(
                                         this,
                                         CommonUtil.title,
@@ -5666,7 +5611,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.Yes
                                 ) { _, _ ->
 
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 }
                                 alertDialog.setNegativeButton(
@@ -5696,7 +5640,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         CommonUtil.Yes
                                     ) { _, _ ->
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     }
                                     alertDialog.setNegativeButton(
@@ -5728,7 +5671,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         alertDialog.setPositiveButton(
                                             CommonUtil.Yes
                                         ) { _, _ ->
-//                                            awsFileUpload(this, pathIndex)
                                             isUploadAWS()
 
                                         }
@@ -5760,7 +5702,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         alertDialog.setPositiveButton(
                                             CommonUtil.Yes
                                         ) { _, _ ->
-//                                            awsFileUpload(this, pathIndex)
                                             isUploadAWS()
                                         }
 
@@ -5798,7 +5739,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.Yes
                                 ) { _, _ ->
 
-//                                    awsFileUpload(this, pathIndex)
                                     isUploadAWS()
                                 }
                                 alertDialog.setNegativeButton(
@@ -5828,7 +5768,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         CommonUtil.Yes
                                     ) { _, _ ->
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
 
                                     }
@@ -5862,7 +5801,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                             CommonUtil.Yes
                                         ) { _, _ ->
 
-//                                            awsFileUpload(this, pathIndex)
                                             isUploadAWS()
                                         }
                                         alertDialog.setNegativeButton(
@@ -5894,7 +5832,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                             CommonUtil.Yes
                                         ) { _, _ ->
 
-//                                            awsFileUpload(this, pathIndex)
                                             isUploadAWS()
                                         }
 
@@ -6200,7 +6137,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.Yes
                                 ) { _, _ ->
 
-//                                    VimeoVideoUpload(this, CommonUtil.videofile!!)
                                     VimeoUploader.uploadVideo(
                                         this,
                                         CommonUtil.title,
@@ -6236,7 +6172,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         CommonUtil.Yes
                                     ) { _, _ ->
 
-//                                        VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -6277,7 +6212,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                             CommonUtil.Yes
                                         ) { _, _ ->
 
-//                                            VimeoVideoUpload(this, CommonUtil.videofile!!)
                                             VimeoUploader.uploadVideo(
                                                 this,
                                                 CommonUtil.title,
@@ -6316,7 +6250,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                             CommonUtil.Yes
                                         ) { _, _ ->
 
-//                                            VimeoVideoUpload(this, CommonUtil.videofile!!)
                                             VimeoUploader.uploadVideo(
                                                 this,
                                                 CommonUtil.title,
@@ -6605,19 +6538,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
                                     CommonUtil.receivertype = "5"
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     }
                                 } else {
                                     CommonUtil.receivertype = "7"
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     }
                                 }
@@ -6659,11 +6588,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
                                         isUploadAWS()
-//                                        awsFileUpload(this, pathIndex)
                                     }
 
                                 } else {
@@ -6672,11 +6599,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-//                                        awsFileUpload(this, pathIndex)
                                         isUploadAWS()
                                     }
                                 }
@@ -6836,7 +6761,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        //   VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -6848,7 +6772,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                        //   VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -6865,7 +6788,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
 
-                                        //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -6877,7 +6799,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     } else if (SpinningText.equals(CommonUtil.Tutor)) {
 
-                                        //  VimeoVideoUpload(this, CommonUtil.videofile!!)
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -6921,7 +6842,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         CommonUtil.Yes
                     ) { _, _ ->
 
-//                        awsFileUpload(this, pathIndex)
                         isUploadAWS()
 
                     }
@@ -7141,7 +7061,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 txt_myclass!!.visibility = View.VISIBLE
                 txt_mydepartment!!.visibility = View.VISIBLE
                 txt_onandoff!!.visibility = View.GONE
-                rytBottomView.visibility= View.GONE
+                rytBottomView.visibility = View.GONE
             }
             lblEntireDepartmentlable!!.visibility = View.GONE
             LayoutRecipient!!.visibility = View.GONE
@@ -7174,7 +7094,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 txt_department!!.visibility = View.VISIBLE
                 Viewlinethree!!.visibility = View.VISIBLE
                 txt_myclass!!.visibility = View.VISIBLE
-                rytBottomView.visibility= View.GONE
+                rytBottomView.visibility = View.GONE
                 txt_mydepartment!!.visibility = View.VISIBLE
                 txt_onandoff!!.visibility = View.GONE
             }
@@ -7209,8 +7129,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun GetDivisionRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         appViewModel!!.getDivision(jsonObject, this)
         Log.d("GetDivisionRequest", jsonObject.toString())
     }
@@ -7282,8 +7205,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun getspecificstudentdata() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_courseid, CommonUtil.Courseid)
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.deptid)
         jsonObject.addProperty(ApiRequestNames.Req_yearid, CommonUtil.YearId)
@@ -7311,8 +7237,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun GetDepartmentRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_div_id, SelectedSpinnerID)
         appViewModel!!.getDepartment(jsonObject, this)
         Log.d("GetDepartmentRequest", jsonObject.toString())
@@ -7329,8 +7258,14 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
     private fun GetyearandsectionRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_clgprocessby, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_idcollege, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_clgprocessby,
+            CommonUtil.MemberId?.toString() ?: ""
+        )
+        jsonObject.addProperty(
+            ApiRequestNames.Req_idcollege,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_idcourse, SelectedSpinnerIDhod)
         appViewModel!!.getyearsndsectionList(jsonObject, this)
         Log.d("Gety&sectionRequeat", jsonObject.toString())
@@ -7346,8 +7281,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun SmsToEntireCollegeRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_filetype, "1")
         jsonObject.addProperty(ApiRequestNames.Req_MessageContent, CommonUtil.MenuTitle)
@@ -7364,8 +7302,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VoiceToEntireCollegeRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_filetype, "1")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -7381,8 +7322,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun SendVoiceToParticulerHistory() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)
@@ -7453,12 +7397,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun NoticeBoardSMSsending() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -7466,19 +7410,16 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         jsonObject.addProperty(ApiRequestNames.Req_isParent, isParent)
 
         val FileNameArray = JsonArray()
-//        if (!CommonUtil.urlFromS3.equals(null)) {
-            for (i in AWSUploadedFilesList.indices) {
-                val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
-//                if (CommonUtil.urlFromS3!!.contains(".pdf")) {
-                if (AWSUploadedFilesList.get(0).contains(".pdf")) {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
-                } else {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
-                }
-                FileNameArray.add(FileNameobject)
+        for (i in AWSUploadedFilesList.indices) {
+            val FileNameobject = JsonObject()
+            FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
+            if (AWSUploadedFilesList.get(0).contains(".pdf")) {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
+            } else {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
             }
-//        }
+            FileNameArray.add(FileNameobject)
+        }
         jsonObject.add("files", FileNameArray)
 
         jsonObject.addProperty("subjectid", CommonUtil.isSubjectIds)
@@ -7492,12 +7433,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun NoticeBoardSMSsendingHOD() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, "3")
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.DepartmentId)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -7512,12 +7453,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun NoticeBoardSMSsendingTuter() {
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_noticeboardid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -7525,19 +7466,16 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         jsonObject.addProperty(ApiRequestNames.Req_isParent, isParent)
 
         val FileNameArray = JsonArray()
-//        if (!CommonUtil.urlFromS3.equals(null)) {
-            for (i in AWSUploadedFilesList.indices) {
-                val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
-//                if (CommonUtil.urlFromS3!!.contains(".pdf")) {
-                if (AWSUploadedFilesList.get(0).contains(".pdf")) {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
-                } else {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
-                }
-                FileNameArray.add(FileNameobject)
+        for (i in AWSUploadedFilesList.indices) {
+            val FileNameobject = JsonObject()
+            FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
+            if (AWSUploadedFilesList.get(0).contains(".pdf")) {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
+            } else {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
             }
-//        }
+            FileNameArray.add(FileNameobject)
+        }
         jsonObject.add("files", FileNameArray)
 
         appViewModel!!.NoticeBoardsmssendingTuter(jsonObject, this)
@@ -7554,8 +7492,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
             jsonObject.addProperty(ApiRequestNames.Req_eventid, "0")
         }
 
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
@@ -7617,8 +7558,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
 
         jsonObject.addProperty(ApiRequestNames.Req_eventid, "0")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
@@ -7643,7 +7584,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
 
-//        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
         if (AWSUploadedFilesList.get(0).contains(".pdf")) {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "3")
         } else {
@@ -7678,7 +7618,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
 
-//        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
         if (AWSUploadedFilesList.get(0).contains(".pdf")) {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "3")
         } else {
@@ -7717,7 +7656,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
 
-//        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
         if (AWSUploadedFilesList.get(0).contains(".pdf")) {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "3")
         } else {
@@ -7750,11 +7688,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun AssignmentsendEntireSection() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -7827,11 +7765,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty("deptid", CommonUtil.DepartmentId)
         jsonObject.addProperty("courseid", CommonUtil.Courseid)
         jsonObject.addProperty("yearid", CommonUtil.YearId)
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("sectionid", CommonUtil.SectionId)
         jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
@@ -7921,8 +7859,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendEntire() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -7943,8 +7884,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendParticuler() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -7966,8 +7910,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendEntireTuter() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -7988,8 +7935,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
     private fun VideosendParticulerTuter() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
@@ -8007,8 +7957,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
     private fun Attendancemarking() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, recivertype)
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -8029,14 +7979,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
     fun EntireClick() {
 
-        //    chboxStudent!!.isChecked = false
         chboxParents!!.isChecked = false
         chboxStaff!!.isChecked = false
         chboxAll!!.isChecked = false
 
         isStaff = false
         isParent = false
-        //   isStudent = false
 
         txt_selectspecfic_YearandSecrion!!.visibility = View.GONE
         Clickable = CommonUtil.Clickable_Entire
@@ -8099,13 +8047,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
             Card_name = ""
         }
 
-        //    chboxStudent!!.isChecked = false
         chboxParents!!.isChecked = false
         chboxStaff!!.isChecked = false
         chboxAll!!.isChecked = false
         isStaff = false
         isParent = false
-        //   isStudent = false
         CommonUtil.DepartmentChooseIds.clear()
 
         txt_selectspecfic_YearandSecrion!!.visibility = View.GONE
@@ -8190,14 +8136,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
         CommonUtil.DepartmentChooseIds.clear()
 
-        //    chboxStudent!!.isChecked = false
         chboxParents!!.isChecked = false
         chboxStaff!!.isChecked = false
         chboxAll!!.isChecked = false
 
         isStaff = false
         isParent = false
-        //  isStudent = false
 
         Clickable = CommonUtil.Clickable
         CommonUtil.receiverid = ""
@@ -8280,13 +8224,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         }
         CommonUtil.DepartmentChooseIds.clear()
 
-        //     chboxStudent!!.isChecked = false
         chboxParents!!.isChecked = false
         chboxStaff!!.isChecked = false
         chboxAll!!.isChecked = false
         isStaff = false
         isParent = false
-        //  isStudent = false
 
         Clickable = CommonUtil.Clickable
         CommonUtil.receiverid = ""
@@ -8346,13 +8288,11 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         CommonUtil.DepartmentChooseIds.clear()
 
-        //    chboxStudent!!.isChecked = false
         chboxParents!!.isChecked = false
         chboxStaff!!.isChecked = false
         chboxAll!!.isChecked = false
         isStaff = false
         isParent = false
-        //  isStudent = false
 
         isStaff = false
         Yourclasses()
@@ -8421,14 +8361,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         CommonUtil.DepartmentChooseIds.clear()
 
-        //  chboxStudent!!.isChecked = false
         chboxParents!!.isChecked = false
         chboxStaff!!.isChecked = false
         chboxAll!!.isChecked = false
 
         isStaff = false
         isParent = false
-        //    isStudent = false
 
         Clickable = CommonUtil.Clickable
         CommonUtil.receiverid = ""
@@ -8483,472 +8421,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
 // ----------------AWS UPLOAD FUNCTION--------------//
 
-//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-//
-//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-//        val s3Uploader1Obj: S3Uploader1
-//        s3Uploader1Obj = S3Uploader1(activity)
-//        pathIndex = pathind!!
-//
-//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-//            uploadFilePath = CommonUtil.SelcetedFileList.get(index)
-//            Log.d("uploadFilePath", uploadFilePath.toString())
-//            var extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-//            if (extension.equals(".pdf")) {
-//                contentType = ".pdf"
-//            } else {
-//                contentType = ".jpg"
-//            }
-//            break
-//        }
-//
-//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-//            Log.d("test", uploadFilePath!!)
-//            if (uploadFilePath != null) {
-//                progressDialog = CustomLoading.createProgressDialog(this)
-//
-//                progressDialog!!.show()
-//                fileNameDateTime =
-//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())
-//                fileNameDateTime = "File_" + fileNameDateTime
-//                Log.d("filenamedatetime", fileNameDateTime.toString())
-//                s3Uploader1Obj.initUpload(
-//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-//                )
-//
-//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
-//                    override fun onUploadSuccess(response: String?) {
-//                        if (response!!.equals("Success")) {
-//
-//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-//                                this@AddRecipients,
-//                                CommonUtil.CollegeId.toString(),
-//                                uploadFilePath,
-//                                fileNameDateTime
-//                            )
-//
-//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-//
-//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-//
-//
-//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-//
-//
-//                                fileName = File(uploadFilePath)
-//
-//                                filename = fileName!!.name
-//                                AWSUploadedFilesList.add(
-//                                    AWSUploadedFiles(
-//                                        CommonUtil.urlFromS3!!, filename, contentType
-//                                    )
-//                                )
-//
-//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-////                                awsFileUpload(activity, pathIndex + 1)
-//
-//
-//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-//                                    progressDialog!!.dismiss()
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onUploadError(response: String?) {
-//                        progressDialog!!.dismiss()
-//                    }
-//                })
-//            }
-//
-//        } else {
-//
-//            if (ScreenName.equals(CommonUtil.Image_Pdf)) {
-//
-//                if (CommonUtil.Priority.equals("p1")) {
-//
-//                    if (SelecteRecipientType.equals(CommonUtil.Entire_College)) {
-//
-//                        if (!CommonUtil.receivertype.equals("")) {
-//
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//                                ImageOrPdfsendentire()
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//
-//                    } else if (SelecteRecipientType.equals(CommonUtil.Division)) {
-//
-//
-//                        if (!CommonUtil.receiverid.equals("")) {
-//
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//                                ImageOrPdfsendparticuler()
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//
-//                    } else if (SelecteRecipientType.equals(CommonUtil.Department_)) {
-//
-//
-//                        if (!CommonUtil.receiverid.equals("")) {
-//
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//
-//                                ImageOrPdfsendparticuler()
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//
-//                    } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-//
-//                        if (!CommonUtil.receiverid.equals("")) {
-//
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//                                ImageOrPdfsendparticuler()
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//
-//                    } else if (SelecteRecipientType.equals(CommonUtil.Your_Classes)) {
-//
-//                        if (!CommonUtil.receiverid.equals("")) {
-//
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//
-//                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-//
-//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                        ImageOrPdfsendparticuler()
-//
-//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//
-//                                        ImageOrPdfsendparticulerTuter()
-//
-//                                    }
-//
-//                                } else {
-//
-//                                    CommonUtil.receivertype = "7"
-//
-//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                        ImageOrPdfsendparticuler()
-//
-//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//
-//                                        ImageOrPdfsendparticulerTuter()
-//                                    }
-//                                }
-//
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//
-//                    } else if (SelecteRecipientType.equals(CommonUtil.Groups)) {
-//
-//                        if (!CommonUtil.receiverid.equals("")) {
-//
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//                                ImageOrPdfsendparticuler()
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//
-//                    } else {
-//
-//                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//
-//                    }
-//                } else if (CommonUtil.Priority.equals("p3")) {
-//
-//                    if (!CommonUtil.receiverid.equals("")) {
-//
-//                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//
-//                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-//
-//                                if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                    ImageOrPdfsendparticuler()
-//
-//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//
-//                                    ImageOrPdfsendparticulerTuter()
-//
-//                                }
-//
-//                            } else {
-//
-//                                CommonUtil.receivertype = "7"
-//
-//                                if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                    ImageOrPdfsendparticuler()
-//
-//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//
-//                                    ImageOrPdfsendparticulerTuter()
-//                                }
-//                            }
-//
-//
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                        }
-//                    } else {
-//                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                    }
-//                } else if (CommonUtil.Priority.equals("p2")) {
-//
-//                    if (My_Department.equals("Yes")) {
-//
-//                        if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
-//
-//                            if (!CommonUtil.receivertype.equals("")) {
-//
-//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//                                    ImageOrPdfsendparticuler()
-//
-//                                } else {
-//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                                }
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                            }
-//                        } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-//
-//                            if (!CommonUtil.receivertype.equals("")) {
-//
-//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//                                    ImageOrPdfsendparticuler()
-//
-//                                } else {
-//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                                }
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                            }
-//
-//                        } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
-//
-//                            if (!CommonUtil.receivertype.equals("")) {
-//
-//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//                                    ImageOrPdfsendparticuler()
-//
-//                                } else {
-//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                                }
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                            }
-//                        }
-//
-//                    } else {
-//
-//                        if (!CommonUtil.receiverid.equals("")) {
-//
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//
-//
-//                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-//
-//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                        ImageOrPdfsendparticuler()
-//
-//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//
-//                                        ImageOrPdfsendparticulerTuter()
-//
-//                                    }
-//
-//                                } else {
-//
-//                                    CommonUtil.receivertype = "7"
-//
-//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                        ImageOrPdfsendparticuler()
-//
-//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//
-//                                        ImageOrPdfsendparticulerTuter()
-//                                    }
-//                                }
-//
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//
-//                    }
-//
-//                }
-//
-//            } else if (ScreenName.equals(CommonUtil.Noticeboard)) {
-//
-//                if (CommonUtil.Priority.equals("p3")) {
-//                    if (!CommonUtil.receiverid.equals("")) {
-//                        if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-//                                if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                    NoticeBoardSMSsending()
-//
-//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                                    NoticeBoardSMSsendingTuter()
-//
-//                                }
-//
-//                            } else {
-//
-//                                CommonUtil.receivertype = "7"
-//
-//                                if (SpinningText.equals(CommonUtil.Subjects)) {
-//
-//                                    NoticeBoardSMSsending()
-//
-//                                } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                                    NoticeBoardSMSsendingTuter()
-//                                }
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                        }
-//                    } else {
-//                        CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                    }
-//                } else if (CommonUtil.Priority.equals("p2")) {
-//                    if (My_Department.equals("Yes")) {
-//                        if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
-//                            if (!CommonUtil.receivertype.equals("")) {
-//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//                                    NoticeBoardSMSsending()
-//                                } else {
-//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                                }
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                            }
-//                        } else if (SelecteRecipientType.equals(CommonUtil.Course)) {
-//                            if (!CommonUtil.receivertype.equals("")) {
-//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//                                    NoticeBoardSMSsending()
-//                                } else {
-//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                                }
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                            }
-//                        } else if (SelecteRecipientType.equals(CommonUtil.Year_Section)) {
-//                            if (!CommonUtil.receivertype.equals("")) {
-//                                if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//                                    NoticeBoardSMSsending()
-//                                } else {
-//                                    CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                                }
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                            }
-//                        }
-//                    } else {
-//                        if (!CommonUtil.receiverid.equals("")) {
-//                            if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-//                                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-//                                        NoticeBoardSMSsending()
-//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                                        NoticeBoardSMSsending()
-//                                    }
-//                                } else {
-//                                    CommonUtil.receivertype = "7"
-//                                    if (SpinningText.equals(CommonUtil.Subjects)) {
-//                                        NoticeBoardSMSsending()
-//                                    } else if (SpinningText.equals(CommonUtil.Tutor)) {
-//                                        NoticeBoardSMSsending()
-//                                    }
-//                                }
-//                            } else {
-//                                CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
-//                            }
-//                        } else {
-//                            CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
-//                        }
-//                    }
-//                }
-//
-//            } else if (ScreenName!!.equals(CommonUtil.New_Assignment)) {
-//
-//
-//                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-//
-//                    CommonUtil.receivertype = "5"
-//                    AssignmentsendEntireSection()
-//
-//                } else {
-//
-//                    CommonUtil.receivertype = "7"
-//                    AssignmentsendEntireSection()
-//
-//                }
-//            } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
-//
-//
-//                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-//
-//                    CommonUtil.receivertype = "5"
-//                    Assignmentforward()
-//                } else {
-//
-//                    CommonUtil.receivertype = "7"
-//                    Assignmentforward()
-//                }
-//            }
-//        }
-//    }
 
     private fun VoiceSendEntire() {
 
@@ -8959,8 +8431,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         mProgressDialog.show()
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -9071,8 +8543,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -9185,8 +8657,8 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         mProgressDialog.show()
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("collegeid", CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", "1")
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -9314,7 +8786,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         Log.d("SeletedFile_Video", CommonUtil.selectedPaths.toString())
 
-//        CommonUtil.Toast(this, "Successfull Uploaded")
 
         if (CommonUtil.Priority.equals("p1")) {
 

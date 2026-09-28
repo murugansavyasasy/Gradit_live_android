@@ -5,12 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.CalendarView
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,19 +12,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
-import com.vsca.vsnapvoicecollege.Adapters.*
-import com.vsca.vsnapvoicecollege.Interfaces.*
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Adapters.AttendanceAdapter
+import com.vsca.vsnapvoicecollege.Adapters.Attendance_SenderSide_Adapter
+import com.vsca.vsnapvoicecollege.Adapters.LeaveHistoryAdapter
+import com.vsca.vsnapvoicecollege.Adapters.Leavehistory_principleAdapter
+import com.vsca.vsnapvoicecollege.Interfaces.LeaveHistoryListener
+import com.vsca.vsnapvoicecollege.Interfaces.LeaveHistoryPrincipleListener
+import com.vsca.vsnapvoicecollege.Model.AttendanceData
+import com.vsca.vsnapvoicecollege.Model.DataXXXX
+import com.vsca.vsnapvoicecollege.Model.Daum
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.LeaveHistoryData
+import com.vsca.vsnapvoicecollege.Model.StudentAttendance
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityAttendanceBinding
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
@@ -332,7 +334,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         .placeholder(R.drawable.adv_thumb_placeholder)
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.CommonLayout.imgthumb!!)
-                }else{
+                } else {
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_place_holder)
@@ -340,13 +342,13 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         .into(binding.CommonLayout.imgAdvertisement!!)
                     Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
-                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_thumb_placeholder)
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.CommonLayout.imgthumb!!)
                 }
-            }
-            else{
+            } else {
                 Glide.with(this).load(R.drawable.savyasasy_ads)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.adv_place_holder)
@@ -354,7 +356,8 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                     .into(binding.CommonLayout.imgAdvertisement!!)
                 Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
-                Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.adv_thumb_placeholder)
                     .error(R.drawable.adv_thumb_gradit_logo)
                     .into(binding.CommonLayout.imgthumb!!)
@@ -386,13 +389,13 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                     CommonUtil.ApiAlert(
                         this, response.Message
                     )
-                    binding.CommonLayout.lblNoDataFound!!.text=response.Message
+                    binding.CommonLayout.lblNoDataFound!!.text = response.Message
                     binding.CommonLayout.recyclerAttendance!!.visibility = View.GONE
                     binding.CommonLayout.recyclerLeaveHistory!!.visibility = View.GONE
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                 }
             } else {
-                binding.CommonLayout.lblNoDataFound!!.text=getString(R.string.error_null_cursor)
+                binding.CommonLayout.lblNoDataFound!!.text = getString(R.string.error_null_cursor)
                 binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
             }
         }
@@ -434,20 +437,22 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
                 } else {
                     if (isAttendanceType.equals("Attendance")) {
-                        binding.CommonLayout.lblNoDataFound!!.text=response.message
+                        binding.CommonLayout.lblNoDataFound!!.text = response.message
                         binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                     } else {
-                        binding.CommonLayout.lblNoDataFound!!.text=response.message
+                        binding.CommonLayout.lblNoDataFound!!.text = response.message
                         binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                     }
 
                 }
             } else {
                 if (isAttendanceType == "Attendance") {
-                    binding.CommonLayout.lblNoDataFound!!.text=getString(R.string.error_null_cursor)
+                    binding.CommonLayout.lblNoDataFound!!.text =
+                        getString(R.string.error_null_cursor)
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                 } else {
-                    binding.CommonLayout.lblNoDataFound!!.text=getString(R.string.error_null_cursor)
+                    binding.CommonLayout.lblNoDataFound!!.text =
+                        getString(R.string.error_null_cursor)
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.VISIBLE
                 }
             }
@@ -493,7 +498,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         binding.CommonLayout.lblNoDataFound.visibility = View.GONE
                     } else {
                         binding.CommonLayout.lblNoDataFound.visibility = View.VISIBLE
-                        binding.CommonLayout.lblNoDataFound.text =response.Message
+                        binding.CommonLayout.lblNoDataFound.text = response.Message
 
                     }
                 }
@@ -502,7 +507,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                     binding.CommonLayout.lblNoDataFound.visibility = View.GONE
                 } else {
                     binding.CommonLayout.lblNoDataFound.visibility = View.VISIBLE
-                    binding.CommonLayout.lblNoDataFound.text =getString(R.string.error_null_cursor)
+                    binding.CommonLayout.lblNoDataFound.text = getString(R.string.error_null_cursor)
 
                 }
             }
@@ -529,9 +534,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
                         0,
                         80
                     )
-                }
-
-                else{
+                } else {
                     binding.CommonLayout.lblNoDataFound!!.visibility = View.GONE
                     CommonUtil.ApiAlert(
                         this, response.Message
@@ -549,7 +552,7 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
     private fun AttendanceRequest(SelectedDate: String) {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Attendancedate, SelectedDate)
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
         appViewModel!!.getAttendanceReceiver(jsonObject, this)
@@ -575,8 +578,11 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
     private fun attendanceGet(showLoader: Boolean = true) {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.dateAttendance, SelectedDate)
         appViewModel!!.AttendanceGettingStaff(jsonObject, this, showLoader)
         Log.d("GetStaffRequest", jsonObject.toString())
@@ -585,16 +591,22 @@ class Attendance : BaseActivity<ActivityAttendanceBinding>() {
 
     private fun GetLeaveHistory() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         appViewModel!!.getleaveHistory(jsonObject, this)
         Log.d("LeaveHistoryRequest:", jsonObject.toString())
     }
 
     private fun GetLeaveptincipleHistory() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         appViewModel!!.Leavehistortprinciple(jsonObject, this)
         Log.d("LeaveHistoryRequest:", jsonObject.toString())
     }

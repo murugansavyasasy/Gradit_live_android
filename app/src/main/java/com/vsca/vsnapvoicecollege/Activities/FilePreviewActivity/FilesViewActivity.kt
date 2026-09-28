@@ -5,7 +5,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -15,11 +14,9 @@ import android.widget.PopupMenu
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,7 +43,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class FilesViewActivity : AppCompatActivity()  {
+class FilesViewActivity : AppCompatActivity() {
     private lateinit var adapter: FileViewerAdapter
     private var currentPosition = 0
 
@@ -98,12 +95,7 @@ class FilesViewActivity : AppCompatActivity()  {
         if (CommonUtil.commonFileList.isNotEmpty()) {
             Log.d("commonFileList", CommonUtil.commonFileList.toString())
             val first = CommonUtil.commonFileList[0]
-//            if (first.type != FileType.VIDEO.toString()
-//                && !first.path.startsWith("content://")
-//                && !first.path.contains("amazonaws.")
-//            ) {
-//                CommonUtil.commonFileList.removeAt(0)
-//            }
+
 
             if (first.path.contains("amazonaws.") || first.type == FileType.VIDEO.toString()) {
                 binding.imgMoreOptions.visibility = View.VISIBLE
@@ -126,7 +118,7 @@ class FilesViewActivity : AppCompatActivity()  {
                 )
             }
         }
-        Log.d("isFilesList",isFilesList.size.toString())
+        Log.d("isFilesList", isFilesList.size.toString())
         adapter = FileViewerAdapter(this, isFilesList)
 
         val onlyImages = isFilesList.all { it.type == FileType.IMAGE.toString() }
@@ -151,9 +143,7 @@ class FilesViewActivity : AppCompatActivity()  {
             binding.lnrNext.visibility = View.GONE
             binding.lnrPrevious.visibility = View.GONE
         }
-//        if (onlyImages && isFilesList.size > 1) {
-//            binding.indicator.attachToRecyclerView(binding.rcyFile)
-//        }
+
         Log.d("currentPosition", CommonUtil.selectedFileIndex.toString())
         currentPosition = CommonUtil.selectedFileIndex
         scrollToPosition(currentPosition)
@@ -167,31 +157,6 @@ class FilesViewActivity : AppCompatActivity()  {
 
     }
 
-
-
-
-//    fun CircleIndicator2.attachToRecyclerView(recyclerView: RecyclerView) {
-//        val adapter = recyclerView.adapter ?: return
-//        this.createIndicators(adapter.itemCount, 0)
-//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(rv, dx, dy)
-//                val layoutManager = rv.layoutManager as? LinearLayoutManager ?: return
-//                val firstVisible = layoutManager.findFirstVisibleItemPosition()
-//                this@attachToRecyclerView.animatePageSelected(firstVisible)
-//
-//                if (firstVisible != RecyclerView.NO_POSITION) {
-//                    currentPosition = firstVisible
-//                    updateNavButtons()
-//                }
-//            }
-//        })
-//        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-//            override fun onChanged() {
-//                this@attachToRecyclerView.createIndicators(adapter.itemCount, 0)
-//            }
-//        })
-//    }
 
     private fun scrollToPosition(position: Int) {
         binding.rcyFile.scrollToPosition(position)
@@ -222,12 +187,10 @@ class FilesViewActivity : AppCompatActivity()  {
     }
 
 
-
     override fun onBackPressed() {
         super.onBackPressed()
         CommonUtil.commonFileList.clear()
     }
-
 
 
     private fun forcePopupMenuIcons(menu: PopupMenu) {
@@ -263,10 +226,10 @@ class FilesViewActivity : AppCompatActivity()  {
                     if (url.contains("vimeo.com/video/")) fetchAndDownloadVimeoVideo(url)
                     else if (
                         checkStoragePermission()
-                        )
+                    )
                         downloadFile(url)
                     else true
-                        //requestStoragePermission()
+                    //requestStoragePermission()
                     true
                 }
 
@@ -279,7 +242,7 @@ class FilesViewActivity : AppCompatActivity()  {
     private fun fetchAndDownloadVimeoVideo(vimeoUrl: String) {
         val videoId = extractVimeoVideoId(vimeoUrl)
         if (videoId.isNullOrEmpty()) {
-            Toast.makeText(this,"Invalid Vimeo URL", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Invalid Vimeo URL", Toast.LENGTH_SHORT).show()
             binding.lnrDownloadStatus.visibility = View.GONE
             return
         }
@@ -376,7 +339,11 @@ class FilesViewActivity : AppCompatActivity()  {
 
                 withContext(Dispatchers.Main) {
                     binding.lnrDownloadStatus.visibility = View.GONE
-                    Toast.makeText(this@FilesViewActivity,"File saved to Downloads/$baseFolderName/$subFolderPath/$fileName",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@FilesViewActivity,
+                        "File saved to Downloads/$baseFolderName/$subFolderPath/$fileName",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             } catch (e: Exception) {
@@ -449,10 +416,10 @@ class FilesViewActivity : AppCompatActivity()  {
 
     private fun checkStoragePermission(): Boolean {
         return true
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
 
     }
 

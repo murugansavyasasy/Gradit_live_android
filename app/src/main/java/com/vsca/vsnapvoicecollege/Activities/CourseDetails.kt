@@ -4,9 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,12 +18,9 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import com.vsca.vsnapvoicecollege.databinding.CommonRecyclerviewBottomsheetBinding
 
-class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
-
+class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>() {
 
 
     override var appViewModel: App? = null
@@ -68,8 +62,6 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        UserMenuRequest(this)
-//        MenuBottomType()
 
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
@@ -110,18 +102,18 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                             binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
-                            binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.lblNoRecordsFound!!.text = getString(R.string.txt_no_data_found)
                             binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.idRVCategories!!.visibility = View.GONE
 
                         }
                     } else {
-                        binding.lblNoRecordsFound!!.text=response.message
+                        binding.lblNoRecordsFound!!.text = response.message
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
-                    binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                    binding.lblNoRecordsFound!!.text = getString(R.string.error_null_cursor)
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.idRVCategories!!.visibility = View.GONE
                 }
@@ -141,7 +133,6 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                     val status = response.status
                     val message = response.message
                     if (status == 1) {
-//                        UserMenuRequest(this@CourseDetails)
                         GetCourseDetailsData = response.data!!
                         CourseListSize = GetCourseDetailsData.size
 
@@ -158,18 +149,18 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                             binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
-                            binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.lblNoRecordsFound!!.text = getString(R.string.txt_no_data_found)
                             binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.idRVCategories!!.visibility = View.GONE
                         }
                     } else {
-                        binding.lblNoRecordsFound!!.text=response.message
+                        binding.lblNoRecordsFound!!.text = response.message
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
-                    binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                    binding.lblNoRecordsFound!!.text = getString(R.string.error_null_cursor)
                     binding.idRVCategories!!.visibility = View.GONE
                 }
             }
@@ -185,7 +176,6 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                     val status = response.status
                     val message = response.message
                     if (status == 1) {
-//                        UserMenuRequest(this@CourseDetails)
                         GetProfileData = response.data!!
                         if (GetProfileData.size > 0) {
                             binding.lblNoRecordsFound!!.visibility = View.GONE
@@ -200,18 +190,18 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
                             binding.idRVCategories!!.recycledViewPool.setMaxRecycledViews(0, 80)
                             courseadapter!!.notifyDataSetChanged()
                         } else {
-                            binding.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.lblNoRecordsFound!!.text = getString(R.string.txt_no_data_found)
                             binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                             binding.idRVCategories!!.visibility = View.GONE
                         }
 
                     } else {
-                        binding.lblNoRecordsFound!!.text=response.message
+                        binding.lblNoRecordsFound!!.text = response.message
                         binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.idRVCategories!!.visibility = View.GONE
                     }
                 } else {
-                    binding.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                    binding.lblNoRecordsFound!!.text = getString(R.string.error_null_cursor)
                     binding.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.idRVCategories!!.visibility = View.GONE
                 }
@@ -229,8 +219,11 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
 
     private fun CourseDetailsRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_college_id,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.DepartmentId)
         jsonObject.addProperty(ApiRequestNames.Req_sem_id, CommonUtil.SemesterId)
         jsonObject.addProperty(ApiRequestNames.Req_section_id, CommonUtil.SectionId)
@@ -240,9 +233,15 @@ class CourseDetails : BaseActivity<CommonRecyclerviewBottomsheetBinding>(){
 
     private fun ExamApplicationDetails() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid?.toIntOrNull()?:0)
+        jsonObject.addProperty(
+            ApiRequestNames.Req_i_course_id,
+            CommonUtil.Courseid?.toIntOrNull() ?: 0
+        )
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, CommonUtil.SemesterId?.toIntOrNull()?:0)
+        jsonObject.addProperty(
+            ApiRequestNames.Req_i_sem_id,
+            CommonUtil.SemesterId?.toIntOrNull() ?: 0
+        )
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         appViewModel!!.getExamApplication(jsonObject, this@CourseDetails)
         Log.d("GetExamAppDetRequest:", jsonObject.toString())

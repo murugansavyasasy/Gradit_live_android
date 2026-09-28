@@ -5,11 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -21,7 +18,6 @@ import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.ActivitySender.AddTextNoticeboard
 import com.vsca.vsnapvoicecollege.Adapters.CommunicationAdapter
 import com.vsca.vsnapvoicecollege.Interfaces.communicationListener
-import com.vsca.vsnapvoicecollege.Model.Communication_NewButtonResponse
 import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
 import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
 import com.vsca.vsnapvoicecollege.Model.GetCommunicationDetails
@@ -34,7 +30,7 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import java.util.Locale
 
-class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
+class MessageCommunication : BaseActivity<ActivityNoticeboardBinding>() {
 
     override var appViewModel: App? = null
     var TextButton: String? = null
@@ -109,7 +105,6 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
         TabDepartmentColor()
 
 
@@ -143,7 +138,8 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
 
         }
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 markInitialApiDone()
                 if (response != null) {
@@ -161,7 +157,8 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.CommonLayout.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
 
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
@@ -169,30 +166,32 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.CommonLayout.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
 
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
-                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.CommonLayout.imgAdvertisement!!)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.CommonLayout.imgAdvertisement!!)
 
                     Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
-                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    Glide.with(this).load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_thumb_placeholder)
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.CommonLayout.imgthumb!!)
@@ -243,9 +242,13 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
-                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
                             binding.CommonLayout.recyclerCommon!!.adapter = communicationAdapter
-                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             communicationAdapter!!.notifyDataSetChanged()
                         } else {
                             NoDataFound()
@@ -266,25 +269,29 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
-                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
                             binding.CommonLayout.recyclerCommon!!.adapter = communicationAdapter
-                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             communicationAdapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound.text=response.message?:getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound.text =
+                                response.message ?: getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
                 } else {
-                    binding.CommonLayout.lblNoRecordsFound.text=response.message?:getString(R.string.txt_no_data_found)
-//                    UserMenuRequest(this)
+                    binding.CommonLayout.lblNoRecordsFound.text =
+                        response.message ?: getString(R.string.txt_no_data_found)
                     NoDataFound()
 
                 }
 
             } else {
-                binding.CommonLayout.lblNoRecordsFound.text=getString(R.string.error_null_cursor)
-//                UserMenuRequest(this)
+                binding.CommonLayout.lblNoRecordsFound.text = getString(R.string.error_null_cursor)
                 NoDataFound()
             }
         }
@@ -463,7 +470,10 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
         val jsonObject = JsonObject()
         run {
 
-            jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_userid,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
             jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
 
             if (readtype) {
@@ -475,9 +485,15 @@ class MessageCommunication: BaseActivity<ActivityNoticeboardBinding>() {
             }
 
             if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+                jsonObject.addProperty(
+                    ApiRequestNames.Req_appid,
+                    CommonUtil.SenderAppId?.toString() ?: ""
+                )
             } else {
-                jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+                jsonObject.addProperty(
+                    ApiRequestNames.Req_appid,
+                    CommonUtil.SenderAppId?.toString() ?: ""
+                )
             }
 
             appViewModel!!.getCommunicationListTextbyType(jsonObject, this, showLoader)

@@ -5,10 +5,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -21,7 +17,10 @@ import com.vsca.vsnapvoicecollege.Adapters.ChatStaffAdapter
 import com.vsca.vsnapvoicecollege.Adapters.Chat_AdapterStaff
 import com.vsca.vsnapvoicecollege.Interfaces.ChatListener
 import com.vsca.vsnapvoicecollege.Interfaces.ChatListener_Staff
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.DataX
+import com.vsca.vsnapvoicecollege.Model.GetAdvertiseData
+import com.vsca.vsnapvoicecollege.Model.GetAdvertisementResponse
+import com.vsca.vsnapvoicecollege.Model.GetStaffDetailsData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -44,9 +43,9 @@ class ChatParent : BaseActivity<ActivityNoticeboardBinding>() {
     var GetAdForCollegeData: List<GetAdvertiseData> = ArrayList()
     var PreviousAddId: Int = 0
 
-override fun inflateBinding(): ActivityNoticeboardBinding {
-    return ActivityNoticeboardBinding.inflate(layoutInflater)
-}
+    override fun inflateBinding(): ActivityNoticeboardBinding {
+        return ActivityNoticeboardBinding.inflate(layoutInflater)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +79,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
             R.id.LayoutCollege,
             R.id.imgAddPlus
         )
-//        MenuBottomType()
 
 
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
@@ -129,8 +127,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -144,8 +141,7 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -170,7 +166,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                 if (response != null) {
                     val status = response.status
                     val message = response.message
-//                    UserMenuRequest(this)
 
                     if (status == 1) {
                         AdForCollegeApi()
@@ -219,17 +214,17 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                         binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
                         binding.CommonLayout.recyclerCommon!!.adapter = chatAdapter
                     } else {
-                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message
+                        binding.CommonLayout.lblNoRecordsFound!!.text = response.message
 
                         binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                         binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
                     }
                 } else {
-                    binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                    binding.CommonLayout.lblNoRecordsFound!!.text =
+                        getString(R.string.error_null_cursor)
 
 
-//                    UserMenuRequest(this)
                     binding.CommonLayout.lblNoRecordsFound!!.visibility = View.VISIBLE
                     binding.CommonLayout.recyclerCommon!!.visibility = View.GONE
 
@@ -248,7 +243,6 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
                 if (response != null) {
                     val status = response.Status
                     val message = response.Message
-//                    UserMenuRequest(this)
 
                     if (status == 1) {
                         GetStaffchatData = response.data
@@ -339,8 +333,14 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         val jsonObject = JsonObject()
         run {
 
-            jsonObject.addProperty(ApiRequestNames.Req_student_id, CommonUtil.MemberId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_student_id,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
+            jsonObject.addProperty(
+                ApiRequestNames.Req_college_id,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
             appViewModel!!.getStaffDetailsForApp(jsonObject, this)
             Log.d("ChatStaff:", jsonObject.toString())
         }
@@ -350,8 +350,14 @@ override fun inflateBinding(): ActivityNoticeboardBinding {
         val jsonObject = JsonObject()
         run {
 
-            jsonObject.addProperty(ApiRequestNames.Req_staff_id, CommonUtil.MemberId?.toString()?:"")
-            jsonObject.addProperty(ApiRequestNames.Req_college_id, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_staff_id,
+                CommonUtil.MemberId?.toString() ?: ""
+            )
+            jsonObject.addProperty(
+                ApiRequestNames.Req_college_id,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
             appViewModel!!.StaffClassesforChat(jsonObject, this)
             Log.d("StaffClassesforChat:", jsonObject.toString())
         }

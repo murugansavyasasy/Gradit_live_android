@@ -5,11 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -132,7 +129,8 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
             CommonUtil.EventEdit = "Edit"
         }
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             Observer<GetAdvertisementResponse?> { response ->
                 markInitialApiDone()
                 if (response != null) {
@@ -147,14 +145,14 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.CommonLayout.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.CommonLayout.imgAdvertisement!!)
 
                         Glide.with(this).load(AdSmallImage).diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -168,8 +166,7 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -249,12 +246,17 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
-                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
                             binding.CommonLayout.recyclerCommon!!.adapter = eventsAdapter
-                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             eventsAdapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound!!.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
 
@@ -304,19 +306,25 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
                             val mLayoutManager: RecyclerView.LayoutManager =
                                 LinearLayoutManager(this)
                             binding.CommonLayout.recyclerCommon!!.layoutManager = mLayoutManager
-                            binding.CommonLayout.recyclerCommon!!.itemAnimator = DefaultItemAnimator()
+                            binding.CommonLayout.recyclerCommon!!.itemAnimator =
+                                DefaultItemAnimator()
                             binding.CommonLayout.recyclerCommon!!.adapter = eventsAdapter
-                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                            binding.CommonLayout.recyclerCommon!!.recycledViewPool.setMaxRecycledViews(
+                                0,
+                                80
+                            )
                             eventsAdapter!!.notifyDataSetChanged()
                         } else {
-                            binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.txt_no_data_found)
+                            binding.CommonLayout.lblNoRecordsFound!!.text =
+                                getString(R.string.txt_no_data_found)
                             NoDataFound()
                         }
                     }
 
                 } else {
                     if (EventType) {
-                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
+                        binding.CommonLayout.lblNoRecordsFound!!.text =
+                            response.message ?: getString(R.string.txt_no_data_found)
                         NoDataFound()
                         GetEvetnsData = response.data!!
                         val size = GetEvetnsData.size
@@ -337,7 +345,8 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
                         }
 
                     } else {
-                        binding.CommonLayout.lblNoRecordsFound!!.text=response.message?:getString(R.string.txt_no_data_found)
+                        binding.CommonLayout.lblNoRecordsFound!!.text =
+                            response.message ?: getString(R.string.txt_no_data_found)
 
                         NoDataFound()
                         GetEvetnsData = response.data!!
@@ -360,7 +369,8 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
                 }
             } else {
                 NoDataFound()
-                binding.CommonLayout.lblNoRecordsFound!!.text=getString(R.string.error_null_cursor)
+                binding.CommonLayout.lblNoRecordsFound!!.text =
+                    getString(R.string.error_null_cursor)
             }
         }
 
@@ -465,10 +475,16 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
         jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId)
         if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority == "p1" || CommonUtil.Priority == "p2" || CommonUtil.Priority == "p3") {
             jsonObject.addProperty(ApiRequestNames.Req_sectionid, "0")
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_appid,
+                CommonUtil.SenderAppId?.toString() ?: ""
+            )
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.SectionId)
-            jsonObject.addProperty(ApiRequestNames.Req_appid, CommonUtil.SenderAppId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_appid,
+                CommonUtil.SenderAppId?.toString() ?: ""
+            )
         }
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         if (type) {

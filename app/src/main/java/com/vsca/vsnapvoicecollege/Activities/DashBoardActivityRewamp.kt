@@ -24,7 +24,6 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -119,7 +118,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                 UserMenuRequest(this) {
                     DashBoardRequest()
                 }
-            }else {
+            } else {
                 // Check individually: which denied permissions are permanently denied
                 val permanentlyDenied = deniedPermissions.filter { permission ->
                     !ActivityCompat.shouldShowRequestPermissionRationale(this, permission) &&
@@ -249,7 +248,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     val dashboardList = response.data?.toMutableList() ?: mutableListOf()
 
                     val menuSection = DashboardTypeResponse().apply {
-                        Log.d("Coming","Coming")
+                        Log.d("Coming", "Coming")
                         type = "DashBoard_Menu"
                         order = 1000
                         DashboardMenuData = CommonUtil.MenuListDashboard
@@ -323,10 +322,18 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                             CommonUtil.CommonAdImageSmall = item.add_image.toString()
                             val Adurl = item.add_url
                             val Id = 1
-                            adimageList1.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+                            adimageList1.add(
+                                DashboardSubItems(
+                                    addimage,
+                                    adBackgroundImage,
+                                    Adurl,
+                                    Id
+                                )
+                            )
                         }
                         dashboardOverallList.add(DashboardOverall(category!!, adimageList1))
                     }
+
                     2 -> {
                         adimageList2.clear()
                         DashboardDetails = dashboardItem.data!!
@@ -335,10 +342,18 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                             val adBackgroundImage = item.background_image
                             val Id = 1
                             val Adurl = item.add_url
-                            adimageList2.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+                            adimageList2.add(
+                                DashboardSubItems(
+                                    addimage,
+                                    adBackgroundImage,
+                                    Adurl,
+                                    Id
+                                )
+                            )
                         }
                         dashboardOverallList.add(DashboardOverall(category!!, adimageList2))
                     }
+
                     4 -> {
                         adimageList4.clear()
                         DashboardDetails = dashboardItem.data!!
@@ -347,11 +362,19 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                             val adBackgroundImage = item.background_image
                             val Adurl = item.add_url
                             val Id = 1
-                            adimageList4.add(DashboardSubItems(addimage, adBackgroundImage, Adurl, Id))
+                            adimageList4.add(
+                                DashboardSubItems(
+                                    addimage,
+                                    adBackgroundImage,
+                                    Adurl,
+                                    Id
+                                )
+                            )
                         }
                         dashboardOverallList.add(DashboardOverall(category!!, adimageList4))
                     }
                 }
+
                 "DashBoard_Menu" -> {
                     dashboardMenuItems = ArrayList(dashboardItem.DashboardMenuData ?: emptyList())
                     Log.d("DataComing121123113", dashboardMenuItems.toString())
@@ -364,6 +387,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                         )
                     )
                 }
+
                 "Circular" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -384,6 +408,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     }
                     dashboardOverallList.add(DashboardOverall(category!!, dashboardCircularlist))
                 }
+
                 "Upcoming Events" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -399,6 +424,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     }
                     dashboardOverallList.add(DashboardOverall(category!!, dashboardEventlist))
                 }
+
                 "Chat" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -427,6 +453,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     }
                     dashboardOverallList.add(DashboardOverall(category!!, dashboardChatlist))
                 }
+
                 "Leave Request" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -463,8 +490,14 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                             )
                         )
                     }
-                    dashboardOverallList.add(DashboardOverall(category!!, dashboardLeaveRequestlist))
+                    dashboardOverallList.add(
+                        DashboardOverall(
+                            category!!,
+                            dashboardLeaveRequestlist
+                        )
+                    )
                 }
+
                 "Assignments" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -489,6 +522,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     }
                     dashboardOverallList.add(DashboardOverall(category!!, dashboardAssignmentList))
                 }
+
                 "Notice Board" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -504,6 +538,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     }
                     dashboardOverallList.add(DashboardOverall(category!!, dashboardNoticeboardlist))
                 }
+
                 "Emergency Notification" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -525,8 +560,14 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                             )
                         )
                     }
-                    dashboardOverallList.add(DashboardOverall(category!!, dashboardEmergencyVoicelist))
+                    dashboardOverallList.add(
+                        DashboardOverall(
+                            category!!,
+                            dashboardEmergencyVoicelist
+                        )
+                    )
                 }
+
                 "Recent Notifications" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -554,6 +595,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                     }
                     dashboardOverallList.add(DashboardOverall(category!!, dashboardRecentVoicelist))
                 }
+
                 "Attendance" -> {
                     DashboardDetails = dashboardItem.data!!
                     for (item in DashboardDetails) {
@@ -576,7 +618,8 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
     private fun bindAdapter() {
         adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
-        val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@DashBoardActivityRewamp)
+        val mLayoutManager: RecyclerView.LayoutManager =
+            LinearLayoutManager(this@DashBoardActivityRewamp)
         binding.idRVCategories!!.layoutManager = mLayoutManager
         binding.idRVCategories.apply {
             setHasFixedSize(true)
@@ -631,7 +674,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
     private fun DashBoardRequest() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString() ?: "")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
         jsonObject.addProperty(ApiRequestNames.Req_userid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_priority, CommonUtil.Priority)
         dashboardViewModel!!.dashboard(jsonObject, this@DashBoardActivityRewamp)
@@ -689,7 +735,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume. Priority=${CommonUtil.Priority} inProgress=$isPermissionRequestInProgress")
+        Log.d(
+            TAG,
+            "onResume. Priority=${CommonUtil.Priority} inProgress=$isPermissionRequestInProgress"
+        )
 
         // If permissions were just granted by the launcher, skip the onResume API calls
         // because the launcher already triggered them. This prevents double binding.
@@ -791,7 +840,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
             }
         }
 
-        Log.d("isPermission+++++", "Priority=${CommonUtil.Priority} SDK=${Build.VERSION.SDK_INT} Perms=${perms.toList()}")
+        Log.d(
+            "isPermission+++++",
+            "Priority=${CommonUtil.Priority} SDK=${Build.VERSION.SDK_INT} Perms=${perms.toList()}"
+        )
         return perms
     }
 
@@ -926,7 +978,6 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
         return false
     }
-
 
 
     private fun loadDashboard(force: Boolean = false) {

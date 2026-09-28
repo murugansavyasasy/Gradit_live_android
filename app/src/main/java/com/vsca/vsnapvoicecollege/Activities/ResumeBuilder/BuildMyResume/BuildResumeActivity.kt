@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +30,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.fullResumeData
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityBuildmyresumeBinding
-import com.vsca.vsnapvoicecollege.databinding.LayoutResumebuilderBinding
 
 class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
     override var appViewModel: App? = null
@@ -40,6 +37,7 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
     override fun inflateBinding(): ActivityBuildmyresumeBinding {
         return ActivityBuildmyresumeBinding.inflate(layoutInflater)
     }
+
     private var selectedAcademicList: List<EducationFormattedData> = emptyList()
     private var languageList: List<String> = emptyList()
     private var softSkillList: List<String> = emptyList()
@@ -94,16 +92,38 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
 
 
         savedAcademicEducationDetails = CommonUtil.saveAcademicDetails?.educationalDetails
-            ?.map { EducationFormattedData(classDegree = it.classDegree,percentage=it.percentage,institution=it.institution,isChecked = true) }
+            ?.map {
+                EducationFormattedData(
+                    classDegree = it.classDegree,
+                    percentage = it.percentage,
+                    institution = it.institution,
+                    isChecked = true
+                )
+            }
             ?: emptyList()
 
         savedCertificates = CommonUtil.isSkillSetDataSending?.certifications
-            ?.map { CertificateFormattedData(courseName = it.courseName,institute=it.institute,duration=it.duration,isChecked = true) }
+            ?.map {
+                CertificateFormattedData(
+                    courseName = it.courseName,
+                    institute = it.institute,
+                    duration = it.duration,
+                    isChecked = true
+                )
+            }
             ?: emptyList()
 
 
         internshipList = CommonUtil.isSkillSetDataSending?.internship
-            ?.map {InternshipFormattedData ( companyName= it.companyName,from=it.from,designation=it.designation,to=it.to,isChecked = true) }
+            ?.map {
+                InternshipFormattedData(
+                    companyName = it.companyName,
+                    from = it.from,
+                    designation = it.designation,
+                    to = it.to,
+                    isChecked = true
+                )
+            }
             ?: emptyList()
 
         savedProjectDetails = CommonUtil.isSkillSetDataSending?.projects
@@ -119,8 +139,8 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
                 academicAdapter.setAllChecked(isChecked)
             }
         }
-        selectedAcademicList=savedAcademicEducationDetails//At initial setting default all as Checked so assigning the original list
-
+        selectedAcademicList =
+            savedAcademicEducationDetails//At initial setting default all as Checked so assigning the original list
 
 
         certificateAdapter = CertificateAdapter(savedCertificates) { isSelectedCertifcate ->
@@ -132,7 +152,8 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
                 certificateAdapter.setAllChecked(isChecked)
             }
         }
-        selectedCertificates=savedCertificates//At initial setting default all as Checked so assigning the original list
+        selectedCertificates =
+            savedCertificates//At initial setting default all as Checked so assigning the original list
 
 
         intershipAdapter = InternshipAdapter(internshipList) { isSelectedIntership ->
@@ -144,7 +165,8 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
                 intershipAdapter.setAllChecked(isChecked)
             }
         }
-        selectedinternship=internshipList//At initial setting default all as Checked so assigning the original list
+        selectedinternship =
+            internshipList//At initial setting default all as Checked so assigning the original list
 
         binding.rvInternships.layoutManager = LinearLayoutManager(this)
         binding.rvInternships.adapter = intershipAdapter
@@ -224,13 +246,24 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
         setupSectionVisibility()
 
         setupRecycler(
-            binding.rvLanguages, languageList, binding.cbHeaderLanguage, binding.layoutLanguage) {
+            binding.rvLanguages, languageList, binding.cbHeaderLanguage, binding.layoutLanguage
+        ) {
             languageList = it
         }
-        setupRecycler(binding.rvSoftSkills, softSkillList, binding.cbHeaderSoftSkills, binding.layoutSoftSkills) {
+        setupRecycler(
+            binding.rvSoftSkills,
+            softSkillList,
+            binding.cbHeaderSoftSkills,
+            binding.layoutSoftSkills
+        ) {
             softSkillList = it
         }
-        setupRecycler(binding.rvAreasInterest, areaInterestList, binding.cbHeaderInterestArea, binding.layoutInterestArea) {
+        setupRecycler(
+            binding.rvAreasInterest,
+            areaInterestList,
+            binding.cbHeaderInterestArea,
+            binding.layoutInterestArea
+        ) {
             areaInterestList = it
 
         }
@@ -322,22 +355,22 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
 
     private fun isSaveFullResumeData() {
 
-    val selectedAcademicList = selectedAcademicList.filter { it.isChecked }?.map {
-                    GetEducationalDetailsData(
-                        percentage = it.percentage!!,
-                        classDegree = it.classDegree!!,
-                        institution = it.institution!!
-                    )
-                } ?: emptyList()
+        val selectedAcademicList = selectedAcademicList.filter { it.isChecked }?.map {
+            GetEducationalDetailsData(
+                percentage = it.percentage!!,
+                classDegree = it.classDegree!!,
+                institution = it.institution!!
+            )
+        } ?: emptyList()
 
         val selectedCertificates =
             selectedCertificates?.filter { it.isChecked }?.map {
-                    GetCertificateDetailsData(
-                        courseName = it.courseName,
-                        institute = it.institute,
-                        duration = it.duration!!
-                    )
-                } ?: emptyList()
+                GetCertificateDetailsData(
+                    courseName = it.courseName,
+                    institute = it.institute,
+                    duration = it.duration!!
+                )
+            } ?: emptyList()
 
         val selectedInternshipList =
             selectedinternship.filter { it.isChecked }.map {
@@ -347,14 +380,14 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
                     designation = it.designation,
                     to = it.to
                 )
-            }?: emptyList()
+            } ?: emptyList()
 
         val selectedProjectList =
             selectedProject.filter { it.isChecked }.map {
                 GetProjectDetailsData(
                     title = it.title
                 )
-            }?: emptyList()
+            } ?: emptyList()
 
         val resumeContext = ResumeContextData(
             idMember = CommonUtil.saveBasicDetails?.memberId ?: "",
@@ -382,6 +415,7 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
         val gson = Gson()
         Log.d("RESUME_JSON", gson.toJson(resumeContext))
     }
+
     override val layoutResourceId: Int
         get() = R.layout.activity_buildmyresume
 }
