@@ -13,8 +13,9 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderThemeTemplateImage
 import com.vsca.vsnapvoicecollege.R
 
-class PickResumeAdapter(private val itemList: List<GetResumeBuilderThemeTemplateImage>
-,    private val onItemClick: (GetResumeBuilderThemeTemplateImage,Int) -> Unit
+class PickResumeAdapter(
+    private val itemList: List<GetResumeBuilderThemeTemplateImage>,
+    private val onItemClick: (GetResumeBuilderThemeTemplateImage, Int) -> Unit
 ) :
     RecyclerView.Adapter<PickResumeAdapter.GridViewHolder>() {
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -39,12 +40,14 @@ class PickResumeAdapter(private val itemList: List<GetResumeBuilderThemeTemplate
             shapeableImageView.strokeWidth = 0f
 
             if (isSelected) {
-                frame.background = ContextCompat.getDrawable(itemView.context, R.drawable.bg_resume_item_selected)
-//                tick.visibility=View.VISIBLE
+                frame.background =
+                    ContextCompat.getDrawable(itemView.context, R.drawable.bg_resume_item_selected)
                 itemView.alpha = 0.5f
             } else {
-                frame.background = ContextCompat.getDrawable(itemView.context, R.drawable.bg_resume_item_unselected)
-//                tick.visibility=View.GONE
+                frame.background = ContextCompat.getDrawable(
+                    itemView.context,
+                    R.drawable.bg_resume_item_unselected
+                )
                 itemView.alpha = 1.0f
             }
         }
@@ -76,7 +79,6 @@ class PickResumeAdapter(private val itemList: List<GetResumeBuilderThemeTemplate
             onItemClick(itemList[selectedPosition], selectedPosition + 1)
         }
     }
-
 
 
     override fun getItemCount(): Int = itemList.size

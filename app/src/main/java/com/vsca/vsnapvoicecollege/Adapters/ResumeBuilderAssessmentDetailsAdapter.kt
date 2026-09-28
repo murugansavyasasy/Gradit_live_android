@@ -25,7 +25,7 @@ class ResumeBuilderAssessmentDetailsAdapter(private val items: List<GetAssessmen
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.lblCertifications.text = item.assessment+" : "+item.score
+        holder.lblCertifications.text = item.assessment + " : " + item.score
     }
 }
 

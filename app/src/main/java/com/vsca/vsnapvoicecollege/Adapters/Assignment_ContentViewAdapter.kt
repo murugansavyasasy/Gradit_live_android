@@ -108,8 +108,7 @@ class Assignment_ContentViewAdapter(
                 } else if (path.content.contains(".pdf")) {
                     pdfUri = Uri.parse(path.content)
                     readpdf()
-                }
-                else {
+                } else {
                     var i: Intent = Intent(context, ViewFiles::class.java)
                     i.putExtra("images", path.content)
                     context?.startActivity(i)

@@ -7,7 +7,6 @@ object ApiMethods {
     const val Login = "api/AppDetailsBal/LoginFromApp"
     const val Dashboard = "api/AppDetailsBal/DashboardApi_Live"
 
-    // const val UserMenus = "api/AppDetailsBal/GetUsermenu"
     const val UserMenus = "api/AppDetailsBal/GetParentUserMenuWithReadWriteAccess"
     const val ValidateMobileNumber = "api/AppDetailsBal/ValidateMobileNumber"
 
@@ -98,7 +97,6 @@ object ApiMethods {
     const val Examviewapi = "api/AppDetailsBal/GetDetailsForExamEdit"
     const val ExamviewapiSubjectList = "api/AppDetailsBal/GetSectionWiseSubjectListForExamEdit"
     const val Examdelete = "api/AppDetailsBal/ExamCreation"
-  //  const val TakeAttendance = "api/AppDetailsBal/MarkAttendance"
     const val TakeAttendance = "api/AppDetailsBal/MarkHourWiseAttendance"
     const val ExamtotalEditORDelete = "api/AppDetailsBal/GetDetailsForExamEdit"
     const val VideoEntireSend = "api/AppDetailsBal/SendVideoToEntireCollege"
@@ -111,12 +109,11 @@ object ApiMethods {
     const val ChatStaff = "api/AppDetailsBal/AnswerStudentQuestionForApp"
     const val Assignmentsubmited = "api/AppDetailsBal/SubmitAssignmentFromAppWithCloudURL"
 
-//    const val AssignmentSubmittion = "api/AppDetailsBal/GetAssignmentMemberCount"
     const val AssignmentSubmittion = "api/AppDetailsBal/GetAssignmentSubmissions"
-    const val GetSubmittedAssignmentForStudents = "api/AppDetailsBal/GetSubmittedAssignmentForStudents"
+    const val GetSubmittedAssignmentForStudents =
+        "api/AppDetailsBal/GetSubmittedAssignmentForStudents"
 
     const val Attendance_Check = "api/AppDetailsBal/CheckForAttendanceMarking"
-  //  const val Attendance_Edit = "api/AppDetailsBal/Getlistforattendanceedit"
     const val Attendance_Edit = "api/AppDetailsBal/GetStudentsForHourwiseAttendanceEdit"
     const val AssignmentView = "api/AppDetailsBal/ViewAssignmentContent"
     const val BlackStudent = "api/AppDetailsBal/BlockStudentForApp"
@@ -141,19 +138,18 @@ object ApiMethods {
     const val SendVoiceToEntireCollegeFromHistory =
         "api/AppDetailsBal/SendVoiceToEntireCollegeFromHistory"
 
-    const val GetResumeBuilderProfileDetails ="profile/get-profile/"
-    const val GetResumeBuilderAcademicDetails ="academicrecord/get-academic"
-    const val GetResumeBuilderSkillSetDetails ="skillset/get-skillset"
-    const val GetResumeBuilderSoftSkillsDetails ="skillset/get-softskill"
-    const val SendResumeBuilderSoftSkillsDetails ="skillset/add-edit-skillset"
-    const val GetResumeBuilderThemeTemplate ="get/resumetemplatethemecolor"
-    const val SendResumeBuilderGenerateResume ="resume/post-resume"
-    const val SendResumeBuilderSaveTitle ="resume/saveTitleResume"
-    const val GetProfileResume ="get/profileresume"
-//    const val isPlacementEvent ="placementEvents/getPlacementAll"
-    const val isPlacementEvent ="students/student-placement-events"
-    const val isPlacementHistoricalEvent ="students/student-placement-events-historical"
-    const val isPlacementCareer ="students/student-career"
-    const val isPlacementHistoricalCareer ="students/student-career-historical"
+    const val GetResumeBuilderProfileDetails = "profile/get-profile/"
+    const val GetResumeBuilderAcademicDetails = "academicrecord/get-academic"
+    const val GetResumeBuilderSkillSetDetails = "skillset/get-skillset"
+    const val GetResumeBuilderSoftSkillsDetails = "skillset/get-softskill"
+    const val SendResumeBuilderSoftSkillsDetails = "skillset/add-edit-skillset"
+    const val GetResumeBuilderThemeTemplate = "get/resumetemplatethemecolor"
+    const val SendResumeBuilderGenerateResume = "resume/post-resume"
+    const val SendResumeBuilderSaveTitle = "resume/saveTitleResume"
+    const val GetProfileResume = "get/profileresume"
+    const val isPlacementEvent = "students/student-placement-events"
+    const val isPlacementHistoricalEvent = "students/student-placement-events-historical"
+    const val isPlacementCareer = "students/student-career"
+    const val isPlacementHistoricalCareer = "students/student-career-historical"
 
 }

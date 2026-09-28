@@ -1,6 +1,5 @@
 package com.vsca.vsnapvoicecollege.FCM
 
-import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -22,13 +21,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
-import com.vsca.vsnapvoicecollege.FCM.MyFirebaseMessagingService
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
-import com.vsca.vsnapvoicecollege.databinding.ActivityAddEventsBinding
-import com.vsca.vsnapvoicecollege.databinding.ActivityNoticeboardBinding
 import com.vsca.vsnapvoicecollege.databinding.NotificationCallScreenBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -107,7 +103,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
         }
 
 
-        if (isEmergency== "1") {
+        if (isEmergency == "1") {
             if (notificationId != -1) {
                 NotificationManagerCompat
                     .from(this)
@@ -134,7 +130,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
             if (response != null) {
                 response.status
                 response.message
-                Log.d("update_call_log","update_call_log")
+                Log.d("update_call_log", "update_call_log")
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     finishAndRemoveTask()
@@ -292,7 +288,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
             Log.d("TotalDuration", duration.toString())
         }
 
-        if (isEmergency== "1") {
+        if (isEmergency == "1") {
             Log.d(
                 "AnnouncementActivity",
                 "Source = $launchSource"
@@ -369,7 +365,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
         MyFirebaseMessagingService.isUserAnswered.isNotificationOpened = true
         RingtonePlayer.stop()
         if (audioUrls.isNullOrEmpty() || index >= audioUrls!!.size) {
-            Log.d("looping",index.toString())
+            Log.d("looping", index.toString())
             finishPlayback()
             return
         }
@@ -413,7 +409,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
             }
 
             mediaPlayer!!.setOnCompletionListener { mp ->
-                Log.d("AudioCompleted","completed")
+                Log.d("AudioCompleted", "completed")
                 totalElapsed += mp.duration
                 currentTrack++
                 MyFirebaseMessagingService.isUserAnswered.isNotificationOpened = true
@@ -422,7 +418,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.d("Audio_Exception",e.toString())
+            Log.d("Audio_Exception", e.toString())
         }
     }
 
@@ -548,8 +544,8 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
             NotificationManagerCompat.from(this)
                 .cancel(1001)
 
-            if (!MyFirebaseMessagingService.isUserAnswered.isNotificationOpened){
-                Log.d("idComing","isComing")
+            if (!MyFirebaseMessagingService.isUserAnswered.isNotificationOpened) {
+                Log.d("idComing", "isComing")
                 showMissedNotification()
             }
 
@@ -557,8 +553,9 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
             finish()
         }
     }
+
     private fun stopAndFinishCall() {
-        MyFirebaseMessagingService.isUserAnswered.isNotificationOpened=true
+        MyFirebaseMessagingService.isUserAnswered.isNotificationOpened = true
         mediaPlayer?.stop()
         mediaPlayer?.release()
         mediaPlayer = null
@@ -701,9 +698,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
     }
 
     private fun formatDuration(ms: Long): String {
-//        val min = TimeUnit.MILLISECONDS.toMinutes(ms)
-//        val sec = TimeUnit.MILLISECONDS.toSeconds(ms) % 60
-//        return String.format("%02d:%02d", min, sec)
+
 
         val totalSeconds = ms / 1000
         val minutes = totalSeconds / 60
@@ -720,12 +715,7 @@ class NotificationCallScreen : BaseActivity<NotificationCallScreenBinding>(), Vi
     }
 
     private fun releasePlayer() {
-//        try {
-//            mediaPlayer?.stop()
-//            mediaPlayer?.release()
-//        } catch (ignored: Exception) {
-//        }
-//        mediaPlayer = null
+
 
         try {
             mediaPlayer?.reset()

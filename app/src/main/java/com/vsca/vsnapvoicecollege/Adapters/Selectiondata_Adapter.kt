@@ -71,7 +71,7 @@ class Selectiondata_Adapter(
         return sectiondata.size
     }
 
-    inner class MyViewHolder (itemView: View?) : RecyclerView.ViewHolder(
+    inner class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(
         (itemView)!!
     ) {
         val section: TextView = itemView!!.findViewById(R.id.section)!!

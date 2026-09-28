@@ -2,7 +2,7 @@ package com.vsca.vsnapvoicecollege.Utils;
 
 import android.location.Location;
 
-public class LocationDistanceCalculator{
+public class LocationDistanceCalculator {
 
     public static float calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         // Create a Location object for the first location

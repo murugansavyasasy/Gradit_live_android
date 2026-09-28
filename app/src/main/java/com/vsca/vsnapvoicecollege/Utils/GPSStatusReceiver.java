@@ -10,9 +10,11 @@ import com.vsca.vsnapvoicecollege.Interfaces.GPSStatusListener;
 
 public class GPSStatusReceiver extends BroadcastReceiver {
     private GPSStatusListener listener;
+
     public GPSStatusReceiver(GPSStatusListener listener) {
         this.listener = listener;
     }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().matches(LocationManager.PROVIDERS_CHANGED_ACTION)) {

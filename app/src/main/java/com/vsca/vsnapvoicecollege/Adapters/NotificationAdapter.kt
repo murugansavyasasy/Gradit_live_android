@@ -11,8 +11,16 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-
-import com.vsca.vsnapvoicecollege.Activities.*
+import com.vsca.vsnapvoicecollege.Activities.Assignment
+import com.vsca.vsnapvoicecollege.Activities.Attendance
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
+import com.vsca.vsnapvoicecollege.Activities.ChatParent
+import com.vsca.vsnapvoicecollege.Activities.Circular
+import com.vsca.vsnapvoicecollege.Activities.Communication
+import com.vsca.vsnapvoicecollege.Activities.Events
+import com.vsca.vsnapvoicecollege.Activities.ExamList
+import com.vsca.vsnapvoicecollege.Activities.Noticeboard
+import com.vsca.vsnapvoicecollege.Activities.Video
 import com.vsca.vsnapvoicecollege.Model.GetNotificationDetails
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -52,10 +60,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
         holder.rytOverAll!!.setOnClickListener {
 
             if (data.module_type.equals("Videos")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (10 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readVideo = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeVideo = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (10 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readVideo =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeVideo =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
                 val menuid = BaseActivity.VideoMenuID
@@ -65,10 +75,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Circular")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (6 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readCircular = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeCircular = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (6 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readCircular =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCircular =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
 
@@ -79,10 +91,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Communication")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (16 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readCommunication = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeCommunication = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (16 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readCommunication =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeCommunication =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
 
@@ -93,10 +107,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Events")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (8 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readEvent = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeEvent = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (8 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readEvent =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeEvent =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
 
@@ -107,10 +123,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Notice board")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (7 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeNoticeBoard = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (7 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readNoticeBoard =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeNoticeBoard =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
                 val menuid = BaseActivity.NoticeboardMenuID
@@ -120,10 +138,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Assignments")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (5 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readAssignment = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeAssignment = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (5 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readAssignment =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeAssignment =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
 
@@ -135,10 +155,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
 
 
             } else if (data.module_type.equals("Chat")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (11 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readChat = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeChat = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (11 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readChat =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeChat =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
 
@@ -156,10 +178,12 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Examination")) {
-                for (i in CommonUtil.MenuListDashboard.indices){
-                    if (3 == CommonUtil.MenuListDashboard.get(i).id){
-                        CommonUtil.menu_readExamination = CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
-                        CommonUtil.menu_writeExamination = CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
+                for (i in CommonUtil.MenuListDashboard.indices) {
+                    if (3 == CommonUtil.MenuListDashboard.get(i).id) {
+                        CommonUtil.menu_readExamination =
+                            CommonUtil.MenuListDashboard.get(i).is_read_enabled.toString()
+                        CommonUtil.menu_writeExamination =
+                            CommonUtil.MenuListDashboard.get(i).is_write_enabled.toString()
                     }
                 }
 
@@ -182,7 +206,8 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
     ) {
 
         val lblMemberName: TextView = itemView!!.findViewById(R.id.lblMemberName)!!
-        val lblNotificationContent: TextView = itemView!!.findViewById(R.id.lblNotificationContent)!!
+        val lblNotificationContent: TextView =
+            itemView!!.findViewById(R.id.lblNotificationContent)!!
         val lblNoticeficationTime: TextView = itemView!!.findViewById(R.id.lblNoticeficationTime)!!
         val lblDate: TextView = itemView!!.findViewById(R.id.lblDate)!!
         val rytOverAll: RelativeLayout = itemView!!.findViewById(R.id.rytOverAll)!!

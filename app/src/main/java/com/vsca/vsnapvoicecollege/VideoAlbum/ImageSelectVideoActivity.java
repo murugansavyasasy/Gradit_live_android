@@ -89,21 +89,12 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_select);
-//        setView(findViewById(R.id.layout_image_select));
 
 
         actionBar = getSupportActionBar();
         WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-//        insetsController.setAppearanceLightStatusBars(true);
         insetsController.setAppearanceLightStatusBars(false);
         insetsController.setAppearanceLightNavigationBars(false);
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeAsUpIndicator(R.drawable.ic_clear);
-//
-//            actionBar.setDisplayShowTitleEnabled(true);
-//            actionBar.setTitle(R.string.image_view);
-//        }
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -313,7 +304,6 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
     private void sendIntent() {
 
         Intent intent = new Intent(ImageSelectVideoActivity.this, CommunicationVoice.class);
-//        intent.putExtra("images", getSelected());
         intent.putStringArrayListExtra("images", getSelected());
         Log.d("selected", String.valueOf(getSelected()));
         setResult(RESULT_OK, intent);

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Model.CertificateFormattedData
-import com.vsca.vsnapvoicecollege.Model.GetCertificateDetailsData
 import com.vsca.vsnapvoicecollege.R
 
 class CertificateAdapter(

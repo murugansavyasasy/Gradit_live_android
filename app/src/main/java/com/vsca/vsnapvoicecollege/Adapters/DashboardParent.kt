@@ -10,8 +10,26 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.vsca.vsnapvoicecollege.Activities.*
+import com.vsca.vsnapvoicecollege.Activities.Assignment
+import com.vsca.vsnapvoicecollege.Activities.Attendance
+import com.vsca.vsnapvoicecollege.Activities.BaseActivity
+import com.vsca.vsnapvoicecollege.Activities.CareerTraining
+import com.vsca.vsnapvoicecollege.Activities.CategoryCreditWise
+import com.vsca.vsnapvoicecollege.Activities.ChatParent
+import com.vsca.vsnapvoicecollege.Activities.Circular
+import com.vsca.vsnapvoicecollege.Activities.Communication
+import com.vsca.vsnapvoicecollege.Activities.CourseDetails
+import com.vsca.vsnapvoicecollege.Activities.DashBoardActivityRewamp
+import com.vsca.vsnapvoicecollege.Activities.Events
+import com.vsca.vsnapvoicecollege.Activities.ExamList
+import com.vsca.vsnapvoicecollege.Activities.Faculty
+import com.vsca.vsnapvoicecollege.Activities.FeeDetails
+import com.vsca.vsnapvoicecollege.Activities.MessageCommunication
+import com.vsca.vsnapvoicecollege.Activities.Noticeboard
+import com.vsca.vsnapvoicecollege.Activities.PlacementEvent
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
+import com.vsca.vsnapvoicecollege.Activities.SemesterCreditCategoryWise
+import com.vsca.vsnapvoicecollege.Activities.Video
 import com.vsca.vsnapvoicecollege.ActivitySender.Hall_Ticket
 import com.vsca.vsnapvoicecollege.ActivitySender.PunchStaffAttendanceUsingFinger
 import com.vsca.vsnapvoicecollege.ActivitySender.StaffWiseAttendanceReports
@@ -48,7 +66,6 @@ class DashboardParent constructor(
     }
 
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val modal = categoriesModalArrayList[position]
 
@@ -58,42 +75,92 @@ class DashboardParent constructor(
                 holder.category.setText(R.string.txt_advertisement)
                 holder.lblViewAll.visibility = View.INVISIBLE
             }
+
             "Circular" -> {
                 holder.category.text = context.getString(R.string.txt_img_pdf)
                 holder.lblViewAll.visibility = View.VISIBLE
             }
+
             "DashBoard_Menu" -> {
                 holder.category.text = "Menu"
-                holder.category.visibility= View.GONE
+                holder.category.visibility = View.GONE
                 holder.lblViewAll.visibility = View.GONE
             }
+
             else -> {
                 holder.category.text = modal.menuHeadings
                 holder.lblViewAll.visibility = View.VISIBLE
             }
         }
 
-          if (modal.menuHeadings == "Attendance") {
-              holder.lblNoRecords.visibility = View.VISIBLE
-              holder.lblNoRecords.text = "Today's attendance is not yet available"
+        if (modal.menuHeadings == "Attendance") {
+            holder.lblNoRecords.visibility = View.VISIBLE
+            holder.lblNoRecords.text = "Today's attendance is not yet available"
+        } else {
+            holder.lblNoRecords.visibility = View.GONE
         }
-          else {
-              holder.lblNoRecords.visibility = View.GONE
-          }
 
         // Bind section — reuse adapters, don't create new ones
         when (modal.menuHeadings) {
-            "Notice Board" -> reuseChildAdapter(holder, modal, "Notice Board", LinearLayoutManager.HORIZONTAL)
-            "Leave Request" -> reuseChildAdapter(holder, modal, "Leave Request", LinearLayoutManager.HORIZONTAL)
+            "Notice Board" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Notice Board",
+                LinearLayoutManager.HORIZONTAL
+            )
+
+            "Leave Request" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Leave Request",
+                LinearLayoutManager.HORIZONTAL
+            )
+
             "DashBoard_Menu" -> bindDashboardMenu(holder, modal)
-            "Circular" -> reuseChildAdapter(holder, modal, "Circular", LinearLayoutManager.HORIZONTAL)
+            "Circular" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Circular",
+                LinearLayoutManager.HORIZONTAL
+            )
+
             "Chat" -> reuseChildAdapter(holder, modal, "Chat", LinearLayoutManager.HORIZONTAL)
-            "Upcoming Events" -> reuseChildAdapter(holder, modal, "Upcoming Events", LinearLayoutManager.HORIZONTAL)
-            "Assignments" -> reuseChildAdapter(holder, modal, "Assignments", LinearLayoutManager.HORIZONTAL)
-            "Emergency Notification" -> reuseChildAdapter(holder, modal, "Emergency Notification", LinearLayoutManager.HORIZONTAL)
+            "Upcoming Events" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Upcoming Events",
+                LinearLayoutManager.HORIZONTAL
+            )
+
+            "Assignments" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Assignments",
+                LinearLayoutManager.HORIZONTAL
+            )
+
+            "Emergency Notification" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Emergency Notification",
+                LinearLayoutManager.HORIZONTAL
+            )
+
             "Ad" -> reuseChildAdapter(holder, modal, "Ad", LinearLayoutManager.VERTICAL)
-            "Recent Notifications" -> reuseChildAdapter(holder, modal, "Recent Notifications", LinearLayoutManager.VERTICAL)
-            "Attendance" -> reuseChildAdapter(holder, modal, "Attendance", LinearLayoutManager.VERTICAL)
+            "Recent Notifications" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Recent Notifications",
+                LinearLayoutManager.VERTICAL
+            )
+
+            "Attendance" -> reuseChildAdapter(
+                holder,
+                modal,
+                "Attendance",
+                LinearLayoutManager.VERTICAL
+            )
+
             else -> {
                 holder.recyclerDashboardTitle.adapter = null
                 holder.recyclerDashboardTitle.layoutManager = null
@@ -123,6 +190,7 @@ class DashboardParent constructor(
                 }
                 context.startActivity(Intent(context, Noticeboard::class.java))
             }
+
             "Leave Request" -> holder.lblViewAll.setOnClickListener {
                 setMenuPermissions(4) { r, w ->
                     CommonUtil.menu_readAttendance = r
@@ -131,6 +199,7 @@ class DashboardParent constructor(
                 CommonUtil.MenuIdAttendance = BaseActivity.AttendanceMeuID
                 context.startActivity(Intent(context, Attendance::class.java))
             }
+
             "Circular" -> holder.lblViewAll.setOnClickListener {
                 setMenuPermissions(6) { r, w ->
                     CommonUtil.menu_readCircular = r
@@ -138,6 +207,7 @@ class DashboardParent constructor(
                 }
                 context.startActivity(Intent(context, Circular::class.java))
             }
+
             "Chat" -> holder.lblViewAll.setOnClickListener {
                 setMenuPermissions(11) { r, w ->
                     CommonUtil.menu_readChat = r
@@ -145,6 +215,7 @@ class DashboardParent constructor(
                 }
                 context.startActivity(Intent(context, ChatParent::class.java))
             }
+
             "Upcoming Events" -> holder.lblViewAll.setOnClickListener {
                 setMenuPermissions(8) { r, w ->
                     CommonUtil.menu_readEvent = r
@@ -152,6 +223,7 @@ class DashboardParent constructor(
                 }
                 context.startActivity(Intent(context, Events::class.java))
             }
+
             "Assignments" -> holder.lblViewAll.setOnClickListener {
                 setMenuPermissions(5) { r, w ->
                     CommonUtil.menu_readAssignment = r
@@ -159,6 +231,7 @@ class DashboardParent constructor(
                 }
                 context.startActivity(Intent(context, Assignment::class.java))
             }
+
             "Emergency Notification" -> holder.lblViewAll.setOnClickListener {
                 setMenuPermissions(16) { r, w ->
                     CommonUtil.menu_readCommunication = r
@@ -167,6 +240,7 @@ class DashboardParent constructor(
                 CommonUtil.MenuIDCommunication = BaseActivity.CommunicationMenuID
                 context.startActivity(Intent(context, Communication::class.java))
             }
+
             "Recent Notifications" -> holder.lblViewAll.setOnClickListener {
                 setMenuPermissions(16) { r, w ->
                     CommonUtil.menu_readCommunication = r
@@ -184,6 +258,7 @@ class DashboardParent constructor(
                 CommonUtil.MenuIdAttendance = BaseActivity.AttendanceMeuID
                 context.startActivity(Intent(context, Attendance::class.java))
             }
+
             else -> holder.lblViewAll.setOnClickListener(null)
         }
     }
@@ -201,7 +276,11 @@ class DashboardParent constructor(
         }
 
         // Clean up any stale callback from a recycled holder
-        holder.pageChangeCallback?.let { holder.viewPagerDashboardMenu.unregisterOnPageChangeCallback(it) }
+        holder.pageChangeCallback?.let {
+            holder.viewPagerDashboardMenu.unregisterOnPageChangeCallback(
+                it
+            )
+        }
         holder.pageChangeCallback = null
 
         val lp = holder.viewPagerDashboardMenu.layoutParams
@@ -293,59 +372,69 @@ class DashboardParent constructor(
                 CommonUtil.menu_writeHome = data.is_write_enabled.toString()
                 if (CommonUtil.MenuDashboardHome) launch(DashBoardActivityRewamp::class.java)
             }
+
             3 -> {
                 CommonUtil.menu_readExamination = data.is_read_enabled.toString()
                 CommonUtil.menu_writeExamination = data.is_write_enabled.toString()
                 CommonUtil.MenuIDExamination = data.id.toString()
                 if (CommonUtil.MenuExamination) launch(ExamList::class.java)
             }
+
             4 -> {
                 CommonUtil.MenuIdAttendance = data.id.toString()
                 CommonUtil.menu_readAttendance = data.is_read_enabled.toString()
                 CommonUtil.menu_writeAttendance = data.is_write_enabled.toString()
                 if (CommonUtil.MenuAttendance) launch(Attendance::class.java)
             }
+
             5 -> {
                 CommonUtil.MenuIDAssignment = data.id.toString()
                 CommonUtil.menu_readAssignment = data.is_read_enabled.toString()
                 CommonUtil.menu_writeAssignment = data.is_write_enabled.toString()
                 if (CommonUtil.MenuAssignment) launch(Assignment::class.java)
             }
+
             6 -> {
                 CommonUtil.MenuIDCircular = data.id.toString()
                 CommonUtil.menu_readCircular = data.is_read_enabled.toString()
                 CommonUtil.menu_writeCircular = data.is_write_enabled.toString()
                 if (CommonUtil.MenuCircular) launch(Circular::class.java)
             }
+
             7 -> {
                 CommonUtil.MenuIDNoticeboard = data.id.toString()
                 CommonUtil.menu_readNoticeBoard = data.is_read_enabled.toString()
                 CommonUtil.menu_writeNoticeBoard = data.is_write_enabled.toString()
                 if (CommonUtil.MenuNoticeBoard) launch(Noticeboard::class.java)
             }
+
             8 -> {
                 CommonUtil.MenuIDEvents = data.id.toString()
                 CommonUtil.menu_readEvent = data.is_read_enabled.toString()
                 CommonUtil.menu_writeEvent = data.is_write_enabled.toString()
                 if (CommonUtil.MenuEvents) launch(Events::class.java)
             }
+
             9 -> {
                 CommonUtil.menu_readFaculty = data.is_read_enabled.toString()
                 CommonUtil.menu_writeFaculty = data.is_write_enabled.toString()
                 if (CommonUtil.MenuFaculty) launch(Faculty::class.java)
             }
+
             10 -> {
                 CommonUtil.menu_readVideo = data.is_read_enabled.toString()
                 CommonUtil.menu_writeVideo = data.is_write_enabled.toString()
                 CommonUtil.MenuIDVideo = data.id.toString()
                 if (CommonUtil.MenuVideo) launch(Video::class.java)
             }
+
             11 -> {
                 CommonUtil.menu_readChat = data.is_read_enabled.toString()
                 CommonUtil.menu_writeChat = data.is_write_enabled.toString()
                 CommonUtil.MenuIDChat = data.id.toString()
                 if (CommonUtil.MenuChat) launch(ChatParent::class.java)
             }
+
             12 -> {
                 CommonUtil.menu_readCourseDetails = data.is_read_enabled.toString()
                 CommonUtil.menu_writeCourseDetails = data.is_write_enabled.toString()
@@ -354,16 +443,19 @@ class DashboardParent constructor(
                     launch(CourseDetails::class.java)
                 }
             }
+
             13 -> {
                 CommonUtil.menu_readCategoryCreditPoints = data.is_read_enabled.toString()
                 CommonUtil.menu_writeCategoryCreditPoints = data.is_write_enabled.toString()
                 if (CommonUtil.MenuCategoryCredit) launch(CategoryCreditWise::class.java)
             }
+
             14 -> {
                 CommonUtil.menu_readSemCreditPoints = data.is_read_enabled.toString()
                 CommonUtil.menu_writeSemCreditPoints = data.is_write_enabled.toString()
                 if (CommonUtil.MenuSemCredit) launch(SemesterCreditCategoryWise::class.java)
             }
+
             15 -> {
                 CommonUtil.menu_readExamApplicationDetails = data.is_read_enabled.toString()
                 CommonUtil.menu_writeExamApplicationDetails = data.is_write_enabled.toString()
@@ -372,39 +464,48 @@ class DashboardParent constructor(
                     launch(CourseDetails::class.java)
                 }
             }
+
             16 -> {
                 CommonUtil.MenuIDCommunication = data.id.toString()
                 CommonUtil.menu_readCommunication = data.is_read_enabled.toString()
                 CommonUtil.menu_writeCommunication = data.is_write_enabled.toString()
                 if (CommonUtil.MenuCommunication) launch(Communication::class.java)
             }
+
             17 -> {
                 CommonUtil.MenuIDCommunicationText = data.id.toString()
                 CommonUtil.menu_readCommunicationText = data.is_read_enabled.toString()
                 CommonUtil.menu_writeCommunicationText = data.is_write_enabled.toString()
                 if (CommonUtil.MenuText) launch(MessageCommunication::class.java)
             }
+
             19 -> {
                 CommonUtil.menu_readHallTicker = data.is_read_enabled.toString()
                 CommonUtil.menu_writeHallTicker = data.is_write_enabled.toString()
                 if (CommonUtil.MenuHallTicket) launch(Hall_Ticket::class.java)
             }
+
             20 -> {
                 if (CommonUtil.MenuFeeDetails) launch(FeeDetails::class.java)
             }
+
             21 -> {
                 CommonUtil.menu_writeMarkAttendance = data.is_write_enabled.toString()
                 if (CommonUtil.MarkAttendance) launch(PunchStaffAttendanceUsingFinger::class.java)
             }
+
             22 -> {
                 if (CommonUtil.AttendanceReport) launch(StaffWiseAttendanceReports::class.java)
             }
+
             23 -> {
                 if (CommonUtil.PlacementTraining) launch(ResumeBuilder::class.java)
             }
+
             24 -> {
                 if (CommonUtil.PlacementEvent) launch(PlacementEvent::class.java)
             }
+
             25 -> {
                 if (CommonUtil.PlacementCareer) launch(CareerTraining::class.java)
             }
@@ -450,7 +551,8 @@ class DashboardParent constructor(
     override fun getItemCount(): Int = categoriesModalArrayList.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val recyclerDashboardTitle: RecyclerView = itemView.findViewById(R.id.recyclerDashboardTitle)
+        val recyclerDashboardTitle: RecyclerView =
+            itemView.findViewById(R.id.recyclerDashboardTitle)
         val category: TextView = itemView.findViewById(R.id.idTVCategory)
         val lblViewAll: TextView = itemView.findViewById(R.id.lblViewAll)
         val lblNoRecords: TextView = itemView.findViewById(R.id.lblNoRecords)

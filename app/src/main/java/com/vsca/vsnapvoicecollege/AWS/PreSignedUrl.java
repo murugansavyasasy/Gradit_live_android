@@ -24,53 +24,26 @@ public class PreSignedUrl {
         this.message = message;
     }
 
-//    public Data getData() {
-//        return data;
-//    }
-//
-//    public void setData(Data data) {
-//        this.data = data;
-//    }
 
-            private String presignedUrl;
-        private String fileUrl;
+    private String presignedUrl;
+    private String fileUrl;
 
-        // Getters and Setters
-        public String getPresignedUrl() {
-            return presignedUrl;
-        }
+    // Getters and Setters
+    public String getPresignedUrl() {
+        return presignedUrl;
+    }
 
-        public void setPresignedUrl(String presignedUrl) {
-            this.presignedUrl = presignedUrl;
-        }
+    public void setPresignedUrl(String presignedUrl) {
+        this.presignedUrl = presignedUrl;
+    }
 
-        public String getFileUrl() {
-            return fileUrl;
-        }
+    public String getFileUrl() {
+        return fileUrl;
+    }
 
-        public void setFileUrl(String fileUrl) {
-            this.fileUrl = fileUrl;
-        }
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
 
-//    public static class Data {
-//        private String presignedUrl;
-//        private String fileUrl;
-//
-//        // Getters and Setters
-//        public String getPresignedUrl() {
-//            return presignedUrl;
-//        }
-//
-//        public void setPresignedUrl(String presignedUrl) {
-//            this.presignedUrl = presignedUrl;
-//        }
-//
-//        public String getFileUrl() {
-//            return fileUrl;
-//        }
-//
-//        public void setFileUrl(String fileUrl) {
-//            this.fileUrl = fileUrl;
-//        }
-//    }
+
 }

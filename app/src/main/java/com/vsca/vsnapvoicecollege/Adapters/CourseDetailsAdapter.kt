@@ -5,10 +5,10 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vsca.vsnapvoicecollege.Activities.CourseDetails
@@ -164,11 +164,15 @@ class CourseDetailsAdapter : RecyclerView.Adapter<CourseDetailsAdapter.MyViewHol
         val ViewSide: View = itemView!!.findViewById(R.id.ViewSide)
         val LayoutCategory: ConstraintLayout = itemView!!.findViewById(R.id.layoutCategory)
         val LayoutSubjectType: ConstraintLayout = itemView!!.findViewById(R.id.layoutSubjectType)
-        val LayoutSubjectRequirement: ConstraintLayout = itemView!!.findViewById(R.id.LayoutSubjectRequirement)
-        val LayoutSubjectCredits: ConstraintLayout = itemView!!.findViewById(R.id.layoutSubjectCredits)
+        val LayoutSubjectRequirement: ConstraintLayout =
+            itemView!!.findViewById(R.id.LayoutSubjectRequirement)
+        val LayoutSubjectCredits: ConstraintLayout =
+            itemView!!.findViewById(R.id.layoutSubjectCredits)
         val imgUser: ImageView = itemView!!.findViewById(R.id.imgUser)
-        val LayoutProfileOverall: ConstraintLayout = itemView!!.findViewById(R.id.LayoutProfileOverall)
-        val LayoutCourseAndExam: ConstraintLayout = itemView!!.findViewById(R.id.LayoutCourseAndExam)
+        val LayoutProfileOverall: ConstraintLayout =
+            itemView!!.findViewById(R.id.LayoutProfileOverall)
+        val LayoutCourseAndExam: ConstraintLayout =
+            itemView!!.findViewById(R.id.LayoutCourseAndExam)
         val lblProfileKey: TextView = itemView!!.findViewById(R.id.lblProfileKey)
         val lblProfileValue: TextView = itemView!!.findViewById(R.id.lblProfileValue)
         val lblcolon0: TextView = itemView!!.findViewById(R.id.lblcolon0)

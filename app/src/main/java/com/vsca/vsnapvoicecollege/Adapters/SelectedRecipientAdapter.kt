@@ -52,11 +52,11 @@ class SelectedRecipientAdapter(
             holder.con_attendance!!.visibility = View.VISIBLE
             holder.lblStudentname!!.text = data.SelectedName
             holder.lblRegNo!!.text = "Register No : " + data.isRegNo
-            if (!data.admissionno.isNullOrEmpty()){
-                holder.lblAdmissionNo!!.visibility=View.VISIBLE
+            if (!data.admissionno.isNullOrEmpty()) {
+                holder.lblAdmissionNo!!.visibility = View.VISIBLE
                 holder.lblAdmissionNo!!.text = "Admission No : " + data.admissionno
-            }else{
-                holder.lblAdmissionNo!!.visibility=View.GONE
+            } else {
+                holder.lblAdmissionNo!!.visibility = View.GONE
             }
             CommonUtil.Absentlistcount = ""
 
@@ -87,7 +87,7 @@ class SelectedRecipientAdapter(
             }
 
             holder.switchOnLeave.setOnClickListener {
-                holder.switchOD.isChecked=false
+                holder.switchOD.isChecked = false
                 if (holder.switchOnLeave.isChecked) {
                     holder.img_mark_attendance.setBackgroundResource(R.drawable.round_blue)
                     holder.img_mark_attendance.text = "L"
@@ -112,7 +112,7 @@ class SelectedRecipientAdapter(
 
 
             holder.switchOD.setOnClickListener {
-                holder.switchOnLeave.isChecked=false
+                holder.switchOnLeave.isChecked = false
                 if (holder.switchOD.isChecked) {
                     holder.img_mark_attendance.setBackgroundResource(R.drawable.round_yellow)
                     holder.img_mark_attendance.text = "OD"
@@ -169,7 +169,6 @@ class SelectedRecipientAdapter(
             holder.lblRegNo1.visibility = View.VISIBLE
             holder.con_attendance.visibility = View.GONE
             holder.lblDocumentName.text = data.SelectedName
-//            holder.lblRegNo1.text = "Register No : " + data.isRegNo
             holder.chbox.isChecked = CommonUtil.receiverid.contains(data.SelectedId.toString())
 
             if (CommonUtil.Priority == "p1" || CommonUtil.Priority == "p7") {
@@ -239,7 +238,8 @@ class SelectedRecipientAdapter(
         val lblRegNo1: TextView = itemView!!.findViewById(R.id.lblRegNo1)!!
         val lblRegNo: TextView = itemView!!.findViewById(R.id.lblRegNo)!!
         val lblAdmissionNo: TextView = itemView!!.findViewById(R.id.lblAdmissionNo)!!
-        val layoutstudentlist: ConstraintLayout = itemView!!.findViewById(R.id.layoutEntireCollege)!!
+        val layoutstudentlist: ConstraintLayout =
+            itemView!!.findViewById(R.id.layoutEntireCollege)!!
         val con_attendance: RelativeLayout = itemView!!.findViewById(R.id.con_attendance)!!
         val switchOD: SwitchCompat = itemView!!.findViewById(R.id.switchOD)!!
         val switchOnLeave: SwitchCompat = itemView!!.findViewById(R.id.switchOnLeave)!!

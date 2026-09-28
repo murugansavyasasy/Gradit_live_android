@@ -13,7 +13,7 @@ class MyApp : Application(), LifecycleObserver {
 
     companion object {
         const val CHANNEL_ID = "notification_collage"
-        const val CHANNEL_NAME= "School Notifications"
+        const val CHANNEL_NAME = "School Notifications"
     }
 
     override fun onCreate() {
@@ -36,13 +36,6 @@ class MyApp : Application(), LifecycleObserver {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-
-//            val call_notification_sound = Uri.parse(
-//                "android.resource://$packageName/${R.raw.call_notification}"
-//            )
-//            val attributes = AudioAttributes.Builder()
-//                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-//                .build()
 
             val channel = NotificationChannel(
                 CHANNEL_ID,

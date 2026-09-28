@@ -1,7 +1,6 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,11 +43,6 @@ class HomeMenus constructor(
         holder.lblMenuName!!.visibility = View.VISIBLE
         holder.MenuHeader!!.visibility = View.VISIBLE
         when (data.id) {
-//            1 -> {
-//                holder.MenuHeader!!.visibility = View.GONE
-////                holder.imgMenu!!.setImageResource(R.drawable.home)
-////                holder.lblMenuName!!.text = data.name
-//            }
 
             11 -> {
                 holder.imgMenu!!.setImageResource(R.drawable.attendancenew)
@@ -65,10 +59,6 @@ class HomeMenus constructor(
                 holder.lblMenuName!!.text = data.name
             }
 
-            //        if (data.id == 2) {
-            ////            holder.imgMenu!!.setImageResource(R.drawable.communication)
-            ////            holder.lblMenuName!!.text = data.name
-            //        }
 
             3 -> {
                 holder.imgMenu!!.setImageResource(R.drawable.exam)
@@ -154,6 +144,7 @@ class HomeMenus constructor(
                 holder.imgMenu!!.setImageResource(R.drawable.resume_builder)
                 holder.lblMenuName!!.text = data.name
             }
+
             24 -> {
                 holder.imgMenu!!.setImageResource(R.drawable.placement_event)
                 holder.lblMenuName!!.text = data.name

@@ -25,7 +25,8 @@ class ResumeBuilderCertificationDetailsAdapter(private val items: List<GetCertif
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.lblCertifications.text = item.courseName+" - "+item.institute+" - "+item.duration
+        holder.lblCertifications.text =
+            item.courseName + " - " + item.institute + " - " + item.duration
     }
 }
 

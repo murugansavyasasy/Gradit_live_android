@@ -47,22 +47,12 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_video_select);
-//        setView(findViewById(R.id.layout_album_select));
 
 
         actionBar = getSupportActionBar();
         WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-//        insetsController.setAppearanceLightStatusBars(true);
         insetsController.setAppearanceLightStatusBars(false);
         insetsController.setAppearanceLightNavigationBars(false);
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeAsUpIndicator(R.drawable
-//            .ic_clear);
-//
-//            actionBar.setDisplayShowTitleEnabled(true);
-//            actionBar.setTitle(R.string.album_view);
-//        }
 
         Intent intent = getIntent();
         if (intent == null) {

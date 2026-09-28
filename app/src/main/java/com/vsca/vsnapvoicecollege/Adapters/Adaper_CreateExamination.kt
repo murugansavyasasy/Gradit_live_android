@@ -10,8 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.sectionnamelist
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
@@ -53,10 +52,10 @@ class Adaper_CreateExamination(private val data: ArrayList<sectionnamelist>, con
         if (CommonUtil.EditButtonclick.equals("ExamEdit")) {
 
             if (CommonUtil.SectionID_Exam.equals(data.sectionid)) {
-                holder.constrineFirst.visibility= View.VISIBLE
+                holder.constrineFirst.visibility = View.VISIBLE
 
             } else {
-                holder.constrineFirst.visibility= View.GONE
+                holder.constrineFirst.visibility = View.GONE
                 holder.constrineFirst!!.setBackgroundColor(R.color.clr_light_pink)
             }
 

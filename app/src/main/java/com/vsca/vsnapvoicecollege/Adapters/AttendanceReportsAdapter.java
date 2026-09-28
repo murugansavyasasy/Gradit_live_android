@@ -67,7 +67,7 @@ public class AttendanceReportsAdapter extends RecyclerView.Adapter<AttendanceRep
         }
     }
 
-    public AttendanceReportsAdapter(List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> lib_list, Context context, String type,ViewPunchHistoryListener listener) {
+    public AttendanceReportsAdapter(List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> lib_list, Context context, String type, ViewPunchHistoryListener listener) {
         this.lib_list = lib_list;
         this.context = context;
         this.Type = type;
@@ -95,8 +95,7 @@ public class AttendanceReportsAdapter extends RecyclerView.Adapter<AttendanceRep
             holder.lblStaffName.setText(holiday.getStaffName());
             holder.lblStaffName.setTypeface(null, Typeface.BOLD);
             holder.lblStaffName.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             holder.lblStaffName.setVisibility(View.GONE);
 
         }
@@ -110,7 +109,7 @@ public class AttendanceReportsAdapter extends RecyclerView.Adapter<AttendanceRep
             holder.lblCheckInTime.setText("First in - " + holiday.getIn_time());
             holder.lblCheckInTime.setVisibility(View.VISIBLE);
         }
-        if(!holiday.getOut_time().equals("")){
+        if (!holiday.getOut_time().equals("")) {
             holder.lblCheckoutTime.setText("Last out - " + holiday.getOut_time());
             holder.lblCheckoutTime.setVisibility(View.VISIBLE);
         }

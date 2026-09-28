@@ -57,19 +57,15 @@ class AuthServices {
                             }
                         }
                     } else if (response.code() == 400) {
-                         progressDialog.dismiss()
+                        progressDialog.dismiss()
                         try {
                             countryDetailsMutableLiveData.postValue(null)
 
-//                            val jsonObject = JSONObject(response.errorBody()!!.string())
-//                            val message = jsonObject.getString("message")
-//                            Toast.makeText(activity, "Something went wrong", Toast.LENGTH_SHORT).show()
 
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
-                    }
-                    else{
+                    } else {
                         progressDialog!!.dismiss()
                         countryDetailsMutableLiveData.postValue(null)
 
@@ -120,15 +116,14 @@ class AuthServices {
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
-                    }
-                    else{
+                    } else {
                         progressDialog.dismiss()
                         versionCheckResposneMutableLiveData.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<VersionCheckResposne?>, t: Throwable) {
-                     progressDialog.dismiss()
+                    progressDialog.dismiss()
                     versionCheckResposneMutableLiveData.postValue(null)
                     t.printStackTrace()
                 }
@@ -164,8 +159,7 @@ class AuthServices {
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
-                    }
-                    else{
+                    } else {
                         LoginResposneMutableLiveData.postValue(null)
                         progressDialog!!.dismiss()
                     }
@@ -223,7 +217,6 @@ class AuthServices {
 
     val VerificationMobilenumber: LiveData<ValidateMobileNumber?>
         get() = MobileNumber
-
 
 
     fun isUpdateNotificationCallLog(jsonObject: JsonObject, activity: Activity) {

@@ -9,13 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.vsca.vsnapvoicecollege.ActivitySender.AddRecipients
 import com.vsca.vsnapvoicecollege.Interfaces.ChildItemClickListener
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.Data
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import java.util.*
 
 class sectionandyear_Adapter(data: ArrayList<Data>, context: AddRecipients) :
     RecyclerView.Adapter<sectionandyear_Adapter.MyViewHolder>() {

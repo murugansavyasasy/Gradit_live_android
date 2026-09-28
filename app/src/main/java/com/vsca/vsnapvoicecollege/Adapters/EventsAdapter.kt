@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 import com.vsca.vsnapvoicecollege.Interfaces.EventClickListener
-import com.vsca.vsnapvoicecollege.Model.GetAssignmentDetails
 import com.vsca.vsnapvoicecollege.Model.GetEventDetailsData
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
@@ -33,14 +31,11 @@ class EventsAdapter(
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)
-//        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)
         val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)
         val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)
         val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)
         val imgArrowdown: ImageView = itemView!!.findViewById(R.id.imgArrowdown)
-//        val imgArrowUp: ImageView = itemView!!.findViewById(R.id.imgArrowUp)
-//        val lnrEventsView: LinearLayout = itemView!!.findViewById(R.id.lnrEventsView)
-//        val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)
+
         val lnrNoticeboardd: RelativeLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)
         val lblNewCircle: TextView = itemView!!.findViewById(R.id.lblNewCircle)
 

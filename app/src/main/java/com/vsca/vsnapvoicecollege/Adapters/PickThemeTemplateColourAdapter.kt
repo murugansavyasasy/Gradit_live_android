@@ -1,4 +1,5 @@
 package com.vsca.vsnapvoicecollege.Adapters
+
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -10,8 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.R
 
-class PickThemeTemplateColourAdapter(private val itemList: List<String>
-                        ,    private val onItemClick: (String) -> Unit
+class PickThemeTemplateColourAdapter(
+    private val itemList: List<String>, private val onItemClick: (String) -> Unit
 ) :
     RecyclerView.Adapter<PickThemeTemplateColourAdapter.GridViewHolder>() {
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -49,6 +50,7 @@ class PickThemeTemplateColourAdapter(private val itemList: List<String>
 
 
     }
+
     fun Int.dpToPx(context: Context): Int {
         return (this * context.resources.displayMetrics.density).toInt()
     }
@@ -77,7 +79,6 @@ class PickThemeTemplateColourAdapter(private val itemList: List<String>
             onItemClick(itemList[selectedPosition])
         }
     }
-
 
 
     override fun getItemCount(): Int = itemList.size

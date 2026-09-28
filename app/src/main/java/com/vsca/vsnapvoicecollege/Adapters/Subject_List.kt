@@ -1,21 +1,24 @@
 package com.vsca.vsnapvoicecollege.Adapters
 
 import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.PopupMenu
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-
-import com.vsca.vsnapvoicecollege.Model.*
+import com.vsca.vsnapvoicecollege.Model.SubjectExamcreationEDIT
+import com.vsca.vsnapvoicecollege.Model.Subjectdetail
+import com.vsca.vsnapvoicecollege.Model.Subjectdetail_ExamCreation
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import java.util.Calendar
@@ -142,9 +145,11 @@ class Subject_List(data: List<Subjectdetail>, context: Context) :
                             if (Ids.equals(CommonUtil.SectionId + " /" + data.subjectid)) {
 
                                 val venue = CommonUtil.Subjectdetail_ExamCreation[i].examvenue
-                                val examsyllabus = CommonUtil.Subjectdetail_ExamCreation[i].examsyllabus
+                                val examsyllabus =
+                                    CommonUtil.Subjectdetail_ExamCreation[i].examsyllabus
                                 val start_date = CommonUtil.Subjectdetail_ExamCreation[i].examdate
-                                val examsession = CommonUtil.Subjectdetail_ExamCreation[i].examsession
+                                val examsession =
+                                    CommonUtil.Subjectdetail_ExamCreation[i].examsession
 
                                 holder.txtTitle!!.setText(venue)
                                 holder.txtDescription!!.setText(examsyllabus)
@@ -176,7 +181,7 @@ class Subject_List(data: List<Subjectdetail>, context: Context) :
                         val _month =
                             if (month + 1 < 10) "0" + (month + 1) else (month + 1).toString()
                         val _date = if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth.toString()
-                         holder.start_date!!.text = "$_date/$_month/$_year"
+                        holder.start_date!!.text = "$_date/$_month/$_year"
 
                     }, c[Calendar.YEAR], c[Calendar.MONTH], c[Calendar.MONTH]
                 )

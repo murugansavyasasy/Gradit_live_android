@@ -10,12 +10,14 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
@@ -178,7 +180,8 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
         val lnrNoticeboardd: LinearLayout = itemView!!.findViewById(R.id.lnrNoticeboardd)!!
         val lblsubmittioncount: TextView = itemView!!.findViewById(R.id.lblsubmittioncount)!!
         val lblNewCircle: TextView = itemView!!.findViewById(R.id.lblNewCircle)!!
-        val rytRecentNotification: RelativeLayout = itemView!!.findViewById(R.id.rytRecentNotification)!!
+        val rytRecentNotification: RelativeLayout =
+            itemView!!.findViewById(R.id.rytRecentNotification)!!
         val lblNoticeboardTitle: TextView = itemView!!.findViewById(R.id.lblNoticeboardTitle)!!
         val imgArrowdown: ImageView = itemView!!.findViewById(R.id.imgArrowdown)!!
         val imgArrowUp: ImageView = itemView!!.findViewById(R.id.imgArrowUp)!!
@@ -186,7 +189,8 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
         val lblNoticeboardDate: TextView = itemView!!.findViewById(R.id.lblNoticeboardDate)!!
         val lblNoticetime: TextView = itemView!!.findViewById(R.id.lblNoticetime)!!
         val rytNotice: RelativeLayout = itemView!!.findViewById(R.id.rytNotice)!!
-        val lblNoticeboardDescription: TextView = itemView!!.findViewById(R.id.lblNoticeboardDescription)!!
+        val lblNoticeboardDescription: TextView =
+            itemView!!.findViewById(R.id.lblNoticeboardDescription)!!
         val lblNoticePostedby: TextView = itemView!!.findViewById(R.id.lblNoticePostedby)!!
         val lnrSubmission: LinearLayout = itemView!!.findViewById(R.id.lnrSubmission)!!
         val LayoutSubmissions: LinearLayout = itemView!!.findViewById(R.id.LayoutSubmissions)!!
@@ -206,10 +210,10 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
 
         jsonObject.addProperty("noticeboardid", CommonUtil.Noticeboardid)
         jsonObject.addProperty("processtype", type)
-        jsonObject.addProperty("colgid", CommonUtil.CollegeId?.toString()?:"")
+        jsonObject.addProperty("colgid", CommonUtil.CollegeId?.toString() ?: "")
         jsonObject.addProperty("topic", "")
         jsonObject.addProperty("description", "")
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("Callertype", "")
         jsonObject.addProperty("receiveridlist", "")
         jsonObject.addProperty("isstudent", "")
@@ -238,9 +242,7 @@ class NoticeBoard constructor(data: List<GetNoticeboardDetails>, context: Contex
                                 val i: Intent = Intent(context, Noticeboard::class.java)
                                 i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 context.startActivity(i)
-                                //todoList.removeAt(positionindex)
-//                                notifyItemRemoved(positionindex)
-//                                notifyDataSetChanged()
+
                             }
 
                             val alert: AlertDialog = alertDialog.create()

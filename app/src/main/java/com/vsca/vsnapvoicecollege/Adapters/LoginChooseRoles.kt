@@ -4,9 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
 import com.vsca.vsnapvoicecollege.Interfaces.LoginRolesListener
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.R
@@ -51,7 +51,7 @@ class LoginChooseRoles(
                     Priority_type = "p5"
                 } else if (loginlist[0].priority.equals("p6")) {
                     Priority_type = "p6"
-                }else if (loginlist[0].priority.equals("p7")) {
+                } else if (loginlist[0].priority.equals("p7")) {
                     Priority_type = "p7"
                 }
             }
@@ -97,13 +97,7 @@ class LoginChooseRoles(
             holder.viewDiv!!.visibility = View.GONE
         }
 
-//        if (data.colglogo == null || data.colglogo!!.isEmpty()) {
-//            Glide.with(context).load(R.drawable.ic_user_grey)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL).into((holder.imgCollegeLogo)!!)
-//        } else {
-//            Glide.with(context).load(data.colglogo).diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into((holder.imgCollegeLogo)!!)
-//        }
+
     }
 
     override fun getItemCount(): Int {
@@ -124,8 +118,7 @@ class LoginChooseRoles(
         val lblCollegeName: TextView = itemView!!.findViewById(R.id.lblCollegeName)!!
         val viewline1: View = itemView!!.findViewById(R.id.viewline1)!!
         val lblYearName: TextView = itemView!!.findViewById(R.id.lblYearName)!!
-//        val lblSemesterName: TextView = itemView!!.findViewById(R.id.lblSemesterName)!!
-//        val imgCollegeLogo: ImageView = itemView!!.findViewById(R.id.imgCollegeLogo)!!
+
         val semname: TextView = itemView!!.findViewById(R.id.semname)!!
         val lblSectionname: TextView = itemView!!.findViewById(R.id.lblSectionname)!!
         val lbl_Deptname: TextView = itemView!!.findViewById(R.id.lbl_Deptname)!!

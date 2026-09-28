@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.Interfaces.OnSoftSkillSelectedListener
-import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
-import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkillsData
+import com.vsca.vsnapvoicecollege.R
+
 class ResumeBuilderSoftSkillsAdapter(
     skills: List<GetResumeBuilderSkillSetSoftSkillsData>,
     preSelected: List<String>,
@@ -18,6 +18,7 @@ class ResumeBuilderSoftSkillsAdapter(
 
     //Here SkillList is SoftSkills which comes from APi(How many Option there in API)
     private val skillList: List<String> = skills.firstOrNull()?.softSkills ?: emptyList()
+
     //Here selectedSkills,The User have this SoftSkills which we fetch from SkillSet GET APi
     private val selectedSkills = preSelected.toMutableList()
 
@@ -52,6 +53,7 @@ class ResumeBuilderSoftSkillsAdapter(
             listener.onSoftSkillsChanged(selectedSkills) // 🔔 notify activity
         }
     }
+
     fun getUpdatedList(): List<String> = selectedSkills
 
     override fun getItemCount(): Int = skillList.size

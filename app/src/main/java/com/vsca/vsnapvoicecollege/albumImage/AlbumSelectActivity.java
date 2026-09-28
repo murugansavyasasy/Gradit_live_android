@@ -53,7 +53,6 @@ public class AlbumSelectActivity extends HelperActivity {
         setContentView(R.layout.activity_album_select);
 
         WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-//        insetsController.setAppearanceLightStatusBars(true);
         insetsController.setAppearanceLightStatusBars(false);
         insetsController.setAppearanceLightNavigationBars(false);
         Intent intent = getIntent();

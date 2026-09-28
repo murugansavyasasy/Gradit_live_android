@@ -267,7 +267,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Create notification channel
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val soundUri = Uri.parse("android.resource://${packageName}/raw/call_notification")
             val channel = NotificationChannel(
                 CALL_CHANNEL_ID,
                 CALL_CHANNEL_NAME,

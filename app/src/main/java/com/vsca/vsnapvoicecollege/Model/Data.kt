@@ -3,11 +3,7 @@ package com.vsca.vsnapvoicecollege.Model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-//data class Data(
-//    val sectiondetails: List<Sectiondetail>,
-//    val yearid: Int,
-//    val yearname: String
-//)
+
 
 class Data {
 

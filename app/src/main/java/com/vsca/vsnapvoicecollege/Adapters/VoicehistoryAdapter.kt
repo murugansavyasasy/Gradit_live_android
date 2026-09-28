@@ -2,21 +2,14 @@ package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.AssetFileDescriptor
-import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.os.Handler
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
-import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.SeekBar
-import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vsca.vsnapvoicecollege.ActivitySender.AddRecipients
@@ -135,7 +128,6 @@ class VoicehistoryAdapter(
         holder.txt_sendhistory.setOnClickListener {
             CommonUtil.voiceHeadedId = modal.headerid
             CommonUtil.Description = modal.description
-           // showPopup(modal)
             gotoRecipient()
         }
     }

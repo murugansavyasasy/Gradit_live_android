@@ -18,6 +18,7 @@ import java.util.List;
 public class PunchHistoryAdapter extends RecyclerView.Adapter<PunchHistoryAdapter.MyViewHolder> {
     private List<PunchHistoryRes.PunchHistoryData.PunchHistoryTimings> lib_list;
     Context context;
+
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -27,9 +28,11 @@ public class PunchHistoryAdapter extends RecyclerView.Adapter<PunchHistoryAdapte
             this.notifyItemRangeRemoved(0, size);
         }
     }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView lblTiming,lblPunchType,lblDeviceModel;
+        public TextView lblTiming, lblPunchType, lblDeviceModel;
         public ImageView imgDelete;
+
         public MyViewHolder(View view) {
             super(view);
             lblTiming = (TextView) view.findViewById(R.id.lblTiming);
@@ -37,6 +40,7 @@ public class PunchHistoryAdapter extends RecyclerView.Adapter<PunchHistoryAdapte
             lblDeviceModel = (TextView) view.findViewById(R.id.lblDeviceModel);
         }
     }
+
     public PunchHistoryAdapter(List<PunchHistoryRes.PunchHistoryData.PunchHistoryTimings> lib_list, Context context) {
         this.lib_list = lib_list;
         this.context = context;
@@ -48,12 +52,13 @@ public class PunchHistoryAdapter extends RecyclerView.Adapter<PunchHistoryAdapte
                 .inflate(R.layout.punch_history_timings_list_item, parent, false);
         return new PunchHistoryAdapter.MyViewHolder(itemView);
     }
+
     @Override
     public void onBindViewHolder(final PunchHistoryAdapter.MyViewHolder holder, final int position) {
         final PunchHistoryRes.PunchHistoryData.PunchHistoryTimings holiday = lib_list.get(position);
         holder.lblTiming.setText(holiday.getTime());
         holder.lblPunchType.setText("Punch Type : " + holiday.getPunchType().getValue());
-        holder.lblDeviceModel.setText("Device Model : "+holiday.getDeviceModel());
+        holder.lblDeviceModel.setText("Device Model : " + holiday.getDeviceModel());
         holder.lblTiming.setTypeface(null, Typeface.BOLD);
         holder.lblDeviceModel.setTypeface(null, Typeface.BOLD);
 

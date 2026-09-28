@@ -23,7 +23,6 @@ import com.vsca.vsnapvoicecollege.ActivitySender.AllImageViewer
 import com.vsca.vsnapvoicecollege.Model.ImageListView
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
-import com.vsca.vsnapvoicecollege.albumImage.Image
 
 
 class imagepreviewadapter(
@@ -39,7 +38,6 @@ class imagepreviewadapter(
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val imgGrid: ImageView = itemView!!.findViewById(R.id.imgGrid)!!
-//        val progress: ProgressBar = itemView!!.findViewById(R.id.progress)!!
         val LayoutEventPhoto: ConstraintLayout = itemView!!.findViewById(R.id.LayoutEventPhoto)!!
         val lmgPdf: ImageView = itemView!!.findViewById(R.id.lmgPdf)!!
         val pdfCount: TextView = itemView!!.findViewById(R.id.pdfCount)!!
@@ -74,7 +72,7 @@ class imagepreviewadapter(
                             target: Target<Drawable>,
                             isFirstResource: Boolean
                         ): Boolean {
-                          return false
+                            return false
                         }
 
                         override fun onResourceReady(

@@ -13,23 +13,23 @@ class DismissReceiver : BroadcastReceiver() {
         context: Context,
         intent: Intent
     ) {
-       val voiceUrl = intent.getStringExtra("url")
-       val welcomeUrl = intent.getStringExtra("welcome")
-       val notificationId = intent.getIntExtra("isNotificationId", -1)
+        val voiceUrl = intent.getStringExtra("url")
+        val welcomeUrl = intent.getStringExtra("welcome")
+        val notificationId = intent.getIntExtra("isNotificationId", -1)
 
-       val welcome_file = intent.getStringExtra("welcome")
+        val welcome_file = intent.getStringExtra("welcome")
         val school_name = intent.getStringExtra("school_name")
         val member_name = intent.getStringExtra("member_name")
         val call_title = intent.getStringExtra("call_title")
 
         val ei1 = intent.getStringExtra("ei1")
-       val ei2 = intent.getStringExtra("ei2")
-       val ei3 = intent.getStringExtra("ei3")
-       val ei4 = intent.getStringExtra("ei4")
-       val ei5 = intent.getStringExtra("ei5")
-       val receiver_id = intent.getStringExtra("isReceiverId")
-       val retrycount = intent.getStringExtra("retry_count")
-       val circular_id = intent.getStringExtra("circularId")
+        val ei2 = intent.getStringExtra("ei2")
+        val ei3 = intent.getStringExtra("ei3")
+        val ei4 = intent.getStringExtra("ei4")
+        val ei5 = intent.getStringExtra("ei5")
+        val receiver_id = intent.getStringExtra("isReceiverId")
+        val retrycount = intent.getStringExtra("retry_count")
+        val circular_id = intent.getStringExtra("circularId")
 
         sendStatus(
             context,
