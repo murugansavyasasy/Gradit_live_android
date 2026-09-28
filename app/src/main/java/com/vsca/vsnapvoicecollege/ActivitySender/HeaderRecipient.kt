@@ -1,7 +1,5 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
@@ -10,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -20,14 +17,13 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.SearchView
- import android.widget.TextView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
@@ -40,9 +36,7 @@ import com.vsca.vsnapvoicecollege.Activities.MessageCommunication
 import com.vsca.vsnapvoicecollege.Activities.Noticeboard
 import com.vsca.vsnapvoicecollege.Activities.Video
 import com.vsca.vsnapvoicecollege.Adapters.SelectedRecipientAdapter
-import com.vsca.vsnapvoicecollege.Interfaces.ApiInterfaces
 import com.vsca.vsnapvoicecollege.Interfaces.RecipientCheckListener
-import com.vsca.vsnapvoicecollege.Model.AWSUploadedFiles
 import com.vsca.vsnapvoicecollege.Model.CollageListData
 import com.vsca.vsnapvoicecollege.Model.GetGroupData
 import com.vsca.vsnapvoicecollege.Model.Get_staff_yourclass
@@ -61,23 +55,13 @@ import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.ActivityHeaderRecipientBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
+
 
 class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListener {
 
@@ -110,7 +94,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
     var pathIndex = 0
     var uploadFilePath: String? = null
     var contentType: String? = null
-//    var AWSUploadedFilesList = java.util.ArrayList<AWSUploadedFiles>()
     var AWSUploadedFilesList = java.util.ArrayList<String>()
     var progressDialog: ProgressDialog? = null
     var fileNameDateTime: String? = null
@@ -134,7 +117,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         super.onCreate(savedInstanceState)
         binding = ActivityHeaderRecipientBinding.inflate(layoutInflater)
         setContentView(binding.root)
-         ActionbarWithoutBottom(this)
+        ActionbarWithoutBottom(this)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -151,7 +134,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         CommonUtil.Collageid_ArrayList.clear()
         SendingType = CommonUtil.College
         CommonUtil.CallEnable = "0"
-        Log.d("Receipients","Receipients_screenHeader")
+        Log.d("Receipients", "Receipients_screenHeader")
 
 
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
@@ -355,7 +338,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         binding.lblEntireDepartmentlable!!.setOnClickListener {
 
             SendingType = CommonUtil.College
-//            lnrTargetAll!!.visibility = View.VISIBLE
             ClickType = ""
             binding.idSV!!.visibility = View.GONE
             CommonUtil.SeletedStringdataReplace = ""
@@ -376,8 +358,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             binding.spinnerDropdown!!.visibility = View.GONE
             binding.spinnerDropdowncourse!!.visibility = View.GONE
             SpinnerData.clear()
-//            binding.rcyHeader!!.visibility = View.VISIBLE
-//            binding.chHeader!!.visibility = View.VISIBLE
+
             binding.txtCheckBoxtext!!.visibility = View.VISIBLE
             getCollageList()
             binding.SpinningYourclasses!!.visibility = View.GONE
@@ -402,11 +383,9 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
 
             isParent = false
-            //    isStudent = false
             isStaff = false
 
             binding.chboxAll!!.isChecked = false
-            //     binding.chboxStudent!!.isChecked = false
             binding.chboxParents!!.isChecked = false
             binding.chboxStaff!!.isChecked = false
 
@@ -414,7 +393,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
 
         binding.lblDivision!!.setOnClickListener {
             SendingType = CommonUtil.Division
-//            lnrTargetAll!!.visibility = View.VISIBLE
             ClickType = ""
             binding.idSV!!.visibility = View.GONE
             CommonUtil.receiverid = ""
@@ -458,18 +436,15 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
             binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
             isParent = false
-            //   isStudent = false
             isStaff = false
 
             binding.chboxAll!!.isChecked = false
-            //    binding.chboxStudent!!.isChecked = false
             binding.chboxParents!!.isChecked = false
             binding.chboxStaff!!.isChecked = false
         }
 
         binding.lblDepartment!!.setOnClickListener {
 
-//            lnrTargetAll!!.visibility = View.VISIBLE
             ClickType = "Department"
             SendingType = CommonUtil.Department_
             CommonUtil.courseType = "Department"
@@ -515,11 +490,9 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             binding.lblGroups!!.setBackgroundResource(R.drawable.bg_available_outline_red)
             binding.lblGroups!!.setTextColor(Color.parseColor(getString(R.string.lbl_clr_red)))
             isParent = false
-            //    isStudent = false
             isStaff = false
 
             binding.chboxAll!!.isChecked = false
-            //        binding.chboxStudent!!.isChecked = false
             binding.chboxParents!!.isChecked = false
             binding.chboxStaff!!.isChecked = false
             binding.idSV!!.visibility = View.GONE
@@ -527,11 +500,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
 
         binding.lblCourse!!.setOnClickListener {
 
-//            if (CommonUtil.isParentEnable == "1") {
-//                lnrTargetAll!!.visibility = View.VISIBLE
-//            } else {
-//                lnrTargetAll!!.visibility = View.GONE
-//            }
 
             SendingType = CommonUtil.Course
             CommonUtil.courseType = "Course"
@@ -580,11 +548,9 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             Division = false
 
             isParent = false
-            //   isStudent = false
             isStaff = false
 
             binding.chboxAll!!.isChecked = false
-            //    binding.chboxStudent!!.isChecked = false
             binding.chboxParents!!.isChecked = false
             binding.chboxStaff!!.isChecked = false
         }
@@ -595,11 +561,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         }
 
         binding.lblGroups!!.setOnClickListener {
-//            if (CommonUtil.isParentEnable == "1") {
-//                lnrTargetAll!!.visibility = View.VISIBLE
-//            } else {
-//                lnrTargetAll!!.visibility = View.GONE
-//            }
+
             SendingType = CommonUtil.Groups
 
             ClickType = ""
@@ -647,16 +609,13 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             typeOfCategory = CommonUtil.Groups
 
             isParent = false
-            //    isStudent = false
             isStaff = false
 
             binding.chboxAll!!.isChecked = false
-            //  binding.chboxStudent!!.isChecked = false
             binding.chboxParents!!.isChecked = false
             binding.chboxStaff!!.isChecked = false
         }
 
-        // College list
 
         appViewModel!!.CollageList!!.observe(this) { response ->
             if (response != null) {
@@ -680,11 +639,13 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                         it.college_name
                         it.college_id
 
-                        val group = RecipientSelected(it.college_id.toString(), it.college_name,"","")
+                        val group =
+                            RecipientSelected(it.college_id.toString(), it.college_name, "", "")
                         SelectedRecipientlist.add(group)
                     }
 
-                    SpecificCollage = SelectedRecipientAdapter(SelectedRecipientlist,
+                    SpecificCollage = SelectedRecipientAdapter(
+                        SelectedRecipientlist,
                         this,
                         object : RecipientCheckListener {
                             override fun add(data: RecipientSelected?) {
@@ -738,7 +699,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             it.division_id
                             it.division_name
 
-                            val divisions = RecipientSelected(it.division_id, it.division_name,"","")
+                            val divisions =
+                                RecipientSelected(it.division_id, it.division_name, "", "")
                             SelectedRecipientlist.add(divisions)
                         }
 
@@ -832,7 +794,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                     val dlg = this.let { AlertDialog.Builder(it) }
                     dlg.setTitle(CommonUtil.Info)
                     dlg.setMessage(message)
-                    dlg.setPositiveButton(CommonUtil.OK,
+                    dlg.setPositiveButton(
+                        CommonUtil.OK,
                         DialogInterface.OnClickListener { dialog, which ->
                             CommonUtil.DepartmentChooseIds.clear()
                             val i: Intent =
@@ -901,11 +864,17 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             it.groupid
                             it.groupname
 
-                            val group = RecipientSelected(it.groupid?.toString()?:"", it.groupname,"","")
+                            val group = RecipientSelected(
+                                it.groupid?.toString() ?: "",
+                                it.groupname,
+                                "",
+                                ""
+                            )
 
                             SelectedRecipientlist.add(group)
                         }
-                        SpecificCollage = SelectedRecipientAdapter(SelectedRecipientlist,
+                        SpecificCollage = SelectedRecipientAdapter(
+                            SelectedRecipientlist,
                             this,
                             object : RecipientCheckListener {
                                 override fun add(data: RecipientSelected?) {
@@ -1236,7 +1205,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             CommonUtil.TextHistory -> SmsToParticularTypeRequest()
                             CommonUtil.Communication -> VoiceSendParticuler()
                             CommonUtil.CommunicationVoice -> SendVoiceToParticulerHistory()
-//                            CommonUtil.New_Video -> VimeoVideoUpload(this, CommonUtil.videofile!!)
                             CommonUtil.New_Video -> VimeoUploader.uploadVideo(
                                 this,
                                 CommonUtil.title,
@@ -1246,10 +1214,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                 this
                             )
 
-//                            CommonUtil.Noticeboard -> awsFileUpload(this, pathIndex)
                             CommonUtil.Noticeboard -> isUploadAWS()
                             CommonUtil.ScreenNameEvent -> Eventsend("add")
-//                            CommonUtil.Image_Pdf -> awsFileUpload(this, pathIndex)
                             CommonUtil.Image_Pdf -> isUploadAWS()
                         }
                     }
@@ -1350,13 +1316,17 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             for (i in GetCourseData!!.indices) {
                                 if (GetCourseData!![i].division_id.toString() == SelectedSpinnerID) {
                                     val department = RecipientSelected(
-                                        GetCourseData!![i].course_id, GetCourseData!![i].course_name,"",""
+                                        GetCourseData!![i].course_id,
+                                        GetCourseData!![i].course_name,
+                                        "",
+                                        ""
                                     )
                                     FilterDepartment.add(department)
                                 }
                             }
                             LoadDepartmentSpinner()
-                            SpecificCollage = SelectedRecipientAdapter(FilterDepartment,
+                            SpecificCollage = SelectedRecipientAdapter(
+                                FilterDepartment,
                                 this@HeaderRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -1385,7 +1355,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             GetCourseData!!.forEach {
                                 it.course_id
                                 it.course_name
-                                val department = RecipientSelected(it.course_id, it.course_name,"","")
+                                val department =
+                                    RecipientSelected(it.course_id, it.course_name, "", "")
                                 SelectedRecipientlist.add(department)
                             }
 
@@ -1397,7 +1368,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                 binding.txtCheckBoxtext!!.text = CommonUtil.Select_All
                             }
 
-                            SpecificCollage = SelectedRecipientAdapter(SelectedRecipientlist,
+                            SpecificCollage = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this@HeaderRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -1469,13 +1441,14 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                 if (GetDepartmentData!![i].division_id.toString() == SelectedSpinnerID) {
                                     val department = RecipientSelected(
                                         GetDepartmentData!![i].department_id,
-                                        GetDepartmentData!![i].department_name,"",""
+                                        GetDepartmentData!![i].department_name, "", ""
                                     )
                                     FilterDepartment.add(department)
                                 }
                             }
 
-                            SpecificCollage = SelectedRecipientAdapter(FilterDepartment,
+                            SpecificCollage = SelectedRecipientAdapter(
+                                FilterDepartment,
                                 this@HeaderRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -1507,7 +1480,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                 it.department_id
                                 it.department_name
                                 val department =
-                                    RecipientSelected(it.department_id, it.department_name,"","")
+                                    RecipientSelected(it.department_id, it.department_name, "", "")
                                 SelectedRecipientlist.add(department)
                             }
 
@@ -1520,7 +1493,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             }
 
 
-                            SpecificCollage = SelectedRecipientAdapter(SelectedRecipientlist,
+                            SpecificCollage = SelectedRecipientAdapter(
+                                SelectedRecipientlist,
                                 this@HeaderRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -1592,13 +1566,14 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                     if (GetCourseData!![j].department_name == name) {
                                         val department = RecipientSelected(
                                             GetCourseData!![j].course_id,
-                                            GetCourseData!![j].course_name,"",""
+                                            GetCourseData!![j].course_name, "", ""
                                         )
                                         FilterDepartment.add(department)
                                     }
                                 }
                             }
-                            SpecificCollage = SelectedRecipientAdapter(FilterDepartment,
+                            SpecificCollage = SelectedRecipientAdapter(
+                                FilterDepartment,
                                 this@HeaderRecipient,
                                 object : RecipientCheckListener {
                                     override fun add(data: RecipientSelected?) {
@@ -1624,12 +1599,16 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                         for (i in GetCourseData!!.indices) {
                             if (GetCourseData!![i].division_id.toString() == DivisionId) {
                                 val department = RecipientSelected(
-                                    GetCourseData!![i].course_id, GetCourseData!![i].course_name,"",""
+                                    GetCourseData!![i].course_id,
+                                    GetCourseData!![i].course_name,
+                                    "",
+                                    ""
                                 )
                                 FilterDepartment.add(department)
                             }
                         }
-                        SpecificCollage = SelectedRecipientAdapter(FilterDepartment,
+                        SpecificCollage = SelectedRecipientAdapter(
+                            FilterDepartment,
                             this@HeaderRecipient,
                             object : RecipientCheckListener {
                                 override fun add(data: RecipientSelected?) {
@@ -1679,8 +1658,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
     private fun GetDivisionRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_college_id, CollegeId_s?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
+        jsonObject.addProperty(ApiRequestNames.Req_college_id, CollegeId_s?.toString() ?: "")
         appViewModel!!.getDivision(jsonObject, this)
         Log.d("GetDivisionRequest", jsonObject.toString())
     }
@@ -1718,7 +1697,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
     private fun GetDepartmentRequest() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_user_id, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_college_id, CollegeId_s)
         jsonObject.addProperty(ApiRequestNames.Req_div_id, SelectedSpinnerID)
         appViewModel!!.getDepartment(jsonObject, this)
@@ -1728,8 +1707,11 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
     private fun SendVoiceToParticulerHistory() {
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(
+            ApiRequestNames.Req_collegeid,
+            CommonUtil.CollegeId?.toString() ?: ""
+        )
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
         jsonObject.addProperty("isemergencyvoice", CommonUtil.CallEnable)
@@ -1762,12 +1744,15 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         val jsonObject = JsonObject()
 
         if (collegeEntire) {
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_collegeid,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_collegeid, CollegeId_s)
         }
 
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_title, CommonUtil.title)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.Description)
@@ -1787,7 +1772,10 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         val jsonObject = JsonObject()
 
         if (collegeEntire) {
-            jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_colgid,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_colgid, CollegeId_s)
         }
@@ -1797,7 +1785,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_topic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_Description, CommonUtil.MenuDescription)
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, "add")
         jsonObject.addProperty(ApiRequestNames.Req_isStudent, isStudent)
@@ -1805,20 +1793,17 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         jsonObject.addProperty(ApiRequestNames.Req_isParent, isParent)
 
 
-
         val FileNameArray = JsonArray()
-//        if (!CommonUtil.urlFromS3.equals(null)) {
-            for (i in AWSUploadedFilesList.indices) {
-                val FileNameobject = JsonObject()
-                FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
-                if (AWSUploadedFilesList.get(0).contains(".pdf")) {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
-                } else {
-                    FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
-                }
-                FileNameArray.add(FileNameobject)
+        for (i in AWSUploadedFilesList.indices) {
+            val FileNameobject = JsonObject()
+            FileNameobject.addProperty("filepath", AWSUploadedFilesList[i])
+            if (AWSUploadedFilesList.get(0).contains(".pdf")) {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "pdf")
+            } else {
+                FileNameobject.addProperty(ApiRequestNames.Req_filetype, "image")
             }
-//        }
+            FileNameArray.add(FileNameobject)
+        }
         jsonObject.add("files", FileNameArray)
 
         appViewModel!!.NoticeBoardsmssending(jsonObject, this)
@@ -1836,11 +1821,14 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         }
 
         if (collegeEntire) {
-            jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId?.toString()?:"")
+            jsonObject.addProperty(
+                ApiRequestNames.Req_collegeid,
+                CommonUtil.CollegeId?.toString() ?: ""
+            )
         } else {
             jsonObject.addProperty(ApiRequestNames.Req_collegeid, CollegeId_s)
         }
-        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
         jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
@@ -1871,7 +1859,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId)
         jsonObject.addProperty(ApiRequestNames.Req_Callertye, CommonUtil.Priority)
 
-//        if (CommonUtil.urlFromS3!!.contains(".pdf")) {
         if (AWSUploadedFilesList.get(0).contains(".pdf")) {
             jsonObject.addProperty(ApiRequestNames.Req_filetype, "3")
         } else {
@@ -1918,7 +1905,7 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             jsonObject.addProperty(ApiRequestNames.Req_collegeid, CollegeId_s)
         }
 
-        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString()?:"")
+        jsonObject.addProperty("staffid", CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty("callertype", CommonUtil.Priority)
         jsonObject.addProperty("filetype", fileType)
         jsonObject.addProperty("fileduration", CommonUtil.VoiceDuration)
@@ -1969,7 +1956,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                     val dlg = this@HeaderRecipient.let { AlertDialog.Builder(it) }
                                     dlg.setTitle(CommonUtil.Info)
                                     dlg.setMessage(message)
-                                    dlg.setPositiveButton(CommonUtil.OK,
+                                    dlg.setPositiveButton(
+                                        CommonUtil.OK,
                                         DialogInterface.OnClickListener { dialog, which ->
                                             val i: Intent =
 
@@ -1998,89 +1986,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             })
     }
 
-
-//    fun awsFileUpload(activity: Activity?, pathind: Int?) {
-//
-//        Log.d("SelcetedFileList", CommonUtil.SelcetedFileList.size.toString())
-//        val s3Uploader1Obj: S3Uploader1
-//        s3Uploader1Obj = S3Uploader1(activity)
-//        pathIndex = pathind!!
-//
-//        for (index in pathIndex until CommonUtil.SelcetedFileList.size) {
-//            uploadFilePath = CommonUtil.SelcetedFileList[index]
-//            Log.d("uploadFilePath", uploadFilePath.toString())
-//            val extension = uploadFilePath!!.substring(uploadFilePath!!.lastIndexOf("."))
-//            contentType = if (extension == ".pdf") {
-//                ".pdf"
-//            } else {
-//                ".jpg"
-//            }
-//            break
-//        }
-//
-//        if (AWSUploadedFilesList.size < CommonUtil.SelcetedFileList.size) {
-//            Log.d("test", uploadFilePath!!)
-//            if (uploadFilePath != null) {
-//                progressDialog = CustomLoading.createProgressDialog(this)
-//
-//                progressDialog!!.show()
-//                fileNameDateTime =
-//                    SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().time)
-//                fileNameDateTime = "File_$fileNameDateTime"
-//                Log.d("filenamedatetime", fileNameDateTime.toString())
-//                s3Uploader1Obj.initUpload(
-//                    uploadFilePath, contentType, CommonUtil.CollegeId.toString(), fileNameDateTime
-//                )
-//                s3Uploader1Obj.setOns3UploadDone(object : S3Uploader1.S3UploadInterface {
-//                    override fun onUploadSuccess(response: String?) {
-//                        if (response!! == "Success") {
-//
-//                            CommonUtil.urlFromS3 = S3Utils.generates3ShareUrl(
-//                                this@HeaderRecipient,
-//                                CommonUtil.CollegeId.toString(),
-//                                uploadFilePath,
-//                                fileNameDateTime
-//                            )
-//
-//                            Log.d("urifroms3", CommonUtil.urlFromS3.toString())
-//
-//                            if (!TextUtils.isEmpty(CommonUtil.urlFromS3)) {
-//
-//
-//                                Awsuploadedfile.add(CommonUtil.urlFromS3.toString())
-//                                Awsaupladedfilepath = Awsuploadedfile.joinToString(separator)
-//
-//
-//                                fileName = uploadFilePath?.let { File(it) }
-//
-//                                filename = fileName!!.name
-//                                AWSUploadedFilesList.add(
-//                                    AWSUploadedFiles(
-//                                        CommonUtil.urlFromS3!!, filename, contentType
-//                                    )
-//                                )
-//
-//                                Log.d("AWSUploadedFilesList", AWSUploadedFilesList.toString())
-//                                awsFileUpload(activity, pathIndex + 1)
-//
-//                                if (CommonUtil.SelcetedFileList.size == AWSUploadedFilesList.size) {
-//                                    progressDialog!!.dismiss()
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onUploadError(response: String?) {
-//                        progressDialog!!.dismiss()
-//                    }
-//                })
-//            }
-//        } else if (ScreenName!!.equals(CommonUtil.Noticeboard)) {
-//            NoticeBoardSMSsending()
-//        } else {
-//            ImageOrPdfsendparticuler()
-//        }
-//    }
 
     override val layoutResourceId: Int
         get() = R.layout.activity_header_recipient
@@ -2121,7 +2026,8 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
     private fun AwsUploadingFile(
         isFilePath: String
     ) {
-        isAwsUploadingPreSigned!!.getPreSignedUrl(this,
+        isAwsUploadingPreSigned!!.getPreSignedUrl(
+            this,
             isFilePath,
             CommonUtil.Collage_ids,
             object : UploadCallback {

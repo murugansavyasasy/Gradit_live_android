@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -147,8 +146,6 @@ public class ViewExistingLocations extends AppCompatActivity {
                             lblNoRecords.setTypeface(null, Typeface.BOLD);
 
                         }
-                    } else {
-//                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.che), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -190,11 +187,11 @@ public class ViewExistingLocations extends AppCompatActivity {
             public void onClick(View v) {
                 editPopup.dismiss();
                 String distance = txtDistance.getText().toString().replaceAll("[^0-9]", ""); // Keep only numbers
-                Log.d("en_distance",distance);
+                Log.d("en_distance", distance);
                 int distanceCheck = Integer.parseInt(distance);
                 if (distanceCheck >= 10) {
-                    Log.d("en_distance","true");
-                    updateLocationAPI(String.valueOf(distanceCheck),txtLocationName.getText().toString(),item.getId());
+                    Log.d("en_distance", "true");
+                    updateLocationAPI(String.valueOf(distanceCheck), txtLocationName.getText().toString(), item.getId());
                 } else {
                     Toast.makeText(ViewExistingLocations.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
                 }
@@ -208,7 +205,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         });
     }
 
-    private void updateLocationAPI(String distance,String locationName,int id) {
+    private void updateLocationAPI(String distance, String locationName, int id) {
         final ProgressDialog mProgressDialog = new ProgressDialog(ViewExistingLocations.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
@@ -244,7 +241,6 @@ public class ViewExistingLocations extends AppCompatActivity {
                             if (status == 1) {
                                 getExistingViewLocations();
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
-                              //  finish();
                             } else {
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
                             }
@@ -319,7 +315,6 @@ public class ViewExistingLocations extends AppCompatActivity {
                             if (status == 1) {
                                 getExistingViewLocations();
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
-                               // finish();
                             } else {
                                 Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
                             }

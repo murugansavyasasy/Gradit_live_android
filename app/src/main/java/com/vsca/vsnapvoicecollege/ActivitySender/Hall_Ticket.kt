@@ -2,15 +2,12 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.ScrollView
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import com.arindicatorview.ARIndicatorView
 import com.google.gson.JsonObject
@@ -22,7 +19,6 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityHallTicketBinding
 
 class Hall_Ticket : AppCompatActivity() {
@@ -30,7 +26,6 @@ class Hall_Ticket : AppCompatActivity() {
     var appViewModel: App? = null
     private var hallTicketAdapter: HallticketAdapter? = null
     private var hallTicketResponse: List<HallticketResponse> = ArrayList()
-
 
 
     private lateinit var arIndicatorView: ARIndicatorView
@@ -41,11 +36,11 @@ class Hall_Ticket : AppCompatActivity() {
         CommonUtil.SetTheme(this, noActionBar = true)
 
         super.onCreate(savedInstanceState)
-         binding = ActivityHallTicketBinding.inflate(layoutInflater)
+        binding = ActivityHallTicketBinding.inflate(layoutInflater)
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
-         hallTicket()
+        hallTicket()
         CommonUtil.OnMenuClicks("Hallticket")
         arIndicatorView = findViewById(R.id.ar_indicator)
 
@@ -101,9 +96,15 @@ class Hall_Ticket : AppCompatActivity() {
 
     private fun hallTicket() {
         val jsonObject = JsonObject()
-        jsonObject.addProperty(ApiRequestNames.Req_i_course_id, CommonUtil.Courseid.toIntOrNull()?:0)
+        jsonObject.addProperty(
+            ApiRequestNames.Req_i_course_id,
+            CommonUtil.Courseid.toIntOrNull() ?: 0
+        )
         jsonObject.addProperty(ApiRequestNames.Req_colgid, CommonUtil.CollegeId)
-        jsonObject.addProperty(ApiRequestNames.Req_i_sem_id, CommonUtil.semesterid.toIntOrNull()?:0)
+        jsonObject.addProperty(
+            ApiRequestNames.Req_i_sem_id,
+            CommonUtil.semesterid.toIntOrNull() ?: 0
+        )
         jsonObject.addProperty(ApiRequestNames.Req_i_student_id, CommonUtil.MemberId)
         appViewModel!!.getHallticket(jsonObject, this@Hall_Ticket)
         Log.d("hallTicket:", jsonObject.toString())

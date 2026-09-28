@@ -7,7 +7,6 @@ import android.app.ProgressDialog
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -16,17 +15,22 @@ import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.PopupWindow
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
@@ -42,18 +46,16 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil.MenuTitle
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.extension
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
-import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
-import com.vsca.vsnapvoicecollege.databinding.ActivityApplyLeaveBinding
 import com.vsca.vsnapvoicecollege.databinding.ActivityImageOrPdfBinding
 import org.apache.commons.io.FileUtils
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
-class ImageOrPdf: ActionBarActivity() {
+class ImageOrPdf : ActionBarActivity() {
 
 
     var FilePopup: PopupWindow? = null
@@ -90,7 +92,7 @@ class ImageOrPdf: ActionBarActivity() {
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
 
-        ActionbarWithoutBottom(this,hideBackButton=true)
+        ActionbarWithoutBottom(this, hideBackButton = true)
 
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
@@ -102,16 +104,17 @@ class ImageOrPdf: ActionBarActivity() {
 
         CommonUtil.SelcetedFileList.clear()
         imgRefresh!!.visibility = View.GONE
-        
+
         binding.LayoutUploadImagePdf.setOnClickListener { ChooseFile() }
-        binding.imgImagePdfback.setOnClickListener {  super.onBackPressed() }
-        binding.btnCancel.setOnClickListener {  super.onBackPressed() }
-        binding.LayoutAdvertisement.setOnClickListener {  adclick() }
+        binding.imgImagePdfback.setOnClickListener { super.onBackPressed() }
+        binding.btnCancel.setOnClickListener { super.onBackPressed() }
+        binding.LayoutAdvertisement.setOnClickListener { adclick() }
 
 
-        
 
-        appViewModel!!.AdvertisementLiveData?.observe(this,
+
+        appViewModel!!.AdvertisementLiveData?.observe(
+            this,
             androidx.lifecycle.Observer<GetAdvertisementResponse?> { response ->
                 if (response != null) {
                     val status = response.status
@@ -126,7 +129,8 @@ class ImageOrPdf: ActionBarActivity() {
                         Glide.with(this).load(AdBackgroundImage)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
@@ -134,22 +138,22 @@ class ImageOrPdf: ActionBarActivity() {
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this).load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
                             .error(R.drawable.savyasasy_ads)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imgAdvertisement!!)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(binding.imgAdvertisement!!)
                         Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                         Glide.with(this)
-                            .load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .load(R.drawable.adv_thumb_gradit_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.adv_thumb_placeholder)
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .into(binding.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this).load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
                         .error(R.drawable.savyasasy_ads)
@@ -157,7 +161,8 @@ class ImageOrPdf: ActionBarActivity() {
                     Log.d("AdBackgroundImage", AdBackgroundImage!!)
 
                     Glide.with(this)
-                        .load(R.drawable.adv_thumb_gradit_logo).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .load(R.drawable.adv_thumb_gradit_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.adv_thumb_placeholder)
                         .error(R.drawable.adv_thumb_gradit_logo)
                         .into(binding.imgthumb!!)
@@ -285,7 +290,7 @@ class ImageOrPdf: ActionBarActivity() {
         Log.d("PreviousAddId", PreviousAddId.toString())
     }
 
-     fun ChooseFile() {
+    fun ChooseFile() {
 
         Log.d("popup", "test")
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -316,7 +321,6 @@ class ImageOrPdf: ActionBarActivity() {
         LayoutGallery.setOnClickListener {
             CommonUtil.SelcetedFileList.clear()
 
-//            FileType = "IMAGE"
 
             pickImagesLauncher?.launch(
                 PickVisualMediaRequest(
@@ -326,10 +330,7 @@ class ImageOrPdf: ActionBarActivity() {
 
             FilePopup?.dismiss()
 
-//            val intent1 = Intent(this, AlbumSelectActivity::class.java)
-//            intent1.putExtra("Gallery", "Images")
-//            startActivityForResult(intent1, REQUEST_GAllery)
-//            FilePopup!!.dismiss()
+
         }
 
         LayoutCamera.setOnClickListener {

@@ -3,9 +3,7 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.view.WindowInsetsControllerCompat
+
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -48,11 +46,9 @@ class SubjectList : BaseActivity<SubjectListviewBinding>() {
     var SubjectdetailX: List<SubjectdetailX> = ArrayList()
     var ExamSubjectList: List<ExamSubjectList> = ArrayList()
     var ExamSubjectSubList: List<ExamSubjectSubList> = ArrayList()
-//    private lateinit var binding: SubjectListviewBinding
-override fun inflateBinding(): SubjectListviewBinding {
-    return SubjectListviewBinding.inflate(layoutInflater)
-}
-
+    override fun inflateBinding(): SubjectListviewBinding {
+        return SubjectListviewBinding.inflate(layoutInflater)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +70,6 @@ override fun inflateBinding(): SubjectListviewBinding {
             ActionBarMethod(this)
             fixActionBarOverlap(binding.LayoutBottomMenus)
         }
-//        MenuBottomType()
 
         binding.CommonLayout.imgback.setOnClickListener { onBackPressed() }
         binding.CommonLayout.LayoutAdvertisement.setOnClickListener { adclick() }
@@ -107,8 +102,7 @@ override fun inflateBinding(): SubjectListviewBinding {
                             .error(R.drawable.adv_thumb_gradit_logo)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
-                    }
-                    else{
+                    } else {
                         Glide.with(this)
                             .load(R.drawable.savyasasy_ads)
                             .placeholder(R.drawable.adv_place_holder)
@@ -124,8 +118,7 @@ override fun inflateBinding(): SubjectListviewBinding {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(binding.CommonLayout.imgthumb!!)
                     }
-                }
-                else{
+                } else {
                     Glide.with(this)
                         .load(R.drawable.savyasasy_ads)
                         .placeholder(R.drawable.adv_place_holder)
@@ -147,7 +140,6 @@ override fun inflateBinding(): SubjectListviewBinding {
             if (response != null) {
                 val status = response.Status
                 val message = response.Message
-//                UserMenuRequest(this)
                 AdForCollegeApi()
 
                 if (status == 1) {
@@ -169,7 +161,10 @@ override fun inflateBinding(): SubjectListviewBinding {
                     binding.CommonLayout.createExamRecycle!!.layoutManager = mLayoutManager
                     binding.CommonLayout.createExamRecycle!!.itemAnimator = DefaultItemAnimator()
                     binding.CommonLayout.createExamRecycle!!.adapter = SubjectListAdapter
-                    binding.CommonLayout.createExamRecycle!!.recycledViewPool.setMaxRecycledViews(0, 80)
+                    binding.CommonLayout.createExamRecycle!!.recycledViewPool.setMaxRecycledViews(
+                        0,
+                        80
+                    )
                     SubjectListAdapter!!.notifyDataSetChanged()
                 }
             }
@@ -210,7 +205,6 @@ override fun inflateBinding(): SubjectListviewBinding {
     override val layoutResourceId: Int
         get() = R.layout.subject_listview
 
-//    @OnClick(R.id.LayoutAdvertisement)
     fun adclick() {
         LoadWebViewContext(this, AdWebURl)
     }
@@ -222,8 +216,5 @@ override fun inflateBinding(): SubjectListviewBinding {
         Examviewdata()
     }
 
-//    @OnClick(R.id.imgback)
-//    fun imgback() {
-//        onBackPressed()
-//    }
+
 }
