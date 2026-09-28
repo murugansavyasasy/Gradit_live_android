@@ -96,6 +96,9 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
     // In-memory tracking of which permissions have been requested in this activity instance
     private val requestedPermissions = mutableSetOf<String>()
 
+    private var isDashboardLoaded = false
+
+
     companion object {
         private const val KEY_REQUESTED_PERMS = "requested_permissions"
         private const val TAG = "DashBoardPerm"
@@ -111,13 +114,12 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
             if (deniedPermissions.isEmpty()) {
                 permissionsJustGranted = true
-
+                isDashboardLoaded = true
                 CommonUtil.MenuListDashboard.clear()
-//                dashboardOverallList.clear()
                 UserMenuRequest(this) {
                     DashBoardRequest()
                 }
-            } else {
+            }else {
                 // Check individually: which denied permissions are permanently denied
                 val permanentlyDenied = deniedPermissions.filter { permission ->
                     !ActivityCompat.shouldShowRequestPermissionRationale(this, permission) &&
@@ -269,6 +271,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                         }
                     }
                 } else {
+                    isDashboardLoaded = false
                     CommonUtil.ApiAlert(this@DashBoardActivityRewamp, message)
                 }
             }
@@ -276,27 +279,23 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
         dashboardAttendanceList = ArrayList()
 
-        imgRefresh!!.setOnClickListener(View.OnClickListener {
-
-            dashboardCircularlist.clear()
-            dashboardMenuItems.clear()
-            dashboardEventlist.clear()
-            dashboardRecentVoicelist.clear()
-            dashboardChatlist.clear()
-            dashboardNoticeboardlist.clear()
-            dashboardAttendancetlist.clear()
-            dashboardLeaveRequestlist.clear()
-            dashboardAttendanceList!!.clear()
-            dashboardAssignmentList.clear()
-            dashboardEmergencyVoicelist.clear()
+        imgRefresh!!.setOnClickListener {
             if (Success.equals("Success")) {
-                CommonUtil.MenuListDashboard.clear()
-//                dashboardOverallList.clear()
-                UserMenuRequest(this)
-                DashBoardRequest()
+                dashboardCircularlist.clear()
+                dashboardMenuItems.clear()
+                dashboardEventlist.clear()
+                dashboardRecentVoicelist.clear()
+                dashboardChatlist.clear()
+                dashboardNoticeboardlist.clear()
+                dashboardAttendancetlist.clear()
+                dashboardLeaveRequestlist.clear()
+                dashboardAttendanceList!!.clear()
+                dashboardAssignmentList.clear()
+                dashboardEmergencyVoicelist.clear()
                 Success = ""
+                loadDashboard(force = true)
             }
-        })
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -702,9 +701,7 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
         if (hasAllPermissions()) {
             Log.d(TAG, "All permissions granted.")
-            CommonUtil.MenuListDashboard.clear()
-            UserMenuRequest(this)
-            DashBoardRequest()
+            loadDashboard()
             return
         }
 
@@ -928,5 +925,18 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         }
 
         return false
+    }
+
+
+
+    private fun loadDashboard(force: Boolean = false) {
+        if (isDashboardLoaded && !force) {
+            Log.d(TAG, "Dashboard already loaded, skipping API calls")
+            return
+        }
+        isDashboardLoaded = true
+        CommonUtil.MenuListDashboard.clear()
+        UserMenuRequest(this)
+        DashBoardRequest()
     }
 }
