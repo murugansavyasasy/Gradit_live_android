@@ -2,7 +2,6 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 
 
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -18,7 +17,6 @@ import android.widget.SearchView
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
@@ -1201,39 +1199,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent = Intent(this, Events::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Events::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Events::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Events::class.java)
+                    }
 
                 }
 
@@ -1251,41 +1225,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 if (status == 1) {
 
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
                 }
 
             } else {
@@ -1301,41 +1249,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
                 }
 
             } else {
@@ -1353,41 +1275,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 if (status == 1) {
 
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
                 }
 
             } else {
@@ -1403,22 +1299,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Assignment::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Assignment::class.java)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -1438,22 +1321,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
 
                 if (status == 1) {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Assignment::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Assignment::class.java)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -1469,22 +1339,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
 
                 if (status == 1) {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Assignment::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Assignment::class.java)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -1502,22 +1359,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
 
                 if (status == 1) {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Communication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Communication::class.java)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -2039,41 +1883,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, MessageCommunication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(MessageCommunication::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Communication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Communication::class.java)
+                    }
                 }
 
             } else {
@@ -2089,41 +1907,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, MessageCommunication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(MessageCommunication::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Communication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Communication::class.java)
+                    }
                 }
 
             } else {
@@ -2139,41 +1931,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Noticeboard::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Noticeboard::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Noticeboard::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Noticeboard::class.java)
+                    }
                 }
 
             } else {
@@ -2190,40 +1956,14 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
 
                 } else {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
                 }
 
             } else {
@@ -2239,41 +1979,15 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
                 }
 
             } else {
@@ -2290,40 +2004,14 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
 
                 } else {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
                 }
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
@@ -2352,6 +2040,13 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         lblYourClasses.setOnClickListener { YourClassesClick() }
         lblGroups.setOnClickListener { GroupsClick() }
 
+    }
+
+    /** Navigate to [target] clearing the current task's top, used by the post-send alerts. */
+    private fun openScreen(target: Class<*>) {
+        val i = Intent(this, target)
+        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(i)
     }
 
     private fun filter(text: String) {
@@ -2656,23 +2351,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SmsToEntireCollegeRequest()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2688,24 +2369,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SmsToParticularTypeRequest()
-
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2721,23 +2387,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SmsToParticularTypeRequest()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2752,23 +2404,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SmsToParticularTypeRequest()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2783,14 +2421,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -2819,12 +2450,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2839,23 +2464,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SmsToParticularTypeRequest()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2877,23 +2488,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VoiceSendEntire()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2909,24 +2506,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VoiceSendParticuler()
-
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2942,23 +2524,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VoiceSendParticuler()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -2973,23 +2541,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VoiceSendParticuler()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3004,14 +2558,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -3039,12 +2586,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3059,23 +2600,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VoiceSendParticuler()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3097,23 +2624,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 NoticeBoardSMSsending()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3129,24 +2642,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 NoticeBoardSMSsending()
-
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3162,23 +2660,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 NoticeBoardSMSsending()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3193,23 +2677,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 NoticeBoardSMSsending()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3224,14 +2694,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -3258,12 +2721,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3278,23 +2735,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 NoticeBoardSMSsending()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3316,23 +2759,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 isUploadAWS()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3348,23 +2777,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 isUploadAWS()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3380,22 +2795,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 isUploadAWS()
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3410,22 +2812,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 isUploadAWS()
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3440,14 +2829,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -3470,12 +2852,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3490,22 +2866,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 isUploadAWS()
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3527,21 +2890,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                 if (!CommonUtil.receiverid.equals("")) {
 
-                    val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@AddRecipients)
-                    alertDialog.setTitle(CommonUtil.Hold_on)
-                    alertDialog.setMessage(CommonUtil.Submit_Alart)
-                    alertDialog.setPositiveButton(
-                        CommonUtil.Yes
-                    ) { _, _ ->
-
+                    CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                         isUploadAWS()
                     }
-                    alertDialog.setNegativeButton(
-                        CommonUtil.No
-                    ) { _, _ -> }
-                    val alert: AlertDialog = alertDialog.create()
-                    alert.setCanceledOnTouchOutside(false)
-                    alert.show()
 
                 } else {
                     CommonUtil.ApiAlert(this, "Select the Receiver")
@@ -3554,23 +2905,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("add")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3586,23 +2923,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("add")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3618,23 +2941,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("add")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3649,23 +2958,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("add")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3680,14 +2975,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -3714,12 +3002,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3734,23 +3016,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("add")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3772,22 +3040,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("edit")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3803,23 +3058,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("edit")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3835,23 +3076,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("edit")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3866,23 +3093,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("edit")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3897,14 +3110,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -3931,12 +3137,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3951,23 +3151,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 Eventsend("edit")
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -3989,14 +3175,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4005,14 +3184,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.videofile!!,
                                     this
                                 )
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4028,14 +3200,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4044,14 +3209,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.videofile!!,
                                     this
                                 )
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4067,14 +3225,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4083,14 +3234,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.videofile!!,
                                     this
                                 )
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4105,14 +3249,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4121,14 +3258,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.videofile!!,
                                     this
                                 )
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4143,14 +3273,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -4205,12 +3328,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4225,14 +3342,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 VimeoUploader.uploadVideo(
                                     this,
                                     CommonUtil.title,
@@ -4241,14 +3351,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     CommonUtil.videofile!!,
                                     this
                                 )
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4270,23 +3373,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SendVoiceToParticulerHistory()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4302,23 +3391,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SendVoiceToParticulerHistory()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4334,23 +3409,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SendVoiceToParticulerHistory()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4365,23 +3426,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SendVoiceToParticulerHistory()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4396,14 +3443,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -4430,12 +3470,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4450,23 +3484,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Hold_on)
-                            alertDialog.setMessage(CommonUtil.Submit_Alart)
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                                 SendVoiceToParticulerHistory()
-
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4488,20 +3508,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 if (!CommonUtil.receiverid.equals("")) {
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4531,12 +3543,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 }
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4548,20 +3554,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                 if (!CommonUtil.receiverid.equals("")) {
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4591,12 +3589,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 }
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4609,18 +3601,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4650,12 +3636,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4668,18 +3648,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4709,12 +3683,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4728,18 +3696,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4765,12 +3727,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 }
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4785,18 +3741,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4820,12 +3770,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 }
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4840,25 +3784,14 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                 if (!CommonUtil.receiverid.equals("")) {
 
-                    val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@AddRecipients)
-                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                    if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                    val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                        CommonUtil.selected_Section + ReceiverCount
                     } else {
-                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                        CommonUtil.StudentCount + ReceiverCount
                     }
-                    alertDialog.setPositiveButton(
-                        CommonUtil.Yes
-                    ) { _, _ ->
-
+                    CommonUtil.CustomConfirm(this, confirmMessage) {
                         isUploadAWS()
                     }
-                    alertDialog.setNegativeButton(
-                        CommonUtil.No
-                    ) { _, _ -> }
-                    val alert: AlertDialog = alertDialog.create()
-                    alert.setCanceledOnTouchOutside(false)
-                    alert.show()
 
                 } else {
                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
@@ -4870,18 +3803,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4910,12 +3837,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 }
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4930,18 +3851,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 CommonUtil.receivertype = "5"
@@ -4970,12 +3885,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 }
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -4989,18 +3898,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@AddRecipients)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                            alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                        val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                            CommonUtil.selected_Section + ReceiverCount
                         } else {
-                            alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                            CommonUtil.StudentCount + ReceiverCount
                         }
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, confirmMessage) {
                             if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                 if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -5055,12 +3958,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                 }
                             }
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5078,23 +3975,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     SmsToParticularTypeRequest()
-
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -5108,24 +3991,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         SmsToParticularTypeRequest()
-
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5142,23 +4010,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             SmsToParticularTypeRequest()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5174,23 +4028,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             SmsToParticularTypeRequest()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5207,23 +4047,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     if (!CommonUtil.receivertype.equals("")) {
                         if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     SmsToParticularTypeRequest()
-
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -5237,24 +4063,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         SmsToParticularTypeRequest()
-
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5271,23 +4082,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             SmsToParticularTypeRequest()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5303,23 +4100,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             SmsToParticularTypeRequest()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5340,23 +4123,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     VoiceSendParticuler()
-
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -5370,24 +4139,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         VoiceSendParticuler()
-
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5404,23 +4158,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             VoiceSendParticuler()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5436,23 +4176,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             VoiceSendParticuler()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5471,23 +4197,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     SendVoiceToParticulerHistory()
-
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -5501,24 +4213,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         SendVoiceToParticulerHistory()
-
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5535,23 +4232,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             SendVoiceToParticulerHistory()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5567,23 +4250,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             SendVoiceToParticulerHistory()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5603,22 +4272,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                         if (SelecteRecipientType.equals(CommonUtil.Entire_Department)) {
 
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     isUploadAWS()
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -5632,22 +4288,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         isUploadAWS()
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5664,22 +4307,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             isUploadAWS()
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5695,22 +4325,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             isUploadAWS()
                                         }
-
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5731,22 +4348,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     isUploadAWS()
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -5760,23 +4364,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         isUploadAWS()
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5793,22 +4383,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             isUploadAWS()
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5824,23 +4401,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             isUploadAWS()
                                         }
-
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5861,23 +4424,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     EventsendHod("add")
-
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -5891,24 +4440,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         EventsendHod("add")
-
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5925,23 +4459,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             EventsendHod("add")
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5957,24 +4477,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             EventsendHod("add")
-
                                         }
-
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -5995,23 +4500,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     EventsendHod("edit")
-
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -6025,24 +4516,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         EventsendHod("edit")
-
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6059,23 +4535,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             EventsendHod("edit")
-
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6091,24 +4553,9 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             EventsendHod("edit")
-
                                         }
-
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6129,14 +4576,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                             if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                val alertDialog: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@AddRecipients)
-                                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                alertDialog.setMessage("This message is sending whole department")
-                                alertDialog.setPositiveButton(
-                                    CommonUtil.Yes
-                                ) { _, _ ->
-
+                                CommonUtil.CustomConfirm(this, "This message is sending whole department") {
                                     VimeoUploader.uploadVideo(
                                         this,
                                         CommonUtil.title,
@@ -6145,14 +4585,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                         CommonUtil.videofile!!,
                                         this
                                     )
-
                                 }
-                                alertDialog.setNegativeButton(
-                                    CommonUtil.No
-                                ) { _, _ -> }
-                                val alert: AlertDialog = alertDialog.create()
-                                alert.setCanceledOnTouchOutside(false)
-                                alert.show()
 
                             } else {
 
@@ -6164,14 +4597,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                 if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                    val alertDialog: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@AddRecipients)
-                                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                    alertDialog.setMessage(CommonUtil.selected_Course + ReceiverCount)
-                                    alertDialog.setPositiveButton(
-                                        CommonUtil.Yes
-                                    ) { _, _ ->
-
+                                    CommonUtil.CustomConfirm(this, CommonUtil.selected_Course + ReceiverCount) {
                                         VimeoUploader.uploadVideo(
                                             this,
                                             CommonUtil.title,
@@ -6180,14 +4606,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                             CommonUtil.videofile!!,
                                             this
                                         )
-
                                     }
-                                    alertDialog.setNegativeButton(
-                                        CommonUtil.No
-                                    ) { _, _ -> }
-                                    val alert: AlertDialog = alertDialog.create()
-                                    alert.setCanceledOnTouchOutside(false)
-                                    alert.show()
 
                                 } else {
                                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6204,14 +4623,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + ReceiverCount) {
                                             VimeoUploader.uploadVideo(
                                                 this,
                                                 CommonUtil.title,
@@ -6221,12 +4633,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                                 this
                                             )
                                         }
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6242,14 +4648,7 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                                     if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                                        val alertDialog: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@AddRecipients)
-                                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
-                                        alertDialog.setPositiveButton(
-                                            CommonUtil.Yes
-                                        ) { _, _ ->
-
+                                        CommonUtil.CustomConfirm(this, CommonUtil.selected_Section + ReceiverCount) {
                                             VimeoUploader.uploadVideo(
                                                 this,
                                                 CommonUtil.title,
@@ -6259,13 +4658,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                                 this
                                             )
                                         }
-
-                                        alertDialog.setNegativeButton(
-                                            CommonUtil.No
-                                        ) { _, _ -> }
-                                        val alert: AlertDialog = alertDialog.create()
-                                        alert.setCanceledOnTouchOutside(false)
-                                        alert.show()
 
                                     } else {
                                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6285,20 +4677,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     if (!CommonUtil.receiverid.equals("")) {
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6328,12 +4712,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6345,20 +4723,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                     if (!CommonUtil.receiverid.equals("")) {
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6388,12 +4758,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6407,18 +4771,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6447,12 +4805,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6465,18 +4817,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6505,12 +4851,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6524,17 +4864,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
                                     CommonUtil.receivertype = "5"
                                     if (SpinningText.equals(CommonUtil.Subjects)) {
@@ -6551,12 +4886,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6570,18 +4899,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6606,12 +4929,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6625,18 +4942,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6665,12 +4976,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6684,18 +4989,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6724,12 +5023,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6743,18 +5036,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
                         if ((chboxParents!!.isChecked) || (chboxStaff!!.isChecked) || (chboxStudent!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked) || (chboxStudent!!.isChecked && chboxParents!!.isChecked) || (chboxStudent!!.isChecked && chboxStaff!!.isChecked) || (chboxParents!!.isChecked && chboxStaff!!.isChecked && chboxStudent!!.isChecked)) {
 
-                            val alertDialog: AlertDialog.Builder =
-                                AlertDialog.Builder(this@AddRecipients)
-                            alertDialog.setTitle(CommonUtil.Submit_Alart)
-                            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                                alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                            val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                                CommonUtil.selected_Section + ReceiverCount
                             } else {
-                                alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                                CommonUtil.StudentCount + ReceiverCount
                             }
-                            alertDialog.setPositiveButton(
-                                CommonUtil.Yes
-                            ) { _, _ ->
-
+                            CommonUtil.CustomConfirm(this, confirmMessage) {
                                 if (txt_selectspecfic!!.visibility == View.VISIBLE) {
 
                                     CommonUtil.receivertype = "5"
@@ -6811,12 +5098,6 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     }
                                 }
                             }
-                            alertDialog.setNegativeButton(
-                                CommonUtil.No
-                            ) { _, _ -> }
-                            val alert: AlertDialog = alertDialog.create()
-                            alert.setCanceledOnTouchOutside(false)
-                            alert.show()
 
                         } else {
                             CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -6831,26 +5112,14 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
             ) {
                 if (!CommonUtil.receiverid.equals("")) {
 
-                    val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@AddRecipients)
-                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-                    if (txt_selectspecfic!!.visibility == View.VISIBLE) {
-                        alertDialog.setMessage(CommonUtil.selected_Section + ReceiverCount)
+                    val confirmMessage = if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+                        CommonUtil.selected_Section + ReceiverCount
                     } else {
-                        alertDialog.setMessage(CommonUtil.StudentCount + ReceiverCount)
+                        CommonUtil.StudentCount + ReceiverCount
                     }
-                    alertDialog.setPositiveButton(
-                        CommonUtil.Yes
-                    ) { _, _ ->
-
+                    CommonUtil.CustomConfirm(this, confirmMessage) {
                         isUploadAWS()
-
                     }
-                    alertDialog.setNegativeButton(
-                        CommonUtil.No
-                    ) { _, _ -> }
-                    val alert: AlertDialog = alertDialog.create()
-                    alert.setCanceledOnTouchOutside(false)
-                    alert.show()
 
                 } else {
                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
@@ -8477,47 +6746,17 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent =
-
-                                                Intent(
-                                                    this@AddRecipients, Communication::class.java
-                                                )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@AddRecipients, message) {
+                                        this@AddRecipients.openScreen(Communication::class.java)
+                                    }
 
                                 } else {
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent =
-
-                                                Intent(
-                                                    this@AddRecipients, Communication::class.java
-                                                )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@AddRecipients, message) {
+                                        this@AddRecipients.openScreen(Communication::class.java)
+                                    }
 
                                 }
                             }
@@ -8593,46 +6832,18 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent =
-
-                                                Intent(
-                                                    this@AddRecipients, Communication::class.java
-                                                )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@AddRecipients, message) {
+                                        this@AddRecipients.openScreen(Communication::class.java)
+                                    }
 
                                 } else {
 
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent = Intent(
-                                                this@AddRecipients, Communication::class.java
-                                            )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@AddRecipients, message) {
+                                        this@AddRecipients.openScreen(Communication::class.java)
+                                    }
 
                                 }
                             }
@@ -8705,43 +6916,17 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent = Intent(
-                                                this@AddRecipients, Communication::class.java
-                                            )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@AddRecipients, message) {
+                                        this@AddRecipients.openScreen(Communication::class.java)
+                                    }
 
                                 } else {
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@AddRecipients.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent = Intent(
-                                                this@AddRecipients, Communication::class.java
-                                            )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@AddRecipients, message) {
+                                        this@AddRecipients.openScreen(Communication::class.java)
+                                    }
 
                                 }
                             }

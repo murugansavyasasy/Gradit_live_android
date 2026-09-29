@@ -2,7 +2,6 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.app.Dialog
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -18,7 +17,6 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -791,23 +789,14 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                 val message = response.Message
 
                 if (status == 1) {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            CommonUtil.DepartmentChooseIds.clear()
-                            val i: Intent =
+                    CommonUtil.CustomAlert(this, message) {
+                        CommonUtil.DepartmentChooseIds.clear()
+                        val i: Intent =
 
-                                Intent(this, Communication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                            Intent(this, Communication::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -935,23 +924,14 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent =
 
-                                Intent(this, MessageCommunication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                            Intent(this, MessageCommunication::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
 
                 }
             } else {
@@ -967,40 +947,21 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent = Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent = Intent(this, Video::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-
-                            val i: Intent = Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent = Intent(this, Video::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
                 }
 
             } else {
@@ -1017,41 +978,23 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent =
 
-                                Intent(this, Noticeboard::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                            Intent(this, Noticeboard::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent = Intent(this, Noticeboard::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent = Intent(this, Noticeboard::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
                 }
 
             } else {
@@ -1068,41 +1011,23 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent = Intent(this, Events::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent = Intent(this, Events::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent =
 
-                                Intent(this, Events::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                            Intent(this, Events::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
 
                 }
 
@@ -1120,43 +1045,25 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                 if (status == 1) {
 
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent =
 
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                            Intent(this, Circular::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
+                    CommonUtil.CustomAlert(this, message) {
+                        val i: Intent =
 
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                            CommonUtil.DepartmentChooseIds.clear()
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                            Intent(this, Circular::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(i)
+                        CommonUtil.DepartmentChooseIds.clear()
+                    }
                 }
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
@@ -1185,21 +1092,16 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
             } else {
 
                 if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                    val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this)
-                    alertDialog.setTitle(CommonUtil.Submit_Alart)
-
-                    when (SendingType) {
-                        CommonUtil.College -> alertDialog.setMessage(CommonUtil.selected_College + receiverCount)
-                        CommonUtil.Division -> alertDialog.setMessage(CommonUtil.selected_Division + receiverCount)
-                        CommonUtil.Department_ -> alertDialog.setMessage(CommonUtil.selected_Department + receiverCount)
-                        CommonUtil.Course -> alertDialog.setMessage(CommonUtil.selected_Course + receiverCount)
-                        CommonUtil.Groups -> alertDialog.setMessage(CommonUtil.selected_Groups + receiverCount)
+                    val confirmMessage = when (SendingType) {
+                        CommonUtil.College -> CommonUtil.selected_College + receiverCount
+                        CommonUtil.Division -> CommonUtil.selected_Division + receiverCount
+                        CommonUtil.Department_ -> CommonUtil.selected_Department + receiverCount
+                        CommonUtil.Course -> CommonUtil.selected_Course + receiverCount
+                        CommonUtil.Groups -> CommonUtil.selected_Groups + receiverCount
+                        else -> ""
                     }
 
-                    alertDialog.setPositiveButton(
-                        CommonUtil.Yes
-                    ) { _, _ ->
-
+                    CommonUtil.CustomConfirm(this, confirmMessage) {
                         when (ScreenName) {
                             CommonUtil.Text -> SmsToParticularTypeRequest()
                             CommonUtil.TextHistory -> SmsToParticularTypeRequest()
@@ -1219,12 +1121,6 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                             CommonUtil.Image_Pdf -> isUploadAWS()
                         }
                     }
-                    alertDialog.setNegativeButton(
-                        CommonUtil.No
-                    ) { _, _ -> }
-                    val alert: AlertDialog = alertDialog.create()
-                    alert.setCanceledOnTouchOutside(false)
-                    alert.show()
 
                 } else {
                     CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -1953,25 +1849,16 @@ class HeaderRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionListe
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@HeaderRecipient.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent =
+                                    CommonUtil.CustomAlert(this@HeaderRecipient, message) {
+                                        val i: Intent =
 
-                                                Intent(
-                                                    this@HeaderRecipient, Communication::class.java
-                                                )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                            CommonUtil.DepartmentChooseIds.clear()
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                            Intent(
+                                                this@HeaderRecipient, Communication::class.java
+                                            )
+                                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                        startActivity(i)
+                                        CommonUtil.DepartmentChooseIds.clear()
+                                    }
                                 }
                             }
                         }

@@ -1,13 +1,11 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -398,41 +396,15 @@ class SpecificStudent : ActionBarActivity(),
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, MessageCommunication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(MessageCommunication::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, MessageCommunication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(MessageCommunication::class.java)
+                    }
                 }
 
             } else {
@@ -448,41 +420,15 @@ class SpecificStudent : ActionBarActivity(),
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, MessageCommunication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(MessageCommunication::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, MessageCommunication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(MessageCommunication::class.java)
+                    }
                 }
 
             } else {
@@ -498,41 +444,15 @@ class SpecificStudent : ActionBarActivity(),
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Noticeboard::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Noticeboard::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Noticeboard::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Noticeboard::class.java)
+                    }
                 }
 
             } else {
@@ -549,41 +469,15 @@ class SpecificStudent : ActionBarActivity(),
                 if (status == 1) {
 
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
                 }
 
             } else {
@@ -600,22 +494,9 @@ class SpecificStudent : ActionBarActivity(),
                 val message = response.Message
 
                 if (status == 1) {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Communication::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Communication::class.java)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -634,41 +515,15 @@ class SpecificStudent : ActionBarActivity(),
                 if (status == 1) {
 
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Circular::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Circular::class.java)
+                    }
                 }
 
             } else {
@@ -684,22 +539,9 @@ class SpecificStudent : ActionBarActivity(),
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Assignment::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Assignment::class.java)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -719,22 +561,9 @@ class SpecificStudent : ActionBarActivity(),
 
 
                 if (status == 1) {
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Assignment::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Assignment::class.java)
+                    }
 
                 } else {
                     CommonUtil.ApiAlert(this, message)
@@ -753,39 +582,15 @@ class SpecificStudent : ActionBarActivity(),
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent = Intent(this, Events::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Events::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Events::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Events::class.java)
+                    }
 
                 }
 
@@ -803,41 +608,15 @@ class SpecificStudent : ActionBarActivity(),
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
                 }
 
             } else {
@@ -854,46 +633,27 @@ class SpecificStudent : ActionBarActivity(),
                 val message = response.Message
                 if (status == 1) {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
 
                 } else {
 
-                    val dlg = this.let { AlertDialog.Builder(it) }
-                    dlg.setTitle(CommonUtil.Info)
-                    dlg.setMessage(message)
-                    dlg.setPositiveButton(
-                        CommonUtil.OK,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            val i: Intent =
-
-                                Intent(this, Video::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(i)
-                        })
-
-                    dlg.setCancelable(false)
-                    dlg.create()
-                    dlg.show()
+                    CommonUtil.CustomAlert(this, message) {
+                        openScreen(Video::class.java)
+                    }
                 }
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
             }
         }
+    }
+
+    /** Navigate to [target] clearing the current task's top, used by the post-send alerts. */
+    private fun openScreen(target: Class<*>) {
+        val i = Intent(this, target)
+        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(i)
     }
 
     private fun filter(text: String) {
@@ -965,24 +725,9 @@ class SpecificStudent : ActionBarActivity(),
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             SmsToParticularTypeRequest()
-
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -993,22 +738,9 @@ class SpecificStudent : ActionBarActivity(),
 
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             SmsToEntireCollegesubjectandtuterRequest()
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1021,24 +753,9 @@ class SpecificStudent : ActionBarActivity(),
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             SmsToParticularTypeRequest()
-
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1049,21 +766,9 @@ class SpecificStudent : ActionBarActivity(),
 
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             SmsToEntireCollegesubjectandtuterRequest()
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1075,22 +780,9 @@ class SpecificStudent : ActionBarActivity(),
             if (CommonUtil.SpecificButton == (CommonUtil.Subjects)) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             VoiceSendParticuler()
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
 
@@ -1103,22 +795,9 @@ class SpecificStudent : ActionBarActivity(),
             } else if (CommonUtil.SpecificButton == CommonUtil.Tutor) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             VoiceSendTuter()
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
 
@@ -1132,21 +811,9 @@ class SpecificStudent : ActionBarActivity(),
             if (CommonUtil.SpecificButton == (CommonUtil.Subjects)) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             SendVoiceToParticulerHistory()
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
 
@@ -1159,21 +826,9 @@ class SpecificStudent : ActionBarActivity(),
             } else if (CommonUtil.SpecificButton == CommonUtil.Tutor) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             SendVoiceToParticulerHistory()
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1187,23 +842,9 @@ class SpecificStudent : ActionBarActivity(),
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             isUploadAWS()
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1213,23 +854,9 @@ class SpecificStudent : ActionBarActivity(),
             } else if (CommonUtil.SpecificButton == CommonUtil.Tutor) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             isUploadAWS()
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1244,24 +871,9 @@ class SpecificStudent : ActionBarActivity(),
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
-
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             isUploadAWS()
-
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -1274,21 +886,9 @@ class SpecificStudent : ActionBarActivity(),
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
 
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             isUploadAWS()
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
 
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
@@ -1301,21 +901,9 @@ class SpecificStudent : ActionBarActivity(),
 
             if (CommonUtil.receiverid != "") {
 
-                val alertDialog: AlertDialog.Builder =
-                    AlertDialog.Builder(this@SpecificStudent)
-                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                alertDialog.setPositiveButton(
-                    CommonUtil.Yes
-                ) { _, _ ->
+                CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                     isUploadAWS()
                 }
-                alertDialog.setNegativeButton(
-                    CommonUtil.No
-                ) { _, _ -> }
-                val alert: AlertDialog = alertDialog.create()
-                alert.setCanceledOnTouchOutside(false)
-                alert.show()
 
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
@@ -1325,21 +913,9 @@ class SpecificStudent : ActionBarActivity(),
 
             if (CommonUtil.receiverid != "") {
 
-                val alertDialog: AlertDialog.Builder =
-                    AlertDialog.Builder(this@SpecificStudent)
-                alertDialog.setTitle(CommonUtil.Submit_Alart)
-                alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                alertDialog.setPositiveButton(
-                    CommonUtil.Yes
-                ) { _, _ ->
+                CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                     isUploadAWS()
                 }
-                alertDialog.setNegativeButton(
-                    CommonUtil.No
-                ) { _, _ -> }
-                val alert: AlertDialog = alertDialog.create()
-                alert.setCanceledOnTouchOutside(false)
-                alert.show()
 
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.Select_the_Receiver)
@@ -1349,22 +925,9 @@ class SpecificStudent : ActionBarActivity(),
             if (CommonUtil.SpecificButton == CommonUtil.Subjects) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             Eventsend("add")
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1374,22 +937,9 @@ class SpecificStudent : ActionBarActivity(),
             } else if (CommonUtil.SpecificButton == CommonUtil.Tutor) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             EventsendTuter("add")
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1402,23 +952,9 @@ class SpecificStudent : ActionBarActivity(),
             if (CommonUtil.SpecificButton == CommonUtil.Subjects) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             Eventsend("edit")
-
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1428,22 +964,9 @@ class SpecificStudent : ActionBarActivity(),
             } else if (CommonUtil.SpecificButton == CommonUtil.Tutor) {
                 if (CommonUtil.receiverid != "") {
                     if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             EventsendTuter("edit")
                         }
-
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else {
                         CommonUtil.ApiAlert(this, CommonUtil.Select_the_Target)
                     }
@@ -1457,13 +980,7 @@ class SpecificStudent : ActionBarActivity(),
 
                 if ((binding.chboxParents!!.isChecked) || (binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxParents!!.isChecked) || (binding.chboxStudent!!.isChecked && binding.chboxStaff!!.isChecked) || (binding.chboxParents!!.isChecked && binding.chboxStaff!!.isChecked && binding.chboxStudent!!.isChecked)) {
                     if (CommonUtil.SpecificButton == CommonUtil.Subjects) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Submit_Alart)
-                        alertDialog.setMessage(CommonUtil.StudentCount + SelectedCount)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.StudentCount + SelectedCount) {
                             VimeoUploader.uploadVideo(
                                 this,
                                 CommonUtil.title,
@@ -1472,22 +989,9 @@ class SpecificStudent : ActionBarActivity(),
                                 CommonUtil.videofile!!,
                                 this
                             )
-
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     } else if (CommonUtil.SpecificButton == CommonUtil.Tutor) {
-                        val alertDialog: AlertDialog.Builder =
-                            AlertDialog.Builder(this@SpecificStudent)
-                        alertDialog.setTitle(CommonUtil.Hold_on)
-                        alertDialog.setMessage(CommonUtil.Submit_Alart)
-                        alertDialog.setPositiveButton(
-                            CommonUtil.Yes
-                        ) { _, _ ->
+                        CommonUtil.CustomConfirm(this, CommonUtil.Submit_Alart, CommonUtil.Hold_on) {
                             VimeoUploader.uploadVideo(
                                 this,
                                 CommonUtil.title,
@@ -1497,12 +1001,6 @@ class SpecificStudent : ActionBarActivity(),
                                 this
                             )
                         }
-                        alertDialog.setNegativeButton(
-                            CommonUtil.No
-                        ) { _, _ -> }
-                        val alert: AlertDialog = alertDialog.create()
-                        alert.setCanceledOnTouchOutside(false)
-                        alert.show()
                     }
                 } else {
                     CommonUtil.ApiAlert(
@@ -2136,47 +1634,17 @@ class SpecificStudent : ActionBarActivity(),
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent =
-
-                                                Intent(
-                                                    this@SpecificStudent, Communication::class.java
-                                                )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@SpecificStudent, message) {
+                                        this@SpecificStudent.openScreen(Communication::class.java)
+                                    }
 
                                 } else {
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent =
-
-                                                Intent(
-                                                    this@SpecificStudent, Communication::class.java
-                                                )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@SpecificStudent, message) {
+                                        this@SpecificStudent.openScreen(Communication::class.java)
+                                    }
 
                                 }
                             }
@@ -2249,45 +1717,17 @@ class SpecificStudent : ActionBarActivity(),
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent = Intent(
-                                                this@SpecificStudent, Communication::class.java
-                                            )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@SpecificStudent, message) {
+                                        this@SpecificStudent.openScreen(Communication::class.java)
+                                    }
 
                                 } else {
                                     var message: String? = null
                                     message = js.getString("Message")
 
-                                    val dlg = this@SpecificStudent.let { AlertDialog.Builder(it) }
-                                    dlg.setTitle(CommonUtil.Info)
-                                    dlg.setMessage(message)
-                                    dlg.setPositiveButton(
-                                        CommonUtil.OK,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            val i: Intent =
-
-                                                Intent(
-                                                    this@SpecificStudent, Communication::class.java
-                                                )
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                            startActivity(i)
-                                        })
-
-                                    dlg.setCancelable(false)
-                                    dlg.create()
-                                    dlg.show()
+                                    CommonUtil.CustomAlert(this@SpecificStudent, message) {
+                                        this@SpecificStudent.openScreen(Communication::class.java)
+                                    }
 
                                 }
                             }
