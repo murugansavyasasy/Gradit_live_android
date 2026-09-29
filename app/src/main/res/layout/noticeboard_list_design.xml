@@ -2,57 +2,118 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/twelve"
     android:layout_marginTop="@dimen/five"
-    android:layout_marginEnd="@dimen/twelve">
+    android:layout_marginEnd="@dimen/twelve"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/lnrNoticeboardd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/two"
+        android:layout_marginEnd="@dimen/two"
         android:background="@drawable/bg_shadow_white"
         android:orientation="vertical"
         android:padding="@dimen/fifteen"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/lblNewCircle"
             android:layout_width="@dimen/twelve"
             android:layout_height="@dimen/twelve"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
             android:layout_gravity="end"
             android:background="@drawable/bg_read_status"
             android:elevation="@dimen/three"
             android:visibility="gone" />
 
+        <!-- ============ HEADER (always visible) ============ -->
         <RelativeLayout
             android:id="@+id/rytRecentNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/five">
 
+            <!-- Right column: date / session / time -->
+            <LinearLayout
+                android:id="@+id/lnrDateColumn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/eight"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lblNoticeboardDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="date"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twelve" />
+
+                <TextView
+                    android:id="@+id/lbl_section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/two"
+                    android:gravity="end"
+                    android:text="AN"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/ten" />
+
+                <TextView
+                    android:id="@+id/lblNoticetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/two"
+                    android:gravity="end"
+                    android:text="time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/twelve"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <!-- Coloured accent bar matched to the title height -->
             <View
                 android:id="@+id/Viewlineone"
                 android:layout_width="@dimen/two"
-                android:layout_height="@dimen/fifteen"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/five"
-                android:background="@color/clr_dark_blue"></View>
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/lblNoticeboardTitle"
+                android:layout_alignBottom="@+id/lblNoticeboardTitle"
+                android:layout_alignParentStart="true"
+                android:background="@color/clr_dark_blue" />
+
+            <TextView
+                android:id="@+id/lblNoticeboardTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/Viewlineone"
+                android:layout_toStartOf="@+id/lnrDateColumn"
+                android:layout_marginStart="@dimen/eight"
+                android:layout_marginEnd="@dimen/ten"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Emeregency"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/lnrAboveAttachment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblNoticeboardTitle"
-                android:layout_marginStart="@dimen/five"
-                android:layout_marginTop="@dimen/ten"
+                android:layout_toEndOf="@+id/Viewlineone"
+                android:layout_marginStart="@dimen/eight"
+                android:layout_marginTop="@dimen/eight"
                 android:background="@drawable/bg_circular_attachment"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/two"
                 android:visibility="gone">
@@ -62,17 +123,15 @@
                     android:layout_width="@dimen/twenty"
                     android:layout_height="@dimen/twenty"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/eight"
+                    android:layout_marginStart="@dimen/eight"
                     android:src="@drawable/ic_attachment" />
 
                 <TextView
                     android:id="@+id/lblAboveCircularPath"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/one"
+                    android:layout_marginStart="@dimen/five"
                     android:layout_marginEnd="@dimen/two"
-                    android:layout_marginBottom="@dimen/two"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="View Circular"
@@ -81,96 +140,38 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/lblNoticeboardTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five"
-                android:layout_marginTop="@dimen/two"
-                android:layout_marginEnd="@dimen/twenty"
-                android:layout_toLeftOf="@+id/lblNoticeboardDate"
-                android:layout_toRightOf="@id/Viewlineone"
-                android:padding="@dimen/two"
-                android:text="Emeregency"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="bold" />
-
+            <!-- Expand indicator, pinned bottom-right -->
             <ImageView
                 android:id="@+id/imgArrowdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNoticetime"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/eight"
+                android:layout_below="@+id/lnrDateColumn"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/five"
-                android:layout_marginRight="@dimen/twelve"
+                android:layout_marginEnd="@dimen/eight"
                 android:src="@drawable/ic_arrow_down_blue" />
-
-            <TextView
-                android:id="@+id/lblNoticeboardDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/fifteen"
-                android:gravity="right"
-                android:padding="@dimen/three"
-                android:text="date"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve" />
-
-            <TextView
-                android:id="@+id/lbl_section"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/three"
-                android:gravity="center"
-                android:padding="@dimen/two"
-                android:text="AN"
-                android:textColor="@color/black"
-                android:textSize="@dimen/ten">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/lblNoticetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNoticeboardDate"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/twelve"
-                android:gravity="right"
-                android:text="time"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:visibility="visible" />
         </RelativeLayout>
 
+        <!-- ============ EXPANDED DETAIL (toggled) ============ -->
         <RelativeLayout
             android:id="@+id/rytNotice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/three"
             android:visibility="gone">
-
 
             <LinearLayout
                 android:id="@+id/lnrRecentPostedby"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginRight="@dimen/ten"
                 android:layout_marginBottom="@dimen/five"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/five">
-
+                android:paddingStart="@dimen/eight"
+                android:paddingEnd="@dimen/five">
 
                 <TextView
                     android:id="@+id/lblNoticeboardDescription"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
                     android:text=""
                     android:textColor="@color/clr_black"
                     android:textSize="@dimen/twelve"
@@ -180,119 +181,100 @@
                     android:id="@+id/LayoutVenue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/three"
-                    android:visibility="gone"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_default="percent">
+                    android:layout_marginTop="@dimen/five"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/venue"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/txt_exam_venue"
                         android:textColor="@color/black"
                         android:textSize="@dimen/twelve"
                         android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent=".15" />
+                        app:layout_constraintWidth_percent="0.22" />
 
                     <TextView
                         android:id="@+id/lblcolon1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:text=":"
                         android:textColor="@color/black"
                         android:textSize="@dimen/twelve"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/venue"
-                        app:layout_constraintLeft_toRightOf="@+id/venue"
-                        app:layout_constraintTop_toTopOf="@+id/venue"
-                        app:layout_constraintWidth_percent=".05" />
+                        app:layout_constraintStart_toEndOf="@+id/venue"
+                        app:layout_constraintTop_toTopOf="@+id/venue" />
 
                     <TextView
                         android:id="@+id/lblVenue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
+                        android:layout_marginStart="@dimen/eight"
                         android:textColor="@color/black"
                         android:textSize="@dimen/twelve"
                         android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="@+id/lblcolon1"
-                        app:layout_constraintLeft_toRightOf="@+id/lblcolon1"
-                        app:layout_constraintTop_toTopOf="@+id/lblcolon1"
-                        app:layout_constraintWidth_percent="8.5" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/lblcolon1"
+                        app:layout_constraintTop_toTopOf="@+id/lblcolon1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutSyllabus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/three"
-                    android:visibility="gone"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_default="percent">
+                    android:layout_marginTop="@dimen/five"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/Syllabus"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/txt_exam_syllabus"
                         android:textColor="@color/black"
                         android:textSize="@dimen/twelve"
                         android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent=".15" />
+                        app:layout_constraintWidth_percent="0.22" />
 
                     <TextView
                         android:id="@+id/lblcolon2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:text=":"
                         android:textColor="@color/black"
                         android:textSize="@dimen/twelve"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/Syllabus"
-                        app:layout_constraintLeft_toRightOf="@+id/Syllabus"
-                        app:layout_constraintTop_toTopOf="@+id/Syllabus"
-                        app:layout_constraintWidth_percent=".05" />
+                        app:layout_constraintStart_toEndOf="@+id/Syllabus"
+                        app:layout_constraintTop_toTopOf="@+id/Syllabus" />
 
                     <TextView
                         android:id="@+id/lblSyllabus"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
+                        android:layout_marginStart="@dimen/eight"
                         android:textColor="@color/black"
                         android:textSize="@dimen/twelve"
                         android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="@+id/lblcolon2"
-                        app:layout_constraintLeft_toRightOf="@+id/lblcolon2"
-                        app:layout_constraintTop_toTopOf="@+id/lblcolon2"
-                        app:layout_constraintWidth_percent=".7" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/lblcolon2"
+                        app:layout_constraintTop_toTopOf="@+id/lblcolon2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- Sent by -->
                 <RelativeLayout
                     android:id="@+id/relativeseendby"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten">
 
                     <TextView
                         android:id="@+id/lblSentBy1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
-                        android:layout_marginTop="@dimen/ten"
+                        android:layout_alignParentStart="true"
                         android:text="Sent by : "
                         android:textColor="@color/clr_black"
                         android:textSize="@dimen/twelve"
@@ -302,62 +284,53 @@
                         android:id="@+id/lblNoticePostedby"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/lblSentBy1"
                         android:layout_marginStart="@dimen/five"
-                        android:layout_marginTop="@dimen/ten"
-                        android:layout_toRightOf="@+id/lblSentBy1"
                         android:text="Sentby"
                         android:textColor="@color/clr_course_green"
                         android:textSize="@dimen/twelve"
                         android:textStyle="bold" />
 
-
                     <ImageView
                         android:id="@+id/imgArrowUp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:layout_marginLeft="@dimen/eight"
-                        android:layout_marginTop="@dimen/eight"
-                        android:layout_marginRight="@dimen/twelve"
+                        android:layout_alignParentEnd="true"
                         android:src="@drawable/ic_arrow_up_blue"
                         android:visibility="visible" />
                 </RelativeLayout>
-
 
                 <RelativeLayout
                     android:id="@+id/rytCircularFiles"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
                     android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/lnrAttachment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
-                        android:layout_marginTop="@dimen/ten"
                         android:background="@drawable/bg_circular_attachment"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:padding="@dimen/two"
                         android:visibility="visible">
 
                         <ImageView
                             android:id="@+id/imgAttachment"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="@dimen/twenty"
+                            android:layout_height="@dimen/twenty"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/eight"
+                            android:layout_marginStart="@dimen/eight"
                             android:src="@drawable/ic_attachment" />
 
                         <TextView
                             android:id="@+id/lblCircularPath"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/one"
+                            android:layout_marginStart="@dimen/five"
                             android:layout_marginEnd="@dimen/two"
-                            android:layout_marginBottom="@dimen/two"
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:text=""
@@ -370,9 +343,10 @@
                         android:id="@+id/lblFileCount"
                         android:layout_width="@dimen/twenty"
                         android:layout_height="@dimen/twenty"
+                        android:layout_toEndOf="@+id/lnrAttachment"
+                        android:layout_alignTop="@+id/lnrAttachment"
+                        android:layout_alignBottom="@+id/lnrAttachment"
                         android:layout_marginStart="@dimen/five"
-                        android:layout_marginTop="@dimen/twelve"
-                        android:layout_toRightOf="@+id/lnrAttachment"
                         android:background="@drawable/bg_circle_grey"
                         android:gravity="center"
                         android:text="+2"
@@ -383,84 +357,81 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
-
+                <!-- Edit / Delete / View actions -->
                 <LinearLayout
                     android:id="@+id/liner_deleteandview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginTop="@dimen/ten"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/img_Edit"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/five"
-                        android:orientation="horizontal"
+                        android:layout_marginEnd="@dimen/eight"
                         android:background="@drawable/blueoutline"
-                        android:padding="3dp">
+                        android:gravity="center"
+                        android:minWidth="@dimen/sixty"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/five">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:layout_marginRight="@dimen/five"
                             android:text="Edit"
-                            android:textSize="@dimen/fifteen">
-
-                        </TextView>
+                            android:textSize="@dimen/fifteen" />
 
                         <ImageView
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:visibility="gone"
-                            android:src="@drawable/edit_pencile">
-
-                        </ImageView>
-
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/three"
+                            android:src="@drawable/edit_pencile"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/liner_Delete"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/five"
+                        android:layout_marginEnd="@dimen/eight"
                         android:background="@drawable/redcoloue_outline"
+                        android:gravity="center"
+                        android:minWidth="@dimen/sixty"
                         android:orientation="horizontal"
                         android:padding="@dimen/five">
 
-
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:layout_marginRight="@dimen/two"
                             android:text="Delete"
-                            android:textSize="@dimen/twelve">
-
-                        </TextView>
+                            android:textSize="@dimen/twelve" />
 
                         <ImageView
                             android:id="@+id/img_delete"
                             android:layout_width="17dp"
                             android:layout_height="17dp"
-                            android:visibility="gone"
-                            android:src="@drawable/delete">
-
-                        </ImageView>
-
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/three"
+                            android:src="@drawable/delete"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/lnrEventsView"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
                         android:background="@drawable/bg_submit_outer_green"
-
-                        >
+                        android:gravity="center"
+                        android:minWidth="@dimen/sixty"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/five">
 
                         <ImageView
                             android:id="@+id/imgright"
@@ -475,28 +446,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginEnd="@dimen/three"
+                            android:layout_marginStart="@dimen/two"
                             android:text="@string/txt_view"
                             android:textColor="@color/clr_green_submit"
                             android:textSize="@dimen/twelve"
                             android:textStyle="normal" />
-
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
+    <!-- ============ PINNED HISTORY CARD ============ -->
     <RelativeLayout
         android:id="@+id/rytNoticeboard"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/rytHistory"
@@ -504,26 +470,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten"
             android:background="@drawable/bg_shadow_white"
-            android:orientation="horizontal"
-            android:padding="@dimen/five">
+            android:padding="@dimen/ten">
 
             <RelativeLayout
                 android:id="@+id/rytRecentNotification1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/three"
                 android:padding="@dimen/five">
 
                 <TextView
                     android:id="@+id/lblNoticeboardTitle1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_marginTop="@dimen/two"
-                    android:layout_marginEnd="@dimen/twenty"
-                    android:padding="@dimen/two"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/fifteen"
@@ -534,139 +493,135 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.7dp"
                     android:layout_below="@+id/lblNoticeboardTitle1"
-                    android:layout_marginStart="@dimen/ten"
                     android:layout_marginTop="@dimen/five"
-                    android:background="@color/stroke_grey_light"></View>
+                    android:background="@color/stroke_grey_light" />
 
                 <TextView
                     android:id="@+id/lblNoticeboardDescription1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Viewlineone1"
-                    android:layout_marginStart="@dimen/ten"
                     android:layout_marginTop="@dimen/eight"
                     android:text=""
                     android:textColor="@color/clr_text_color"
                     android:textSize="@dimen/thirteen"
                     android:textStyle="normal" />
 
-                <TextView
-                    android:id="@+id/lblSentBy"
+                <!-- Sent by row -->
+                <LinearLayout
+                    android:id="@+id/lnrSentByRow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lblNoticeboardDescription1"
-                    android:layout_marginStart="@dimen/ten"
                     android:layout_marginTop="@dimen/ten"
-                    android:text="Sent by : "
-                    android:textColor="@color/clr_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/lblSentByNotice"
+                    <TextView
+                        android:id="@+id/lblSentBy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sent by : "
+                        android:textColor="@color/clr_black"
+                        android:textSize="@dimen/twelve"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/lblSentByNotice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/three"
+                        android:text=""
+                        android:textColor="@color/clr_course_green"
+                        android:textSize="@dimen/twelve"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <!-- Sent on row + delete action -->
+                <LinearLayout
+                    android:id="@+id/lnrSentOnRow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblNoticeboardDescription1"
-                    android:layout_marginStart="@dimen/three"
+                    android:layout_below="@+id/lnrSentByRow"
+                    android:layout_alignParentStart="true"
                     android:layout_marginTop="@dimen/ten"
-                    android:layout_toRightOf="@+id/lblSentBy"
-                    android:text=""
-                    android:textColor="@color/clr_course_green"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/lblSentOn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblSentBy"
-                    android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/ten"
-                    android:text="Sent on : "
-                    android:textColor="@color/clr_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/lblSentOn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sent on : "
+                        android:textColor="@color/clr_black"
+                        android:textSize="@dimen/twelve"
+                        android:textStyle="normal" />
 
-                <TextView
-                    android:id="@+id/lblNoticeboardDate1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblSentBy"
-                    android:layout_marginStart="@dimen/three"
-                    android:layout_marginTop="@dimen/ten"
-                    android:layout_toRightOf="@+id/lblSentOn"
-                    android:text=""
-                    android:textColor="@color/clr_course_green"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/lblNoticeboardDate1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/three"
+                        android:text=""
+                        android:textColor="@color/clr_course_green"
+                        android:textSize="@dimen/twelve"
+                        android:textStyle="normal" />
 
-                <TextView
-                    android:id="@+id/lblifen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblSentBy"
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_marginTop="@dimen/ten"
-                    android:layout_toRightOf="@+id/lblNoticeboardDate1"
-                    android:text=" - "
-                    android:textColor="@color/clr_black"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/lblifen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/five"
+                        android:layout_marginEnd="@dimen/five"
+                        android:text=" - "
+                        android:textColor="@color/clr_black"
+                        android:textSize="@dimen/twelve"
+                        android:textStyle="normal" />
 
-                <TextView
-                    android:id="@+id/lblNoticetime1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblSentBy"
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_marginTop="@dimen/ten"
-                    android:layout_toRightOf="@+id/lblifen"
-                    android:text=""
-                    android:textColor="@color/clr_course_green"
-                    android:textSize="@dimen/twelve"
-                    android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/lblNoticetime1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/clr_course_green"
+                        android:textSize="@dimen/twelve"
+                        android:textStyle="normal" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblSentBy"
-                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/lblNoticeboardDescription1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/ten"
                     android:background="@drawable/redcoloue_outline"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/five">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/two"
+                        android:layout_marginEnd="@dimen/two"
                         android:text="Delete"
-                        android:textSize="@dimen/twelve">
-
-                    </TextView>
+                        android:textSize="@dimen/twelve" />
 
                     <ImageView
                         android:id="@+id/delete"
                         android:layout_width="15dp"
                         android:layout_height="17dp"
-                        android:layout_below="@+id/lblSentBy"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/delete">
-
-                    </ImageView>
+                        android:layout_gravity="center"
+                        android:src="@drawable/delete" />
                 </LinearLayout>
-
 
                 <ImageView
                     android:id="@+id/imgArrowdown1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/eight"
-                    android:layout_marginRight="@dimen/twelve"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/twelve"
                     android:src="@drawable/ic_arrow_down_blue"
                     android:visibility="gone" />
-
-
             </RelativeLayout>
         </RelativeLayout>
 

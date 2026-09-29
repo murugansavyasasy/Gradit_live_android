@@ -1,72 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/fifteen"
     android:layout_marginTop="@dimen/ten"
-    android:fitsSystemWindows="true"
-    android:layout_marginEnd="@dimen/fifteen">
+    android:layout_marginEnd="@dimen/fifteen"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/lnrNoticeboardd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/two"
+        android:layout_marginEnd="@dimen/two"
         android:background="@drawable/bg_shadow_white"
         android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/lblNewCircle"
             android:layout_width="@dimen/twelve"
             android:layout_height="@dimen/twelve"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
             android:layout_gravity="end"
             android:background="@drawable/bg_read_status"
             android:elevation="@dimen/two"
             android:visibility="gone" />
 
+        <!-- ============ HEADER (always visible) ============ -->
         <RelativeLayout
             android:id="@+id/rytRecentNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/three">
+            android:padding="@dimen/ten">
 
+            <!-- Right column: date + time, top-aligned -->
+            <TextView
+                android:id="@+id/lblNoticeboardDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/eight"
+                android:gravity="end"
+                android:text="date"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve" />
+
+            <TextView
+                android:id="@+id/lblNoticetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblNoticeboardDate"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/two"
+                android:layout_marginEnd="@dimen/eight"
+                android:gravity="end"
+                android:text="time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twelve"
+                android:visibility="visible" />
+
+            <!-- Coloured accent bar, matched to the title height -->
+            <View
+                android:id="@+id/Viewlineone"
+                android:layout_width="@dimen/two"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/lblNoticeboardTitle"
+                android:layout_alignBottom="@+id/lblNoticeboardTitle"
+                android:layout_alignParentStart="true"
+                android:background="@color/clr_dark_blue" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/lblNoticeboardTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/Viewlineone"
+                android:layout_toStartOf="@+id/lblNoticeboardDate"
+                android:layout_marginStart="@dimen/eight"
+                android:layout_marginEnd="@dimen/ten"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Emeregency"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen"
+                android:textStyle="bold" />
+
+            <!-- Submission count, aligned under the title -->
             <TextView
                 android:id="@+id/lblsubmittioncount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblNoticeboardTitle"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/ten"
+                android:layout_toEndOf="@+id/Viewlineone"
+                android:layout_marginStart="@dimen/eight"
+                android:layout_marginTop="@dimen/eight"
                 android:text="Submission = "
                 android:textColor="@color/clr_emergency_red"
-                android:textStyle="bold"
-
-                >
-
-            </TextView>
-
-            <View
-                android:id="@+id/Viewlineone"
-                android:layout_width="@dimen/two"
-                android:layout_height="@dimen/fifteen"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/five"
-                android:background="@color/clr_dark_blue"></View>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/lnrAboveAttachment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblsubmittioncount"
-                android:layout_marginStart="@dimen/ten"
-                android:layout_marginTop="@dimen/ten"
+                android:layout_toEndOf="@+id/Viewlineone"
+                android:layout_marginStart="@dimen/eight"
+                android:layout_marginTop="@dimen/eight"
                 android:background="@drawable/bg_circular_attachment"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/three"
                 android:visibility="gone">
@@ -76,7 +118,7 @@
                     android:layout_width="@dimen/twenty"
                     android:layout_height="@dimen/twenty"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/eight"
+                    android:layout_marginStart="@dimen/eight"
                     android:src="@drawable/ic_attachment" />
 
                 <TextView
@@ -93,90 +135,48 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/lblNoticeboardTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five"
-                android:layout_marginTop="@dimen/two"
-                android:layout_marginEnd="@dimen/twenty"
-                android:layout_toLeftOf="@+id/lblNoticeboardDate"
-                android:layout_toRightOf="@id/Viewlineone"
-                android:padding="@dimen/two"
-                android:text="Emeregency"
-                android:textColor="@color/black"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="bold" />
-
+            <!-- Expand indicator, pinned bottom-right -->
             <ImageView
                 android:id="@+id/imgArrowdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblNoticetime"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/eight"
-                android:layout_marginRight="@dimen/twelve"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/five"
+                android:layout_marginEnd="@dimen/eight"
                 android:src="@drawable/ic_arrow_down_blue" />
-
-            <TextView
-                android:id="@+id/lblNoticeboardDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/eight"
-                android:gravity="right"
-                android:padding="@dimen/three"
-                android:text="date"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve" />
-
-            <TextView
-                android:id="@+id/lblNoticetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNoticeboardDate"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/ten"
-                android:gravity="right"
-                android:padding="@dimen/three"
-                android:text="time"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twelve"
-                android:visibility="visible" />
         </RelativeLayout>
 
+        <!-- ============ EXPANDED DETAIL (toggled) ============ -->
         <RelativeLayout
             android:id="@+id/rytNotice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/three"
             android:layout_marginBottom="@dimen/ten"
-            android:orientation="vertical"
+            android:paddingStart="@dimen/ten"
             android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/lnrsentbyDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
                 <LinearLayout
                     android:id="@+id/lnrRecentPostedby"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginStart="@dimen/five"
-                    android:layout_marginRight="@dimen/twenty"
+                    android:layout_marginEnd="@dimen/ten"
                     android:layout_marginBottom="@dimen/ten"
-                    android:layout_weight="1"
+                    android:layout_weight="0.9"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/lblNoticeboardDescription"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
                         android:layout_marginTop="@dimen/three"
                         android:text="fdddddddd"
                         android:textColor="@color/clr_black"
@@ -185,14 +185,14 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten">
 
                         <TextView
                             android:id="@+id/lblSentBy1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten"
-                            android:layout_marginTop="@dimen/ten"
+                            android:layout_alignParentStart="true"
                             android:text="Sent by : "
                             android:textColor="@color/clr_black"
                             android:textSize="@dimen/twelve"
@@ -202,52 +202,45 @@
                             android:id="@+id/lblNoticePostedby"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/lblSentBy1"
                             android:layout_marginStart="@dimen/five"
-                            android:layout_marginTop="@dimen/ten"
-                            android:layout_toRightOf="@+id/lblSentBy1"
                             android:text="Sentby"
                             android:textColor="@color/clr_emergency_red"
                             android:textSize="@dimen/twelve"
                             android:textStyle="bold" />
 
-
                         <ImageView
                             android:id="@+id/imgArrowUp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_gravity="right"
-                            android:layout_marginLeft="@dimen/eight"
-                            android:layout_marginTop="@dimen/eight"
-                            android:layout_marginRight="@dimen/twelve"
+                            android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_arrow_up_blue"
-                            android:visibility="visible" />
-
+                            android:visibility="gone" />
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/rytAssignmentFiles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten"
                         android:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/lnrAttachment"
                             android:layout_width="@dimen/one_sixty"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten"
-                            android:layout_marginTop="@dimen/ten"
                             android:background="@drawable/bg_circular_attachment"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:padding="@dimen/three"
                             android:visibility="visible">
 
                             <ImageView
                                 android:id="@+id/imgAttachment"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="@dimen/twenty"
+                                android:layout_height="@dimen/twenty"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/eight"
+                                android:layout_marginStart="@dimen/eight"
                                 android:src="@drawable/ic_attachment" />
 
                             <TextView
@@ -268,9 +261,10 @@
                             android:id="@+id/lblFileCount"
                             android:layout_width="@dimen/twenty"
                             android:layout_height="@dimen/twenty"
+                            android:layout_toEndOf="@+id/lnrAttachment"
+                            android:layout_alignTop="@+id/lnrAttachment"
+                            android:layout_alignBottom="@+id/lnrAttachment"
                             android:layout_marginStart="@dimen/five"
-                            android:layout_marginTop="@dimen/twelve"
-                            android:layout_toRightOf="@+id/lnrAttachment"
                             android:background="@drawable/bg_circle_grey"
                             android:gravity="center"
                             android:text="+2"
@@ -286,17 +280,14 @@
                     android:id="@+id/lnrSubmission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/eight"
-                    android:layout_marginEnd="@dimen/ten"
                     android:layout_marginBottom="@dimen/ten"
-                    android:layout_weight="0.1"
+                    android:gravity="end"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/lblsubmission"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
                         android:text="Submission on"
                         android:textColor="@color/clr_black"
                         android:textSize="@dimen/twelve"
@@ -306,8 +297,7 @@
                         android:id="@+id/lblSubmitedOn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/ten"
-                        android:layout_marginTop="@dimen/two"
+                        android:layout_marginTop="@dimen/three"
                         android:background="@drawable/bg_rectangle_white"
                         android:backgroundTint="@color/clr_bg_grey"
                         android:padding="@dimen/five"
@@ -323,8 +313,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lnrsentbyDescription"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/thirty_five"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
@@ -332,7 +322,6 @@
                     android:id="@+id/lblPreviousSubmission"
                     android:layout_width="@dimen/eighty"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/three"
                     android:background="@drawable/bg_previous_submission"
                     android:padding="@dimen/seven"
                     android:text="@string/txt_prev_submission"
@@ -345,8 +334,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/ten"
-                    android:layout_marginTop="@dimen/three"
-                    android:background="@drawable/bg_submit_outer_green">
+                    android:background="@drawable/bg_submit_outer_green"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/lblNotAssingmentSubmition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/seven"
+                        android:text="Not submitted"
+                        android:textAlignment="center"
+                        android:textColor="@color/clr_emergency_red"
+                        android:textSize="@dimen/twelve"
+                        android:visibility="gone" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="@color/black"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/lblAssingmentSubmition"
@@ -359,37 +368,13 @@
                         android:textColor="@color/clr_green_submit"
                         android:textSize="@dimen/twelve"
                         android:visibility="gone" />
-
-                    <View
-                        android:id="@+id/view"
-                        android:layout_width="1dp"
-                        android:layout_height="30dp"
-                        android:background="@color/black"
-                        android:visibility="gone">
-
-                    </View>
-
-
-                    <TextView
-                        android:id="@+id/lblNotAssingmentSubmition"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/lblAssingmentSubmition"
-                        android:gravity="center"
-                        android:padding="@dimen/seven"
-                        android:text="Not submitted"
-                        android:textAlignment="center"
-                        android:textColor="@color/clr_emergency_red"
-                        android:textSize="@dimen/twelve"
-                        android:visibility="gone" />
-
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/lblAssingmentSubmit"
                     android:layout_width="@dimen/sixty"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/three"
+                    android:layout_marginStart="@dimen/ten"
                     android:background="@drawable/bg_submit_outer_green"
                     android:padding="@dimen/seven"
                     android:text="@string/txt_submit"
@@ -402,13 +387,10 @@
                     android:id="@+id/img_AssignmentDelete"
                     android:layout_width="22dp"
                     android:layout_height="25dp"
-                    android:layout_marginTop="@dimen/seven"
-                    android:layout_marginRight="@dimen/twenty"
+                    android:layout_marginStart="@dimen/ten"
+                    android:layout_marginEnd="@dimen/twenty"
                     android:src="@drawable/delete"
-                    android:visibility="gone">
-
-                </ImageView>
-
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -416,9 +398,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lnrsentbyDescription"
-                android:layout_alignParentRight="true"
+                android:layout_toStartOf="@+id/LayoutSubmissions"
                 android:layout_marginTop="@dimen/five"
-                android:layout_toLeftOf="@+id/LayoutSubmissions"
+                android:layout_marginEnd="@dimen/ten"
                 android:background="@drawable/bg_previous_submission"
                 android:padding="@dimen/eight"
                 android:visibility="gone">
