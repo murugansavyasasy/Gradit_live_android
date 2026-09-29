@@ -62,9 +62,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutHeadernotice"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LayoutAdvertisement">
 
@@ -98,11 +99,15 @@
 
             <RadioGroup
                 android:id="@+id/radio_group"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/ten"
                 android:paddingTop="@dimen/twelve"
+                android:baselineAligned="false"
                 android:paddingEnd="@dimen/ten"
                 android:paddingBottom="@dimen/twelve"
                 app:layout_constraintTop_toTopOf="parent">

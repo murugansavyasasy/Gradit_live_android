@@ -29,17 +29,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--        <de.hdodenhof.circleimageview.CircleImageView-->
-<!--            android:id="@+id/imgStaffProfile"-->
-<!--            android:layout_width="@dimen/fourty"-->
-<!--            android:layout_height="@dimen/fourty"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:src="@drawable/faculty_image"-->
-<!--            CircleImageView:civ_border_color="#FF000000"-->
-<!--            CircleImageView:civ_border_width="5dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/lblSubjectName"

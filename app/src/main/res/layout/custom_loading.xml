@@ -12,6 +12,5 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:indeterminateTint="@color/clr_txt_grey_light" />
-    <!--    android:indeterminateDrawable="@drawable/progressbar"-->
 
 </RelativeLayout>

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".Activities.Assignment_MultipleFileView">
 
@@ -132,26 +132,7 @@
                     android:padding="@dimen/ten"
                     android:text="PDF"
                     android:textSize="@dimen/fifteen"
-                    android:textStyle="bold"
-
-                    >
-
-                </TextView>
-                <!--            <TextView-->
-                <!--                android:id="@+id/lbl_video"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:text="VIDEO"-->
-                <!--                android:padding="@dimen/ten"-->
-                <!--                android:gravity="center"-->
-                <!--                android:layout_weight="0.3"-->
-                <!--                android:textSize="@dimen/fifteen"-->
-                <!--                android:background="@drawable/bg_btn_grey"-->
-
-                <!--                >-->
-
-                <!--            </TextView>-->
-
+                    android:textStyle="bold"></TextView>
 
             </LinearLayout>
 
@@ -161,13 +142,6 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/liner_filetype">
 
-<!--                <GridView-->
-<!--                    android:id="@+id/idGRV"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:horizontalSpacing="6dp"-->
-<!--                    android:numColumns="4"-->
-<!--                    android:verticalSpacing="6dp" />-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerMultipleAssignment"
                     android:layout_width="match_parent"

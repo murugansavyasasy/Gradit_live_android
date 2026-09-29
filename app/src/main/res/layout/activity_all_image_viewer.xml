@@ -62,15 +62,7 @@
             android:layout_marginBottom="@dimen/thirty"
             android:visibility="gone"></WebView>
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/imgView"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_below="@+id/lmgback"-->
-        <!--            android:layout_marginLeft="@dimen/fifty"-->
-        <!--            android:layout_marginRight="@dimen/fifty"-->
-        <!--            android:layout_marginBottom="@dimen/thirty"-->
-        <!--            android:visibility="gone"></ImageView>-->
+
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/imgView"
@@ -91,14 +83,6 @@
             android:max="100"
             android:visibility="gone" />
 
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/rcyImgview"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_below="@+id/lmgback"-->
-        <!--            android:padding="@dimen/five">-->
-
-        <!--        </androidx.recyclerview.widget.RecyclerView>-->
 
     </RelativeLayout>
 
