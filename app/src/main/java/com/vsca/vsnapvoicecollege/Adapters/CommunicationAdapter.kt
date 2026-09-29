@@ -238,7 +238,6 @@ class CommunicationAdapter(
                         }
                         Listener.onItemMarkedRead(modal)
                     }
-                    Listener.onItemMarkedRead(modal)
                 }
 
                 if (ScreenType.equals("Text")) {

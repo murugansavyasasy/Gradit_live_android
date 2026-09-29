@@ -379,6 +379,8 @@ class Communication : BaseActivity<ActivityNoticeboardBinding>(), MenuCountRespo
         val read = readcount?.toIntOrNull() ?: 0
         unreadcount = (unread - 1).toString()
         readcount = (read + 1).toString()
+
+
         CountValueSet()
     }
 

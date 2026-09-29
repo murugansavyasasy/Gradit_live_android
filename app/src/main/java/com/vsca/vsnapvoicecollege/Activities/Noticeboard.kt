@@ -472,7 +472,10 @@ class Noticeboard : BaseActivity<ActivityNoticeboardBinding>() {
         if (CommonUtil.menu_readNoticeBoard != "1") return
         pendingInitialApiCount = 3
         initialLoader = CustomLoading.createProgressDialog(this)
+        Log.d("BeforeMenuID",CommonUtil.MenuIDNoticeboard.toString())
         OverAllMenuCountRequest(this, CommonUtil.MenuIDNoticeboard!!, false)
+        Log.d("AfterMenuID",CommonUtil.MenuIDNoticeboard.toString())
+
         AdForCollegeApi(false)
         NoticeboardRequest(NoticeboardType, false)
     }

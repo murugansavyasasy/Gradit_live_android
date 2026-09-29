@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -188,6 +189,7 @@ class DashboardParent constructor(
                     CommonUtil.menu_readNoticeBoard = r
                     CommonUtil.menu_writeNoticeBoard = w
                 }
+                CommonUtil.MenuIDNoticeboard="7"
                 context.startActivity(Intent(context, Noticeboard::class.java))
             }
 
@@ -196,7 +198,7 @@ class DashboardParent constructor(
                     CommonUtil.menu_readAttendance = r
                     CommonUtil.menu_writeAttendance = w
                 }
-                CommonUtil.MenuIdAttendance = BaseActivity.AttendanceMeuID
+                CommonUtil.MenuIdAttendance = "4"
                 context.startActivity(Intent(context, Attendance::class.java))
             }
 
@@ -205,6 +207,7 @@ class DashboardParent constructor(
                     CommonUtil.menu_readCircular = r
                     CommonUtil.menu_writeCircular = w
                 }
+                CommonUtil.MenuIDCircular="6"
                 context.startActivity(Intent(context, Circular::class.java))
             }
 
@@ -213,6 +216,8 @@ class DashboardParent constructor(
                     CommonUtil.menu_readChat = r
                     CommonUtil.menu_writeChat = w
                 }
+                CommonUtil.MenuIDChat="11"
+
                 context.startActivity(Intent(context, ChatParent::class.java))
             }
 
@@ -221,6 +226,9 @@ class DashboardParent constructor(
                     CommonUtil.menu_readEvent = r
                     CommonUtil.menu_writeEvent = w
                 }
+                CommonUtil.MenuIDEvents="8"
+                Log.d("BaseMenuID",BaseActivity.EventsMenuID)
+
                 context.startActivity(Intent(context, Events::class.java))
             }
 
@@ -229,6 +237,8 @@ class DashboardParent constructor(
                     CommonUtil.menu_readAssignment = r
                     CommonUtil.menu_writeAssignment = w
                 }
+                CommonUtil.MenuIDAssignment="5"
+
                 context.startActivity(Intent(context, Assignment::class.java))
             }
 
@@ -237,7 +247,7 @@ class DashboardParent constructor(
                     CommonUtil.menu_readCommunication = r
                     CommonUtil.menu_writeCommunication = w
                 }
-                CommonUtil.MenuIDCommunication = BaseActivity.CommunicationMenuID
+                CommonUtil.MenuIDCommunication = "16"
                 context.startActivity(Intent(context, Communication::class.java))
             }
 
@@ -246,7 +256,7 @@ class DashboardParent constructor(
                     CommonUtil.menu_readCommunication = r
                     CommonUtil.menu_writeCommunication = w
                 }
-                CommonUtil.MenuIDCommunication = BaseActivity.CommunicationMenuID
+                CommonUtil.MenuIDCommunication = "16"
                 context.startActivity(Intent(context, Communication::class.java))
             }
 
@@ -255,7 +265,7 @@ class DashboardParent constructor(
                     CommonUtil.menu_readAttendance = r
                     CommonUtil.menu_writeAttendance = w
                 }
-                CommonUtil.MenuIdAttendance = BaseActivity.AttendanceMeuID
+                CommonUtil.MenuIdAttendance = "4"
                 context.startActivity(Intent(context, Attendance::class.java))
             }
 

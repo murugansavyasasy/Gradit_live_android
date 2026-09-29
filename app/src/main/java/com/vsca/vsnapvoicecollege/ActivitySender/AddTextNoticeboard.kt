@@ -103,7 +103,7 @@ class AddTextNoticeboard : ActionBarActivity() {
         setContentView(binding.root)
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
-        ActionbarWithoutBottom(this, hideBackButton = true)
+        ActionbarWithoutBottom(this)
         fixEdgeToEdgeActionBar(
             rootView = binding.Main,
             statusBarBgView = binding.statusBarBackground,
