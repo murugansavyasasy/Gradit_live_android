@@ -953,7 +953,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             langitudeToStopCalling = "";
             isMarkAttendnaceScreen = true;
 
-            btnMarkAttendance.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
+            btnMarkAttendance.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_primary_principal));
             btnAttendanceHistory.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
             btnMarkAttendance.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
             btnAttendanceHistory.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
@@ -983,7 +983,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         isMarkAttendnaceScreen = false;
         loadYearsSpinner();
         btnMarkAttendance.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_stroke_window_grey));
-        btnAttendanceHistory.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_yellow));
+        btnAttendanceHistory.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_rect_primary_principal));
         btnMarkAttendance.setTextColor(ContextCompat.getColor(this, R.color.clr_black));
         btnAttendanceHistory.setTextColor(ContextCompat.getColor(this, R.color.clr_white));
         rytMarkAttendanceSceen.setVisibility(View.GONE);

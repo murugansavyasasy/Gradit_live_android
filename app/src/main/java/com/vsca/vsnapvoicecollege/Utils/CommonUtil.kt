@@ -778,6 +778,78 @@ object CommonUtil {
         dialog.show()
     }
 
+    /**
+     * Reusable custom info alert (single OK button) using [R.layout.dialog_api_alert].
+     * Pass [onOk] to run an action (e.g. navigation) after the dialog is dismissed.
+     */
+    fun CustomAlert(
+        activity: Activity?,
+        msg: String?,
+        title: String = Info,
+        onOk: (() -> Unit)? = null
+    ) {
+        if (activity == null || activity.isFinishing) return
+
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_api_alert)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        dialog.findViewById<TextView>(R.id.lblAlertTitle)?.text = title
+        dialog.findViewById<TextView>(R.id.lblAlertMessage)?.text = msg
+        dialog.findViewById<TextView>(R.id.btnAlertOk)?.setOnClickListener {
+            dialog.dismiss()
+            onOk?.invoke()
+        }
+
+        dialog.show()
+    }
+
+    /**
+     * Reusable custom Yes/No confirmation using [R.layout.dialog_confirm].
+     * [onPositive] runs when the positive button is tapped; the negative button just dismisses.
+     */
+    fun CustomConfirm(
+        activity: Activity?,
+        msg: String?,
+        title: String = Submit_Alart,
+        positiveText: String = Yes,
+        negativeText: String = No,
+        onPositive: () -> Unit
+    ) {
+        if (activity == null || activity.isFinishing) return
+
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_confirm)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        dialog.findViewById<TextView>(R.id.lblConfirmTitle)?.text = title
+        dialog.findViewById<TextView>(R.id.lblConfirmMessage)?.text = msg
+
+        val btnYes = dialog.findViewById<Button>(R.id.btnConfirmYes)
+        val btnNo = dialog.findViewById<Button>(R.id.btnConfirmNo)
+        btnYes?.text = positiveText
+        btnNo?.text = negativeText
+        btnYes?.setOnClickListener {
+            dialog.dismiss()
+            onPositive()
+        }
+        btnNo?.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
+    }
+
     fun CustomApiAlert(
         activity: Activity?,
         header: String,
