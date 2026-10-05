@@ -80,6 +80,11 @@ abstract class ActionBarActivity : AppCompatActivity() {
         }
     }
 
+    fun navBarHeight(): Int {
+        val insets = ViewCompat.getRootWindowInsets(window.decorView)
+        return insets?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
+    }
+
     /**
      * Call once, right after setContentView + your ActionBar setup call.
      *

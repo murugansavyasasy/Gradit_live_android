@@ -299,6 +299,7 @@
         android:layout_marginTop="@dimen/fifty"
         android:layout_marginEnd="@dimen/fifteen"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/txtTarget"
         app:layout_constraintTop_toBottomOf="@+id/idSV" />
 
     <TextView

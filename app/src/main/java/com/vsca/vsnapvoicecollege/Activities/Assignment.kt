@@ -93,7 +93,7 @@ class Assignment : BaseActivity<ActivityNoticeboardBinding>() {
             R.id.imgAddPlus
         )
 
-        CommonUtil.RequestCameraPermission(this)
+//        CommonUtil.RequestCameraPermission(this)
 
         OnMenuClicks(CommonUtil._OnclickScreen)
         TabDepartmentColor()

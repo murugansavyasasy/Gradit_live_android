@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -64,6 +65,10 @@ class LoginRewamp : AppCompatActivity() {
         mobileLength = countryDetails.mobilenumberlen
             ?.toIntOrNull()
             ?: 10
+
+        binding.phoneNumberEdt.filters = arrayOf(
+            InputFilter.LengthFilter(mobileLength ?: 10)
+        )
 
         binding.txtForgetpassword!!.setOnClickListener {
 

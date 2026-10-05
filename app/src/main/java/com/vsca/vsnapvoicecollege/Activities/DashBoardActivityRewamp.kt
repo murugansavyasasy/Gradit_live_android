@@ -796,46 +796,46 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         val perms = if (CommonUtil.Priority == "p4" || CommonUtil.Priority == "p5") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arrayOf(
-                    Manifest.permission.READ_MEDIA_AUDIO,
+//                    Manifest.permission.READ_MEDIA_AUDIO,
                     Manifest.permission.POST_NOTIFICATIONS,
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.WRITE_CONTACTS,
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.RECORD_AUDIO
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.RECORD_AUDIO
                 )
             } else {
                 arrayOf(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.WRITE_CONTACTS,
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.RECORD_AUDIO
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.RECORD_AUDIO
                 )
             }
         } else {
             // P1, P2, P3, P6
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.CAMERA,
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    Manifest.permission.CAMERA,
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.WRITE_CONTACTS,
-                    Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.RECORD_AUDIO,
+//                    Manifest.permission.READ_MEDIA_AUDIO,
+//                    Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             } else {
                 arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.CAMERA,
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    Manifest.permission.CAMERA,
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.WRITE_CONTACTS,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.RECORD_AUDIO
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.RECORD_AUDIO
                 )
             }
         }

@@ -1,19 +1,16 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.AcademicRecordsEdit
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -29,8 +26,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -45,8 +40,10 @@ import com.vsca.vsnapvoicecollege.Model.FilePath
 import com.vsca.vsnapvoicecollege.Model.FileType
 import com.vsca.vsnapvoicecollege.Model.GetEducationalDetailsData
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.AppPermission
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
+import com.vsca.vsnapvoicecollege.Utils.PermissionManager
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditacademicdetailsBinding
 import java.io.File
@@ -63,10 +60,6 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
     override fun inflateBinding(): LayoutEditacademicdetailsBinding {
         return LayoutEditacademicdetailsBinding.inflate(layoutInflater)
     }
-
-    private val PERMISSION_REQUEST_CODE = 1001
-    private val SETTINGS_REQUEST_CODE = 1002
-
     // Holds current adapter's list (internship / certificate / project)
     private var attachmentList: MutableList<AttachmentHolder> = mutableListOf()
 
@@ -106,6 +99,8 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
     private var originalEducationalDetails: List<GetEducationalDetailsData> = listOf()
     var memberId = ""
     private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private val permissionManager = PermissionManager(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CommonUtil.SetTheme(this, noActionBar = true)
@@ -395,10 +390,7 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
 
         lblQuestionPick.setOnClickListener {
             selectedRowView = rowView
-//            ChooseFile()
-            logPermissionStatus("BeforeChooseFile")
-            openFilePickerWithPermission()
-
+            ChooseFile()
         }
 
         imgRemove.setOnClickListener {
@@ -688,6 +680,7 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
         Log.d("popup", "test")
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialog: View = inflater.inflate(R.layout.popup_choose_file, null)
+        dialog.applyNavBarPadding(this)
         FilePopup = PopupWindow(
             dialog, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true
         )
@@ -726,23 +719,29 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
         }
 
         LayoutCamera.setOnClickListener {
+            FilePopup?.dismiss()
+            permissionManager.runWithPermission(AppPermission.CAMERA) {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                try {
+                    photoTempFileWrite = createImageFile()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                if (photoTempFileWrite != null) {
 
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            try {
-                photoTempFileWrite = createImageFile()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            if (photoTempFileWrite != null) {
-                photoURI = FileProvider.getUriForFile(
-                    this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(intent, REQUEST_Camera)
-                FilePopup?.dismiss()
-                Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
+                    photoURI = FileProvider.getUriForFile(
+                        this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    try {
+                        startActivityForResult(intent, REQUEST_Camera)
+                    } catch (e: ActivityNotFoundException) {
+                        Log.d("NO_CAMERA","No camera app found")
+                    }
 
+                }
             }
+
         }
 
         LayoutDocuments.setOnClickListener {
@@ -808,11 +807,7 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
     @SuppressLint("LongLogTag")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SETTINGS_REQUEST_CODE) {
-            logPermissionStatus("AfterSettingsReturn")
-            openFilePickerWithPermission(fromSettings = true)
-            return
-        }
+
         if (resultCode != Activity.RESULT_OK) return
 
         when (requestCode) {
@@ -848,127 +843,6 @@ class EditAcademicDetails : BaseActivity<LayoutEditacademicdetailsBinding>() {
 
         updateFileCountUI()
         attachmentPosition = RecyclerView.NO_POSITION
-    }
-
-
-    private fun logPermissionStatus(tag: String = "PermissionCheck") {
-
-        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            listOf(
-                Manifest.permission.CAMERA
-            )
-        } else {
-            listOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        }
-
-        Log.d(tag, "---------- Permission Status ----------")
-
-        permissions.forEach { permission ->
-
-            val granted = ContextCompat.checkSelfPermission(
-                this,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED
-
-            val canAskAgain = ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                permission
-            )
-
-            val status = when {
-                granted -> "GRANTED ✅"
-                !canAskAgain -> "DENIED (Don't ask again) ❌"
-                else -> "DENIED ❌"
-            }
-
-            Log.d(tag, "$permission → $status")
-        }
-
-        Log.d(tag, "-------------------------------------")
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            logPermissionStatus("AfterPermissionRequest")
-            openFilePickerWithPermission()
-        }
-    }
-
-    private fun openFilePickerWithPermission(fromSettings: Boolean = false) {
-
-        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arrayOf(
-                Manifest.permission.CAMERA
-            )
-        } else {
-            arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        }
-
-        val deniedPermissions = permissions.filter {
-            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
-        }
-
-        // ✅ All granted
-        if (deniedPermissions.isEmpty()) {
-            ChooseFile()
-            return
-        }
-
-        // 👇 NEW: user returned from settings but still denied
-        if (fromSettings) {
-            Toast.makeText(
-                this,
-                "Please enable permissions to select files",
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        }
-
-        val shouldShowRationale = deniedPermissions.any {
-            ActivityCompat.shouldShowRequestPermissionRationale(this, it)
-        }
-
-        if (shouldShowRationale) {
-            ActivityCompat.requestPermissions(
-                this,
-                permissions,
-                PERMISSION_REQUEST_CODE
-            )
-        } else {
-            val intent = Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.fromParts("package", packageName, null)
-            )
-            startActivityForResult(intent, SETTINGS_REQUEST_CODE)
-        }
-    }
-
-    private fun canAddAttachment(
-        item: AttachmentHolder, newType: FileType
-    ): Boolean {
-
-        val attachments = item.file_path ?: return true
-
-        if (attachments.size >= MAX_FILES_PER_QUESTION) {
-            Toast.makeText(
-                this, "Only $MAX_FILES_PER_QUESTION files allowed", Toast.LENGTH_SHORT
-            ).show()
-            return false
-        }
-
-        return true
     }
 
     @SuppressLint("Range")

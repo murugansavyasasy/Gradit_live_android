@@ -187,7 +187,7 @@ class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>() {
                 Toast.makeText(this, "No Resume Avaiable!", Toast.LENGTH_SHORT).show()
             }
         }
-        CommonUtil.RequestCameraPermission(this)
+//        CommonUtil.RequestCameraPermission(this)
 
 
         binding.lblEditTwo.setOnClickListener {

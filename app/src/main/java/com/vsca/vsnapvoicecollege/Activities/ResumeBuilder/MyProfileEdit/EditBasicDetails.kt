@@ -3,6 +3,7 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.MyProfileEdit
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -30,8 +31,10 @@ import com.vsca.vsnapvoicecollege.AWS.AwsUploadingPreSigned
 import com.vsca.vsnapvoicecollege.AWS.UploadCallback
 import com.vsca.vsnapvoicecollege.Activities.BaseActivity
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.AppPermission
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
+import com.vsca.vsnapvoicecollege.Utils.PermissionManager
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditbasicdetailsBinding
 import java.io.File
@@ -75,6 +78,8 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
     var separator = ","
     var fileName: File? = null
     var filename: String? = null
+    private val permissionManager = PermissionManager(this)
+
     private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -392,6 +397,7 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
     private fun showChooseImageDialog() {
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialog: View = inflater.inflate(R.layout.popup_choose_file, null)
+        dialog.applyNavBarPadding(this)
         popupWindow = PopupWindow(
             dialog, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true
         )
@@ -428,46 +434,30 @@ class EditBasicDetails : BaseActivity<LayoutEditbasicdetailsBinding>() {
 
         LayoutCamera.setOnClickListener {
             popupWindow?.dismiss()
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (takePictureIntent.resolveActivity(packageManager) != null) {
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    ex.printStackTrace()
-                    null
-                }
-                if (photoFile != null) {
-                    val imageUri = FileProvider.getUriForFile(
-                        this,
-                        "${applicationContext.packageName}.provider",
-                        photoFile
-                    )
-                    photoURI = imageUri
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }
-        }
 
-        LayoutCamera.setOnClickListener {
-            popupWindow?.dismiss()
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (takePictureIntent.resolveActivity(packageManager) != null) {
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    ex.printStackTrace()
-                    null
-                }
-                if (photoFile != null) {
-                    val imageUri = FileProvider.getUriForFile(
-                        this,
-                        "${applicationContext.packageName}.provider",
-                        photoFile
-                    )
-                    photoURI = imageUri
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            permissionManager.runWithPermission(AppPermission.CAMERA) {
+                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                if (takePictureIntent.resolveActivity(packageManager) != null) {
+                    val photoFile: File? = try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        ex.printStackTrace()
+                        null
+                    }
+                    if (photoFile != null) {
+                        val imageUri = FileProvider.getUriForFile(
+                            this,
+                            "${applicationContext.packageName}.provider",
+                            photoFile
+                        )
+                        photoURI = imageUri
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                        try {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                        } catch (e: ActivityNotFoundException) {
+                            Log.d("NO_CAMERA","No camera app found")
+                        }
+                    }
                 }
             }
         }

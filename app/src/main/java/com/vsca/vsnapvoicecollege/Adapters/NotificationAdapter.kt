@@ -58,6 +58,7 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
         holder.lblNoticeficationTime!!.text = result
 
         holder.rytOverAll!!.setOnClickListener {
+            Log.d("CommonURL",CommonUtil.MenuListDashboard.toString())
 
             if (data.module_type.equals("Videos")) {
                 for (i in CommonUtil.MenuListDashboard.indices) {
@@ -70,7 +71,7 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 }
                 val menuid = BaseActivity.VideoMenuID
                 Log.d("VideoMenuID", menuid)
-                CommonUtil.MenuIDVideo = menuid
+                CommonUtil.MenuIDVideo = "10"
                 val i = Intent(context, Video::class.java)
                 context.startActivity(i)
 
@@ -86,7 +87,7 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
 
                 val menuid = BaseActivity.CircularMenuID
                 Log.d("CircularMenuID", menuid)
-                CommonUtil.MenuIDCircular = menuid
+                CommonUtil.MenuIDCircular = "6"
                 val i = Intent(context, Circular::class.java)
                 context.startActivity(i)
 
@@ -118,7 +119,7 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
 
                 val menuid = BaseActivity.EventsMenuID
                 Log.d("EventsMenuID", menuid)
-                CommonUtil.MenuIDEvents = menuid
+                CommonUtil.MenuIDEvents = "8"
                 val i = Intent(context, Events::class.java)
                 context.startActivity(i)
 
@@ -133,7 +134,7 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
                 }
                 val menuid = BaseActivity.NoticeboardMenuID
                 Log.d("NoticeboardMenuID", menuid)
-                CommonUtil.MenuIDNoticeboard = menuid
+                CommonUtil.MenuIDNoticeboard = "7"
                 val i = Intent(context, Noticeboard::class.java)
                 context.startActivity(i)
 
@@ -149,7 +150,7 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
 
                 val menuid = BaseActivity.AssignmentMenuID
                 Log.d("AssignmentMenuID", menuid)
-                CommonUtil.MenuIDAssignment = menuid
+                CommonUtil.MenuIDAssignment = "5"
                 val i = Intent(context, Assignment::class.java)
                 context.startActivity(i)
 
@@ -166,14 +167,14 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
 
                 val menuid = BaseActivity.ChatMenuID
                 Log.d("ChatMenuID", menuid)
-                CommonUtil.MenuIDChat = menuid
+                CommonUtil.MenuIDChat = "11"
                 val i = Intent(context, ChatParent::class.java)
                 context.startActivity(i)
 
             } else if (data.module_type.equals("Attendance")) {
                 val menuid = BaseActivity.AttendanceMeuID
                 Log.d("AttendanceMeuID", menuid)
-                CommonUtil.MenuIdAttendance = menuid
+                CommonUtil.MenuIdAttendance = "4"
                 val i = Intent(context, Attendance::class.java)
                 context.startActivity(i)
 
@@ -189,7 +190,7 @@ class NotificationAdapter constructor(data: List<GetNotificationDetails>, contex
 
                 val menuid = BaseActivity.ExamMenuID
                 Log.d("ExamMenuID", menuid)
-                CommonUtil.MenuIDExamination = menuid
+                CommonUtil.MenuIDExamination = "3"
                 val i = Intent(context, ExamList::class.java)
                 context.startActivity(i)
 

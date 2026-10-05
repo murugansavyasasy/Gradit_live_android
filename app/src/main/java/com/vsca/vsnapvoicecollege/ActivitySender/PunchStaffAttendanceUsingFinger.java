@@ -55,11 +55,13 @@ import com.vsca.vsnapvoicecollege.Model.StaffBiometricLocationRes;
 import com.vsca.vsnapvoicecollege.Model.monthsModel;
 import com.vsca.vsnapvoicecollege.R;
 import com.vsca.vsnapvoicecollege.Repository.RestClient;
+import com.vsca.vsnapvoicecollege.Utils.AppPermission;
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil;
 import com.vsca.vsnapvoicecollege.Utils.EdgeToEdgeUtils;
 import com.vsca.vsnapvoicecollege.Utils.GPSStatusReceiver;
 import com.vsca.vsnapvoicecollege.Utils.LocationDistanceCalculator;
 import com.vsca.vsnapvoicecollege.Utils.LocationHelper;
+import com.vsca.vsnapvoicecollege.Utils.PermissionManager;
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference;
 
 import org.json.JSONArray;
@@ -78,7 +80,6 @@ import retrofit2.Response;
 
 public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implements GPSStatusListener, LocationLatLongListener, View.OnClickListener {
 
-    private int locationRequestCode = 1000;
     private GPSStatusReceiver gpsStatusReceiver;
     RelativeLayout rytGPSRedirect, rytParent, rytPresentlayout, rytAddLocation, rytMarkAttendanceSceen, rytAttendanceHistorySceen, rytProgressBar, rytEnableFingerPrint;
     TextView btnPresent, lblErrorMessage, btnEnableLocation, btnMarkAttendance, btnAttendanceHistory, btnDatePicker, lblNoRecords;
@@ -100,6 +101,8 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     Boolean isMarkAttendnaceScreen = true;
     String latitudeToStopCalling = "";
     String langitudeToStopCalling = "";
+    private PermissionManager permissionManager;
+    private boolean isAskingLocation = false;
 
     Boolean ifFingerPrintCancelled = false;
     private PopupWindow viewPunchHistoryPopup;
@@ -120,6 +123,8 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         super.onCreate(savedInstanceState);
         // Use the new combined layout instead of only staff_attendance_finger_print
         setContentView(R.layout.new_staff_attendance_finger_print);
+
+        permissionManager = new PermissionManager(this);
 
         // Remove system ActionBar since you’re using custom layout
         if (getSupportActionBar() != null) {
@@ -462,22 +467,131 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         });
     }
 
+    private void showEnableLocationDialog() {
+
+        // Don't show multiple dialogs
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Location Required");
+
+        builder.setMessage(
+                "Please turn on your device location to mark attendance."
+        );
+
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(
+                "Turn On",
+                (dialog, which) -> {
+
+                    dialog.dismiss();
+
+                    redirectToEnableGPS();
+                }
+        );
+
+        builder.setNegativeButton(
+                "Cancel",
+                (dialog, which) -> {
+
+                    dialog.dismiss();
+
+                    rytPresentlayout.setVisibility(View.GONE);
+                }
+        );
+
+        AlertDialog dialog = builder.create();
+
+        dialog.setCanceledOnTouchOutside(false);
+
+        dialog.show();
+    }
+
+
+
+    private void checkLocationService() {
+
+        if (CommonUtil.isGPSEnabled(this)) {
+
+            Log.d("LOCATION_STATUS", "Location service is ON");
+
+            rytGPSRedirect.setVisibility(View.GONE);
+            rytPresentlayout.setVisibility(View.GONE);
+            lblErrorMessage.setVisibility(View.GONE);
+
+            getCurentLocation("new");
+
+        } else {
+
+            Log.d("LOCATION_STATUS", "Location service is OFF");
+
+            // Show GPS/location required overlay
+            rytGPSRedirect.setVisibility(View.VISIBLE);
+
+            // Hide attendance content
+            rytPresentlayout.setVisibility(View.GONE);
+
+            // Hide error and loading
+            lblErrorMessage.setVisibility(View.GONE);
+            rytProgressBar.setVisibility(View.GONE);
+
+//            showEnableLocationDialog();
+        }
+    }
+
+
+
     private void getLocationPermissions() {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    locationRequestCode);
-        } else {
-            if (CommonUtil.isGPSEnabled(this)) {
-                rytGPSRedirect.setVisibility(View.GONE);
-                getCurentLocation("new");
-            } else {
-                rytGPSRedirect.setVisibility(View.VISIBLE);
-                lblErrorMessage.setVisibility(View.GONE);
-                rytPresentlayout.setVisibility(View.GONE);
+        // Prevent multiple permission requests at the same time
+        if (isAskingLocation) {
+            return;
+        }
 
-            }
+        isAskingLocation = true;
+
+        permissionManager.runWithPermissionJava(
+                AppPermission.LOCATION_PRECISE,
+
+                // Permission granted
+                () -> {
+
+                    isAskingLocation = false;
+
+                    checkLocationService();
+                },
+
+                // Permission denied
+                () -> {
+
+                    isAskingLocation = false;
+
+                    rytPresentlayout.setVisibility(View.GONE);
+                    rytProgressBar.setVisibility(View.GONE);
+                    lblErrorMessage.setVisibility(View.GONE);
+
+                    rytGPSRedirect.setVisibility(View.VISIBLE);
+
+                    Log.d(
+                            "LOCATION_PERMISSION",
+                            "Precise location permission denied"
+                    );
+                }
+        );
+    }
+
+    private void onLocationPermissionGranted() {
+        if (CommonUtil.isGPSEnabled(this)) {
+            rytGPSRedirect.setVisibility(View.GONE);
+            getCurentLocation("new");
+        } else {
+            rytGPSRedirect.setVisibility(View.VISIBLE);
+            lblErrorMessage.setVisibility(View.GONE);
+            rytPresentlayout.setVisibility(View.GONE);
         }
     }
 
@@ -571,9 +685,19 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         Log.d("locations_res", response.body().toString());
                         locationsList.clear();
                         if (response.body().getStatus() == 1) {
+
                             locationsList = response.body().getData();
-                            lblErrorMessage.setVisibility(View.GONE);
-                            rytPresentlayout.setVisibility(View.VISIBLE);
+
+                            if (CommonUtil.isGPSEnabled(PunchStaffAttendanceUsingFinger.this)) {
+
+                                lblErrorMessage.setVisibility(View.GONE);
+                                rytGPSRedirect.setVisibility(View.GONE);
+                                rytPresentlayout.setVisibility(View.VISIBLE);
+
+                            } else {
+
+                                showLocationRequiredUI();
+                            }
 
                         } else {
                             showAlertMessage(response.body().getMessage());
@@ -887,12 +1011,41 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         call.getFreshLocation(PunchStaffAttendanceUsingFinger.this);
     }
 
+    private void showLocationRequiredUI() {
+
+        rytGPSRedirect.setVisibility(View.VISIBLE);
+
+        rytPresentlayout.setVisibility(View.GONE);
+        lblErrorMessage.setVisibility(View.GONE);
+        rytProgressBar.setVisibility(View.GONE);
+    }
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(gpsStatusReceiver);
+
+        try {
+
+            if (gpsStatusReceiver != null) {
+
+                unregisterReceiver(gpsStatusReceiver);
+
+                gpsStatusReceiver = null;
+            }
+
+        } catch (Exception e) {
+
+            Log.e(
+                    "GPS_RECEIVER",
+                    "Error unregistering GPS receiver",
+                    e
+            );
+        }
+
         Log.d("onPause", "onPause");
     }
+
+
+
 
     @Override
     protected void onDestroy() {
@@ -900,33 +1053,22 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("onDestroy", "onDestroy");
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1000: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (CommonUtil.isGPSEnabled(this)) {
-                        rytGPSRedirect.setVisibility(View.GONE);
-                        getCurentLocation("new");
-                    } else {
-                        rytGPSRedirect.setVisibility(View.VISIBLE);
-                        rytPresentlayout.setVisibility(View.GONE);
-                        lblErrorMessage.setVisibility(View.GONE);
-                    }
-                } else {
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            }
-        }
-    }
+
 
     @Override
     public void onGPSStatusChanged(boolean isGPSEnabled) {
-        getLocationPermissions();
+
+        if (isGPSEnabled) {
+
+            checkLocationService();
+
+        } else {
+
+            rytGPSRedirect.setVisibility(View.VISIBLE);
+            rytPresentlayout.setVisibility(View.GONE);
+            lblErrorMessage.setVisibility(View.GONE);
+            rytProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -990,29 +1132,113 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         rytAttendanceHistorySceen.setVisibility(View.VISIBLE);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        gpsStatusReceiver = new GPSStatusReceiver(this);
-        registerReceiver(gpsStatusReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+
         Log.d("onResume", "onResume");
+
+        try {
+
+            if (gpsStatusReceiver == null) {
+
+                gpsStatusReceiver = new GPSStatusReceiver(this);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+                    registerReceiver(
+                            gpsStatusReceiver,
+                            new IntentFilter(
+                                    LocationManager.PROVIDERS_CHANGED_ACTION
+                            ),
+                            RECEIVER_NOT_EXPORTED
+                    );
+
+                } else {
+
+                    registerReceiver(
+                            gpsStatusReceiver,
+                            new IntentFilter(
+                                    LocationManager.PROVIDERS_CHANGED_ACTION
+                            )
+                    );
+                }
+            }
+
+        } catch (Exception e) {
+
+            Log.e(
+                    "GPS_RECEIVER",
+                    "Error registering GPS receiver",
+                    e
+            );
+        }
+
         getStaffLocations();
+
         getLocationPermissions();
     }
 
+
+
     @Override
-    public void onLocationReturn(double latitude, double longitude, String type) {
-        Log.d("lat_long", latitude + "_" + longitude);
-        Log.d("type_l", type);
+    public void onLocationReturn(
+            double latitude,
+            double longitude,
+            String type
+    ) {
+
+        Log.d(
+                "lat_long",
+                latitude + "_" + longitude
+        );
+
+        Log.d(
+                "type_l",
+                type
+        );
+
         rytProgressBar.setVisibility(View.GONE);
+
+        // Make sure GPS is still ON
+        if (!CommonUtil.isGPSEnabled(this)) {
+
+            Log.d(
+                    "LOCATION_STATUS",
+                    "GPS turned OFF before location callback"
+            );
+
+            rytPresentlayout.setVisibility(View.GONE);
+            rytGPSRedirect.setVisibility(View.VISIBLE);
+
+            return;
+        }
+
         if (isMarkAttendnaceScreen) {
-            if (latitudeToStopCalling.equals("null") || langitudeToStopCalling.equals("null") || latitudeToStopCalling.equals("") || langitudeToStopCalling.equals("")) {
-                latitudeToStopCalling = String.valueOf(latitude);
-                langitudeToStopCalling = String.valueOf(longitude);
-                punchHiddenShow(latitude, longitude, type);
+
+            if (
+                    latitudeToStopCalling.equals("null")
+                            || langitudeToStopCalling.equals("null")
+                            || latitudeToStopCalling.equals("")
+                            || langitudeToStopCalling.equals("")
+            ) {
+
+                latitudeToStopCalling =
+                        String.valueOf(latitude);
+
+                langitudeToStopCalling =
+                        String.valueOf(longitude);
+
+                punchHiddenShow(
+                        latitude,
+                        longitude,
+                        type
+                );
             }
         }
     }
+
 
     private void punchHiddenShow(double latitude, double longitude, String type) {
 

@@ -226,7 +226,7 @@ class Assignment_Submition : ActionBarActivity() {
             ApiRequestNames.Req_assignmentid,
             CommonUtil.Assignmentid.toIntOrNull() ?: 0
         )
-        jsonObject.addProperty("submissiontype", CommonUtil.isSubmitted.toIntOrNull() ?: 0)
+        jsonObject.addProperty("submissiontype", CommonUtil.isSubmitted)
         appviewModelbase!!.Assignmentsubmitedsender(jsonObject, this)
         Log.d("jsonObject:", jsonObject.toString())
 

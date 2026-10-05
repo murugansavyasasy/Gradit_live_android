@@ -301,6 +301,21 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         startActivity(intents)
     }
 
+    fun View.applyNavBarPadding(activity: Activity) {
+        val basePadding = paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
+            var bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            if (bottom == 0) {
+                // fallback: read from the activity window
+                bottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
+                    ?.getInsets(WindowInsetsCompat.Type.systemBars())?.bottom ?: 0
+            }
+            v.updatePadding(bottom = basePadding + bottom)
+            insets
+        }
+        ViewCompat.requestApplyInsets(this)
+    }
+
     protected abstract val layoutResourceId: Int
 
     fun ActionBarMethod(
@@ -1076,10 +1091,13 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 CommonUtil.SectionId = ""
                 CommonUtil.MobileNUmber = ""
                 CommonUtil.isParentEnable = ""
-                val i = Intent(activity, LoginRewamp::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                activity.startActivity(i)
-                activity.finish()
+
+                val intent = Intent(activity, LoginRewamp::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+
+                activity.startActivity(intent)
             }
             dialog.show()
         }

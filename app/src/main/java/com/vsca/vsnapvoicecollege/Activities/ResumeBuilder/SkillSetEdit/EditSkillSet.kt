@@ -3,6 +3,7 @@ package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.SkillSetEdit
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -53,8 +54,10 @@ import com.vsca.vsnapvoicecollege.Model.GetInternshipDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetProjectDetailsData
 import com.vsca.vsnapvoicecollege.Model.GetResumeBuilderSkillSetSoftSkillsData
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Utils.AppPermission
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
+import com.vsca.vsnapvoicecollege.Utils.PermissionManager
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.albumImage.AlbumSelectActivity
 import com.vsca.vsnapvoicecollege.databinding.LayoutEditskillsetBinding
@@ -147,6 +150,8 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(), OnSoftSkillSelec
     private lateinit var savedProjectList: List<GetProjectDetailsData>
     private lateinit var editableProjectList: MutableList<GetProjectDetailsData>
     private var selectedProjectList: List<GetProjectDetailsData> = emptyList()
+    private val permissionManager = PermissionManager(this)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -966,10 +971,12 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(), OnSoftSkillSelec
         Log.d("popup", "test")
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialog: View = inflater.inflate(R.layout.popup_choose_file, null)
+        dialog.applyNavBarPadding(this)
         FilePopup = PopupWindow(
             dialog, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true
         )
         FilePopup?.showAtLocation(dialog, Gravity.BOTTOM, 0, 0)
+
         FilePopup?.contentView = dialog
         FilePopup?.isOutsideTouchable = true
         FilePopup?.isFocusable = true
@@ -1005,23 +1012,30 @@ class EditSkillSet : BaseActivity<LayoutEditskillsetBinding>(), OnSoftSkillSelec
 
         LayoutCamera.setOnClickListener {
 //            CommonUtil.SelcetedFileList.clear()
+            FilePopup?.dismiss()
 
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            try {
-                photoTempFileWrite = createImageFile()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            if (photoTempFileWrite != null) {
-                photoURI = FileProvider.getUriForFile(
-                    this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(intent, REQUEST_Camera)
-                FilePopup?.dismiss()
-                Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
 
+            permissionManager.runWithPermission(AppPermission.CAMERA) {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                try {
+                    photoTempFileWrite = createImageFile()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                if (photoTempFileWrite != null) {
+                    photoURI = FileProvider.getUriForFile(
+                        this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
+                    )
+                    try {
+                        startActivityForResult(intent, REQUEST_Camera)
+                    } catch (e: ActivityNotFoundException) {
+                        Log.d("NO_CAMERA","No camera app found")
+                    }
+                    Log.d("SelectedFileList", CommonUtil.SelcetedFileList.toString())
+                }
             }
+
+
         }
 
         LayoutDocuments.setOnClickListener {

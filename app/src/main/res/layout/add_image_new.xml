@@ -311,6 +311,7 @@
                         android:textColor="@color/clr_header_black"
                         android:textSize="13sp"
                         android:textStyle="bold"
+                        android:layout_marginStart="@dimen/five"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imgUpload"

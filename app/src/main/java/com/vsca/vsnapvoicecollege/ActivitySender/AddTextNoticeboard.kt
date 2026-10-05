@@ -2,6 +2,7 @@ package com.vsca.vsnapvoicecollege.ActivitySender
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -62,6 +63,8 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.vsca.vsnapvoicecollege.Utils.AppPermission
+import com.vsca.vsnapvoicecollege.Utils.PermissionManager
 
 
 class AddTextNoticeboard : ActionBarActivity() {
@@ -94,6 +97,9 @@ class AddTextNoticeboard : ActionBarActivity() {
     private lateinit var binding: ActivityAddTextNoticeboardBinding
     private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
     private var pickVideoLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+
+    private val permissionManager = PermissionManager(this)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -455,10 +461,12 @@ class AddTextNoticeboard : ActionBarActivity() {
         Log.d("popup", "test")
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialog: View = inflater.inflate(R.layout.popup_choose_file, null)
+
         FilePopup = PopupWindow(
             dialog, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true
         )
         FilePopup?.showAtLocation(dialog, Gravity.BOTTOM, 0, 0)
+        dialog.setPadding(0, 0, 0, navBarHeight())
         FilePopup?.contentView = dialog
         FilePopup?.isOutsideTouchable = true
         FilePopup?.isFocusable = true
@@ -494,21 +502,28 @@ class AddTextNoticeboard : ActionBarActivity() {
 
         LayoutCamera.setOnClickListener {
             CommonUtil.SelcetedFileList.clear()
+            FilePopup?.dismiss()
 
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            try {
-                photoTempFileWrite = createImageFile()
-            } catch (e: IOException) {
-                e.printStackTrace()
+            permissionManager.runWithPermission(AppPermission.CAMERA) {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                try {
+                    photoTempFileWrite = createImageFile()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                if (photoTempFileWrite != null) {
+                    photoURI = FileProvider.getUriForFile(
+                        this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    try {
+                        startActivityForResult(intent, REQUEST_Camera)
+                    } catch (e: ActivityNotFoundException) {
+                        Log.d("NO_CAMERA","No camera app found")
+                    }
+                }
             }
-            if (photoTempFileWrite != null) {
-                photoURI = FileProvider.getUriForFile(
-                    this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(intent, REQUEST_Camera)
-                FilePopup?.dismiss()
-            }
+
         }
 
         LayoutDocuments.setOnClickListener({

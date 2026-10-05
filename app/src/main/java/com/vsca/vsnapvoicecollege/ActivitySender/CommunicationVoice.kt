@@ -40,6 +40,8 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.vsca.vsnapvoicecollege.Utils.AppPermission
+import com.vsca.vsnapvoicecollege.Utils.PermissionManager
 
 class CommunicationVoice : ActionBarActivity() {
     var mediaPlayer: MediaPlayer? = null
@@ -66,6 +68,7 @@ class CommunicationVoice : ActionBarActivity() {
     private var VoicehistoryAdapter: VoicehistoryAdapter? = null
     private var useDefaultAdsUrl = false
 
+    private val permissionManager = PermissionManager(this)
     private lateinit var binding: ActivityCommunicationVoiceBinding
 
 
@@ -350,8 +353,13 @@ class CommunicationVoice : ActionBarActivity() {
             stop_RECORD()
 
         } else {
-            binding.lblText!!.visibility = View.GONE
-            start_RECORD()
+            permissionManager.runWithPermission(
+                AppPermission.RECORD_AUDIO,
+                AppPermission.STORAGE
+            ) {
+                binding.lblText!!.visibility = View.GONE
+                start_RECORD()
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
 import android.content.DialogInterface
@@ -84,6 +85,8 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.vsca.vsnapvoicecollege.Utils.AppPermission
+import com.vsca.vsnapvoicecollege.Utils.PermissionManager
 
 
 class AddAssignment : ActionBarActivity() {
@@ -135,6 +138,8 @@ class AddAssignment : ActionBarActivity() {
 
     private var pickImagesLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
     private var pickVideoLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private val permissionManager = PermissionManager(this)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -186,10 +191,12 @@ class AddAssignment : ActionBarActivity() {
             binding.edtTitle!!.setEnabled(false)
             binding.edtDevision!!.setEnabled(false)
             binding.txtDescription!!.visibility = View.GONE
+            binding.tvCount!!.visibility = View.GONE
             binding.LayoutUploadVideo!!.visibility = View.GONE
             binding.txtDecription!!.visibility = View.GONE
         } else {
             binding.txtDescription!!.visibility = View.VISIBLE
+            binding.tvCount!!.visibility = View.VISIBLE
             binding.LayoutUploadVideo!!.visibility = View.VISIBLE
             binding.txtDecription!!.visibility = View.VISIBLE
         }
@@ -590,7 +597,8 @@ class AddAssignment : ActionBarActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 true
             )
-            FilePopup?.showAtLocation(dialog, Gravity.BOTTOM, 0, 0)
+            FilePopup?.showAtLocation(dialog, Gravity.BOTTOM, 0, 0)   // back to 0
+            dialog.setPadding(0, 0, 0, navBarHeight())
             FilePopup?.contentView = dialog
             FilePopup?.isOutsideTouchable = true
             FilePopup?.isFocusable = true
@@ -635,34 +643,40 @@ class AddAssignment : ActionBarActivity() {
             })
 
             LayoutCamera.setOnClickListener {
+                FilePopup?.dismiss()
+                permissionManager.runWithPermission(AppPermission.CAMERA) {
+                    FileType = "IMAGE"
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    try {
+                        photoTempFileWrite = createImageFile()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    if (photoTempFileWrite != null) {
+                        photoURI = FileProvider.getUriForFile(
+                            this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
+                        )
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                        try {
+                            startActivityForResult(intent, REQUEST_Camera)
+                        } catch (e: ActivityNotFoundException) {
+                            Log.d("NO_CAMERA","No camera app found")
+                        }
+                    }
+                }
 
-                FileType = "IMAGE"
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                try {
-                    photoTempFileWrite = createImageFile()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                if (photoTempFileWrite != null) {
-                    photoURI = FileProvider.getUriForFile(
-                        this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
-                    )
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(intent, REQUEST_Camera)
-                    FilePopup?.dismiss()
-                }
             }
 
         } else {
 
             filename = binding.lblUploadFiles.toString()
             if (binding.lblUploadFiles!!.text.equals("Upload Image")) {
-                pickImagesLauncher?.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
-
+//                pickImagesLauncher?.launch(
+//                    PickVisualMediaRequest(
+//                        ActivityResultContracts.PickVisualMedia.ImageOnly
+//                    )
+//                )
+                showImageSourcePopup()
 
             } else if (binding.lblUploadFiles!!.text.equals("Upload Pdf")) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -676,6 +690,72 @@ class AddAssignment : ActionBarActivity() {
                     )
                 )
 
+            }
+        }
+    }
+
+
+    private fun showImageSourcePopup() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val dialog: View = inflater.inflate(R.layout.popup_choose_file, null)
+        FilePopup = PopupWindow(
+            dialog,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            true
+        )
+        FilePopup?.showAtLocation(dialog, Gravity.BOTTOM, 0, 0)   // back to 0
+        dialog.setPadding(0, 0, 0, navBarHeight())
+        FilePopup?.contentView = dialog
+        FilePopup?.isOutsideTouchable = true
+        FilePopup?.isFocusable = true
+
+        val layoutGallery = dialog.findViewById<ConstraintLayout>(R.id.LayoutGallery)
+        val layoutCamera = dialog.findViewById<ConstraintLayout>(R.id.LayoutCamera)
+        val layoutDocuments = dialog.findViewById<ConstraintLayout>(R.id.LayoutDocuments)
+        val popClose = dialog.findViewById<ImageView>(R.id.popClose)
+
+        // Images only: hide the documents option
+        layoutDocuments.visibility = View.GONE
+
+        val container = FilePopup?.contentView?.parent as View
+        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val p = container.layoutParams as WindowManager.LayoutParams
+        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
+        p.dimAmount = 0.7f
+        wm.updateViewLayout(container, p)
+
+        popClose.setOnClickListener { FilePopup?.dismiss() }
+
+        layoutGallery.setOnClickListener {
+            FileType = "IMAGE"
+            pickImagesLauncher?.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+            FilePopup?.dismiss()
+        }
+
+        layoutCamera.setOnClickListener {
+            FilePopup?.dismiss()
+            permissionManager.runWithPermission(AppPermission.CAMERA) {
+                FileType = "IMAGE"
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                try {
+                    photoTempFileWrite = createImageFile()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                if (photoTempFileWrite != null) {
+                    photoURI = FileProvider.getUriForFile(
+                        this, "com.vsca.vsnapvoicecollege.provider", photoTempFileWrite!!
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    try {
+                        startActivityForResult(intent, REQUEST_Camera)
+                    } catch (e: ActivityNotFoundException) {
+                        Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
@@ -883,7 +963,7 @@ class AddAssignment : ActionBarActivity() {
                 if (CommonUtil.SelcetedFileList != null) {
                     Count = CommonUtil.SelcetedFileList.size.toString()
                     binding.lblFileselectedstate!!.visibility = View.VISIBLE
-                    binding.lblFileselectedstate!!.setText("Nmber of file selected :" + Count)
+                    binding.lblFileselectedstate!!.setText("Number of file selected :" + Count)
 
                 } else {
                     binding.lblFileselectedstate!!.visibility = View.GONE
@@ -922,7 +1002,7 @@ class AddAssignment : ActionBarActivity() {
                 if (CommonUtil.SelcetedFileList != null) {
                     Count = CommonUtil.SelcetedFileList.size.toString()
                     binding.lblFileselectedstate!!.visibility = View.VISIBLE
-                    binding.lblFileselectedstate!!.setText("Nmber of file selected :" + Count)
+                    binding.lblFileselectedstate!!.setText("Number of file selected :" + Count)
 
                 } else {
                     binding.lblFileselectedstate!!.visibility = View.GONE
@@ -956,7 +1036,7 @@ class AddAssignment : ActionBarActivity() {
                             if (CommonUtil.SelcetedFileList != null) {
                                 Count = CommonUtil.SelcetedFileList.size.toString()
                                 binding.lblFileselectedstate!!.visibility = View.VISIBLE
-                                binding.lblFileselectedstate!!.setText("Nmber of file selected :" + Count)
+                                binding.lblFileselectedstate!!.setText("Number of file selected :" + Count)
 
                             } else {
                                 binding.lblFileselectedstate!!.visibility = View.GONE
