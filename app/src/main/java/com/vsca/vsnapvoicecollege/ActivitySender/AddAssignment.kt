@@ -832,23 +832,27 @@ class AddAssignment : ActionBarActivity() {
 
             ScreenName = CommonUtil.Forward_Assignment
 
-            if (CommonUtil.Priority.equals("p7")) {
-                val i: Intent = Intent(this, HeaderRecipient::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-            } else if (CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals("p3")) {
-                val i: Intent = Intent(this, AddRecipients::class.java)
-                CommonUtil.startdate = binding.startDate!!.text.toString()
-                i.putExtra("ScreenName", ScreenName)
-                startActivity(i)
-            } else {
-                val i: Intent = Intent(this, PrincipalRecipient::class.java)
-                CommonUtil.startdate = binding.startDate!!.text.toString()
-                i.putExtra("ScreenName", ScreenName)
-                startActivity(i)
+            if(!binding.startDate!!.text.isNullOrEmpty()){
+                if (CommonUtil.Priority.equals("p7")) {
+                    val i: Intent = Intent(this, HeaderRecipient::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(i)
+                } else if (CommonUtil.Priority.equals("p2") || CommonUtil.Priority.equals("p3")) {
+                    val i: Intent = Intent(this, AddRecipients::class.java)
+                    CommonUtil.startdate = binding.startDate!!.text.toString()
+                    i.putExtra("ScreenName", ScreenName)
+                    startActivity(i)
+                } else {
+                    val i: Intent = Intent(this, PrincipalRecipient::class.java)
+                    CommonUtil.startdate = binding.startDate!!.text.toString()
+                    i.putExtra("ScreenName", ScreenName)
+                    startActivity(i)
+                }
             }
-
+            else{
+                Toast.makeText(this, "Fill the all fields", Toast.LENGTH_SHORT).show()
+            }
         } else {
 
             AssignmentDate = binding.startDate!!.text.toString()

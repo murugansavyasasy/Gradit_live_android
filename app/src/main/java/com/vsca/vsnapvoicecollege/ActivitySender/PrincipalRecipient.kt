@@ -2582,13 +2582,21 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 jsonObject.add("FileNameArray", FileNameArray)
             }
         }
-        if (CommonUtil.AssignmentType.equals("text") || CommonUtil.AssignmentType.equals("Text")) {
-            appViewModel!!.AssignmentsendForwardText(jsonObject, this)
-            Log.d("SMSJsonObject", jsonObject.toString())
-        } else {
-            appViewModel!!.Assignmentsend(jsonObject, this)
-            Log.d("SMSJsonObject", jsonObject.toString())
-        }
+
+    //Here before they used to call Assignmentsend for attachment only and for text they call AssignmentsendForwardText
+//       but now they maintain the same Assignmentsend for one
+
+//        if (CommonUtil.AssignmentType.equals("text") || CommonUtil.AssignmentType.equals("Text")) {
+//            appViewModel!!.AssignmentsendForwardText(jsonObject, this)
+//            Log.d("SMSJsonObject", jsonObject.toString())
+//        } else {
+//            appViewModel!!.Assignmentsend(jsonObject, this)
+//            Log.d("SMSJsonObject", jsonObject.toString())
+//        }
+
+        appViewModel!!.Assignmentsend(jsonObject, this)
+        Log.d("SMSJsonObject", jsonObject.toString())
+
     }
 
     private fun VoiceHistoryEntireSend() {
@@ -3980,6 +3988,8 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
     private fun isUploadAWS() {
         progressDialog = CustomLoading.createProgressDialog(this)
         progressDialog!!.show()
+        Log.d("FileType",FileType.toString())
+        Log.d("ScreenName",ScreenName.toString())
         if (FileType.equals("TEXT")) {
             if (ScreenName.equals(CommonUtil.New_Assignment)) {
                 CommonUtil.receivertype = "1"
@@ -3988,7 +3998,14 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
                 CommonUtil.receivertype = "1"
                 Assignmentforward()
             }
-        } else {
+        }
+        else if (ScreenName.equals(CommonUtil.Forward_Assignment)&&
+            CommonUtil.SelcetedFileList.isEmpty())
+        {
+            CommonUtil.receivertype = "1"
+            Assignmentforward()
+        }
+        else {
             for (i in CommonUtil.SelcetedFileList.indices) {
                 AwsUploadingFile(
                     CommonUtil.SelcetedFileList.get(i)

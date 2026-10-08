@@ -1205,18 +1205,23 @@ class SpecificStudent : ActionBarActivity(),
 
         }
 
-        if (CommonUtil.AssignmentType.equals("text") || CommonUtil.AssignmentType.equals("Text")) {
+        //Here before they used to call Assignmentsend for attachment only and for text they call AssignmentsendForwardText
+//       but now they maintain the same Assignmentsend for one
 
-            appViewModel!!.AssignmentsendForwardText(jsonObject, this)
-            Log.d("SMSJsonObject", jsonObject.toString())
+//        if (CommonUtil.AssignmentType.equals("text") || CommonUtil.AssignmentType.equals("Text")) {
+//
+//            appViewModel!!.AssignmentsendForwardText(jsonObject, this)
+//            Log.d("SMSJsonObject", jsonObject.toString())
+//
+//        } else {
+//
+//            appViewModel!!.Assignmentsend(jsonObject, this)
+//            Log.d("SMSJsonObject", jsonObject.toString())
+//
+//        }
 
-        } else {
-
-            appViewModel!!.Assignmentsend(jsonObject, this)
-            Log.d("SMSJsonObject", jsonObject.toString())
-
-        }
-
+        appViewModel!!.Assignmentsend(jsonObject, this)
+        Log.d("SMSJsonObject", jsonObject.toString())
 
     }
 
@@ -1399,11 +1404,34 @@ class SpecificStudent : ActionBarActivity(),
         progressDialog = CustomLoading.createProgressDialog(this)
         progressDialog!!.show()
         Log.d("selectedImagePath", CommonUtil.SelcetedFileList.size.toString())
-        for (i in CommonUtil.SelcetedFileList.indices) {
-            AwsUploadingFile(
-                CommonUtil.SelcetedFileList.get(i)
-            )
+        Log.d("FileType", FileType.toString())
+        Log.d("SpecificButton", CommonUtil.SpecificButton.toString())
+        Log.d("AssignmentType", CommonUtil.AssignmentType.toString())
+
+        if (FileType.equals("TEXT") &&
+            CommonUtil.SpecificButton.equals(CommonUtil.New_Assignment)&&CommonUtil.SelcetedFileList.isEmpty()
+        ) {
+            CommonUtil.receivertype = "2"
+            AssignmentsendEntireSection()
+
+        } else if (
+            CommonUtil.SpecificButton.equals(CommonUtil.Forward_Assignment) && CommonUtil.SelcetedFileList.isEmpty()
+        ) {
+            CommonUtil.receivertype = "2"
+            Assignmentforward()
         }
+        else{
+            for (i in CommonUtil.SelcetedFileList.indices) {
+                AwsUploadingFile(
+                    CommonUtil.SelcetedFileList.get(i)
+                )
+            }
+        }
+//        for (i in CommonUtil.SelcetedFileList.indices) {
+//            AwsUploadingFile(
+//                CommonUtil.SelcetedFileList.get(i)
+//            )
+//        }
     }
 
     private fun AwsUploadingFile(

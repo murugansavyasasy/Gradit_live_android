@@ -5483,9 +5483,12 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         jsonObject.addProperty(ApiRequestNames.Req_dept_id, CommonUtil.deptid)
         jsonObject.addProperty(ApiRequestNames.Req_yearid, CommonUtil.YearId)
         jsonObject.addProperty(ApiRequestNames.Req_sectionid, CommonUtil.receiverid)
-        if (yearSection) {
-            jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
-        }
+//        here the SubjectID is mandatory
+//        if (yearSection) {
+//            jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
+//        }
+        jsonObject.addProperty("subjectid", CommonUtil.SubjectID)
+
 
         appViewModel!!.getspecificstudentdata(jsonObject, this)
         Log.d("GettuterspecificRequest", jsonObject.toString())
@@ -6110,19 +6113,22 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
 
         }
 
-        if (CommonUtil.AssignmentType.equals("text")) {
+        //Here before they used to call Assignmentsend for attachment only and for text they call AssignmentsendForwardText
+//       but now they maintain the same Assignmentsend for one
+//        if (CommonUtil.AssignmentType.equals("text")) {
+//
+//            appViewModel!!.AssignmentsendForwardText(jsonObject, this)
+//            Log.d("SMSJsonObject", jsonObject.toString())
+//
+//        } else {
+//
+//            appViewModel!!.Assignmentsend(jsonObject, this)
+//            Log.d("SMSJsonObject", jsonObject.toString())
+//
+//        }
 
-            appViewModel!!.AssignmentsendForwardText(jsonObject, this)
-            Log.d("SMSJsonObject", jsonObject.toString())
-
-        } else {
-
-            appViewModel!!.Assignmentsend(jsonObject, this)
-            Log.d("SMSJsonObject", jsonObject.toString())
-
-        }
-
-
+        appViewModel!!.Assignmentsend(jsonObject, this)
+        Log.d("SMSJsonObject", jsonObject.toString())
     }
 
     private fun VideosendEntire() {
@@ -7288,13 +7294,41 @@ class AddRecipients : ActionBarActivity(), VimeoUploader.UploadCompletionListene
         progressDialog!!.show()
         if (FileType.equals("TEXT")) {
             if (ScreenName.equals(CommonUtil.New_Assignment)) {
-                CommonUtil.receivertype = "1"
-                AssignmentsendEntireSection()
+                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                    CommonUtil.receivertype = "5"
+                    AssignmentsendEntireSection()
+
+                } else {
+
+                    CommonUtil.receivertype = "7"
+                    AssignmentsendEntireSection()
+
+                }
             } else if (ScreenName.equals(CommonUtil.Forward_Assignment)) {
-                CommonUtil.receivertype = "1"
+                if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                    CommonUtil.receivertype = "5"
+                    Assignmentforward()
+                } else {
+
+                    CommonUtil.receivertype = "7"
+                    Assignmentforward()
+                }
+            }
+        }
+        else if (ScreenName.equals(CommonUtil.Forward_Assignment) && CommonUtil.SelcetedFileList.isEmpty()) {
+            if (txt_selectspecfic!!.visibility == View.VISIBLE) {
+
+                CommonUtil.receivertype = "5"
+                Assignmentforward()
+            } else {
+
+                CommonUtil.receivertype = "7"
                 Assignmentforward()
             }
-        } else {
+        }
+        else {
             for (i in CommonUtil.SelcetedFileList.indices) {
                 AwsUploadingFile(
                     CommonUtil.SelcetedFileList.get(i)
