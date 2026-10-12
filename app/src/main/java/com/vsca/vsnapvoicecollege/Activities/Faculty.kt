@@ -175,9 +175,7 @@ class Faculty : BaseActivity<ActivityFacultyMainBinding>() {
                 }
             })
 
-        if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5") || CommonUtil.Priority.equals(
-                "p6"
-            )
+        if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5")
         ) {
 
             appViewModel!!.SemesterSectionLiveData!!.observe(this) { response ->
@@ -308,9 +306,11 @@ class Faculty : BaseActivity<ActivityFacultyMainBinding>() {
                 }
             }
 
-        } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1")) {
+        } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1")|| CommonUtil.Priority.equals("p6")) {
 
-            GetDivisionRequest()
+            if(CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1")){
+                GetDivisionRequest()
+            }
             appViewModel!!.GetDivisionMutableLiveData!!.observe(this) { response ->
                 if (response != null) {
                     val status = response.status
@@ -670,9 +670,7 @@ class Faculty : BaseActivity<ActivityFacultyMainBinding>() {
         PreviousAddId = PreviousAddId + 1
         if (CommonUtil.menu_readFaculty.equals("1")) {
 
-            if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5") || CommonUtil.Priority.equals(
-                    "p6"
-                )
+            if (CommonUtil.Priority.equals("p4") || CommonUtil.Priority.equals("p5")
             ) {
 
                 SemesterSectionRequest()
@@ -680,7 +678,9 @@ class Faculty : BaseActivity<ActivityFacultyMainBinding>() {
             } else if (CommonUtil.Priority.equals("p2")) {
                 FacultyRequeststaffandhod()
 
-            } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1")) {
+            } else if (CommonUtil.Priority.equals("p7") || CommonUtil.Priority.equals("p1")|| CommonUtil.Priority.equals(
+                    "p6"
+                )) {
                 FacultyRequeststaff()
             }
         }

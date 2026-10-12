@@ -123,6 +123,13 @@ class OtpRewamp : AppCompatActivity() {
 
         var countryDetails = SharedPreference.getCountryDetails(this)
 
+        val countryCode = countryDetails.countyCode
+            ?.filter { it.isDigit() }
+            ?.takeIf { it.isNotEmpty() }
+            ?: "91"
+
+
+
         val maskedNumber = mobileNumber?.let {
             if (it.length > 3) {
                 "*".repeat(it.length - 3) + it.takeLast(3)
@@ -130,8 +137,9 @@ class OtpRewamp : AppCompatActivity() {
                 it
             }
         }
+
         binding.txtNumberlable!!.text =
-            "We have sent a 4-digit verification code to ( + ${countryDetails.countyCode} ${maskedNumber} )"
+            "We have sent a 4-digit verification code to ( +$countryCode $maskedNumber )"
 
 
         val otpFilter = arrayOf(

@@ -58,11 +58,12 @@ class MobileNumberRewamp : AppCompatActivity() {
 
 
         var countryDetails = SharedPreference.getCountryDetails(this)
-        binding.tvCountryCode.text = "+${countryDetails.countyCode}"
-
         val countryCode = countryDetails.countyCode
             ?.filter { it.isDigit() }
-            ?: ""
+            ?.takeIf { it.isNotEmpty() }
+            ?: "91"
+
+        binding.tvCountryCode.text = "+$countryCode"
 
         mobileLength = countryDetails.mobilenumberlen
             ?.toIntOrNull()
