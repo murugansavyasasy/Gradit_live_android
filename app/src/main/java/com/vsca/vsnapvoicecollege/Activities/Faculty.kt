@@ -691,6 +691,7 @@ class Faculty : BaseActivity<ActivityFacultyMainBinding>() {
 
     override fun onBackPressed() {
         CommonUtil.OnBackSetBottomMenuClickTrue()
+        finish()
         super.onBackPressed()
     }
 }

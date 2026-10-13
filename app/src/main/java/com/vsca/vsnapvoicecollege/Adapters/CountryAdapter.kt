@@ -13,7 +13,7 @@ import com.vsca.vsnapvoicecollege.Model.CountryDetails
 import com.vsca.vsnapvoicecollege.R
 
 class CountryAdapter(
-    private val onCountryClick: (CountryDetails) -> Unit,
+    private val onCountryClick: (CountryDetails?) -> Unit,
     private val onEmptyResult: (Boolean) -> Unit
 ) : RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
 
@@ -85,16 +85,15 @@ class CountryAdapter(
 
         holder.itemView.setOnClickListener {
 
-            if (selectedCountryId == country.countryid) {
-                selectedCountryId = null
-            } else {
-                selectedCountryId = country.countryid
-            }
+            val nowSelected = selectedCountryId != country.countryid
+
+            selectedCountryId = if (nowSelected) country.countryid else null
 
             notifyDataSetChanged()
 
-            onCountryClick(country)
+            onCountryClick(if (nowSelected) country else null)
         }
+
     }
 
     override fun getItemCount(): Int {

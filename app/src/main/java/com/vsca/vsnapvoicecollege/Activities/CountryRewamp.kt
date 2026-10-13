@@ -285,47 +285,34 @@ class CountryRewamp : AppCompatActivity() {
 
         binding.txtNext.setOnClickListener {
 
-            if (selectedCountry == null) {
-
-                ToastManager.showToast(
-                    this,
-                    R.string.choose_your_country
-                )
-
+            val country = selectedCountry
+            if (country == null) {
+                ToastManager.showToast(this, R.string.choose_your_country)
                 return@setOnClickListener
             }
 
-            if (!isAgree) {
-
+            if (!binding.termsCheckbox.isChecked) {
                 ToastManager.showToast(
                     this,
                     R.string.Please_accept_the_Terms_and_Conditions_to_proceed
                 )
-
                 return@setOnClickListener
             }
 
-            SharedPreference.putagreed(this@CountryRewamp, isAgree)
+            SharedPreference.putagreed(this@CountryRewamp, true)
 
-            val country = selectedCountry!!
-            val BASE_URL = country.baseurl
-            val countryid = country.countryid
-            val countryID = countryid.toString()
-            val countryname = country.country
-            val mobilelength = country.mobilenumberlen
-            val codecountry = country.countyCode
-            val idapplication = country.idapplication
+            val baseUrl = country.baseurl
             SharedPreference.putCountryDetails(
                 this@CountryRewamp,
-                countryID,
-                countryname,
-                mobilelength,
-                BASE_URL,
-                codecountry,
-                idapplication
+                country.countryid.toString(),
+                country.country,
+                country.mobilenumberlen,
+                baseUrl,
+                country.countyCode,
+                country.idapplication
             )
 
-            RestClient.changeApiBaseUrl(BASE_URL ?: "")
+            RestClient.changeApiBaseUrl(baseUrl ?: "")
             authViewModel!!.getVersionCheck(this@CountryRewamp)
             ToastManager.cancelToast()
         }
