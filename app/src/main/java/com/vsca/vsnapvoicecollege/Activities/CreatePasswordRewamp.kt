@@ -153,30 +153,20 @@ class CreatePasswordRewamp : AppCompatActivity() {
             Newpassword = binding.newPasswordEdt!!.text.toString()
             ConfirmNewpassword = binding.confpasswordEdt!!.text.toString()
             if (Newpassword.equals("")) {
-                CommonUtil.CustomApiAlert(
-                    this@CreatePasswordRewamp,
-                    "Alert",
-                    "Please enter new password",
-                    "Ok"
-                )
+
+                CommonUtil.ApiAlertContext(this, "Please enter new password")
+
             } else {
                 if (ConfirmNewpassword.equals("")) {
-                    CommonUtil.CustomApiAlert(
-                        this@CreatePasswordRewamp,
-                        "Alert",
-                        "Please enter confirm password",
-                        "Ok"
-                    )
+
+                    CommonUtil.ApiAlertContext(this, "Please enter confirm password")
+
 
                 } else {
                     if (Newpassword != ConfirmNewpassword) {
 
-                        CommonUtil.CustomApiAlert(
-                            this@CreatePasswordRewamp,
-                            "Alert",
-                            "New password and confirm password does not match",
-                            "Ok"
-                        )
+                        CommonUtil.ApiAlertContext(this, "New password and confirm password does not match")
+
                     } else {
                         CreateNewpassword()
                     }

@@ -126,12 +126,8 @@ class PasswordRewamp : AppCompatActivity() {
 
             if (MobileNumber.isNullOrEmpty() || MobileNumber?.length != mobileLength) {
 
-                CommonUtil.CustomApiAlert(
-                    this@PasswordRewamp,
-                    "Alert",
-                    "valid $mobileLength digit mobile number is required",
-                    "Ok"
-                )
+                CommonUtil.ApiAlertContext(this, "valid $mobileLength digit mobile number is required")
+
 
                 return@setOnClickListener
             }

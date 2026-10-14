@@ -76,12 +76,8 @@ class LoginRewamp : AppCompatActivity() {
 
             if (MobileNumber.isNullOrEmpty() || MobileNumber?.length != mobileLength) {
 
-                CommonUtil.CustomApiAlert(
-                    this@LoginRewamp,
-                    "Alert",
-                    "Please enter a valid $mobileLength digit mobile number",
-                    "Ok"
-                )
+                CommonUtil.ApiAlertContext(this,"Please enter a valid $mobileLength digit mobile number" )
+
 
                 return@setOnClickListener
             }

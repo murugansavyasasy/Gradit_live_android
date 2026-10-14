@@ -168,20 +168,14 @@ class MobileNumberRewamp : AppCompatActivity() {
                         startActivity(i)
                     }
                 } else {
-                    CommonUtil.CustomApiAlert(
-                        this@MobileNumberRewamp,
-                        "Oops",
-                        message,
-                        "Ok"
-                    )
+
+                    CommonUtil.ApiAlertContext(this, message)
+
                 }
             } else {
-                CommonUtil.CustomApiAlert(
-                    this@MobileNumberRewamp,
-                    "Oops",
-                    CommonUtil.Something_went_wrong,
-                    "Ok"
-                )
+
+                CommonUtil.ApiAlertContext(this,CommonUtil.Something_went_wrong)
+
             }
         }
 
@@ -196,25 +190,15 @@ class MobileNumberRewamp : AppCompatActivity() {
             Log.d("mobileLength", mobileLength.toString())
 
             if (mobileNumber.isNullOrEmpty()) {
-                CommonUtil.CustomApiAlert(
-                    this@MobileNumberRewamp,
-                    "Alert",
-                    "Please enter a valid $mobileLength digit mobile number",
-                    "Ok"
-                )
+
+                CommonUtil.ApiAlertContext(this, "Please enter a valid $mobileLength digit mobile number")
 
                 return
             }
 
             if (mobileNumber?.length != mobileLength) {
 
-                CommonUtil.CustomApiAlert(
-                    this@MobileNumberRewamp,
-                    "Alert",
-                    "Please enter a valid $mobileLength digit mobile number",
-                    "Ok"
-                )
-
+                CommonUtil.ApiAlertContext(this, "Please enter a valid $mobileLength digit mobile number")
                 return
             }
 
