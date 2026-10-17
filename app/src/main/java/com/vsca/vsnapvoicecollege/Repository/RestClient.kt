@@ -12,7 +12,7 @@ class RestClient {
 
     companion object {
         private var BASE_URL = "https://www.thegradit.com/mobileapp/"
-        private const val RESUME_URL = "http://placement.thegradit.com/v1/api/"
+        private var RESUME_URL = ""
 
         private var retrofit: Retrofit? = null
         private var resumeRetrofit: Retrofit? = null
@@ -27,6 +27,15 @@ class RestClient {
                 }
                 return _apiInterfaces!!
             }
+
+        fun setResumeBaseUrl(url: String) {
+            val normalized = if (url.endsWith("/")) url else "$url/"
+            if (normalized != RESUME_URL) {
+                RESUME_URL = normalized
+                resumeRetrofit = null
+                _resumeApiInterfaces = null
+            }
+        }
 
         val resumeApiInterfaces: ApiInterfaces
             get() {

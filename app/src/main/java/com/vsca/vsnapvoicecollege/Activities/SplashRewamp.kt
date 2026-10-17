@@ -61,6 +61,8 @@ class SplashRewamp : AppCompatActivity() {
     var videosizealert: String? = null
     var emergencyduration: String? = null
     var nonemergencyduration: String? = null
+    var resumebuilderbaseurl: String? = null
+
 
     private lateinit var binding: SplashRewampBinding
 
@@ -134,6 +136,8 @@ class SplashRewamp : AppCompatActivity() {
                     videosizealert = VersionData[0].videosizealert
                     emergencyduration = VersionData[0].emergency
                     nonemergencyduration = VersionData[0].nonemergency
+                    resumebuilderbaseurl = VersionData[0].resumebuilder_baseurl
+
                     SharedPreference.putVersionCheckData(
                         this@SplashRewamp,
                         faq,
@@ -152,7 +156,9 @@ class SplashRewamp : AppCompatActivity() {
                         videosizelimit,
                         videosizealert,
                         emergencyduration,
-                        nonemergencyduration
+                        nonemergencyduration,
+                        resumebuilderbaseurl
+
                     )
                     Log.d("videojson", videojson.toString())
                     if (ForceUpdate == 0 && VersionUpdate == 0) {

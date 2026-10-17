@@ -85,4 +85,8 @@ class VersionCheckDetails {
     @SerializedName("nonemergency")
     @Expose
     var nonemergency: String? = null
+
+    @SerializedName("resumebuilder_baseurl")
+    @Expose
+    var resumebuilder_baseurl: String? = null
 }

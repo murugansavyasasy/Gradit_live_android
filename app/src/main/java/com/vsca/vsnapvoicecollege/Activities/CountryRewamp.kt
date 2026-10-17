@@ -92,6 +92,7 @@ class CountryRewamp : AppCompatActivity() {
     var emergencyduration: String? = null
     var nonemergencyduration: String? = null
     var popuptermsNcondition: PopupWindow? = null
+    var resumebuilderbaseurl: String? = null
 
 
     private var isAgree = false
@@ -196,6 +197,8 @@ class CountryRewamp : AppCompatActivity() {
                     videosizealert = VersionData[0].videosizealert
                     emergencyduration = VersionData[0].emergency
                     nonemergencyduration = VersionData[0].nonemergency
+                    resumebuilderbaseurl = VersionData[0].resumebuilder_baseurl
+
                     SharedPreference.putVersionCheckData(
                         this@CountryRewamp,
                         faq,
@@ -214,7 +217,8 @@ class CountryRewamp : AppCompatActivity() {
                         videosizelimit,
                         videosizealert,
                         emergencyduration,
-                        nonemergencyduration
+                        nonemergencyduration,
+                        resumebuilderbaseurl
                     )
                     Log.d("videojson", videojson.toString())
                     if (ForceUpdate == 0 && VersionUpdate == 0) {

@@ -105,6 +105,7 @@ import com.vsca.vsnapvoicecollege.SenderModel.GetDivisionResponse
 import com.vsca.vsnapvoicecollege.SenderModel.SenderStatusMessageData
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
+import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -5036,6 +5037,13 @@ class AppServices {
 
 
     fun GetResumeBuilderProfileDetailsRequest(id: Int?, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetResumeBuilderProfileDetails.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.getResumeBuilderProfileDetails(id!!)
             ?.enqueue(object : Callback<GetResumeBuilderProfileDetails?> {
@@ -5078,6 +5086,13 @@ class AppServices {
         get() = isGetResumeBuilderProfileDetails
 
     fun addEditProfile(isJsonObject: JsonObject, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            _addEditProfileLiveData.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
 
         Log.d(
@@ -5118,6 +5133,13 @@ class AppServices {
 
     //Get Academic Details
     fun GetResumeBuilderAcademicDetailsRequest(id: Int?, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetResumeBuilderAcademicDetails.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.getResumeBuilderAcademicDetails(id!!)
             ?.enqueue(object : Callback<GetResumeBuilderAcademicDetails?> {
@@ -5165,6 +5187,13 @@ class AppServices {
 
     fun addEditAcademicDetails(request: HashMap<String, Any>, activity: Activity) {
         progressDialog?.show()
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            _resumeBuilderAcademicAddEditResponse.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.addEditAcademic(request)
             .enqueue(object : Callback<GetResumeBuilderAcademicDetails> {
@@ -5198,6 +5227,13 @@ class AppServices {
 
     //Get SkillSet Details
     fun GetResumeBuilderSkillSetDetailsRequest(id: Int?, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetResumeBuilderSkillSetDetails.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.getResumeBuilderSkillSetDetails(id!!)
             ?.enqueue(object : Callback<GetResumeBuilderSkillSetDetails?> {
@@ -5238,6 +5274,13 @@ class AppServices {
 
     //Get SoftSkills Details
     fun GetResumeBuilderSoftSkillsRequest(activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetResumeBuilderSoftSkillsDetails.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.getResumeBuilderSoftSkillsDetails()
             ?.enqueue(object : Callback<GetResumeBuilderSkillSetSoftSkills?> {
@@ -5285,6 +5328,13 @@ class AppServices {
 
     //EditSkillSetDetails
     fun SendResumeBuilderEditSoftSkillsRequest(isJsonObject: JsonObject, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isSendResumeBuilderEditSkillSetDetails.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         //progressDialog!!.show()
         RestClient.resumeApiInterfaces.SendSkillSetDetails(isJsonObject)
@@ -5332,6 +5382,13 @@ class AppServices {
 
     //Get Theme Tempalate Details
     fun GetResumeBuilderThemeTemplateRequest(activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetResumeBuilderThemeTemplate.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.getResumeBuilderThemeTemplateDetails()
             ?.enqueue(object : Callback<GetResumeBuilderThemeTemplate?> {
@@ -5376,6 +5433,13 @@ class AppServices {
 
     //Generate Resume
     fun SendResumeBuilderGenerateResumeRequest(isJsonObject: JsonObject, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isSendResumeBuilderGenerateResume.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.SendGenerateResume(isJsonObject)
             ?.enqueue(object : Callback<ResumeBuilderGenerateResumeResponse?> {
@@ -5426,6 +5490,13 @@ class AppServices {
     fun SendResumeBuilderSaveTitleRequest(isJsonObject: JsonObject, activity: Activity) {
         // Ensure everything UI-related runs on main thread
         activity.runOnUiThread {
+            val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+            if (resumeBaseUrl.isNullOrBlank()) {
+                isSendResumeBuilderSaveTitle.postValue(null)
+                return@runOnUiThread
+            }
+
+            RestClient.setResumeBaseUrl(resumeBaseUrl)
 
 
             RestClient.resumeApiInterfaces.SendSaveTitle(isJsonObject)
@@ -5472,6 +5543,13 @@ class AppServices {
 
     //Get Profile Resume
     fun GetResumeBuilderProfileResumeRequest(id: Int?, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetResumeBuilderProfileResume.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.getProfileResume(id)
             ?.enqueue(object : Callback<GetProfileResume?> {
@@ -5511,6 +5589,13 @@ class AppServices {
         get() = isGetResumeBuilderProfileResume
 
     fun isGetPlacementEvent(isCollegeId: String, memberid: Int?, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetPlacementList.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.isPlacementEvent(isCollegeId, memberid)
             ?.enqueue(object : Callback<PlacementEventResponse?> {
@@ -5554,6 +5639,13 @@ class AppServices {
 
     fun isGetPlacementHistoricalEvent(isCollegeId: String, memberid: Int?, activity: Activity) {
 
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetHistoricalPlacementList.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
         RestClient.resumeApiInterfaces.isPlacementHistoricalEvent(isCollegeId, memberid)
             ?.enqueue(object : Callback<PlacementEventResponse?> {
                 override fun onResponse(
@@ -5600,6 +5692,14 @@ class AppServices {
         activity: Activity
     ) {
 
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetPlacementCareerList.postValue(null)
+            return
+        }
+
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
+
         RestClient.resumeApiInterfaces.isPlacementCareer(isCollegeId, departmentname, semesterno)
             ?.enqueue(object : Callback<CareerTrainingResponse?> {
                 override fun onResponse(
@@ -5626,7 +5726,7 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<CareerTrainingResponse?>, t: Throwable) {
-                    isGetHistoricalPlacementList.postValue(null)
+                    isGetPlacementCareerList.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
                         activity, activity.getString(R.string.txt_no_record_found)
@@ -5645,6 +5745,12 @@ class AppServices {
         semesterno: Int?,
         activity: Activity
     ) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGetPlacementCareerList.postValue(null)
+            return
+        }
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.isPlacementHistoricalCareer(
             isCollageId,
@@ -5676,7 +5782,7 @@ class AppServices {
                 }
 
                 override fun onFailure(call: Call<CareerTrainingResponse?>, t: Throwable) {
-                    isGetHistoricalPlacementList.postValue(null)
+                    isGetPlacementCareerList.postValue(null)
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
                         activity, activity.getString(R.string.txt_no_record_found)
@@ -5695,6 +5801,12 @@ class AppServices {
         isJsonObject: JsonObject,
         activity: Activity
     ) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isResumeBuilderDeleteResume.postValue(null)
+            return
+        }
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
 
         RestClient.resumeApiInterfaces.deleteStudentResume(id!!, isJsonObject)
             ?.enqueue(object : Callback<ResumeBuilderDeleteResume?> {

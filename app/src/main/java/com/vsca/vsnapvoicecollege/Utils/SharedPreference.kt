@@ -37,6 +37,8 @@ object SharedPreference {
     const val SH_EmergencyDuration = "emergencyduration"
     const val SH_NonEmergencyDuration = "nonemergencyduration"
     const val SH_FirstTimeLoggedInUser = "first_time_logged_in_user"
+    const val SH_ResumeBuilderBaseURL = "resumebuilderbaseurl"
+
 
     @JvmStatic
     fun setFirstTimeLoggedInUser(
@@ -134,7 +136,9 @@ object SharedPreference {
         videosizelimit: String?,
         videosizealert: String?,
         emergencyduration: String?,
-        nonemergencyduration: String?
+        nonemergencyduration: String?,
+        resumebuilerbaseurl: String?
+
     ) {
         val sharepref = activity.getSharedPreferences(SH_PREF, 0)
         val ed = sharepref.edit()
@@ -156,6 +160,7 @@ object SharedPreference {
         ed.putString(SH_Videosizealert, videosizealert)
         ed.putString(SH_EmergencyDuration, emergencyduration)
         ed.putString(SH_NonEmergencyDuration, nonemergencyduration)
+        ed.putString(SH_ResumeBuilderBaseURL, resumebuilerbaseurl)
         ed.apply()
         ed.commit()
         return
@@ -206,6 +211,10 @@ object SharedPreference {
     fun getSH_MobileNumber(activity: Context): String? {
         return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
             .getString(SH_MobileNumber, "")
+    }
+    fun getSH_ResumeBuilderBaseUrl(activity: Activity): String? {
+        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
+            .getString(SH_ResumeBuilderBaseURL, "")
     }
 
     fun getSH_Help(activity: Activity): String? {
