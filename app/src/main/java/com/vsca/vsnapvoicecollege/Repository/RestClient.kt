@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit
 class RestClient {
 
     companion object {
+//        private var BASE_URL = "http://192.168.4.41:3013/"
         private var BASE_URL = "https://www.thegradit.com/mobileapp/"
         private var RESUME_URL = ""
 
@@ -88,6 +89,7 @@ class RestClient {
 
         fun changeApiBaseUrl(newBaseUrl: String) {
             BASE_URL = newBaseUrl
+//            BASE_URL = "http://192.168.4.41:3013/"
             retrofit = null
             _apiInterfaces = null
             initDefaultRetrofit()

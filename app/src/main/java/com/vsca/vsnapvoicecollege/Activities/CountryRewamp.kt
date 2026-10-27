@@ -93,6 +93,8 @@ class CountryRewamp : AppCompatActivity() {
     var nonemergencyduration: String? = null
     var popuptermsNcondition: PopupWindow? = null
     var resumebuilderbaseurl: String? = null
+    var feepaymentlink: String? = null
+    var paymentsuccesslink: String? = null
 
 
     private var isAgree = false
@@ -197,7 +199,8 @@ class CountryRewamp : AppCompatActivity() {
                     videosizealert = VersionData[0].videosizealert
                     emergencyduration = VersionData[0].emergency
                     nonemergencyduration = VersionData[0].nonemergency
-                    resumebuilderbaseurl = VersionData[0].resumebuilder_baseurl
+                    feepaymentlink = VersionData[0].feepaymentlink
+                    paymentsuccesslink = VersionData[0].paymentsuccesslink
 
                     SharedPreference.putVersionCheckData(
                         this@CountryRewamp,
@@ -218,7 +221,9 @@ class CountryRewamp : AppCompatActivity() {
                         videosizealert,
                         emergencyduration,
                         nonemergencyduration,
-                        resumebuilderbaseurl
+                        resumebuilderbaseurl,
+                        feepaymentlink,
+                        paymentsuccesslink
                     )
                     Log.d("videojson", videojson.toString())
                     if (ForceUpdate == 0 && VersionUpdate == 0) {

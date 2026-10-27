@@ -3,18 +3,21 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.setupEdgeToEdge
+import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.databinding.FeeDetailsBinding
 
 class FeeDetails : AppCompatActivity() {
@@ -76,8 +79,20 @@ class FeeDetails : AppCompatActivity() {
                 }
             }
         }
-        webviewFeedetails.loadUrl("https://gradit.voicesnap.com/Gradit/StudentFees?" + "memberid=" + CommonUtil.MemberId)
+        val paymentLink = SharedPreference.getSH_FeePaymentLink(this)
 
+        if (paymentLink.isNullOrBlank()) {
+            Toast.makeText(
+                this,
+                "Fee payment link is not available",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            webviewFeedetails.loadUrl(
+                paymentLink + CommonUtil.MemberId
+            )
+            Log.d("FeeURL",paymentLink + CommonUtil.MemberId)
+        }
     }
 
     override fun onBackPressed() {

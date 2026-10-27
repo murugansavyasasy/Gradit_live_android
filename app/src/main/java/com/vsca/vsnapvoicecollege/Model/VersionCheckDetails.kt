@@ -89,4 +89,11 @@ class VersionCheckDetails {
     @SerializedName("resumebuilder_baseurl")
     @Expose
     var resumebuilder_baseurl: String? = null
+
+    @SerializedName("feepaymentlink")
+    @Expose
+    var feepaymentlink: String? = null
+    @SerializedName("paymentsuccesslink")
+    @Expose
+    var paymentsuccesslink: String? = null
 }

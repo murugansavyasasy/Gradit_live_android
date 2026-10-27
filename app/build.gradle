@@ -14,7 +14,7 @@ android {
         applicationId "com.vsca.vsnapvoicecollege"
         minSdk 24
         targetSdk 37
-        versionCode 68
+        versionCode 70
         versionName "5.0"
 
         vectorDrawables.useSupportLibrary = true

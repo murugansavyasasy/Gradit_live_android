@@ -62,6 +62,9 @@ class SplashRewamp : AppCompatActivity() {
     var emergencyduration: String? = null
     var nonemergencyduration: String? = null
     var resumebuilderbaseurl: String? = null
+    var feepaymentlink: String? = null
+    var paymentsuccesslink: String? = null
+
 
 
     private lateinit var binding: SplashRewampBinding
@@ -137,6 +140,8 @@ class SplashRewamp : AppCompatActivity() {
                     emergencyduration = VersionData[0].emergency
                     nonemergencyduration = VersionData[0].nonemergency
                     resumebuilderbaseurl = VersionData[0].resumebuilder_baseurl
+                    feepaymentlink = VersionData[0].feepaymentlink
+                    paymentsuccesslink = VersionData[0].paymentsuccesslink
 
                     SharedPreference.putVersionCheckData(
                         this@SplashRewamp,
@@ -157,7 +162,10 @@ class SplashRewamp : AppCompatActivity() {
                         videosizealert,
                         emergencyduration,
                         nonemergencyduration,
-                        resumebuilderbaseurl
+                        resumebuilderbaseurl,
+                        feepaymentlink,
+                        paymentsuccesslink
+
 
                     )
                     Log.d("videojson", videojson.toString())

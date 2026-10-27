@@ -38,6 +38,8 @@ object SharedPreference {
     const val SH_NonEmergencyDuration = "nonemergencyduration"
     const val SH_FirstTimeLoggedInUser = "first_time_logged_in_user"
     const val SH_ResumeBuilderBaseURL = "resumebuilderbaseurl"
+    const val SH_feepaymentlink = "feepaymentlink"
+    const val SH_paymentsuccesslink = "paymentsuccesslink"
 
 
     @JvmStatic
@@ -137,7 +139,9 @@ object SharedPreference {
         videosizealert: String?,
         emergencyduration: String?,
         nonemergencyduration: String?,
-        resumebuilerbaseurl: String?
+        resumebuilerbaseurl: String?,
+        feepaymentlink: String?,
+        paymentsuccesslink: String?,
 
     ) {
         val sharepref = activity.getSharedPreferences(SH_PREF, 0)
@@ -161,6 +165,8 @@ object SharedPreference {
         ed.putString(SH_EmergencyDuration, emergencyduration)
         ed.putString(SH_NonEmergencyDuration, nonemergencyduration)
         ed.putString(SH_ResumeBuilderBaseURL, resumebuilerbaseurl)
+        ed.putString(SH_feepaymentlink, feepaymentlink)
+        ed.putString(SH_paymentsuccesslink, paymentsuccesslink)
         ed.apply()
         ed.commit()
         return
@@ -216,10 +222,18 @@ object SharedPreference {
         return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
             .getString(SH_ResumeBuilderBaseURL, "")
     }
+    fun getSH_FeePaymentLink(activity: Activity): String? {
+        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
+            .getString(SH_feepaymentlink, "")
+    }
 
     fun getSH_Help(activity: Activity): String? {
         return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
             .getString(SH_Help, "")
+    }
+    fun getSH_paymentsuccesslink(activity: Activity): String? {
+        return activity.getSharedPreferences(SH_PREF, Context.MODE_PRIVATE)
+            .getString(SH_paymentsuccesslink, "")
     }
 
     fun getSH_Privacypolicy(activity: Activity): String? {
