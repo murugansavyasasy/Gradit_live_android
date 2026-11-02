@@ -4716,6 +4716,8 @@ class AppServices {
 
 
     fun GetOpt(jsonObject: JsonObject?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
 
         RestClient.apiInterfaces.GetOtp(jsonObject)
             ?.enqueue(object : Callback<ExampleJson2KtKotlin?> {
@@ -4727,21 +4729,28 @@ class AppServices {
 
                         val Status = response.body()!!.Status
                         if (Status == 1) {
-
                             GetOtp.postValue(response.body())
+                            progressDialog.dismiss()
 
                         } else {
                             GetOtp.postValue(response.body())
+                            progressDialog.dismiss()
+
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         GetOtp.postValue(null)
+                        progressDialog.dismiss()
+
                     } else {
                         GetOtp.postValue(null)
+                        progressDialog.dismiss()
+
                     }
                 }
 
                 override fun onFailure(call: Call<ExampleJson2KtKotlin?>, t: Throwable) {
                     GetOtp.postValue(null)
+                    progressDialog.dismiss()
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
                         activity, activity.getString(R.string.txt_no_record_found)
