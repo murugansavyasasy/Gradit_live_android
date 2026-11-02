@@ -86,6 +86,8 @@ import com.vsca.vsnapvoicecollege.Model.SenderSide_ReplayChat
 import com.vsca.vsnapvoicecollege.Model.StatusMessageResponse
 import com.vsca.vsnapvoicecollege.Model.StudentAttendancelist
 import com.vsca.vsnapvoicecollege.Model.StudentAttendanceview
+import com.vsca.vsnapvoicecollege.Model.TimetableModel
+import com.vsca.vsnapvoicecollege.Model.TimetableResponse
 import com.vsca.vsnapvoicecollege.Model.Unblack_student
 import com.vsca.vsnapvoicecollege.Model.Verified_OTP
 import com.vsca.vsnapvoicecollege.Model.VideoEntireSend
@@ -232,6 +234,7 @@ class AppServices {
     var isGetHistoricalPlacementList: MutableLiveData<PlacementEventResponse?>//here isGetHistoricalPlacementList Model Class is same as isGetPlacementList
     var isGetPlacementCareerList: MutableLiveData<CareerTrainingResponse?>
     var isResumeBuilderDeleteResume: MutableLiveData<ResumeBuilderDeleteResume?>
+    var isGetTimeTable: MutableLiveData<TimetableResponse?>
 
 
     init {
@@ -347,6 +350,7 @@ class AppServices {
         isGetHistoricalPlacementList = MutableLiveData()
         isResumeBuilderDeleteResume = MutableLiveData()
         isGetPlacementCareerList = MutableLiveData()
+        isGetTimeTable = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5856,6 +5860,62 @@ class AppServices {
 
     val ResumeBuilderDeleteResumeLiveData: LiveData<ResumeBuilderDeleteResume?>
         get() = isResumeBuilderDeleteResume
+
+
+
+    fun GetTimeTable(isCollegeId: String,
+                     course_id: String?,
+                     year_id: String?,
+                     semesterid: String?,
+                     section_id: String?,
+                     day_id: String?,
+                     activity: Activity) {
+        var progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog!!.show()
+
+        RestClient.apiInterfaces.isGetTimeTable(isCollegeId,course_id,year_id,semesterid,section_id,day_id)
+            ?.enqueue(object : Callback<TimetableResponse?> {
+                override fun onResponse(
+                    call: Call<TimetableResponse?>, response: Response<TimetableResponse?>
+                ) {
+
+                    if (response.code() == 200 || response.code() == 201) {
+                        if (response.body() != null) {
+                            progressDialog.dismiss()
+                            val status = response.body()!!.status
+                            if (status == 1) {
+                                isGetTimeTable.postValue(response.body())
+                            } else {
+                                isGetTimeTable.postValue(response.body())
+                            }
+                        }
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        isGetTimeTable.postValue(response.body())
+                        progressDialog.dismiss()
+
+
+                    } else {
+                        isGetTimeTable.postValue(response.body())
+                        progressDialog.dismiss()
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<TimetableResponse?>, t: Throwable
+                ) {
+                    progressDialog.dismiss()
+                    isGetTimeTable.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val isTimeTableLiveData: LiveData<TimetableResponse?>
+        get() = isGetTimeTable
+
 
 
 }

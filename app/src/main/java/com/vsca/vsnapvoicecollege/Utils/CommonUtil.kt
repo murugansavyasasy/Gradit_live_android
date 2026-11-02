@@ -333,6 +333,7 @@ object CommonUtil {
     var MenuFeeDetails = true
     var MarkAttendance = true
     var AttendanceReport = true
+    var TimeTable = true
     var PlacementEvent = true
     var PlacementCareer = true
     var PlacementTraining = true
@@ -400,6 +401,8 @@ object CommonUtil {
     var ivrnumbers: ArrayList<String> = arrayListOf()
 
     var menu_readHome = ""
+    var menu_readTimetable = ""
+    var menu_writeTimetable = ""
     var menu_writeHome = ""
     var menu_readCommunication = ""
     var menu_writeCommunication = ""
@@ -909,6 +912,7 @@ object CommonUtil {
                 MenuFeeDetails = true
                 MarkAttendance = true
                 AttendanceReport = true
+                TimeTable = true
 
                 dialog.dismiss()
 
@@ -962,6 +966,7 @@ object CommonUtil {
                 MenuFeeDetails = true
                 MarkAttendance = true
                 AttendanceReport = true
+                TimeTable = true
                 dialog.dismiss()
 
             }
@@ -1357,6 +1362,7 @@ object CommonUtil {
         MenuFeeDetails = true
         MarkAttendance = true
         AttendanceReport = true
+        TimeTable = true
     }
 
     fun OnMenuClicks(type: String) {
@@ -1382,6 +1388,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Communication")) {
             MenuCommunication = false
             MenuCourseDetails = true
@@ -1401,6 +1408,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Chat")) {
             MenuChat = false
             MenuCourseDetails = true
@@ -1422,6 +1430,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("ExamList")) {
             MenuExamination = false
             MenuCourseDetails = true
@@ -1443,6 +1452,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Attendance")) {
 
             MenuAttendance = false
@@ -1465,6 +1475,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Assignment")) {
             MenuAssignment = false
             MenuCourseDetails = true
@@ -1486,6 +1497,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Circular")) {
             MenuCircular = false
             MenuCourseDetails = true
@@ -1507,6 +1519,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Noticeboard")) {
             MenuNoticeBoard = false
             MenuCourseDetails = true
@@ -1528,6 +1541,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Events")) {
             MenuEvents = false
             MenuNoticeBoard = true
@@ -1550,6 +1564,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Faculty")) {
             MenuFaculty = false
             MenuEvents = true
@@ -1572,6 +1587,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Video")) {
             MenuVideo = false
             MenuEvents = true
@@ -1593,6 +1609,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("CourseDetails")) {
             MenuCourseDetails = false
             MenuExamDetails = true
@@ -1614,6 +1631,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("CategoryCredit")) {
             MenuCategoryCredit = false
             MenuCourseDetails = true
@@ -1635,6 +1653,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("SemCredit")) {
             MenuSemCredit = false
             MenuAssignment = true
@@ -1656,6 +1675,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("ExamApp")) {
             MenuExamDetails = false
             MenuCourseDetails = true
@@ -1677,6 +1697,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Hallticket")) {
             MenuExamDetails = true
             MenuCourseDetails = true
@@ -1698,6 +1719,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Text")) {
             MenuExamDetails = true
             MenuCourseDetails = true
@@ -1719,6 +1741,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
 
         } else if (type.equals("Voice")) {
             MenuExamDetails = true
@@ -1741,6 +1764,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("FeeDetails")) {
             MenuExamDetails = true
             MenuCourseDetails = true
@@ -1762,6 +1786,7 @@ object CommonUtil {
             MenuFeeDetails = false
             MarkAttendance = true
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Mark your attendance")) {
             MenuExamDetails = true
             MenuCourseDetails = true
@@ -1783,6 +1808,7 @@ object CommonUtil {
             MenuFeeDetails = true
             MarkAttendance = false
             AttendanceReport = true
+            TimeTable = true
         } else if (type.equals("Attendance report")) {
             MenuExamDetails = true
             MenuCourseDetails = true
@@ -1803,7 +1829,31 @@ object CommonUtil {
             MenuText = true
             MenuFeeDetails = true
             MarkAttendance = true
+            TimeTable = true
             AttendanceReport = false
+        }
+        else if (type.equals("Time Table")) {
+            MenuExamDetails = true
+            MenuCourseDetails = true
+            MenuNoticeBoard = true
+            MenuDashboardHome = true
+            MenuCircular = true
+            MenuAssignment = true
+            MenuChat = true
+            MenuExamination = true
+            MenuAttendance = true
+            MenuEvents = true
+            MenuFaculty = true
+            MenuVideo = true
+            MenuCategoryCredit = true
+            MenuSemCredit = true
+            MenuHallTicket = true
+            MenuCommunication = false
+            MenuText = true
+            MenuFeeDetails = true
+            MarkAttendance = true
+            TimeTable = false
+            AttendanceReport = true
         }
     }
 

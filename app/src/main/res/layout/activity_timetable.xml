@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/Main"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/LayoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sixty"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/statusBarBackground"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/imgheaderBack"
+            android:layout_width="@dimen/twenty_three"
+            android:layout_height="@dimen/twenty_three"
+            android:layout_marginStart="@dimen/eight"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblMenuHeaderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fifteen"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08"
+            android:textColor="@color/white"
+            android:text="TIMETABLE"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/imgheaderBack"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/rlaHeader"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LayoutHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="#F3F4FA">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="14dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/tvSelectedDay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Monday"
+                    android:textColor="#1D202B"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPeriodCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 periods · 0 break"
+                    android:textColor="#626779"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/layoutDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/dayMon"
+                        android:paddingHorizontal="@dimen/ten"
+                        android:paddingVertical="@dimen/eight"
+                        style="@style/TimetableDay"
+                        android:text="Mon" />
+
+                    <TextView
+                        android:id="@+id/dayTue"
+                        android:paddingHorizontal="@dimen/ten"
+                        android:paddingVertical="@dimen/eight"
+                        style="@style/TimetableDay"
+                        android:text="Tue" />
+
+                    <TextView
+                        android:id="@+id/dayWed"
+                        style="@style/TimetableDay"
+                        android:paddingHorizontal="@dimen/ten"
+                        android:paddingVertical="@dimen/eight"
+                        android:text="Wed" />
+
+                    <TextView
+                        android:id="@+id/dayThu"
+                        style="@style/TimetableDay"
+                        android:paddingHorizontal="@dimen/ten"
+                        android:paddingVertical="@dimen/eight"
+                        android:text="Thu" />
+
+                    <TextView
+                        android:id="@+id/dayFri"
+                        style="@style/TimetableDay"
+                        android:paddingHorizontal="@dimen/ten"
+                        android:paddingVertical="@dimen/eight"
+                        android:text="Fri" />
+
+
+                    <TextView
+                        android:id="@+id/daySat"
+                        style="@style/TimetableDay"
+                        android:paddingHorizontal="@dimen/ten"
+                        android:paddingVertical="@dimen/eight"
+                        android:text="Sat" />
+
+                    <TextView
+                        android:id="@+id/daySun"
+                        style="@style/TimetableDay"
+                        android:paddingHorizontal="@dimen/ten"
+                        android:paddingVertical="@dimen/eight"
+                        android:text="Sun" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E1E3ED" />
+
+        <TextView
+            android:id="@+id/ErrorMessage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="No Record Found"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTimetable"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="20dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,6 +93,8 @@ import com.vsca.vsnapvoicecollege.Model.StaffListRes
 import com.vsca.vsnapvoicecollege.Model.StatusMessageResponse
 import com.vsca.vsnapvoicecollege.Model.StudentAttendancelist
 import com.vsca.vsnapvoicecollege.Model.StudentAttendanceview
+import com.vsca.vsnapvoicecollege.Model.TimetableModel
+import com.vsca.vsnapvoicecollege.Model.TimetableResponse
 import com.vsca.vsnapvoicecollege.Model.Unblack_student
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumber
 import com.vsca.vsnapvoicecollege.Model.Verified_OTP
@@ -692,5 +694,15 @@ interface ApiInterfaces {
     fun updateNotificationCallLog(
         @Body jsonObject: JsonObject
     ): Call<StatusMessageModel?>?
+
+    @GET(ApiMethods.GetTimeTable)
+    fun isGetTimeTable(
+        @Query("colgid") colgid: String?,
+        @Query("course_id") course_id: String?,
+        @Query("yearid") yearid: String?,
+        @Query("semesterid") semesterid: String?,
+        @Query("sectionid") sectionid: String?,
+        @Query("dayid") dayid: String?
+    ): Call<TimetableResponse?>?
 
     }

@@ -142,6 +142,7 @@ object ApiMethods {
     const val GetResumeBuilderAcademicDetails = "academicrecord/get-academic"
     const val GetResumeBuilderSkillSetDetails = "skillset/get-skillset"
     const val GetResumeBuilderSoftSkillsDetails = "skillset/get-softskill"
+    const val GetTimeTable = "api/AppDetailsBal/get-timetable-assigned-slots"
     const val SendResumeBuilderSoftSkillsDetails = "skillset/add-edit-skillset"
     const val GetResumeBuilderThemeTemplate = "get/resumetemplatethemecolor"
     const val SendResumeBuilderGenerateResume = "resume/post-resume"

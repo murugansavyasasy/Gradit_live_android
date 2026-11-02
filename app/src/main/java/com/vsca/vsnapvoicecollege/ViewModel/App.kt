@@ -84,6 +84,7 @@ import com.vsca.vsnapvoicecollege.Model.SenderSide_ReplayChat
 import com.vsca.vsnapvoicecollege.Model.StatusMessageResponse
 import com.vsca.vsnapvoicecollege.Model.StudentAttendancelist
 import com.vsca.vsnapvoicecollege.Model.StudentAttendanceview
+import com.vsca.vsnapvoicecollege.Model.TimetableResponse
 import com.vsca.vsnapvoicecollege.Model.Unblack_student
 import com.vsca.vsnapvoicecollege.Model.Verified_OTP
 import com.vsca.vsnapvoicecollege.Model.VideoEntireSend
@@ -243,6 +244,7 @@ class App(application: Application) : AndroidViewModel(application) {
     var isPlacementEventResponse: LiveData<PlacementEventResponse?>? = null
     var isGetPlacementHistoricalEvent: LiveData<PlacementEventResponse?>? = null
     var isPlacementCareerResponse: LiveData<CareerTrainingResponse?>? = null
+    var isTimeTable: LiveData<TimetableResponse?>? = null
     var isPlacementHistoricalCareerResponse: LiveData<CareerTrainingResponse?>? = null
     var ResumeBuilderDeleteResume: LiveData<ResumeBuilderDeleteResume?>? = null
 
@@ -376,6 +378,7 @@ class App(application: Application) : AndroidViewModel(application) {
         isGetPlacementHistoricalEvent = apiRepositories!!.isPlacementHistoricalEventLiveData
         isPlacementHistoricalCareerResponse = apiRepositories!!.isPlacementHistoricalCareerLiveData
         isPlacementCareerResponse = apiRepositories!!.isPlacementCareerLiveData
+        isTimeTable = apiRepositories!!.isTimeTableLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -933,4 +936,25 @@ class App(application: Application) : AndroidViewModel(application) {
     fun GetResumeBuilderDeleteResume(id: Int?, isJsonObject: JsonObject, activity: Activity) {
         apiRepositories!!.GetResumeBuilderDeleteResumeRequest(id, isJsonObject, activity)
     }
+
+    fun isGetTimeTable(
+        isCollegeId: String,
+        course_id: String?,
+        year_id: String?,
+        semesterid: String?,
+        section_id: String?,
+        day_id: String?,
+        activity: Activity
+    ) {
+        apiRepositories!!.GetTimeTable(
+            isCollegeId,
+            course_id,
+            year_id,
+            semesterid,
+            section_id,
+            day_id,
+            activity
+        )
+    }
+
 }

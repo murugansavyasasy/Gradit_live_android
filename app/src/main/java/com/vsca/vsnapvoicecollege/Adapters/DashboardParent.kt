@@ -30,6 +30,7 @@ import com.vsca.vsnapvoicecollege.Activities.Noticeboard
 import com.vsca.vsnapvoicecollege.Activities.PlacementEvent
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Activities.SemesterCreditCategoryWise
+import com.vsca.vsnapvoicecollege.Activities.TimetableActivity
 import com.vsca.vsnapvoicecollege.Activities.Video
 import com.vsca.vsnapvoicecollege.ActivitySender.Hall_Ticket
 import com.vsca.vsnapvoicecollege.ActivitySender.PunchStaffAttendanceUsingFinger
@@ -518,6 +519,12 @@ class DashboardParent constructor(
 
             25 -> {
                 if (CommonUtil.PlacementCareer) launch(CareerTraining::class.java)
+            }
+
+            26 -> {
+                CommonUtil.menu_readTimetable = data.is_read_enabled.toString()
+                CommonUtil.menu_writeTimetable = data.is_write_enabled.toString()
+                if (CommonUtil.TimeTable) launch(TimetableActivity::class.java)
             }
         }
     }
