@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
@@ -17,14 +19,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.Adapters.LoginChooseRolesAdapter
 import com.vsca.vsnapvoicecollege.Interfaces.ProfileClickListener
 import com.vsca.vsnapvoicecollege.Model.LoginDetails
 import com.vsca.vsnapvoicecollege.Model.ProfileGroup
 import com.vsca.vsnapvoicecollege.R
+import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
+import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.ViewModel.Auth
 import com.vsca.vsnapvoicecollege.databinding.LoginRolesRewampBinding
 
 class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
@@ -32,6 +38,8 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
     private var rolesadapter: LoginChooseRolesAdapter? = null
     private var appviewModel: App? = null
     private lateinit var binding: LoginRolesRewampBinding
+    var authViewModel: Auth? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -42,6 +50,8 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
         CommonUtil.MenuListDashboard.clear()
         appviewModel = ViewModelProvider(this)[App::class.java]
         appviewModel!!.init()
+        authViewModel = ViewModelProvider(this)[Auth::class.java]
+        authViewModel!!.init()
 
 
 
@@ -50,10 +60,23 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
             statusBarBgView = binding.statusBarBackground
         )
 
+
+        authViewModel!!.isLogout!!.observe(this) { response ->
+            if (response != null) {
+                if (response.Status == true) {
+                    BaseActivity.performLogout(0, this@LoginRolesRewamp)   // clear + redirect
+                } else {
+                    CommonUtil.ApiAlert(this@LoginRolesRewamp, response.Message)
+                }
+            } else {
+                CommonUtil.ApiAlert(this@LoginRolesRewamp, CommonUtil.Something_went_wrong)
+            }
+        }
+
         binding.btnLogout.setOnClickListener {
             logoutClick()
         }
-
+        binding.cardInstitutionDetails.visibility= View.GONE
 
         setupRecyclerView()
     }
@@ -109,6 +132,26 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
         CommonUtil.CollegeLogo = data.colglogo ?: ""
     }
 
+
+    fun logoutClick() {
+        BaseActivity.LogoutAlert(
+            getString(R.string.txt_logout_alert), 0, this@LoginRolesRewamp
+        )
+        {
+            val mobilenumber = SharedPreference.getSH_MobileNumber(this)
+            val deviceId = Settings.Secure.getString(
+                contentResolver, Settings.Secure.ANDROID_ID
+            ) ?: ""
+
+            val jsonObject = JsonObject().apply {
+                addProperty("mobilenumber", mobilenumber)
+                addProperty("secure_id", deviceId)
+                addProperty("device_type", CommonUtil.ANDROID)
+            }
+
+            authViewModel!!.Logout(jsonObject, this@LoginRolesRewamp)
+        }
+    }
     private fun processLoginResponse(originalList: ArrayList<LoginDetails>): ArrayList<ProfileGroup> {
         val orderedPriorities = listOf("p1", "p2", "p3", "p4", "p5", "p6", "p7")
         val groupedMap = originalList.groupBy { it.priority }
@@ -133,9 +176,21 @@ class LoginRolesRewamp : AppCompatActivity(), ProfileClickListener {
         return result
     }
 
-    fun logoutClick() {
-        BaseActivity.LogoutAlert(getString(R.string.txt_logout_alert), 0, this@LoginRolesRewamp)
-    }
+//    fun logoutClick() {
+//        BaseActivity.LogoutAlert(getString(R.string.txt_logout_alert), 0, this@LoginRolesRewamp)
+//
+//        val mobilenumber = SharedPreference.getSH_MobileNumber(this)
+//        val deviceId = Settings.Secure.getString(
+//            contentResolver,
+//            Settings.Secure.ANDROID_ID
+//        ) ?: ""
+//        Log.d("DeviceID",deviceId)
+//
+//        val jsonObject = JsonObject()
+//        jsonObject.addProperty("mobilenumber", mobilenumber)
+//        jsonObject.addProperty("secure_id", deviceId)
+//        authViewModel!!.login(jsonObject, this@LoginRolesRewamp)
+//    }
 
     fun isToolBarPrimaryTheme1(
         mainViewId: Int,

@@ -530,6 +530,11 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activities.DeviceListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Auth_NoActionBar_" />
 
 
     </application>

@@ -126,12 +126,13 @@ object CommonUtil {
     var Appid = 1
 
     @JvmField
-    var VersionId = 46
+    var VersionId = 47
 
     // MENU NAME
 
     var Home = "home"
     var Chat = "chat"
+    var PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.vsca.vsnapvoicecollege"
     var Examination = "examination"
     var Attendance = "attendance"
     var Assignment = "assignment"
@@ -243,6 +244,11 @@ object CommonUtil {
 
     var Questionid = ""
     var MobileNUmber = ""
+    var Login_Password = ""
+    var Login_OTP = ""
+    var isDeviceLimitReached = false
+    var ANDROID = "android"
+    const val EXTRA_DEVICE_LIST = "EXTRA_DEVICE_LIST"
     var MemberId = 0
     var CollegeId = 0
     var deptname = ""
@@ -777,6 +783,45 @@ object CommonUtil {
         val btnOk = dialog.findViewById<TextView>(R.id.btnAlertOk)
         lblMessage.text = msg
         btnOk.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
+    }
+
+    fun ConfirmAlert(
+        activity: Activity?,
+        title: String,
+        msg: String?,
+        confirmText: String = "Confirm",
+        cancelText: String = "Cancel",
+        onConfirm: () -> Unit
+    ) {
+        if (activity == null || activity.isFinishing) return
+
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_confirm_alert)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        val lblTitle = dialog.findViewById<TextView>(R.id.lblConfirmTitle)
+        val lblMessage = dialog.findViewById<TextView>(R.id.lblConfirmMessage)
+        val btnCancel = dialog.findViewById<TextView>(R.id.btnConfirmCancel)
+        val btnOk = dialog.findViewById<TextView>(R.id.btnConfirmOk)
+
+        lblTitle.text = title
+        lblMessage.text = msg
+        btnCancel.text = cancelText
+        btnOk.text = confirmText
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+        btnOk.setOnClickListener {
+            dialog.dismiss()
+            onConfirm()
+        }
 
         dialog.show()
     }

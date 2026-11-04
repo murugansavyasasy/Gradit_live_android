@@ -21,12 +21,9 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
     override fun inflateBinding(): ActivityTimetableBinding {
         return ActivityTimetableBinding.inflate(layoutInflater)
     }
-
     private var timetableAdapter: TimetableAdapter? = null
 
     private var selectedDay = ""
-
-    // Selected day ID
     private var selectedDayId = "0"
 
     override val layoutResourceId: Int
@@ -65,7 +62,6 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
 
         setupDaySelection()
 
-        // Initial API call - Monday (ID 0)
         selectDay("Monday")
         isGetTimeTable()
 
@@ -73,8 +69,6 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
             onBackPressed()
         }
     }
-
-
     private fun setupRecyclerView() {
 
         timetableAdapter = TimetableAdapter()
@@ -85,7 +79,6 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
             itemAnimator = null
         }
     }
-
 
     private fun setupDaySelection() {
 
@@ -138,10 +131,8 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
             }
         }
     }
-
     private fun selectDay(day: String) {
 
-        // Don't update or call API if the same day is already selected
         if (selectedDay == day) return
 
         selectedDay = day
@@ -195,7 +186,6 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
             )
         }
     }
-
     private fun isGetTimeTable() {
 
         appViewModel?.isGetTimeTable(
@@ -208,8 +198,6 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
             this
         )
     }
-
-
     private fun observeTimeTableResponse() {
 
         appViewModel?.isTimeTable?.observe(this) { response ->
@@ -255,9 +243,6 @@ class TimetableActivity : BaseActivity<ActivityTimetableBinding>() {
             }
         }
     }
-
-
-
 
     private fun isLoadTimeTable(
         timetableData: List<TimetableModel>

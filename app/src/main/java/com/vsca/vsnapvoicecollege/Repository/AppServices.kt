@@ -26,6 +26,7 @@ import com.vsca.vsnapvoicecollege.Model.Chat_Text_model
 import com.vsca.vsnapvoicecollege.Model.CollageList
 import com.vsca.vsnapvoicecollege.Model.Communication_AddNewButton
 import com.vsca.vsnapvoicecollege.Model.Delete_noticeboard
+import com.vsca.vsnapvoicecollege.Model.DeviceListResponse
 import com.vsca.vsnapvoicecollege.Model.Evendsenddata
 import com.vsca.vsnapvoicecollege.Model.EventpicUpdate
 import com.vsca.vsnapvoicecollege.Model.ExamCreation_dataclass
@@ -235,6 +236,7 @@ class AppServices {
     var isGetPlacementCareerList: MutableLiveData<CareerTrainingResponse?>
     var isResumeBuilderDeleteResume: MutableLiveData<ResumeBuilderDeleteResume?>
     var isGetTimeTable: MutableLiveData<TimetableResponse?>
+    var DeviceList: MutableLiveData<DeviceListResponse?>
 
 
     init {
@@ -351,6 +353,7 @@ class AppServices {
         isResumeBuilderDeleteResume = MutableLiveData()
         isGetPlacementCareerList = MutableLiveData()
         isGetTimeTable = MutableLiveData()
+        DeviceList = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -5915,6 +5918,45 @@ class AppServices {
 
     val isTimeTableLiveData: LiveData<TimetableResponse?>
         get() = isGetTimeTable
+
+
+    fun DeviceList(jsonObject: JsonObject?, activity: Activity) {
+
+        RestClient.apiInterfaces.VerifyDeviceLimitOTP(jsonObject)
+            ?.enqueue(object : Callback<DeviceListResponse?> {
+                override fun onResponse(
+                    call: Call<DeviceListResponse?>, response: Response<DeviceListResponse?>
+                ) {
+
+                    if (response.body() != null) {
+
+                        val Status = response.body()!!.Status
+                        if (Status == 1) {
+                            DeviceList.postValue(response.body())
+
+                        } else {
+                            DeviceList.postValue(response.body())
+
+                        }
+                    } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
+                        DeviceList.postValue(null)
+                    } else {
+                        DeviceList.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<DeviceListResponse?>, t: Throwable) {
+                    DeviceList.postValue(null)
+                    t.printStackTrace()
+                    CommonUtil.ApiAlertFinish(
+                        activity, activity.getString(R.string.txt_no_record_found)
+                    )
+                }
+            })
+    }
+
+    val isDeviceListLiveData: LiveData<DeviceListResponse?>
+        get() = DeviceList
 
 
 

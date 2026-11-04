@@ -11,7 +11,7 @@ class LoginResponse {
     @SerializedName("Message")
     @Expose
     var message: String? = null
-
     @SerializedName("data")
-    var data: List<LoginDetails>? = null
+    @Expose
+    var data: List<LoginData>? = null
 }

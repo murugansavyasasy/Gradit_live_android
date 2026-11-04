@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -40,6 +41,8 @@ class OtpRewamp : AppCompatActivity() {
     var appViewModel: App? = null
     var output = ""
     private lateinit var mobileNumber: String
+    private lateinit var Password: String
+    var isDeviceLimitReached: Boolean=false
     var Allow = true
     var opt_1 = ""
     var opt_2 = ""
@@ -66,6 +69,12 @@ class OtpRewamp : AppCompatActivity() {
             .takeIf { it.isNotEmpty() }
             ?: SharedPreference.getSH_MobileNumber(this)
                     ?: ""
+
+        Password= CommonUtil.Login_Password.takeIf { it.isNotEmpty() }
+            ?: SharedPreference.getSH_Password(this)
+                    ?: ""
+
+        isDeviceLimitReached = CommonUtil.isDeviceLimitReached
 
         appViewModel = ViewModelProvider(this).get(App::class.java)
         appViewModel!!.init()
@@ -357,7 +366,14 @@ class OtpRewamp : AppCompatActivity() {
 
             output = otp1 + otp2 + otp3 + otp4
 
+//        if (isDeviceLimitReached){
+//            VerifyDeviceLimitOTP()
+//        }
+//        else{
             VerifiedOtp()
+
+//        }
+
         }
 
         appViewModel!!.VerifyOtp!!.observe(this) { response ->
@@ -365,28 +381,55 @@ class OtpRewamp : AppCompatActivity() {
                 val status = response.Status
                 val message = response.Message
                 if (status == 1) {
-
-                    Handler().postDelayed({
-
-                        val source = intent.getStringExtra(CommonUtil.EXTRA_AUTH_SOURCE)
-
-                        val nextIntent = Intent(
+                    if (isDeviceLimitReached){
+                        SharedPreference.putLoginDetails(
                             this@OtpRewamp,
-                            CreatePasswordRewamp::class.java
+                            mobileNumber,
+                            Password
                         )
 
-                        nextIntent.putExtra(
-                            CommonUtil.EXTRA_AUTH_SOURCE,
-                            source
-                        )
+                        SharedPreference.setFirstTimeLoggedInUser(this@OtpRewamp, true)
 
-                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        val loginData = CommonUtil.UserDataList
+                        Log.d("LoginDataSize", loginData?.size.toString())
 
-                        startActivity(nextIntent)
-                        finish()
+                        val target = loginData?.size?.let {
+                            if (it > 1) {
+                                LoginRolesRewamp::class.java
+                            } else {
+                                DashBoardActivityRewamp::class.java
+                            }
+                        }
 
-                    }, 1000)
+                        val i = Intent(this@OtpRewamp, target)
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(i)
+                        finishAffinity()
+                    }
+                    else{
+                        Handler().postDelayed({
+
+                            val source = intent.getStringExtra(CommonUtil.EXTRA_AUTH_SOURCE)
+
+                            val nextIntent = Intent(
+                                this@OtpRewamp,
+                                CreatePasswordRewamp::class.java
+                            )
+
+                            nextIntent.putExtra(
+                                CommonUtil.EXTRA_AUTH_SOURCE,
+                                source
+                            )
+
+                            nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+                            startActivity(nextIntent)
+                            finish()
+
+                        }, 1000)
+                    }
                 } else {
                     CommonUtil.ApiAlert(this, message)
                 }
@@ -413,6 +456,75 @@ class OtpRewamp : AppCompatActivity() {
 
             } else {
                 CommonUtil.ApiAlert(this, CommonUtil.Something_went_wrong)
+            }
+        }
+
+
+        appViewModel!!.DeviceList!!.observe(this) { response ->
+
+            if (response != null) {
+
+                val status = response.Status
+                val message = response.Message
+
+                if (status == 1) {
+                    SharedPreference.putLoginDetails(
+                        this@OtpRewamp,
+                        mobileNumber,
+                        Password
+                    )
+
+                    SharedPreference.setFirstTimeLoggedInUser(this@OtpRewamp, true)
+
+                    val loginData = CommonUtil.UserDataList
+                    Log.d("LoginDataSize", loginData?.size.toString())
+
+                    val target = loginData?.size?.let {
+                        if (it > 1) {
+                            LoginRolesRewamp::class.java
+                        } else {
+                            DashBoardActivityRewamp::class.java
+                        }
+                    }
+
+                    val i = Intent(this@OtpRewamp, target)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(i)
+                    finishAffinity()
+
+//                    if (isSecondDeviceLogin){
+//
+//                    }
+//                    else{
+//                        val deviceList = response.data ?: arrayListOf()
+//
+//                        val nextIntent = Intent(
+//                            this@OtpRewamp,
+//                            DeviceListActivity::class.java
+//                        )
+//
+//                        nextIntent.putExtra(
+//                            CommonUtil.EXTRA_DEVICE_LIST,
+//                            deviceList
+//                        )
+//
+//                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//
+//                        startActivity(nextIntent)
+//                        finish()
+//                    }
+
+                } else {
+                    CommonUtil.ApiAlert(this, message)
+                }
+
+            } else {
+                CommonUtil.ApiAlert(
+                    this,
+                    CommonUtil.Something_went_wrong
+                )
             }
         }
     }
@@ -499,11 +611,44 @@ class OtpRewamp : AppCompatActivity() {
     }
 
     fun VerifiedOtp() {
+        CommonUtil.Login_OTP=output
+
+        val deviceId = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ANDROID_ID
+        ) ?: ""
+
+        val deviceName = "${Build.MANUFACTURER} ${Build.MODEL}"
+        Log.d("DeviceID",deviceId)
+        Log.d("DeviceName",deviceName)
         val jsonObject = JsonObject()
         jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobileNumber)
         jsonObject.addProperty(ApiRequestNames.Req_otp, output)
+        jsonObject.addProperty("secure_id", deviceId)
+        jsonObject.addProperty("device_type", CommonUtil.ANDROID)
         appViewModel!!.OtpVerified(jsonObject, this)
         Log.d("OtpVerified:", jsonObject.toString())
+    }
+
+    fun VerifyDeviceLimitOTP() {
+        CommonUtil.Login_OTP=output
+
+        val deviceId = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ANDROID_ID
+        ) ?: ""
+
+        val deviceName = "${Build.MANUFACTURER} ${Build.MODEL}"
+        Log.d("DeviceID",deviceId)
+        Log.d("DeviceName",deviceName)
+
+        val jsonObject = JsonObject()
+        jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobileNumber)
+        jsonObject.addProperty(ApiRequestNames.Req_otp, output)
+        jsonObject.addProperty("secure_id", deviceId)
+        jsonObject.addProperty("device_type", CommonUtil.ANDROID)
+        appViewModel!!.isDeviceList(jsonObject, this)
+        Log.d("isDeviceList:", jsonObject.toString())
     }
 
     fun isToolBarPrimaryTheme1(

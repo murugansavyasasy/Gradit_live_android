@@ -25,6 +25,7 @@ import com.vsca.vsnapvoicecollege.Model.Communication_AddNewButton
 import com.vsca.vsnapvoicecollege.Model.CountryDetailsResponse
 import com.vsca.vsnapvoicecollege.Model.DashBoardResponse
 import com.vsca.vsnapvoicecollege.Model.Delete_noticeboard
+import com.vsca.vsnapvoicecollege.Model.DeviceListResponse
 import com.vsca.vsnapvoicecollege.Model.Evendsenddata
 import com.vsca.vsnapvoicecollege.Model.EventpicUpdate
 import com.vsca.vsnapvoicecollege.Model.ExamCreation_dataclass
@@ -73,6 +74,7 @@ import com.vsca.vsnapvoicecollege.Model.LeaveRequest
 import com.vsca.vsnapvoicecollege.Model.LeaveTypeResponse
 import com.vsca.vsnapvoicecollege.Model.Leave_history
 import com.vsca.vsnapvoicecollege.Model.LoginResponse
+import com.vsca.vsnapvoicecollege.Model.LogoutResponse
 import com.vsca.vsnapvoicecollege.Model.ManageLeave
 import com.vsca.vsnapvoicecollege.Model.MenuResponse
 import com.vsca.vsnapvoicecollege.Model.NewPassWordCreate
@@ -181,6 +183,9 @@ interface ApiInterfaces {
 
     @POST(ApiMethods.ValidateMobileNumber)
     fun ValidateMobileNumber(@Body jsonObject: JsonObject?): Call<ValidateMobileNumber?>?
+
+    @POST(ApiMethods.Logoutapp)
+    fun Logoutapp(@Body jsonObject: JsonObject?): Call<LogoutResponse?>?
 
     @POST(ApiMethods.GetNotifications)
     fun GetNotifications(@Body jsonObject: JsonObject?): Call<GetNotificationsResponse?>?
@@ -704,5 +709,9 @@ interface ApiInterfaces {
         @Query("sectionid") sectionid: String?,
         @Query("dayid") dayid: String?
     ): Call<TimetableResponse?>?
+
+
+    @POST(ApiMethods.VerifyDeviceLimitOTP)
+    fun VerifyDeviceLimitOTP(@Body jsonObject: JsonObject?): Call<DeviceListResponse?>?
 
     }

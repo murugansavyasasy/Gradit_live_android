@@ -31,6 +31,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -58,6 +59,7 @@ import com.vsca.vsnapvoicecollege.Utils.MyWebViewClient
 import com.vsca.vsnapvoicecollege.Utils.MyWebViewClientContext
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
+import com.vsca.vsnapvoicecollege.ViewModel.Auth
 import com.vsca.vsnapvoicecollege.ViewModel.Dashboards
 import java.io.File
 import kotlin.math.max
@@ -70,6 +72,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
 
     open var appViewModel: App? = null
+    var authViewModel1: Auth? = null        // add this
     var UserMenuData: ArrayList<MenuDetailsResponse> = ArrayList()
     var MenuList: ArrayList<MenuDetailsResponse> = ArrayList()
     var OverAllMenuCountData: List<GetOverAllCountDetails> = ArrayList()
@@ -87,9 +90,23 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         appViewModel = ViewModelProvider(this)[App::class.java]
         appViewModel!!.init()
 
+        authViewModel1 = ViewModelProvider(this)[Auth::class.java]
+        authViewModel1!!.init()
+
         dashboardViewModel = ViewModelProvider(this)[Dashboards::class.java]
         dashboardViewModel!!.init()
 
+        authViewModel1!!.isLogout!!.observe(this) { response ->
+            if (response != null) {
+                if (response.Status == true) {
+                    performLogout(1, this@BaseActivity)
+                } else {
+                    CommonUtil.ApiAlert(this@BaseActivity, response.Message)
+                }
+            } else {
+                CommonUtil.ApiAlert(this@BaseActivity, CommonUtil.Something_went_wrong)
+            }
+        }
 
         dashboardViewModel!!.userMenuLiveData!!.observe(this) { response ->
             if (response != null) {
@@ -553,6 +570,20 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         logout.setOnClickListener {
             LogoutAlert(getString(R.string.txt_alert_logout), 1, activity)
+            {
+                val mobilenumber = SharedPreference.getSH_MobileNumber(activity)
+                val deviceId = Settings.Secure.getString(
+                    activity.contentResolver, Settings.Secure.ANDROID_ID
+                ) ?: ""
+
+                val jsonObject = JsonObject().apply {
+                    addProperty("mobilenumber", mobilenumber)
+                    addProperty("secure_id", deviceId)
+                    addProperty("device_type", CommonUtil.ANDROID)
+                }
+
+                authViewModel1!!.Logout(jsonObject, activity)
+            }
         }
         layoutChangeRoles.setOnClickListener { IntentToChangeRole(activity) }
         layoutClearCache.setOnClickListener { ClearCache(activity) }
@@ -902,7 +933,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     fun AppCompatActivity.setupEdgeToEdgeAuto(
         rootView: View?,
         statusBarBgView: View?,
-        priority: String?
+        priority: String?,
     ) {
         if (supportActionBar != null) {
             // Screen with an ActionBar: colour the window background
@@ -911,6 +942,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             // Screen without an ActionBar: colour the statusBarBackground view
             setupEdgeToEdge(rootView, statusBarBgView, priority)
         }
+
     }
 
 
@@ -1024,7 +1056,12 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         private var passwordvisible = true
 
 
-        fun LogoutAlert(title: String?, value: Int, activity: Activity) {
+        fun LogoutAlert(
+            title: String?,
+            value: Int,
+            activity: Activity,
+            onConfirm: (() -> Unit)? = null   // if null, behaves like before (clear + redirect immediately)
+        ) {
             val dialog = Dialog(activity)
             dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
             dialog.setContentView(R.layout.dialog_logout)
@@ -1042,65 +1079,130 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
             btnConfirm.setOnClickListener {
                 dialog.dismiss()
-                if (value == 1) {
-                    profilePopup?.let {
-                        if (it.isShowing) {
-                            it.dismiss()
-                        }
-                    }
-
-                    popupWebview?.let {
-                        if (it.isShowing) {
-                            it.dismiss()
-                        }
-                    }
-
-                    changePassword?.let {
-                        if (it.isShowing) {
-                            it.dismiss()
-                        }
-                    }
-
-                    profilePopup = null
-                    popupWebview = null
-                    changePassword = null
+                if (onConfirm != null) {
+                    onConfirm()                       // caller makes the API call
+                } else {
+                    performLogout(value, activity)    // old behaviour
                 }
-
-                val firstTimeLoggedInUser =
-                    SharedPreference.getFirstTimeLoggedInUser(activity)
-
-                SharedPreference.clearShLogin(activity)
-
-                SharedPreference.setFirstTimeLoggedInUser(
-                    activity,
-                    firstTimeLoggedInUser
-                )
-
-
-                CommonUtil.Priority = ""
-                CommonUtil.MemberId = 0
-                CommonUtil.MemberName = ""
-                CommonUtil.MemberType = ""
-                CommonUtil.CollegeLogo = ""
-                CommonUtil.CollegeId = 0
-                CommonUtil.DivisionId = ""
-                CommonUtil.Courseid = ""
-                CommonUtil.DepartmentId = ""
-                CommonUtil.YearId = ""
-                CommonUtil.SemesterId = ""
-                CommonUtil.SectionId = ""
-                CommonUtil.MobileNUmber = ""
-                CommonUtil.isParentEnable = ""
-
-                val intent = Intent(activity, LoginRewamp::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-
-                activity.startActivity(intent)
             }
             dialog.show()
         }
+
+        /** Everything that used to be inside the confirm click */
+        fun performLogout(value: Int, activity: Activity) {
+            if (value == 1) {
+                profilePopup?.let { if (it.isShowing) it.dismiss() }
+                popupWebview?.let { if (it.isShowing) it.dismiss() }
+                changePassword?.let { if (it.isShowing) it.dismiss() }
+
+                profilePopup = null
+                popupWebview = null
+                changePassword = null
+            }
+
+            val firstTimeLoggedInUser = SharedPreference.getFirstTimeLoggedInUser(activity)
+            SharedPreference.clearShLogin(activity)
+            SharedPreference.setFirstTimeLoggedInUser(activity, firstTimeLoggedInUser)
+
+            CommonUtil.Priority = ""
+            CommonUtil.MemberId = 0
+            CommonUtil.MemberName = ""
+            CommonUtil.MemberType = ""
+            CommonUtil.CollegeLogo = ""
+            CommonUtil.CollegeId = 0
+            CommonUtil.DivisionId = ""
+            CommonUtil.Courseid = ""
+            CommonUtil.DepartmentId = ""
+            CommonUtil.YearId = ""
+            CommonUtil.SemesterId = ""
+            CommonUtil.SectionId = ""
+            CommonUtil.MobileNUmber = ""
+            CommonUtil.isParentEnable = ""
+
+            val intent = Intent(activity, LoginRewamp::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            activity.startActivity(intent)
+        }
+
+
+//        fun LogoutAlert(title: String?, value: Int, activity: Activity) {
+//            val dialog = Dialog(activity)
+//            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+//            dialog.setContentView(R.layout.dialog_logout)
+//            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            dialog.window?.setLayout(
+//                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+//                android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+//            )
+//            dialog.setCancelable(true)
+//
+//            val btnCancel = dialog.findViewById<Button>(R.id.btnLogoutCancel)
+//            val btnConfirm = dialog.findViewById<Button>(R.id.btnLogoutConfirm)
+//
+//            btnCancel.setOnClickListener { dialog.dismiss() }
+//
+//            btnConfirm.setOnClickListener {
+//                dialog.dismiss()
+//                if (value == 1) {
+//                    profilePopup?.let {
+//                        if (it.isShowing) {
+//                            it.dismiss()
+//                        }
+//                    }
+//
+//                    popupWebview?.let {
+//                        if (it.isShowing) {
+//                            it.dismiss()
+//                        }
+//                    }
+//
+//                    changePassword?.let {
+//                        if (it.isShowing) {
+//                            it.dismiss()
+//                        }
+//                    }
+//
+//                    profilePopup = null
+//                    popupWebview = null
+//                    changePassword = null
+//                }
+//
+//                val firstTimeLoggedInUser =
+//                    SharedPreference.getFirstTimeLoggedInUser(activity)
+//
+//                SharedPreference.clearShLogin(activity)
+//
+//                SharedPreference.setFirstTimeLoggedInUser(
+//                    activity,
+//                    firstTimeLoggedInUser
+//                )
+//
+//
+//                CommonUtil.Priority = ""
+//                CommonUtil.MemberId = 0
+//                CommonUtil.MemberName = ""
+//                CommonUtil.MemberType = ""
+//                CommonUtil.CollegeLogo = ""
+//                CommonUtil.CollegeId = 0
+//                CommonUtil.DivisionId = ""
+//                CommonUtil.Courseid = ""
+//                CommonUtil.DepartmentId = ""
+//                CommonUtil.YearId = ""
+//                CommonUtil.SemesterId = ""
+//                CommonUtil.SectionId = ""
+//                CommonUtil.MobileNUmber = ""
+//                CommonUtil.isParentEnable = ""
+//
+//                val intent = Intent(activity, LoginRewamp::class.java).apply {
+//                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+//                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                }
+//
+//                activity.startActivity(intent)
+//            }
+//            dialog.show()
+//        }
 
 
         fun LoadWebViewContext(activity: Context?, url: String?, useSecondUrl: Boolean = false) {

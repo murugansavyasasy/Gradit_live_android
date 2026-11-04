@@ -96,6 +96,7 @@
                 android:layout_marginTop="@dimen/ten"
                 android:background="@drawable/bg_card_white"
                 android:elevation="1dp"
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="16dp">

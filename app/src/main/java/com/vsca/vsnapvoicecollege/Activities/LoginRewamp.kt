@@ -3,7 +3,6 @@ package com.vsca.vsnapvoicecollege.Activities
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -30,6 +29,9 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
 import com.vsca.vsnapvoicecollege.databinding.LoginRewampBinding
+import android.provider.Settings
+import android.os.Build
+
 
 class LoginRewamp : AppCompatActivity() {
 
@@ -114,28 +116,64 @@ class LoginRewamp : AppCompatActivity() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    LoginData = response.data!!
-                    if (LoginData.size != 0) {
-                        CommonUtil.UserDataList = response.data as ArrayList<LoginDetails>?
-                        SharedPreference.putLoginDetails(this@LoginRewamp, MobileNumber, Password)
-                        SetLoginData(LoginData)
+                    if (response.data?.getOrNull(0)?.otpRequired==true){
 
-                        Log.d("LoginDataSize", LoginData.size.toString())
-                        if (LoginData.size > 1) {
-                            val i = Intent(this@LoginRewamp, LoginRolesRewamp::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(i)
-                            finishAffinity()
-                        } else {
-                            val i = Intent(this@LoginRewamp, DashBoardActivityRewamp::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(i)
-                            finishAffinity()
+                        LoginData = response.data?.getOrNull(0)?.login_data?:emptyList()
+                        if (LoginData.size != 0) {
+                            CommonUtil.UserDataList = response.data?.get(0)?.login_data as ArrayList<LoginDetails>?
+                            SetLoginData(LoginData)
                         }
-                    } else {
-                        CommonUtil.ApiAlert(this@LoginRewamp, message)
+
+                        CommonUtil.ivrnumbers = ArrayList(
+                            response.data?.getOrNull(0)?.ivrnumbers ?: emptyList()
+                        )
+
+                        CommonUtil.isDeviceLimitReached =response.data?.getOrNull(0)?.otpRequired ?:false
+
+
+                        Log.d("IVR", "Size: ${CommonUtil.ivrnumbers.size}")
+                        CommonUtil.ivrnumbers.forEachIndexed { index, number ->
+                            Log.d("IVR", "[$index] = $number")
+                        }
+
+//                        Log.d("ivrNumbers", CommonUtil.ivrnumbers.toString())
+//                        CommonUtil.OptMessege = response.Message
+
+                        val intents = Intent(this@LoginRewamp, OtpRewamp::class.java)
+                        intents.putExtra(
+                            CommonUtil.EXTRA_AUTH_SOURCE,
+                            CommonUtil.AUTH_SOURCE_LOGIN
+                        )
+                        intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+                        startActivity(intents)
+
+                    }
+                    else{
+                        LoginData = response.data?.getOrNull(0)?.login_data?:emptyList()
+                        if (LoginData.size != 0) {
+                            CommonUtil.UserDataList = response.data?.get(0)?.login_data as ArrayList<LoginDetails>?
+                            SharedPreference.putLoginDetails(this@LoginRewamp, MobileNumber, Password)
+                            SetLoginData(LoginData)
+
+                            Log.d("LoginDataSize", LoginData.size.toString())
+                            if (LoginData.size > 1) {
+                                val i = Intent(this@LoginRewamp, LoginRolesRewamp::class.java)
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+                                finishAffinity()
+                            } else {
+                                val i = Intent(this@LoginRewamp, DashBoardActivityRewamp::class.java)
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+                                finishAffinity()
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this@LoginRewamp, "No Data Available")
+                        }
                     }
                 } else {
                     CommonUtil.ApiAlert(this@LoginRewamp, message)
@@ -186,11 +224,24 @@ class LoginRewamp : AppCompatActivity() {
         Password = binding.passwordEdt!!.text.toString()
         MobileNumber = binding.phoneNumberEdt!!.text.toString()
 
+        CommonUtil.MobileNUmber=MobileNumber?:""
+        CommonUtil.Login_Password=Password?:""
+        val deviceId = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ANDROID_ID
+        ) ?: ""
+
+        val deviceName = "${Build.MANUFACTURER} ${Build.MODEL}"
+        Log.d("DeviceID",deviceId)
+        Log.d("DeviceName",deviceName)
+
         Log.d("Mobilenumber", MobileNumber!!)
         if (MobileNumber != "" && Password != "") {
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, MobileNumber)
             jsonObject.addProperty(ApiRequestNames.Req_password, Password)
+            jsonObject.addProperty("secure_id", deviceId)
+            jsonObject.addProperty("device_type", CommonUtil.ANDROID)
             authViewModel!!.login(jsonObject, this@LoginRewamp)
         } else {
             CommonUtil.ApiAlert(this@LoginRewamp, "Enter your password")

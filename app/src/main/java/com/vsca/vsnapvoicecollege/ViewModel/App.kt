@@ -24,6 +24,7 @@ import com.vsca.vsnapvoicecollege.Model.Chat_Text_model
 import com.vsca.vsnapvoicecollege.Model.CollageList
 import com.vsca.vsnapvoicecollege.Model.Communication_AddNewButton
 import com.vsca.vsnapvoicecollege.Model.Delete_noticeboard
+import com.vsca.vsnapvoicecollege.Model.DeviceListResponse
 import com.vsca.vsnapvoicecollege.Model.Evendsenddata
 import com.vsca.vsnapvoicecollege.Model.EventpicUpdate
 import com.vsca.vsnapvoicecollege.Model.ExamCreation_dataclass
@@ -227,6 +228,7 @@ class App(application: Application) : AndroidViewModel(application) {
     var SendVideoParticulerTuter: LiveData<VideoSendTuter?>? = null
     var GetOtpNew: LiveData<ExampleJson2KtKotlin?>? = null
     var VerifyOtp: LiveData<Verified_OTP?>? = null
+    var DeviceList: LiveData<DeviceListResponse?>? = null
     var CrearePassword: LiveData<NewPassWordCreate?>? = null
     var _PdfandImagesend: LiveData<ImageorpdfsendTuter?>? = null
     var Text_History: LiveData<textHistory?>? = null
@@ -379,6 +381,7 @@ class App(application: Application) : AndroidViewModel(application) {
         isPlacementHistoricalCareerResponse = apiRepositories!!.isPlacementHistoricalCareerLiveData
         isPlacementCareerResponse = apiRepositories!!.isPlacementCareerLiveData
         isTimeTable = apiRepositories!!.isTimeTableLiveData
+        DeviceList = apiRepositories!!.isDeviceListLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -893,6 +896,7 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.SendResumeBuilderGenerateResumeRequest(isJsonObject, activity)
     }
 
+
     fun SendSaveTittle(isJsonObject: JsonObject, activity: Activity) {
         apiRepositories!!.SendResumeBuilderSaveTitleRequest(isJsonObject, activity)
     }
@@ -955,6 +959,9 @@ class App(application: Application) : AndroidViewModel(application) {
             day_id,
             activity
         )
+    }
+    fun isDeviceList(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.DeviceList(isJsonObject, activity)
     }
 
 }

@@ -7,7 +7,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.Spannable
@@ -53,6 +52,8 @@ import com.vsca.vsnapvoicecollege.Utils.ToastManager
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
 import com.vsca.vsnapvoicecollege.databinding.CountryRewampBinding
+import android.provider.Settings
+import android.os.Build
 
 class CountryRewamp : AppCompatActivity() {
 
@@ -140,29 +141,65 @@ class CountryRewamp : AppCompatActivity() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    LoginData = response.data!!
-                    if (LoginData.size != 0) {
-                        CommonUtil.UserDataList = response.data as ArrayList<LoginDetails>?
-                        SharedPreference.putLoginDetails(this@CountryRewamp, mobilenumber, password)
+                    if (response.data?.getOrNull(0)?.otpRequired==true){
 
-                        Log.d("LoginDataSize", LoginData.size.toString())
-                        if (LoginData.size > 1) {
-
-                            val i = Intent(this@CountryRewamp, LoginRolesRewamp::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(i)
-
-                        } else {
-
+                        LoginData = response.data?.getOrNull(0)?.login_data?:emptyList()
+                        if (LoginData.size != 0) {
+                            CommonUtil.UserDataList = response.data?.get(0)?.login_data as ArrayList<LoginDetails>?
                             SetLoginData(LoginData)
-                            val i = Intent(this@CountryRewamp, DashBoardActivityRewamp::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(i)
                         }
-                    } else {
-                        CommonUtil.ApiAlert(this@CountryRewamp, message)
+
+                        CommonUtil.ivrnumbers = ArrayList(
+                            response.data?.getOrNull(0)?.ivrnumbers ?: emptyList()
+                        )
+
+                        CommonUtil.isDeviceLimitReached =response.data?.getOrNull(0)?.otpRequired ?:false
+
+
+                        Log.d("IVR", "Size: ${CommonUtil.ivrnumbers.size}")
+                        CommonUtil.ivrnumbers.forEachIndexed { index, number ->
+                            Log.d("IVR", "[$index] = $number")
+                        }
+
+//                        Log.d("ivrNumbers", CommonUtil.ivrnumbers.toString())
+//                        CommonUtil.OptMessege = response.Message
+
+                        val intents = Intent(this@CountryRewamp, OtpRewamp::class.java)
+                        intents.putExtra(
+                            CommonUtil.EXTRA_AUTH_SOURCE,
+                            CommonUtil.AUTH_SOURCE_LOGIN
+                        )
+                        intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+                        startActivity(intents)
+
+                    }
+                    else{
+                        LoginData = response.data?.getOrNull(0)?.login_data?:emptyList()
+                        if (LoginData.size != 0) {
+                            CommonUtil.UserDataList = response.data?.get(0)?.login_data as ArrayList<LoginDetails>?
+                            SharedPreference.putLoginDetails(this@CountryRewamp, mobilenumber, password)
+                            SetLoginData(LoginData)
+
+                            Log.d("LoginDataSize", LoginData.size.toString())
+                            if (LoginData.size > 1) {
+
+                                val i = Intent(this@CountryRewamp, LoginRolesRewamp::class.java)
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+
+                            } else {
+
+                                val i = Intent(this@CountryRewamp, DashBoardActivityRewamp::class.java)
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this@CountryRewamp, "No Data Available")
+                        }
                     }
                 } else {
                     CommonUtil.ApiAlert(this@CountryRewamp, message)
@@ -403,7 +440,7 @@ class CountryRewamp : AppCompatActivity() {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.data = Uri.parse(resources.getString(R.string.txt_playstore_url))
+                    intent.data = Uri.parse(CommonUtil.PLAY_STORE_LINK)
                     startActivity(intent)
                 } catch (anfe: ActivityNotFoundException) {
                     anfe.printStackTrace()
@@ -414,7 +451,7 @@ class CountryRewamp : AppCompatActivity() {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.data = Uri.parse(resources.getString(R.string.txt_playstore_url))
+                    intent.data = Uri.parse(CommonUtil.PLAY_STORE_LINK)
                     startActivity(intent)
                 } catch (anfe: ActivityNotFoundException) {
                     anfe.printStackTrace()
@@ -505,11 +542,21 @@ class CountryRewamp : AppCompatActivity() {
         password = SharedPreference.getSH_Password(this@CountryRewamp)
 
         val isFirstTimeLoggedInUser = SharedPreference.getFirstTimeLoggedInUser(this)
+        val deviceId = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ANDROID_ID
+        ) ?: ""
+
+        val deviceName = "${Build.MANUFACTURER} ${Build.MODEL}"
+        Log.d("DeviceID",deviceId)
+        Log.d("DeviceName",deviceName)
 
         if (mobilenumber!!.isNotEmpty() && password!!.isNotEmpty()) {
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobilenumber)
             jsonObject.addProperty(ApiRequestNames.Req_password, password)
+            jsonObject.addProperty("secure_id", deviceId)
+            jsonObject.addProperty("device_type", CommonUtil.ANDROID)
             authViewModel!!.login(jsonObject, this@CountryRewamp)
         } else {
             if (isFirstTimeLoggedInUser) {

@@ -189,7 +189,7 @@ class DashboardChild(
             23 -> R.drawable.resume_builder_icon_new to data.name
             24 -> R.drawable.placement_events_icon_new to data.name
             25 -> R.drawable.placement_traning_icon_new to data.name
-            26 -> R.drawable.events_icon_new to data.name
+            26 -> R.drawable.time_table_icon to data.name
             else -> null to null
         }
 

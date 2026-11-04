@@ -4,11 +4,13 @@ object ApiMethods {
 
     const val Country = "api/AppDetailsBal/Getcountrylist"
     const val VersionCheck = "api/AppDetailsBal/VersionCheck"
-    const val Login = "api/AppDetailsBal/LoginFromApp"
+//    const val Login = "api/AppDetailsBal/LoginFromApp" //OLD Password
+    const val Login = "api/AppDetailsBal/LoginFromAppNew"
     const val Dashboard = "api/AppDetailsBal/DashboardApi_Live"
 
     const val UserMenus = "api/AppDetailsBal/GetParentUserMenuWithReadWriteAccess"
     const val ValidateMobileNumber = "api/AppDetailsBal/ValidateMobileNumber"
+    const val Logoutapp = "api/AppDetailsBal/LogoutAppNew"
 
     const val GetNotifications = "api/AppDetailsBal/GetNotificationForCollege"
     const val Hallticket = "api/AppDetailsBal/getHallTicketDetails"
@@ -119,7 +121,9 @@ object ApiMethods {
     const val BlackStudent = "api/AppDetailsBal/BlockStudentForApp"
     const val UnblackStudent = "api/AppDetailsBal/UnblockStudentForApp"
     const val GetOtp = "api/AppDetailsBal/forgetpassword"
-    const val VerifyOTP = "api/AppDetailsBal/VerifyOTP"
+//    const val VerifyOTP = "api/AppDetailsBal/VerifyOTP" OLD Verify OTP Endpoint
+    const val VerifyOTP = "api/AppDetailsBal/NewVerifyOTP"
+    const val VerifyDeviceLimitOTP = "api/AppDetailsBal/VerifyDeviceLimitOTP"
     const val CreateNewpassword = "api/AppDetailsBal/forgetpasswordReset"
     const val AssignmentForwardText = "api/AppDetailsBal/ManageAssignmentForText"
     const val HeaderCollagelist = "api/AppDetailsBal/GetBranchCollegeList"

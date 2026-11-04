@@ -8,6 +8,7 @@ import com.google.gson.JsonObject
 import com.vsca.vsnapvoicecollege.FCM.StatusMessageModel
 import com.vsca.vsnapvoicecollege.Model.CountryDetailsResponse
 import com.vsca.vsnapvoicecollege.Model.LoginResponse
+import com.vsca.vsnapvoicecollege.Model.LogoutResponse
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumber
 import com.vsca.vsnapvoicecollege.Model.VersionCheckResposne
 import com.vsca.vsnapvoicecollege.Repository.AuthServices
@@ -32,6 +33,9 @@ class Auth(application: Application) : AndroidViewModel(application) {
     var isUpdateNotificationCallLog: LiveData<StatusMessageModel?>? = null
         private set
 
+    var isLogout: LiveData<LogoutResponse?>? = null
+        private set
+
     fun init() {
         apiRepositories = AuthServices()
         countryDetailsResponseLiveData = apiRepositories!!.countryLiveData
@@ -39,6 +43,7 @@ class Auth(application: Application) : AndroidViewModel(application) {
         loginResposneLiveData = apiRepositories!!.loginResponseLiveData
         Mobilenumber = apiRepositories!!.VerificationMobilenumber
         isUpdateNotificationCallLog = apiRepositories!!.isUpdateNotificationCallLogLiveData
+        isLogout = apiRepositories!!.isLogoutLiveData
 
     }
 
@@ -56,6 +61,10 @@ class Auth(application: Application) : AndroidViewModel(application) {
 
     fun VerifityMobile(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.MobilenumberVerification(jsonObject, activity)
+    }
+
+    fun Logout(jsonObject: JsonObject?, activity: Activity?) {
+        apiRepositories!!.Logout(jsonObject, activity)
     }
 
     fun isUpdateNotificationCalllog(jsonObject: JsonObject, activity: Activity) {

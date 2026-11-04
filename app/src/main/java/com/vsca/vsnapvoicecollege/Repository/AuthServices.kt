@@ -11,6 +11,7 @@ import com.vsca.vsnapvoicecollege.FCM.ErrorResponse
 import com.vsca.vsnapvoicecollege.FCM.StatusMessageModel
 import com.vsca.vsnapvoicecollege.Model.CountryDetailsResponse
 import com.vsca.vsnapvoicecollege.Model.LoginResponse
+import com.vsca.vsnapvoicecollege.Model.LogoutResponse
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumber
 import com.vsca.vsnapvoicecollege.Model.VersionCheckResposne
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
@@ -29,6 +30,7 @@ class AuthServices {
     var MobileNumber: MutableLiveData<ValidateMobileNumber?>
 
     var isUpdateNotificationCallLog: MutableLiveData<StatusMessageModel?>
+    var isLogout: MutableLiveData<LogoutResponse?>
 
 
     fun GetCountryList(appid: Int, activity: Activity?) {
@@ -218,6 +220,46 @@ class AuthServices {
     val VerificationMobilenumber: LiveData<ValidateMobileNumber?>
         get() = MobileNumber
 
+    fun Logout(jsonObject: JsonObject?, activity: Activity?) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
+        RestClient.apiInterfaces.Logoutapp(jsonObject)
+            ?.enqueue(object : Callback<LogoutResponse?> {
+                override fun onResponse(
+                    call: Call<LogoutResponse?>, response: Response<LogoutResponse?>
+                ) {
+                    progressDialog.dismiss()
+                    Log.d("GetLogout_Res", response.code().toString() + " - " + response.toString())
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
+                            val status = response.body()!!.Status
+                            isLogout.postValue(response.body())
+
+                        }
+                    } else if (response.code() == 400) {
+                        progressDialog.dismiss()
+                        try {
+                            isLogout.postValue(null)
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<LogoutResponse?>, t: Throwable) {
+                    progressDialog.dismiss()
+                    isLogout.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isLogoutLiveData: LiveData<LogoutResponse?>
+        get() = isLogout
+
 
     fun isUpdateNotificationCallLog(jsonObject: JsonObject, activity: Activity) {
         RestClient.apiInterfaces.updateNotificationCallLog(jsonObject)
@@ -261,5 +303,6 @@ class AuthServices {
         LoginResposneMutableLiveData = MutableLiveData()
         MobileNumber = MutableLiveData()
         isUpdateNotificationCallLog = MutableLiveData()
+        isLogout = MutableLiveData()
     }
 }

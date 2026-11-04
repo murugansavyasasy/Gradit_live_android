@@ -32,6 +32,7 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.ViewModel.Auth
 import com.vsca.vsnapvoicecollege.databinding.SplashRewampBinding
 
+import android.provider.Settings
 class SplashRewamp : AppCompatActivity() {
 
 
@@ -185,33 +186,70 @@ class SplashRewamp : AppCompatActivity() {
                 val status = response.status
                 val message = response.message
                 if (status == 1) {
-                    LoginData = response.data!!
-                    if (LoginData.size != 0) {
-                        CommonUtil.UserDataList = response.data as ArrayList<LoginDetails>?
-                        SharedPreference.putLoginDetails(this@SplashRewamp, mobilenumber, password)
+                    if (response.data?.getOrNull(0)?.otpRequired==true){
 
-                        Log.d("LoginDataSize", LoginData.size.toString())
-                        if (LoginData.size > 1) {
-
-                            val i = Intent(this@SplashRewamp, LoginRolesRewamp::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(i)
-                            finish()
-
-
-                        } else {
-
+                        LoginData = response.data?.getOrNull(0)?.login_data?:emptyList()
+                        if (LoginData.size != 0) {
+                            CommonUtil.UserDataList = response.data?.get(0)?.login_data as ArrayList<LoginDetails>?
                             SetLoginData(LoginData)
-                            val i = Intent(this@SplashRewamp, DashBoardActivityRewamp::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(i)
-                            finish()
-
                         }
-                    } else {
-                        CommonUtil.ApiAlert(this@SplashRewamp, message)
+
+
+                        CommonUtil.ivrnumbers = ArrayList(
+                            response.data?.getOrNull(0)?.ivrnumbers ?: emptyList()
+                        )
+
+                        CommonUtil.isDeviceLimitReached =response.data?.getOrNull(0)?.otpRequired ?:false
+
+
+                        Log.d("IVR", "Size: ${CommonUtil.ivrnumbers.size}")
+                        CommonUtil.ivrnumbers.forEachIndexed { index, number ->
+                            Log.d("IVR", "[$index] = $number")
+                        }
+
+//                        Log.d("ivrNumbers", CommonUtil.ivrnumbers.toString())
+//                        CommonUtil.OptMessege = response.Message
+
+                        val intents = Intent(this@SplashRewamp, OtpRewamp::class.java)
+                        intents.putExtra(
+                            CommonUtil.EXTRA_AUTH_SOURCE,
+                            CommonUtil.AUTH_SOURCE_LOGIN
+                        )
+                        intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+                        startActivity(intents)
+
+                    }
+                    else{
+                        LoginData = response.data?.getOrNull(0)?.login_data?:emptyList()
+                        if (LoginData.size != 0) {
+                            CommonUtil.UserDataList = response.data?.get(0)?.login_data as ArrayList<LoginDetails>?
+                            SharedPreference.putLoginDetails(this@SplashRewamp, mobilenumber, password)
+                            SetLoginData(LoginData)
+
+                            Log.d("LoginDataSize", LoginData.size.toString())
+                            if (LoginData.size > 1) {
+
+                                val i = Intent(this@SplashRewamp, LoginRolesRewamp::class.java)
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+                                finish()
+
+
+                            } else {
+
+                                val i = Intent(this@SplashRewamp, DashBoardActivityRewamp::class.java)
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+                                finish()
+
+                            }
+                        } else {
+                            CommonUtil.ApiAlert(this@SplashRewamp, "No Data Available")
+                        }
                     }
                 } else {
                     CommonUtil.ApiAlert(this@SplashRewamp, message)
@@ -228,10 +266,21 @@ class SplashRewamp : AppCompatActivity() {
         val isFirstTimeLoggedInUser = SharedPreference.getFirstTimeLoggedInUser(this)
         Log.d("FirstTimeUser", isFirstTimeLoggedInUser.toString())
 
+        val deviceId = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ANDROID_ID
+        ) ?: ""
+
+        val deviceName = "${Build.MANUFACTURER} ${Build.MODEL}"
+        Log.d("DeviceID",deviceId)
+        Log.d("DeviceName",deviceName)
+
         if (mobilenumber!!.isNotEmpty() && password!!.isNotEmpty()) {
             val jsonObject = JsonObject()
             jsonObject.addProperty(ApiRequestNames.Req_mobileNumber, mobilenumber)
             jsonObject.addProperty(ApiRequestNames.Req_password, password)
+            jsonObject.addProperty("secure_id", deviceId)
+            jsonObject.addProperty("device_type", CommonUtil.ANDROID)
             authViewModel!!.login(jsonObject, this@SplashRewamp)
         } else {
 
@@ -266,7 +315,7 @@ class SplashRewamp : AppCompatActivity() {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.data = Uri.parse(resources.getString(R.string.txt_playstore_url))
+                    intent.data = Uri.parse(CommonUtil.PLAY_STORE_LINK)
                     startActivity(intent)
                 } catch (anfe: ActivityNotFoundException) {
                     anfe.printStackTrace()
@@ -277,7 +326,7 @@ class SplashRewamp : AppCompatActivity() {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.data = Uri.parse(resources.getString(R.string.txt_playstore_url))
+                    intent.data = Uri.parse(CommonUtil.PLAY_STORE_LINK)
                     startActivity(intent)
                 } catch (anfe: ActivityNotFoundException) {
                     anfe.printStackTrace()
