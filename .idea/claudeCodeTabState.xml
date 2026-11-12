@@ -6,9 +6,9 @@
         <entry key="0">
           <value>
             <TabSessionState>
-              <option name="projectPath" value="F:\Graditllive" />
+              <option name="projectPath" value="D:\Gradit" />
               <option name="provider" value="claude" />
-              <option name="cwd" value="F:\Graditllive" />
+              <option name="cwd" value="D:\Gradit" />
               <option name="model" value="claude-sonnet-5" />
               <option name="permissionMode" value="default" />
             </TabSessionState>

@@ -14,7 +14,7 @@ android {
         applicationId "com.vsca.vsnapvoicecollege"
         minSdk 24
         targetSdk 37
-        versionCode 72
+        versionCode 73
         //Note!!
         //if your changing the version name here make sure to change in splash screen
         //        because we have hardcoded version name there

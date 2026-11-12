@@ -23,8 +23,6 @@ enum class AppPermission(val label: String) {
 
     LOCATION_PRECISE("Precise location"),
 
-    BACKGROUND_LOCATION("Background location"),
-
     CONTACTS("Contacts"),
 
 
@@ -86,21 +84,6 @@ enum class AppPermission(val label: String) {
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION
                     )
-                }
-
-
-            // Android 10+
-            // Request this only after LOCATION / LOCATION_PRECISE
-            BACKGROUND_LOCATION ->
-                if (sdk >= Build.VERSION_CODES.Q) {
-
-                    arrayOf(
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                    )
-
-                } else {
-
-                    emptyArray()
                 }
 
 
