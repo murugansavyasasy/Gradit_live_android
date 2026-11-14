@@ -11,7 +11,8 @@ import java.util.concurrent.TimeUnit
 class RestClient {
 
     companion object {
-        private var BASE_URL = "http://192.168.10.240:3013/"
+//        private var BASE_URL = "http://192.168.4.41:3013/"
+        private var BASE_URL = "https://www.thegradit.com/mobileapp/"
         private var RESUME_URL = ""
 
         private var retrofit: Retrofit? = null
