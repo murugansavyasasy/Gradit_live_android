@@ -90,7 +90,7 @@
                 android:text="@string/txt_new_assignment"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/thirteen"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/imgImagePdfback"
