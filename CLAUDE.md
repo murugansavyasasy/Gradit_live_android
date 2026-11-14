@@ -119,3 +119,10 @@ Screens with a `Rewamp` suffix are the current versions, and commented-out non-R
 - New screens use ViewBinding (`viewBinding { enabled = true }`).
 - Glide is the main image library, and Picasso is also present.
 - The app handles edge-to-edge for targetSdk 35+ (see `EdgeToEdgeUtils`, `BaseActivity`, and `res/layout-v35`).
+- Screen header bars are not a shared component. Each layout defines its own header with a `lblMenuTitle` TextView (white, bold, usually `@dimen/thirteen`), so a header style change has to be made in each layout file separately. Exception: `add_image_new.xml` (Add Assignment) uses `17sp` for its title.
+- `ActivitySender/AddAssignment` (layout `add_image_new.xml`, used only by this screen) has three modes, chosen by the `ScreenName` intent extra:
+  - New assignment (the default).
+  - `CommonUtil.Forward_Assignment`: forwarding an existing assignment. The title and type are locked, and the description and upload views are hidden.
+  - `"Assignment Submit"`: a student submitting work. The date, type and title are hidden, and the files are uploaded to S3 and then submitted.
+
+  For new and forwarded assignments, the next screen depends on `Priority`: `p7` goes to `HeaderRecipient`, `p1` to `PrincipalRecipient`, and `p2`/`p3` to `AddRecipients`.
