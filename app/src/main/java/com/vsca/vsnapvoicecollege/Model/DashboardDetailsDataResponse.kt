@@ -146,6 +146,19 @@ class DashboardDetailsDataResponse {
     @Expose
     var ideventdetails: String? = null
 
+    // Upcoming Events: venue + schedule. May be "" or missing for older events.
+    @SerializedName("venue")
+    @Expose
+    var venue: String? = null
+
+    @SerializedName("starttime")
+    @Expose
+    var starttime: String? = null
+
+    @SerializedName("endtime")
+    @Expose
+    var endtime: String? = null
+
 
     @SerializedName("idassignmentdetails")
     @Expose

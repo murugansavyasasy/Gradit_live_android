@@ -77,6 +77,8 @@ import com.vsca.vsnapvoicecollege.Model.PlacementEventResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
+import com.vsca.vsnapvoicecollege.Model.GenerateResumeContentResponse
+import com.vsca.vsnapvoicecollege.Model.DeleteSubmittedAssignmentResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
@@ -87,6 +89,12 @@ import com.vsca.vsnapvoicecollege.Model.StudentAttendancelist
 import com.vsca.vsnapvoicecollege.Model.StudentAttendanceview
 import com.vsca.vsnapvoicecollege.Model.TimetableResponse
 import com.vsca.vsnapvoicecollege.Model.Unblack_student
+import com.vsca.vsnapvoicecollege.Model.VenueListResponse
+import com.vsca.vsnapvoicecollege.Model.VenueAvailabilityResponse
+import com.vsca.vsnapvoicecollege.Model.VenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.CancelVenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.UpdateVenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.VenueDecisionResponse
 import com.vsca.vsnapvoicecollege.Model.Verified_OTP
 import com.vsca.vsnapvoicecollege.Model.VideoEntireSend
 import com.vsca.vsnapvoicecollege.Model.VideoParticulerSend
@@ -217,6 +225,7 @@ class App(application: Application) : AndroidViewModel(application) {
     var AssignmentSubmited: LiveData<Assignment_Submit?>? = null
     var Assignmentsubmittion: LiveData<Assignment_Submittion?>? = null
     var AssignmentsubmittionforStudent: LiveData<Assignment_Submittion?>? = null
+    var DeleteSubmittedAssignment: LiveData<DeleteSubmittedAssignmentResponse?>? = null
     var facultyListRecevier: LiveData<GetFacultyListResponse?>? = null
     var AttendanceEdit: LiveData<Attendance_Edit?>? = null
     var Assignmentview: LiveData<AssignmentContent_View?>? = null
@@ -241,6 +250,11 @@ class App(application: Application) : AndroidViewModel(application) {
     var ResumeBuilderEditSkillSetDetails: LiveData<ResumeBuilderEditSkillSetResponse?>? = null
     var ResumeBuilderThemeTemplate: LiveData<GetResumeBuilderThemeTemplate?>? = null
     var ResumeBuilderGenerateResume: LiveData<ResumeBuilderGenerateResumeResponse?>? = null
+
+    // Customize Your Resume (Edit Resume)
+    var GenerateResumeContent: LiveData<GenerateResumeContentResponse?>? = null
+    var PostEditedResume: LiveData<ResumeBuilderGenerateResumeResponse?>? = null
+    var ApplyResumeChanges: LiveData<ResumeBuilderGenerateResumeResponse?>? = null
     var ResumeBuilderSaveTitle: LiveData<ResumeBuilderSaveTitleResponse?>? = null
     var ResumeBuilderProfileResume: LiveData<GetProfileResume?>? = null
     var isPlacementEventResponse: LiveData<PlacementEventResponse?>? = null
@@ -249,6 +263,14 @@ class App(application: Application) : AndroidViewModel(application) {
     var isTimeTable: LiveData<TimetableResponse?>? = null
     var isPlacementHistoricalCareerResponse: LiveData<CareerTrainingResponse?>? = null
     var ResumeBuilderDeleteResume: LiveData<ResumeBuilderDeleteResume?>? = null
+    var VenueListLiveData: LiveData<VenueListResponse?>? = null
+    var VenueAvailabilityLiveData: LiveData<VenueAvailabilityResponse?>? = null
+    var VenueRequestsLiveData: LiveData<VenueRequestResponse?>? = null
+    var CancelVenueRequestLiveData: LiveData<CancelVenueRequestResponse?>? = null
+    var UpdateVenueRequestLiveData: LiveData<UpdateVenueRequestResponse?>? = null
+    var VenueApprovalListLiveData: LiveData<VenueRequestResponse?>? = null
+    var ApproveVenueRequestLiveData: LiveData<VenueDecisionResponse?>? = null
+    var RejectVenueRequestLiveData: LiveData<VenueDecisionResponse?>? = null
 
 
     fun init() {
@@ -352,6 +374,7 @@ class App(application: Application) : AndroidViewModel(application) {
         AssignmentSubmited = apiRepositories!!.Assignment_submited
         Assignmentsubmittion = apiRepositories!!.AssignmentsubmittionSender
         AssignmentsubmittionforStudent = apiRepositories!!.AssignmentsubmittionforStudent
+        DeleteSubmittedAssignment = apiRepositories!!.DeleteSubmittedAssignmentLiveData
         facultyListRecevier = apiRepositories!!.FacultyRecevierList
         AttendanceEdit = apiRepositories!!.AttendanceEditList
         Assignmentview = apiRepositories!!.Assignmentcontentview
@@ -373,6 +396,9 @@ class App(application: Application) : AndroidViewModel(application) {
         ResumeBuilderEditSkillSetDetails = apiRepositories!!.ResumeBuilderEditSkillSetLiveData
         ResumeBuilderThemeTemplate = apiRepositories!!.ResumeBuilderThemeTemplateLiveData
         ResumeBuilderGenerateResume = apiRepositories!!.ResumeBuilderGenerateResumeLiveData
+        GenerateResumeContent = apiRepositories!!.GenerateResumeContentLiveData
+        PostEditedResume = apiRepositories!!.PostEditedResumeLiveData
+        ApplyResumeChanges = apiRepositories!!.ApplyResumeChangesLiveData
         ResumeBuilderSaveTitle = apiRepositories!!.ResumeBuilderSaveTitleLiveData
         ResumeBuilderProfileResume = apiRepositories!!.ResumeBuilderProfileResumeLiveData
         isPlacementEventResponse = apiRepositories!!.isPlacementEventResponseLiveData
@@ -382,6 +408,14 @@ class App(application: Application) : AndroidViewModel(application) {
         isPlacementCareerResponse = apiRepositories!!.isPlacementCareerLiveData
         isTimeTable = apiRepositories!!.isTimeTableLiveData
         DeviceList = apiRepositories!!.isDeviceListLiveData
+        VenueListLiveData = apiRepositories!!.isVenueListLiveData
+        VenueAvailabilityLiveData = apiRepositories!!.isVenueAvailabilityLiveData
+        VenueRequestsLiveData = apiRepositories!!.isVenueRequestsLiveData
+        CancelVenueRequestLiveData = apiRepositories!!.isCancelVenueRequestLiveData
+        UpdateVenueRequestLiveData = apiRepositories!!.isUpdateVenueRequestLiveData
+        VenueApprovalListLiveData = apiRepositories!!.isVenueApprovalListLiveData
+        ApproveVenueRequestLiveData = apiRepositories!!.isApproveVenueRequestLiveData
+        RejectVenueRequestLiveData = apiRepositories!!.isRejectVenueRequestLiveData
     }
 
     fun getCourseDetails(jsonObject: JsonObject?, activity: Activity?) {
@@ -801,6 +835,10 @@ class App(application: Application) : AndroidViewModel(application) {
         apiRepositories!!.AssignmentsubmitSender(jsonObject, activity!!)
     }
 
+    fun requestDeleteSubmittedAssignment(jsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.DeleteSubmittedAssignmentRequest(jsonObject, activity)
+    }
+
     fun AssignmentsubmitedforStudent(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.GetSubmittedAssignmentForStudents(jsonObject, activity!!)
     }
@@ -892,6 +930,18 @@ class App(application: Application) : AndroidViewModel(application) {
     }
 
 
+    fun requestGenerateResumeContent(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.GenerateResumeContentRequest(isJsonObject, activity)
+    }
+
+    fun requestApplyResumeChanges(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.ApplyResumeChangesRequest(isJsonObject, activity)
+    }
+
+    fun requestPostEditedResume(isJsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.PostEditedResumeRequest(isJsonObject, activity)
+    }
+
     fun SendGenerateResume(isJsonObject: JsonObject, activity: Activity) {
         apiRepositories!!.SendResumeBuilderGenerateResumeRequest(isJsonObject, activity)
     }
@@ -962,6 +1012,38 @@ class App(application: Application) : AndroidViewModel(application) {
     }
     fun isDeviceList(isJsonObject: JsonObject, activity: Activity) {
         apiRepositories!!.DeviceList(isJsonObject, activity)
+    }
+
+    fun getVenueList(jsonObject: JsonObject?, activity: Activity?) {
+        apiRepositories!!.GetVenueList(jsonObject, activity!!)
+    }
+
+    fun checkVenueAvailability(jsonObject: JsonObject?, activity: Activity?) {
+        apiRepositories!!.CheckVenueAvailability(jsonObject, activity!!)
+    }
+
+    fun getVenueRequests(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetVenueRequests(jsonObject, activity!!, showLoader)
+    }
+
+    fun cancelVenueRequest(jsonObject: JsonObject?, activity: Activity?) {
+        apiRepositories!!.CancelVenueRequest(jsonObject, activity!!)
+    }
+
+    fun updateVenueRequest(jsonObject: JsonObject?, activity: Activity?) {
+        apiRepositories!!.UpdateVenueRequest(jsonObject, activity!!)
+    }
+
+    fun getVenueApprovalList(jsonObject: JsonObject?, activity: Activity?, showLoader: Boolean = true) {
+        apiRepositories!!.GetVenueApprovalList(jsonObject, activity!!, showLoader)
+    }
+
+    fun approveVenueRequest(jsonObject: JsonObject?, activity: Activity?) {
+        apiRepositories!!.ApproveVenueRequest(jsonObject, activity!!)
+    }
+
+    fun rejectVenueRequest(jsonObject: JsonObject?, activity: Activity?) {
+        apiRepositories!!.RejectVenueRequest(jsonObject, activity!!)
     }
 
 }

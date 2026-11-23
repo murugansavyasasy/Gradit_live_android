@@ -55,6 +55,7 @@ import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.applyPriorityColor
 import com.vsca.vsnapvoicecollege.Utils.CustomLoading
+import com.vsca.vsnapvoicecollege.Utils.MenuOrderPreference
 import com.vsca.vsnapvoicecollege.Utils.MyWebViewClient
 import com.vsca.vsnapvoicecollege.Utils.MyWebViewClientContext
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
@@ -124,6 +125,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                         val is_write_enabled = UserMenuData[j].is_write_enabled
                         val order_id = UserMenuData[j].order_id
                         val parent_id = UserMenuData[j].parent_id
+                        val approval_required = UserMenuData[j].approval_required
+                        val isapprove = UserMenuData[j].isapprove
+                        val isrequest = UserMenuData[j].isrequest
 
                         MenuList.add(
                             MenuDetailsResponse(
@@ -133,7 +137,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                                 is_read_enabled!!,
                                 is_write_enabled!!,
                                 order_id!!,
-                                parent_id!!
+                                parent_id!!,
+                                approval_required,
+                                isapprove,
+                                isrequest
                             )
                         )
                         CommonUtil.MenuListDashboard.add(
@@ -144,7 +151,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                                 is_read_enabled,
                                 is_write_enabled,
                                 order_id,
-                                parent_id
+                                parent_id,
+                                approval_required,
+                                isapprove,
+                                isrequest
                             )
                         )
                     }
@@ -213,6 +223,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                             isFeeDetails = MenuList[k].id.toString()
                         }
                     }
+
+                    // Dashboard menu order: save this user's menus the first time, otherwise
+                    // remove / append by menu_id against the saved local order
+                    MenuOrderPreference.syncWithApi(this@BaseActivity, CommonUtil.MenuListDashboard)
 
                     onUserMenuCompleted?.invoke()
                     onUserMenuCompleted = null

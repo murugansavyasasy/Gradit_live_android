@@ -26,6 +26,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
@@ -61,7 +62,10 @@ class DashboardChild(
     private val context: Context,
     val type: String,
     menuList: List<MenuDetailsResponse> = emptyList(),
-    private val onMenuClick: ((MenuDetailsResponse) -> Unit)? = null
+    private val onMenuClick: ((MenuDetailsResponse) -> Unit)? = null,
+    // Menu order edit mode (type "Menu" only): drag controller, non-null = editing,
+    // null = normal tap-to-open grid
+    private val menuDragController: MenuDragController? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -106,6 +110,20 @@ class DashboardChild(
         menuListInternal.clear()
         menuListInternal.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    /** Menu order edit: new order for this page, animated (menus slide, enter or leave). */
+    fun updateMenuListAnimated(newList: List<MenuDetailsResponse>) {
+        val oldList = ArrayList(menuListInternal)
+        val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun getOldListSize() = oldList.size
+            override fun getNewListSize() = newList.size
+            override fun areItemsTheSame(oldPos: Int, newPos: Int) = oldList[oldPos].id == newList[newPos].id
+            override fun areContentsTheSame(oldPos: Int, newPos: Int) = oldList[oldPos].id == newList[newPos].id
+        })
+        menuListInternal.clear()
+        menuListInternal.addAll(newList)
+        diff.dispatchUpdatesTo(this)
     }
 
     private var mExpandedPosition = -1
@@ -161,6 +179,7 @@ class DashboardChild(
         holder.LayoutHome.setOnClickListener {
             onMenuClick?.invoke(data)
         }
+        bindMenuEditMode(holder, data)
 
         holder.imgMenu.visibility = View.VISIBLE
         holder.lblMenuName.visibility = View.VISIBLE
@@ -204,6 +223,32 @@ class DashboardChild(
             holder.MenuHeader.visibility = View.GONE
             holder.imgMenu.visibility = View.GONE
             holder.lblMenuName.visibility = View.GONE
+        }
+    }
+    /**
+     * Menu order edit mode: dashed tile, long press to drag, and hovering it moves the dragged
+     * menu here. The menu being dragged is shown as an empty dashed slot.
+     * Normal mode: the original tile background and no drag listeners.
+     * (Tap is still sent to onMenuClick; DashboardParent ignores it while editing.)
+     */
+    private fun bindMenuEditMode(holder: MenuViewHolder, data: MenuDetailsResponse) {
+        val drag = menuDragController
+        if (drag != null) {
+            holder.LayoutHome.setBackgroundResource(R.drawable.bg_menu_edit_tile)
+            drag.showAsEmptySlot(holder.LayoutHome, drag.draggingMenuId == data.id)
+            holder.LayoutHome.setOnLongClickListener { drag.startDrag(holder.LayoutHome, data) }
+            holder.MenuHeader.setOnDragListener(drag.tileDragListener(holder.LayoutHome, data.id))
+        } else {
+            holder.imgMenu.alpha = 1f
+            holder.lblMenuName.alpha = 1f
+            val outValue = android.util.TypedValue()
+            context.theme.resolveAttribute(
+                android.R.attr.selectableItemBackgroundBorderless, outValue, true
+            )
+            holder.LayoutHome.setBackgroundResource(outValue.resourceId)
+            holder.LayoutHome.setOnLongClickListener(null)
+            holder.LayoutHome.isLongClickable = false
+            holder.MenuHeader.setOnDragListener(null)
         }
     }
     // endregion
@@ -318,18 +363,54 @@ class DashboardChild(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    /** null for null / blank / "null", otherwise the trimmed value. */
+    private fun clean(value: String?): String? =
+        value?.trim()?.takeUnless { it.isEmpty() || it.equals("null", ignoreCase = true) }
+
+    /**
+     * "14:10" / "14:10:00" / "2:10 pm" -> "2:10 PM". Unparseable values are shown as they come
+     * (never throws, unlike the old LocalTime.parse on an empty eventtime).
+     */
+    private fun formatEventTime(value: String): String {
+        val output = java.text.SimpleDateFormat("h:mm a", java.util.Locale.ENGLISH)
+        for (pattern in listOf("h:mm a", "HH:mm:ss", "HH:mm")) {
+            try {
+                val parser = java.text.SimpleDateFormat(pattern, java.util.Locale.ENGLISH)
+                parser.isLenient = false
+                val pos = java.text.ParsePosition(0)
+                val date = parser.parse(value.uppercase(java.util.Locale.ENGLISH), pos)
+                if (date != null && pos.index == value.length) return output.format(date)
+            } catch (e: Exception) {
+                // try the next pattern
+            }
+        }
+        return value
+    }
+
     private fun bindUpcomingEvents(holder: ViewHolder, modal: DashboardSubItems) {
         holder.UpcomingEvent.visibility = View.VISIBLE
         holder.UpcomingEvent.setBackgroundResource(R.drawable.bg_card_events)
 
         holder.lblEventtopic.text = modal.Eventtime
-        holder.lbleventDate.text = modal.EventTitle
+        // Note: the constructor's names are swapped -> EventTitle holds the date, Eventdate the time
+        val date = clean(modal.EventTitle)
+        holder.lbleventDate.text = date.orEmpty()
+        holder.rytCreateEventdate.visibility = if (date == null) View.GONE else View.VISIBLE
 
-        val time = modal.Eventdate
-        val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && TIME_FORMATTER != null) {
-            LocalTime.parse(time).format(TIME_FORMATTER)
-        } else time
-        holder.lblCreateTimeevent.text = result
+        // "2:10 PM - 3:10 PM" from starttime/endtime, else start alone, else the old eventtime
+        val start = clean(modal.EventStartTime)?.let { formatEventTime(it) }
+        val end = clean(modal.EventEndTime)?.let { formatEventTime(it) }
+        val timeText = when {
+            start != null && end != null -> "$start - $end"
+            start != null -> start
+            else -> clean(modal.Eventdate)?.let { formatEventTime(it) }
+        }
+        holder.lblCreateTimeevent.text = timeText.orEmpty()
+        holder.lblEventCreatedTime.visibility = if (timeText == null) View.GONE else View.VISIBLE
+
+        val venue = clean(modal.EventVenue)
+        holder.lblEventVenue.text = venue.orEmpty()
+        holder.lnrEventVenue.visibility = if (venue == null) View.GONE else View.VISIBLE
 
         CommonUtil.MenuIDEvents = BaseActivity.EventsMenuID
         holder.UpcomingEvent.setOnClickListener {
@@ -1440,6 +1521,10 @@ class DashboardChild(
         val lbleventDate: TextView = itemView.findViewById(R.id.lbleventDate)
         val lblCreateTimeevent: TextView = itemView.findViewById(R.id.lblCreateTimeevent)
         val lblEventtopic: TextView = itemView.findViewById(R.id.lblEventtopic)
+        val rytCreateEventdate: View = itemView.findViewById(R.id.rytCreateEventdate)
+        val lblEventCreatedTime: View = itemView.findViewById(R.id.lblEventCreatedTime)
+        val lnrEventVenue: View = itemView.findViewById(R.id.lnrEventVenue)
+        val lblEventVenue: TextView = itemView.findViewById(R.id.lblEventVenue)
 
         val Assignment: ConstraintLayout = itemView.findViewById(R.id.Assignment)
         val lblassignmenttopic: TextView = itemView.findViewById(R.id.lblassignmenttopic)

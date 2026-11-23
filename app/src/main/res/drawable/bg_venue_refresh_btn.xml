@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- New Event screen: venue empty-state Refresh button -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#FEF3C7" />
+            <corners android:radius="10dp" />
+            <stroke
+                android:width="1.5dp"
+                android:color="#FCD34D" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="10dp" />
+            <stroke
+                android:width="1.5dp"
+                android:color="#FCD34D" />
+        </shape>
+    </item>
+</selector>

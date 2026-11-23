@@ -26,6 +26,10 @@ class DashboardSubItems {
     var Eventtime: String? = null
     var EventTitle: String? = null
     var ideventdetails: String? = null
+    // Upcoming Events (set after construction; "" / null = not shown)
+    var EventVenue: String? = null
+    var EventStartTime: String? = null
+    var EventEndTime: String? = null
 
     var idassignmentdetails: String? = null
     var assignmenttopic: String? = null

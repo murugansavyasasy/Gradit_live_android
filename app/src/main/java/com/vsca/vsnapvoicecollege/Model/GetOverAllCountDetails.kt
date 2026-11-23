@@ -64,4 +64,23 @@ class GetOverAllCountDetails {
     @SerializedName("video")
     @Expose
     var video: String? = null
+
+    // Events "My Requests" badge count (GetOverallcountByMenuType). Nullable: may be missing.
+    @SerializedName("venuerequests")
+    @Expose
+    var venuerequests: String? = null
+
+    // Events request counts (GetOverallcountByMenuType). Nullable: may be missing.
+    @SerializedName("pendingvenuerequests")
+    @Expose
+    var pendingvenuerequests: String? = null
+
+    /** Approve Event tab count */
+    @SerializedName("approvevenuerequests")
+    @Expose
+    var approvevenuerequests: String? = null
+
+    @SerializedName("pendingapprovevenuerequests")
+    @Expose
+    var pendingapprovevenuerequests: String? = null
 }

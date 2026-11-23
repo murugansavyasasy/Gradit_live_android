@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Venue availability popup: red circle with cross -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp"
+    android:height="56dp"
+    android:viewportWidth="56"
+    android:viewportHeight="56">
+    <path
+        android:fillColor="#FFE4E6"
+        android:pathData="M28,0a28,28 0,1 1,0 56a28,28 0,1 1,0 -56z" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M20,20l16,16M36,20l-16,16"
+        android:strokeWidth="3.5"
+        android:strokeColor="#E11D48"
+        android:strokeLineCap="round" />
+</vector>

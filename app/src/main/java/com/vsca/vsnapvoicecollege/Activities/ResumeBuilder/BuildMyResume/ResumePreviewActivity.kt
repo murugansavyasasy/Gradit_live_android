@@ -28,13 +28,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -49,8 +52,11 @@ import com.vsca.vsnapvoicecollege.Utils.CustomSwitch
 import com.vsca.vsnapvoicecollege.Utils.PdfDownloader
 import com.vsca.vsnapvoicecollege.ViewModel.App
 import com.vsca.vsnapvoicecollege.databinding.LayoutResumepreviewBinding
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -75,6 +81,9 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
 
     var isPlacementOfficer = false
     var isSavedResumeTitle = ""
+
+    /** True from Save in the title popup until saveTitleResume answers. */
+    private var isSaveTitlePending = false
 
 
     var progressDialog: ProgressDialog? = null
@@ -123,12 +132,14 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
 
 
         if (isScreenName == "MyResumes") {
-            binding.scrollView.visibility = View.GONE
-            binding.webviewDocument.visibility = View.VISIBLE
+            // Native PDF pages (see showPdfFromUrl) instead of the Google Docs WebView viewer
+            binding.scrollView.visibility = View.VISIBLE
+            binding.webviewDocument.visibility = View.GONE
             binding.lnrZoomOptions.visibility = View.VISIBLE
 
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
+            showPdfFromUrl(isPDF_URL)
 
             binding.commonBottomResumeBuilder.btnDefault2.text =
                 resources.getString(R.string.download)
@@ -140,12 +151,14 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         }
 
         if (isScreenName == "BuildMyResume") {
-            binding.scrollView.visibility = View.GONE
-            binding.webviewDocument.visibility = View.VISIBLE
+            // Native PDF pages (see showPdfFromUrl) instead of the Google Docs WebView viewer
+            binding.scrollView.visibility = View.VISIBLE
+            binding.webviewDocument.visibility = View.GONE
             binding.lnrZoomOptions.visibility = View.VISIBLE
 
             isPDF_URL = intent.getStringExtra("TemplateDocumentURL").toString()
             Log.d("isPDF_URL", isPDF_URL)
+            showPdfFromUrl(isPDF_URL)
             binding.commonBottomResumeBuilder.btnDefault2.text = "Save"
             binding.txtTitle.text = "Preview My Resume"
             binding.lblPdfName.visibility = View.GONE
@@ -153,6 +166,10 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
             binding.lbldelete.visibility = View.GONE
             binding.commonBottomResumeBuilder.btnDefault1.text =
                 resources.getString(R.string.change_template)
+
+            // Edit Resume -> Customize Your Resume (only for a just-generated resume)
+            binding.btnEditResume.visibility = View.VISIBLE
+            binding.btnEditResume.setOnClickListener { openCustomizeResume() }
         }
 
         if (isScreenName == "UploadResume") {
@@ -175,16 +192,18 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
 
         binding.zoomIn.setOnClickListener {
             if (isScreenName == "BuildMyResume" || isScreenName == "MyResumes") {
-                binding.webviewDocument.zoomIn()
+                zoomPdfPages(ZOOM_STEP)
             }
         }
 
         binding.zoomOut.setOnClickListener {
             if (isScreenName == "BuildMyResume" || isScreenName == "MyResumes") {
-                binding.webviewDocument.zoomOut()
+                zoomPdfPages(1f / ZOOM_STEP)
             }
 
         }
+
+        binding.lblPdfLoadError.setOnClickListener { showPdfFromUrl(isPDF_URL) }
 
         binding.lbldelete.setOnClickListener {
             showConfirmationDialog()
@@ -258,6 +277,13 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         binding.webviewDocument.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
 
 
+        // BuildMyResume / MyResumes are shown natively (showPdfFromUrl, already started above).
+        // The old WebView path below is kept unchanged for the other mode(s).
+        if (usesNativePdfViewer()) {
+            binding.imgback.setOnClickListener { onBackPressed() }
+            return
+        }
+
         val progressDialog = CustomLoading.createProgressDialog(this)
         progressDialog?.show()
 
@@ -293,6 +319,181 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         }
 
 
+    }
+
+    // ---- Edit Resume (Customize Your Resume) ----
+
+    /**
+     * Customize Your Resume returns RESULT_OK with the URL of the PDF built from the edits
+     * ("Regenerate with AI"). This screen then shows that new resume in the same
+     * BuildMyResume mode, so Save / Change template / Edit Resume all use the new URL.
+     */
+    private val customizeResumeLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val newUrl = result.data?.getStringExtra(CustomizeResumeActivity.EXTRA_FILE_URL)
+            if (result.resultCode == RESULT_OK && !newUrl.isNullOrBlank()) {
+                Log.d("isPDF_URL", "Edited resume: $newUrl")
+                isPDF_URL = newUrl
+                showPdfFromUrl(isPDF_URL)   // clears the old pages first
+            }
+        }
+
+    // ---- Native PDF viewer (BuildMyResume / MyResumes) ----
+    // Download the PDF and draw its pages with PdfRenderer, like UploadResume already does.
+    // Replaces the Google Docs web viewer, which often showed a blank page for a just-generated
+    // file and left the previous resume on screen when a new load failed.
+
+    private var pdfLoadJob: Job? = null
+    private var pdfLoader: ProgressDialog? = null
+
+    private fun usesNativePdfViewer() =
+        isScreenName == "BuildMyResume" || isScreenName == "MyResumes"
+
+    /**
+     * Shows the PDF at [url]: removes the current pages right away (the old resume never stays
+     * visible), downloads a fresh copy (retries while a just-generated file is not ready yet),
+     * renders it, or shows "tap to try again".
+     */
+    private fun showPdfFromUrl(url: String) {
+        pdfLoadJob?.cancel()
+        binding.pdfContainer.removeAllViews()
+        binding.lblPdfLoadError.visibility = View.GONE
+        if (url.isBlank() || url == "null") {
+            showPdfLoadError("empty url")
+            return
+        }
+
+        if (pdfLoader == null) pdfLoader = CustomLoading.createProgressDialog(this)
+        pdfLoader?.show()
+        Log.d(PDF_TAG, "Loading $url")
+
+        pdfLoadJob = lifecycleScope.launch {
+            val pages = withContext(Dispatchers.IO) {
+                downloadPdf(url)?.let { file -> renderPdfPages(file) }
+            }
+            pdfLoader?.dismiss()
+            // A newer URL may have been requested meanwhile; only show the current one
+            if (url != isPDF_URL) return@launch
+            if (pages.isNullOrEmpty()) {
+                showPdfLoadError("download/render failed")
+            } else {
+                pages.forEach { page ->
+                    binding.pdfContainer.addView(PhotoView(this@ResumePreviewActivity).apply {
+                        setImageBitmap(page)
+                        adjustViewBounds = true
+                        maximumScale = MAX_ZOOM
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply { bottomMargin = 12 }
+                    })
+                }
+                binding.scrollView.scrollTo(0, 0)
+                Log.d(PDF_TAG, "Shown ${pages.size} page(s)")
+            }
+        }
+    }
+
+    private fun showPdfLoadError(reason: String) {
+        Log.d(PDF_TAG, "Load failed: $reason")
+        binding.pdfContainer.removeAllViews()
+        binding.lblPdfLoadError.visibility = View.VISIBLE
+    }
+
+    /**
+     * Fresh download into cache (never a stale copy). A file generated a moment ago may not be
+     * readable on S3 yet, so a failed or non-PDF answer is retried a few times.
+     */
+    private suspend fun downloadPdf(url: String): File? {
+        val dir = File(cacheDir, "resume_preview").apply { mkdirs() }
+        val file = File(dir, "resume_${url.hashCode()}.pdf")
+        for (attempt in 1..PDF_DOWNLOAD_ATTEMPTS) {
+            try {
+                val connection = (URL(url).openConnection() as HttpURLConnection).apply {
+                    connectTimeout = 20_000
+                    readTimeout = 30_000
+                    useCaches = false
+                }
+                val code = connection.responseCode
+                if (code == HttpURLConnection.HTTP_OK) {
+                    connection.inputStream.use { input ->
+                        FileOutputStream(file).use { output -> input.copyTo(output) }
+                    }
+                    if (isPdfFile(file)) return file
+                    Log.d(PDF_TAG, "Attempt $attempt: not a PDF yet")
+                } else {
+                    Log.d(PDF_TAG, "Attempt $attempt: HTTP $code")
+                }
+                connection.disconnect()
+            } catch (e: Exception) {
+                Log.d(PDF_TAG, "Attempt $attempt failed: ${e.message}")
+            }
+            if (attempt < PDF_DOWNLOAD_ATTEMPTS) delay(PDF_RETRY_DELAY_MS * attempt)
+        }
+        file.delete()
+        return null
+    }
+
+    private fun isPdfFile(file: File): Boolean = try {
+        file.length() > 4 && file.inputStream().use { input ->
+            val header = ByteArray(4)
+            input.read(header) == 4 && String(header) == "%PDF"
+        }
+    } catch (e: Exception) {
+        false
+    }
+
+    /** Every page as a white-background bitmap sized to the screen (clear, not huge). */
+    private fun renderPdfPages(file: File): List<Bitmap>? = try {
+        ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY).use { fd ->
+            PdfRenderer(fd).use { renderer ->
+                val targetWidth = (resources.displayMetrics.widthPixels * 1.5f).toInt()
+                    .coerceAtMost(MAX_PAGE_WIDTH_PX)
+                (0 until renderer.pageCount).map { index ->
+                    renderer.openPage(index).use { page ->
+                        val height = (targetWidth.toFloat() * page.height / page.width).toInt()
+                        Bitmap.createBitmap(targetWidth, height, Bitmap.Config.ARGB_8888).also {
+                            it.eraseColor(Color.WHITE)
+                            page.render(it, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                        }
+                    }
+                }
+            }
+        }
+    } catch (e: Exception) {
+        Log.d(PDF_TAG, "Render failed: ${e.message}")
+        null
+    }
+
+    /** Zoom buttons for the native pages (pinch zoom also works). */
+    private fun zoomPdfPages(factor: Float) {
+        for (i in 0 until binding.pdfContainer.childCount) {
+            val page = binding.pdfContainer.getChildAt(i) as? PhotoView ?: continue
+            page.setScale((page.scale * factor).coerceIn(page.minimumScale, page.maximumScale), true)
+        }
+    }
+
+    override fun onDestroy() {
+        pdfLoadJob?.cancel()
+        pdfLoader?.dismiss()
+        super.onDestroy()
+    }
+
+    companion object {
+        private const val PDF_TAG = "ResumePdfPreview"
+        private const val PDF_DOWNLOAD_ATTEMPTS = 4
+        private const val PDF_RETRY_DELAY_MS = 1500L
+        private const val MAX_PAGE_WIDTH_PX = 1600
+        private const val MAX_ZOOM = 4f
+        private const val ZOOM_STEP = 1.25f
+    }
+
+    private fun openCustomizeResume() {
+        if (!ResumeEditSession.isReady) {
+            Toast.makeText(this, R.string.txt_cr_session_missing, Toast.LENGTH_LONG).show()
+            return
+        }
+        customizeResumeLauncher.launch(Intent(this, CustomizeResumeActivity::class.java))
     }
 
     fun deleteResume() {
@@ -349,7 +550,25 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
             shareFileFromUrl(isPDF_URL)
         }
 
-        activity.appViewModel?.ResumeBuilderSaveTitle?.observeOnce(activity) { response ->
+        // Listen only for the answer to a Save made in THIS popup. The LiveData still holds the
+        // previous save result (e.g. saved, then edited the resume, then saved again), so an
+        // observeOnce would show that old result immediately.
+        val saveTitleLiveData = activity.appViewModel?.ResumeBuilderSaveTitle
+        val saveTitleObserver = Observer<ResumeBuilderSaveTitleResponse?> { response ->
+            if (!isSaveTitlePending) return@Observer
+            isSaveTitlePending = false
+            if (response == null) {
+                cardview.visibility = View.GONE
+                overlayLayout.visibility = View.VISIBLE
+                overlayLayout.bringToFront()
+                btnSave.visibility = View.VISIBLE
+                txtOverlayTitle.text = "Failed"
+                txtOverlayMessage.text = "Something went wrong while saving."
+                btnOverlayOk.setOnClickListener {
+                    overlayLayout.visibility = View.GONE
+                    cardview.visibility = View.VISIBLE
+                }
+            }
             response?.let {
                 val isSuccess = it.status
                 cardview.visibility = View.GONE
@@ -378,6 +597,11 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
                     cardview.visibility = View.VISIBLE
                 }
             }
+        }
+        saveTitleLiveData?.observe(activity, saveTitleObserver)
+        alertDialog.setOnDismissListener {
+            isSaveTitlePending = false
+            saveTitleLiveData?.removeObserver(saveTitleObserver)
         }
 
         btnSave.setOnClickListener {
@@ -411,6 +635,7 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
                     resumeArray.add(resumeObject)
                     add("resumeTitle", resumeArray)
                 }
+                isSaveTitlePending = true
                 activity.appViewModel?.SendSaveTittle(finalJson, activity)
             }
         }
@@ -499,6 +724,7 @@ class ResumePreviewActivity : BaseActivity<LayoutResumepreviewBinding>() {
         jsonArray.add(isJsonObject)
         jsonObject.add("resumeTitle", jsonArray)
         Log.d("jsonObjectSaveResumeFromUploadResume", jsonObject.toString())
+        isSaveTitlePending = true
         this.appViewModel?.SendSaveTittle(jsonObject, this)
     }
 

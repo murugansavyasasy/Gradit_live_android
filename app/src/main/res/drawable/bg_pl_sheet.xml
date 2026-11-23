@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Placement hub: light sheet with rounded top corners over the coloured header -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#F2F3F5" />
+    <corners android:topLeftRadius="24dp" android:topRightRadius="24dp" />
+</shape>

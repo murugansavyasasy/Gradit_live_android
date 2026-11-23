@@ -91,4 +91,8 @@ class LoginDetails {
     @SerializedName("is_parent_target_enabled")
     @Expose
     var is_parent_target_enabled: String? = null
+
+    @SerializedName("approval_required")
+    @Expose
+    var approval_required: Boolean? = false
 }

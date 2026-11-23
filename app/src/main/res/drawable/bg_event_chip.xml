@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- New Event screen: Quick venue / time preset chip (purple when selected) -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#F3E8FF" />
+            <corners android:radius="8dp" />
+            <stroke
+                android:width="1dp"
+                android:color="#C084FC" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#E2E8F0" />
+            <corners android:radius="8dp" />
+            <stroke
+                android:width="1dp"
+                android:color="#CBD5E1" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F1F5F9" />
+            <corners android:radius="8dp" />
+            <stroke
+                android:width="1dp"
+                android:color="#E2E8F0" />
+        </shape>
+    </item>
+</selector>

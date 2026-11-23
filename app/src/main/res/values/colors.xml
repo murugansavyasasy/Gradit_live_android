@@ -93,7 +93,9 @@
     <color name="very_light_yellow">#fff4c2</color>
     <color name="very_light_green">#cff4d2</color>
     <color name="very_light_purple">#e6deff</color>
+    <color name="very_light_orange_1">#66FF9500</color>
     <color name="very_light_red">#ffafaf</color>
+    <color name="teck_color">#6630B0C7</color>
     <color name="very_light_blue">#d4e9ff</color>
     <color name="light_green">#34C759</color>
     <color name="light_yellow">#ffcc00</color>

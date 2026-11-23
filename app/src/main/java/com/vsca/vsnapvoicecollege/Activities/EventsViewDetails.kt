@@ -254,7 +254,9 @@ class EventsViewDetails : ActionBarActivity() {
 
         eventsdata = intent.getSerializableExtra("EventsData") as? GetEventDetailsData
 
-        binding.lblEventTime!!.text = eventsdata!!.event_time
+        // Start - end ("10:00 AM - 12:00 PM") when the API sends displaytime; otherwise the single event time
+        binding.lblEventTime!!.text =
+            eventsdata!!.displaytime?.takeIf { it.isNotBlank() } ?: eventsdata!!.event_time
         binding.lblEventVenue!!.text = eventsdata!!.venue
         binding.lblEventDate!!.text = eventsdata!!.event_date
         binding.lblEventTopic!!.text = eventsdata!!.topic

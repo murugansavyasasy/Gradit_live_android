@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- New Event screen: chip text colour (purple when selected) -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="#7E22CE" android:state_selected="true" />
+    <item android:color="#334155" />
+</selector>

@@ -2,6 +2,13 @@ package com.vsca.vsnapvoicecollege.Adapters
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.os.SystemClock
+import android.graphics.drawable.GradientDrawable
+import android.widget.Toast
+import androidx.core.widget.TextViewCompat
+import com.vsca.vsnapvoicecollege.Utils.EdgeToEdgeUtils
+import com.vsca.vsnapvoicecollege.Utils.MenuOrderPreference
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +35,7 @@ import com.vsca.vsnapvoicecollege.Activities.FeeDetails
 import com.vsca.vsnapvoicecollege.Activities.MessageCommunication
 import com.vsca.vsnapvoicecollege.Activities.Noticeboard
 import com.vsca.vsnapvoicecollege.Activities.PlacementEvent
+import com.vsca.vsnapvoicecollege.Activities.PlacementHome
 import com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.ResumeBuilder
 import com.vsca.vsnapvoicecollege.Activities.SemesterCreditCategoryWise
 import com.vsca.vsnapvoicecollege.Activities.TimetableActivity
@@ -42,15 +50,48 @@ import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 
 class DashboardParent constructor(
     private val categoriesModalArrayList: ArrayList<DashboardOverall>,
-    private val context: Context
+    private val context: Context,
+    // Told when menu order edit mode starts / ends (the dashboard guards back press and taps)
+    private val menuEditListener: MenuEditListener? = null
 ) : RecyclerView.Adapter<DashboardParent.ViewHolder>() {
 
     // Shared pool for all child recyclers
     private val sharedViewPool = RecyclerView.RecycledViewPool()
 
+    // ---- Menu order edit (Edit > drag and drop > Done / Cancel) ----
+
+    interface MenuEditListener {
+        fun onMenuEditModeChanged(isEditing: Boolean)
+    }
+
+    /** The "DashBoard_Menu" row: its data, view holder and the pager adapter showing it. */
+    private var menuModal: DashboardOverall? = null
+    private var menuHolder: ViewHolder? = null
+    private var menuPagerAdapter: DashboardMenuPagerAdapter? = null
+    private var dragController: MenuDragController? = null
+
+    /** Working copy of the grid menus while editing; null = not editing. */
+    private var editMenuOrder: MutableList<MenuDetailsResponse>? = null
+
+    val isMenuEditMode: Boolean get() = editMenuOrder != null
+
+    /** Menu row view, so the dashboard can tell taps on the grid from taps elsewhere. */
+    val menuRowView: View?
+        get() = menuHolder
+            ?.takeIf { it.bindingAdapterPosition == categoriesModalArrayList.indexOf(menuModal) }
+            ?.itemView
+
+    /** Menus shown in the grid (Home, id 1, is never shown). */
+    private fun gridMenus(modal: DashboardOverall): List<MenuDetailsResponse> =
+        (modal.DashboardMenuData ?: emptyList()).filter { it.id != 1 }
+
     companion object {
         private const val MENU_COLUMNS = 4
         private const val MENU_ROWS = 3
+        private const val MENU_EDIT_TAG = "MenuOrderEdit"
+        // A little longer than the slide animation, so menus moving under the finger
+        // do not trigger another move (no back-and-forth jumping)
+        private const val MOVE_COOLDOWN_MS = 250L
     }
 
     init {
@@ -71,6 +112,10 @@ class DashboardParent constructor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val modal = categoriesModalArrayList[position]
 
+        // Sort / Cancel / Done and the hint are only for the menu row (bindDashboardMenu shows them)
+        holder.layoutMenuEditBar.visibility = View.GONE
+        holder.lblMenuEditHint.visibility = View.GONE
+
         // Header setup
         when (modal.menuHeadings) {
             "Ad" -> {
@@ -84,12 +129,14 @@ class DashboardParent constructor(
             }
 
             "DashBoard_Menu" -> {
-                holder.category.text = "Menu"
-                holder.category.visibility = View.GONE
+                // "Menu" title on the left; the Sort button takes the place of View all
+                holder.category.setText(R.string.txt_menu_section_title)
+                holder.category.visibility = View.VISIBLE
                 holder.lblViewAll.visibility = View.GONE
             }
 
             else -> {
+                holder.category.visibility = View.VISIBLE
                 holder.category.text = modal.menuHeadings
                 holder.lblViewAll.visibility = View.VISIBLE
             }
@@ -278,13 +325,20 @@ class DashboardParent constructor(
         holder.recyclerDashboardTitle.visibility = View.GONE
         holder.viewPagerDashboardMenu.visibility = View.VISIBLE
 
-        val menuList = (modal.DashboardMenuData ?: emptyList()).filter { it.id != 1 }
+        menuModal = modal
+        menuHolder = holder
+
+        // While editing, show the working order; otherwise the saved order
+        val menuList = editMenuOrder ?: gridMenus(modal)
 
         if (menuList.isEmpty()) {
             holder.viewPagerDashboardMenu.visibility = View.GONE
             holder.lblSwipeForMore.visibility = View.GONE
+            holder.category.visibility = View.GONE   // no "Menu" title without menus
             return
         }
+
+        bindMenuEditBar(holder)
 
         // Clean up any stale callback from a recycled holder
         holder.pageChangeCallback?.let {
@@ -298,14 +352,31 @@ class DashboardParent constructor(
         lp.height = calculateMenuGridHeight(menuList)
         holder.viewPagerDashboardMenu.layoutParams = lp
 
+        // Edit mode: drag and drop on (the controller moves menus via moveMenu)
+        dragController?.release()
+        dragController = if (isMenuEditMode) {
+            MenuDragController(holder.viewPagerDashboardMenu, menuDragCallbacks)
+        } else null
+
         val pagerAdapter = DashboardMenuPagerAdapter(
             context = holder.itemView.context,
             menuList = menuList,
-            onMenuClick = { data -> ParticularMenuClick(data) }
+            onMenuClick = { data ->
+                // While editing, a tap does not open the menu
+                if (isMenuEditMode) {
+                    Toast.makeText(context, R.string.msg_menu_order_tap_done, Toast.LENGTH_SHORT).show()
+                } else {
+                    ParticularMenuClick(data)
+                }
+            },
+            dragController = dragController
         )
+        menuPagerAdapter = pagerAdapter
 
         holder.viewPagerDashboardMenu.adapter = pagerAdapter
-        holder.viewPagerDashboardMenu.offscreenPageLimit = 1
+        // Edit mode keeps every page alive so a dragged menu can reach any page
+        holder.viewPagerDashboardMenu.offscreenPageLimit =
+            if (isMenuEditMode) pagerAdapter.itemCount.coerceAtLeast(1) else 1
 
         // Initial hint state
         val totalPages = pagerAdapter.itemCount
@@ -322,6 +393,132 @@ class DashboardParent constructor(
             }
             holder.pageChangeCallback = callback
             holder.viewPagerDashboardMenu.registerOnPageChangeCallback(callback)
+        }
+    }
+
+    // ---- Menu order edit ----
+
+    /** Normal: "Edit". Editing: hint + "Cancel" + "Done". Colours follow the role. */
+    private fun bindMenuEditBar(holder: ViewHolder) {
+        val roleColor = EdgeToEdgeUtils.getPriorityColor(context, CommonUtil.Priority)
+        val editing = isMenuEditMode
+        holder.layoutMenuEditBar.visibility = View.VISIBLE
+        holder.lblMenuEditHint.visibility = if (editing) View.VISIBLE else View.GONE
+        holder.btnMenuEdit.visibility = if (editing) View.GONE else View.VISIBLE
+        holder.btnMenuCancel.visibility = if (editing) View.VISIBLE else View.GONE
+        holder.btnMenuDone.visibility = if (editing) View.VISIBLE else View.GONE
+
+        holder.btnMenuEdit.setTextColor(roleColor)
+        TextViewCompat.setCompoundDrawableTintList(holder.btnMenuEdit, ColorStateList.valueOf(roleColor))
+        holder.btnMenuDone.background = GradientDrawable().apply {
+            cornerRadius = 999f
+            setColor(roleColor)
+        }
+
+        holder.btnMenuEdit.setOnClickListener { startMenuEdit() }
+        holder.btnMenuCancel.setOnClickListener { cancelMenuEdit() }
+        holder.btnMenuDone.setOnClickListener { saveMenuEdit() }
+    }
+
+    /** "Edit": copy the current order and switch the grid to drag and drop. */
+    fun startMenuEdit() {
+        val modal = menuModal ?: return
+        editMenuOrder = gridMenus(modal).toMutableList()
+        Log.d(MENU_EDIT_TAG, "Edit start, order: ${editMenuOrder?.map { it.id }}")
+        refreshMenuRow()
+        menuEditListener?.onMenuEditModeChanged(true)
+    }
+
+    /** Time of the last live move; the next one waits until the slide animation is over. */
+    private var lastMoveAt = 0L
+
+    /** Live moves while dragging (the grid slides as the finger moves). */
+    private val menuDragCallbacks = object : MenuDragController.Callbacks {
+        override fun onHoverMenu(draggedMenuId: Int, targetMenuId: Int) {
+            val to = editMenuOrder?.indexOfFirst { it.id == targetMenuId } ?: return
+            moveMenu(draggedMenuId, to)
+        }
+
+        override fun onHoverPageEnd(draggedMenuId: Int, pageIndex: Int) {
+            val size = editMenuOrder?.size ?: return
+            val pageEnd = (pageIndex + 1) * DashboardMenuPagerAdapter.PAGE_SIZE - 1
+            moveMenu(draggedMenuId, minOf(pageEnd, size - 1))
+        }
+
+        override fun onDragFinished(draggedMenuId: Int) {
+            Log.d(MENU_EDIT_TAG, "Drag finished, order now: ${editMenuOrder?.map { it.id }}")
+            // Show the dropped menu again in its slot
+            menuPagerAdapter?.refreshTiles()
+        }
+    }
+
+    /** Moves [menuId] to [toIndex] in the working order (any page); other menus slide aside. */
+    private fun moveMenu(menuId: Int, toIndex: Int) {
+        val list = editMenuOrder ?: return
+        val from = list.indexOfFirst { it.id == menuId }
+        if (from < 0 || toIndex < 0) return
+        val to = toIndex.coerceAtMost(list.size - 1)
+        if (from == to) return
+        val now = SystemClock.uptimeMillis()
+        if (now - lastMoveAt < MOVE_COOLDOWN_MS) return
+        lastMoveAt = now
+
+        Log.d(MENU_EDIT_TAG, "Move menu $menuId: $from -> $to, before: ${list.map { it.id }}")
+        list.add(to, list.removeAt(from))
+        Log.d(MENU_EDIT_TAG, "Move menu $menuId: after: ${list.map { it.id }}")
+        menuPagerAdapter?.updateMenus(list)
+    }
+
+    /** True when the working order differs from the saved one. */
+    fun hasMenuOrderChanged(): Boolean {
+        val modal = menuModal ?: return false
+        val edited = editMenuOrder ?: return false
+        return edited.map { it.id } != gridMenus(modal).map { it.id }
+    }
+
+    /** "Done": save the new order for this user (SharedPreferences) and leave edit mode. */
+    fun saveMenuEdit() {
+        val modal = menuModal
+        val edited = editMenuOrder
+        if (modal != null && edited != null && hasMenuOrderChanged()) {
+            // Menus not shown in the grid (Home) keep their place at the start
+            val fullOrder = (modal.DashboardMenuData ?: emptyList()).filter { it.id == 1 } + edited
+            Log.d(MENU_EDIT_TAG, "Done: saving order ${fullOrder.map { it.id }}")
+            MenuOrderPreference.saveMenuOrder(context, fullOrder)
+            modal.DashboardMenuData = fullOrder
+            Toast.makeText(context, R.string.msg_menu_order_saved, Toast.LENGTH_SHORT).show()
+        } else {
+            Log.d(MENU_EDIT_TAG, "Done: order not changed, nothing to save")
+        }
+        finishMenuEdit()
+    }
+
+    /** "Cancel" / discard: drop the working order, the saved order is shown again. */
+    fun cancelMenuEdit() {
+        Log.d(MENU_EDIT_TAG, "Cancel: order not saved")
+        finishMenuEdit()
+    }
+
+    private fun finishMenuEdit() {
+        editMenuOrder = null
+        dragController?.release()
+        refreshMenuRow()
+        menuEditListener?.onMenuEditModeChanged(false)
+        Log.d(MENU_EDIT_TAG, "Edit end")
+    }
+
+    /** Redraws the menu row on the same page (or rebinds it if it was scrolled away). */
+    private fun refreshMenuRow() {
+        val modal = menuModal ?: return
+        val index = categoriesModalArrayList.indexOf(modal)
+        val holder = menuHolder
+        if (holder != null && holder.bindingAdapterPosition == index) {
+            val page = holder.viewPagerDashboardMenu.currentItem
+            bindDashboardMenu(holder, modal)
+            val lastPage = (menuPagerAdapter?.itemCount ?: 1) - 1
+            holder.viewPagerDashboardMenu.setCurrentItem(page.coerceIn(0, lastPage.coerceAtLeast(0)), false)
+        } else if (index >= 0) {
+            notifyItemChanged(index)
         }
     }
 
@@ -510,7 +707,11 @@ class DashboardParent constructor(
             }
 
             23 -> {
-                if (CommonUtil.PlacementTraining) launch(ResumeBuilder::class.java)
+                // Old: opened Resume Builder directly
+                // if (CommonUtil.PlacementTraining) launch(ResumeBuilder::class.java)
+
+                // Placement hub: Placement Training / Events / Resume Builder / Feedback
+                launch(PlacementHome::class.java)
             }
 
             24 -> {
@@ -577,6 +778,13 @@ class DashboardParent constructor(
         val viewPagerDashboardMenu: androidx.viewpager2.widget.ViewPager2 =
             itemView.findViewById(R.id.viewPagerDashboardMenu)
         val lblSwipeForMore: TextView = itemView.findViewById(R.id.lblSwipeForMore)
+
+        // Menu order bar (menu row only)
+        val layoutMenuEditBar: View = itemView.findViewById(R.id.layoutMenuEditBar)
+        val lblMenuEditHint: TextView = itemView.findViewById(R.id.lblMenuEditHint)
+        val btnMenuEdit: TextView = itemView.findViewById(R.id.btnMenuEdit)
+        val btnMenuCancel: TextView = itemView.findViewById(R.id.btnMenuCancel)
+        val btnMenuDone: TextView = itemView.findViewById(R.id.btnMenuDone)
 
         var pageChangeCallback: ViewPager2.OnPageChangeCallback? = null
 

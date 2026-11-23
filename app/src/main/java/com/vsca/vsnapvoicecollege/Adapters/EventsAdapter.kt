@@ -55,7 +55,7 @@ class EventsAdapter(
         Type = "event"
         holder.lblNoticeboardTitle!!.text = data.topic
         holder.lblNoticeboardDate!!.text = data.event_date
-        holder.lblNoticetime!!.text = data.event_time
+        holder.lblNoticetime!!.text = eventTimeText(data)
         holder.lblNoticePostedby!!.text = data.createdbyname
 
         CommonUtil.Eventid = data.eventid.toString()
@@ -65,6 +65,18 @@ class EventsAdapter(
             holder.lblNewCircle!!.visibility = View.GONE
         }
 
+    }
+
+    /**
+     * "10:00 AM - 12:00 PM" when the API sends both start and end time; otherwise the API's
+     * displaytime, then the start time alone, then the old event_time.
+     */
+    private fun eventTimeText(data: GetEventDetailsData): String? {
+        val start = data.starttime?.trim().takeUnless { it.isNullOrEmpty() || it == "null" }
+        val end = data.endtime?.trim().takeUnless { it.isNullOrEmpty() || it == "null" }
+        if (start != null && end != null) return "$start - $end"
+        val display = data.displaytime?.trim().takeUnless { it.isNullOrEmpty() || it == "null" }
+        return display ?: start ?: data.event_time
     }
 
     override fun getItemCount(): Int {

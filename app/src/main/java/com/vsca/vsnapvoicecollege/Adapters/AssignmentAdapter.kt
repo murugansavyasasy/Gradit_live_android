@@ -114,13 +114,23 @@ class AssignmentAdapter(data: List<GetAssignmentDetails>, context: Context) :
                 holder.lblSubmitedOn!!.text = data.submissiondate
                 CommonUtil.Assignmentid = data.assignmentid.toString()
                 if ((CommonUtil.Priority == "p4") || (CommonUtil.Priority == "p5") || (CommonUtil.Priority == "p6")) {
+                    // Old logic (Submit always shown):
+                    // holder.LayoutSubmissions!!.visibility = View.VISIBLE
+                    // holder.lblAssingmentSubmit!!.visibility = View.VISIBLE
+                    // if (!data.submittedcount.equals("0")) {
+                    //     holder.lblPreviousSubmission!!.visibility = View.VISIBLE
+                    // } else {
+                    //     holder.lblPreviousSubmission!!.visibility = View.GONE
+                    // }
+
+                    // Already submitted (submittedcount > 0): hide Submit, show Previous submission.
+                    // Not submitted (0, null or not a number): show Submit, hide Previous submission.
+                    val hasSubmitted = (data.submittedcount?.trim()?.toIntOrNull() ?: 0) > 0
                     holder.LayoutSubmissions!!.visibility = View.VISIBLE
-                    holder.lblAssingmentSubmit!!.visibility = View.VISIBLE
-                    if (!data.submittedcount.equals("0")) {
-                        holder.lblPreviousSubmission!!.visibility = View.VISIBLE
-                    } else {
-                        holder.lblPreviousSubmission!!.visibility = View.GONE
-                    }
+                    holder.lblAssingmentSubmit!!.visibility =
+                        if (hasSubmitted) View.GONE else View.VISIBLE
+                    holder.lblPreviousSubmission!!.visibility =
+                        if (hasSubmitted) View.VISIBLE else View.GONE
                 }
                 if ((CommonUtil.Priority == "p7") || (CommonUtil.Priority == "p1") || (CommonUtil.Priority == "p2") || (CommonUtil.Priority == "p3")) {
 
@@ -277,6 +287,8 @@ class AssignmentAdapter(data: List<GetAssignmentDetails>, context: Context) :
 
             CommonUtil.Assignmentid = data.assignmentid.toString()
             val i: Intent = Intent(context, Assignment_Submition::class.java)
+            // Also passed directly (used to delete the submission on that screen)
+            i.putExtra(Assignment_Submition.EXTRA_ASSIGNMENT_ID, data.assignmentid.toString())
             CommonUtil.filetype = "Assignment previous Submited"
             CommonUtil.isSubmitted = "submitted"
             i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP

@@ -36,6 +36,32 @@ class MenuDetailsResponse {
     @Expose
     var parent_id: Int? = null
 
+    // From GetParentUserMenuWithReadWriteAccess, available for every menu (currently used by Events).
+    // Nullable on purpose: the key may be missing or null in the response, and Gson does not
+    // run this class's initializers (no no-arg constructor). Read it via isApprovalRequired().
+    @SerializedName("approval_required")
+    @Expose
+    var approval_required: Boolean? = false
+
+    /** Null-safe: true only when the API sent approval_required = true. */
+    fun isApprovalRequired(): Boolean = approval_required == true
+
+    // Venue requests access (currently used by Events > Request List):
+    // isapprove = can review/approve venue requests, isrequest = can see own requests (My Requests)
+    @SerializedName("isapprove")
+    @Expose
+    var isapprove: Boolean? = false
+
+    @SerializedName("isrequest")
+    @Expose
+    var isrequest: Boolean? = false
+
+    /** Null-safe: true only when the API sent isapprove = true. */
+    fun isApprove(): Boolean = isapprove == true
+
+    /** Null-safe: true only when the API sent isrequest = true. */
+    fun isRequest(): Boolean = isrequest == true
+
     constructor(
         ID: Int?,
         Name: String?,
@@ -43,8 +69,13 @@ class MenuDetailsResponse {
         is_read_enabled: Int,
         is_write_enabled: Int,
         order_id: Int,
-        parentId: Int
+        parentId: Int,
+        approvalRequired: Boolean? = false,
+        isApprove: Boolean? = false,
+        isRequest: Boolean? = false
     ) {
+        this.isapprove = isApprove
+        this.isrequest = isRequest
         this.id = ID!!
         this.name = Name
         this.menu_slug = menuslug
@@ -52,5 +83,6 @@ class MenuDetailsResponse {
         this.is_write_enabled = is_write_enabled
         this.order_id = order_id
         this.parent_id = parentId
+        this.approval_required = approvalRequired
     }
 }

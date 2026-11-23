@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Request List: check in circle (approved). Tinted in code. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16dp"
+    android:height="16dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M12,12m-9,0a9,9 0,1 1,18 0a9,9 0,1 1,-18 0"
+        android:strokeWidth="2"
+        android:strokeColor="#64748B" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M8,12.5l2.8,2.8l5.2,-5.6"
+        android:strokeWidth="2"
+        android:strokeColor="#64748B"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Customize Your Resume > Personal Information: photo + "Include photo" switch -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imgCrPhoto"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_cr_muted"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/txt_cr_include_photo"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <com.vsca.vsnapvoicecollege.Utils.CustomSwitch
+                android:id="@+id/switchCrPhoto"
+                android:layout_width="48dp"
+                android:layout_height="28dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lblCrPhotoStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/lblCrPhotoHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/txt_cr_no_photo_hint"
+            android:textColor="#6B6B73"
+            android:textSize="12sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

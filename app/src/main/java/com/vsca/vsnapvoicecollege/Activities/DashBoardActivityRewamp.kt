@@ -15,7 +15,10 @@ import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
+import kotlin.math.abs
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
@@ -43,6 +46,7 @@ import com.vsca.vsnapvoicecollege.R
 import com.vsca.vsnapvoicecollege.Repository.ApiRequestNames
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil
 import com.vsca.vsnapvoicecollege.Utils.CommonUtil.DeviceType
+import com.vsca.vsnapvoicecollege.Utils.MenuOrderPreference
 import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import com.vsca.vsnapvoicecollege.databinding.BottomMenuSwipeBinding
 import kotlinx.coroutines.Dispatchers
@@ -101,6 +105,106 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
     companion object {
         private const val KEY_REQUESTED_PERMS = "requested_permissions"
         private const val TAG = "DashBoardPerm"
+        private const val MENU_EDIT_TAG = "MenuOrderEdit"
+        private const val MENU_GRID_TAG = "DashboardMenuGrid"
+    }
+
+    // ---- Menu order edit: confirm before leaving edit mode by back press or another tap ----
+
+    /** True while a tap started outside the menu grid (it may become the confirmation). */
+    private var outsideTapPending = false
+    private var outsideTapDownX = 0f
+    private var outsideTapDownY = 0f
+    private var menuEditDialog: AlertDialog? = null
+
+    private fun isMenuEditing(): Boolean = adapter?.isMenuEditMode == true
+
+    /** Whether a screen point is inside the menu grid row (Edit bar + pages). */
+    private fun isInsideMenuRow(rawX: Float, rawY: Float): Boolean {
+        val row = adapter?.menuRowView ?: return false
+        if (!row.isAttachedToWindow) return false
+        val pos = IntArray(2).also { row.getLocationOnScreen(it) }
+        return rawX >= pos[0] && rawX <= pos[0] + row.width &&
+                rawY >= pos[1] && rawY <= pos[1] + row.height
+    }
+
+    /**
+     * While editing the menu order, a tap anywhere outside the menu grid (action bar,
+     * notifications, other sections, bottom menu) is not performed; the confirmation shows
+     * instead. Scrolling the dashboard still works (only a tap, not a drag, is stopped).
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (!isMenuEditing()) return super.dispatchTouchEvent(ev)
+
+        when (ev.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                outsideTapPending = !isInsideMenuRow(ev.rawX, ev.rawY)
+                outsideTapDownX = ev.rawX
+                outsideTapDownY = ev.rawY
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val slop = ViewConfiguration.get(this).scaledTouchSlop
+                if (abs(ev.rawX - outsideTapDownX) > slop || abs(ev.rawY - outsideTapDownY) > slop) {
+                    outsideTapPending = false
+                }
+            }
+            MotionEvent.ACTION_UP -> if (outsideTapPending) {
+                outsideTapPending = false
+                // Cancel the press instead of letting it become a click
+                val cancel = MotionEvent.obtain(ev).apply { action = MotionEvent.ACTION_CANCEL }
+                super.dispatchTouchEvent(cancel)
+                cancel.recycle()
+                Log.d(MENU_EDIT_TAG, "Tap outside the menu while editing -> confirmation")
+                showMenuEditExitConfirmation()
+                return true
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onBackPressed() {
+        if (isMenuEditing()) {
+            Log.d(MENU_EDIT_TAG, "Back pressed while editing -> confirmation")
+            showMenuEditExitConfirmation()
+            return
+        }
+        super.onBackPressed()
+    }
+
+    /**
+     * Changed order: Save / Discard / Keep editing.
+     * Nothing changed yet: Done (leave edit mode) / Keep editing.
+     */
+    private fun showMenuEditExitConfirmation() {
+        val parentAdapter = adapter ?: return
+        if (menuEditDialog?.isShowing == true) return
+
+        val builder = AlertDialog.Builder(this)
+            .setTitle(R.string.txt_menu_order_title)
+            .setCancelable(false)
+            .setNeutralButton(R.string.txt_menu_order_keep_editing) { d, _ ->
+                Log.d(MENU_EDIT_TAG, "Confirmation: keep editing")
+                d.dismiss()
+            }
+
+        if (parentAdapter.hasMenuOrderChanged()) {
+            builder.setMessage(R.string.msg_menu_order_unsaved)
+                .setPositiveButton(R.string.txt_menu_order_save) { _, _ ->
+                    Log.d(MENU_EDIT_TAG, "Confirmation: save")
+                    parentAdapter.saveMenuEdit()
+                }
+                .setNegativeButton(R.string.txt_menu_order_discard) { _, _ ->
+                    Log.d(MENU_EDIT_TAG, "Confirmation: discard")
+                    parentAdapter.cancelMenuEdit()
+                }
+        } else {
+            builder.setMessage(R.string.msg_menu_order_finish)
+                .setPositiveButton(R.string.txt_done) { _, _ ->
+                    Log.d(MENU_EDIT_TAG, "Confirmation: done (no changes)")
+                    parentAdapter.cancelMenuEdit()
+                }
+        }
+        menuEditDialog = builder.create().also { it.show() }
     }
 
     private val permissionLauncher =
@@ -251,7 +355,10 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                         Log.d("Coming", "Coming")
                         type = "DashBoard_Menu"
                         order = 1000
-                        DashboardMenuData = CommonUtil.MenuListDashboard
+                        // Menus in the user's saved order (local_menu_order_no), not API order
+                        DashboardMenuData = MenuOrderPreference.getOrderedMenus(
+                            this@DashBoardActivityRewamp, CommonUtil.MenuListDashboard
+                        )
                     }
 
                     if (dashboardList.size >= 1) {
@@ -262,9 +369,11 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
 
                     DashboardData = dashboardList
 
+                    isBuildingDashboard = true
                     lifecycleScope.launch(Dispatchers.Default) {
                         processDashboardData()
                         withContext(Dispatchers.Main) {
+                            isBuildingDashboard = false
                             bindAdapter()
                             getContectNumberSave()
                         }
@@ -419,7 +528,11 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
                         dashboardEventlist.add(
                             DashboardSubItems(
                                 EventTitle, Eventtime, Eventdate, ideventid
-                            )
+                            ).apply {
+                                EventVenue = item.venue
+                                EventStartTime = item.starttime
+                                EventEndTime = item.endtime
+                            }
                         )
                     }
                     dashboardOverallList.add(DashboardOverall(category!!, dashboardEventlist))
@@ -617,7 +730,17 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
     }
 
     private fun bindAdapter() {
-        adapter = DashboardParent(dashboardOverallList, this@DashBoardActivityRewamp)
+        // Menus may have arrived while the sections were being built
+        fillEmptyMenuSection()
+        adapter = DashboardParent(
+            dashboardOverallList,
+            this@DashBoardActivityRewamp,
+            menuEditListener = object : DashboardParent.MenuEditListener {
+                override fun onMenuEditModeChanged(isEditing: Boolean) {
+                    Log.d(MENU_EDIT_TAG, "Dashboard: menu edit mode = $isEditing")
+                }
+            }
+        )
         val mLayoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this@DashBoardActivityRewamp)
         binding.idRVCategories!!.layoutManager = mLayoutManager
@@ -987,7 +1110,44 @@ class DashBoardActivityRewamp : BaseActivity<BottomMenuSwipeBinding>() {
         }
         isDashboardLoaded = true
         CommonUtil.MenuListDashboard.clear()
-        UserMenuRequest(this)
+        // Both requests still go out together (the dashboard never waits for the menu API,
+        // so a failed menu call can't block it). If the menus arrive after the dashboard was
+        // already drawn, onMenusLoaded() fills the menu grid then.
+        UserMenuRequest(this) { onMenusLoaded() }
         DashBoardRequest()
+    }
+
+    // ---- Menu grid vs. dashboard response order ----
+
+    /** True from the dashboard response until its sections are drawn (bindAdapter). */
+    private var isBuildingDashboard = false
+
+    /**
+     * Menu API answered. If the dashboard is already on screen with an empty menu grid,
+     * fill it now. If the dashboard is still being built, bindAdapter() does it instead.
+     */
+    private fun onMenusLoaded() {
+        Log.d(MENU_GRID_TAG, "Menus loaded: ${CommonUtil.MenuListDashboard.size}, " +
+                "dashboard drawn=${adapter != null}, building=$isBuildingDashboard")
+        if (adapter == null || isBuildingDashboard) return
+        val index = fillEmptyMenuSection()
+        if (index >= 0) adapter?.notifyItemChanged(index)
+    }
+
+    /**
+     * The dashboard response came before the menus: its menu section was built empty.
+     * Fills it from the loaded menus (in the user's saved order).
+     * Returns the section's position, or -1 when nothing needed filling.
+     */
+    private fun fillEmptyMenuSection(): Int {
+        if (CommonUtil.MenuListDashboard.isEmpty()) return -1
+        val index = dashboardOverallList.indexOfFirst { it.menuHeadings == "DashBoard_Menu" }
+        if (index < 0) return -1
+        val section = dashboardOverallList[index]
+        if (!section.DashboardMenuData.isNullOrEmpty()) return -1
+        section.DashboardMenuData =
+            MenuOrderPreference.getOrderedMenus(this, CommonUtil.MenuListDashboard)
+        Log.d(MENU_GRID_TAG, "Menu grid was empty (dashboard came first), filled at position $index")
+        return index
     }
 }

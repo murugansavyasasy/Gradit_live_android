@@ -1,9 +1,13 @@
 package com.vsca.vsnapvoicecollege.ActivitySender
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import com.vsca.vsnapvoicecollege.Activities.Assignment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -177,6 +181,8 @@ class Assignment_Submition : ActionBarActivity() {
         }
 
 
+        observeDeleteSubmission()
+
         appViewModel!!.AssignmentsubmittionforStudent!!.observe(this) { response ->
             if (response != null) {
                 val status = response.Status
@@ -184,8 +190,11 @@ class Assignment_Submition : ActionBarActivity() {
                 if (status == 1) {
                     binding.lblNodatafound!!.visibility = View.GONE
                     Assignmentsubmit = response.data
+                    // Student's own submissions: delete icon when the API allows (isdelete)
                     Assignment_SubmittionAdapter =
-                        Assignment_SubmittionAdapter(Assignmentsubmit, this)
+                        Assignment_SubmittionAdapter(Assignmentsubmit, this) { submission ->
+                            confirmDeleteSubmission(submission)
+                        }
                     val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
                     binding.recycleAssignmentSubmition!!.layoutManager = mLayoutManager
                     binding.recycleAssignmentSubmition!!.itemAnimator = DefaultItemAnimator()
@@ -199,6 +208,82 @@ class Assignment_Submition : ActionBarActivity() {
                 binding.lblNodatafound!!.visibility = View.VISIBLE
             }
         }
+    }
+
+    // ---- Delete own submitted assignment (student) ----
+
+    /** True while a delete started here is waiting for its answer (ignores re-delivered values). */
+    private var isDeletePending = false
+
+    private fun observeDeleteSubmission() {
+        appViewModel!!.DeleteSubmittedAssignment!!.observe(this) { response ->
+            if (!isDeletePending) return@observe
+            isDeletePending = false
+            if (response != null && response.Status == 1) {
+                Log.d("DeleteSubmittedAssign", "Deleted")
+                Toast.makeText(
+                    this,
+                    response.Message?.takeIf { it.isNotBlank() }
+                        ?: getString(R.string.msg_delete_submission_done),
+                    Toast.LENGTH_SHORT
+                ).show()
+                // Back to the Assignment list (reloaded, so the counts / buttons are fresh)
+                val intent = Intent(this, Assignment::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                finish()
+            } else {
+                // Stay here; popup with the reason and a Close button
+                showDeleteFailed(
+                    response?.Message?.takeIf { it.isNotBlank() } ?: CommonUtil.Something_went_wrong
+                )
+            }
+        }
+    }
+
+    /** Confirmation, then DeleteSubmittedAssignment. */
+    private fun confirmDeleteSubmission(submission: AssignmentSubmit) {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.txt_delete_submission)
+            .setMessage(R.string.msg_delete_submission_confirm)
+            .setPositiveButton(R.string.txt_delete) { dialog, _ ->
+                dialog.dismiss()
+                deleteSubmission(submission)
+            }
+            .setNegativeButton(R.string.txt_cancel) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun deleteSubmission(submission: AssignmentSubmit) {
+        // Assignment id passed by the Assignment list; falls back to the shared global
+        val assignmentId = intent.getStringExtra(EXTRA_ASSIGNMENT_ID)?.takeIf { it.isNotBlank() }
+            ?: CommonUtil.Assignmentid
+        if (assignmentId.isBlank() || submission.assignmentdetailsid.isNullOrBlank()) {
+            showDeleteFailed(CommonUtil.Something_went_wrong)
+            return
+        }
+        val jsonObject = JsonObject().apply {
+            addProperty("assignmentid", assignmentId)
+            addProperty("assignmentdetailsid", submission.assignmentdetailsid)
+            addProperty("processby", CommonUtil.MemberId.toString())
+        }
+        isDeletePending = true
+        appViewModel!!.requestDeleteSubmittedAssignment(jsonObject, this)
+    }
+
+    private fun showDeleteFailed(message: String) {
+        if (isFinishing || isDestroyed) return
+        AlertDialog.Builder(this)
+            .setTitle(R.string.txt_delete_submission)
+            .setMessage(message)
+            .setPositiveButton(R.string.txt_delete_close) { dialog, _ -> dialog.dismiss() }
+            .setCancelable(false)
+            .show()
+    }
+
+    companion object {
+        /** Assignment id of the submission list (from AssignmentAdapter > Previous submission). */
+        const val EXTRA_ASSIGNMENT_ID = "AssignmentId"
     }
 
     private fun AdForCollegeApi() {

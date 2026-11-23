@@ -94,6 +94,84 @@ Menu visibility and read/write permission come from the `UserMenus` API (`menu_s
 
 Screens with a `Rewamp` suffix are the current versions, and commented-out non-Rewamp entries in the manifest are legacy.
 
+### Dashboard (`DashBoardActivityRewamp`)
+
+- **Loading:**
+  - `onResume` → `loadDashboard()` clears `CommonUtil.MenuListDashboard`, then sends `UserMenuRequest` (`GetParentUserMenuWithReadWriteAccess`, observed in `BaseActivity`) and `DashBoardRequest` (`DashboardApi_Live`) **in parallel**.
+  - `isDashboardLoaded` stops it reloading on later `onResume`s.
+  - The first-time permission-granted path waits instead: `UserMenuRequest(this) { DashBoardRequest() }`.
+  - Don't make the normal path wait for the menu API. `DashboardServices.GetUsermenu` posts nothing on HTTP 400/404/500, an empty body, or status ≠ 1, so the callback may never fire and the dashboard would never load.
+  - If the dashboard answers first, the menu section is built empty. Then `onMenusLoaded()` (if the dashboard is already drawn) or `bindAdapter()` (if it is still being built, see `isBuildingDashboard`) fills it via `fillEmptyMenuSection()`. Log tag `DashboardMenuGrid`.
+- **Sections:**
+  - `processDashboardData()` maps each response `type` to a `DashboardOverall`.
+  - A fake `"DashBoard_Menu"` section (the menu grid) is inserted at index 1.
+  - Sections are matched by display text (`"Upcoming Events"`, `"Notice Board"` …).
+- **Menu grid:**
+  - `DashboardParent.bindDashboardMenu` hides Home (id 1) and pages the rest with `DashboardMenuPagerAdapter` (12 per page, 4×3). Each page is a `DashboardChild` with `type = "Menu"`.
+  - Icons are chosen by menu **id** in `DashboardChild.bindMenu`. An unknown id gives a blank cell.
+- **Redirects:**
+  - `DashboardParent.ParticularMenuClick` is a hardcoded id → screen switch. It copies `is_read_enabled` / `is_write_enabled` into `CommonUtil.menu_read*` / `menu_write*` and launches only if that menu's `CommonUtil.Menu*` flag is true.
+  - Screens call `CommonUtil.OnMenuClicks("<self>")` so they don't relaunch themselves.
+  - Section "View all" links, cards, `NotificationAdapter` and `FacultyAdapter` also hardcode menu ids. Update all of these when menus change.
+
+### Dashboard menu order (Sort, saved per user)
+
+- **UI:**
+  - The menu section has a "Menu" header with a **Sort** button where "View all" is on other sections.
+  - Sort starts sorting mode: Cancel + Done, a hint line, dashed tiles (`bg_menu_edit_tile`), and a tap does not open the menu.
+  - Long-press lifts a menu. The others slide aside live as it moves, on the same page or across pages; holding near the left/right edge flips the page.
+  - **Done** saves; **Cancel** discards.
+  - While sorting, back press or a tap outside the menu row shows a confirmation (Save / Discard / Keep editing, or Done / Keep editing if nothing changed). See `DashBoardActivityRewamp.dispatchTouchEvent` / `onBackPressed`.
+- **Classes:**
+  - `Utils/MenuOrderPreference`: storage and sync.
+  - `Adapters/MenuDragController`: drag shadow, hover moves, edge page switch.
+  - `DashboardParent`: sorting state, `moveMenu` (with a 250 ms pause between moves), `saveMenuEdit` / `cancelMenuEdit`.
+  - `DashboardMenuPagerAdapter.updateMenus` and `DashboardChild.updateMenuListAnimated`: per-page DiffUtil animation.
+- **Storage:**
+  - Kept only on the phone, never sent to an API, in its own SharedPreferences file `MenuOrderPref`.
+  - The key is `local_menu_order_list_<CollegeId>_<MemberId>_<Priority>`, so each role/college login (`LoginFromAppNew` `login_data`) has its own list.
+  - Each entry is a `LocalMenuOrderItem` (`menu_id`, `menu_name`, `menu_slug`, `local_menu_order_no`).
+  - Only the order comes from storage; read/write access always comes from the latest API response.
+  - `CommonUtil.MenuListDashboard` stays in API order.
+- **Display order:** menus are sorted by `local_menu_order_no`.
+  - The first time, it is the position in the API response; the API's `order_id` is **not** used.
+  - On every menu API response, `BaseActivity` calls `MenuOrderPreference.syncWithApi()`:
+    1. menus no longer sent are removed;
+    2. new menus are appended at the end;
+    3. the numbers are rewritten 1..n.
+  - An empty API list changes nothing.
+- **Logout:** `SharedPreference.clearShLogin()` (used by every logout path) also calls `MenuOrderPreference.clearAll()`, which clears every user's saved order.
+- **Logs:** tags `MenuOrder` (sync/save/clear) and `MenuOrderEdit` (sort start/end, drag, moves, Done/Cancel, dialog choice).
+
+### Resume Builder (`Activities/ResumeBuilder/`, dashboard menu id 23)
+
+- **Backend:**
+  - A separate server, reached through `RestClient.resumeApiInterfaces`.
+  - Its base URL comes from the `VersionCheck` field `resumebuilder_baseurl` and is saved as SharedPreferences key `resumebuilderbaseurl` in `Mypref`. Both `SplashRewamp` and `CountryRewamp` write it.
+  - Every resume service in `AppServices` first reads that key. If it is blank, it posts `null` and returns. Otherwise it calls `RestClient.setResumeBaseUrl()`. New resume APIs must keep this guard, because `RESUME_URL` starts as `""`.
+  - `clearShLogin()` (logout) wipes `Mypref` and the login screens don't call `VersionCheck`, so resume screens stay empty after logout → login until the app restarts through Splash.
+  - Placement screens (`PlacementEvent`, `CareerTraining`) use the same client and base URL.
+- **Where data lives:**
+  - **Server only**, keyed by `idMember` (`CommonUtil.MemberId`): profile, academic records, skill set, saved resumes (`{title, url, placementOfficer}`).
+  - Generated PDFs are built on the server and stored in S3.
+  - There is no local database. SharedPreferences holds only the URL.
+- **Screen hand-off through `CommonUtil` globals:**
+  - `ResumeBuilder` fills them just before navigating: `saveBasicDetails`, `saveAcademicDetails`, `isSkillSetDataSending`, then `BuildResumeActivity` fills `fullResumeData`.
+  - Some values are read from on-screen labels, so the `"-"` placeholder (`CommonUtil.isIffin`) can leak through.
+  - The globals are lost if the process is killed (`!!` reads then crash). Only the Resume Builder package uses them.
+  - `CommonUtil.SelcetedFileList` is shared with about 9 sender screens; clear it before reusing.
+- **Flow:**
+  - `ResumeBuilder` (`get-profile`, `get-academic`, `get-skillset`, `profileresume`) leads to:
+    - **Edit 1** `EditBasicDetails` → `add-edit-profile` (always sends `placementStatus "Placed"`)
+    - **Edit 2** `EditAcademicDetails` → `add-edit-academic`
+    - **Edit 3** `EditSkillSet` → `add-edit-skillset`
+    - **Build** `BuildResumeActivity` (tick what to include) → `BuildMyResume` (template = grid position + 1, colour) → `resume/post-resume` (`bucketPath` is hardcoded `CommonUtil.isRBBucketPath`) → `ResumePreviewActivity`
+  - `ResumePreviewActivity` modes (`ScreenName`): `BuildMyResume`, `UploadResume`, `MyResumes`. Save title → `saveTitleResume`; delete → `delete/studentresume/{id}`.
+- **Profile photo on Build My Resume:**
+  - The "Personal information" section in `BuildResumeActivity` shows `saveBasicDetails.memberImagePath` (Glide `circleCrop`).
+  - Empty URL: dashed circle, "No photo uploaded", checkbox disabled. Bad URL or failed load: placeholder, "Photo could not be loaded", checkbox disabled. Loaded: ticked by default.
+  - The ticked URL goes into `ResumeContextData.profile` and is sent as `context.profile` in the generate request (`""` when not included). Log tag `ResumeProfilePhoto`.
+
 ### Packages
 
 - `Activities/`: receiver/view screens. Subpackages: `ResumeBuilder/` (profile, academic, skill-set editing, build and preview resume), `FilePreviewActivity/`.
@@ -118,6 +196,8 @@ Screens with a `Rewamp` suffix are the current versions, and commented-out non-R
 
 - New screens use ViewBinding (`viewBinding { enabled = true }`).
 - Glide is the main image library, and Picasso is also present.
+- **All app themes (`Prinipal`, `Staff`, `Student`, `Parent`… set by `CommonUtil.SetTheme`) extend `Theme.AppCompat`.** Material Components that enforce a MaterialComponents theme crash at inflate time (`MaterialCardView` did, which is why it was replaced). Use `androidx.cardview.widget.CardView` and plain `android.app.Dialog`s (styled as bottom sheets) instead of `MaterialCardView` or `BottomSheetDialog`. `ShapeableImageView` is fine.
+- Avoid Kotlin `when` guard conditions (`X if cond ->`); they need a newer Kotlin than some teammates use.
 - The app handles edge-to-edge for targetSdk 35+ (see `EdgeToEdgeUtils`, `BaseActivity`, and `res/layout-v35`).
 - Screen header bars are not a shared component. Each layout defines its own header with a `lblMenuTitle` TextView (white, bold, usually `@dimen/thirteen`), so a header style change has to be made in each layout file separately. `add_image_new.xml` (Add Assignment) sets its title to `13sp` directly (it was `17sp` before).
 - `ActivitySender/AddAssignment` (layout `add_image_new.xml`, used only by this screen) has three modes, chosen by the `ScreenName` intent extra:
@@ -126,3 +206,44 @@ Screens with a `Rewamp` suffix are the current versions, and commented-out non-R
   - `"Assignment Submit"`: a student submitting work. The date, type and title are hidden, and the files are uploaded to S3 and then submitted.
 
   For new and forwarded assignments, the next screen depends on `Priority`: `p7` goes to `HeaderRecipient`, `p1` to `PrincipalRecipient`, and `p2`/`p3` to `AddRecipients`.
+
+## Events & venue booking
+
+### Menu flags
+`GetParentUserMenuWithReadWriteAccess` returns `approval_required`, `isapprove` and `isrequest` per menu. These are stored on `MenuDetailsResponse` (nullable) and copied into `CommonUtil.MenuListDashboard` by `BaseActivity`. Read them null-safely with `CommonUtil.isMenuApprovalRequired(id)`, `isMenuApprove(id)` and `isMenuRequest(id)`. Events is menu id **8**. Login's `CommonUtil.approval_required` is **not** used for Events.
+- **`approval_required`** (→ `CommonUtil.menu_approvalEvent`): shows the **Request** button on `Events`, and makes `AddEvents` run Check Venue Availability before recipients.
+- **`isrequest` / `isapprove`** (→ `menu_isRequestEvent` / `menu_isApproveEvent`): decide the `VenueRequestList` sections. With both: a My Requests | Approve Event switch. With only `isapprove`: an "Approve Event" screen. Otherwise: My Requests only.
+
+### Events → Details → AddEvents
+- **Data flow:**
+  - Tapping an Upcoming event sets `CommonUtil.EventParticulerId` (event id) and `EventCreatedby`, and passes the event as the `"EventsData"` intent extra (`GetEventDetailsData`, which includes `starttime`/`endtime`/`displaytime`/`venueid`/`bookingid`).
+  - `EventsViewDetails` shows Edit only when `CommonUtil.EventEdit == "Edit"` (Upcoming tab) **and** `MemberId == EventCreatedby`.
+  - Edit opens `AddEvents` with extras `"EventsData"` and `"EventEdit" = "EventEdit"`.
+- **`AddEvents` has 3 modes** (`"EventEdit"` extra):
+  - **null — new event:** full validation, then venue availability (if `approval_required`), then recipient screens.
+  - **`"EventEdit"` — edit event:** only title and description are editable, and venue/date/times are locked. Sends `ManageEvents` `processtype "edit"` directly (never opens a recipient screen). `event_date` may be `dd/MM/yyyy` or `dd MMM yyyy`, handled by `toDdMmYyyy()`.
+  - **`"VenueRequestEdit"` — edit a waiting request from My Requests:** every field is editable. Sends `UpdateVenueRequest`, then `RESULT_OK` back to the list.
+- **Venue UI:** the `GetVenueList` dropdown and Quick chips (`CommonUtil.QuickVenueCount`), time presets (`CommonUtil.EventTimePresets`, past ones hidden for today), From/To + Duration, and the `CheckVenueAvailability` popup.
+- **Send requests:** every `ManageEvents` / `ManageEventsFromTutor` builder (`AddRecipients`, `PrincipalRecipient`, `HeaderRecipient`, `SpecificStudent`, `AddEvents.editSendEvents`) calls `CommonUtil.addEventScheduleFields(json)`. This adds `starttime`/`endtime` ("4:30 pm") and `venueid`. The venue name still goes as `eventvenue`. The old single `eventtime` key is no longer sent; its lines are commented out in all these builders, so don't add it back. Don't change the existing `eventid "0"` lines in the tutor builders.
+- **Time display:**
+  - Upcoming and Past share `EventsAdapter`. Its `eventTimeText()` shows `starttime - endtime`, falling back to `displaytime`, then `starttime`, then `event_time`.
+  - `EventsViewDetails` shows `displaytime`, falling back to `event_time`.
+- **Dashboard "Upcoming Events" card** (`DashBoardActivityRewamp` → `DashboardChild.bindUpcomingEvents`):
+  - `DashboardApi_Live` sends `venue`/`starttime`/`endtime`, which are copied onto `DashboardSubItems` (`EventVenue`/`EventStartTime`/`EventEndTime`).
+  - Blank or null values hide their row. Times are formatted with the safe `formatEventTime()`, never `LocalTime.parse` (`eventtime` can be `""`).
+  - The event constructor's parameter names are swapped: `EventTitle` holds the date, `Eventdate` the time, and `Eventtime` the topic.
+
+### VenueRequestList (Events → Request button)
+- **My Requests:** `GetVenueRequestList`; ⋮ on Waiting cards → Edit (`AddEvents` request-edit) or Cancel (`CancelVenueRequest`, with confirmation). On cancel success the list is updated locally (no reload) and the screen switches to the Cancelled tab.
+- **Approve Event:** `GetVenueApprovalList`. Cards show the requester and Reject/Approve (by `canreject`/`canapprove`).
+  - Approve sheet → `ApproveVenueRequest` → "Request approved" sheet, then reload.
+  - Reject dialog (reason required, max 250) → `RejectVenueRequest` → Rejected tab, then reload.
+- Both lists share `VenueRequestData` (approval-only fields are nullable) and `VenueRequestAdapter` (`approveMode`).
+- **Statuses:** `PENDING` (Waiting), `APPROVED`, `REJECTED`, `CANCELLED` and `EXPIRED`. Each has a tab in both sections, styled in `VenueRequestAdapter.statusStyle()`.
+  - `EXPIRED` uses the same grey as Cancelled, with an hourglass icon and no strike-through. Its detail line is the decider, or "No decision was made before the event time."
+  - Only `PENDING` cards get actions (⋮ menu / Approve / Reject).
+- **Counts:** `GetOverallcountByMenuType` (menu "8"):
+  - `venuerequests` → My Requests badge;
+  - `approvevenuerequests` → Approve Event badge;
+  - Events Request button badge = `venuerequests + approvevenuerequests`.
+- User-facing text on these screens says "event", not "venue".

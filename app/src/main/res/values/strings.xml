@@ -382,5 +382,226 @@
     <string name="choose_your_country">Choose your country</string>
     <string name="Please_accept_the_Terms_and_Conditions_to_proceed">Please accept the Terms and Conditions to proceed.</string>
 
+    <!-- New Event screen (activity_add_events.xml) -->
+    <string name="lbl_event_title_required">TITLE <font color="#F43F5E">*</font></string>
+    <string name="lbl_event_description_required">DESCRIPTION <font color="#F43F5E">*</font></string>
+    <string name="lbl_event_venue_required">VENUE / LOCATION <font color="#F43F5E">*</font></string>
+    <string name="lbl_event_date_required">EVENT DATE <font color="#F43F5E">*</font></string>
+    <string name="hint_event_title">Enter event title (e.g. Annual Sports Meet)</string>
+    <string name="hint_event_description">Type your event description, guidelines, dress code, or special instructions here...</string>
+    <string name="hint_select_venue">Select venue</string>
+    <string name="hint_select_date">Select Date</string>
+    <string name="hint_select_time">Select Time</string>
+    <string name="txt_no_venues_available">No venues available</string>
+    <string name="lbl_duration">Duration:</string>
+    <string name="txt_duration_empty">--</string>
+    <string name="txt_duration_invalid">Invalid range</string>
+    <string name="lbl_from_start">From (Start)</string>
+    <string name="lbl_to_end">To (End)</string>
+    <string name="msg_event_enter_title">Please enter an event title.</string>
+    <string name="msg_event_enter_description">Please enter the event description.</string>
+    <string name="msg_event_select_venue">Please select a venue.</string>
+    <string name="msg_event_select_date">Please select the event date.</string>
+    <string name="msg_event_select_from_time">Please select the start time.</string>
+    <string name="msg_event_select_to_time">Please select the end time.</string>
+    <string name="msg_event_invalid_time_range">End time must be after the start time.</string>
+    <string name="msg_event_past_time">Please select a time after %1$s.</string>
+    <string name="txt_check_venue_availability">Check Venue Availability</string>
+    <string name="txt_venue_available">Venue Available</string>
+    <string name="txt_venue_not_available">Venue Not Available</string>
+    <string name="txt_venue_check_failed">Unable to Check Availability</string>
+    <string name="lbl_venue">Venue</string>
+    <string name="lbl_date">Date</string>
+    <string name="lbl_time">Time</string>
+    <string name="lbl_clashes_with">CLASHES WITH</string>
+    <string name="lbl_booked_slots">BOOKED SLOTS ON THIS DAY</string>
+    <string name="txt_booked_by">Booked by %1$s</string>
+    <string name="txt_ok">OK</string>
+    <string name="txt_select_venue_pill">Select Venue</string>
+    <string name="txt_my_requests">My Requests</string>
+    <string name="txt_events_request_button">Request</string>
+
+    <!-- Request List (Events > My Requests) -->
+    <string name="txt_request_list">Request List</string>
+    <string name="txt_request_list_subtitle">Your event requests</string>
+    <string name="txt_tab_all">All</string>
+    <string name="txt_tab_waiting">Waiting</string>
+    <string name="txt_tab_approved">Approved</string>
+    <string name="txt_tab_rejected">Rejected</string>
+    <string name="txt_tab_cancelled">Cancelled</string>
+    <string name="txt_tab_expired">Expired</string>
+    <string name="txt_expired_no_decision">No decision was made before the event time.</string>
+    <string name="txt_empty_expired_title">No expired requests</string>
+    <string name="txt_empty_expired_sub">Requests that passed their event time without a decision will show here.</string>
+    <string name="txt_read_more">Read more</string>
+    <string name="txt_read_less">Read less</string>
+    <string name="txt_edit_request">Edit request</string>
+    <string name="txt_edit_request_title">Edit Request</string>
+    <string name="txt_update_request">Update Request</string>
+    <string name="txt_edit_event_title">Edit Event</string>
+    <string name="txt_update_event">Update Event</string>
+
+    <!-- Approve Venue (Request List) -->
+    <string name="txt_approve_venue">Approve Event</string>
+    <string name="txt_approve_venue_subtitle">Event requests to review</string>
+    <string name="txt_approve">Approve</string>
+    <string name="txt_reject">Reject</string>
+    <string name="txt_go_back">Go back</string>
+    <string name="txt_done">Done</string>
+
+    <!-- Build My Resume > Personal information (profile photo) -->
+    <string name="txt_personal_information">Personal information</string>
+    <string name="txt_profile_photo">Profile photo</string>
+    <string name="txt_photo_selected">Photo selected</string>
+    <string name="txt_photo_not_included">Photo will not be included</string>
+    <string name="txt_no_photo_uploaded">No photo uploaded</string>
+    <string name="txt_no_photo_hint">Upload a photo to include it in your resume.</string>
+    <string name="txt_photo_load_failed">Photo could not be loaded</string>
+
+    <!-- Customize Your Resume (Edit Resume) -->
+    <string name="txt_edit_resume">Edit Resume</string>
+
+    <!-- Placement hub (dashboard menu 23) -->
+    <string name="txt_pl_title">Placement</string>
+    <string name="txt_pl_banner_title">Your placement corner</string>
+    <string name="txt_pl_banner_sub">Training, drives, resume and feedback in one place</string>
+    <string name="txt_pl_choose_option">Choose an option</string>
+    <string name="txt_pl_training">Placement Training</string>
+    <string name="txt_pl_training_desc">Aptitude, technical and soft-skill sessions</string>
+    <string name="txt_pl_events">Placement Events</string>
+    <string name="txt_pl_events_desc">Campus drives, interviews and company visits</string>
+    <string name="txt_pl_resume">Resume Builder</string>
+    <string name="txt_pl_resume_desc">Create, edit and download your resume</string>
+    <string name="txt_pl_feedback">Placement Feedback</string>
+    <string name="txt_pl_feedback_desc">Rate trainings and share your drive experience</string>
+    <string name="txt_pl_coming_soon">Placement Feedback will be available soon</string>
+
+    <!-- Assignment > Previous submission: delete own submission -->
+    <string name="txt_delete_submission">Delete submission</string>
+    <string name="msg_delete_submission_confirm">Are you sure you want to delete this submitted assignment? The submitted files will be removed and this cannot be undone.</string>
+    <string name="txt_delete">Delete</string>
+    <string name="msg_delete_submission_done">Submitted assignment deleted</string>
+    <string name="txt_delete_close">Close</string>
+    <string name="txt_resume_preview_failed">Could not load the resume.\nTap here to try again.</string>
+    <string name="txt_customize_resume">Customize Your Resume</string>
+    <string name="txt_cr_intro">Review your details, personalize your content and choose what appears in your resume.</string>
+    <string name="txt_cr_ai_ready">AI generated content is ready</string>
+    <string name="txt_cr_ai_warning">AI can make mistakes. Please review the content carefully before using it.</string>
+    <string name="txt_cr_ai_enhanced">AI Enhanced</string>
+    <string name="txt_cr_included">Included</string>
+    <string name="txt_cr_hidden">Hidden</string>
+    <string name="txt_cr_required_section">Required</string>
+    <string name="txt_cr_personal">Personal Information</string>
+    <string name="txt_cr_summary">Professional Summary</string>
+    <string name="txt_cr_role">Career Role</string>
+    <string name="txt_cr_education">Education</string>
+    <string name="txt_cr_skills">Skills &amp; Interests</string>
+    <string name="txt_cr_internship">Internship Experience</string>
+    <string name="txt_cr_certifications">Certifications</string>
+    <string name="txt_cr_projects">Projects</string>
+    <string name="txt_cr_update_basic">Update your basic details</string>
+    <string name="txt_cr_include_photo">Include photo</string>
+    <string name="txt_cr_photo_not_selected">Photo not selected</string>
+    <string name="txt_cr_no_photo_hint">Upload a photo in your profile to include it.</string>
+    <string name="txt_cr_full_name">Full name</string>
+    <string name="txt_cr_email">Email address</string>
+    <string name="txt_cr_phone">Phone number</string>
+    <string name="txt_cr_address">Address</string>
+    <string name="txt_cr_summary_label">Summary</string>
+    <string name="txt_cr_role_label">Career role</string>
+    <string name="txt_cr_role_hint">Shown under your name at the top of the resume.</string>
+    <string name="txt_cr_technical_skills">Technical skills</string>
+    <string name="txt_cr_areas_interest">Areas of interest</string>
+    <string name="txt_cr_languages">Languages</string>
+    <string name="txt_cr_soft_skills">Soft skills</string>
+    <string name="txt_cr_designation">Designation</string>
+    <string name="txt_cr_company">Company name</string>
+    <string name="txt_cr_from">From</string>
+    <string name="txt_cr_to">To</string>
+    <string name="txt_cr_description">Description</string>
+    <string name="txt_cr_course_name">Course name</string>
+    <string name="txt_cr_project_title">Project title</string>
+    <string name="txt_cr_before_finish">Before you finish</string>
+    <string name="txt_cr_regenerate">Regenerate with AI</string>
+    <string name="txt_cr_regenerate_info">Creates a new resume with AI using the details and selections you edited here. The AI may reword some of your content.</string>
+    <string name="txt_cr_apply">Apply Changes to Template</string>
+    <string name="txt_cr_apply_info">Updates your existing resume template with these edits exactly as they are, without regenerating anything.</string>
+    <string name="txt_cr_apply_confirm">Update your resume template with these edits exactly as they are?</string>
+    <string name="txt_cr_regenerate_confirm">Create a new resume with AI using your edited details?</string>
+    <string name="txt_cr_discard_title">Discard changes?</string>
+    <string name="txt_cr_discard_message">Your edits on this screen will be lost.</string>
+    <string name="txt_cr_discard">Discard</string>
+    <string name="txt_cr_keep_editing">Keep editing</string>
+    <string name="txt_cr_required">This field is required</string>
+    <string name="txt_cr_invalid_email">Enter a valid email address</string>
+    <string name="txt_cr_to_before_from">To date must be after From date</string>
+    <string name="txt_cr_fill_required">Please fill in all the fields</string>
+    <string name="txt_cr_load_failed">Could not load your resume content.</string>
+    <string name="txt_cr_retry">Retry</string>
+    <string name="txt_cr_session_missing">Please generate the resume again to edit it.</string>
+    <string name="txt_cr_entries">%1$d entries</string>
+    <string name="txt_cr_entry">%1$d entry</string>
+    <string name="txt_cr_selected_of">%1$d of %2$d selected</string>
+    <string name="txt_cr_skills_summary">%1$d skills · %2$d interests · %3$d languages</string>
+
+    <!-- Dashboard menu order (Edit > drag and drop > Done, saved locally per user) -->
+    <string name="txt_menu_edit">Sort</string>
+    <string name="txt_menu_section_title">Menu</string>
+    <string name="txt_menu_edit_hint">Long press a menu and drag it to a new place</string>
+    <string name="txt_menu_order_title">Menu order</string>
+    <string name="msg_menu_order_unsaved">You have changed the menu order. Do you want to save it?</string>
+    <string name="msg_menu_order_finish">You are still editing the menu order. Do you want to finish?</string>
+    <string name="txt_menu_order_save">Save</string>
+    <string name="txt_menu_order_discard">Discard</string>
+    <string name="txt_menu_order_keep_editing">Keep editing</string>
+    <string name="msg_menu_order_saved">Menu order saved</string>
+    <string name="msg_menu_order_tap_done">Tap Done to save the menu order first</string>
+    <string name="txt_yes_approve">Yes, approve</string>
+    <string name="txt_approve_this_request">Approve this request?</string>
+    <string name="txt_approve_check_details">Please check the details before you approve.</string>
+    <string name="txt_approve_note">The event will be published once you approve.</string>
+    <string name="txt_request_approved">Request approved</string>
+    <string name="txt_request_approved_message">“%1$s” is booked at %2$s on %3$s, %4$s, and the event is now published.</string>
+    <string name="txt_reject_this_request">Reject this request?</string>
+    <string name="lbl_reason_for_rejection_required">Reason for rejection <font color="#E11D48">*</font></string>
+    <string name="hint_reject_reason">Tell the requester why the event is being rejected</string>
+    <string name="msg_reject_reason_required">Please enter a reason to reject this event.</string>
+    <string name="txt_reject_reason_helper">The requester will see this reason.</string>
+    <string name="txt_waiting_your_review">Waiting for your review</string>
+    <string name="txt_waiting_college_admin">Waiting for College Admin</string>
+    <string name="txt_waiting_dept_or_college_admin">Waiting for Department Admin or College Admin</string>
+    <string name="txt_empty_review_all_title">No event requests</string>
+    <string name="txt_empty_review_all_sub">Event requests to review will show here.</string>
+    <string name="txt_empty_review_waiting_title">Nothing to review</string>
+    <string name="txt_empty_review_waiting_sub">Requests waiting for your approval will show here.</string>
+    <string name="txt_cancel_request">Cancel request</string>
+    <string name="txt_more_options">More options</string>
+    <string name="msg_cancel_request_confirm">Are you sure you want to cancel this event request? The event will not be published.</string>
+    <string name="msg_request_cancelled_event">You cancelled this request. The event will not be published.</string>
+    <string name="txt_approver">Approver: %1$s</string>
+    <string name="txt_approved_by">Approved by %1$s</string>
+    <string name="txt_rejected_by">Rejected by %1$s</string>
+    <string name="txt_cancelled_by">Cancelled by %1$s</string>
+    <string name="txt_reason_rejection">Reason for rejection</string>
+    <string name="txt_reason_cancelling">Reason for cancelling</string>
+    <string name="txt_requested_on">Requested on %1$s</string>
+    <string name="txt_empty_all_title">No requests yet</string>
+    <string name="txt_empty_all_sub">Your event requests will show here.</string>
+    <string name="txt_empty_waiting_title">No waiting requests</string>
+    <string name="txt_empty_waiting_sub">Requests waiting for admin approval will show here.</string>
+    <string name="txt_empty_approved_title">No approved requests</string>
+    <string name="txt_empty_approved_sub">Requests approved by an admin will show here.</string>
+    <string name="txt_empty_rejected_title">No rejected requests</string>
+    <string name="txt_empty_rejected_sub">Requests turned down by an admin will show here.</string>
+    <string name="txt_empty_cancelled_title">No cancelled requests</string>
+    <string name="txt_empty_cancelled_sub">Requests you cancelled will show here.</string>
+    <string name="txt_requests_load_failed_title">Unable to load requests</string>
+    <string name="txt_requests_load_failed_sub">Please check your connection and try again.</string>
+    <string name="lbl_quick">Quick:</string>
+    <string name="lbl_presets">Presets:</string>
+    <string name="txt_refresh">Refresh</string>
+    <string name="msg_no_venue_for_department">There is no venue for your department. Please ask the admin to add a venue.</string>
+    <string name="msg_venue_load_failed">Unable to load venues. Please check your connection and tap Refresh.</string>
+
 
 </resources>

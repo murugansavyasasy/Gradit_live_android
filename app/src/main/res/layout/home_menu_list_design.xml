@@ -7,11 +7,17 @@
     android:layout_marginTop="@dimen/five"
     android:padding="@dimen/three">
 
+    <!-- Full cell width + inner padding, so the dashed box shown while sorting has room
+         around the icon and name (and every box is the same width) -->
     <RelativeLayout
         android:id="@+id/LayoutHome"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
+        android:layout_margin="3dp"
+        android:paddingStart="4dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="4dp"
+        android:paddingBottom="6dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

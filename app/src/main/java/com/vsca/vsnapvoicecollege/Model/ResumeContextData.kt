@@ -6,6 +6,8 @@ data class ResumeContextData(
     val email: String,
     val phone: String,
     val address: String?=null,
+    // Profile photo URL (memberImagePath) when the student ticks it on Build My Resume, else ""
+    val profile: String = "",
     val skills: List<String> = emptyList(),
     val education: List<GetEducationalDetailsData> = emptyList(),
     val experience: List<GetInternshipDetailsData>,

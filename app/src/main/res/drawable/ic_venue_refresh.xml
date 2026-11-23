@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- New Event screen: Refresh icon -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp"
+    android:height="18dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M20,11a8,8 0,0 0,-14.6 -4.5M4,4v4h4"
+        android:strokeWidth="2.2"
+        android:strokeColor="#92400E"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M4,13a8,8 0,0 0,14.6 4.5M20,20v-4h-4"
+        android:strokeWidth="2.2"
+        android:strokeColor="#92400E"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

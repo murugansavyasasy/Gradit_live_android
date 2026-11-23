@@ -144,6 +144,63 @@
                             android:visibility="gone"
                             app:layout_constraintLeft_toRightOf="@+id/lblMenuTitle"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <!-- Events only: "My Requests" button + count badge.
+                             Gone by default so every other screen using this layout is unchanged;
+                             Events.kt shows it when CommonUtil.menu_approvalEvent is true. -->
+                        <!-- Badge sits in the top/end corner inside this frame's own bounds
+                             (no negative margins), so it is never clipped. -->
+                        <FrameLayout
+                            android:id="@+id/layoutMyRequests"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/eight"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/btnMyRequests"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/bg_my_requests_btn"
+                                android:clickable="true"
+                                android:drawableStart="@drawable/ic_my_requests"
+                                android:drawablePadding="8dp"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:paddingStart="14dp"
+                                android:paddingTop="9dp"
+                                android:paddingEnd="16dp"
+                                android:paddingBottom="9dp"
+                                android:text="@string/txt_events_request_button"
+                                android:textAllCaps="false"
+                                android:textColor="#233876"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/lblMyRequestCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_my_requests_badge"
+                                android:elevation="2dp"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:minWidth="22dp"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="5dp"
+                                android:textColor="@color/white"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+                        </FrameLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

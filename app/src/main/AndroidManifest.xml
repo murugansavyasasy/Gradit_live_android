@@ -227,6 +227,12 @@
             android:theme="@style/Prinipal"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
+            android:name=".Activities.VenueRequestList"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Prinipal"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
             android:name=".Activities.EventsViewDetails"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -275,6 +281,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <!-- Customize Your Resume (Preview > Edit Resume). adjustResize so the keyboard
+             never covers the field being typed in. -->
+        <activity
+            android:name=".Activities.ResumeBuilder.BuildMyResume.CustomizeResumeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity
             android:name=".Activities.ResumeBuilder.BuildMyResume.BuildResumeActivity"
@@ -458,6 +472,13 @@
 
         <activity
             android:name=".Activities.PlacementEvent"
+            android:exported="false"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <!-- Placement hub (dashboard menu 23) -->
+        <activity
+            android:name=".Activities.PlacementHome"
             android:exported="false"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"

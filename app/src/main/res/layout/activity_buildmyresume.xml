@@ -74,6 +74,96 @@
                 android:textSize="@dimen/sixteen_sp"
                 android:textStyle="bold" />
 
+            <!-- Personal information: profile photo (CommonUtil.saveBasicDetails.memberImagePath).
+                 No photo -> checkbox disabled + "No photo uploaded"; photo -> checkbox on by default. -->
+            <LinearLayout
+                android:id="@+id/layoutPersonalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/txt_personal_information"
+                    android:textSize="@dimen/fourteen_sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:layout_marginTop="@dimen/eight"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbProfilePhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:button="@drawable/ch_square_selector"
+                        android:checked="false"
+                        android:enabled="false"
+                        android:padding="8dp" />
+
+                    <ImageView
+                        android:id="@+id/imgResumeProfile"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="@dimen/five"
+                        android:background="@drawable/bg_resume_photo_empty"
+                        android:padding="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_req_person"
+                        tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/twelve"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="@string/txt_profile_photo"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/fourteen_sp" />
+
+                        <TextView
+                            android:id="@+id/lblProfilePhotoStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/five"
+                            android:fontFamily="@font/poppins_regular"
+                            android:gravity="center_vertical"
+                            android:text="@string/txt_no_photo_uploaded"
+                            android:textColor="#C2410C"
+                            android:textSize="@dimen/twelve_sp" />
+
+                        <TextView
+                            android:id="@+id/lblProfilePhotoHint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="@string/txt_no_photo_hint"
+                            android:textColor="#64748B"
+                            android:textSize="@dimen/twelve_sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:background="#D1D1D6" />
+            </LinearLayout>
+
             <!-- Academic Section -->
             <LinearLayout
                 android:id="@+id/layoutAcademicRecords"

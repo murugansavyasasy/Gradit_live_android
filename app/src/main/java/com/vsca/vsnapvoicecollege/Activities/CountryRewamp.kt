@@ -238,6 +238,7 @@ class CountryRewamp : AppCompatActivity() {
                     nonemergencyduration = VersionData[0].nonemergency
                     feepaymentlink = VersionData[0].feepaymentlink
                     paymentsuccesslink = VersionData[0].paymentsuccesslink
+                    resumebuilderbaseurl = VersionData[0].resumebuilder_baseurl
 
                     SharedPreference.putVersionCheckData(
                         this@CountryRewamp,

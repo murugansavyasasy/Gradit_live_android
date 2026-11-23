@@ -831,7 +831,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="@dimen/two"
-                app:layout_constraintBottom_toTopOf="@+id/lblEventCreatedTime"
+                app:layout_constraintBottom_toTopOf="@+id/lnrEventVenue"
                 app:layout_constraintLeft_toLeftOf="parent">
 
                 <TextView
@@ -858,6 +858,39 @@
                     android:padding="@dimen/two"
                     android:src="@drawable/ic_calendar" />
             </RelativeLayout>
+
+            <!-- Venue (Upcoming Events): hidden when the API sends "" / null -->
+            <LinearLayout
+                android:id="@+id/lnrEventVenue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five"
+                android:layout_marginEnd="@dimen/eight"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/lblEventCreatedTime"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <ImageView
+                    android:layout_width="@dimen/fourteen"
+                    android:layout_height="@dimen/fourteen"
+                    android:src="@drawable/ic_req_pin" />
+
+                <TextView
+                    android:id="@+id/lblEventVenue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/four"
+                    android:paddingTop="@dimen/two"
+                    android:paddingBottom="@dimen/two"
+                    android:textColor="@color/clr_text_color"
+                    android:textSize="@dimen/twelve" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/lblEventCreatedTime"

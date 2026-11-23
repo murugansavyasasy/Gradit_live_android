@@ -32,7 +32,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import soup.neumorphism.NeumorphCardView
 
-class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: Context) :
+class Assignment_SubmittionAdapter(
+    data: ArrayList<AssignmentSubmit>,
+    context: Context,
+    // Student's own submission: delete tapped (null = no delete, e.g. staff lists)
+    private val onDeleteSubmission: ((AssignmentSubmit) -> Unit)? = null
+) :
     RecyclerView.Adapter<Assignment_SubmittionAdapter.MyViewHolder>() {
     var subjectdata: List<AssignmentSubmit> = ArrayList()
     var context: Context
@@ -78,6 +83,15 @@ class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: C
                 } else {
                     holder.lblMark!!.text = "Not evaluated yet!"
                 }
+            }
+
+            // Delete own submission: only when the API says so (isdelete may be missing/null)
+            if (onDeleteSubmission != null && data.isdelete == true) {
+                holder.imgDeleteSubmission.visibility = View.VISIBLE
+                holder.imgDeleteSubmission.setOnClickListener { onDeleteSubmission.invoke(data) }
+            } else {
+                holder.imgDeleteSubmission.visibility = View.GONE
+                holder.imgDeleteSubmission.setOnClickListener(null)
             }
 
             holder.imgEnterMark!!.setOnClickListener {
@@ -206,6 +220,7 @@ class Assignment_SubmittionAdapter(data: ArrayList<AssignmentSubmit>, context: C
         val conLbls: ConstraintLayout = itemView!!.findViewById(R.id.conlbls)
         val lblCourse: TextView = itemView!!.findViewById(R.id.lblcourse)
         val lblYear: TextView = itemView!!.findViewById(R.id.lblyear)
+        val imgDeleteSubmission: ImageView = itemView!!.findViewById(R.id.imgDeleteSubmission)
 
     }
 

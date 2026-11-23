@@ -163,6 +163,21 @@
 
                 </ImageView>
             </RelativeLayout>
+
+            <!-- Student: delete own submission (shown only when the API sends isdelete = true) -->
+            <ImageView
+                android:id="@+id/imgDeleteSubmission"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="@dimen/ten"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/txt_delete_submission"
+                android:padding="6dp"
+                android:src="@drawable/red_bin_delete_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/rlaEntermark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rlaEntermark" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </soup.neumorphism.NeumorphCardView>
 

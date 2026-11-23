@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Customize Your Resume: label + text input (+ optional helper / AI badge).
+     Single-line or multi-line is set in code. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="14dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lblFieldLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="#3A3A40"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/lblFieldAiBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_cr_badge"
+            android:drawableStart="@drawable/ic_cr_spark"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/txt_cr_ai_enhanced"
+            android:textColor="@color/dark_blue"
+            android:textSize="11.5sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edtField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_cr_input"
+        android:fontFamily="@font/poppins_regular"
+        android:minHeight="44dp"
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="10dp"
+        android:textColor="#1C1C1E"
+        android:textSize="14sp"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/lblFieldHelper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="#6B6B73"
+        android:textSize="12sp"
+        android:visibility="gone" />
+</LinearLayout>

@@ -320,6 +320,7 @@ object CommonUtil {
     var MemberType = ""
     var CollegeLogo = ""
     var isParentEnable = ""
+    var approval_required = false
     var CommonAdvertisement = ""
     var CommonAdImageSmall = ""
     var AdWebURl = ""
@@ -399,6 +400,36 @@ object CommonUtil {
     var MenuTitle: String? = null
     var MenuDescription: String? = null
     var Venuetext: String? = null
+
+    // New Event: schedule + venue, set in AddEvents when the user continues
+    var EventStartTime = ""      // From (Start) time, e.g. "4:30 pm"
+    var EventEndTime = ""        // To (End) time, e.g. "6:00 pm"
+    var EventDurationMinutes = 0 // To minus From, in minutes
+    var EventVenueId: Int? = null // venueid from GetVenueList
+
+    /**
+     * Adds starttime / endtime / venueid to every ManageEvents / ManageEventsFromTutor request
+     * (AddRecipients, PrincipalRecipient, HeaderRecipient, SpecificStudent, AddEvents edit).
+     */
+    fun addEventScheduleFields(jsonObject: com.google.gson.JsonObject) {
+        jsonObject.addProperty(com.vsca.vsnapvoicecollege.Repository.ApiRequestNames.Req_starttime, EventStartTime)
+        jsonObject.addProperty(com.vsca.vsnapvoicecollege.Repository.ApiRequestNames.Req_endtime, EventEndTime)
+        jsonObject.addProperty(
+            com.vsca.vsnapvoicecollege.Repository.ApiRequestNames.Req_venueid,
+            EventVenueId?.toString() ?: ""
+        )
+    }
+
+
+    // New Event: how many venues (from the top of GetVenueList) to show as "Quick" chips
+    var QuickVenueCount: Int = 3
+
+    // New Event: time preset chips. For today's date, presets whose start time has passed are hidden.
+    var EventTimePresets: ArrayList<com.vsca.vsnapvoicecollege.Model.EventTimePreset> = arrayListOf(
+        com.vsca.vsnapvoicecollege.Model.EventTimePreset("Morning (9-10 AM)", 9 * 60, 10 * 60),
+        com.vsca.vsnapvoicecollege.Model.EventTimePreset("Midday (11:30-1)", 11 * 60 + 30, 13 * 60),
+        com.vsca.vsnapvoicecollege.Model.EventTimePreset("Afternoon (2-4 PM)", 14 * 60, 16 * 60)
+    )
     var SeletedStringdataReplace: String? = null
     var isExamName: String? = ""
     var isForgotMobileNumber = ""
@@ -430,6 +461,34 @@ object CommonUtil {
     var menu_writeNoticeBoard = ""
     var menu_readEvent = ""
     var menu_writeEvent = ""
+
+    // Events menu approval_required. true = New Event checks venue availability before recipients.
+    // For another menu later, add menu_approvalX the same way: isMenuApprovalRequired(<menu id>).
+    var menu_approvalEvent = false
+
+    /**
+     * approval_required for ANY menu id, from CommonUtil.MenuListDashboard
+     * (GetParentUserMenuWithReadWriteAccess). Null-safe: false if the menu is missing,
+     * the list is not loaded yet, or the API sent null / no value.
+     */
+    fun isMenuApprovalRequired(menuId: Int): Boolean {
+        return MenuListDashboard.firstOrNull { it.id == menuId }?.isApprovalRequired() ?: false
+    }
+
+    // Events menu venue-request access (GetParentUserMenuWithReadWriteAccess):
+    // isapprove -> "Approve Venue" section, isrequest -> "My Requests" section in VenueRequestList.
+    var menu_isApproveEvent = false
+    var menu_isRequestEvent = false
+
+    /** isapprove for ANY menu id (false if the menu is missing / list not loaded / null). */
+    fun isMenuApprove(menuId: Int): Boolean {
+        return MenuListDashboard.firstOrNull { it.id == menuId }?.isApprove() ?: false
+    }
+
+    /** isrequest for ANY menu id (false if the menu is missing / list not loaded / null). */
+    fun isMenuRequest(menuId: Int): Boolean {
+        return MenuListDashboard.firstOrNull { it.id == menuId }?.isRequest() ?: false
+    }
     var menu_readFaculty = ""
     var menu_writeFaculty = ""
     var menu_readVideo = ""

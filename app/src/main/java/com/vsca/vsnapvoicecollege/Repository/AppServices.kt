@@ -27,6 +27,12 @@ import com.vsca.vsnapvoicecollege.Model.CollageList
 import com.vsca.vsnapvoicecollege.Model.Communication_AddNewButton
 import com.vsca.vsnapvoicecollege.Model.Delete_noticeboard
 import com.vsca.vsnapvoicecollege.Model.DeviceListResponse
+import com.vsca.vsnapvoicecollege.Model.VenueListResponse
+import com.vsca.vsnapvoicecollege.Model.VenueAvailabilityResponse
+import com.vsca.vsnapvoicecollege.Model.VenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.CancelVenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.UpdateVenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.VenueDecisionResponse
 import com.vsca.vsnapvoicecollege.Model.Evendsenddata
 import com.vsca.vsnapvoicecollege.Model.EventpicUpdate
 import com.vsca.vsnapvoicecollege.Model.ExamCreation_dataclass
@@ -79,6 +85,8 @@ import com.vsca.vsnapvoicecollege.Model.PlacementEventResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
+import com.vsca.vsnapvoicecollege.Model.GenerateResumeContentResponse
+import com.vsca.vsnapvoicecollege.Model.DeleteSubmittedAssignmentResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
@@ -237,6 +245,14 @@ class AppServices {
     var isResumeBuilderDeleteResume: MutableLiveData<ResumeBuilderDeleteResume?>
     var isGetTimeTable: MutableLiveData<TimetableResponse?>
     var DeviceList: MutableLiveData<DeviceListResponse?>
+    var VenueList: MutableLiveData<VenueListResponse?>
+    var VenueAvailability: MutableLiveData<VenueAvailabilityResponse?>
+    var VenueRequests: MutableLiveData<VenueRequestResponse?>
+    var CancelVenueRequest: MutableLiveData<CancelVenueRequestResponse?>
+    var UpdateVenueRequest: MutableLiveData<UpdateVenueRequestResponse?>
+    var VenueApprovalList: MutableLiveData<VenueRequestResponse?>
+    var ApproveVenueRequest: MutableLiveData<VenueDecisionResponse?>
+    var RejectVenueRequest: MutableLiveData<VenueDecisionResponse?>
 
 
     init {
@@ -354,6 +370,14 @@ class AppServices {
         isGetPlacementCareerList = MutableLiveData()
         isGetTimeTable = MutableLiveData()
         DeviceList = MutableLiveData()
+        VenueList = MutableLiveData()
+        VenueAvailability = MutableLiveData()
+        VenueRequests = MutableLiveData()
+        CancelVenueRequest = MutableLiveData()
+        UpdateVenueRequest = MutableLiveData()
+        VenueApprovalList = MutableLiveData()
+        ApproveVenueRequest = MutableLiveData()
+        RejectVenueRequest = MutableLiveData()
     }
 
     fun GetCourseDetails(jsonObject: JsonObject?, activity: Activity) {
@@ -4528,6 +4552,46 @@ class AppServices {
         get() = StuentforAssignmensubmitted
 
 
+    // ---- Delete a submitted assignment (student, Assignment_Submition screen) ----
+
+    private val isDeleteSubmittedAssignment = MutableLiveData<DeleteSubmittedAssignmentResponse?>()
+    val DeleteSubmittedAssignmentLiveData: LiveData<DeleteSubmittedAssignmentResponse?>
+        get() = isDeleteSubmittedAssignment
+
+    /**
+     * api/AppDetailsBal/DeleteSubmittedAssignment. Shows a loader; on any failure posts
+     * Status=0 with the best message and never closes the screen (the caller shows a popup).
+     */
+    fun DeleteSubmittedAssignmentRequest(jsonObject: JsonObject, activity: Activity) {
+        Log.d("DeleteSubmittedAssign", "Request: $jsonObject")
+        val loader = CustomLoading.createProgressDialog(activity)
+        loader?.show()
+        RestClient.apiInterfaces.DeleteSubmittedAssignment(jsonObject)
+            .enqueue(object : Callback<DeleteSubmittedAssignmentResponse> {
+                override fun onResponse(
+                    call: Call<DeleteSubmittedAssignmentResponse>,
+                    response: Response<DeleteSubmittedAssignmentResponse>
+                ) {
+                    loader?.dismiss()
+                    val body = response.body()
+                    Log.d("DeleteSubmittedAssign", "Response ${response.code()}: ${body?.Status} ${body?.Message}")
+                    isDeleteSubmittedAssignment.postValue(
+                        if (response.isSuccessful && body != null) body
+                        else DeleteSubmittedAssignmentResponse(0, errorMessageOf(response))
+                    )
+                }
+
+                override fun onFailure(call: Call<DeleteSubmittedAssignmentResponse>, t: Throwable) {
+                    loader?.dismiss()
+                    t.printStackTrace()
+                    isDeleteSubmittedAssignment.postValue(
+                        DeleteSubmittedAssignmentResponse(0, CommonUtil.Something_went_wrong)
+                    )
+                }
+            })
+    }
+
+
     fun AttendanceEdit(jsonObject: JsonObject?, activity: Activity) {
 
         RestClient.apiInterfaces.AttendanceEditList(jsonObject)
@@ -5449,9 +5513,12 @@ class AppServices {
 
     //Generate Resume
     fun SendResumeBuilderGenerateResumeRequest(isJsonObject: JsonObject, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
         val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
         if (resumeBaseUrl.isNullOrBlank()) {
             isSendResumeBuilderGenerateResume.postValue(null)
+            progressDialog.dismiss()
             return
         }
 
@@ -5476,11 +5543,17 @@ class AppServices {
                                 isSendResumeBuilderGenerateResume.postValue(response.body())
 
                             }
+                            progressDialog.dismiss()
+
                         }
                     } else if (response.code() == 400 || response.code() == 404 || response.code() == 500) {
                         isSendResumeBuilderGenerateResume.postValue(null)
+                        progressDialog.dismiss()
+
                     } else {
                         isSendResumeBuilderGenerateResume.postValue(null)
+                        progressDialog.dismiss()
+
                     }
                 }
 
@@ -5489,16 +5562,148 @@ class AppServices {
                     t: Throwable
                 ) {
                     isSendResumeBuilderGenerateResume.postValue(null)
+                    progressDialog.dismiss()
                     t.printStackTrace()
                     CommonUtil.ApiAlertFinish(
                         activity, activity.getString(R.string.txt_no_record_found)
                     )
+
                 }
             })
     }
 
     val ResumeBuilderGenerateResumeLiveData: LiveData<ResumeBuilderGenerateResumeResponse?>
         get() = isSendResumeBuilderGenerateResume
+
+
+    // ---- Customize Your Resume (Edit Resume) ----
+    // Both calls show a loader (AI can take a while) and never close the screen on failure:
+    // they post a response with status=false and the best message available instead.
+
+    private val isGenerateResumeContent = MutableLiveData<GenerateResumeContentResponse?>()
+    val GenerateResumeContentLiveData: LiveData<GenerateResumeContentResponse?>
+        get() = isGenerateResumeContent
+
+    /** resume/generate-content: AI summary, role and descriptions for the Customize screen. */
+    fun GenerateResumeContentRequest(isJsonObject: JsonObject, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isGenerateResumeContent.postValue(
+                GenerateResumeContentResponse(false, CommonUtil.Something_went_wrong)
+            )
+            return
+        }
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
+        Log.d("GenerateResumeContent", "Request: $isJsonObject")
+
+        val loader = CustomLoading.createProgressDialog(activity)
+        loader?.show()
+        RestClient.resumeApiInterfaces.generateResumeContent(isJsonObject)
+            .enqueue(object : Callback<GenerateResumeContentResponse?> {
+                override fun onResponse(
+                    call: Call<GenerateResumeContentResponse?>,
+                    response: Response<GenerateResumeContentResponse?>
+                ) {
+                    loader?.dismiss()
+                    val body = response.body()
+                    Log.d("GenerateResumeContent", "Response ${response.code()}: status=${body?.status}")
+                    isGenerateResumeContent.postValue(
+                        if (response.isSuccessful && body != null) body
+                        else GenerateResumeContentResponse(false, errorMessageOf(response))
+                    )
+                }
+
+                override fun onFailure(call: Call<GenerateResumeContentResponse?>, t: Throwable) {
+                    loader?.dismiss()
+                    t.printStackTrace()
+                    isGenerateResumeContent.postValue(
+                        GenerateResumeContentResponse(false, CommonUtil.Something_went_wrong)
+                    )
+                }
+            })
+    }
+
+    private val isPostEditedResume = MutableLiveData<ResumeBuilderGenerateResumeResponse?>()
+    val PostEditedResumeLiveData: LiveData<ResumeBuilderGenerateResumeResponse?>
+        get() = isPostEditedResume
+
+    /** "Regenerate with AI": resume/post-edited-resume builds the PDF from the edited content. */
+    fun PostEditedResumeRequest(isJsonObject: JsonObject, activity: Activity) {
+        sendResumePdfRequest(isJsonObject, activity, "PostEditedResume", isPostEditedResume) {
+            RestClient.resumeApiInterfaces.postEditedResume(it)
+        }
+    }
+
+    private val isApplyResumeChanges = MutableLiveData<ResumeBuilderGenerateResumeResponse?>()
+    val ApplyResumeChangesLiveData: LiveData<ResumeBuilderGenerateResumeResponse?>
+        get() = isApplyResumeChanges
+
+    /**
+     * "Apply Changes to Template": resume/post-resume (same endpoint as Build My Resume) with
+     * the edited content as it is. Its own LiveData + stay-on-screen error handling, so the
+     * existing Build My Resume call (SendResumeBuilderGenerateResumeRequest) is unchanged.
+     */
+    fun ApplyResumeChangesRequest(isJsonObject: JsonObject, activity: Activity) {
+        sendResumePdfRequest(isJsonObject, activity, "ApplyResumeChanges", isApplyResumeChanges) {
+            RestClient.resumeApiInterfaces.SendGenerateResume(it)
+        }
+    }
+
+    /**
+     * Shared by the two Customize Your Resume PDF calls (response: data[0].file_url).
+     * Shows a loader; on any failure posts status=false with the best message, never closes
+     * the screen.
+     */
+    private fun sendResumePdfRequest(
+        isJsonObject: JsonObject,
+        activity: Activity,
+        tag: String,
+        target: MutableLiveData<ResumeBuilderGenerateResumeResponse?>,
+        call: (JsonObject) -> Call<ResumeBuilderGenerateResumeResponse>
+    ) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            target.postValue(
+                ResumeBuilderGenerateResumeResponse(false, CommonUtil.Something_went_wrong, emptyList())
+            )
+            return
+        }
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
+        Log.d(tag, "Request: $isJsonObject")
+
+        val loader = CustomLoading.createProgressDialog(activity)
+        loader?.show()
+        call(isJsonObject).enqueue(object : Callback<ResumeBuilderGenerateResumeResponse?> {
+            override fun onResponse(
+                call: Call<ResumeBuilderGenerateResumeResponse?>,
+                response: Response<ResumeBuilderGenerateResumeResponse?>
+            ) {
+                loader?.dismiss()
+                val body = response.body()
+                Log.d(tag, "Response ${response.code()}: status=${body?.status}")
+                target.postValue(
+                    if (response.isSuccessful && body != null) body
+                    else ResumeBuilderGenerateResumeResponse(false, errorMessageOf(response), emptyList())
+                )
+            }
+
+            override fun onFailure(call: Call<ResumeBuilderGenerateResumeResponse?>, t: Throwable) {
+                loader?.dismiss()
+                t.printStackTrace()
+                target.postValue(
+                    ResumeBuilderGenerateResumeResponse(false, CommonUtil.Something_went_wrong, emptyList())
+                )
+            }
+        })
+    }
+
+    /** "message" from an error response body, or the generic message. */
+    private fun errorMessageOf(response: Response<*>): String = try {
+        org.json.JSONObject(response.errorBody()?.string().orEmpty())
+            .optString("message").takeIf { it.isNotBlank() } ?: CommonUtil.Something_went_wrong
+    } catch (e: Exception) {
+        CommonUtil.Something_went_wrong
+    }
 
 
     //Send SaveTitle
@@ -5957,6 +6162,244 @@ class AppServices {
 
     val isDeviceListLiveData: LiveData<DeviceListResponse?>
         get() = DeviceList
+
+
+    fun GetVenueList(jsonObject: JsonObject?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
+        RestClient.apiInterfaces.GetVenueList(jsonObject)
+            ?.enqueue(object : Callback<VenueListResponse?> {
+                override fun onResponse(
+                    call: Call<VenueListResponse?>, response: Response<VenueListResponse?>
+                ) {
+                    progressDialog.dismiss()
+                    Log.d(
+                        "GetVenueList:",
+                        response.code().toString() + " - " + response.toString()
+                    )
+                    if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                        VenueList.postValue(response.body())
+                    } else {
+                        VenueList.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<VenueListResponse?>, t: Throwable) {
+                    progressDialog.dismiss()
+                    VenueList.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isVenueListLiveData: LiveData<VenueListResponse?>
+        get() = VenueList
+
+
+    // Status 1 (available) and Status 0 (not available) both post the body; HTTP/network failure posts null
+    fun CheckVenueAvailability(jsonObject: JsonObject?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
+        RestClient.apiInterfaces.CheckVenueAvailability(jsonObject)
+            ?.enqueue(object : Callback<VenueAvailabilityResponse?> {
+                override fun onResponse(
+                    call: Call<VenueAvailabilityResponse?>,
+                    response: Response<VenueAvailabilityResponse?>
+                ) {
+                    progressDialog.dismiss()
+                    Log.d(
+                        "CheckVenueAvailability:",
+                        response.code().toString() + " - " + response.toString()
+                    )
+                    if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                        VenueAvailability.postValue(response.body())
+                    } else {
+                        VenueAvailability.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<VenueAvailabilityResponse?>, t: Throwable) {
+                    progressDialog.dismiss()
+                    VenueAvailability.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isVenueAvailabilityLiveData: LiveData<VenueAvailabilityResponse?>
+        get() = VenueAvailability
+
+
+    // Status 1 (list) and Status 0 ("No venue requests found.") both post the body; failure posts null
+    fun GetVenueRequests(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
+        RestClient.apiInterfaces.VenueRequests(jsonObject)
+            ?.enqueue(object : Callback<VenueRequestResponse?> {
+                override fun onResponse(
+                    call: Call<VenueRequestResponse?>,
+                    response: Response<VenueRequestResponse?>
+                ) {
+                    progressDialog?.dismiss()
+                    Log.d("GetVenueRequests:", response.code().toString() + " - " + response.toString())
+                    if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                        VenueRequests.postValue(response.body())
+                    } else {
+                        VenueRequests.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<VenueRequestResponse?>, t: Throwable) {
+                    progressDialog?.dismiss()
+                    VenueRequests.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isVenueRequestsLiveData: LiveData<VenueRequestResponse?>
+        get() = VenueRequests
+
+
+    // Status 1 ("Booking cancelled.") and Status 0 ("Booking not found.") both post the body; failure posts null
+    fun CancelVenueRequest(jsonObject: JsonObject?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
+        RestClient.apiInterfaces.CancelVenueRequest(jsonObject)
+            ?.enqueue(object : Callback<CancelVenueRequestResponse?> {
+                override fun onResponse(
+                    call: Call<CancelVenueRequestResponse?>,
+                    response: Response<CancelVenueRequestResponse?>
+                ) {
+                    progressDialog.dismiss()
+                    Log.d("CancelVenueRequest:", response.code().toString() + " - " + response.toString())
+                    if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                        CancelVenueRequest.postValue(response.body())
+                    } else {
+                        CancelVenueRequest.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<CancelVenueRequestResponse?>, t: Throwable) {
+                    progressDialog.dismiss()
+                    CancelVenueRequest.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isCancelVenueRequestLiveData: LiveData<CancelVenueRequestResponse?>
+        get() = CancelVenueRequest
+
+
+    // Status 1 ("Request updated.") and Status 0 both post the body; HTTP/network failure posts null
+    fun UpdateVenueRequest(jsonObject: JsonObject?, activity: Activity) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
+        RestClient.apiInterfaces.UpdateVenueRequest(jsonObject)
+            ?.enqueue(object : Callback<UpdateVenueRequestResponse?> {
+                override fun onResponse(
+                    call: Call<UpdateVenueRequestResponse?>,
+                    response: Response<UpdateVenueRequestResponse?>
+                ) {
+                    progressDialog.dismiss()
+                    Log.d("UpdateVenueRequest:", response.code().toString() + " - " + response.toString())
+                    if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                        UpdateVenueRequest.postValue(response.body())
+                    } else {
+                        UpdateVenueRequest.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<UpdateVenueRequestResponse?>, t: Throwable) {
+                    progressDialog.dismiss()
+                    UpdateVenueRequest.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isUpdateVenueRequestLiveData: LiveData<UpdateVenueRequestResponse?>
+        get() = UpdateVenueRequest
+
+
+    // ---- Approve Venue (GetVenueApprovalList / ApproveVenueRequest / RejectVenueRequest) ----
+    // Each posts the body for Status 1 and Status 0; HTTP/network failure posts null.
+
+    fun GetVenueApprovalList(jsonObject: JsonObject?, activity: Activity, showLoader: Boolean = true) {
+        val progressDialog = if (showLoader) CustomLoading.createProgressDialog(activity) else null
+        progressDialog?.show()
+        RestClient.apiInterfaces.GetVenueApprovalList(jsonObject)
+            ?.enqueue(object : Callback<VenueRequestResponse?> {
+                override fun onResponse(
+                    call: Call<VenueRequestResponse?>, response: Response<VenueRequestResponse?>
+                ) {
+                    progressDialog?.dismiss()
+                    Log.d("GetVenueApprovalList:", response.code().toString() + " - " + response.toString())
+                    if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                        VenueApprovalList.postValue(response.body())
+                    } else {
+                        VenueApprovalList.postValue(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<VenueRequestResponse?>, t: Throwable) {
+                    progressDialog?.dismiss()
+                    VenueApprovalList.postValue(null)
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    val isVenueApprovalListLiveData: LiveData<VenueRequestResponse?>
+        get() = VenueApprovalList
+
+    fun ApproveVenueRequest(jsonObject: JsonObject?, activity: Activity) {
+        venueDecision(RestClient.apiInterfaces.ApproveVenueRequest(jsonObject), ApproveVenueRequest, activity, "ApproveVenueRequest:")
+    }
+
+    val isApproveVenueRequestLiveData: LiveData<VenueDecisionResponse?>
+        get() = ApproveVenueRequest
+
+    fun RejectVenueRequest(jsonObject: JsonObject?, activity: Activity) {
+        venueDecision(RestClient.apiInterfaces.RejectVenueRequest(jsonObject), RejectVenueRequest, activity, "RejectVenueRequest:")
+    }
+
+    val isRejectVenueRequestLiveData: LiveData<VenueDecisionResponse?>
+        get() = RejectVenueRequest
+
+    /** Shared approve/reject call: loader, then body (Status 1/0) or null on failure. */
+    private fun venueDecision(
+        call: Call<VenueDecisionResponse?>?,
+        target: MutableLiveData<VenueDecisionResponse?>,
+        activity: Activity,
+        tag: String
+    ) {
+        val progressDialog = CustomLoading.createProgressDialog(activity)
+        progressDialog.show()
+        call?.enqueue(object : Callback<VenueDecisionResponse?> {
+            override fun onResponse(
+                call: Call<VenueDecisionResponse?>, response: Response<VenueDecisionResponse?>
+            ) {
+                progressDialog.dismiss()
+                Log.d(tag, response.code().toString() + " - " + response.toString())
+                if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                    target.postValue(response.body())
+                } else {
+                    target.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<VenueDecisionResponse?>, t: Throwable) {
+                progressDialog.dismiss()
+                target.postValue(null)
+                t.printStackTrace()
+            }
+        }) ?: run {
+            progressDialog.dismiss()
+            target.postValue(null)
+        }
+    }
 
 
 

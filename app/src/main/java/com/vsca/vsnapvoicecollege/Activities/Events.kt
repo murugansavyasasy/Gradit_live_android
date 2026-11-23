@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -122,6 +123,7 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
         }
 
         binding.CommonLayout.lblMenuTitle!!.setText(R.string.txt_events)
+        setupMyRequestsHeader()
         binding.CommonLayout.lblDepartment!!.setText(R.string.txt_upcoming)
         binding.CommonLayout.lblCollege!!.setText(R.string.txt_past)
         CommonUtil.EventEdit = "Edit"
@@ -219,15 +221,24 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
                 if (status == 1) {
                     if (response.data.isNullOrEmpty()) {
                         OverAllMenuCountData = emptyList()
+                        setMyRequestCount(null)
                     } else {
                         OverAllMenuCountData = response.data!!
                         CountUpcoming = OverAllMenuCountData[0].upcomingevents
                         Countpast = OverAllMenuCountData[0].pastevents
                         CountValueSet()
+                        // Request button badge = own requests + requests to approve
+                        setMyRequestCount(
+                            OverAllMenuCountData[0].venuerequests,
+                            OverAllMenuCountData[0].approvevenuerequests
+                        )
                     }
                 } else {
                     OverAllMenuCountData = emptyList()
+                    setMyRequestCount(null)
                 }
+            } else {
+                setMyRequestCount(null)
             }
         }
 
@@ -592,6 +603,49 @@ class Events : BaseActivity<ActivityNoticeboardBinding>() {
         initialLoader?.dismiss()
         initialLoader = null
         super.onDestroy()
+    }
+
+    // ---- My Requests (Events only; the header layout is shared with other screens) ----
+
+    /**
+     * approval_required true: title moves to the left and the "My Requests" button shows at the end.
+     * false: title stays centered (layout default) and the button stays gone.
+     * Only this screen changes constraints, so other screens using layout_noticeboard_list are unaffected.
+     */
+    private fun setupMyRequestsHeader() {
+        CommonUtil.menu_approvalEvent = CommonUtil.isMenuApprovalRequired(8)
+        val header = binding.CommonLayout
+        if (!CommonUtil.menu_approvalEvent) {
+            header.layoutMyRequests.visibility = View.GONE
+            return
+        }
+        val params = header.lblMenuTitle.layoutParams as ConstraintLayout.LayoutParams
+        params.endToEnd = ConstraintLayout.LayoutParams.UNSET
+        params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+        params.marginStart = resources.getDimensionPixelSize(R.dimen.twelve)
+        header.lblMenuTitle.layoutParams = params
+
+        header.layoutMyRequests.visibility = View.VISIBLE
+        header.btnMyRequests.setOnClickListener { myRequestsClick() }
+    }
+
+    /**
+     * Request button badge from GetOverallcountByMenuType: venuerequests + approvevenuerequests
+     * (missing / non-numeric values count as 0). Shown only for a total above 0.
+     */
+    private fun setMyRequestCount(myCount: String?, approveCount: String? = null) {
+        val badge = binding.CommonLayout.lblMyRequestCount
+        val value = (myCount?.trim()?.toIntOrNull() ?: 0) + (approveCount?.trim()?.toIntOrNull() ?: 0)
+        if (CommonUtil.menu_approvalEvent && value > 0) {
+            badge.text = if (value > 99) "99+" else value.toString()
+            badge.visibility = View.VISIBLE
+        } else {
+            badge.visibility = View.GONE
+        }
+    }
+
+    private fun myRequestsClick() {
+        startActivity(Intent(this, VenueRequestList::class.java))
     }
 
     fun plusClick() {

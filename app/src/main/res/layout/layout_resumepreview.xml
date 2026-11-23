@@ -91,7 +91,7 @@
         android:layout_height="0dp"
         android:layout_margin="16dp"
         app:layout_constraintTop_toBottomOf="@id/rlaEditProfileHeader"
-        app:layout_constraintBottom_toTopOf="@id/commonBottomResumeBuilder"
+        app:layout_constraintBottom_toTopOf="@id/btnEditResume"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -119,6 +119,19 @@
                 android:padding="8dp" />
 
         </ScrollView>
+
+        <!-- Shown when the resume PDF could not be downloaded / opened; tap to try again -->
+        <TextView
+            android:id="@+id/lblPdfLoadError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="@string/txt_resume_preview_failed"
+            android:textColor="#B4530A"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/lnrZoomOptions"
@@ -148,6 +161,24 @@
 
     </FrameLayout>
 
+    <!-- "Edit Resume": only for a just-generated resume (ScreenName BuildMyResume) -->
+    <TextView
+        android:id="@+id/btnEditResume"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_cr_btn_outline"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text="@string/txt_edit_resume"
+        android:textColor="@color/dark_blue"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/commonBottomResumeBuilder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         android:id="@+id/commonBottomResumeBuilder"

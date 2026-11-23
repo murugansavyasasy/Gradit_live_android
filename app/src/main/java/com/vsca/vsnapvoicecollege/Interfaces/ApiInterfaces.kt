@@ -9,6 +9,7 @@ import com.vsca.vsnapvoicecollege.Model.AssignmentMark
 import com.vsca.vsnapvoicecollege.Model.Assignment_Forward
 import com.vsca.vsnapvoicecollege.Model.Assignment_Submit
 import com.vsca.vsnapvoicecollege.Model.Assignment_Submittion
+import com.vsca.vsnapvoicecollege.Model.DeleteSubmittedAssignmentResponse
 import com.vsca.vsnapvoicecollege.Model.Assignmentsent
 import com.vsca.vsnapvoicecollege.Model.AttendanceMark
 import com.vsca.vsnapvoicecollege.Model.AttendanceResponse
@@ -84,6 +85,7 @@ import com.vsca.vsnapvoicecollege.Model.PunchHistoryRes
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderDeleteResume
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
+import com.vsca.vsnapvoicecollege.Model.GenerateResumeContentResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
@@ -99,6 +101,12 @@ import com.vsca.vsnapvoicecollege.Model.TimetableModel
 import com.vsca.vsnapvoicecollege.Model.TimetableResponse
 import com.vsca.vsnapvoicecollege.Model.Unblack_student
 import com.vsca.vsnapvoicecollege.Model.ValidateMobileNumber
+import com.vsca.vsnapvoicecollege.Model.VenueListResponse
+import com.vsca.vsnapvoicecollege.Model.VenueAvailabilityResponse
+import com.vsca.vsnapvoicecollege.Model.VenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.CancelVenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.UpdateVenueRequestResponse
+import com.vsca.vsnapvoicecollege.Model.VenueDecisionResponse
 import com.vsca.vsnapvoicecollege.Model.Verified_OTP
 import com.vsca.vsnapvoicecollege.Model.VersionCheckResposne
 import com.vsca.vsnapvoicecollege.Model.VideoEntireSend
@@ -506,6 +514,9 @@ interface ApiInterfaces {
     @POST(ApiMethods.GetSubmittedAssignmentForStudents)
     fun GetSubmittedAssignmentForStudents(@Body jsonObject: JsonObject?): Call<Assignment_Submittion?>?
 
+    @POST(ApiMethods.DeleteSubmittedAssignment)
+    fun DeleteSubmittedAssignment(@Body jsonObject: JsonObject): Call<DeleteSubmittedAssignmentResponse>
+
     @POST(ApiMethods.Attendance_Edit)
     fun AttendanceEditList(@Body jsonObject: JsonObject?): Call<Attendance_Edit?>?
 
@@ -649,6 +660,17 @@ interface ApiInterfaces {
         @Body isJsonObject: JsonObject
     ): Call<ResumeBuilderGenerateResumeResponse>
 
+    @POST(ApiMethods.GenerateResumeContent)
+    fun generateResumeContent(
+        @Body isJsonObject: JsonObject
+    ): Call<GenerateResumeContentResponse>
+
+    // Same response shape as post-resume: data[0].file_url
+    @POST(ApiMethods.PostEditedResume)
+    fun postEditedResume(
+        @Body isJsonObject: JsonObject
+    ): Call<ResumeBuilderGenerateResumeResponse>
+
     @POST(ApiMethods.SendResumeBuilderSaveTitle)
     fun SendSaveTitle(
         @Body isJsonObject: JsonObject
@@ -713,5 +735,29 @@ interface ApiInterfaces {
 
     @POST(ApiMethods.VerifyDeviceLimitOTP)
     fun VerifyDeviceLimitOTP(@Body jsonObject: JsonObject?): Call<DeviceListResponse?>?
+
+    @POST(ApiMethods.GetVenueList)
+    fun GetVenueList(@Body jsonObject: JsonObject?): Call<VenueListResponse?>?
+
+    @POST(ApiMethods.CheckVenueAvailability)
+    fun CheckVenueAvailability(@Body jsonObject: JsonObject?): Call<VenueAvailabilityResponse?>?
+
+    @POST(ApiMethods.VenueRequests)
+    fun VenueRequests(@Body jsonObject: JsonObject?): Call<VenueRequestResponse?>?
+
+    @POST(ApiMethods.CancelVenueRequest)
+    fun CancelVenueRequest(@Body jsonObject: JsonObject?): Call<CancelVenueRequestResponse?>?
+
+    @POST(ApiMethods.UpdateVenueRequest)
+    fun UpdateVenueRequest(@Body jsonObject: JsonObject?): Call<UpdateVenueRequestResponse?>?
+
+    @POST(ApiMethods.GetVenueApprovalList)
+    fun GetVenueApprovalList(@Body jsonObject: JsonObject?): Call<VenueRequestResponse?>?
+
+    @POST(ApiMethods.ApproveVenueRequest)
+    fun ApproveVenueRequest(@Body jsonObject: JsonObject?): Call<VenueDecisionResponse?>?
+
+    @POST(ApiMethods.RejectVenueRequest)
+    fun RejectVenueRequest(@Body jsonObject: JsonObject?): Call<VenueDecisionResponse?>?
 
     }

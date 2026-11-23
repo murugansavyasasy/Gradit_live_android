@@ -1,10 +1,21 @@
 package com.vsca.vsnapvoicecollege.Activities.ResumeBuilder.BuildMyResume
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.URLUtil
 import android.widget.CheckBox
+import androidx.core.widget.TextViewCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -78,6 +89,9 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
             fixActionBarOverlap(binding.lblBuildMyResumeHeader)
         }
         binding.lblBuildMyResumeHeader.applyPriorityColor(this, CommonUtil.Priority)
+
+        // Personal information: profile photo from CommonUtil.saveBasicDetails.memberImagePath
+        setupProfilePhoto()
 
 
 
@@ -270,6 +284,138 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
 
     }
 
+    // ---- Personal information: profile photo ----
+
+    /** Photo URL that can go into the resume; null when there is no usable photo. */
+    private var profilePhotoUrl: String? = null
+
+    /**
+     * Shows the student's photo (memberImagePath) in the circle.
+     * - Empty / null: dashed circle, "No photo uploaded", checkbox disabled.
+     * - Not a web URL, or the image fails to load: placeholder, "Photo could not be loaded",
+     *   checkbox disabled (a broken link must not be sent to the resume).
+     * - Loads fine: photo (any size, cropped to the circle), checkbox ticked by default.
+     */
+    private fun setupProfilePhoto() {
+        val url = CommonUtil.saveBasicDetails?.memberImagePath?.trim()
+        Log.d(PHOTO_TAG, "Profile photo url: $url")
+
+        if (url.isNullOrEmpty() || url.equals("null", ignoreCase = true)) {
+            showNoProfilePhoto()
+            return
+        }
+        if (!URLUtil.isNetworkUrl(url)) {
+            Log.d(PHOTO_TAG, "Not a valid web URL, showing placeholder")
+            showProfilePhotoFailed()
+            return
+        }
+
+        profilePhotoUrl = url
+        binding.imgResumeProfile.setBackgroundResource(R.drawable.bg_resume_photo_filled)
+        binding.imgResumeProfile.setPadding(0, 0, 0, 0)
+        binding.imgResumeProfile.imageTintList = null
+        binding.lblProfilePhotoHint.visibility = View.GONE
+
+        binding.cbProfilePhoto.setOnCheckedChangeListener(null)
+        binding.cbProfilePhoto.isEnabled = true
+        binding.cbProfilePhoto.alpha = 1f
+        binding.cbProfilePhoto.isChecked = true   // included by default, like the other sections
+        updateProfilePhotoStatus(true)
+        binding.cbProfilePhoto.setOnCheckedChangeListener { _, isChecked ->
+            updateProfilePhotoStatus(isChecked)
+        }
+
+        // Glide sizes the image to the 48dp view, so big or small photos both fit the circle
+        Glide.with(this)
+            .load(url)
+            .placeholder(R.drawable.default_profile)
+            .error(R.drawable.default_profile)
+            .circleCrop()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?, model: Any?,
+                    target: Target<Drawable>, isFirstResource: Boolean
+                ): Boolean {
+                    Log.d(PHOTO_TAG, "Photo failed to load: ${e?.message}")
+                    // Placeholder is shown by error(); just disable including it
+                    binding.root.post { showProfilePhotoFailed(loadPlaceholder = false) }
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable, model: Any, target: Target<Drawable>?,
+                    dataSource: DataSource, isFirstResource: Boolean
+                ): Boolean {
+                    Log.d(PHOTO_TAG, "Photo loaded")
+                    return false
+                }
+            })
+            .into(binding.imgResumeProfile)
+    }
+
+    /** "Photo selected" (green) when ticked, "Photo will not be included" (grey) when not. */
+    private fun updateProfilePhotoStatus(isChecked: Boolean) {
+        if (isChecked) {
+            setPhotoStatus(R.string.txt_photo_selected, R.drawable.ic_req_check, "#16A34A")
+        } else {
+            setPhotoStatus(R.string.txt_photo_not_included, null, "#64748B")
+        }
+    }
+
+    /** Second design: no photo at all. */
+    private fun showNoProfilePhoto() {
+        profilePhotoUrl = null
+        binding.imgResumeProfile.setBackgroundResource(R.drawable.bg_resume_photo_empty)
+        val pad = (12 * resources.displayMetrics.density).toInt()
+        binding.imgResumeProfile.setPadding(pad, pad, pad, pad)
+        binding.imgResumeProfile.setImageResource(R.drawable.ic_req_person)
+        binding.imgResumeProfile.imageTintList =
+            ColorStateList.valueOf(Color.parseColor("#94A3B8"))
+        disableProfilePhotoCheckbox()
+        setPhotoStatus(R.string.txt_no_photo_uploaded, R.drawable.ic_req_info, "#C2410C")
+        binding.lblProfilePhotoHint.visibility = View.VISIBLE
+    }
+
+    /** URL present but unusable: placeholder image, checkbox disabled. */
+    private fun showProfilePhotoFailed(loadPlaceholder: Boolean = true) {
+        if (isFinishing || isDestroyed) return
+        profilePhotoUrl = null
+        if (loadPlaceholder) {
+            binding.imgResumeProfile.setBackgroundResource(R.drawable.bg_resume_photo_filled)
+            binding.imgResumeProfile.setPadding(0, 0, 0, 0)
+            binding.imgResumeProfile.imageTintList = null
+            Glide.with(this).load(R.drawable.default_profile).circleCrop()
+                .into(binding.imgResumeProfile)
+        }
+        disableProfilePhotoCheckbox()
+        setPhotoStatus(R.string.txt_photo_load_failed, R.drawable.ic_req_info, "#C2410C")
+        binding.lblProfilePhotoHint.visibility = View.GONE
+    }
+
+    private fun disableProfilePhotoCheckbox() {
+        binding.cbProfilePhoto.setOnCheckedChangeListener(null)
+        binding.cbProfilePhoto.isChecked = false
+        binding.cbProfilePhoto.isEnabled = false
+        binding.cbProfilePhoto.alpha = 0.4f
+    }
+
+    private fun setPhotoStatus(textRes: Int, iconRes: Int?, color: String) {
+        val tint = Color.parseColor(color)
+        binding.lblProfilePhotoStatus.setText(textRes)
+        binding.lblProfilePhotoStatus.setTextColor(tint)
+        binding.lblProfilePhotoStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            iconRes ?: 0, 0, 0, 0
+        )
+        TextViewCompat.setCompoundDrawableTintList(
+            binding.lblProfilePhotoStatus, ColorStateList.valueOf(tint)
+        )
+    }
+
+    /** Photo URL to send with the resume: only when available and ticked, otherwise "". */
+    private fun selectedProfilePhoto(): String =
+        if (binding.cbProfilePhoto.isChecked) profilePhotoUrl.orEmpty() else ""
+
     private fun setupSectionVisibility() {
         // Languages
         if (CommonUtil.isSkillSetDataSending!!.languages.isNullOrEmpty()) {
@@ -401,6 +547,8 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
                 CommonUtil.saveBasicDetails?.memberPermanentAddressPincode,
                 CommonUtil.saveBasicDetails?.memberPermanentAddressCountry
             ).joinToString(", "),
+            // Profile photo URL if the student ticked it (and a usable photo exists), else ""
+            profile = selectedProfilePhoto(),
 
             skills = programmingLanguageList,
             education = selectedAcademicList,
@@ -418,4 +566,8 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
 
     override val layoutResourceId: Int
         get() = R.layout.activity_buildmyresume
+
+    companion object {
+        private const val PHOTO_TAG = "ResumeProfilePhoto"
+    }
 }

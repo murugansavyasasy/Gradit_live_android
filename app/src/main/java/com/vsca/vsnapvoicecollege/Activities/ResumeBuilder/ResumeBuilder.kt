@@ -386,6 +386,36 @@ class ResumeBuilder : BaseActivity<LayoutResumebuilderBinding>() {
                     )
                 )
             }
+
+            if (it.memberPlacementStatus == "on hold") {
+                drawable.setColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.very_light_purple
+                    )
+                )
+            }
+
+            if (it.memberPlacementStatus == "eligible") {
+                drawable.setColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.teck_color
+                    )
+                )
+            }
+            if (it.memberPlacementStatus == "rejected") {
+                drawable.setColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.very_light_red
+                    )
+                )
+            }
+
+
+
+
             if (it.memberPlacementStatus == CommonUtil.isAttendedInterview) {
                 drawable.setColor(
                     ContextCompat.getColor(

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Customize Your Resume: light accent box (icons, AI banner) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#F0EFFD" />
+    <corners android:radius="12dp" />
+
+</shape>

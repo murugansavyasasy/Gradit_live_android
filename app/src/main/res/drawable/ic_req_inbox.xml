@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Request List: empty state (tray with down arrow) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M12,3v9M8.5,8.5l3.5,3.5l3.5,-3.5"
+        android:strokeWidth="1.8"
+        android:strokeColor="#0E7490"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M3,14h5l1.5,2.5h5l1.5,-2.5h5v4a2,2 0,0 1,-2 2H5a2,2 0,0 1,-2 -2z"
+        android:strokeWidth="1.8"
+        android:strokeColor="#0E7490"
+        android:strokeLineJoin="round" />
+</vector>

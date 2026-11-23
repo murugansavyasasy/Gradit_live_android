@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Customize Your Resume: square checkbox (accent border, check mark when selected) -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <size android:width="18dp" android:height="18dp" />
+                    <corners android:radius="4dp" />
+                    <stroke android:width="1.6dp" android:color="#4F46E5" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/ic_cr_check_accent" android:gravity="center"
+                android:width="12dp" android:height="12dp" />
+        </layer-list>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <size android:width="18dp" android:height="18dp" />
+            <corners android:radius="4dp" />
+            <stroke android:width="1.6dp" android:color="#4F46E5" />
+        </shape>
+    </item>
+</selector>

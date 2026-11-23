@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Customize Your Resume (Preview > Edit Resume). Sections are added into layoutSections
+     by CustomizeResumeActivity; header follows the other Resume Builder screens. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/OverallLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/lblCustomizeHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/twenty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBarBackground">
+
+        <ImageView
+            android:id="@+id/imgback"
+            android:layout_width="@dimen/thirty"
+            android:layout_height="@dimen/thirty"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/white"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/txt_customize_resume"
+            android:textColor="@color/white"
+            android:textSize="@dimen/eighteen_sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollCustomize"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@+id/layoutCustomizeFooter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblCustomizeHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="19dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="@string/txt_cr_intro"
+                android:textColor="@color/dark_blue"
+                android:textSize="15sp" />
+
+            <!-- AI notice -->
+            <LinearLayout
+                android:id="@+id/layoutAiBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_cr_tint"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="12dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/ic_cr_spark"
+                    app:tint="@color/dark_blue"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/txt_cr_ai_ready"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="@string/txt_cr_ai_warning"
+                        android:textColor="#5E5E66"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/ic_cr_check"
+                    app:tint="@color/dark_blue"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+
+            <!-- Load error (generate-content failed) -->
+            <LinearLayout
+                android:id="@+id/layoutLoadError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lblLoadError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:text="@string/txt_cr_load_failed"
+                    android:textColor="#B4530A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/btnRetry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_cr_btn_outline"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/txt_cr_retry"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- The 8 sections are added here in code -->
+            <LinearLayout
+                android:id="@+id/layoutSections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <!-- What the bottom buttons do -->
+            <LinearLayout
+                android:id="@+id/layoutBeforeFinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_cr_muted"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/lblBeforeFinish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_cr_info"
+                    android:drawablePadding="6dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_cr_before_finish"
+                    android:textColor="#1C1C1E"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/bg_cr_tint"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_cr_spark"
+                        app:tint="@color/dark_blue"
+                        tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="@string/txt_cr_regenerate"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="@string/txt_cr_regenerate_info"
+                            android:textColor="#5E5E66"
+                            android:textSize="12.5sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/bg_cr_btn_primary"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_cr_template"
+                        app:tint="@color/white"
+                        tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="@string/txt_cr_apply"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="@string/txt_cr_apply_info"
+                            android:textColor="#5E5E66"
+                            android:textSize="12.5sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Fixed bottom actions -->
+    <LinearLayout
+        android:id="@+id/layoutCustomizeFooter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="-16dp"
+            android:layout_marginEnd="-16dp"
+            android:layout_marginBottom="12dp"
+            android:background="#ECECF0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnCrCancel"
+                android:layout_width="108dp"
+                android:layout_height="46dp"
+                android:background="@drawable/bg_cr_btn_cancel"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text="@string/txt_cancel"
+                android:textColor="#1C1C1E"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/btnCrRegenerate"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_cr_btn_outline"
+                android:drawableStart="@drawable/ic_cr_spark"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/txt_cr_regenerate"
+                android:textColor="@color/dark_blue"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnCrApply"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_cr_btn_primary"
+            android:drawableStart="@drawable/ic_cr_template"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
+            android:text="@string/txt_cr_apply"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

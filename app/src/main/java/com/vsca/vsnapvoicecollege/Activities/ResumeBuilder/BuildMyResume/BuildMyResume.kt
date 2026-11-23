@@ -219,6 +219,8 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
                 addProperty("email", fullData?.email ?: "")
                 addProperty("phone", fullData?.phone ?: "")
                 addProperty("address", fullData?.address ?: "")
+                // Profile photo URL ("" when not selected or no usable photo)
+                addProperty("profile", fullData?.profile ?: "")
 
                 // Skills
                 add("skills", JsonArray().apply {
@@ -278,6 +280,16 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
             parentJson.addProperty("idMember", isMemeberID)
 
             Log.d("GeneratedJSON++++", parentJson.toString())
+
+            // Keep this resume's data for "Edit Resume" (Customize Your Resume). A fresh
+            // generate from here always restarts editing from this data.
+            ResumeEditSession.start(
+                context = contextJson,
+                templateNumber = selectedTemplateNumber ?: -1,
+                themeColor = selectedColourItem.orEmpty(),
+                idMember = isMemeberID ?: -1
+            )
+
             appViewModel?.SendGenerateResume(parentJson, this@BuildMyResume)
 
         } else {

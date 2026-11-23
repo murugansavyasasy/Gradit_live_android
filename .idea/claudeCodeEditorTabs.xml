@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="32239e58-992d-44fb-b65d-cf004d47f956" />
+    <option name="activeSessionId" value="40c5f11e-72f6-4881-9d63-da5e8f4174bc" />
     <option name="openSessionIds">
       <list>
         <option value="32239e58-992d-44fb-b65d-cf004d47f956" />
+        <option value="8b9f2c16-3e5e-4495-865f-22a7e9d2ac0f" />
+        <option value="40c5f11e-72f6-4881-9d63-da5e8f4174bc" />
       </list>
     </option>
     <option name="sessionPaths">
       <map>
         <entry key="32239e58-992d-44fb-b65d-cf004d47f956" value="/sessions/221939f5-0269-45f8-a556-e5ce305cf550" />
+        <entry key="40c5f11e-72f6-4881-9d63-da5e8f4174bc" value="/sessions/221939f5-0269-45f8-a556-e5ce305cf550" />
+        <entry key="8b9f2c16-3e5e-4495-865f-22a7e9d2ac0f" value="/sessions/new" />
       </map>
     </option>
     <option name="sessionTitles">
       <map>
         <entry key="32239e58-992d-44fb-b65d-cf004d47f956" value="Project structure memory file" />
+        <entry key="40c5f11e-72f6-4881-9d63-da5e8f4174bc" value="Project structure memory file" />
+        <entry key="8b9f2c16-3e5e-4495-865f-22a7e9d2ac0f" value="Claude Code" />
       </map>
     </option>
   </component>

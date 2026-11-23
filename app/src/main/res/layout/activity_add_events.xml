@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         >
 
+        <!-- Advertisement banner (unchanged) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutAdvertisement"
             android:layout_width="match_parent"
@@ -56,6 +57,7 @@
                 app:strokeColor="@color/white" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Sub nav (unchanged) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LayoutHeaderImagePdf"
             android:layout_width="match_parent"
@@ -97,171 +99,297 @@
             </TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Form (new card design) -->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/Nestedchildlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="#F8FAFC"
             android:clipToPadding="false"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/layoutButton"
             app:layout_constraintTop_toBottomOf="@+id/LayoutHeaderImagePdf">
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/twenty"
-                android:paddingTop="@dimen/sixteen"
-                android:paddingEnd="@dimen/twenty"
-                android:paddingBottom="@dimen/twenty">
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="24dp">
 
-                <!-- Title -->
-                <TextView
-                    android:id="@+id/lblphone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lbl_title"
-                    android:textColor="@color/clr_header_black"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/txtTitle"
+                <!-- Title card -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/eight"
-                    android:background="@drawable/bg_black_white_box"
-                    android:hint="@string/txt_enter_the_title"
-                    android:inputType="textAutoComplete|textCapSentences"
-                    android:maxLength="80"
-                    android:minHeight="46dp"
-                    android:padding="@dimen/twelve"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/light_gray2"
-                    android:textSize="13sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/lblphone" />
+                    android:background="@drawable/bg_event_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <!-- Description -->
-                <TextView
-                    android:id="@+id/lblImgPdfDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sixteen"
-                    android:text="@string/lbl_description"
-                    android:textColor="@color/clr_header_black"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+                    <TextView
+                        android:id="@+id/lblphone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:letterSpacing="0.08"
+                        android:text="@string/lbl_event_title_required"
+                        android:textColor="#334155"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/txtDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="@dimen/eight"
-                    android:background="@drawable/bg_black_white_box"
-                    android:gravity="top|start"
-                    android:hint="@string/lbl_description"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:maxLength="500"
-                    android:overScrollMode="always"
-                    android:padding="@dimen/twelve"
-                    android:scrollbars="vertical"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/light_gray2"
-                    android:textSize="13sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/lblImgPdfDescription" />
+                    <EditText
+                        android:id="@+id/txtTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_event_input"
+                        android:hint="@string/hint_event_title"
+                        android:inputType="textAutoComplete|textCapSentences"
+                        android:maxLength="80"
+                        android:minHeight="46dp"
+                        android:paddingStart="14dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="14dp"
+                        android:paddingBottom="10dp"
+                        android:text=""
+                        android:textColor="#0F172A"
+                        android:textColorHint="#94A3B8"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/lblWordCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/four"
-                    android:text="0/500"
-                    android:textColor="@color/light_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
-
-                <!-- Venue -->
-                <TextView
-                    android:id="@+id/lbl_venue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sixteen"
-                    android:text="Venue"
-                    android:textColor="@color/clr_header_black"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lblWordCount" />
-
-                <EditText
-                    android:id="@+id/edt_venue"
+                <!-- Description card -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/eight"
-                    android:background="@drawable/bg_black_white_box"
-                    android:hint="Enter Venue"
-                    android:inputType="textCapSentences"
-                    android:minHeight="46dp"
-                    android:padding="@dimen/twelve"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/light_gray2"
-                    android:textSize="13sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lbl_venue" />
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_event_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <!-- Date & Time (two columns) -->
-                <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lblImgPdfDescription"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:letterSpacing="0.08"
+                            android:text="@string/lbl_event_description_required"
+                                android:textColor="#334155"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lblWordCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_event_badge"
+                            android:paddingStart="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="2dp"
+                            android:text="0/500"
+                            android:textColor="#475569"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/txtDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:background="@drawable/bg_event_input"
+                        android:gravity="top|start"
+                        android:hint="@string/hint_event_description"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:maxLength="500"
+                        android:overScrollMode="always"
+                        android:padding="12dp"
+                        android:scrollbars="vertical"
+                        android:text=""
+                        android:textColor="#0F172A"
+                        android:textColorHint="#94A3B8"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Venue card: dropdown filled from GetVenueList (displayname) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_event_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Header: label + "Select Venue" pill -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lbl_venue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:letterSpacing="0.08"
+                            android:text="@string/lbl_event_venue_required"
+                            android:textColor="#334155"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lblSelectVenuePill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_event_pill_purple"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:paddingStart="10dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="3dp"
+                            android:text="@string/txt_select_venue_pill"
+                            android:textColor="#9333EA"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Empty / error state (no venues, API failed) with Refresh -->
+                    <LinearLayout
+                        android:id="@+id/layoutVenueEmpty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_venue_empty"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_venue_off" />
+
+                        <TextView
+                            android:id="@+id/lblVenueEmptyMessage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/msg_no_venue_for_department"
+                            android:textColor="#475569"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/btnVenueRefresh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_venue_refresh_btn"
+                            android:clickable="true"
+                            android:drawableStart="@drawable/ic_venue_refresh"
+                            android:drawablePadding="6dp"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:paddingStart="12dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="8dp"
+                            android:text="@string/txt_refresh"
+                            android:textColor="#92400E"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Kept as id edt_venue so the EventEdit prefill/read logic is unchanged -->
+                    <TextView
+                        android:id="@+id/edt_venue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_event_input"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/ic_location_pin"
+                        android:drawableEnd="@drawable/ic_arrow_down"
+                        android:drawablePadding="8dp"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:hint="@string/hint_select_venue"
+                        android:lineSpacingExtra="2dp"
+                        android:minHeight="46dp"
+                        android:paddingStart="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="#0F172A"
+                        android:textColorHint="#94A3B8"
+                        android:textSize="14sp" />
+
+                    <!-- Quick venues: top CommonUtil.QuickVenueCount venues from GetVenueList -->
+                    <LinearLayout
+                        android:id="@+id/layoutQuickVenue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="6dp"
+                            android:text="@string/lbl_quick"
+                            android:textColor="#94A3B8"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/flexQuickVenue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:flexWrap="wrap" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Date & time card -->
+                <LinearLayout
                     android:id="@+id/LayoutDateTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sixteen"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_venue">
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_event_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guidelineDateTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
-
-                    <!-- Date column -->
                     <TextView
                         android:id="@+id/SelectDate"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_event_date"
-                        android:textColor="@color/clr_header_black"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineDateTime"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_marginBottom="6dp"
+                        android:letterSpacing="0.08"
+                        android:text="@string/lbl_event_date_required"
+                        android:textColor="#334155"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <RelativeLayout
                         android:id="@+id/rytEventDate"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/eight"
-                        android:layout_marginEnd="@dimen/eight"
-                        android:background="@drawable/bg_black_white_box"
-                        android:minHeight="46dp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineDateTime"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/SelectDate">
+                        android:background="@drawable/bg_event_input"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:minHeight="46dp">
 
                         <TextView
                             android:id="@+id/lblEventDate"
@@ -269,11 +397,14 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toStartOf="@+id/imgcalenddar"
-                            android:hint="Select Date"
-                            android:padding="@dimen/twelve"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/light_gray2"
-                            android:textSize="13sp"
+                            android:hint="@string/hint_select_date"
+                            android:paddingStart="14dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="10dp"
+                            android:textColor="#1E293B"
+                            android:textColorHint="#94A3B8"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -282,110 +413,232 @@
                             android:layout_height="20dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/twelve"
+                            android:layout_marginEnd="12dp"
                             android:src="@drawable/ic_calendar" />
                     </RelativeLayout>
 
-                    <!-- Time column -->
-                    <TextView
-                        android:id="@+id/selectype"
-                        android:layout_width="0dp"
+                    <!-- Live duration, right aligned (design) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/eight"
-                        android:text="@string/txt_event_time"
-                        android:textColor="@color/clr_header_black"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineDateTime"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <RelativeLayout
-                        android:id="@+id/rytEventTime"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/eight"
-                        android:layout_marginTop="@dimen/eight"
-                        android:background="@drawable/bg_black_white_box"
-                        android:minHeight="46dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineDateTime"
-                        app:layout_constraintTop_toBottomOf="@+id/selectype">
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="6dp"
+                        android:gravity="center_vertical|end"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/lblEventTime"
-                            android:layout_width="match_parent"
+                            android:id="@+id/selectype"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@+id/imgTime"
-                            android:hint="Select Time"
-                            android:padding="@dimen/twelve"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/light_gray2"
-                            android:textSize="13sp"
+                            android:text="@string/lbl_duration"
+                            android:textColor="#475569"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
-                        <ImageView
-                            android:id="@+id/imgTime"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/twelve"
-                            android:src="@drawable/ic_timer" />
-                    </RelativeLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/lblDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/txt_duration_empty"
+                            android:textColor="#7E22CE"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <!-- From / To (two columns) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- From (Start): keeps the original rytEventTime / lblEventTime ids -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:text="@string/lbl_from_start"
+                                android:textColor="#64748B"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <RelativeLayout
+                                android:id="@+id/rytEventTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_event_input"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:minHeight="46dp">
+
+                                <TextView
+                                    android:id="@+id/lblEventTime"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toStartOf="@+id/imgTime"
+                                    android:hint="@string/hint_select_time"
+                                    android:paddingStart="10dp"
+                                    android:paddingTop="10dp"
+                                    android:paddingEnd="4dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="#1E293B"
+                                    android:textColorHint="#94A3B8"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:id="@+id/imgTime"
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="10dp"
+                                    android:src="@drawable/ic_timer" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <!-- To (End) -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:text="@string/lbl_to_end"
+                                android:textColor="#64748B"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <RelativeLayout
+                                android:id="@+id/rytEventToTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_event_input"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:minHeight="46dp">
+
+                                <TextView
+                                    android:id="@+id/lblEventToTime"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toStartOf="@+id/imgToTime"
+                                    android:hint="@string/hint_select_time"
+                                    android:paddingStart="10dp"
+                                    android:paddingTop="10dp"
+                                    android:paddingEnd="4dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="#1E293B"
+                                    android:textColorHint="#94A3B8"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:id="@+id/imgToTime"
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="10dp"
+                                    android:src="@drawable/ic_timer" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Time presets (CommonUtil.EventTimePresets); past presets hidden for today -->
+                    <LinearLayout
+                        android:id="@+id/layoutTimePresets"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="6dp"
+                            android:text="@string/lbl_presets"
+                            android:textColor="#94A3B8"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/flexTimePresets"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:flexWrap="wrap" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- Footer: Cancel (2/5) + Select Recipients (3/5) -->
+        <LinearLayout
             android:id="@+id/layoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingStart="@dimen/twenty"
-            android:paddingTop="@dimen/twelve"
-            android:paddingEnd="@dimen/twenty"
-            android:paddingBottom="@dimen/twelve"
+            android:elevation="8dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="14dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/eight"
-                android:background="@drawable/bg_btn_grey"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="2"
+                android:background="@drawable/bg_event_btn_cancel"
                 android:gravity="center"
                 android:minHeight="48dp"
+                android:stateListAnimator="@null"
                 android:text="@string/txt_cancel"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/btnConfirm"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="#334155"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/eight"
-                android:background="@drawable/bg_btn_green"
+                android:layout_weight="3"
+                android:background="@drawable/bg_event_btn_submit"
+                android:drawableEnd="@drawable/baseline_chevron_right_24"
+                android:drawableTint="@color/white"
                 android:gravity="center"
                 android:minHeight="48dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="12dp"
                 android:text="@string/txt_select_recipients"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/thirteen"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnCancel"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

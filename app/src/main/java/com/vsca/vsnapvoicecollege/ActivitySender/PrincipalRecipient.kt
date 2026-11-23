@@ -2504,7 +2504,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         )
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId?.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
-        jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
+//        jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
         jsonObject.addProperty(ApiRequestNames.Req_eventtopic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, prossertype)
@@ -2520,6 +2520,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
             jsonObject.addProperty("subjectid", CommonUtil.isSubjectIds)
         }
 
+        CommonUtil.addEventScheduleFields(jsonObject)
         appViewModel!!.Eventsend(jsonObject, this)
         Log.d("SMSJsonObject", jsonObject.toString())
     }
@@ -2633,7 +2634,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         jsonObject.addProperty(ApiRequestNames.Req_collegeid, CommonUtil.CollegeId.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_staffid, CommonUtil.MemberId.toString() ?: "")
         jsonObject.addProperty(ApiRequestNames.Req_eventdate, CommonUtil.Date)
-        jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
+//        jsonObject.addProperty(ApiRequestNames.Req_eventtime, CommonUtil.Time)
         jsonObject.addProperty(ApiRequestNames.Req_eventbody, CommonUtil.MenuDescription)
         jsonObject.addProperty(ApiRequestNames.Req_eventtopic, CommonUtil.MenuTitle)
         jsonObject.addProperty(ApiRequestNames.Req_processtype, prossertype)
@@ -2645,6 +2646,7 @@ class PrincipalRecipient : ActionBarActivity(), VimeoUploader.UploadCompletionLi
         jsonObject.addProperty(ApiRequestNames.Req_receiveridlist, CommonUtil.receiverid)
         jsonObject.addProperty(ApiRequestNames.Req_receivertype, CommonUtil.receivertype)
 
+        CommonUtil.addEventScheduleFields(jsonObject)
         appViewModel!!.EventsendTuter(jsonObject, this)
         Log.d("SMSJsonObject", jsonObject.toString())
     }

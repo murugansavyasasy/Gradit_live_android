@@ -14,6 +14,9 @@ data class AssignmentSubmit(
     val year: String,
     val obtainedmark: String,
     val filearray: ArrayList<Filearray>,
+    // GetSubmittedAssignmentForStudents: true = the student may delete this submission.
+    // May be missing or null -> treated as false (delete icon hidden).
+    val isdelete: Boolean? = null,
 )
 
 data class Filearray(

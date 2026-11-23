@@ -51,7 +51,80 @@
                 android:textSize="@dimen/twelve"
                 android:textStyle="bold"
                 android:visibility="visible" />
+
+            <!-- Menu row only: "Sort" normally; Cancel + Done while sorting (in place of View all) -->
+            <LinearLayout
+                android:id="@+id/layoutMenuEditBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/btnMenuEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_view_all_pill"
+                    android:drawableStart="@drawable/ic_menu_sort"
+                    android:drawablePadding="@dimen/five"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/twelve"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="@dimen/twelve"
+                    android:paddingBottom="6dp"
+                    android:text="@string/txt_menu_edit"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnMenuCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_view_all_pill"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/fifteen"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="@dimen/fifteen"
+                    android:paddingBottom="6dp"
+                    android:text="@string/txt_cancel"
+                    android:textColor="#334155"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/btnMenuDone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eight"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/fifteen"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="@dimen/fifteen"
+                    android:paddingBottom="6dp"
+                    android:text="@string/txt_done"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/twelve"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
         </RelativeLayout>
+
+        <!-- Menu row only, while sorting -->
+        <TextView
+            android:id="@+id/lblMenuEditHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fifteen"
+            android:layout_marginTop="@dimen/five"
+            android:layout_marginEnd="@dimen/fifteen"
+            android:text="@string/txt_menu_edit_hint"
+            android:textColor="#64748B"
+            android:textSize="@dimen/twelve"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/lblNoRecords"
@@ -107,7 +180,7 @@
                     android:gravity="end"
                     android:text="Swipe for more menu  ›"
                     android:textColor="@color/clr_parent"
-                    android:textSize="@dimen/eleve_sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
 

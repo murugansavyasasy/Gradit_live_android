@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Events: "My Requests" icon (checked box) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp"
+    android:height="18dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M20,12v6a2,2 0,0 1,-2 2H6a2,2 0,0 1,-2 -2V6a2,2 0,0 1,2 -2h9"
+        android:strokeWidth="2"
+        android:strokeColor="#233876"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M8.5,11.5l3,3l9,-9"
+        android:strokeWidth="2"
+        android:strokeColor="#233876"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

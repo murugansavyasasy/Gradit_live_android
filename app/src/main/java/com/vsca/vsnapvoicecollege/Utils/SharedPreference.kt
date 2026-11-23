@@ -278,6 +278,8 @@ object SharedPreference {
         ed.clear()
         ed.apply()
         ed.commit()
+        // Logout: also remove every user's saved dashboard menu order (local_menu_order_list)
+        MenuOrderPreference.clearAll(activity)
         return
     }
 

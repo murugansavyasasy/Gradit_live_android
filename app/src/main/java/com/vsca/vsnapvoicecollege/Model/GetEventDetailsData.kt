@@ -53,5 +53,32 @@ class GetEventDetailsData : Serializable {
     @Expose
     var newfilepath: List<String>? = null
 
+    // Venue booking fields (GetEventListByType). Nullable: older events may not send them.
+    @SerializedName("isvenuebooking")
+    @Expose
+    var isvenuebooking: Boolean? = null
+
+    @SerializedName("bookingid")
+    @Expose
+    var bookingid: Int? = null
+
+    @SerializedName("venueid")
+    @Expose
+    var venueid: Int? = null
+
+    /** e.g. "10:00 AM" */
+    @SerializedName("starttime")
+    @Expose
+    var starttime: String? = null
+
+    /** e.g. "12:00 PM"; empty for events without an end time */
+    @SerializedName("endtime")
+    @Expose
+    var endtime: String? = null
+
+    /** e.g. "10:00 AM - 12:00 PM", or just the start time */
+    @SerializedName("displaytime")
+    @Expose
+    var displaytime: String? = null
 
 }

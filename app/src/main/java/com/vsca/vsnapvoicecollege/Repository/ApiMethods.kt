@@ -114,6 +114,7 @@ object ApiMethods {
     const val AssignmentSubmittion = "api/AppDetailsBal/GetAssignmentSubmissions"
     const val GetSubmittedAssignmentForStudents =
         "api/AppDetailsBal/GetSubmittedAssignmentForStudents"
+    const val DeleteSubmittedAssignment = "api/AppDetailsBal/DeleteSubmittedAssignment"
 
     const val Attendance_Check = "api/AppDetailsBal/CheckForAttendanceMarking"
     const val Attendance_Edit = "api/AppDetailsBal/GetStudentsForHourwiseAttendanceEdit"
@@ -147,9 +148,20 @@ object ApiMethods {
     const val GetResumeBuilderSkillSetDetails = "skillset/get-skillset"
     const val GetResumeBuilderSoftSkillsDetails = "skillset/get-softskill"
     const val GetTimeTable = "api/AppDetailsBal/get-timetable-assigned-slots"
+    const val GetVenueList = "api/AppDetailsBal/GetVenueList"
+    const val CheckVenueAvailability = "api/AppDetailsBal/CheckVenueAvailability"
+    const val VenueRequests = "api/AppDetailsBal/GetVenueRequestList"
+    const val CancelVenueRequest = "api/AppDetailsBal/CancelVenueRequest"
+    const val UpdateVenueRequest = "api/AppDetailsBal/UpdateVenueRequest"
+    const val GetVenueApprovalList = "api/AppDetailsBal/GetVenueApprovalList"
+    const val ApproveVenueRequest = "api/AppDetailsBal/ApproveVenueRequest"
+    const val RejectVenueRequest = "api/AppDetailsBal/RejectVenueRequest"
     const val SendResumeBuilderSoftSkillsDetails = "skillset/add-edit-skillset"
     const val GetResumeBuilderThemeTemplate = "get/resumetemplatethemecolor"
     const val SendResumeBuilderGenerateResume = "resume/post-resume"
+    // Customize Your Resume (Edit Resume): AI content for the editor, then PDF from the edits
+    const val GenerateResumeContent = "resume/generate-content"
+    const val PostEditedResume = "resume/post-edited-resume"
     const val SendResumeBuilderSaveTitle = "resume/saveTitleResume"
     const val GetProfileResume = "get/profileresume"
     const val isPlacementEvent = "students/student-placement-events"
