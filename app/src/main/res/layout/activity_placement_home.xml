@@ -134,34 +134,48 @@
                     android:textColor="@color/clr_header_black"
                     android:textSize="15sp" />
 
+                <!-- Options from GET student/placement-menu: 2 cards per row (item_pl_option),
+                     added in PlacementHome -->
                 <LinearLayout
+                    android:id="@+id/layoutPlOptions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:orientation="vertical" />
 
-                    <include
-                        android:id="@+id/cardPlacementTraining"
-                        layout="@layout/item_pl_option" />
-
-                    <include
-                        android:id="@+id/cardPlacementEvents"
-                        layout="@layout/item_pl_option" />
-                </LinearLayout>
-
+                <!-- Empty list / error message with Retry -->
                 <LinearLayout
+                    android:id="@+id/layoutPlMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="40dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <include
-                        android:id="@+id/cardResumeBuilder"
-                        layout="@layout/item_pl_option" />
+                    <TextView
+                        android:id="@+id/lblPlMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
+                        android:textColor="#6B6B73"
+                        android:textSize="14sp" />
 
-                    <include
-                        android:id="@+id/cardPlacementFeedback"
-                        layout="@layout/item_pl_option" />
+                    <TextView
+                        android:id="@+id/btnPlRetry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/bg_cr_btn_outline"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:text="@string/txt_cr_retry"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

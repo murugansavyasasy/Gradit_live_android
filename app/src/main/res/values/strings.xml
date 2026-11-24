@@ -475,6 +475,29 @@
     <string name="txt_pl_feedback">Placement Feedback</string>
     <string name="txt_pl_feedback_desc">Rate trainings and share your drive experience</string>
     <string name="txt_pl_coming_soon">Placement Feedback will be available soon</string>
+    <string name="txt_pl_menu_empty">No placement options are available for you right now.</string>
+    <string name="txt_pl_option_unavailable">This option is not available in the app yet</string>
+
+    <!-- Placement Feedback screen -->
+    <string name="txt_pf_breadcrumb">Placement › Feedback</string>
+    <string name="txt_pf_my_feedback">My feedback</string>
+    <string name="txt_pf_entries">%1$d entries</string>
+    <string name="txt_pf_entry">1 entry</string>
+    <string name="txt_pf_empty">No feedback yet.\nTap Create Feedback to share your thoughts.</string>
+    <string name="txt_pf_create">Create Feedback</string>
+    <string name="txt_pf_replied">Replied</string>
+    <string name="txt_pf_posted_on">Posted on  %1$s</string>
+    <string name="txt_pf_placement_officer">Placement officer</string>
+    <string name="txt_pf_listening">WE\'RE LISTENING</string>
+    <string name="txt_pf_sheet_title">Feedback</string>
+    <string name="txt_pf_topic">Topic</string>
+    <string name="txt_pf_topic_hint">e.g. Aptitude training, Campus drive</string>
+    <string name="txt_pf_your_feedback">Your feedback</string>
+    <string name="txt_pf_message_hint">Tell us what worked and what could be better</string>
+    <string name="txt_pf_submit">Submit Feedback</string>
+    <string name="txt_pf_topic_required">Please enter a topic</string>
+    <string name="txt_pf_message_required">Please enter your feedback</string>
+    <string name="txt_pf_sent">Feedback sent</string>
 
     <!-- Assignment > Previous submission: delete own submission -->
     <string name="txt_delete_submission">Delete submission</string>

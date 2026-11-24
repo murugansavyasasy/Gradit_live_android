@@ -11,6 +11,9 @@
               <option name="cwd" value="D:\Gradit" />
               <option name="model" value="claude-sonnet-5" />
               <option name="permissionMode" value="default" />
+              <option name="claudeSupplierId" value="__session_supplier_unavailable__" />
+              <option name="codexSupplierId" value="__session_supplier_unavailable__" />
+              <option name="ompApprovalMode" value="" />
             </TabSessionState>
           </value>
         </entry>

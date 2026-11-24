@@ -87,6 +87,9 @@ import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
 import com.vsca.vsnapvoicecollege.Model.GenerateResumeContentResponse
 import com.vsca.vsnapvoicecollege.Model.DeleteSubmittedAssignmentResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementFeedbackAddResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementFeedbackListResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementMenuResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
@@ -120,6 +123,7 @@ import com.vsca.vsnapvoicecollege.Utils.SharedPreference
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Query
 
 class AppServices {
     private val _addEditProfileLiveData = MutableLiveData<AddEditProfileResponse?>()
@@ -5695,6 +5699,130 @@ class AppServices {
                 )
             }
         })
+    }
+
+    // ---- Placement Feedback (resume/placement backend) ----
+    // Loader on both; failures post status=false with the best message (screen stays open).
+
+    private val isPlacementFeedbackList = MutableLiveData<PlacementFeedbackListResponse?>()
+    val PlacementFeedbackListLiveData: LiveData<PlacementFeedbackListResponse?>
+        get() = isPlacementFeedbackList
+
+    /** GET student/feedback/list for the logged-in student. */
+    fun PlacementFeedbackListRequest(activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isPlacementFeedbackList.postValue(
+                PlacementFeedbackListResponse(false, CommonUtil.Something_went_wrong)
+            )
+            return
+        }
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
+        val loader = CustomLoading.createProgressDialog(activity)
+        loader?.show()
+        RestClient.resumeApiInterfaces
+            .getPlacementFeedbackList(CommonUtil.MemberId)
+            .enqueue(object : Callback<PlacementFeedbackListResponse> {
+                override fun onResponse(
+                    call: Call<PlacementFeedbackListResponse>,
+                    response: Response<PlacementFeedbackListResponse>
+                ) {
+                    loader?.dismiss()
+                    val body = response.body()
+                    Log.d("PlacementFeedback", "List ${response.code()}: ${body?.data?.size} items")
+                    isPlacementFeedbackList.postValue(
+                        if (response.isSuccessful && body != null) body
+                        else PlacementFeedbackListResponse(false, errorMessageOf(response))
+                    )
+                }
+
+                override fun onFailure(call: Call<PlacementFeedbackListResponse>, t: Throwable) {
+                    loader?.dismiss()
+                    t.printStackTrace()
+                    isPlacementFeedbackList.postValue(
+                        PlacementFeedbackListResponse(false, CommonUtil.Something_went_wrong)
+                    )
+                }
+            })
+    }
+
+    private val isPlacementMenu = MutableLiveData<PlacementMenuResponse?>()
+    val PlacementMenuLiveData: LiveData<PlacementMenuResponse?>
+        get() = isPlacementMenu
+
+    /** GET student/placement-menu: the options shown on the Placement hub. */
+    fun PlacementMenuRequest(activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isPlacementMenu.postValue(PlacementMenuResponse(false, CommonUtil.Something_went_wrong))
+            return
+        }
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
+        val loader = CustomLoading.createProgressDialog(activity)
+        loader?.show()
+        RestClient.resumeApiInterfaces
+            .getPlacementMenu()
+            .enqueue(object : Callback<PlacementMenuResponse> {
+                override fun onResponse(
+                    call: Call<PlacementMenuResponse>, response: Response<PlacementMenuResponse>
+                ) {
+                    loader?.dismiss()
+                    val body = response.body()
+                    Log.d("PlacementMenu", "Response ${response.code()}: ${body?.data?.size} items")
+                    isPlacementMenu.postValue(
+                        if (response.isSuccessful && body != null) body
+                        else PlacementMenuResponse(false, errorMessageOf(response))
+                    )
+                }
+
+                override fun onFailure(call: Call<PlacementMenuResponse>, t: Throwable) {
+                    loader?.dismiss()
+                    t.printStackTrace()
+                    isPlacementMenu.postValue(PlacementMenuResponse(false, CommonUtil.Something_went_wrong))
+                }
+            })
+    }
+
+    private val isPlacementFeedbackAdd = MutableLiveData<PlacementFeedbackAddResponse?>()
+    val PlacementFeedbackAddLiveData: LiveData<PlacementFeedbackAddResponse?>
+        get() = isPlacementFeedbackAdd
+
+    /** POST student/feedback/add with { topic, message } (+ collegeId, memberId). */
+    fun PlacementFeedbackAddRequest(jsonObject: JsonObject, activity: Activity) {
+        val resumeBaseUrl = SharedPreference.getSH_ResumeBuilderBaseUrl(activity)
+        if (resumeBaseUrl.isNullOrBlank()) {
+            isPlacementFeedbackAdd.postValue(
+                PlacementFeedbackAddResponse(false, CommonUtil.Something_went_wrong)
+            )
+            return
+        }
+        RestClient.setResumeBaseUrl(resumeBaseUrl)
+        Log.d("PlacementFeedback", "Add request: $jsonObject")
+        val loader = CustomLoading.createProgressDialog(activity)
+        loader?.show()
+        RestClient.resumeApiInterfaces.addPlacementFeedback(jsonObject)
+            .enqueue(object : Callback<PlacementFeedbackAddResponse> {
+                override fun onResponse(
+                    call: Call<PlacementFeedbackAddResponse>,
+                    response: Response<PlacementFeedbackAddResponse>
+                ) {
+                    loader?.dismiss()
+                    val body = response.body()
+                    Log.d("PlacementFeedback", "Add ${response.code()}: ${body?.status} ${body?.message}")
+                    isPlacementFeedbackAdd.postValue(
+                        if (response.isSuccessful && body != null) body
+                        else PlacementFeedbackAddResponse(false, errorMessageOf(response))
+                    )
+                }
+
+                override fun onFailure(call: Call<PlacementFeedbackAddResponse>, t: Throwable) {
+                    loader?.dismiss()
+                    t.printStackTrace()
+                    isPlacementFeedbackAdd.postValue(
+                        PlacementFeedbackAddResponse(false, CommonUtil.Something_went_wrong)
+                    )
+                }
+            })
     }
 
     /** "message" from an error response body, or the generic message. */

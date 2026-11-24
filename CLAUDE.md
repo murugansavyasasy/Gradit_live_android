@@ -171,6 +171,47 @@ Screens with a `Rewamp` suffix are the current versions, and commented-out non-R
   - The "Personal information" section in `BuildResumeActivity` shows `saveBasicDetails.memberImagePath` (Glide `circleCrop`).
   - Empty URL: dashed circle, "No photo uploaded", checkbox disabled. Bad URL or failed load: placeholder, "Photo could not be loaded", checkbox disabled. Loaded: ticked by default.
   - The ticked URL goes into `ResumeContextData.profile` and is sent as `context.profile` in the generate request (`""` when not included). Log tag `ResumeProfilePhoto`.
+- **Edit Resume ("Customize Your Resume", `BuildMyResume/CustomizeResumeActivity`):**
+  - **Entry:** an **Edit Resume** button on `ResumePreviewActivity`, shown only in `BuildMyResume` mode.
+  - **`BuildMyResume/ResumeEditSession`** is the single holder between screens: the latest context, `templateNumber`, `themeColor` and `idMember`.
+    - `BuildMyResume.isGenerateResume()` calls `ResumeEditSession.start()`.
+    - A successful edit calls `onEditedResumeGenerated()`, so the next Edit Resume starts from those edits, not the original Build My Resume data.
+    - The stored context is kept in the generate-content request format (`profile` = photo URL, no AI fields).
+  - **Load:** `resume/generate-content` with `{context}`. In the response, `profile` is the AI summary, `profileImage` the photo, plus `role` and per-item `description`.
+  - **8 sections**, each with an Included/Hidden pill:
+    - Personal is **mandatory**: a fixed "Required" pill; name, email (valid), phone and address are required; it opens automatically when the API left any of them empty.
+    - Education, Skills, Internship, Certifications and Projects are **not shown when their list is empty or null**.
+    - Every visible field of an included section is required (ticked entries only).
+  - **Buttons:** both send `ResumeEditSession.resumePdfRequest(edited)` (bucket, bucketPath, idMember, templateNumber, themeColor and the full edited context). Hidden or unticked items are sent as `""` / `[]`.
+    - **Regenerate with AI** → `resume/post-edited-resume`.
+    - **Apply Changes to Template** → `resume/post-resume`, via `AppServices.ApplyResumeChangesRequest`. The existing Build My Resume call is unchanged.
+    - **Success:** `RESULT_OK` + `EXTRA_FILE_URL`, and the preview shows the new PDF. **Failure:** stay on the screen and show the API message.
+- **`ResumePreviewActivity`:**
+  - **PDF viewing:** `BuildMyResume` and `MyResumes` show the PDF natively (`showPdfFromUrl`: fresh download with retries, PDF check, `PdfRenderer` pages, "tap to try again"). It replaced the Google Docs `gview` WebView, which showed blank pages or the old PDF. `UploadResume` keeps its old path.
+  - **Save-title popup:** listens only for a save made from that popup (`isSaveTitlePending`) and removes its observer on dismiss. `observeOnce` used to show the previous save result.
+
+### Assignments (student side)
+- **Buttons (`AssignmentAdapter`, row tap, p4/p5/p6):** `submittedcount` > 0 → **Previous submission** only; 0, null or not a number → **Submit** only. The old logic is kept as a comment. p1/p2/p3/p7 use a separate block.
+- **Delete own submission (`ActivitySender/Assignment_Submition`):**
+  - A bin icon on the student's submitted card, shown only when `AssignmentSubmit.isdelete == true` (nullable; missing means hidden).
+  - Confirm, then `api/AppDetailsBal/DeleteSubmittedAssignment` with `{ assignmentid, assignmentdetailsid, processby = MemberId }`.
+  - `assignmentid` comes from the intent extra `Assignment_Submition.EXTRA_ASSIGNMENT_ID` (set by the Previous submission click), falling back to `CommonUtil.Assignmentid`.
+  - Success goes to `Assignment` (CLEAR_TOP). Failure shows a popup with Close and stays.
+
+### Placement (dashboard menu 23)
+- **Menu 23** opens `Activities/PlacementHome` (the old direct Resume Builder launch is kept as a comment in `DashboardParent`). Menus 24 and 25 are unchanged.
+- **`PlacementHome`:**
+  - Options come from `GET student/placement-menu` (`name`, `description`, `sortOrder`), shown 2 per row with `item_pl_option`.
+  - Icon, colours and target are fixed by **id** in `styleFor()`: 1 → `CareerTraining`, 2 → `PlacementEvent`, 3 → `ResumeBuilder`, 4 → `PlacementFeedback`. An unknown id gets a default icon and a "not available" toast.
+  - An empty list or an error shows a message with Retry.
+- **`PlacementFeedback`:**
+  - **List:** `GET student/feedback/list` → cards with topic, a "Replied" pill, "Posted on" (ISO UTC shown in local time), the message, and the officer `lastReply` box.
+  - **Create Feedback:** opens a plain-Dialog bottom sheet (Topic + Your feedback, both required) → `POST student/feedback/add`.
+  - **Sheet layout:** the form is in a ScrollView. The feedback box is 4–6 lines and scrolls inside itself (a touch listener stops the sheet stealing the drag).
+- **Backend:** these placement APIs use `resumeApiInterfaces` (the resume base URL guard).
+  - `student/feedback/list`: query `studentId`.
+  - `student/placement-menu`: no params.
+  - `student/feedback/add`: body `{ topic, message, studentId = CommonUtil.MemberId }`.
 
 ### Packages
 

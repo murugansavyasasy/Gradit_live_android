@@ -10,6 +10,9 @@ import com.vsca.vsnapvoicecollege.Model.Assignment_Forward
 import com.vsca.vsnapvoicecollege.Model.Assignment_Submit
 import com.vsca.vsnapvoicecollege.Model.Assignment_Submittion
 import com.vsca.vsnapvoicecollege.Model.DeleteSubmittedAssignmentResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementFeedbackAddResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementFeedbackListResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementMenuResponse
 import com.vsca.vsnapvoicecollege.Model.Assignmentsent
 import com.vsca.vsnapvoicecollege.Model.AttendanceMark
 import com.vsca.vsnapvoicecollege.Model.AttendanceResponse
@@ -659,6 +662,19 @@ interface ApiInterfaces {
     fun SendGenerateResume(
         @Body isJsonObject: JsonObject
     ): Call<ResumeBuilderGenerateResumeResponse>
+
+    // Placement Feedback (same backend as the placement events: student given as query/body)
+    @GET(ApiMethods.PlacementFeedbackList)
+    fun getPlacementFeedbackList(
+        @Query("studentId") id: Int?
+    ): Call<PlacementFeedbackListResponse>
+
+    @GET(ApiMethods.PlacementMenu)
+    fun getPlacementMenu(
+    ): Call<PlacementMenuResponse>
+
+    @POST(ApiMethods.PlacementFeedbackAdd)
+    fun addPlacementFeedback(@Body jsonObject: JsonObject): Call<PlacementFeedbackAddResponse>
 
     @POST(ApiMethods.GenerateResumeContent)
     fun generateResumeContent(

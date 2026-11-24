@@ -161,6 +161,10 @@ object ApiMethods {
     const val SendResumeBuilderGenerateResume = "resume/post-resume"
     // Customize Your Resume (Edit Resume): AI content for the editor, then PDF from the edits
     const val GenerateResumeContent = "resume/generate-content"
+    // Placement Feedback (resume/placement backend)
+    const val PlacementFeedbackList = "student/feedback/list"
+    const val PlacementMenu = "student/placement-menu"
+    const val PlacementFeedbackAdd = "student/feedback/add"
     const val PostEditedResume = "resume/post-edited-resume"
     const val SendResumeBuilderSaveTitle = "resume/saveTitleResume"
     const val GetProfileResume = "get/profileresume"

@@ -707,11 +707,7 @@ class DashboardParent constructor(
             }
 
             23 -> {
-                // Old: opened Resume Builder directly
-                // if (CommonUtil.PlacementTraining) launch(ResumeBuilder::class.java)
-
-                // Placement hub: Placement Training / Events / Resume Builder / Feedback
-                launch(PlacementHome::class.java)
+                 if (CommonUtil.PlacementTraining) launch(ResumeBuilder::class.java)
             }
 
             24 -> {
@@ -726,6 +722,10 @@ class DashboardParent constructor(
                 CommonUtil.menu_readTimetable = data.is_read_enabled.toString()
                 CommonUtil.menu_writeTimetable = data.is_write_enabled.toString()
                 if (CommonUtil.TimeTable) launch(TimetableActivity::class.java)
+            }
+            27->{
+                // Placement hub: Placement Training / Events / Resume Builder / Feedback
+                launch(PlacementHome::class.java)
             }
         }
     }

@@ -209,6 +209,7 @@ class DashboardChild(
             24 -> R.drawable.placement_events_icon_new to data.name
             25 -> R.drawable.placement_traning_icon_new to data.name
             26 -> R.drawable.time_table_icon to data.name
+            27 -> R.drawable.placement_menu_icon to data.name
             else -> null to null
         }
 

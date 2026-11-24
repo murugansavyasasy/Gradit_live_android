@@ -476,6 +476,13 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <!-- Placement Feedback (Placement hub). adjustResize for the feedback sheet's keyboard -->
+        <activity
+            android:name=".Activities.PlacementFeedback"
+            android:exported="false"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <!-- Placement hub (dashboard menu 23) -->
         <activity
             android:name=".Activities.PlacementHome"

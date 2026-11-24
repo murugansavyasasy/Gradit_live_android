@@ -79,6 +79,9 @@ import com.vsca.vsnapvoicecollege.Model.ResumeBuilderEditSkillSetResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderGenerateResumeResponse
 import com.vsca.vsnapvoicecollege.Model.GenerateResumeContentResponse
 import com.vsca.vsnapvoicecollege.Model.DeleteSubmittedAssignmentResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementFeedbackAddResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementFeedbackListResponse
+import com.vsca.vsnapvoicecollege.Model.PlacementMenuResponse
 import com.vsca.vsnapvoicecollege.Model.ResumeBuilderSaveTitleResponse
 import com.vsca.vsnapvoicecollege.Model.Section_and_Subject
 import com.vsca.vsnapvoicecollege.Model.SemesterAndSectionListResposne
@@ -226,6 +229,9 @@ class App(application: Application) : AndroidViewModel(application) {
     var Assignmentsubmittion: LiveData<Assignment_Submittion?>? = null
     var AssignmentsubmittionforStudent: LiveData<Assignment_Submittion?>? = null
     var DeleteSubmittedAssignment: LiveData<DeleteSubmittedAssignmentResponse?>? = null
+    var PlacementFeedbackList: LiveData<PlacementFeedbackListResponse?>? = null
+    var PlacementFeedbackAdd: LiveData<PlacementFeedbackAddResponse?>? = null
+    var PlacementMenu: LiveData<PlacementMenuResponse?>? = null
     var facultyListRecevier: LiveData<GetFacultyListResponse?>? = null
     var AttendanceEdit: LiveData<Attendance_Edit?>? = null
     var Assignmentview: LiveData<AssignmentContent_View?>? = null
@@ -375,6 +381,9 @@ class App(application: Application) : AndroidViewModel(application) {
         Assignmentsubmittion = apiRepositories!!.AssignmentsubmittionSender
         AssignmentsubmittionforStudent = apiRepositories!!.AssignmentsubmittionforStudent
         DeleteSubmittedAssignment = apiRepositories!!.DeleteSubmittedAssignmentLiveData
+        PlacementFeedbackList = apiRepositories!!.PlacementFeedbackListLiveData
+        PlacementFeedbackAdd = apiRepositories!!.PlacementFeedbackAddLiveData
+        PlacementMenu = apiRepositories!!.PlacementMenuLiveData
         facultyListRecevier = apiRepositories!!.FacultyRecevierList
         AttendanceEdit = apiRepositories!!.AttendanceEditList
         Assignmentview = apiRepositories!!.Assignmentcontentview
@@ -833,6 +842,18 @@ class App(application: Application) : AndroidViewModel(application) {
 
     fun Assignmentsubmitedsender(jsonObject: JsonObject?, activity: Activity?) {
         apiRepositories!!.AssignmentsubmitSender(jsonObject, activity!!)
+    }
+
+    fun requestPlacementMenu(activity: Activity) {
+        apiRepositories!!.PlacementMenuRequest(activity)
+    }
+
+    fun requestPlacementFeedbackList(activity: Activity) {
+        apiRepositories!!.PlacementFeedbackListRequest(activity)
+    }
+
+    fun requestAddPlacementFeedback(jsonObject: JsonObject, activity: Activity) {
+        apiRepositories!!.PlacementFeedbackAddRequest(jsonObject, activity)
     }
 
     fun requestDeleteSubmittedAssignment(jsonObject: JsonObject, activity: Activity) {
