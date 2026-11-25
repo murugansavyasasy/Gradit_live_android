@@ -121,12 +121,18 @@ object CommonUtil {
     var isRBBucketName = "gradit-communication"
     var isRBBucketPath = "2025-02-12/7033"
 
+    /** Resume PDF S3 path: placement/<CollegeId>/<today yyyy-MM-dd>, e.g. placement/123/2026-11-25. */
+    fun resumeBucketPath(): String {
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(java.util.Date())
+        return "placement/$CollegeId/$today"
+    }
+
 
     @JvmField
     var Appid = 1
 
     @JvmField
-    var VersionId = 47
+    var VersionId = 48
 
     // MENU NAME
 

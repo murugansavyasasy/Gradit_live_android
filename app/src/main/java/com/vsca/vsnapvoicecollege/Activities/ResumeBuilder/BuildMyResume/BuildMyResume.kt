@@ -276,7 +276,8 @@ class BuildMyResume : BaseActivity<LayoutBuildmyresumeBinding>() {
             parentJson.addProperty("templateNumber", selectedTemplateNumber)
             parentJson.addProperty("themeColor", selectedColourItem)
             parentJson.addProperty("bucket", CommonUtil.isRBBucketName)
-            parentJson.addProperty("bucketPath", CommonUtil.isRBBucketPath)
+//            parentJson.addProperty("bucketPath", CommonUtil.isRBBucketPath)
+            parentJson.addProperty("bucketPath", CommonUtil.resumeBucketPath())
             parentJson.addProperty("idMember", isMemeberID)
 
             Log.d("GeneratedJSON++++", parentJson.toString())

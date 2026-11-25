@@ -61,7 +61,8 @@ object ResumeEditSession {
      */
     fun resumePdfRequest(editedContext: JsonObject): JsonObject = JsonObject().apply {
         addProperty("bucket", CommonUtil.isRBBucketName)
-        addProperty("bucketPath", CommonUtil.isRBBucketPath)
+//        addProperty("bucketPath", CommonUtil.isRBBucketPath)
+        addProperty("bucketPath", CommonUtil.resumeBucketPath())
         addProperty("idMember", idMember)
         addProperty("templateNumber", templateNumber)
         addProperty("themeColor", themeColor)
