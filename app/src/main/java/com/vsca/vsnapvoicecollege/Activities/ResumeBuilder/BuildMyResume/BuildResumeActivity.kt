@@ -216,7 +216,7 @@ class BuildResumeActivity : BaseActivity<ActivityBuildmyresumeBinding>() {
             academicAdapter.setAllChecked(isChecked)
         }
 
-        binding.rvAcademic.layoutManager = GridLayoutManager(this, 2)
+        binding.rvAcademic.layoutManager = LinearLayoutManager(this)
         binding.rvAcademic.adapter = academicAdapter
 
 
