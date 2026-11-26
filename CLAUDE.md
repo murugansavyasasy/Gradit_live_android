@@ -165,7 +165,8 @@ Screens with a `Rewamp` suffix are the current versions, and commented-out non-R
     - **Edit 1** `EditBasicDetails` → `add-edit-profile` (always sends `placementStatus "Placed"`)
     - **Edit 2** `EditAcademicDetails` → `add-edit-academic`
     - **Edit 3** `EditSkillSet` → `add-edit-skillset`
-    - **Build** `BuildResumeActivity` (tick what to include) → `BuildMyResume` (template = grid position + 1, colour) → `resume/post-resume` (`bucketPath` is hardcoded `CommonUtil.isRBBucketPath`) → `ResumePreviewActivity`
+    - **Build** `BuildResumeActivity` (tick what to include) → `BuildMyResume` (template = grid position + 1, colour) → `resume/post-resume` → `ResumePreviewActivity`
+  - **`bucketPath`** (Build My Resume and both Customize buttons) is `CommonUtil.resumeBucketPath()` = `placement/<CollegeId>/<today yyyy-MM-dd>` (e.g. `placement/123/2026-11-25`), built at request time. The old hardcoded `CommonUtil.isRBBucketPath` is kept but no longer sent; its lines are commented in `BuildMyResume` and `ResumeEditSession`. `bucket` is still `CommonUtil.isRBBucketName`.
   - `ResumePreviewActivity` modes (`ScreenName`): `BuildMyResume`, `UploadResume`, `MyResumes`. Save title → `saveTitleResume`; delete → `delete/studentresume/{id}`.
 - **Profile photo on Build My Resume:**
   - The "Personal information" section in `BuildResumeActivity` shows `saveBasicDetails.memberImagePath` (Glide `circleCrop`).
@@ -197,6 +198,7 @@ Screens with a `Rewamp` suffix are the current versions, and commented-out non-R
   - Confirm, then `api/AppDetailsBal/DeleteSubmittedAssignment` with `{ assignmentid, assignmentdetailsid, processby = MemberId }`.
   - `assignmentid` comes from the intent extra `Assignment_Submition.EXTRA_ASSIGNMENT_ID` (set by the Previous submission click), falling back to `CommonUtil.Assignmentid`.
   - Success goes to `Assignment` (CLEAR_TOP). Failure shows a popup with Close and stays.
+  - **Roles:** `Assignment_Submition` is shared by all roles. `onResume` loads the staff list for p1/p2/p3 (adapter without the delete callback, so no icon ever) and the student list for everyone else (p4/p5/p6, and p7 too, which predates this change). On the student list the icon depends only on `isdelete`, so the backend must send `true` only to the submission's owner.
 
 ### Placement (dashboard menu 23)
 - **Menu 23** opens `Activities/PlacementHome` (the old direct Resume Builder launch is kept as a comment in `DashboardParent`). Menus 24 and 25 are unchanged.
